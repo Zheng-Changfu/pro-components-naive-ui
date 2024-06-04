@@ -8,7 +8,7 @@
     "build:components": "pnpm --filter pro-components-naive-ui run build",
     "preview": "vite preview",
     "lint:fix": "eslint . --fix",
-    "release": "pnpm lint:fix && pnpm build:components && pnpm changeset && pnpm changeset:version && pnpm changeset:publish"
+    "release": "pnpm lint:fix && pnpm build:components && pnpm changeset && pnpm changeset version && pnpm changeset:publish"
   },
   "dependencies": {
     "vue": "^3.4.21"
