@@ -1,0 +1,33 @@
+{
+  "name": "pro-components-naive-ui",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "基于 naive-ui 二次封装，让中后台开发更简单",
+  "author": "zhengchangfu",
+  "license": "MIT",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test:watch": "vitest",
+    "test": "vitest run",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "jsdom": "^24.0.0",
+    "vitest": "^1.6.0"
+  }
+}
