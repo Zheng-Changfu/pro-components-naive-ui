@@ -1,3 +1,2 @@
-export function v() {
-  console.log('v')
-}
+export * from './src/form'
+export * from './src/input'

@@ -2,12 +2,18 @@
   "compilerOptions": {
     "target": "ES2020",
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "useDefineForClassFields": true,
     "module": "ESNext",
 
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "paths": {
+      "pro-components-naive-ui": [
+        "./packages/components/index.ts"
+      ]
+    },
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
 
