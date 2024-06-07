@@ -74,7 +74,7 @@ export interface GlobalConfigProRequest {
   /**
    * 请求失败后的提示，false 则不提示
    */
-  failureTip: string | false | ((error: Error) => string | false)
+  failureTip: string | false | ((error: any) => string | false)
 }
 
 export interface GlobalConfigProTable {
