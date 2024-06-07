@@ -23,6 +23,6 @@ export const proInputProps = {
     type: Object as PropType<MaybeExpression<Omit<InputProps, 'value' | 'onUpdateValue' | 'onUpdate:value' | 'type' | 'pair' | 'defaultValue'>>>,
     default: () => ({}),
   },
-}
+} as const
 
 export type ProInputProps = ExtractPublicPropTypes<typeof proInputProps>

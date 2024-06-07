@@ -1,29 +1,37 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { ExtractPublicPropTypes, PropType, TransitionProps } from 'vue'
 import { omit } from 'lodash-es'
 import { formProps } from 'naive-ui'
-import type { ArrayField, BaseField } from 'pro-components-hooks'
+import type { ArrayField, BaseField, MaybeExpression } from 'pro-components-hooks'
 
-export const proFormProps = {
+export const proFormExtendProps = {
   /**
-   * 继承原来的属性
-   * 剔除 model, 表单值内部管理
-   * 剔除 rules, 校验规则内部自动生成或在 pro-form-item 上书写
+   * 表单是否切换为禁用状态
+   * 支持表达式
    */
-  ...omit(formProps, ['model', 'rules']),
+  disabled: {
+    type: [Boolean, String] as PropType<MaybeExpression<boolean>>,
+    default: false,
+  },
+  /**
+   * 表单是否切换为只读状态，优先级低于 ProFormItem 的 readonly
+   * 支持表达式
+   */
+  readonly: {
+    type: [Boolean, String] as PropType<MaybeExpression<boolean>>,
+    default: false,
+  },
   /**
    * 表单初始值
    */
-  initialValues: {
-    type: Object,
-    default: () => ({}),
-  },
+  initialValues: Object,
+  /**
+   * 表单隐藏或者卸载时的动画
+   */
+  transition: Object as PropType<TransitionProps>,
   /**
    * 表单内的表达式上下文
    */
-  expressionContext: {
-    type: Object,
-    default: () => ({}),
-  },
+  expressionContext: Object,
   /**
    * 字段值发生变化时触发的回调函数
    */
@@ -42,6 +50,18 @@ export const proFormProps = {
       value: any
     }) => void>,
   },
-}
+} as const
+
+export const proFormProps = {
+  /**
+   * 继承原来的属性
+   * 剔除 model, 表单值内部管理
+   * 剔除 rules, 校验规则内部自动生成或在 pro-form-item 上书写
+   * 剔除 disabled，重写属性，支持表达式
+   */
+  ...omit(formProps, ['model', 'disabled', 'rules']),
+  ...proFormExtendProps,
+} as const
 
 export type ProFormProps = ExtractPublicPropTypes<typeof proFormProps>
+export type ProFormExtendProps = ExtractPublicPropTypes<typeof proFormExtendProps>

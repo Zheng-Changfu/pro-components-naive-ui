@@ -1,66 +1,114 @@
 <script lang="tsx">
-import type { FormProps } from 'naive-ui'
-import { NButton, NForm } from 'naive-ui'
-import { createForm } from 'pro-components-hooks'
-import { computed, defineComponent } from 'vue'
-import { proFormProps } from './props'
+import type { FormInst, FormProps } from 'naive-ui'
+import { NForm } from 'naive-ui'
+import type { Path } from 'pro-components-hooks'
+import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
+import { computed, defineComponent, provide, ref, toRef } from 'vue'
+import { useOmitProps } from '../hooks'
+import { useMergeProFormGlobalConfig } from '../config-provider'
+import { proFormMergedConfigContextKey, provideProFormInstanceContext } from './context'
+import { proFormExtendProps, proFormProps } from './props'
+import type { ProFormInstance } from './inst'
 
 export default defineComponent({
   name: 'ProForm',
   props: proFormProps,
-  setup(props) {
+  setup(props, { expose }) {
+    const formInstRef = ref<FormInst>()
+    const mergedConfig = useMergeProFormGlobalConfig(props)
+    const formProps = useOmitProps(props, proFormExtendProps)
+
+    const {
+      expressionContext,
+    } = mergedConfig.value
+
     const {
       initialValues,
-      expressionContext,
       onFieldValueChange,
-      onDependenciesValueChange,
     } = props
 
-    const { values, getFieldsValue } = createForm({
+    const {
+      scope,
+      values,
+      pathField,
+      matchPath,
+      getFieldValue,
+      setFieldValue,
+      getFieldsValue,
+      setFieldsValue,
+      setInitialValue,
+      resetFieldValue,
+      resetFieldsValue,
+      setInitialValues,
+      getFieldsTransformedValue,
+    } = createForm({
       initialValues,
       expressionContext,
       onFieldValueChange,
       onDependenciesValueChange,
     })
 
+    const compiledDisabled = useCompile(toRef(props, 'disabled'), { scope })
+    const compiledReadonly = useCompile(toRef(props, 'readonly'), { scope })
+
     const getFormProps = computed<FormProps>(() => {
-      const {
-        initialValues,
-        expressionContext,
-        onFieldValueChange,
-        onDependenciesValueChange,
-        ...formProps
-      } = props
       return {
-        ...formProps,
+        ...formProps.value,
+        rules: {},
+        ref: formInstRef,
         model: values.value,
+        disabled: compiledDisabled.value,
       }
     })
 
+    function onDependenciesValueChange(opt: { path: string, value: any }) {
+      const { path } = opt
+      const { onDependenciesValueChange: _onDependenciesValueChange } = props
+      validate(path)
+      _onDependenciesValueChange && _onDependenciesValueChange(opt)
+    }
+
+    // TODO:
+    function validate(paths?: Path | Path[]) {
+      if (!paths) {
+        return formInstRef.value!.validate()
+      }
+      // return formInstRef.value!.validate(...args)
+    }
+
+    // TODO:
+    function restoreValidation() {
+      return formInstRef.value!.restoreValidation()
+    }
+
+    const exposed: ProFormInstance = {
+      validate,
+      matchPath,
+      getFieldValue,
+      setFieldValue,
+      getFieldsValue,
+      setFieldsValue,
+      resetFieldValue,
+      setInitialValue,
+      resetFieldsValue,
+      setInitialValues,
+      restoreValidation,
+      getFieldsTransformedValue,
+    }
+
+    expose(exposed)
+    provideProFormInstanceContext(exposed)
+    provide(proFormMergedConfigContextKey, mergedConfig)
     return {
       getFormProps,
-      getFieldsValue,
     }
   },
   render() {
     const {
-      $attrs,
       $slots,
       getFormProps,
-      getFieldsValue,
     } = this
-    return (
-      <div>
-        <NButton onClick={() => {
-          console.log(getFieldsValue())
-          console.log(getFieldsValue(true))
-        }}
-        >
-          values
-        </NButton>
-        <NForm {...getFormProps} {...$attrs} v-slots={$slots}></NForm>
-      </div>
-    )
+    return <NForm {...getFormProps} v-slots={$slots}></NForm>
   },
 })
 </script>

@@ -64,6 +64,6 @@ export const proFieldProps = {
   transform: {
     type: Function as PropType<(val: any, path: string) => any>,
   },
-}
+} as const
 
 export type ProFieldProps = ExtractPublicPropTypes<typeof proFieldProps>
