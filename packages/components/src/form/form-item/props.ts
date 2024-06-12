@@ -1,9 +1,10 @@
 import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType } from 'vue'
-import type { FormItemRule, LabelAlign, LabelPlacement } from 'naive-ui/es/form/src/interface'
+import type { LabelAlign, LabelPlacement } from 'naive-ui/es/form/src/interface'
 import type { ThemeProps } from 'naive-ui/es/_mixins'
 import { useTheme } from 'naive-ui/es/_mixins'
 import type { FormTheme } from 'naive-ui/es/form/styles'
 import type { MaybeExpression } from 'pro-components-hooks'
+import type { ProFormItemRule } from './types'
 
 export const proFormItemExtendProps = {
   /**
@@ -48,10 +49,10 @@ export const proFormItemProps = {
   size: String as PropType<MaybeExpression<'small' | 'medium' | 'large'>>,
   ignorePathChange: [Boolean, String] as PropType<MaybeExpression<boolean>>,
   labelWidth: [Number, String] as PropType<MaybeExpression<string | number>>,
-  rule: [Object, Array] as PropType<MaybeExpression<FormItemRule | FormItemRule[]>>,
   labelStyle: [String, Object] as PropType<MaybeExpression<CSSProperties | string>>,
   feedbackStyle: [String, Object] as PropType<MaybeExpression<CSSProperties | string>>,
   validationStatus: String as PropType<MaybeExpression<'error' | 'warning' | 'success'>>,
+  rule: [Object, Array] as PropType<MaybeExpression<ProFormItemRule | ProFormItemRule[]>>,
   requireMarkPlacement: String as PropType<MaybeExpression<'left' | 'right' | 'right-hanging'>>,
   showRequireMark: {
     type: Boolean as PropType<MaybeExpression<boolean | undefined>>,

@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { NGrid, NGridItem } from 'naive-ui'
 import { ProForm, ProInput } from 'pro-components-naive-ui'
+
+/**
+ * const {connector} = useRequest({
+ *
+ * })
+ *
+ * <ProForm connector={connector} />
+ *
+ */
 </script>
 
 <template>

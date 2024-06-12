@@ -1,19 +1,21 @@
 <script lang="tsx">
 import type { SlotsType } from 'vue'
-import { computed, defineComponent, toRef } from 'vue'
-import type { InputProps } from 'naive-ui'
+import { computed, defineComponent, ref, toRef } from 'vue'
+import type { InputInst, InputProps } from 'naive-ui'
 import { NInput } from 'naive-ui'
 import { createField, useCompile } from 'pro-components-hooks'
 import { useOmitSlots } from '../hooks/useOmitSlots'
 import { ProFormItem, useGetProFieldProps, useReadonlyRenderer } from '../form'
 import { proInputProps } from './props'
 import { type ProInputSlots, proInputExtendSlotKeys } from './slots'
+import type { ProInputInstance } from './inst'
 
 export default defineComponent({
   name: 'ProInput',
   props: proInputProps,
   slots: Object as SlotsType<ProInputSlots>,
-  setup(props, { slots }) {
+  setup(props, { slots, expose }) {
+    const inputInstRef = ref<InputInst>()
     const fieldProps = toRef(props, 'fieldProps')
     const placeholder = toRef(props, 'placeholder')
     const inputSlots = useOmitSlots(slots, proInputExtendSlotKeys)
@@ -21,18 +23,20 @@ export default defineComponent({
     const proFieldProps = useGetProFieldProps(props)
     const field = createField({ ...proFieldProps, defaultValue: '' })
 
-    const compiledFieldProps = useCompile(fieldProps, { scope: field.scope })
-    const compiledPlaceholder = useCompile(placeholder, { scope: field.scope })
-
     const {
+      scope,
       value,
       stringPath,
       doUpdateValue,
     } = field
 
+    const compiledFieldProps = useCompile(fieldProps, { scope })
+    const compiledPlaceholder = useCompile(placeholder, { scope })
+
     const inputProps = computed<InputProps>(() => {
       return {
         ...compiledFieldProps.value,
+        'ref': inputInstRef,
         'pair': false,
         'type': 'text',
         'value': value.value,
@@ -56,6 +60,17 @@ export default defineComponent({
       return [null, undefined, ''].includes(value.value)
     })
 
+    const exposed: ProInputInstance = {
+      blur: () => inputInstRef.value?.blur(),
+      clear: () => inputInstRef.value?.clear(),
+      focus: () => inputInstRef.value?.focus(),
+      select: () => inputInstRef.value?.select(),
+      activate: () => inputInstRef.value?.activate(),
+      deactivate: () => inputInstRef.value?.deactivate(),
+      scrollTo: (options: any) => inputInstRef.value?.scrollTo(options),
+    }
+
+    expose(exposed)
     return {
       empty,
       stringPath,

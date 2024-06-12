@@ -1,6 +1,5 @@
 import type { ComputedRef } from 'vue'
-import { inject } from 'vue'
-import { proFormMergedConfigContextKey } from './context'
+import { useInjectGlobalConfigContext } from '../config-provider'
 
 interface UseReadonlyRendererOptions {
   type: string
@@ -9,14 +8,14 @@ interface UseReadonlyRendererOptions {
   slots: ComputedRef<Record<string, any>>
 }
 export function useReadonlyRenderer(options: UseReadonlyRendererOptions) {
-  const config = inject(proFormMergedConfigContextKey)
   const { type, value, props, slots } = options
+  const { proForm } = useInjectGlobalConfigContext()
 
   function readonlyRender() {
     const { readonly: userReadonly } = slots.value
     return userReadonly
       ? userReadonly({ value: value.value })
-      : config?.value.readonlyRender?.(value.value, {
+      : proForm?.value?.readonlyRender?.(value.value, {
         type,
         props: props.value,
         slots: slots.value,
@@ -27,7 +26,7 @@ export function useReadonlyRenderer(options: UseReadonlyRendererOptions) {
     const { empty: userEmpty } = slots.value
     return userEmpty
       ? userEmpty({ value: value.value })
-      : config?.value.readonlyEmptyRender?.({
+      : proForm?.value?.readonlyEmptyRender?.({
         type,
         props: props.value,
         slots: slots.value,

@@ -25,10 +25,6 @@ export const proFormExtendProps = {
    */
   initialValues: Object,
   /**
-   * 表单内的表达式上下文
-   */
-  expressionContext: Object,
-  /**
    * 字段值发生变化时触发的回调函数
    */
   onFieldValueChange: {

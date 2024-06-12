@@ -1,13 +1,14 @@
 <script lang="tsx">
 import type { SlotsType } from 'vue'
-import { computed, defineComponent, inject, toRefs, unref } from 'vue'
-import type { FormItemProps } from 'naive-ui'
+import { computed, defineComponent, inject, ref, toRefs, unref } from 'vue'
+import type { FormItemInst, FormItemProps } from 'naive-ui'
 import { NFormItem } from 'naive-ui'
 import { useCompile, useInjectFieldContext } from 'pro-components-hooks'
 import { isBoolean } from 'lodash-es'
 import { proFormReadonlyContextKey } from '../context'
 import { proFormItemProps } from './props'
 import type { ProFormItemSlots } from './slots'
+import { useFormItemRule } from './useFormItemRule'
 
 export default defineComponent({
   name: 'ProFormItem',
@@ -39,19 +40,33 @@ export default defineComponent({
       path, // path 不支持表达式
     } = toRefs(props)
 
-    const { scope, show } = useInjectFieldContext()!
+    const field = useInjectFieldContext()!
+    const formItemInstRef = ref<FormItemInst>()
     const formReadonlyRef = inject(proFormReadonlyContextKey)
+
+    const {
+      show,
+      scope,
+    } = field
+
+    const {
+      rule: compiledRule,
+      required: compiledRequired,
+    } = useFormItemRule({ rule, required })
+
+    /**
+     * 挂载自定义属性，方便单独控制 form-item
+     */
+    field['x-form-item-instance-ref'] = formItemInstRef
 
     /**
      * 每个属性单独使用 useCompile 编译，提高性能（缓存）
      */
-    const compiledRule = useCompile(rule, { scope })
     const compiledSize = useCompile(size, { scope })
     const compiledLabel = useCompile(label, { scope })
     const compiledFirst = useCompile(first, { scope })
     const compiledFeedback = useCompile(feedback, { scope })
     const compiledRulePath = useCompile(rulePath, { scope })
-    const compiledRequired = useCompile(required, { scope })
     const compiledShowLabel = useCompile(showLabel, { scope })
     const compiledLabelWidth = useCompile(labelWidth, { scope })
     const compiledLabelAlign = useCompile(labelAlign, { scope })
@@ -65,6 +80,12 @@ export default defineComponent({
     const compiledValidationStatus = useCompile(validationStatus, { scope })
     const compiledIgnorePathChange = useCompile(ignorePathChange, { scope })
     const compiledRequireMarkPlacement = useCompile(requireMarkPlacement, { scope })
+
+    const getFormItemInst = computed(() => {
+      return {
+        ref: formItemInstRef,
+      }
+    })
 
     const readonly = computed(() => {
       const propReadonly = props.readonly
@@ -82,6 +103,7 @@ export default defineComponent({
       show,
       path,
       readonly,
+      getFormItemInst,
       rule: compiledRule,
       size: compiledSize,
       label: compiledLabel,
@@ -159,6 +181,7 @@ export default defineComponent({
       feedbackStyle,
       labelPlacement,
       showRequireMark,
+      getFormItemInst,
       validationStatus,
       ignorePathChange,
       requireMarkPlacement,
@@ -190,6 +213,7 @@ export default defineComponent({
     return (
       <NFormItem
         {...formItemProps}
+        ref={getFormItemInst.ref}
         v-slots={{
           label: labelSlot,
           feedback: feedbackSlot,

@@ -5,8 +5,8 @@ import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
 import { computed, defineComponent, provide, ref, toRef } from 'vue'
 import { isString, toPath } from 'lodash-es'
 import { useOmitProps } from '../hooks'
-import { useMergeProFormGlobalConfig } from '../config-provider'
-import { proFormMergedConfigContextKey, proFormReadonlyContextKey, provideProFormInstanceContext } from './context'
+import { useInjectGlobalConfigContext } from '../config-provider'
+import { proFormReadonlyContextKey, provideProFormInstanceContext } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 import type { ProFormInstance } from './inst'
 
@@ -15,12 +15,12 @@ export default defineComponent({
   props: proFormProps,
   setup(props, { expose }) {
     const formInstRef = ref<FormInst>()
-    const mergedConfig = useMergeProFormGlobalConfig(props)
+    const { proForm } = useInjectGlobalConfigContext()
     const formProps = useOmitProps(props, proFormExtendProps)
 
     const {
-      expressionContext,
-    } = mergedConfig.value
+      expressionContext = {},
+    } = proForm?.value ?? {}
 
     const {
       initialValues,
@@ -63,9 +63,10 @@ export default defineComponent({
 
     function onDependenciesValueChange(opt: { path: string, value: any }) {
       const { path } = opt
-      const { onDependenciesValueChange: _onDependenciesValueChange } = props
       validate(path)
-      _onDependenciesValueChange && _onDependenciesValueChange(opt)
+      if (props.onDependenciesValueChange) {
+        props.onDependenciesValueChange(opt)
+      }
     }
 
     function validate(paths?: string | string[]) {
@@ -112,7 +113,6 @@ export default defineComponent({
     expose(exposed)
     provideProFormInstanceContext(exposed)
     provide(proFormReadonlyContextKey, compiledReadonly)
-    provide(proFormMergedConfigContextKey, mergedConfig)
     return {
       getFormProps,
     }

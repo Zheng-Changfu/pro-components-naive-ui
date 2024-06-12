@@ -5,7 +5,7 @@ import { proFieldProps, proFormItemProps } from '../form'
 
 export const proInputProps = {
   /**
-   * 继承原来的属性
+   * 继承属性
    */
   ...proFormItemProps,
   /**
