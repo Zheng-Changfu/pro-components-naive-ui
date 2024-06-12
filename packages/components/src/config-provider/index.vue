@@ -20,7 +20,6 @@ export default defineComponent({
       proButton: parentProButton,
       proUpload: parentProUpload,
       proRequest: parentProRequest,
-      proFormList: parentProFormList,
     } = useInjectGlobalConfigContext()
 
     const proForm = computed(() => {
@@ -48,18 +47,12 @@ export default defineComponent({
       return proRequest !== undefined ? proRequest : unref(parentProRequest)
     })
 
-    const proFormList = computed(() => {
-      const { proFormList } = props
-      return proFormList !== undefined ? proFormList : unref(parentProFormList)
-    })
-
     provideGlobalConfigContext({
       proForm,
       proTable,
       proButton,
       proUpload,
       proRequest,
-      proFormList,
     })
     return {
       configProviderProps,

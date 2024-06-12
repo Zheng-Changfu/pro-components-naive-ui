@@ -6,21 +6,18 @@ export function useMergeProFormGlobalConfig<T extends ProConfigProviderExtendPro
   const { proForm } = useInjectGlobalConfigContext()
   return computed(() => {
     const {
-      transition,
       readonlyRender,
       readonlyEmptyRender,
       expressionContext = {},
     } = props ?? {}
 
     const {
-      transition: globalTransition,
       readonlyRender: globalReadonlyRender,
       readonlyEmptyRender: globalReadonlyEmptyRender,
       expressionContext: globalExpressionContext = {},
     } = unref(proForm) ?? {}
 
     return {
-      transition: transition ?? globalTransition,
       readonlyRender: readonlyRender ?? globalReadonlyRender,
       readonlyEmptyRender: readonlyEmptyRender ?? globalReadonlyEmptyRender,
       expressionContext: { ...globalExpressionContext, ...expressionContext },
@@ -64,16 +61,6 @@ export function useMergeProRequestGlobalConfig<T extends ProConfigProviderExtend
     return {
       ...props,
       ...(unref(proRequest) ?? {}),
-    }
-  })
-}
-
-export function useMergeProFormListGlobalConfig<T extends ProConfigProviderExtendProps['proFormList']>(props: T) {
-  const { proFormList } = useInjectGlobalConfigContext()
-  return computed(() => {
-    return {
-      ...props,
-      ...(unref(proFormList) ?? {}),
     }
   })
 }

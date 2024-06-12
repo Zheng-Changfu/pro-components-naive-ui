@@ -3,6 +3,10 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 
 export const proFieldProps = {
   /**
+   * 字段路径
+   */
+  path: String,
+  /**
    * 初始值，优先级大于 Form 组件的 initialValues
    */
   initialValue: {

@@ -1,4 +1,4 @@
-import type { TransitionGroupProps, TransitionProps, VNodeChild } from 'vue'
+import type { VNodeChild } from 'vue'
 
 interface ComponentOptions {
   /**
@@ -17,30 +17,18 @@ interface ComponentOptions {
 
 export interface GlobalConfigProForm {
   /**
-   * 表单组件被删除时的动画，false 则不触发
-   */
-  transition: TransitionProps | false
-  /**
    * 自定义渲染只读状态下的表单
    * @param value 当前值
    */
   readonlyRender: (value: any, options: ComponentOptions) => VNodeChild
   /**
    * 自定义渲染只读模式下并且表单值为空时的内容
-   * @param fieldType 哪个组件抛出的(后续这里要替换成枚举，为了更好的提示)
    */
   readonlyEmptyRender: (options: ComponentOptions) => VNodeChild
   /**
    * form 表单可以读取到的上下文
    */
   expressionContext: Record<string, any>
-}
-
-export interface GlobalConfigProFormList {
-  /**
-   * 表单组件被删除时的动画，false 则不触发
-   */
-  transition: TransitionGroupProps | false
 }
 
 export interface GlobalConfigProButton {

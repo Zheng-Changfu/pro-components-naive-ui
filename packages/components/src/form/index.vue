@@ -1,12 +1,12 @@
 <script lang="tsx">
-import type { FormInst, FormProps } from 'naive-ui'
+import type { FormInst, FormItemInst, FormProps } from 'naive-ui'
 import { NForm } from 'naive-ui'
-import type { Path } from 'pro-components-hooks'
 import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
 import { computed, defineComponent, provide, ref, toRef } from 'vue'
+import { isString, toPath } from 'lodash-es'
 import { useOmitProps } from '../hooks'
 import { useMergeProFormGlobalConfig } from '../config-provider'
-import { proFormMergedConfigContextKey, provideProFormInstanceContext } from './context'
+import { proFormMergedConfigContextKey, proFormReadonlyContextKey, provideProFormInstanceContext } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 import type { ProFormInstance } from './inst'
 
@@ -68,17 +68,30 @@ export default defineComponent({
       _onDependenciesValueChange && _onDependenciesValueChange(opt)
     }
 
-    // TODO:
-    function validate(paths?: Path | Path[]) {
+    function validate(paths?: string | string[]) {
       if (!paths) {
         return formInstRef.value!.validate()
       }
-      // return formInstRef.value!.validate(...args)
+      paths = (isString(paths) ? [paths] : paths).map(stringifyPath)
+      return formInstRef.value!.validate(
+        undefined,
+        rule => paths.includes(rule.key!),
+      )
     }
 
-    // TODO:
-    function restoreValidation() {
-      return formInstRef.value!.restoreValidation()
+    function restoreValidation(paths?: string | string[]) {
+      if (!paths) {
+        formInstRef.value!.restoreValidation()
+        return
+      }
+      const normalizedPaths = (isString(paths) ? [paths] : paths).map(toPath) as Array<string[]>
+      normalizedPaths.forEach((path) => {
+        const field = pathField.get(path)
+        if (!field || !field['x-form-item-instance-ref'])
+          return
+        const formItemInst = field['x-form-item-instance-ref'].value as FormItemInst
+        formItemInst.restoreValidation()
+      })
     }
 
     const exposed: ProFormInstance = {
@@ -98,6 +111,7 @@ export default defineComponent({
 
     expose(exposed)
     provideProFormInstanceContext(exposed)
+    provide(proFormReadonlyContextKey, compiledReadonly)
     provide(proFormMergedConfigContextKey, mergedConfig)
     return {
       getFormProps,

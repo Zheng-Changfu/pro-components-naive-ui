@@ -5,6 +5,30 @@ import { useTheme } from 'naive-ui/es/_mixins'
 import type { FormTheme } from 'naive-ui/es/form/styles'
 import type { MaybeExpression } from 'pro-components-hooks'
 
+export const proFormItemExtendProps = {
+  /**
+   * 精简模式，不包装 formItem
+   */
+  simple: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 是否只读
+   */
+  readonly: {
+    type: Boolean,
+    default: undefined,
+  },
+  /**
+   * 是否为空
+   */
+  empty: {
+    type: Boolean,
+    default: false,
+  },
+} as const
+
 /**
  * 这里的属性全是 naive-ui 中的
  * 重新定义属性，支持表达式（path 、theme props 不支持）
@@ -41,6 +65,8 @@ export const proFormItemProps = {
     type: [Boolean, String] as PropType<MaybeExpression<boolean | undefined>>,
     default: undefined,
   },
+  ...proFormItemExtendProps,
 } as const
 
 export type ProFormItemProps = ExtractPublicPropTypes<typeof proFormItemProps>
+export type ProFormItemExtendProps = ExtractPublicPropTypes<typeof proFormItemExtendProps>

@@ -1,4 +1,4 @@
-import type { ExtractPublicPropTypes, PropType, TransitionProps } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { omit } from 'lodash-es'
 import { formProps } from 'naive-ui'
 import type { ArrayField, BaseField, MaybeExpression } from 'pro-components-hooks'
@@ -18,16 +18,12 @@ export const proFormExtendProps = {
    */
   readonly: {
     type: [Boolean, String] as PropType<MaybeExpression<boolean>>,
-    default: false,
+    default: undefined,
   },
   /**
    * 表单初始值
    */
   initialValues: Object,
-  /**
-   * 表单隐藏或者卸载时的动画
-   */
-  transition: Object as PropType<TransitionProps>,
   /**
    * 表单内的表达式上下文
    */

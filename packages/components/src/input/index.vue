@@ -1,83 +1,99 @@
 <script lang="tsx">
+import type { SlotsType } from 'vue'
 import { computed, defineComponent, toRef } from 'vue'
 import type { InputProps } from 'naive-ui'
 import { NInput } from 'naive-ui'
-import { createField, stringifyPath, useCompile } from 'pro-components-hooks'
-import { ProFormItem } from '../form'
+import { createField, useCompile } from 'pro-components-hooks'
+import { useOmitSlots } from '../hooks/useOmitSlots'
+import { ProFormItem, useGetProFieldProps, useReadonlyRenderer } from '../form'
 import { proInputProps } from './props'
+import { type ProInputSlots, proInputExtendSlotKeys } from './slots'
 
 export default defineComponent({
   name: 'ProInput',
   props: proInputProps,
-  setup(props) {
-    const {
-      preserve,
-      onChange,
-      postState,
-      transform,
-      dependencies,
-      initialValue,
-    } = props
+  slots: Object as SlotsType<ProInputSlots>,
+  setup(props, { slots }) {
+    const fieldProps = toRef(props, 'fieldProps')
+    const placeholder = toRef(props, 'placeholder')
+    const inputSlots = useOmitSlots(slots, proInputExtendSlotKeys)
 
-    const field = createField({
-      preserve,
-      initialValue,
-      dependencies,
-      defaultValue: '',
-      path: toRef(props, 'path'),
-      value: toRef(props, 'value'),
-      hidden: toRef(props, 'hidden'),
-      visible: toRef(props, 'visible'),
-      onChange,
-      transform,
-      postState,
-    })
+    const proFieldProps = useGetProFieldProps(props)
+    const field = createField({ ...proFieldProps, defaultValue: '' })
+
+    const compiledFieldProps = useCompile(fieldProps, { scope: field.scope })
+    const compiledPlaceholder = useCompile(placeholder, { scope: field.scope })
 
     const {
-      path,
-      show,
       value,
-      scope,
+      stringPath,
       doUpdateValue,
     } = field
 
-    const fieldPropsRef = toRef(props, 'fieldProps')
-
-    // 'a' | ({} & string) 这种类型目前暂时无法处理
-    const compiledFieldProps = useCompile(fieldPropsRef, scope)
-
-    const getInputProps = computed<InputProps>(() => {
+    const inputProps = computed<InputProps>(() => {
       return {
-        ...compiledFieldProps.value as any,
+        ...compiledFieldProps.value,
         'pair': false,
         'type': 'text',
         'value': value.value,
         'onUpdateValue': doUpdateValue,
         'onUpdate:value': doUpdateValue,
+        'placeholder': compiledPlaceholder.value,
       }
     })
 
-    const stringPath = computed(() => stringifyPath(path.value))
+    const {
+      readonlyRender,
+      readonlyEmptyRender,
+    } = useReadonlyRenderer({
+      type: 'input',
+      slots: computed(() => slots),
+      value: computed(() => value.value),
+      props: computed(() => inputProps.value),
+    })
+
+    const empty = computed(() => {
+      return [null, undefined, ''].includes(value.value)
+    })
 
     return {
-      show,
+      empty,
       stringPath,
-      getInputProps,
+      inputSlots,
+      inputProps,
+      readonlyRender,
+      readonlyEmptyRender,
     }
   },
   render() {
     const {
-      show,
+      empty,
       $props,
       $attrs,
+      inputSlots,
       stringPath,
-      getInputProps,
+      inputProps,
+      readonlyRender,
+      readonlyEmptyRender,
     } = this
-    console.log(show)
+
     return (
-      <ProFormItem v-show={show} {...$props} path={stringPath}>
-        <NInput {...$attrs} {...getInputProps} />
-      </ProFormItem>
+      <ProFormItem
+        {...$props}
+        empty={empty}
+        path={stringPath}
+        v-slots={{
+          readonly: readonlyRender,
+          empty: readonlyEmptyRender,
+          default: () => (
+            <NInput
+              {...$attrs}
+              {...inputProps}
+              v-slots={inputSlots}
+            />
+          ),
+        }}
+      />
     )
   },
 })

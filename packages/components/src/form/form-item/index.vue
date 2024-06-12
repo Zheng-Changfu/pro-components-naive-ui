@@ -1,13 +1,19 @@
 <script lang="tsx">
-import { defineComponent, toRefs } from 'vue'
+import type { SlotsType } from 'vue'
+import { computed, defineComponent, inject, toRefs, unref } from 'vue'
+import type { FormItemProps } from 'naive-ui'
 import { NFormItem } from 'naive-ui'
 import { useCompile, useInjectFieldContext } from 'pro-components-hooks'
+import { isBoolean } from 'lodash-es'
+import { proFormReadonlyContextKey } from '../context'
 import { proFormItemProps } from './props'
+import type { ProFormItemSlots } from './slots'
 
 export default defineComponent({
   name: 'ProFormItem',
   inheritAttrs: false,
   props: proFormItemProps,
+  slots: Object as SlotsType<ProFormItemSlots>,
   setup(props) {
     const {
       rule,
@@ -31,10 +37,11 @@ export default defineComponent({
       ignorePathChange,
       requireMarkPlacement,
       path, // path 不支持表达式
-      ...rest // 防止后续版本 naive-ui 增加了新的 props，为了向后兼容，但是不支持表达式
     } = toRefs(props)
 
-    const { scope } = useInjectFieldContext()!
+    const { scope, show } = useInjectFieldContext()!
+    const formReadonlyRef = inject(proFormReadonlyContextKey)
+
     /**
      * 每个属性单独使用 useCompile 编译，提高性能（缓存）
      */
@@ -59,9 +66,22 @@ export default defineComponent({
     const compiledIgnorePathChange = useCompile(ignorePathChange, { scope })
     const compiledRequireMarkPlacement = useCompile(requireMarkPlacement, { scope })
 
+    const readonly = computed(() => {
+      const propReadonly = props.readonly
+      const formReadonly = unref(formReadonlyRef)
+      if (isBoolean(propReadonly)) {
+        return propReadonly
+      }
+      if (isBoolean(formReadonly)) {
+        return formReadonly
+      }
+      return false
+    })
+
     return {
+      show,
       path,
-      restProps: rest,
+      readonly,
       rule: compiledRule,
       size: compiledSize,
       label: compiledLabel,
@@ -86,6 +106,41 @@ export default defineComponent({
   },
   render() {
     const {
+      show,
+      readonly,
+    } = this
+
+    const {
+      empty,
+      simple,
+    } = this.$props
+
+    const {
+      label: labelSlot,
+      empty: emptySlot,
+      default: defaultSlot,
+      readonly: readonlySlot,
+      feedback: feedbackSlot,
+    } = this.$slots
+
+    const renderContent = () => {
+      if (!readonly) {
+        return defaultSlot?.()
+      }
+      return empty
+        ? emptySlot?.()
+        : readonlySlot?.()
+    }
+
+    if (!show) {
+      return null
+    }
+
+    if (simple) {
+      return renderContent()
+    }
+
+    const {
       rule,
       size,
       label,
@@ -94,7 +149,6 @@ export default defineComponent({
       feedback,
       rulePath,
       required,
-      restProps,
       showLabel,
       labelWidth,
       labelAlign,
@@ -109,31 +163,38 @@ export default defineComponent({
       ignorePathChange,
       requireMarkPlacement,
     } = this
+
+    const formItemProps: FormItemProps = {
+      rule,
+      size,
+      label,
+      path,
+      first,
+      feedback,
+      rulePath,
+      required,
+      showLabel,
+      labelWidth,
+      labelAlign,
+      labelProps,
+      labelStyle,
+      showFeedback,
+      feedbackClass,
+      feedbackStyle,
+      labelPlacement,
+      showRequireMark,
+      validationStatus,
+      ignorePathChange,
+      requireMarkPlacement,
+    }
     return (
       <NFormItem
-        rule={rule}
-        path={path}
-        size={size}
-        label={label}
-        first={first}
-        feedback={feedback}
-        rulePath={rulePath}
-        required={required}
-        showLabel={showLabel}
-        labelWidth={labelWidth}
-        labelAlign={labelAlign}
-        labelProps={labelProps}
-        labelStyle={labelStyle}
-        showFeedback={showFeedback}
-        feedbackClass={feedbackClass}
-        feedbackStyle={feedbackStyle}
-        labelPlacement={labelPlacement}
-        showRequireMark={showRequireMark}
-        validationStatus={validationStatus}
-        ignorePathChange={ignorePathChange}
-        requireMarkPlacement={requireMarkPlacement}
-        {...restProps}
-        v-slots={this.$slots}
+        {...formItemProps}
+        v-slots={{
+          label: labelSlot,
+          feedback: feedbackSlot,
+          default: () => renderContent(),
+        }}
       >
       </NFormItem>
     )

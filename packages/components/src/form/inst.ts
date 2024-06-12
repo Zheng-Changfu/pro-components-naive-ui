@@ -13,4 +13,7 @@ BaseForm,
 | 'setInitialValue'
 | 'setInitialValues'
 | 'getFieldsTransformedValue'
-> & FormInst
+> & {
+  validate: (paths?: string | string[]) => ReturnType<FormInst['validate']>
+  restoreValidation: (paths?: string | string[]) => ReturnType<FormInst['restoreValidation']>
+}
