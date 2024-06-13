@@ -20,7 +20,7 @@ export default defineComponent({
     const inputSlots = useOmitSlots(slots, proInputExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
-    const field = createField({ ...proFieldProps, defaultValue: '' })
+    const field = createField({ ...proFieldProps, defaultValue: null })
 
     const {
       value,
