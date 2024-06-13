@@ -18,12 +18,6 @@ export const proDigitProps = {
   placeholder: {
     type: String as PropType<MaybeExpression<string>>,
   },
-  /**
-   * n-digit 的所有属性，每一个属性都支持表达式
-   * 剔除掉 defaultValue 属性
-   * 剔除掉 fieldProps 中的 v-model:value
-   * 剔除掉 placeholder 属性，放在上层
-   */
   fieldProps: {
     type: Object as PropType<MaybeExpression<Omit<InputNumberProps, 'value' | 'placeholder' | 'onUpdateValue' | 'onUpdate:value' | 'defaultValue'>>>,
     default: () => ({}),

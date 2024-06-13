@@ -8,7 +8,8 @@ import { useOmitSlots } from '../hooks/useOmitSlots'
 import type { ProComponentConfig } from '../form'
 import { ProComponentConfigKey, ProFormItem, useGetProFieldProps } from '../form'
 import { proInputProps } from './props'
-import { type ProInputSlots, proInputExtendSlotKeys } from './slots'
+import type { ProInputSlots } from './slots'
+import { proInputExtendSlotKeys } from './slots'
 import type { ProInputInstance } from './inst'
 
 export default defineComponent({
