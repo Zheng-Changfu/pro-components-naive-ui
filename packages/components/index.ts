@@ -1,3 +1,6 @@
 export * from './src/form'
 export * from './src/input'
+export * from './src/digit'
+export * from './src/textarea'
+export * from './src/password'
 export * from './src/config-provider'
