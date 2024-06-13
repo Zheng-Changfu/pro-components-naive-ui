@@ -1,0 +1,5 @@
+export * from './inst'
+export * from './props'
+export * from './slots'
+export * from './useProDigit'
+export { default as ProDigit } from './index.vue'
