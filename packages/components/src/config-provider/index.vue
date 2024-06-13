@@ -1,15 +1,43 @@
 <script  lang='tsx'>
-import { computed, defineComponent, unref } from 'vue'
+import { defineComponent } from 'vue'
 import { NConfigProvider } from 'naive-ui'
+import { toString } from 'lodash-es'
 import { useOmitProps } from '../hooks'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 import { provideGlobalConfigContext, useInjectGlobalConfigContext } from './context'
+import type { ProComponentGlobalConfig } from './types'
 
 export default defineComponent({
   name: 'ProConfigProvider',
   props: proConfigProviderProps,
   setup(props) {
     const configProviderProps = useOmitProps(props, proConfigProviderExtendProps)
+
+    const {
+      proForm = {},
+      proTable = {},
+      proButton = {},
+      proUpload = {},
+      proRequest = {},
+    } = props
+
+    function builtInPlaceholderRender(options: ProComponentGlobalConfig) {
+      const { type, formItemProps } = options
+      const { label } = formItemProps
+      switch (type) {
+        case 'input':
+          return `请输入${toString(label?.value)}`
+      }
+    }
+
+    function builtInValidateMessageRender(options: ProComponentGlobalConfig) {
+      const { type, formItemProps } = options
+      const { label } = formItemProps
+      switch (type) {
+        case 'input':
+          return `${toString(label?.value)}为必填字段`
+      }
+    }
 
     /**
      * 可能会嵌套，自己取不到，取上层的
@@ -22,37 +50,30 @@ export default defineComponent({
       proRequest: parentProRequest,
     } = useInjectGlobalConfigContext()
 
-    const proForm = computed(() => {
-      const { proForm } = props
-      return proForm !== undefined ? proForm : unref(parentProForm)
-    })
-
-    const proTable = computed(() => {
-      const { proTable } = props
-      return proTable !== undefined ? proTable : unref(parentProTable)
-    })
-
-    const proButton = computed(() => {
-      const { proButton } = props
-      return proButton !== undefined ? proButton : unref(parentProButton)
-    })
-
-    const proUpload = computed(() => {
-      const { proUpload } = props
-      return proUpload !== undefined ? proUpload : unref(parentProUpload)
-    })
-
-    const proRequest = computed(() => {
-      const { proRequest } = props
-      return proRequest !== undefined ? proRequest : unref(parentProRequest)
-    })
-
     provideGlobalConfigContext({
-      proForm,
-      proTable,
-      proButton,
-      proUpload,
-      proRequest,
+      proForm: {
+        validateTrigger: 'input',
+        placeholderRender: builtInPlaceholderRender,
+        validateMessageRender: builtInValidateMessageRender,
+        ...parentProForm,
+        ...proForm,
+      },
+      proTable: {
+        ...parentProTable,
+        ...proTable,
+      },
+      proButton: {
+        ...parentProButton,
+        ...proButton,
+      },
+      proUpload: {
+        ...parentProUpload,
+        ...proUpload,
+      },
+      proRequest: {
+        ...parentProRequest,
+        ...proRequest,
+      },
     })
     return {
       configProviderProps,

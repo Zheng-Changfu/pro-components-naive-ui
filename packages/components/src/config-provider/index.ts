@@ -1,5 +1,4 @@
 export * from './props'
 export * from './types'
 export * from './context'
-export * from './useMergeGlobalConfig'
 export { default as ProConfigProvider } from './index.vue'

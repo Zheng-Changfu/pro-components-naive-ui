@@ -1,36 +1,22 @@
-import type { ComputedRef } from 'vue'
 import { useInjectGlobalConfigContext } from '../config-provider'
+import type { ProComponentConfig } from './field'
 
-interface UseReadonlyRendererOptions {
-  type: string
-  value: ComputedRef<any>
-  props: ComputedRef<Record<string, any>>
-  slots: ComputedRef<Record<string, any>>
-}
-export function useReadonlyRenderer(options: UseReadonlyRendererOptions) {
-  const { type, value, props, slots } = options
+export function useReadonlyRenderer(options: ProComponentConfig) {
+  const { value, slots } = options
   const { proForm } = useInjectGlobalConfigContext()
 
   function readonlyRender() {
-    const { readonly: userReadonly } = slots.value
-    return userReadonly
-      ? userReadonly({ value: value.value })
-      : proForm?.value?.readonlyRender?.(value.value, {
-        type,
-        props: props.value,
-        slots: slots.value,
-      })
+    const { readonly } = slots.value
+    return readonly
+      ? readonly({ value: value.value })
+      : proForm.readonlyRender?.(options)
   }
 
   function readonlyEmptyRender() {
-    const { empty: userEmpty } = slots.value
-    return userEmpty
-      ? userEmpty({ value: value.value })
-      : proForm?.value?.readonlyEmptyRender?.({
-        type,
-        props: props.value,
-        slots: slots.value,
-      })
+    const { empty } = slots.value
+    return empty
+      ? empty({ value: value.value })
+      : proForm.readonlyEmptyRender?.(options)
   }
 
   return {

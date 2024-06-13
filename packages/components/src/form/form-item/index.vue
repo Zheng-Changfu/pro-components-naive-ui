@@ -1,11 +1,14 @@
 <script lang="tsx">
-import type { SlotsType } from 'vue'
+import type { SlotsType, ToRefs } from 'vue'
 import { computed, defineComponent, inject, ref, toRefs, unref } from 'vue'
 import type { FormItemInst, FormItemProps } from 'naive-ui'
 import { NFormItem } from 'naive-ui'
 import { useCompile, useInjectFieldContext } from 'pro-components-hooks'
 import { isBoolean } from 'lodash-es'
 import { proFormReadonlyContextKey } from '../context'
+import { ProComponentConfigKey } from '../field'
+import { useReadonlyRenderer } from '../useReadonlyRenderer'
+import { usePlaceholder } from '../usePlaceholder'
 import { proFormItemProps } from './props'
 import type { ProFormItemSlots } from './slots'
 import { useFormItemRule } from './useFormItemRule'
@@ -25,10 +28,12 @@ export default defineComponent({
       rulePath,
       required,
       showLabel,
+      fieldProps,
       labelWidth,
       labelAlign,
       labelProps,
       labelStyle,
+      placeholder,
       showFeedback,
       feedbackClass,
       feedbackStyle,
@@ -47,31 +52,26 @@ export default defineComponent({
     const {
       show,
       scope,
+      value,
     } = field
-
-    const {
-      rule: compiledRule,
-      required: compiledRequired,
-    } = useFormItemRule({ rule, required })
-
-    /**
-     * 挂载自定义属性，方便单独控制 form-item
-     */
-    field['x-form-item-instance-ref'] = formItemInstRef
 
     /**
      * 每个属性单独使用 useCompile 编译，提高性能（缓存）
      */
+    const compiledRule = useCompile(rule, { scope })
     const compiledSize = useCompile(size, { scope })
     const compiledLabel = useCompile(label, { scope })
     const compiledFirst = useCompile(first, { scope })
+    const compiledRequired = useCompile(required, { scope })
     const compiledFeedback = useCompile(feedback, { scope })
     const compiledRulePath = useCompile(rulePath, { scope })
     const compiledShowLabel = useCompile(showLabel, { scope })
     const compiledLabelWidth = useCompile(labelWidth, { scope })
+    const compiledFieldProps = useCompile(fieldProps, { scope })
     const compiledLabelAlign = useCompile(labelAlign, { scope })
     const compiledLabelProps = useCompile(labelProps, { scope })
     const compiledLabelStyle = useCompile(labelStyle, { scope })
+    const compiledPlaceholder = useCompile(placeholder, { scope })
     const compiledShowFeedback = useCompile(showFeedback, { scope })
     const compiledFeedbackClass = useCompile(feedbackClass, { scope })
     const compiledFeedbackStyle = useCompile(feedbackStyle, { scope })
@@ -81,10 +81,9 @@ export default defineComponent({
     const compiledIgnorePathChange = useCompile(ignorePathChange, { scope })
     const compiledRequireMarkPlacement = useCompile(requireMarkPlacement, { scope })
 
-    const getFormItemInst = computed(() => {
-      return {
-        ref: formItemInstRef,
-      }
+    const mergedRule = useFormItemRule({
+      rule: compiledRule,
+      required: compiledRequired,
     })
 
     const readonly = computed(() => {
@@ -99,18 +98,14 @@ export default defineComponent({
       return false
     })
 
-    return {
-      show,
+    const formItemProps: ToRefs<FormItemProps> = {
       path,
-      readonly,
-      getFormItemInst,
-      rule: compiledRule,
+      rule: mergedRule,
       size: compiledSize,
       label: compiledLabel,
       first: compiledFirst,
       feedback: compiledFeedback,
       rulePath: compiledRulePath,
-      required: compiledRequired,
       showLabel: compiledShowLabel,
       labelWidth: compiledLabelWidth,
       labelAlign: compiledLabelAlign,
@@ -125,33 +120,78 @@ export default defineComponent({
       ignorePathChange: compiledIgnorePathChange,
       requireMarkPlacement: compiledRequireMarkPlacement,
     }
+
+    /**
+     * 完善 ProComponentConfig
+     */
+    field[ProComponentConfigKey] = {
+      value,
+      formItemProps,
+      formItemInstRef,
+      fieldProps: compiledFieldProps,
+      ...field[ProComponentConfigKey],
+    }
+
+    const {
+      empty,
+    } = field[ProComponentConfigKey]
+
+    const mergedPlaceholder = usePlaceholder(
+      compiledPlaceholder,
+      field[ProComponentConfigKey],
+    )
+
+    const {
+      readonlyRender,
+      readonlyEmptyRender,
+    } = useReadonlyRenderer(field[ProComponentConfigKey])
+
+    return {
+      show,
+      path,
+      empty,
+      readonly,
+      readonlyRender,
+      readonlyEmptyRender,
+      fieldProps: compiledFieldProps,
+      placeholder: mergedPlaceholder,
+      formItemInst: { ref: formItemInstRef },
+      ...formItemProps,
+    }
   },
   render() {
     const {
       show,
+      empty,
+      $props,
+      $slots,
       readonly,
+      readonlyRender,
+      readonlyEmptyRender,
     } = this
 
     const {
-      empty,
-      simple,
-    } = this.$props
+      label: labelSlot,
+      default: defaultSlot,
+      feedback: feedbackSlot,
+    } = $slots
 
     const {
-      label: labelSlot,
-      empty: emptySlot,
-      default: defaultSlot,
-      readonly: readonlySlot,
-      feedback: feedbackSlot,
-    } = this.$slots
+      simple,
+    } = $props
 
     const renderContent = () => {
       if (!readonly) {
-        return defaultSlot?.()
+        return defaultSlot?.({
+          fieldProps: {
+            ...this.fieldProps,
+            placeholder: this.placeholder,
+          },
+        })
       }
-      return empty
-        ? emptySlot?.()
-        : readonlySlot?.()
+      return !empty
+        ? readonlyRender?.()
+        : readonlyEmptyRender?.()
     }
 
     if (!show) {
@@ -170,18 +210,17 @@ export default defineComponent({
       first,
       feedback,
       rulePath,
-      required,
       showLabel,
       labelWidth,
       labelAlign,
       labelProps,
       labelStyle,
+      formItemInst,
       showFeedback,
       feedbackClass,
       feedbackStyle,
       labelPlacement,
       showRequireMark,
-      getFormItemInst,
       validationStatus,
       ignorePathChange,
       requireMarkPlacement,
@@ -195,7 +234,6 @@ export default defineComponent({
       first,
       feedback,
       rulePath,
-      required,
       showLabel,
       labelWidth,
       labelAlign,
@@ -213,7 +251,7 @@ export default defineComponent({
     return (
       <NFormItem
         {...formItemProps}
-        ref={getFormItemInst.ref}
+        ref={formItemInst.ref}
         v-slots={{
           label: labelSlot,
           feedback: feedbackSlot,

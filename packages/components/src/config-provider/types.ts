@@ -1,30 +1,32 @@
 import type { VNodeChild } from 'vue'
+import type { ProComponentConfig } from '../form'
 
-interface ComponentOptions {
-  /**
-   * 组件类型，后续这里要替换成枚举，为了更好的提示
-   */
-  type: string
-  /**
-   * 组件被处理过的 props
-   */
-  props: Record<string, any>
-  /**
-   * 组件被处理过的 slots
-   */
-  slots: Record<string, any>
-}
+export type ProComponentGlobalConfig = ProComponentConfig
 
 export interface GlobalConfigProForm {
   /**
    * 自定义渲染只读状态下的表单
    * @param value 当前值
    */
-  readonlyRender: (value: any, options: ComponentOptions) => VNodeChild
+  readonlyRender: (options: ProComponentGlobalConfig) => VNodeChild
   /**
    * 自定义渲染只读模式下并且表单值为空时的内容
    */
-  readonlyEmptyRender: (options: ComponentOptions) => VNodeChild
+  readonlyEmptyRender: (options: ProComponentGlobalConfig) => VNodeChild
+  /**
+   * 配置表单控件的 placeholder
+   */
+  placeholderRender: (options: ProComponentGlobalConfig) => any
+  /**
+   * 自定义渲染校验信息（目前只处理了 required:true），后续有可能会重构成一套完整的验证模版
+   * @param value 当前值
+   */
+  validateMessageRender: (options: ProComponentGlobalConfig) => VNodeChild
+  /**
+   * 统一设置表单校验时机
+   * @default 'input'
+   */
+  validateTrigger: string | string[]
   /**
    * form 表单可以读取到的上下文
    */

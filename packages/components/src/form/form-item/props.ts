@@ -22,17 +22,26 @@ export const proFormItemExtendProps = {
     default: undefined,
   },
   /**
-   * 是否为空
+   * 传递给 input.. 等的属性
+   * 类型会被 input... 等重写
+   * 这里只是占位
    */
-  empty: {
-    type: Boolean,
-    default: false,
+  fieldProps: {
+    type: Object,
+    default: () => ({}),
   },
+  /**
+   * 传递给 input.. 等的属性
+   * 类型会被 input... 等重写
+   * 这里只是占位
+   */
+  placeholder: undefined as any as PropType<any>,
 } as const
 
 /**
  * 这里的属性全是 naive-ui 中的
  * 重新定义属性，支持表达式（path 、theme props 不支持）
+ * 对 rule 做了一些扩展
  */
 export const proFormItemProps = {
   ...(useTheme.props as ThemeProps<FormTheme>),
@@ -55,11 +64,11 @@ export const proFormItemProps = {
   rule: [Object, Array] as PropType<MaybeExpression<ProFormItemRule | ProFormItemRule[]>>,
   requireMarkPlacement: String as PropType<MaybeExpression<'left' | 'right' | 'right-hanging'>>,
   showRequireMark: {
-    type: Boolean as PropType<MaybeExpression<boolean | undefined>>,
+    type: [Boolean, String] as PropType<MaybeExpression<boolean | undefined>>,
     default: undefined,
   },
   showFeedback: {
-    type: Boolean as PropType<MaybeExpression<boolean | undefined>>,
+    type: [Boolean, String] as PropType<MaybeExpression<boolean | undefined>>,
     default: undefined,
   },
   showLabel: {

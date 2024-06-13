@@ -1,11 +1,12 @@
 <script lang="tsx">
 import type { SlotsType } from 'vue'
-import { computed, defineComponent, ref, toRef } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import type { InputInst, InputProps } from 'naive-ui'
 import { NInput } from 'naive-ui'
-import { createField, useCompile } from 'pro-components-hooks'
+import { createField } from 'pro-components-hooks'
 import { useOmitSlots } from '../hooks/useOmitSlots'
-import { ProFormItem, useGetProFieldProps, useReadonlyRenderer } from '../form'
+import type { ProComponentConfig } from '../form'
+import { ProComponentConfigKey, ProFormItem, useGetProFieldProps } from '../form'
 import { proInputProps } from './props'
 import { type ProInputSlots, proInputExtendSlotKeys } from './slots'
 import type { ProInputInstance } from './inst'
@@ -16,48 +17,36 @@ export default defineComponent({
   slots: Object as SlotsType<ProInputSlots>,
   setup(props, { slots, expose }) {
     const inputInstRef = ref<InputInst>()
-    const fieldProps = toRef(props, 'fieldProps')
-    const placeholder = toRef(props, 'placeholder')
     const inputSlots = useOmitSlots(slots, proInputExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
     const field = createField({ ...proFieldProps, defaultValue: '' })
 
     const {
-      scope,
       value,
       stringPath,
       doUpdateValue,
     } = field
 
-    const compiledFieldProps = useCompile(fieldProps, { scope })
-    const compiledPlaceholder = useCompile(placeholder, { scope })
+    /**
+     * 注入自定义属性，在 pro-form-item 中完善 ProComponentConfig
+     */
+    field[ProComponentConfigKey] = {
+      type: 'input',
+      ruleType: 'string',
+      slots: computed(() => slots),
+      empty: computed(() => [null, undefined, ''].includes(value.value)),
+    } as Partial<ProComponentConfig>
 
     const inputProps = computed<InputProps>(() => {
       return {
-        ...compiledFieldProps.value,
         'ref': inputInstRef,
         'pair': false,
         'type': 'text',
         'value': value.value,
         'onUpdateValue': doUpdateValue,
         'onUpdate:value': doUpdateValue,
-        'placeholder': compiledPlaceholder.value,
       }
-    })
-
-    const {
-      readonlyRender,
-      readonlyEmptyRender,
-    } = useReadonlyRenderer({
-      type: 'input',
-      slots: computed(() => slots),
-      value: computed(() => value.value),
-      props: computed(() => inputProps.value),
-    })
-
-    const empty = computed(() => {
-      return [null, undefined, ''].includes(value.value)
     })
 
     const exposed: ProInputInstance = {
@@ -72,43 +61,38 @@ export default defineComponent({
 
     expose(exposed)
     return {
-      empty,
       stringPath,
       inputSlots,
       inputProps,
-      readonlyRender,
-      readonlyEmptyRender,
     }
   },
   render() {
     const {
-      empty,
       $props,
       $attrs,
       inputSlots,
       stringPath,
       inputProps,
-      readonlyRender,
-      readonlyEmptyRender,
     } = this
 
     return (
       <ProFormItem
         {...$props}
-        empty={empty}
         path={stringPath}
         v-slots={{
-          readonly: readonlyRender,
-          empty: readonlyEmptyRender,
-          default: () => (
-            <NInput
-              {...$attrs}
-              {...inputProps}
-              v-slots={inputSlots}
-            />
-          ),
+          default: ({ fieldProps }: any) => {
+            return (
+              <NInput
+                {...$attrs}
+                {...fieldProps}
+                {...inputProps}
+                v-slots={inputSlots}
+              />
+            )
+          },
         }}
-      />
+      >
+      </ProFormItem>
     )
   },
 })

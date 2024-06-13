@@ -1,8 +1,8 @@
 export interface ProFormItemSlots {
   label: any
-  default: any
   feedback: any
-  // 扩展的
-  empty: any
-  readonly: any
+  /**
+   * 扩展参数
+   */
+  default: { fieldProps: Record<string, any> }
 }

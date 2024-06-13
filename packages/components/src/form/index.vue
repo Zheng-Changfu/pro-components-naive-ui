@@ -1,5 +1,5 @@
 <script lang="tsx">
-import type { FormInst, FormItemInst, FormProps } from 'naive-ui'
+import type { FormInst, FormProps } from 'naive-ui'
 import { NForm } from 'naive-ui'
 import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
 import { computed, defineComponent, provide, ref, toRef } from 'vue'
@@ -9,18 +9,16 @@ import { useInjectGlobalConfigContext } from '../config-provider'
 import { proFormReadonlyContextKey, provideProFormInstanceContext } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 import type { ProFormInstance } from './inst'
+import type { ProComponentConfig } from './field'
+import { ProComponentConfigKey } from './field'
 
 export default defineComponent({
   name: 'ProForm',
   props: proFormProps,
   setup(props, { expose }) {
     const formInstRef = ref<FormInst>()
-    const { proForm } = useInjectGlobalConfigContext()
     const formProps = useOmitProps(props, proFormExtendProps)
-
-    const {
-      expressionContext = {},
-    } = proForm?.value ?? {}
+    const { expressionContext = {} } = useInjectGlobalConfigContext().proForm
 
     const {
       initialValues,
@@ -88,9 +86,10 @@ export default defineComponent({
       const normalizedPaths = (isString(paths) ? [paths] : paths).map(toPath) as Array<string[]>
       normalizedPaths.forEach((path) => {
         const field = pathField.get(path)
-        if (!field || !field['x-form-item-instance-ref'])
+        if (!field || !field[ProComponentConfigKey])
           return
-        const formItemInst = field['x-form-item-instance-ref'].value as FormItemInst
+        const proComponentConfig: ProComponentConfig = field[ProComponentConfigKey]
+        const formItemInst = proComponentConfig.formItemInstRef.value
         formItemInst.restoreValidation()
       })
     }
