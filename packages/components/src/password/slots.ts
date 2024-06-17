@@ -7,11 +7,11 @@ export interface ProPasswordSlots {
   'password-visible-icon': any
   'password-invisible-icon': any
   // 扩展的
-  'empty': { value: any }
   'readonly': { value: any }
+  'readonly-empty': { value: any }
 }
 
 export const proPasswordExtendSlotKeys = [
-  'empty',
   'readonly',
+  'readonly-empty',
 ] as const

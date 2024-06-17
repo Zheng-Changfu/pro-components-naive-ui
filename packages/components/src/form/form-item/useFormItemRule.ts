@@ -65,16 +65,21 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
     const rawRequired = required.value
     const normalizedRule = (isArray(rawRule) ? [...rawRule] : [rawRule].filter(Boolean)) as ProFormItemRule[]
     if (rawRequired) {
-      // 增加一条规则
-      const requiredRule: ProFormItemRule = {
-        required: true,
-        type: field[ProComponentConfigKey].ruleType,
-      }
-      // 支持 required 提示信息国际化
-      if (validateMessageRender) {
-        requiredRule.renderMessage = () => validateMessageRender(field[ProComponentConfigKey])
-      }
-      normalizedRule.push(requiredRule)
+      // 增加规则
+      const ruleType = field[ProComponentConfigKey].ruleType
+      const ruleTypes = isArray(ruleType) ? ruleType : [ruleType]
+      const requiredRules = ruleTypes.map((t) => {
+        const baseRule: ProFormItemRule = {
+          type: t,
+          required: true,
+        }
+        // 支持 required 提示信息国际化
+        if (validateMessageRender) {
+          baseRule.renderMessage = () => validateMessageRender(field[ProComponentConfigKey])
+        }
+        return baseRule
+      })
+      normalizedRule.push(...requiredRules)
     }
     return normalizedRule.map((rule) => {
       return {

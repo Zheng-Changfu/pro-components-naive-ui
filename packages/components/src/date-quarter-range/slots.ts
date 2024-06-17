@@ -7,11 +7,11 @@ export interface ProDateQuarterRangeSlots {
   'next-month': any
   'prev-month': any
   // 扩展的
-  'empty': { value: any }
   'readonly': { value: any }
+  'readonly-empty': { value: any }
 }
 
 export const proDateQuarterRangeExtendSlotKeys = [
-  'empty',
   'readonly',
+  'readonly-empty',
 ] as const

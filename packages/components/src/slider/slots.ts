@@ -1,11 +1,11 @@
-export interface ProTimeSlots {
-  'icon': any
+export interface ProSliderSlots {
+  'thumb': any
   // 扩展的
   'readonly': { value: any }
   'readonly-empty': { value: any }
 }
 
-export const proTimeExtendSlotKeys = [
+export const proSliderExtendSlotKeys = [
   'readonly',
   'readonly-empty',
 ] as const

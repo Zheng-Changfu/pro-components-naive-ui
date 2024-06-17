@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NButton, NFlex } from 'naive-ui'
+import { NButton, NFlex, NSelect } from 'naive-ui'
 import {
   ProConfigProvider,
   ProDate,
@@ -15,8 +15,20 @@ import {
   ProTime,
   useProForm,
 } from 'pro-components-naive-ui'
+import { ref } from 'vue'
 
 const [registerFormRef, { validate }] = useProForm()
+const value = ref(null)
+const options = [
+  {
+    label: 'Drive My Car',
+    value: 'song1',
+  },
+  {
+    label: 'Norwegian Wood',
+    value: 'song2',
+  },
+]
 </script>
 
 <template>
@@ -26,8 +38,21 @@ const [registerFormRef, { validate }] = useProForm()
         校验
       </NButton>
     </NFlex>
+    {{ JSON.stringify(value) }}
     <ProForm ref="registerFormRef">
-      <ProInput label="输入" path="input" required />
+      <ProInput label="输入" path="input" required readonly>
+        <template #readonly-empty>
+          --empty--
+        </template>
+      </ProInput>
+      <n-checkbox-group v-model:value="value">
+        <n-space item-style="display: flex;">
+          <n-checkbox value="Beijing" label="北京" />
+          <n-checkbox value="Shanghai" label="上海" />
+          <n-checkbox value="Guangzhou" label="广州" />
+          <n-checkbox value="Shenzen" label="深圳" />
+        </n-space>
+      </n-checkbox-group>
       <ProDate label="日期" path="date" required />
       <ProDate label="日期时间" path="date-time" required :field-props="{ showTime: true }" />
       <ProDateYear label="年" path="year" required />

@@ -13,9 +13,9 @@ export function useReadonlyRenderer(options: ProComponentConfig) {
   }
 
   function readonlyEmptyRender() {
-    const { empty } = slots.value
-    return empty
-      ? empty({ value: value.value })
+    const { 'readonly-empty': readonlyEmpty } = slots.value
+    return readonlyEmpty
+      ? readonlyEmpty({ value: value.value })
       : proForm.readonlyEmptyRender?.(options)
   }
 

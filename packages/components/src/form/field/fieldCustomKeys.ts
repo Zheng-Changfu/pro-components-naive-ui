@@ -9,7 +9,7 @@ export interface ProComponentConfig {
   /**
    * 表单校验类型，相当于 rule:{type:string}
    */
-  ruleType: string
+  ruleType: string | string[]
   /**
    * 诸如 input/select 等控件的值
    */

@@ -4,6 +4,7 @@ import { computed, defineComponent, ref } from 'vue'
 import type { SelectInst, SelectProps } from 'naive-ui'
 import { NSelect } from 'naive-ui'
 import { createField } from 'pro-components-hooks'
+import { isArray } from 'lodash-es'
 import { useOmitSlots } from '../hooks/useOmitSlots'
 import type { ProComponentConfig } from '../form'
 import { ProComponentConfigKey, ProFormItem, useGetProFieldProps } from '../form'
@@ -21,7 +22,10 @@ export default defineComponent({
     const selectSlots = useOmitSlots(slots, proSelectExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
-    const field = createField({ ...proFieldProps, defaultValue: null })
+    const field = createField({
+      ...proFieldProps,
+      defaultValue: null,
+    })
 
     const {
       value,
@@ -31,9 +35,12 @@ export default defineComponent({
 
     field[ProComponentConfigKey] = {
       type: 'ProSelect',
-      ruleType: 'string',
       slots: computed(() => slots),
-      empty: computed(() => [null, undefined, ''].includes(value.value)),
+      ruleType: ['string', 'number', 'array'],
+      empty: computed(() => isArray(value.value)
+        ? value.value.length <= 0
+        : [null, undefined, ''].includes(value.value),
+      ),
     } as Partial<ProComponentConfig>
 
     const selectProps = computed<SelectProps>(() => {
@@ -72,12 +79,13 @@ export default defineComponent({
         {...$props}
         path={stringPath}
         v-slots={{
-          default: ({ fieldProps }: any) => {
+          default: ({ fieldProps, placeholder }: any) => {
             return (
               <NSelect
                 {...$attrs}
                 {...fieldProps}
                 {...selectProps}
+                placeholder={placeholder}
                 v-slots={selectSlots}
               />
             )

@@ -4,11 +4,11 @@ export interface ProDigitSlots {
   'add-icon': any
   'minus-icon': any
   // 扩展的
-  'empty': { value: any }
   'readonly': { value: any }
+  'readonly-empty': { value: any }
 }
 
 export const proDigitExtendSlotKeys = [
-  'empty',
   'readonly',
+  'readonly-empty',
 ] as const

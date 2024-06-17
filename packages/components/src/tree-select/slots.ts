@@ -1,5 +1,4 @@
-export interface ProSelectSlots {
-  'header': any
+export interface ProTreeSelectSlots {
   'action': any
   'empty': any
   'arrow': any
@@ -8,7 +7,7 @@ export interface ProSelectSlots {
   'readonly-empty': { value: any }
 }
 
-export const proSelectExtendSlotKeys = [
+export const proTreeSelectExtendSlotKeys = [
   'readonly',
   'readonly-empty',
 ] as const
