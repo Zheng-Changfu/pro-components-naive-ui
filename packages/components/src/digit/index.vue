@@ -33,7 +33,7 @@ export default defineComponent({
      * 注入自定义属性，在 pro-form-item 中完善 ProComponentConfig
      */
     field[ProComponentConfigKey] = {
-      type: 'digit',
+      type: 'ProDigit',
       ruleType: 'number',
       slots: computed(() => slots),
       empty: computed(() => [null, undefined].includes(value.value)),
@@ -41,10 +41,9 @@ export default defineComponent({
 
     const digitProps = computed<InputNumberProps>(() => {
       return {
-        'ref': digitInstRef,
-        'value': value.value,
-        'onUpdateValue': doUpdateValue,
-        'onUpdate:value': doUpdateValue,
+        ref: digitInstRef,
+        value: value.value,
+        onUpdateValue: doUpdateValue,
       }
     })
 
@@ -75,12 +74,13 @@ export default defineComponent({
         {...$props}
         path={stringPath}
         v-slots={{
-          default: ({ fieldProps }: any) => {
+          default: ({ fieldProps, placeholder }: any) => {
             return (
               <NInputNumber
                 {...$attrs}
                 {...fieldProps}
                 {...digitProps}
+                placeholder={placeholder}
                 v-slots={digitSlots}
               />
             )

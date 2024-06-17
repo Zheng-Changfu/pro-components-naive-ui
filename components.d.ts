@@ -8,5 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     NButton: typeof import('naive-ui')['NButton']
+    NDatePicker: typeof import('naive-ui')['NDatePicker']
+    NFlex: typeof import('naive-ui')['NFlex']
+    NSpace: typeof import('naive-ui')['NSpace']
   }
 }

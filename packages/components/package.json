@@ -26,6 +26,9 @@
     "test": "vitest run",
     "build": "vite build"
   },
+  "dependencies": {
+    "dayjs": "^1.11.11"
+  },
   "devDependencies": {
     "jsdom": "^24.0.0",
     "vitest": "^1.6.0"

@@ -12,8 +12,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       pro-components-hooks:
-        specifier: ^0.0.37
-        version: 0.0.37(vue@3.4.27(typescript@5.4.5))
+        specifier: ^0.0.41
+        version: 0.0.41(vue@3.4.27(typescript@5.4.5))
       vue:
         specifier: ^3.4.21
         version: 3.4.27(typescript@5.4.5)
@@ -65,6 +65,10 @@ importers:
         version: 2.0.19(typescript@5.4.5)
 
   packages/components:
+    dependencies:
+      dayjs:
+        specifier: ^1.11.11
+        version: 1.11.11
     devDependencies:
       jsdom:
         specifier: ^24.0.0
@@ -1213,6 +1217,9 @@ packages:
   date-fns@2.30.0:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
+
+  dayjs@1.11.11:
+    resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
 
   de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -2372,8 +2379,8 @@ packages:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  pro-components-hooks@0.0.37:
-    resolution: {integrity: sha512-4ZEpniLBUnBxWDo/haGwC2NfZ37DKPwJ4XQ3BXoG1xjN9I7D49w88lg55rbcsghZSbeP7+nGdSQI94InJH3x7A==}
+  pro-components-hooks@0.0.41:
+    resolution: {integrity: sha512-pGudxMIrpJWLCAGtw+3ZQBeitkz/75YNMR3FwmgJopSaNrVFYri25PYDbiXdlE2+frizKeR8KOaBvoyVZ0XkXQ==}
     peerDependencies:
       '@vue/composition-api': ^1.0.0-rc.1
       vue: ^2.7.0 || >=3.0.0
@@ -4437,6 +4444,8 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.24.6
 
+  dayjs@1.11.11: {}
+
   de-indent@1.0.2: {}
 
   debug@3.2.7:
@@ -5741,7 +5750,7 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 18.3.1
 
-  pro-components-hooks@0.0.37(vue@3.4.27(typescript@5.4.5)):
+  pro-components-hooks@0.0.41(vue@3.4.27(typescript@5.4.5)):
     dependencies:
       '@vueuse/core': 10.10.0(vue@3.4.27(typescript@5.4.5))
       vue: 3.4.27(typescript@5.4.5)

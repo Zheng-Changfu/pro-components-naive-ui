@@ -1,6 +1,6 @@
 <script lang="tsx">
 import type { SlotsType } from 'vue'
-import { computed, defineComponent } from 'vue'
+import { TransitionGroup, computed, defineComponent } from 'vue'
 import { createArrayField, uid } from 'pro-components-hooks'
 import { isArray } from 'lodash-es'
 import type { ProComponentConfig } from '../form'
@@ -10,6 +10,7 @@ import type { ProFormListSlots } from './slots'
 import type { ProFormListInstance } from './inst'
 import { AUTO_CREATE_ID, provideProFormListInstanceContext } from './context'
 import ProFormListItem from './FormListItem.vue'
+import './a.css'
 
 export default defineComponent({
   name: 'ProFormList',
@@ -57,10 +58,10 @@ export default defineComponent({
      * 注入自定义属性，在 pro-form-item 中完善 ProComponentConfig
      */
     field[ProComponentConfigKey] = {
-      type: 'formList',
+      type: 'ProFormList',
       ruleType: 'array',
       slots: computed(() => slots),
-      empty: computed(() => list.value.length <= 0),
+      empty: computed(() => !isArray(list.value) || list.value.length <= 0),
     } as Partial<ProComponentConfig>
 
     const exposed: ProFormListInstance = {
@@ -96,15 +97,27 @@ export default defineComponent({
         path={stringPath}
         v-slots={{
           default: () => {
-            return list.map((item, index) => {
-              return (
-                <ProFormListItem
-                  index={index}
-                  key={item[AUTO_CREATE_ID]}
-                  v-slots={$slots}
-                />
-              )
-            })
+            return (
+              <TransitionGroup
+                name="fade"
+                tag="div"
+                class="container"
+                v-slots={{
+                  default: () => {
+                    return list.map((item, index) => {
+                      return (
+                        <div key={item[AUTO_CREATE_ID]}>
+                          <ProFormListItem
+                            index={index}
+                            v-slots={$slots}
+                          />
+                        </div>
+                      )
+                    })
+                  },
+                }}
+              />
+            )
           },
         }}
       >

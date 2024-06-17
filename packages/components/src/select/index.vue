@@ -30,7 +30,7 @@ export default defineComponent({
     } = field
 
     field[ProComponentConfigKey] = {
-      type: 'select',
+      type: 'ProSelect',
       ruleType: 'string',
       slots: computed(() => slots),
       empty: computed(() => [null, undefined, ''].includes(value.value)),
@@ -38,10 +38,9 @@ export default defineComponent({
 
     const selectProps = computed<SelectProps>(() => {
       return {
-        'ref': selectInstRef,
-        'value': value.value,
-        'onUpdateValue': doUpdateValue,
-        'onUpdate:value': doUpdateValue,
+        ref: selectInstRef,
+        value: value.value,
+        onUpdateValue: doUpdateValue,
       }
     })
 

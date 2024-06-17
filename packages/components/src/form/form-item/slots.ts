@@ -4,5 +4,8 @@ export interface ProFormItemSlots {
   /**
    * 扩展参数
    */
-  default: { fieldProps: Record<string, any> }
+  default: {
+    fieldProps: Record<string, any>
+    placeholder: any
+  }
 }

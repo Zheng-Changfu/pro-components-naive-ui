@@ -67,6 +67,20 @@ export interface GlobalConfigProRequest {
   failureTip: string | false | ((error: any) => string | false)
 }
 
+interface DateValueFormat {
+  valueFormat: string
+}
+
+export type GlobalConfigProTime = DateValueFormat
+export type GlobalConfigProDateYear = DateValueFormat
+export type GlobalConfigProDateMonth = DateValueFormat
+export type GlobalConfigProDateQuarter = DateValueFormat
+export type GlobalConfigProDateYearRange = DateValueFormat
+export type GlobalConfigProDateMonthRange = DateValueFormat
+export type GlobalConfigProDateQuarterRange = DateValueFormat
+export type GlobalConfigProDate = DateValueFormat & { valueFormatIfShowTime: string }
+export type GlobalConfigProDateRange = DateValueFormat & { valueFormatIfShowTime: string }
+
 export interface GlobalConfigProTable {
 
 }

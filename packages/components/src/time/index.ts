@@ -1,0 +1,5 @@
+export * from './inst'
+export * from './props'
+export * from './slots'
+export * from './useProTime'
+export { default as ProTime } from './index.vue'

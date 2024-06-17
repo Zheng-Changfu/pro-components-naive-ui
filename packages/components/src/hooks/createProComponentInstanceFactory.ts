@@ -1,19 +1,40 @@
 import type { Ref } from 'vue'
-import { ref } from 'vue'
-import { noop } from 'lodash-es'
+import { onScopeDispose, ref } from 'vue'
 import type { AnyFn } from '../types'
 
-export function createProComponentInstanceFactory<ProComponentInst extends Record<string, AnyFn>>() {
+type ProComponentName = `Pro${string}`
+export function createProComponentInstanceFactory<ProComponentInst extends Record<string, AnyFn>>(name: ProComponentName) {
   return function (): [Ref<ProComponentInst | undefined>, ProComponentInst] {
+    const noop = () => undefined
     const instRef = ref<ProComponentInst>()
+    const cachedKeyToFuncProxyMap = new Map<string | symbol, ProxyConstructor>()
+
     const methods = new Proxy(instRef as any, {
-      get(_, key, receiver) {
-        const inst = instRef.value
-        if (!inst) {
-          return noop
+      get(_, key) {
+        if (cachedKeyToFuncProxyMap.has(key)) {
+          return cachedKeyToFuncProxyMap.get(key)
         }
-        return Reflect.get(inst, key, receiver)
+        const funcProxy = createFuncProxy(noop, key)
+        cachedKeyToFuncProxyMap.set(key, funcProxy)
+        return funcProxy
       },
+    })
+
+    function createFuncProxy<T extends AnyFn>(fn: T, key: any): any {
+      return new Proxy(fn, {
+        apply(_, thisArg, argArray) {
+          const inst = instRef.value
+          if (!inst) {
+            console.warn(`${name}: instance does not exits!`)
+            return createFuncProxy(noop, key)
+          }
+          return Reflect.apply(inst[key], thisArg, argArray)
+        },
+      })
+    }
+
+    onScopeDispose(() => {
+      cachedKeyToFuncProxyMap.clear()
     })
 
     return [instRef, methods as ProComponentInst]

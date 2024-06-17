@@ -5,7 +5,7 @@ export interface ProComponentConfig {
   /**
    * 组件类型
    */
-  type: string
+  type: `Pro${string}`
   /**
    * 表单校验类型，相当于 rule:{type:string}
    */

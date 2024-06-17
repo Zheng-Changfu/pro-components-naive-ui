@@ -59,9 +59,8 @@ export default defineComponent({
       }
     })
 
-    function onDependenciesValueChange(opt: { path: string, value: any }) {
-      const { path } = opt
-      validate(path)
+    function onDependenciesValueChange(opt: { path: string[], depPath: string[], value: any }) {
+      validate(stringifyPath(opt.depPath))
       if (props.onDependenciesValueChange) {
         props.onDependenciesValueChange(opt)
       }

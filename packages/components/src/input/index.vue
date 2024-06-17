@@ -21,7 +21,7 @@ export default defineComponent({
     const inputSlots = useOmitSlots(slots, proInputExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
-    const field = createField({ ...proFieldProps, defaultValue: null })
+    const field = createField({ ...proFieldProps, defaultValue: '' })
 
     const {
       value,
@@ -33,7 +33,7 @@ export default defineComponent({
      * 注入自定义属性，在 pro-form-item 中完善 ProComponentConfig
      */
     field[ProComponentConfigKey] = {
-      type: 'input',
+      type: 'ProInput',
       ruleType: 'string',
       slots: computed(() => slots),
       empty: computed(() => [null, undefined, ''].includes(value.value)),
@@ -41,12 +41,11 @@ export default defineComponent({
 
     const inputProps = computed<InputProps>(() => {
       return {
-        'ref': inputInstRef,
-        'pair': false,
-        'type': 'text',
-        'value': value.value,
-        'onUpdateValue': doUpdateValue,
-        'onUpdate:value': doUpdateValue,
+        ref: inputInstRef,
+        pair: false,
+        type: 'text',
+        value: value.value,
+        onUpdateValue: doUpdateValue,
       }
     })
 
@@ -81,12 +80,13 @@ export default defineComponent({
         {...$props}
         path={stringPath}
         v-slots={{
-          default: ({ fieldProps }: any) => {
+          default: ({ fieldProps, placeholder }: any) => {
             return (
               <NInput
                 {...$attrs}
                 {...fieldProps}
                 {...inputProps}
+                placeholder={placeholder}
                 v-slots={inputSlots}
               />
             )

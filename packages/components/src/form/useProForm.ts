@@ -1,4 +1,4 @@
 import { createProComponentInstanceFactory } from '../hooks'
 import type { ProFormInstance } from './inst'
 
-export const useProForm = createProComponentInstanceFactory<ProFormInstance>()
+export const useProForm = createProComponentInstanceFactory<ProFormInstance>('ProForm')

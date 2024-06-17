@@ -12,6 +12,7 @@ import { usePlaceholder } from '../usePlaceholder'
 import { proFormItemProps } from './props'
 import type { ProFormItemSlots } from './slots'
 import { useFormItemRule } from './useFormItemRule'
+import './a.css'
 
 export default defineComponent({
   name: 'ProFormItem',
@@ -183,10 +184,8 @@ export default defineComponent({
     const renderContent = () => {
       if (!readonly) {
         return defaultSlot?.({
-          fieldProps: {
-            ...this.fieldProps,
-            placeholder: this.placeholder,
-          },
+          fieldProps: this.fieldProps,
+          placeholder: this.placeholder,
         })
       }
       return !empty
@@ -252,6 +251,7 @@ export default defineComponent({
       <NFormItem
         {...formItemProps}
         ref={formItemInst.ref}
+        class="form-item-a"
         v-slots={{
           label: labelSlot,
           feedback: feedbackSlot,

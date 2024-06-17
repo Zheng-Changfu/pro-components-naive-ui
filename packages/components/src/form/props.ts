@@ -38,7 +38,8 @@ export const proFormExtendProps = {
    */
   onDependenciesValueChange: {
     type: Function as PropType<(opt: {
-      path: string
+      path: string[]
+      depPath: string[]
       value: any
     }) => void>,
   },
