@@ -1,5 +1,5 @@
 import { type ComputedRef, computed, ref, watch } from 'vue'
-import type { ExcludeExpression } from 'pro-components-hooks'
+import { type ExcludeExpression, useRequest } from 'pro-components-hooks'
 import { get, isArray } from 'lodash-es'
 import type { ProCheckboxGroupProps } from './props'
 
@@ -8,12 +8,18 @@ export function useOptions(
   compiledFieldProps: ComputedRef<ExcludeExpression<ProCheckboxGroupProps['fieldProps']>>,
 ) {
   const options = ref<any[]>([])
+  const controls = useRequest(props.fetchConfig as any)
+
+  const {
+    data,
+    loading,
+    onSuccess,
+    onFailure,
+  } = controls
 
   watch(
     computed(() => compiledFieldProps.value?.options),
-    (vals) => {
-      options.value = isArray(vals) ? vals : []
-    },
+    (vals) => { options.value = isArray(vals) ? vals : [] },
     { immediate: true },
   )
 
@@ -34,7 +40,18 @@ export function useOptions(
     })
   })
 
+  onSuccess((response) => {
+    options.value = isArray(response) ? response : []
+  })
+
+  onFailure(() => {
+    const vals = data.value
+    options.value = isArray(vals) ? vals : []
+  })
+
   return {
+    loading,
+    controls,
     options: normalizedOptions,
   }
 }

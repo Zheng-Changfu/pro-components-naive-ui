@@ -1,4 +1,7 @@
-// import type { Radio } from 'naive-ui'
-// import type { PickFunction } from '../types'
+import type { UseRequestReturned } from 'pro-components-hooks'
+import type { PickFunction } from '../types'
 
-// export type ProCheckboxInstance = PickFunction<SelectInst>
+interface Instance {
+  getFetchControls: () => UseRequestReturned<any, any>
+}
+export type ProCheckboxGroupInstance = PickFunction<Instance>

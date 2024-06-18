@@ -2,6 +2,7 @@ import type { CheckboxGroupProps, CheckboxProps, SpaceProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
 import { proFieldProps, proFormItemProps } from '../form'
+import { asyncDataSourceProps } from '../request'
 
 interface ProCheckboxGroupFieldProps extends Omit<CheckboxGroupProps, 'value' | 'onUpdateValue' | 'onUpdate:value' | 'defaultValue'> {
   /**
@@ -29,6 +30,10 @@ export const proCheckboxGroupProps = {
    * 额外的字段属性
    */
   ...proFieldProps,
+  /**
+   * 支持异步加载数据源
+   */
+  ...asyncDataSourceProps,
   fieldProps: {
     type: Object as PropType<MaybeExpression<ProCheckboxGroupFieldProps>>,
     default: () => ({}),

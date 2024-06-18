@@ -1,4 +1,4 @@
 import { createProComponentInstanceFactory } from '../hooks'
-// import type { ProSelectInstance } from './inst'
+import type { ProCheckboxGroupInstance } from './inst'
 
-// export const useProSelect = createProComponentInstanceFactory<ProSelectInstance>('ProSelect')
+export const useProCheckboxGroup = createProComponentInstanceFactory<ProCheckboxGroupInstance>('ProCheckboxGroup')
