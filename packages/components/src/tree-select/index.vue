@@ -43,15 +43,18 @@ export default defineComponent({
       { scope },
     )
 
-    const { options } = useOptions(
-      props,
-      compiledFieldProps,
-    )
+    const {
+      options,
+      loading,
+      controls,
+      onLoad,
+    } = useOptions(props, compiledFieldProps)
 
     field[ProComponentConfigKey] = {
       type: 'ProTreeSelect',
-      slots: computed(() => slots),
       ruleType: ['string', 'number', 'array'],
+      fieldProps: compiledFieldProps,
+      slots: computed(() => slots),
       empty: computed(() => isArray(value.value)
         ? value.value.length <= 0
         : [null, undefined, ''].includes(value.value),
@@ -59,14 +62,20 @@ export default defineComponent({
     } as Partial<ProComponentConfig>
 
     const treeSelectProps = computed<TreeSelectProps>(() => {
+      const { remote, onLoad: userOnLoad } = compiledFieldProps.value ?? {}
+      const loadFn = (remote || userOnLoad) ? onLoad : undefined
       return {
         ref: treeSelectInstRef,
         value: value.value,
+        loading: loading.value,
+        options: options.value,
+        onLoad: loadFn,
         onUpdateValue: doUpdateValue,
       }
     })
 
     const exposed: ProTreeSelectInstance = {
+      getFetchControls: () => controls,
       blur: () => treeSelectInstRef.value?.blur(),
       focus: () => treeSelectInstRef.value?.focus(),
       blurInput: () => treeSelectInstRef.value?.blurInput(),
@@ -77,7 +86,6 @@ export default defineComponent({
 
     expose(exposed)
     return {
-      options,
       stringPath,
       treeSelectSlots,
       treeSelectProps,
@@ -87,7 +95,6 @@ export default defineComponent({
     const {
       $props,
       $attrs,
-      options,
       stringPath,
       treeSelectSlots,
       treeSelectProps,
@@ -99,12 +106,18 @@ export default defineComponent({
         path={stringPath}
         v-slots={{
           default: ({ fieldProps, placeholder }: any) => {
+            const {
+              remote,
+              filterEmptyChildrenField,
+              emptyChildrenConsideredLeafNode,
+              ...treeSelectFieldProps
+            } = fieldProps
+
             return (
               <NTreeSelect
                 {...$attrs}
-                {...fieldProps}
+                {...treeSelectFieldProps}
                 {...treeSelectProps}
-                options={options}
                 placeholder={placeholder}
                 v-slots={treeSelectSlots}
               />
