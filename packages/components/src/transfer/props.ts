@@ -1,6 +1,6 @@
-import type { TransferOption, TransferProps } from 'naive-ui'
+import type { SpinProps, TransferOption, TransferProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { MaybeExpression } from 'pro-components-hooks'
+import type { MaybeExpression, UseRequestOptions } from 'pro-components-hooks'
 import { proFieldProps, proFormItemProps } from '../form'
 
 interface ProTransferFieldProps extends Omit<TransferProps, 'value' | 'onUpdateValue' | 'onUpdate:value' | 'defaultValue' | 'sourceFilterPlaceholder' | 'targetFilterPlaceholder'> {
@@ -29,6 +29,20 @@ export const proTransferProps = {
    * 额外的字段属性
    */
   ...proFieldProps,
+  /**
+   * loading 组件属性
+   */
+  spinProps: {
+    type: Object as PropType<SpinProps>,
+    default: () => ({}),
+  },
+  /**
+   * 请求配置
+   */
+  fetchConfig: {
+    type: Object as PropType<UseRequestOptions<any, any>>,
+    default: () => ({}),
+  },
   /**
    * 代替 source-filter-placeholder 和 target-filter-placeholder
    */

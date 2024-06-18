@@ -1,13 +1,11 @@
-import type { ComputedRef } from 'vue'
-import { computed, ref, watch } from 'vue'
-import type { ExcludeExpression } from 'pro-components-hooks'
-import { useRequest } from 'pro-components-hooks'
+import { type ComputedRef, computed, ref, watch } from 'vue'
+import { type ExcludeExpression, useRequest } from 'pro-components-hooks'
 import { get, isArray } from 'lodash-es'
-import type { ProTransferProps } from './props'
+import type { ProRadioGroupProps } from './props'
 
 export function useOptions(
-  props: ProTransferProps,
-  compiledFieldProps: ComputedRef<ExcludeExpression<ProTransferProps['fieldProps']>>,
+  props: ProRadioGroupProps,
+  compiledFieldProps: ComputedRef<ExcludeExpression<ProRadioGroupProps['fieldProps']>>,
 ) {
   const options = ref<any[]>([])
   const controls = useRequest(props.fetchConfig as any)
@@ -21,9 +19,7 @@ export function useOptions(
 
   watch(
     computed(() => compiledFieldProps.value?.options),
-    (vals) => {
-      options.value = isArray(vals) ? vals : []
-    },
+    (vals) => { options.value = isArray(vals) ? vals : [] },
     { immediate: true },
   )
 
