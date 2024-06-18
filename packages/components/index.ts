@@ -22,6 +22,12 @@ export * from './src/config-provider'
 export * from './src/date-year-range'
 export * from './src/date-month-range'
 export * from './src/date-quarter-range'
+export {
+  uid,
+  mapTree,
+  eachTree,
+  useRequest as useProRequest,
+} from 'pro-components-hooks'
 // export * from './src/upload'
 // export * from './src/wang-editor'
 // export * from './src/tags'

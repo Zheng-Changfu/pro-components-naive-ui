@@ -2,6 +2,7 @@
 import { defineComponent } from 'vue'
 import { NConfigProvider } from 'naive-ui'
 import { toString } from 'lodash-es'
+import { provideRequestTipConfigContext } from 'pro-components-hooks'
 import { useOmitProps } from '../hooks'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 import { provideGlobalConfigContext, useInjectGlobalConfigContext } from './context'
@@ -65,6 +66,7 @@ export default defineComponent({
       proDateQuarterRange: parentProDateQuarterRange,
     } = useInjectGlobalConfigContext()
 
+    provideRequestTipConfigContext(proRequest)
     provideGlobalConfigContext({
       proForm: {
         validateTrigger: 'input',
