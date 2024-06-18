@@ -42,8 +42,8 @@ export default defineComponent({
       { scope },
     )
 
-    const compiledWrapperSpaceProps = useCompile(
-      toRef(props, 'wrapperSpaceProps'),
+    const compiledSpaceProps = useCompile(
+      toRef(props, 'spaceProps'),
       { scope },
     )
 
@@ -79,7 +79,7 @@ export default defineComponent({
       stringPath,
       checkboxGroupProps,
       checkboxGroupSlots,
-      spaceProps: compiledWrapperSpaceProps,
+      spaceProps: compiledSpaceProps,
     }
   },
   render() {

@@ -41,8 +41,8 @@ export default defineComponent({
       { scope },
     )
 
-    const compiledWrapperSpaceProps = useCompile(
-      toRef(props, 'wrapperSpaceProps'),
+    const compiledSpaceProps = useCompile(
+      toRef(props, 'spaceProps'),
       { scope },
     )
 
@@ -79,7 +79,7 @@ export default defineComponent({
       stringPath,
       radioGroupProps,
       radioGroupSlots,
-      spaceProps: compiledWrapperSpaceProps,
+      spaceProps: compiledSpaceProps,
     }
   },
   render() {

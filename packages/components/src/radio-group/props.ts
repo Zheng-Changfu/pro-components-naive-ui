@@ -41,6 +41,7 @@ export const proRadioGroupProps = {
    */
   fetchConfig: {
     type: Object as PropType<UseRequestOptions<any, any>>,
+    default: () => ({}),
   },
   fieldProps: {
     type: Object as PropType<MaybeExpression<ProRadioGroupFieldProps>>,
@@ -49,7 +50,7 @@ export const proRadioGroupProps = {
   /**
    * 包裹 n-radio 的 space 属性
    */
-  wrapperSpaceProps: {
+  spaceProps: {
     type: Object as PropType<MaybeExpression<SpaceProps>>,
     default: () => ({}),
   },

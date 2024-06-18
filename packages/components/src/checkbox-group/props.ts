@@ -41,6 +41,7 @@ export const proCheckboxGroupProps = {
    */
   fetchConfig: {
     type: Object as PropType<UseRequestOptions<any, any>>,
+    default: () => ({}),
   },
   fieldProps: {
     type: Object as PropType<MaybeExpression<ProCheckboxGroupFieldProps>>,
@@ -49,7 +50,7 @@ export const proCheckboxGroupProps = {
   /**
    * 包裹 n-checkbox 的 space 属性
    */
-  wrapperSpaceProps: {
+  spaceProps: {
     type: Object as PropType<MaybeExpression<SpaceProps>>,
     default: () => ({}),
   },

@@ -1,7 +1,18 @@
 import type { SelectProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { MaybeExpression } from 'pro-components-hooks'
+import type { MaybeExpression, UseRequestOptions } from 'pro-components-hooks'
 import { proFieldProps, proFormItemProps } from '../form'
+
+/**
+ * 只在 remote:true 时生效
+ */
+interface FetchRemoteConfig {
+  /**
+   * 防抖时间，单位 ms
+   * @default '500'
+   */
+  debounceTime?: number
+}
 
 export const proSelectProps = {
   /**
@@ -12,6 +23,13 @@ export const proSelectProps = {
    * 额外的字段属性
    */
   ...proFieldProps,
+  /**
+   * 请求配置
+   */
+  fetchConfig: {
+    type: Object as PropType<UseRequestOptions<any, any> & FetchRemoteConfig>,
+    default: () => ({}),
+  },
   /**
    * 透传给表单，支持表达式
    */
