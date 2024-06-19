@@ -3,7 +3,7 @@ import { isFunction, isUndefined } from 'lodash-es'
 import { useInjectGlobalConfigContext } from '../config-provider'
 import type { ProButtonProps } from './props'
 
-export function useAuth<T extends ProButtonProps>(props: T) {
+export function useAuth(props: ProButtonProps) {
   const { proButton } = useInjectGlobalConfigContext()
 
   const {

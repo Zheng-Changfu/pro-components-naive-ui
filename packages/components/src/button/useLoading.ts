@@ -2,7 +2,7 @@ import { useVModel } from '@vueuse/core'
 import { isArray, isFunction } from 'lodash-es'
 import type { ProButtonProps } from './props'
 
-export function useLoading<T extends ProButtonProps>(props: T) {
+export function useLoading(props: ProButtonProps) {
   const loading = useVModel(props, 'loading', undefined, {
     passive: true,
     shouldEmit: () => false,
