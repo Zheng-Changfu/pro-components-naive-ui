@@ -36,10 +36,6 @@ export interface GlobalConfigProForm {
 
 export interface GlobalConfigProButton {
   /**
-   * 按钮权限
-   */
-  auth: any
-  /**
    * 按钮权限数据
    */
   authData: any

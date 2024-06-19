@@ -22,12 +22,7 @@ export * from './src/config-provider'
 export * from './src/date-year-range'
 export * from './src/date-month-range'
 export * from './src/date-quarter-range'
-export {
-  uid,
-  mapTree,
-  eachTree,
-  useRequest as useProRequest,
-} from 'pro-components-hooks'
+export { uid, useRequest as useProRequest } from 'pro-components-hooks'
 // export * from './src/upload'
 // export * from './src/wang-editor'
 // export * from './src/tags'
@@ -43,5 +38,4 @@ export {
 // export * from './src/confirm-modal'
 // export * from './src/tree'
 // export * from './src/edit-data-table'
-// export * from './src/menu'
 // export * from './download'
