@@ -1,13 +1,12 @@
 import type { ComputedRef } from 'vue'
 import { computed, ref, watch } from 'vue'
-import type { TreeOption } from 'naive-ui'
 import type { ProTreeProps } from './props'
 
 export interface UseExpandKeysOptions {
   /**
    * key 对应树节点的映射表
    */
-  keyToTreeNodeMap: ComputedRef<Map<string | number, TreeOption>>
+  keyToTreeNodeMap: ComputedRef<Map<string | number, Record<string, any>>>
 }
 export function useExpandKeys(props: ProTreeProps, options: UseExpandKeysOptions) {
   const { keyToTreeNodeMap } = options
@@ -30,17 +29,23 @@ export function useExpandKeys(props: ProTreeProps, options: UseExpandKeysOptions
     _onUpdateExpandedKeys && (_onUpdateExpandedKeys as any)(keys, ...args)
   }
 
-  function expandKeys(keys?: Array<string | number>) {
+  function getExpandedKeys() {
+    return expandedKeys.value
+  }
+
+  function setExpandedKeys(keys?: Array<string | number>) {
     const map = keyToTreeNodeMap.value
+    const allKeys = [...map.keys()]
     if (keys) {
       keys = keys.filter(k => map.get(k))
     }
-    expandedKeys.value = keys ?? [...map.keys()]
+    expandedKeys.value = keys ?? allKeys
   }
 
   return {
     expandedKeys,
-    expandKeys,
+    getExpandedKeys,
+    setExpandedKeys,
     doUpdateExpandedKeys,
   }
 }

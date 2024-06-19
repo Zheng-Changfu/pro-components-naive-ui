@@ -2,7 +2,7 @@ import { computed, onMounted } from 'vue'
 import { eachTree, useRequest } from 'pro-components-hooks'
 import { get, isArray, isNumber, isString, set, unset } from 'lodash-es'
 import { useTimeoutFn, useVModel } from '@vueuse/core'
-import type { TreeOption, TreeSelectOption } from 'naive-ui'
+import type { TreeSelectOption } from 'naive-ui'
 import type { ProTreeProps } from './props'
 
 export function useTreeData(props: ProTreeProps) {
@@ -53,7 +53,7 @@ export function useTreeData(props: ProTreeProps) {
   })
 
   const keyToTreeNodeMap = computed(() => {
-    const map = new Map<string | number, TreeOption>()
+    const map = new Map<string | number, Record<string, any>>()
     eachTree(
       treeData.value ?? [],
       (node) => {

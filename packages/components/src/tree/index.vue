@@ -35,19 +35,22 @@ export default defineComponent({
 
     const {
       expandedKeys,
-      expandKeys,
+      getExpandedKeys,
+      setExpandedKeys,
       doUpdateExpandedKeys,
     } = useExpandKeys(props, { keyToTreeNodeMap })
 
     const {
       selectedKeys,
-      selectKeys,
+      getSelectedKeys,
+      setSelectedKeys,
       doUpdateSelectedKeys,
     } = useSelectKeys(props, { keyToTreeNodeMap })
 
     const {
       checkedKeys,
-      checkKeys,
+      getCheckedKeys,
+      setCheckedKeys,
       doUpdateCheckedKeys,
     } = useCheckKeys(props, { keyToTreeNodeMap })
 
@@ -74,14 +77,18 @@ export default defineComponent({
 
     controls.onSuccess(() => {
       const { expandAllOnFetchSuccess } = props
-      expandAllOnFetchSuccess && expandKeys()
+      expandAllOnFetchSuccess && setExpandedKeys()
     })
 
     const exposed: ProTreeInstance = {
-      checkKeys,
-      selectKeys,
-      expandKeys,
+      getCheckedKeys,
+      getSelectedKeys,
+      getExpandedKeys,
+      setCheckedKeys,
+      setExpandedKeys,
+      setSelectedKeys,
       getFetchControls: () => controls,
+      getTreeData: () => data.value ?? [],
       getCheckedData: () => treeInstRef.value!.getCheckedData(),
       getIndeterminateData: () => treeInstRef.value!.getIndeterminateData(),
       scrollTo: (...args: any[]) => ((treeInstRef.value?.scrollTo) as any)(...args),

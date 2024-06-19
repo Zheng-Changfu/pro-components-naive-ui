@@ -1,13 +1,12 @@
 import type { ComputedRef } from 'vue'
 import { computed, ref, watch } from 'vue'
-import type { TreeOption } from 'naive-ui'
 import type { ProTreeProps } from './props'
 
 export interface UseSelectKeysOptions {
   /**
    * key 对应树节点的映射表
    */
-  keyToTreeNodeMap: ComputedRef<Map<string | number, TreeOption>>
+  keyToTreeNodeMap: ComputedRef<Map<string | number, Record<string, any>>>
 }
 export function useSelectKeys(props: ProTreeProps, options: UseSelectKeysOptions) {
   const { keyToTreeNodeMap } = options
@@ -30,7 +29,11 @@ export function useSelectKeys(props: ProTreeProps, options: UseSelectKeysOptions
     _onUpdateSelectedKeys && (_onUpdateSelectedKeys as any)(keys, ...args)
   }
 
-  function selectKeys(keys?: Array<string | number>) {
+  function getSelectedKeys() {
+    return selectedKeys.value
+  }
+
+  function setSelectedKeys(keys?: Array<string | number>) {
     const map = keyToTreeNodeMap.value
     if (keys) {
       keys = keys.filter(k => map.get(k))
@@ -40,7 +43,8 @@ export function useSelectKeys(props: ProTreeProps, options: UseSelectKeysOptions
 
   return {
     selectedKeys,
-    selectKeys,
+    getSelectedKeys,
+    setSelectedKeys,
     doUpdateSelectedKeys,
   }
 }
