@@ -4,6 +4,12 @@ import type { PickFunction } from '../types'
 
 export type ProTreeInstance<Data = any> = PickFunction<TreeInst & {
   /**
+   * 获取指定层级的 keys
+   * @param {level} 层级，大于 0
+   * @param {needLtLevelKey} 是否需要小于指定层级的 keys，默认值 true
+   */
+  getLevelKeys: (level: number, needLtLevelKey?: boolean) => Array<string | number>
+  /**
    * 获取数据
    */
   getTreeData: () => Array<Data>

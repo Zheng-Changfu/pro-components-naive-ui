@@ -1,9 +1,10 @@
 import { computed, onMounted } from 'vue'
 import { eachTree, useRequest } from 'pro-components-hooks'
-import { get, isArray, isNumber, isString, set, unset } from 'lodash-es'
+import { get, has, isArray, isNumber, isString, set, unset } from 'lodash-es'
 import { useTimeoutFn, useVModel } from '@vueuse/core'
 import type { TreeSelectOption } from 'naive-ui'
 import type { ProTreeProps } from './props'
+import { LevelKey } from './key'
 
 export function useTreeData(props: ProTreeProps) {
   const fetchImmediate = props.fetchConfig?.immediate ?? true
@@ -37,19 +38,20 @@ export function useTreeData(props: ProTreeProps) {
   } = controls
 
   const normalizedData = computed(() => {
-    if (remote || !filterEmptyChildrenField) {
-      return treeData.value
-    }
+    const data = treeData.value ?? []
     eachTree(
-      treeData.value ?? [],
-      (item) => {
-        if (isEmptyChildren(item)) {
+      data,
+      (item, _, info) => {
+        if (!has(item, LevelKey)) {
+          set(item, LevelKey, info.level)
+        }
+        if (!remote && filterEmptyChildrenField) {
           unset(item, childrenField)
         }
       },
       childrenField,
     )
-    return treeData.value
+    return data
   })
 
   const keyToTreeNodeMap = computed(() => {

@@ -11,6 +11,7 @@ import { useTreeData } from './useTreeData'
 import { useExpandKeys } from './useExpandKeys'
 import { useSelectKeys } from './useSelectKeys'
 import { useCheckKeys } from './useCheckKeys'
+import { LevelKey } from './key'
 
 export default defineComponent({
   name: 'ProTree',
@@ -54,6 +55,24 @@ export default defineComponent({
       doUpdateCheckedKeys,
     } = useCheckKeys(props, { keyToTreeNodeMap })
 
+    function getLevelKeys(level: number, needLtLevelKey = true) {
+      if (level <= 0) {
+        return []
+      }
+      const keys: Array<string | number> = []
+      const map = keyToTreeNodeMap.value
+      map.forEach((value, key) => {
+        const nodeLevel = value[LevelKey as any]
+        if (nodeLevel === level) {
+          keys.push(key)
+        }
+        if (needLtLevelKey && nodeLevel < level) {
+          keys.push(key)
+        }
+      })
+      return keys
+    }
+
     const nTreeProps = computed<TreeProps>(() => {
       const { remote, onLoad: userOnLoad } = props
       const loadFn = (remote || userOnLoad) ? onLoad : undefined
@@ -81,14 +100,15 @@ export default defineComponent({
     })
 
     const exposed: ProTreeInstance = {
+      getLevelKeys,
       getCheckedKeys,
       getSelectedKeys,
       getExpandedKeys,
       setCheckedKeys,
       setExpandedKeys,
       setSelectedKeys,
+      getTreeData: () => data.value,
       getFetchControls: () => controls,
-      getTreeData: () => data.value ?? [],
       getCheckedData: () => treeInstRef.value!.getCheckedData(),
       getIndeterminateData: () => treeInstRef.value!.getIndeterminateData(),
       scrollTo: (...args: any[]) => ((treeInstRef.value?.scrollTo) as any)(...args),
