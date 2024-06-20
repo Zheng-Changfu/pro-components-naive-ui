@@ -20,7 +20,8 @@ let router = null
 export function initRouter(_router, _route) {
   route = _route
   router = _router
-  useMemo({
+  // eslint-disable-next-line ts/no-use-before-define
+  localeNameRef = useMemo({
     get() {
       return 'zh-CN'
     },
@@ -28,11 +29,14 @@ export function initRouter(_router, _route) {
       router.push(changeLangInPath(route.fullPath, locale))
     },
   })
-  useMemo(() => {
+  // eslint-disable-next-line ts/no-use-before-define
+  dateLocaleRef = useMemo(() => {
     return dateZhCN
   })
-  useMemo(() => route.params.theme)
-  useMemo({
+  // eslint-disable-next-line ts/no-use-before-define
+  rawThemeNameRef = useMemo(() => route.params.theme)
+  // eslint-disable-next-line ts/no-use-before-define
+  themeNameRef = useMemo({
     get() {
       switch (route.params.theme) {
         case 'os-theme':
@@ -63,16 +67,16 @@ const displayModeRef = computed({
 })
 
 // locale
-const localeNameRef = 'zh-CN'
+let localeNameRef = 'zh-CN'
 const localeRef = computed(() => zhCN)
 
 // useMemo
-const dateLocaleRef = null
+let dateLocaleRef = null
 
 // theme
 const osThemeRef = useOsTheme()
-const themeNameRef = null
-const rawThemeNameRef = null // could be `os-theme`
+let themeNameRef = null
+let rawThemeNameRef = null // could be `os-theme`
 const themeRef = computed(() => {
   const { value } = themeNameRef
   return value === 'dark' ? darkTheme : null
@@ -128,11 +132,7 @@ export function siteSetup() {
     theme: themeRef,
     locale: localeRef,
     dateLocale: dateLocaleRef,
-    themeOverrides: {
-      common: {
-        primaryColor: '#1677ff',
-      },
-    },
+    themeOverrides: {},
   }
 }
 

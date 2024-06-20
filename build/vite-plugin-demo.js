@@ -1,7 +1,12 @@
+import vue from '@vitejs/plugin-vue'
 import getTransformedVueSrc from './utils/get-demo-by-path'
 
 // eslint-disable-next-line regexp/no-unused-capturing-group
 const fileRegex = /\.(md|vue)$/
+
+const vuePlugin = vue({
+  include: [/\.vue$/, /\.md$/],
+})
 
 export default function createDemoPlugin() {
   const naiveDemoVitePlugin = {
@@ -23,5 +28,5 @@ export default function createDemoPlugin() {
     },
   }
 
-  return [naiveDemoVitePlugin]
+  return [naiveDemoVitePlugin, vuePlugin]
 }

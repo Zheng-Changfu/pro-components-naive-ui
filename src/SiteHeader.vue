@@ -312,7 +312,7 @@ export default defineComponent({
   <n-layout-header bordered class="nav" :style="style">
     <n-text tag="div" class="ui-logo" :depth="1" @click="handleLogoClick">
       <img src="./assets/images/naivelogo.svg">
-      <span v-if="!isMobile">Naive UI</span>
+      <span v-if="!isMobile">Pro Naive UI</span>
     </n-text>
     <div
       :style="

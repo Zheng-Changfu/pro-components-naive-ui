@@ -29,8 +29,8 @@ export default defineComponent({
       ...i18n({
         'zh-CN': {
           start: '开始使用',
-          intro1: '一个 Vue 3 组件库',
-          intro2: '中后台组件库',
+          intro1: '基于 Naive UI 二次封装',
+          intro2: '适用于中后台项目，让君少写些代码',
           intro3: '',
           intro4: '换个主题',
         },
@@ -52,7 +52,7 @@ export default defineComponent({
   },
   methods: {
     handleStartClick() {
-      this.$router.push(`${this.$route.path}/docs/installation`)
+      this.$router.push(`${this.$route.path}/docs/introduction`)
     },
     handleTitleMouseEnter() {
       this.hover = true
