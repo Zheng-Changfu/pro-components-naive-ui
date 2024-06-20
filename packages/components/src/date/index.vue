@@ -62,7 +62,6 @@ export default defineComponent({
     })
 
     function convertStringToTimestamp(val: any) {
-      debugger
       const { postState } = props
       if (isString(val)) {
         shouldConvertValueOnTransform = true

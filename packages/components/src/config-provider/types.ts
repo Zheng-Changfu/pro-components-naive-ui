@@ -1,6 +1,7 @@
 import type { VNodeChild } from 'vue'
 import type { RequestTipConfig } from 'pro-components-hooks'
 import type { ProComponentConfig } from '../form'
+import type { ProUploadFieldProps } from '../upload'
 
 export type ProComponentGlobalConfig = ProComponentConfig
 
@@ -61,11 +62,8 @@ export type GlobalConfigProDate = DateValueFormat & { valueFormatIfShowTime: str
 export type GlobalConfigProDateRange = DateValueFormat & { valueFormatIfShowTime: string }
 
 export type GlobalConfigProRequest = RequestTipConfig
+export type GlobalConfigProUpload = Pick<ProUploadFieldProps, 'maxSize' | 'onOverFileMaxSize' | 'title' | 'onBeforeUpload' | 'action' | 'customRequest'>
 
 export interface GlobalConfigProTable {
-
-}
-
-export interface GlobalConfigProUpload {
 
 }
