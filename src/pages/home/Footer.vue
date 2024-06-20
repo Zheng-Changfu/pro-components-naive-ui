@@ -1,9 +1,51 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { version } from 'naive-ui'
+import { i18n } from '../../utils/composables'
+import { push } from '../../store'
+import { repoUrl } from '../../utils/github-url'
+
+export default defineComponent({
+  props: {
+    centered: Boolean,
+  },
+  setup() {
+    return {
+      version,
+      repoUrl,
+      push,
+      ...i18n({
+        'zh-CN': {
+          resources: '资源',
+          designResources: '设计资源',
+          help: '帮助',
+          community: '社区',
+          contact: '联系我们',
+          changelog: '更新日志',
+          commonIssues: '常见问题',
+          tusimple: '图森未来',
+          icons: '图标库',
+          libraries: '社区精选资源',
+          dingTalk: '钉钉',
+          dingTalkGroupChat: '钉钉交流群',
+          memberLimitReached: '（已满）',
+          reportBug: '报告 Bug',
+          sketchLink:
+            'https://naive-ui.oss-accelerate.aliyuncs.com/NaiveUI-Design-Library-zh-CN.sketch',
+          joinUsLink: 'https://app.mokahr.com/campus_apply/tusenweilai/3232#/',
+        },
+      }),
+    }
+  },
+})
+</script>
+
 <template>
   <n-layout-footer
     bordered
     class="footer"
     :class="{
-      ['footer--centered']: centered
+      ['footer--centered']: centered,
     }"
   >
     <div class="footer-links">
@@ -89,48 +131,6 @@
     </div>
   </n-layout-footer>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { version } from 'naive-ui'
-import { i18n } from '../../utils/composables'
-import { push } from '../../store'
-import { repoUrl } from '../../utils/github-url'
-
-export default defineComponent({
-  props: {
-    centered: Boolean
-  },
-  setup () {
-    return {
-      version,
-      repoUrl,
-      push,
-      ...i18n({
-        'zh-CN': {
-          resources: '资源',
-          designResources: '设计资源',
-          help: '帮助',
-          community: '社区',
-          contact: '联系我们',
-          changelog: '更新日志',
-          commonIssues: '常见问题',
-          tusimple: '图森未来',
-          icons: '图标库',
-          libraries: '社区精选资源',
-          dingTalk: '钉钉',
-          dingTalkGroupChat: '钉钉交流群',
-          memberLimitReached: '（已满）',
-          reportBug: '报告 Bug',
-          sketchLink:
-            'https://naive-ui.oss-accelerate.aliyuncs.com/NaiveUI-Design-Library-zh-CN.sketch',
-          joinUsLink: 'https://app.mokahr.com/campus_apply/tusenweilai/3232#/'
-        },
-      })
-    }
-  }
-})
-</script>
 
 <style scoped>
 .footer {

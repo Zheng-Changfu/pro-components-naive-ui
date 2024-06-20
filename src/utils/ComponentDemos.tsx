@@ -1,15 +1,15 @@
-import { defineComponent, Fragment, h, computed } from 'vue'
-import { useIsMobile, useIsTablet, useIsSmallDesktop } from './composables'
+import { computed, defineComponent } from 'vue'
+import { useIsMobile, useIsSmallDesktop, useIsTablet } from './composables'
 
 export default defineComponent({
   name: 'ComponentDemos',
   props: {
     span: {
       type: Number,
-      default: 2
-    }
+      default: 2,
+    },
   },
-  setup (props) {
+  setup(props) {
     const isMobileRef = useIsMobile()
     const isTabletRef = useIsTablet()
     const isSmallDesktop = useIsSmallDesktop()
@@ -19,10 +19,10 @@ export default defineComponent({
         : props.span
     })
     return {
-      mergedCols: mergedColsRef
+      mergedCols: mergedColsRef,
     }
   },
-  render () {
+  render() {
     const children = this.$slots.default?.() ?? []
     const { mergedCols } = this
     return (
@@ -32,34 +32,36 @@ export default defineComponent({
           gap: '16px',
           gridTemplateColumns:
             mergedCols === 1 ? '100%' : 'minmax(0, 1fr) minmax(0, 1fr)',
-          alignItems: 'flex-start'
+          alignItems: 'flex-start',
         }}
       >
-        {mergedCols === 1 ? (
-          children
-        ) : (
-          <>
-            <div
-              style={{
-                display: 'grid',
-                gap: '16px',
-                gridTemplateColumns: '100%'
-              }}
-            >
-              {children.filter((_, index) => index % 2 === 0)}
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gap: '16px',
-                gridTemplateColumns: '100%'
-              }}
-            >
-              {children.filter((_, index) => index % 2 === 1)}
-            </div>
-          </>
-        )}
+        {mergedCols === 1
+          ? (
+              children
+            )
+          : (
+            <>
+              <div
+                style={{
+                  display: 'grid',
+                  gap: '16px',
+                  gridTemplateColumns: '100%',
+                }}
+              >
+                {children.filter((_, index) => index % 2 === 0)}
+              </div>
+              <div
+                style={{
+                  display: 'grid',
+                  gap: '16px',
+                  gridTemplateColumns: '100%',
+                }}
+              >
+                {children.filter((_, index) => index % 2 === 1)}
+              </div>
+            </>
+            )}
       </div>
     )
-  }
+  },
 })

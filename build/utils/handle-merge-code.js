@@ -1,7 +1,6 @@
-
-function handleMergeCode ({ parts, mergedParts, isVue }) {
+function handleMergeCode({ parts, mergedParts, isVue }) {
   const isCompositionApi = parts.api === 'composition'
-  if (isVue && ['ts','tsx'].includes(parts.language)) {
+  if (isVue && ['ts', 'tsx'].includes(parts.language)) {
     // ts and js
     if (parts.template) {
       mergedParts.tsCode += `<template>${parts.template}</template>`
@@ -17,7 +16,7 @@ function handleMergeCode ({ parts, mergedParts, isVue }) {
       } lang="${parts.language}">
 ${parts.script}
 </script>`
-      mergedParts.jsCode += ""
+      mergedParts.jsCode += ''
     }
     if (parts.style) {
       if (parts.template || parts.script) {

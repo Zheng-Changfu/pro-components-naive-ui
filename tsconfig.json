@@ -6,7 +6,6 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "useDefineForClassFields": true,
     "module": "ESNext",
-
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
@@ -16,6 +15,7 @@
     },
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
+    "allowJs": true,
 
     /* Linting */
     "strict": true,
@@ -29,6 +29,7 @@
   "references": [{ "path": "./tsconfig.node.json" }],
   "include": [
     "src/**/*.ts",
+    "src/**/*.js",
     "src/**/*.tsx",
     "src/**/*.vue",
     "packages/components/**/*.ts",

@@ -1,12 +1,5 @@
-<template>
-  <n-layout :position="isMobile ? 'static' : 'absolute'" class="root-layout">
-    <site-header />
-    <router-view />
-  </n-layout>
-</template>
-
 <script lang="ts">
-import { onMounted, defineComponent } from 'vue'
+import { defineComponent, onMounted } from 'vue'
 import { useLoadingBar } from 'naive-ui'
 import SiteHeader from './SiteHeader.vue'
 import { loadingBarApiRef } from './routes/router'
@@ -15,9 +8,9 @@ import { useIsMobile } from './utils/composables'
 export default defineComponent({
   name: 'Site',
   components: {
-    SiteHeader
+    SiteHeader,
   },
-  setup () {
+  setup() {
     const loadingBar = useLoadingBar()
     const isMobileRef = useIsMobile()
     onMounted(() => {
@@ -25,8 +18,15 @@ export default defineComponent({
       loadingBar.finish()
     })
     return {
-      isMobile: isMobileRef
+      isMobile: isMobileRef,
     }
-  }
+  },
 })
 </script>
+
+<template>
+  <n-layout :position="isMobile ? 'static' : 'absolute'" class="root-layout">
+    <SiteHeader />
+    <router-view />
+  </n-layout>
+</template>

@@ -19,16 +19,6 @@ import { ref } from 'vue'
 
 const [registerFormRef, { validate }] = useProForm()
 const value = ref(null)
-const options = [
-  {
-    label: 'Drive My Car',
-    value: 'song1',
-  },
-  {
-    label: 'Norwegian Wood',
-    value: 'song2',
-  },
-]
 </script>
 
 <template>

@@ -1,6 +1,6 @@
-
 import getTransformedVueSrc from './utils/get-demo-by-path'
 
+// eslint-disable-next-line regexp/no-unused-capturing-group
 const fileRegex = /\.(md|vue)$/
 
 export default function createDemoPlugin() {
@@ -17,10 +17,10 @@ export default function createDemoPlugin() {
         const code = await getTransformedVueSrc(file)
         return vuePlugin.handleHotUpdate({
           ...ctx,
-          read: () => code
+          read: () => code,
         })
       }
-    }
+    },
   }
 
   return [naiveDemoVitePlugin]

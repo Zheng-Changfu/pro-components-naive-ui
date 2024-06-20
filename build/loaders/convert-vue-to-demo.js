@@ -1,11 +1,12 @@
 import { marked } from 'marked'
 import createRenderer from './md-renderer'
-const mdRenderer = createRenderer()
 import {
   genVueComponent,
   getFileName,
-  mergeParts
+  mergeParts,
 } from './convert-md-to-demo'
+
+const mdRenderer = createRenderer()
 
 function getPartsOfDemo(text) {
   // slot template
@@ -13,6 +14,7 @@ function getPartsOfDemo(text) {
   let template = text.slice(firstIndex + 10)
   const lastIndex = template.lastIndexOf('</template>')
   template = template.slice(0, lastIndex)
+  // eslint-disable-next-line regexp/no-super-linear-backtracking
   const script = text.match(/<script[\s\S]*?>([\s\S]*?)<\/script>/)?.[1]?.trim()
   const style = text.match(/<style>([\s\S]*?)<\/style>/)?.[1]
   const markdownText = text
@@ -24,14 +26,16 @@ function getPartsOfDemo(text) {
   for (const token of tokens) {
     if (token.type === 'heading' && token.depth === 1) {
       title = token.text
-    } else {
+    }
+    else {
       contentTokens.push(token)
     }
   }
   const scriptAttributes = text
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
     .match(/<script([\s\S]*?)>[\s\S]*?<\/script>/)?.[1]
     .trim()
-  const [,languageType = 'js'] = (scriptAttributes ?? '').match(/lang=\"(.*)\"/) ?? []
+  const [,languageType = 'js'] = (scriptAttributes ?? '').match(/lang="(.*)"/) ?? []
   const apiType = scriptAttributes?.includes('setup')
     ? 'composition'
     : 'options'
@@ -41,10 +45,10 @@ function getPartsOfDemo(text) {
     style,
     title,
     content: marked.parser(contentTokens, {
-      renderer: mdRenderer
+      renderer: mdRenderer,
     }),
     language: languageType,
-    api: apiType
+    api: apiType,
   }
 }
 
@@ -54,8 +58,8 @@ function convertVue2Demo(content, { resourcePath, relativeUrl, isVue = true }) {
   const [fileName] = getFileName(resourcePath)
   const vueComponent = genVueComponent(
     mergedParts,
-    fileName + '.vue',
-    relativeUrl
+    `${fileName}.vue`,
+    relativeUrl,
   )
   return vueComponent
 }

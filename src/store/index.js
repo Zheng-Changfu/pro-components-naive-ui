@@ -3,41 +3,40 @@ import { useMemo } from 'vooks'
 import {
   NConfigProvider,
   darkTheme,
-  enUS,
-  zhCN,
-  dateEnUS,
   dateZhCN,
-  useOsTheme
+  useOsTheme,
+  zhCN,
 } from 'naive-ui'
 import { i18n, useIsMobile } from '../utils/composables'
 import {
+  createComponentMenuOptions,
   createDocumentationMenuOptions,
-  createComponentMenuOptions
 } from './menu-options'
 import hljs from './hljs'
 
 let route = null
 let router = null
 
-export function initRouter (_router, _route) {
+export function initRouter(_router, _route) {
   route = _route
   router = _router
-  localeNameRef = useMemo({
-    get () {
+  useMemo({
+    get() {
       return 'zh-CN'
     },
-    set (locale) {
+    set(locale) {
       router.push(changeLangInPath(route.fullPath, locale))
-    }
+    },
   })
-  dateLocaleRef = useMemo(() => {
+  useMemo(() => {
     return dateZhCN
   })
-  rawThemeNameRef = useMemo(() => route.params.theme)
-  themeNameRef = useMemo({
-    get () {
+  useMemo(() => route.params.theme)
+  useMemo({
+    get() {
       switch (route.params.theme) {
         case 'os-theme':
+          // eslint-disable-next-line ts/no-use-before-define
           return osThemeRef.value
         case 'dark':
           return 'dark'
@@ -45,42 +44,42 @@ export function initRouter (_router, _route) {
           return 'light'
       }
     },
-    set (theme) {
+    set(theme) {
       router.push(changeThemeInPath(route.fullPath, theme))
-    }
+    },
   })
 }
 
 // display mode
 const _displayModeRef = ref(window.localStorage.getItem('mode') ?? 'debug')
 const displayModeRef = computed({
-  get () {
+  get() {
     return _displayModeRef.value
   },
-  set (value) {
+  set(value) {
     _displayModeRef.value = value
     window.localStorage.setItem('mode', value)
-  }
+  },
 })
 
 // locale
-let localeNameRef = 'zh-CN'
+const localeNameRef = 'zh-CN'
 const localeRef = computed(() => zhCN)
 
 // useMemo
-let dateLocaleRef = null
+const dateLocaleRef = null
 
 // theme
 const osThemeRef = useOsTheme()
-let themeNameRef = null
-let rawThemeNameRef = null // could be `os-theme`
+const themeNameRef = null
+const rawThemeNameRef = null // could be `os-theme`
 const themeRef = computed(() => {
   const { value } = themeNameRef
   return value === 'dark' ? darkTheme : null
 })
 
 // config provider
-const configProviderNameRef = ref( 'default')
+const configProviderNameRef = ref('default')
 const configProviderRef = computed(() => {
   return NConfigProvider
 })
@@ -90,22 +89,24 @@ const docOptionsRef = computed(() =>
   createDocumentationMenuOptions({
     theme: rawThemeNameRef.value,
     lang: localeNameRef.value,
-    mode: displayModeRef.value
-  })
+    mode: displayModeRef.value,
+  }),
 )
 const componentOptionsRef = computed(() =>
   createComponentMenuOptions({
     theme: rawThemeNameRef.value,
     lang: localeNameRef.value,
-    mode: displayModeRef.value
-  })
+    mode: displayModeRef.value,
+  }),
 )
 const flattenedDocOptionsRef = computed(() => {
   const flattenedItems = []
   const traverse = (items) => {
-    if (!items) return
+    if (!items)
+      return
     items.forEach((item) => {
-      if (item.children) traverse(item.children)
+      if (item.children)
+        traverse(item.children)
       else flattenedItems.push(item)
     })
   }
@@ -114,7 +115,7 @@ const flattenedDocOptionsRef = computed(() => {
   return flattenedItems
 })
 
-export function siteSetup () {
+export function siteSetup() {
   i18n.provide(computed(() => localeNameRef.value))
   const isMobileRef = useIsMobile()
   return {
@@ -127,55 +128,55 @@ export function siteSetup () {
     theme: themeRef,
     locale: localeRef,
     dateLocale: dateLocaleRef,
-    themeOverrides:{
+    themeOverrides: {
       common: {
-        primaryColor: '#1677ff'
+        primaryColor: '#1677ff',
       },
-    }
+    },
   }
 }
 
-function changeLangInPath (path, lang) {
+function changeLangInPath(path, lang) {
   const langReg = /^\/(zh-CN)\//
   return path.replace(langReg, `/${lang}/`)
 }
 
-function changeThemeInPath (path, theme) {
+function changeThemeInPath(path, theme) {
   const themeReg = /(^\/[^/]+\/)([^/]+)/
-  return path.replace(themeReg, '$1' + theme)
+  return path.replace(themeReg, `$1${theme}`)
 }
 
-export function push (partialPath) {
+export function push(partialPath) {
   const { fullPath } = route
   router.push(
-    fullPath.replace(/(^\/[^/]+\/[^/]+)((\/.*)|$)/, '$1' + partialPath)
+    fullPath.replace(/(^\/[^/]+\/[^/]+)((\/.*)|$)/, `$1${partialPath}`),
   )
 }
 
-export function useDisplayMode () {
+export function useDisplayMode() {
   return displayModeRef
 }
 
-export function useLocaleName () {
+export function useLocaleName() {
   return localeNameRef
 }
 
-export function useThemeName () {
+export function useThemeName() {
   return themeNameRef
 }
 
-export function useDocOptions () {
+export function useDocOptions() {
   return docOptionsRef
 }
 
-export function useComponentOptions () {
+export function useComponentOptions() {
   return componentOptionsRef
 }
 
-export function useFlattenedDocOptions () {
+export function useFlattenedDocOptions() {
   return flattenedDocOptionsRef
 }
 
-export function useConfigProviderName () {
+export function useConfigProviderName() {
   return configProviderNameRef
 }

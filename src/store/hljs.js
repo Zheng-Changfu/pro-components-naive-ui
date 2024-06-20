@@ -12,9 +12,9 @@ hljs.registerLanguage('naive-log', () => ({
   contains: [
     {
       className: 'number',
-      begin: /\d+/
-    }
-  ]
+      begin: /\d+/,
+    },
+  ],
 }))
 
 export default hljs

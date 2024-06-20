@@ -3,17 +3,17 @@ import convertVue2Demo from './convert-vue-to-demo'
 import projectPath from './project-path'
 
 export default function demoLoader(content, path, type) {
-  const relativeUrl = path.replace(projectPath + '/', '')
+  const relativeUrl = path.replace(`${projectPath}/`, '')
   if (type === 'vue') {
     return convertVue2Demo(content, {
       relativeUrl,
       resourcePath: path,
-      isVue: true
+      isVue: true,
     })
   }
   return convertMd2Demo(content, {
     relativeUrl,
     resourcePath: path,
-    isVue: false
+    isVue: false,
   })
 }

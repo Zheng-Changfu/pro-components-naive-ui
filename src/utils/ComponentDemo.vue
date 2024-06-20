@@ -1,10 +1,94 @@
+<script lang="tsx">
+import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+import { CodeOutline } from '@vicons/ionicons5'
+import { useDisplayMode } from '../store'
+import { i18n } from '../utils/composables'
+import CopyCodeButton from './CopyCodeButton.vue'
+
+export default defineComponent({
+  components: {
+    CodeOutline,
+    CopyCodeButton,
+  },
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    tsCode: {
+      type: String,
+      required: true,
+    },
+    demoFileName: {
+      type: String,
+      required: true,
+    },
+    relativeUrl: {
+      type: String,
+      required: true,
+    },
+    jsCode: {
+      type: String,
+      required: true,
+    },
+    languageType: {
+      type: String,
+      default: 'js',
+    },
+  },
+  setup(props) {
+    const displayModeRef = useDisplayMode()
+    // eslint-disable-next-line regexp/no-unused-capturing-group
+    const isDebugDemo = /(d|D)ebug/.test(props.demoFileName)
+    const showDemoRef = computed(() => {
+      return !(isDebugDemo && displayModeRef.value !== 'debug')
+    })
+    const showCodeRef = ref(false)
+    const showTsRef = ref(['tsx', 'ts'].includes(props.languageType))
+    const expandCodeButtonRef = ref(null)
+    watch(showCodeRef, () => {
+      nextTick(() => {
+        expandCodeButtonRef.value.syncPosition()
+      })
+    })
+    return {
+      expandCodeButtonRef,
+      showDemo: showDemoRef,
+      showCode: showCodeRef,
+      showTs: showTsRef,
+      sfcTsCode: decodeURIComponent(props.tsCode),
+      sfcJsCode: '',
+      toggleCodeDisplay() {
+        showCodeRef.value = !showCodeRef.value
+      },
+      handleTitleClick: () => {
+        window.location.hash = `#${props.demoFileName}`
+      },
+      toggleLanguageChange() {
+        showTsRef.value = !showTsRef.value
+      },
+      ...i18n({
+        'zh-CN': {
+          show: '显示代码',
+          hide: '收起代码',
+          editOnGithub: '在 GitHub 中编辑',
+          editInCodeSandbox: '在 CodeSandbox 中编辑',
+          copyCode: '复制代码',
+          copySuccess: '复制成功',
+        },
+      }),
+    }
+  },
+})
+</script>
+
 <template>
   <n-card
     v-if="showDemo"
     :id="demoFileName"
     class="demo-card"
     :segmented="{
-      footer: true
+      footer: true,
     }"
     footer-style="padding: 0;"
   >
@@ -16,28 +100,7 @@
     <template #header-extra>
       <n-tooltip>
         <template #trigger>
-          <edit-in-code-sandbox-button
-            style="padding: 0; margin-right: 6px"
-            size="tiny"
-            :code="showTs ? sfcTsCode : sfcJsCode"
-          />
-        </template>
-        {{ t('editInCodeSandbox') }}
-      </n-tooltip>
-      <n-tooltip>
-        <template #trigger>
-          <edit-on-github-button
-            depth="3"
-            style="padding: 0; margin-right: 6px"
-            size="tiny"
-            :relative-url="relativeUrl"
-          />
-        </template>
-        {{ t('editOnGithub') }}
-      </n-tooltip>
-      <n-tooltip>
-        <template #trigger>
-          <copy-code-button
+          <CopyCodeButton
             depth="3"
             style="padding: 0; margin-right: 6px"
             size="tiny"
@@ -58,7 +121,7 @@
           >
             <template #icon>
               <n-icon>
-                <code-outline />
+                <CodeOutline />
               </n-icon>
             </template>
           </n-button>
@@ -70,12 +133,12 @@
     <slot name="demo" />
     <template v-if="showCode" #footer>
       <n-tabs
-        v-if="['ts','tsx'].includes(languageType)"
+        v-if="['ts', 'tsx'].includes(languageType)"
         size="small"
         type="segment"
         style="padding: 12px 24px 0 24px"
         :value="showTs ? 'ts' : 'js'"
-        @update:value="($e) => (showTs = ['ts','tsx'].includes($e))"
+        @update:value="($e) => (showTs = ['ts', 'tsx'].includes($e))"
       >
         <n-tab name="ts">
           TypeScript
@@ -95,90 +158,3 @@
     </template>
   </n-card>
 </template>
-
-<script lang="tsx">
-import { defineComponent, computed, nextTick, ref, watch } from 'vue'
-import { CodeOutline } from '@vicons/ionicons5'
-import { useDisplayMode } from '../store'
-import { i18n } from '../utils/composables'
-import EditOnGithubButton from './EditOnGithubButton.vue'
-import EditInCodeSandboxButton from './EditInCodeSandboxButton.vue'
-import CopyCodeButton from './CopyCodeButton.vue'
-
-export default defineComponent({
-  components: {
-    CodeOutline,
-    EditOnGithubButton,
-    EditInCodeSandboxButton,
-    CopyCodeButton
-  },
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-    tsCode: {
-      type: String,
-      required: true
-    },
-    demoFileName: {
-      type: String,
-      required: true
-    },
-    relativeUrl: {
-      type: String,
-      required: true
-    },
-    jsCode: {
-      type: String,
-      required: true
-    },
-    languageType: {
-      type: String,
-      default: 'js'
-    }
-  },
-  setup (props) {
-    const displayModeRef = useDisplayMode()
-    const isDebugDemo = /(d|D)ebug/.test(props.demoFileName)
-    const showDemoRef = computed(() => {
-      return !(isDebugDemo && displayModeRef.value !== 'debug')
-    })
-    const showCodeRef = ref(false)
-    const showTsRef = ref(['tsx','ts'].includes(props.languageType))
-    const expandCodeButtonRef = ref(null)
-    watch(showCodeRef, () => {
-      nextTick(() => {
-        expandCodeButtonRef.value.syncPosition()
-      })
-    })
-    return {
-      expandCodeButtonRef,
-      showDemo: showDemoRef,
-      showCode: showCodeRef,
-      showTs: showTsRef,
-      sfcTsCode: decodeURIComponent(props.tsCode),
-      sfcJsCode: '',
-      toggleCodeDisplay () {
-        showCodeRef.value = !showCodeRef.value
-      },
-      handleTitleClick: () => {
-        window.location.hash = `#${props.demoFileName}`
-      },
-      toggleLanguageChange () {
-        showTsRef.value = !showTsRef.value
-      },
-      ...i18n({
-        'zh-CN': {
-          show: '显示代码',
-          hide: '收起代码',
-          editOnGithub: '在 GitHub 中编辑',
-          editInCodeSandbox: '在 CodeSandbox 中编辑',
-          copyCode: '复制代码',
-          copySuccess: '复制成功'
-        },
-      })
-    }
-  }
-})
-</script>

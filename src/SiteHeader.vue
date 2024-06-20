@@ -1,115 +1,30 @@
-<template>
-  <n-layout-header bordered class="nav" :style="style">
-    <n-text tag="div" class="ui-logo" :depth="1" @click="handleLogoClick">
-      <img src="./assets/images/naivelogo.svg">
-      <span v-if="!isMobile">Naive UI</span>
-    </n-text>
-    <div
-      :style="
-        !isMobile ? 'display: flex; align-items: center; overflow: hidden;' : ''
-      "
-    >
-      <div v-if="!(isMobile || isTablet)" class="nav-menu">
-        <n-menu
-          ref="menuInstRef"
-          responsive
-          mode="horizontal"
-          :value="menuValue"
-          :options="menuOptions"
-          :render-label="renderMenuLabel"
-        />
-      </div>
-      <n-auto-complete
-        v-model:value="searchPattern"
-        :style="
-          !isMobile
-            ? 'width: 216px; margin-left: 24px; margin-right: 12px; flex-shrink: 0;'
-            : undefined
-        "
-        :placeholder="t('searchPlaceholder')"
-        :options="searchOptions"
-        clear-after-select
-        blur-after-select
-        @select="handleSearch"
-      />
-      <!-- TODO: add it -->
-      <!-- template #suffix>
-        <span style="color: var(--placeholder-color)">⌘ + K</span>
-      </template -->
-    </div>
-    <n-popover
-      v-if="isMobile || isTablet"
-      ref="mobilePopoverRef"
-      style="padding: 0; width: 288px"
-      placement="bottom-end"
-      display-directive="show"
-      trigger="click"
-    >
-      <template #trigger>
-        <n-icon size="20" style="margin-left: 12px">
-          <menu-outline />
-        </n-icon>
-      </template>
-      <div style="overflow: auto; max-height: 79vh">
-        <n-menu
-          :value="mobileMenuValue"
-          :options="mobileMenuOptions"
-          :indent="18"
-          :render-label="renderMenuLabel"
-          @update:value="handleUpdateMobileMenu"
-        />
-      </div>
-    </n-popover>
-    <div v-else class="nav-end">
-      <n-button
-        size="small"
-        quaternary
-        class="nav-picker"
-        @click="handleThemeUpdate"
-      >
-        {{ themeLabelMap[theme] }}
-      </n-button>
-      <n-button
-        size="small"
-        tag="a"
-        quaternary
-        class="nav-picker"
-        :href="repoUrl"
-        target="_blank"
-      >
-        GitHub
-      </n-button>
-      <n-text class="nav-picker padded">
-        {{ version }}
-      </n-text>
-    </div>
-  </n-layout-header>
-</template>
-
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { computed, defineComponent, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useMessage, version } from 'naive-ui'
 import { MenuOutline } from '@vicons/ionicons5'
 import { repoUrl } from './utils/github-url'
 import { i18n, useIsMobile, useIsTablet } from './utils/composables'
 import { findMenuValue } from './utils/route'
 import {
-  useThemeName,
-  useLocaleName,
-  useDisplayMode,
-  useFlattenedDocOptions,
+  useComponentOptions,
   useConfigProviderName,
+  useDisplayMode,
   useDocOptions,
-  useComponentOptions
+  useFlattenedDocOptions,
+  useLocaleName,
+  useThemeName,
 } from './store'
 import { renderMenuLabel } from './store/menu-options'
 
 // match substr
-function match (pattern, string) {
-  if (!pattern.length) return true
-  if (!string.length) return false
-  if (pattern[0] === string[0]) return match(pattern.slice(1), string.slice(1))
+function match(pattern: any, string: any) {
+  if (!pattern.length)
+    return true
+  if (!string.length)
+    return false
+  if (pattern[0] === string[0])
+    return match(pattern.slice(1), string.slice(1))
   return match(pattern, string.slice(1))
 }
 
@@ -125,21 +40,22 @@ const locales = {
     debug: '调试',
     alreadyHome: '别点了，你已经在首页了',
     tusimpleTheme: '图森主题',
-    defaultTheme: '默认主题'
+    defaultTheme: '默认主题',
   },
 }
 
 export default defineComponent({
   name: 'SiteHeader',
   components: {
-    MenuOutline
+    MenuOutline,
   },
-  setup () {
+  setup() {
     const message = useMessage()
     const route = useRoute()
     const router = useRouter()
 
-    const mobilePopoverRef = ref(null)
+    const mobilePopoverRef = ref(null) as any
+    // eslint-disable-next-line regexp/no-unused-capturing-group
     const themeAndLocaleReg = /^(\/[^/]+){2}/
 
     // i18n
@@ -151,24 +67,27 @@ export default defineComponent({
         {
           key: 'home',
           label: t('home'),
-          path: themeAndLocaleReg.exec(route.path)[0]
+          path: themeAndLocaleReg.exec(route.path)![0],
         },
         {
           key: 'doc',
           label: t('doc'),
-          path: themeAndLocaleReg.exec(route.path)[0] + '/docs/introduction'
+          path: `${themeAndLocaleReg.exec(route.path)![0]}/docs/introduction`,
         },
         {
           key: 'component',
           label: t('component'),
-          path: themeAndLocaleReg.exec(route.path)[0] + '/components/input'
-        }
+          path: `${themeAndLocaleReg.exec(route.path)![0]}/components/input`,
+        },
       ]
     })
     const menuValueRef = computed(() => {
-      if (/\/docs\//.test(route.path)) return 'doc'
-      if (/\/components\//.test(route.path)) return 'component'
-      else if (route.name === 'home') return 'home'
+      if (/\/docs\//.test(route.path))
+        return 'doc'
+      if (/\/components\//.test(route.path))
+        return 'component'
+      else if (route.name === 'home')
+        return 'home'
       return null
     })
 
@@ -179,78 +98,86 @@ export default defineComponent({
       return [
         {
           key: 'theme',
-          label: themeLabelMapRef.value[themeNameRef.value]
+          // eslint-disable-next-line ts/no-use-before-define
+          label: themeLabelMapRef.value[themeNameRef.value],
         },
         {
           key: 'locale',
-          label: '中文'
+          label: '中文',
         },
         {
           key: 'home',
           label: t('home'),
-          path: themeAndLocaleReg.exec(route.path)[0]
+          path: themeAndLocaleReg.exec(route.path)![0],
         },
         {
           key: 'doc',
           label: t('doc'),
           children: docOptionsRef.value,
-          path: themeAndLocaleReg.exec(route.path)[0] + '/docs/introduction'
+          path: `${themeAndLocaleReg.exec(route.path)![0]}/docs/introduction`,
         },
         {
           key: 'component',
           label: t('component'),
-          path: themeAndLocaleReg.exec(route.path)[0] + '/components/button',
-          children: componentOptionsRef.value
+          path: `${themeAndLocaleReg.exec(route.path)![0]}/components/button`,
+          children: componentOptionsRef.value,
         },
         {
           key: 'github',
-          label: 'GitHub'
-        }
+          label: 'GitHub',
+        },
       ]
     })
     const mobileMenuValueRef = computed(() => {
-      if (route.name === 'home') return 'home'
+      if (route.name === 'home')
+        return 'home'
       return findMenuValue(mobileMenuOptionsRef.value, route.path)
     })
-    function handleUpdateMobileMenu (value, { path }) {
+    function handleUpdateMobileMenu(value: any, { path }: any) {
       if (value === 'theme') {
         handleThemeUpdate()
-      } else if (value === 'locale') {
-        localeNameRef.value = 'zh-CN'
-      } else if (path) {
+      }
+      else if (value === 'locale') {
+        // eslint-disable-next-line ts/no-use-before-define
+        ;(localeNameRef as any).value = 'zh-CN'
+      }
+      else if (path) {
         router.push(path)
-      } else {
+      }
+      else {
         window.open(repoUrl, '_blank')
       }
       mobilePopoverRef.value.setShow(false)
     }
 
     // theme
-    const themeNameRef = useThemeName()
+    const themeNameRef = useThemeName() as any
     const themeLabelMapRef = computed(() => ({
       dark: t('light'),
-      light: t('dark')
-    }))
-    function handleThemeUpdate () {
+      light: t('dark'),
+    })) as any
+    function handleThemeUpdate() {
       if (themeNameRef.value === 'dark') {
         themeNameRef.value = 'light'
-      } else {
+      }
+      else {
         themeNameRef.value = 'dark'
       }
     }
 
     // locale
-    const localeNameRef = useLocaleName()
-    function handleLocaleUpdate () {
+    const localeNameRef = useLocaleName() as any
+    function handleLocaleUpdate() {
       localeNameRef.value = 'zh-CN'
     }
 
     // display mode
     const displayModeRef = useDisplayMode()
-    function handleDisplayModeUpdate () {
+    function handleDisplayModeUpdate() {
       if (displayModeRef.value === 'common') {
         displayModeRef.value = 'debug'
-      } else {
+      }
+      else {
         displayModeRef.value = 'common'
       }
     }
@@ -259,7 +186,7 @@ export default defineComponent({
     const configProviderNameRef = useConfigProviderName()
     const cfgProviderLabelMapRef = computed(() => ({
       tusimple: t('defaultTheme'),
-      default: t('tusimpleTheme')
+      default: t('tusimpleTheme'),
     }))
 
     // search
@@ -274,13 +201,14 @@ export default defineComponent({
       //   }
       //   return item.key
       // }
-      function getSearchableContent (item) {
+      function getSearchableContent(item: any) {
         if (item.label) {
-          return item.label + (item.extraString ? ' ' + item.extraString : '')
+          return item.label + (item.extraString ? ` ${item.extraString}` : '')
         }
         return item.key
       }
-      if (!searchPatternRef.value) return []
+      if (!searchPatternRef.value)
+        return []
       const replaceRegex = / |-/g
       return searchableOptionsRef.value
         .filter((item) => {
@@ -293,24 +221,26 @@ export default defineComponent({
             .replace(replaceRegex, '')
           return match(pattern, label)
         })
-        .map((item) => ({
+        .map(item => ({
           label: getSearchableContent(item),
-          value: item.path
+          value: item.path,
         }))
     })
-    function handleSearch (value) {
+    function handleSearch(value: any) {
       router.push(value)
     }
 
     // common
     const isMobileRef = useIsMobile()
     const isTabletRef = useIsTablet()
-    function handleLogoClick () {
+    function handleLogoClick() {
+      // eslint-disable-next-line regexp/no-unused-capturing-group
       if (/^(\/[^/]+){2}$/.test(route.path)) {
         message.info(t('alreadyHome'))
         return
       }
-      router.push(/^(\/[^/]+){2}/.exec(route.path)[0])
+      // eslint-disable-next-line regexp/no-unused-capturing-group
+      router.push(/^(\/[^/]+){2}/.exec(route.path)![0])
     }
 
     // responsive menu
@@ -365,18 +295,106 @@ export default defineComponent({
         return isMobileRef.value
           ? {
               '--side-padding': '16px',
-              'grid-template-columns': 'auto 1fr auto'
+              'grid-template-columns': 'auto 1fr auto',
             }
           : {
               '--side-padding': '32px',
               'grid-template-columns':
-                'calc(272px - var(--side-padding)) 1fr auto'
+                'calc(272px - var(--side-padding)) 1fr auto',
             }
-      })
+      }),
     }
-  }
+  },
 })
 </script>
+
+<template>
+  <n-layout-header bordered class="nav" :style="style">
+    <n-text tag="div" class="ui-logo" :depth="1" @click="handleLogoClick">
+      <img src="./assets/images/naivelogo.svg">
+      <span v-if="!isMobile">Naive UI</span>
+    </n-text>
+    <div
+      :style="
+        !isMobile ? 'display: flex; align-items: center; overflow: hidden;' : ''
+      "
+    >
+      <div v-if="!(isMobile || isTablet)" class="nav-menu">
+        <n-menu
+          ref="menuInstRef"
+          responsive
+          mode="horizontal"
+          :value="menuValue"
+          :options="menuOptions"
+          :render-label="renderMenuLabel"
+        />
+      </div>
+      <n-auto-complete
+        v-model:value="searchPattern"
+        :style="
+          !isMobile
+            ? 'width: 216px; margin-left: 24px; margin-right: 12px; flex-shrink: 0;'
+            : undefined
+        "
+        :placeholder="t('searchPlaceholder')"
+        :options="searchOptions"
+        clear-after-select
+        blur-after-select
+        @select="handleSearch"
+      />
+      <!-- TODO: add it -->
+      <!-- template #suffix>
+        <span style="color: var(--placeholder-color)">⌘ + K</span>
+      </template -->
+    </div>
+    <n-popover
+      v-if="isMobile || isTablet"
+      ref="mobilePopoverRef"
+      style="padding: 0; width: 288px"
+      placement="bottom-end"
+      display-directive="show"
+      trigger="click"
+    >
+      <template #trigger>
+        <n-icon size="20" style="margin-left: 12px">
+          <MenuOutline />
+        </n-icon>
+      </template>
+      <div style="overflow: auto; max-height: 79vh">
+        <n-menu
+          :value="mobileMenuValue"
+          :options="mobileMenuOptions"
+          :indent="18"
+          :render-label="renderMenuLabel"
+          @update:value="handleUpdateMobileMenu"
+        />
+      </div>
+    </n-popover>
+    <div v-else class="nav-end">
+      <n-button
+        size="small"
+        quaternary
+        class="nav-picker"
+        @click="handleThemeUpdate"
+      >
+        {{ themeLabelMap[theme] }}
+      </n-button>
+      <n-button
+        size="small"
+        tag="a"
+        quaternary
+        class="nav-picker"
+        :href="repoUrl"
+        target="_blank"
+      >
+        GitHub
+      </n-button>
+      <n-text class="nav-picker padded">
+        {{ version }}
+      </n-text>
+    </div>
+  </n-layout-header>
+</template>
 
 <style scoped>
 .nav {

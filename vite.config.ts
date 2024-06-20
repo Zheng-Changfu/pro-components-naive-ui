@@ -1,20 +1,18 @@
 import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vitePluginDemo from './build/vite-plugin-demo'
-import Inspect from 'vite-plugin-inspect'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import vitePluginDemo from './build/vite-plugin-demo'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    Inspect(),
     ...vitePluginDemo(),
     vue({
-      include: [/\.vue$/, /\.md$/]
+      include: [/\.vue$/, /\.md$/],
     }),
     vueJsx({}),
     AutoImport({

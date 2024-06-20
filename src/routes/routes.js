@@ -1,32 +1,32 @@
-export const zhDocRoutes =[
+export const zhDocRoutes = [
   {
     path: 'introduction',
-    component: () => import('../pages/docs/introduction/zhCN/index.md')
+    component: () => import('../pages/docs/introduction/zhCN/index.md'),
   },
 ]
 
-export const zhComponentRoutes = [ {
+export const zhComponentRoutes = [{
   path: 'input',
-  component: () => import('../../packages/components/src/input/demos/zhCN/index.demo-entry.md')
-},]
+  component: () => import('../../packages/components/src/input/demos/zhCN/index.demo-entry.md'),
+}]
 
 export const routes = [
   {
     name: 'home',
     path: '/:lang/:theme',
-    component: () => import('../pages/home/index.vue')
+    component: () => import('../pages/home/index.vue'),
   },
   {
     name: 'zhDocs',
     path: '/zh-CN/:theme/docs',
     component: () => import('../pages/Layout.vue'),
-    children: zhDocRoutes
+    children: zhDocRoutes,
   },
   {
     name: 'zhComponents',
     path: '/zh-CN/:theme/components',
     component: () => import('../pages/Layout.vue'),
-    children: zhComponentRoutes
+    children: zhComponentRoutes,
   },
   {
     name: 'not-found',
@@ -35,8 +35,8 @@ export const routes = [
       name: 'home',
       params: {
         lang: 'zh-CN',
-        theme: 'os-theme'
-      }
-    }
-  }
+        theme: 'os-theme',
+      },
+    },
+  },
 ]
