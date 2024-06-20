@@ -1,0 +1,84 @@
+@import 'Metropolis.css';
+
+body {
+  overflow: hidden;
+  --header-height: 64px;
+}
+
+.demo-card .demo-card__view:not(:first-child) {
+  margin-top: 16px;
+}
+
+.demo-card .demo-card__view pre {
+  font-family: v-mono, monospace;
+}
+
+.demo-card .demo-card__view code {
+  font-family: v-mono, monospace;
+}
+
+.demo-card code.n-text {
+  white-space: nowrap;
+}
+
+.doc .n-p,
+.n-blockquote {
+  max-width: 680px;
+}
+
+.md-table-wrapper {
+  margin-bottom: 16px;
+}
+
+.md-table-wrapper:last-child,
+.md-card:last-child {
+  margin-bottom: 0;
+}
+
+.md-table td:first-child {
+  font-size: 0.93em !important;
+  font-family: v-mono, monospace;
+}
+
+.md-table .n-text.n-text--code {
+  font-size: 0.93em !important;
+}
+
+.md-card {
+  margin-bottom: 16px;
+}
+
+.ts-dark-theme .demo-card {
+  background-color: #141414;
+}
+
+.md-table td {
+  word-break: normal;
+}
+
+@media only screen and (max-width: 1280px) {
+  .md-table td {
+    word-break: break-word;
+  }
+}
+
+@media only screen and (max-width: 639px) {
+  body {
+    overflow: visible;
+  }
+  .md-table td {
+    word-break: normal;
+  }
+  .md-table-wrapper {
+    overflow: auto;
+    margin: 0 -16px;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  .md-table-wrapper::before,
+  .md-table-wrapper::after {
+    content: '';
+    width: 16px;
+    flex-shrink: 0;
+  }
+}

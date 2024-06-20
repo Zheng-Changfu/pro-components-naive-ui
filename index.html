@@ -7,6 +7,16 @@
     <title>Vite + Vue + TS</title>
   </head>
   <body>
+    <script>
+      const path = window.location.pathname
+      const pathLocale = path.startsWith('/zh-CN')
+        ? 'zh-CN'
+        : undefined
+      function deriveTitleFromLocale(locale = navigator.language) {
+        document.title = 'Pro-Naive UI: 一个 Vue 3 组件库'
+      }
+      deriveTitleFromLocale(pathLocale)
+    </script>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

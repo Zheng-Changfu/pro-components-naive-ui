@@ -1,4 +1,18 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import SiteRoot from './SiteRoot.vue'
+import { installDemoComponents } from './setup'
+import { routes } from './routes/routes'
+import createDemoRouter from './routes/router'
+import native from 'naive-ui'
+// import ProUI from 'pro-components-naive-ui'
 
-createApp(App).mount('#app')
+const app = createApp(SiteRoot)
+const router = createDemoRouter(app, routes)
+app.use(native)
+// app.use(ProUI)
+app.use(router)
+installDemoComponents(app)
+
+router.isReady().then(() => {
+  app.mount('#app')
+})

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NButton, NFlex, NSelect } from 'naive-ui'
+import { NButton, NFlex } from 'naive-ui'
 import {
   ProConfigProvider,
   ProDate,
