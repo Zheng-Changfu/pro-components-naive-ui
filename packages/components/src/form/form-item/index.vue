@@ -2,7 +2,7 @@
 import type { SlotsType, ToRefs } from 'vue'
 import { computed, defineComponent, inject, ref, toRefs, unref } from 'vue'
 import type { FormItemInst, FormItemProps } from 'naive-ui'
-import { NFormItem } from 'naive-ui'
+import { NFormItem, NInputGroup } from 'naive-ui'
 import { useCompile, useInjectFieldContext } from 'pro-components-hooks'
 import { isBoolean } from 'lodash-es'
 import { proFormReadonlyContextKey } from '../context'
@@ -12,7 +12,6 @@ import { usePlaceholder } from '../usePlaceholder'
 import { proFormItemProps } from './props'
 import type { ProFormItemSlots } from './slots'
 import { useFormItemRule } from './useFormItemRule'
-import './a.css'
 
 export default defineComponent({
   name: 'ProFormItem',
@@ -179,14 +178,25 @@ export default defineComponent({
 
     const {
       simple,
+      renderFormItem,
     } = $props
 
     const renderContent = () => {
       if (!readonly) {
-        return defaultSlot?.({
+        const children = defaultSlot?.({
           fieldProps: this.fieldProps,
           placeholder: this.placeholder,
         })
+        if (!$slots['addon-after'] && !$slots['addon-before']) {
+          return children
+        }
+        return (
+          <NInputGroup>
+            {$slots['addon-before']?.()}
+            {children}
+            {$slots['addon-after']?.()}
+          </NInputGroup>
+        )
       }
       return !empty
         ? readonlyRender?.()
@@ -247,11 +257,11 @@ export default defineComponent({
       ignorePathChange,
       requireMarkPlacement,
     }
-    return (
+
+    const domVNode = (
       <NFormItem
         {...formItemProps}
         ref={formItemInst.ref}
-        class="form-item-a"
         v-slots={{
           label: labelSlot,
           feedback: feedbackSlot,
@@ -260,6 +270,7 @@ export default defineComponent({
       >
       </NFormItem>
     )
+    return renderFormItem ? renderFormItem(domVNode) : domVNode
   },
 })
 </script>
