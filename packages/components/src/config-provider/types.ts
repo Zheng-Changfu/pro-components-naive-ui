@@ -1,5 +1,7 @@
 import type { VNodeChild } from 'vue'
+import type { RequestTipConfig } from 'pro-components-hooks'
 import type { ProComponentConfig } from '../form'
+import type { ProUploadFieldProps } from '../upload'
 
 export type ProComponentGlobalConfig = ProComponentConfig
 
@@ -35,10 +37,6 @@ export interface GlobalConfigProForm {
 
 export interface GlobalConfigProButton {
   /**
-   * 按钮权限
-   */
-  auth: any
-  /**
    * 按钮权限数据
    */
   authData: any
@@ -47,24 +45,6 @@ export interface GlobalConfigProButton {
    * @returns 返回 false, 则隐藏按钮
    */
   hasAuth: (auth: any, authData: any) => boolean
-}
-
-export interface GlobalConfigProRequest {
-  /**
-   * 用什么形式去提示
-   * @param type 请求结果
-   * @param tipText 用户提供的文案，如果提供的是 false，则不会触发该函数调用
-   * @param dataOrError 成功则为请求返回的结果，失败则为错误信息
-   */
-  tipApi: (type: 'success' | 'error', tipText: string, dataOrError: any) => void
-  /**
-   * 请求成功后的提示，false 则不提示
-   */
-  successTip: string | false | ((responseData: any) => string | false)
-  /**
-   * 请求失败后的提示，false 则不提示
-   */
-  failureTip: string | false | ((error: any) => string | false)
 }
 
 interface DateValueFormat {
@@ -81,10 +61,9 @@ export type GlobalConfigProDateQuarterRange = DateValueFormat
 export type GlobalConfigProDate = DateValueFormat & { valueFormatIfShowTime: string }
 export type GlobalConfigProDateRange = DateValueFormat & { valueFormatIfShowTime: string }
 
+export type GlobalConfigProRequest = RequestTipConfig
+export type GlobalConfigProUpload = Pick<ProUploadFieldProps, 'maxSize' | 'onOverFileMaxSize' | 'title' | 'onBeforeUpload' | 'action' | 'customRequest'>
+
 export interface GlobalConfigProTable {
-
-}
-
-export interface GlobalConfigProUpload {
 
 }

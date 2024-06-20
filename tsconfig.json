@@ -27,5 +27,12 @@
     "skipLibCheck": true
   },
   "references": [{ "path": "./tsconfig.node.json" }],
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "packages/components/**/*.ts",
+    "packages/components/**/*.tsx",
+    "packages/components/**/*.vue"
+  ]
 }

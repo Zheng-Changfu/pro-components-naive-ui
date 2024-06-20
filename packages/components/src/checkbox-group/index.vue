@@ -2,7 +2,7 @@
 import type { SlotsType } from 'vue'
 import { computed, defineComponent, toRef } from 'vue'
 import type { CheckboxGroupProps } from 'naive-ui'
-import { NCheckbox, NSpace } from 'naive-ui'
+import { NCheckbox, NCheckboxGroup, NSpace, NSpin } from 'naive-ui'
 import { createField, useCompile } from 'pro-components-hooks'
 import { isArray } from 'lodash-es'
 import { useOmitSlots } from '../hooks/useOmitSlots'
@@ -12,12 +12,13 @@ import { proCheckboxGroupProps } from './props'
 import type { ProCheckboxGroupSlots } from './slots'
 import { proCheckboxGroupExtendSlotKeys } from './slots'
 import { useOptions } from './useOptions'
+import type { ProCheckboxGroupInstance } from './inst'
 
 export default defineComponent({
   name: 'ProCheckboxGroup',
   props: proCheckboxGroupProps,
   slots: Object as SlotsType<ProCheckboxGroupSlots>,
-  setup(props, { slots }) {
+  setup(props, { slots, expose }) {
     const checkboxGroupSlots = useOmitSlots(
       slots,
       proCheckboxGroupExtendSlotKeys,
@@ -41,15 +42,16 @@ export default defineComponent({
       { scope },
     )
 
-    const compiledWrapperSpaceProps = useCompile(
-      toRef(props, 'wrapperSpaceProps'),
+    const compiledSpaceProps = useCompile(
+      toRef(props, 'spaceProps'),
       { scope },
     )
 
-    const { options } = useOptions(
-      props,
-      compiledFieldProps,
-    )
+    const {
+      loading,
+      options,
+      controls,
+    } = useOptions(props, compiledFieldProps)
 
     field[ProComponentConfigKey] = {
       ruleType: 'array',
@@ -66,18 +68,25 @@ export default defineComponent({
       }
     })
 
+    const exposed: ProCheckboxGroupInstance = {
+      getFetchControls: () => controls,
+    }
+
+    expose(exposed)
     return {
+      loading,
       options,
       stringPath,
       checkboxGroupProps,
       checkboxGroupSlots,
-      spaceProps: compiledWrapperSpaceProps,
+      spaceProps: compiledSpaceProps,
     }
   },
   render() {
     const {
       $props,
       $attrs,
+      loading,
       options,
       stringPath,
       spaceProps,
@@ -92,26 +101,36 @@ export default defineComponent({
         v-slots={{
           default: ({ fieldProps }: any) => {
             return (
-              <NCheckboxGroup
-                {...$attrs}
-                {...fieldProps}
-                {...checkboxGroupProps}
+              <NSpin
+                show={loading}
+                {...$props.spinProps}
                 v-slots={{
-                  ...checkboxGroupSlots,
                   default: () => {
                     return (
-                      <NSpace
-                        {...spaceProps}
+                      <NCheckboxGroup
+                        {...$attrs}
+                        {...fieldProps}
+                        {...checkboxGroupProps}
                         v-slots={{
+                          ...checkboxGroupSlots,
                           default: () => {
-                            return options.map((item) => {
-                              return (
-                                <NCheckbox
-                                  {...item}
-                                  key={item.value}
-                                />
-                              )
-                            })
+                            return (
+                              <NSpace
+                                {...spaceProps}
+                                v-slots={{
+                                  default: () => {
+                                    return options.map((item) => {
+                                      return (
+                                        <NCheckbox
+                                          {...item}
+                                          key={item.value}
+                                        />
+                                      )
+                                    })
+                                  },
+                                }}
+                              />
+                            )
                           },
                         }}
                       />

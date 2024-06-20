@@ -2,7 +2,7 @@
 import type { SlotsType } from 'vue'
 import { computed, defineComponent, toRef } from 'vue'
 import type { RadioGroupProps } from 'naive-ui'
-import { NRadio, NRadioGroup, NSpace } from 'naive-ui'
+import { NRadio, NRadioGroup, NSpace, NSpin } from 'naive-ui'
 import { createField, useCompile } from 'pro-components-hooks'
 import { useOmitSlots } from '../hooks/useOmitSlots'
 import type { ProComponentConfig } from '../form'
@@ -11,12 +11,13 @@ import { proRadioGroupProps } from './props'
 import type { ProRadioGroupSlots } from './slots'
 import { proRadioGroupExtendSlotKeys } from './slots'
 import { useOptions } from './useOptions'
+import type { ProRadioGroupInstance } from './inst'
 
 export default defineComponent({
   name: 'ProRadioGroup',
   props: proRadioGroupProps,
   slots: Object as SlotsType<ProRadioGroupSlots>,
-  setup(props, { slots }) {
+  setup(props, { slots, expose }) {
     const radioGroupSlots = useOmitSlots(slots, proRadioGroupExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
@@ -40,21 +41,22 @@ export default defineComponent({
       { scope },
     )
 
-    const compiledWrapperSpaceProps = useCompile(
-      toRef(props, 'wrapperSpaceProps'),
+    const compiledSpaceProps = useCompile(
+      toRef(props, 'spaceProps'),
       { scope },
     )
 
-    const { options } = useOptions(
-      props,
-      compiledFieldProps,
-    )
+    const {
+      loading,
+      options,
+      controls,
+    } = useOptions(props, compiledFieldProps)
 
     field[ProComponentConfigKey] = {
       type: 'ProRadioGroup',
-      slots: computed(() => slots),
       ruleType: ['string', 'number'],
       fieldProps: compiledFieldProps,
+      slots: computed(() => slots),
       empty: computed(() => [null, undefined, ''].includes(value.value),
       ),
     } as Partial<ProComponentConfig>
@@ -66,18 +68,25 @@ export default defineComponent({
       }
     })
 
+    const exposed: ProRadioGroupInstance = {
+      getFetchControls: () => controls,
+    }
+
+    expose(exposed)
     return {
+      loading,
       options,
       stringPath,
       radioGroupProps,
       radioGroupSlots,
-      spaceProps: compiledWrapperSpaceProps,
+      spaceProps: compiledSpaceProps,
     }
   },
   render() {
     const {
       $props,
       $attrs,
+      loading,
       options,
       spaceProps,
       stringPath,
@@ -92,33 +101,44 @@ export default defineComponent({
         v-slots={{
           default: ({ fieldProps }: any) => {
             return (
-              <NRadioGroup
-                {...$attrs}
-                {...fieldProps}
-                {...radioGroupProps}
+              <NSpin
+                show={loading}
+                {...$props.spinProps}
                 v-slots={{
-                  ...radioGroupSlots,
                   default: () => {
                     return (
-                      <NSpace
-                        {...spaceProps}
+                      <NRadioGroup
+                        {...$attrs}
+                        {...fieldProps}
+                        {...radioGroupProps}
                         v-slots={{
+                          ...radioGroupSlots,
                           default: () => {
-                            return options.map((item) => {
-                              return (
-                                <NRadio
-                                  {...item}
-                                  key={item.value}
-                                />
-                              )
-                            })
+                            return (
+                              <NSpace
+                                {...spaceProps}
+                                v-slots={{
+                                  default: () => {
+                                    return options.map((item) => {
+                                      return (
+                                        <NRadio
+                                          {...item}
+                                          key={item.value}
+                                        />
+                                      )
+                                    })
+                                  },
+                                }}
+                              />
+                            )
                           },
                         }}
                       />
                     )
                   },
                 }}
-              />
+              >
+              </NSpin>
             )
           },
         }}

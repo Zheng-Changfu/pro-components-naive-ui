@@ -1,4 +1,4 @@
-import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType } from 'vue'
+import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType, VNodeChild } from 'vue'
 import type { LabelAlign, LabelPlacement } from 'naive-ui/es/form/src/interface'
 import type { ThemeProps } from 'naive-ui/es/_mixins'
 import { useTheme } from 'naive-ui/es/_mixins'
@@ -36,6 +36,13 @@ export const proFormItemExtendProps = {
    * 这里只是占位
    */
   placeholder: undefined as any as PropType<any>,
+  /**
+   * 自定义渲染 formItem
+   * @param domVNode FormItem 的 vnode
+   */
+  renderFormItem: {
+    type: Function as PropType<(domVNode: VNodeChild) => VNodeChild>,
+  },
 } as const
 
 /**
