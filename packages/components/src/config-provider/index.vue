@@ -1,5 +1,5 @@
-<script  lang='tsx'>
-import { defineComponent } from 'vue'
+<script lang='tsx'>
+import { computed, defineComponent } from 'vue'
 import { NConfigProvider } from 'naive-ui'
 import { toString } from 'lodash-es'
 import { provideRequestTipConfigContext } from 'pro-components-hooks'
@@ -82,6 +82,11 @@ export default defineComponent({
       proButton: {
         ...parentProButton,
         ...proButton,
+        authData: computed(() => {
+          const propAuthData = props.proButton?.authData
+          const parentAuthData = parentProButton.authData?.value
+          return propAuthData ?? parentAuthData
+        }),
       },
       proUpload: {
         ...parentProUpload,

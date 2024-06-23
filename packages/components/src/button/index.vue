@@ -50,7 +50,7 @@ export default defineComponent({
       nButtonProps,
     }
   },
-  rener() {
+  render() {
     const {
       pass,
       $attrs,

@@ -1,3 +1,4 @@
+import { isPlainObject } from 'lodash-es'
 import type { App } from 'vue'
 
 type ComponentType = any
@@ -15,7 +16,6 @@ export function create({
   components = [],
 }: UiCreateOptions = {}): UiInstance {
   const installTargets: App[] = []
-
   function registerComponent(
     app: App,
     name: string,
@@ -25,18 +25,23 @@ export function create({
     if (!registered)
       app.component(name, component)
   }
+
+  function isComponent(component: ComponentType) {
+    if (!isPlainObject(component)) {
+      return false
+    }
+    const { name, setup } = component
+    return name && setup
+  }
+
   function install(app: App): void {
-    console.log(app, 'app', components)
     if (installTargets.includes(app))
       return
     installTargets.push(app)
     components.forEach((component) => {
-      const { name, alias } = component
-      registerComponent(app, name, component)
-      if (alias) {
-        alias.forEach((aliasName: string) => {
-          registerComponent(app, aliasName, component)
-        })
+      if (isComponent(component)) {
+        const { name } = component
+        registerComponent(app, name, component)
       }
     })
   }

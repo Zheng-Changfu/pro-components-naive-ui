@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/html-comment-content-spacing -->
 <template>
   <component-demo
     demo-file-name="<!--DEMO_FILE_NAME-->"
@@ -21,7 +20,6 @@
     </template>
   </component-demo>
 </template>
-<!-- eslint-disable vue/html-comment-content-spacing -->
 <!--SCRIPT_SLOT-->
 
 <!--STYLE_SLOT-->

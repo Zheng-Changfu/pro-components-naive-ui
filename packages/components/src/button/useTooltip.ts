@@ -5,8 +5,8 @@ import type { ProButtonProps } from './props'
 
 export function useTooltip(props: ProButtonProps) {
   const disabled = computed(() => {
-    const { tooltip, disabledTooltip } = props
-    return !tooltip && !disabledTooltip
+    const { tooltip, disabled, disabledTooltip } = props
+    return disabled ? !disabledTooltip : !tooltip
   })
 
   const tooltipProps = computed<TooltipProps>(() => {

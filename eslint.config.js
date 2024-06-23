@@ -5,5 +5,6 @@ export default antfu({
   gitignore: false,
   rules: {
     'no-console': 'off',
+    'vue/html-comment-content-spacing': 'off',
   },
 })
