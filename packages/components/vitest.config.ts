@@ -1,25 +1,19 @@
 import { defineConfig } from 'vitest/config'
+import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
 export default defineConfig({
+  plugins: [
+    vue(),
+    vueJsx(),
+  ],
   resolve: {
     dedupe: [
       'vue',
-      'vue-demi',
-      '@vue/runtime-core',
     ],
   },
   test: {
     environment: 'jsdom',
     reporters: 'dot',
-    server: {
-      deps: {
-        inline: [
-          'vue2',
-          '@vue/composition-api',
-          'vue-demi',
-          'msw',
-        ],
-      },
-    },
   },
 })

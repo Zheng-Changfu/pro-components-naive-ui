@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build:components": "pnpm --filter pro-components-naive-ui run build",
+    "test": "pnpm --filter pro-components-naive-ui run test",
     "preview": "vite preview",
     "lint:fix": "eslint . --fix",
     "release": "pnpm lint:fix && pnpm build:components && pnpm changeset && pnpm changeset version && pnpm changeset publish"
