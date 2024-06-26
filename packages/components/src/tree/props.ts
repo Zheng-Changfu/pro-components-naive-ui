@@ -5,6 +5,13 @@ import type { UseRequestOptions } from 'pro-components-hooks'
 
 export const proTreeExtendProps = {
   /**
+   * 替代 TreeOption 中的 isLeaf 字段
+   */
+  leafField: {
+    type: String,
+    default: 'isLeaf',
+  },
+  /**
    * 是否为异步加载，搭配 fetchConfig 使用
    * @default false
    */
@@ -21,7 +28,7 @@ export const proTreeExtendProps = {
     default: true,
   },
   /**
-   * 是否过滤掉空子节点字段（空数组或者 undefined/null），在非异步模式下生效
+   * 是否过滤掉空子节点字段（空数组或者 undefined/null
    * @default true
    */
   filterEmptyChildrenField: {
