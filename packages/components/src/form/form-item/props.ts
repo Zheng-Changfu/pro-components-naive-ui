@@ -37,17 +37,17 @@ export const proFormItemExtendProps = {
    */
   placeholder: undefined as any as PropType<any>,
   /**
-   * 自定义渲染 formItem
+   * 自定义 formItem，可以用来进行自定义布局
    * @param domVNode FormItem 的 vnode
    */
-  renderFormItem: {
+  formItemRender: {
     type: Function as PropType<(domVNode: VNodeChild) => VNodeChild>,
   },
   /**
-   * 自定义渲染 field 控件
+   * 自定义 field 控件，可以用来进行自定义布局
    * @param domVNode field 控件的 vnode
    */
-  renderField: {
+  fieldRender: {
     type: Function as PropType<(domVNode: VNodeChild) => VNodeChild>,
   },
 } as const
