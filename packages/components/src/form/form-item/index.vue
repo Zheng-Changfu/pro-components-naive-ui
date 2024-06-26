@@ -178,6 +178,7 @@ export default defineComponent({
 
     const {
       simple,
+      renderField,
       renderFormItem,
     } = $props
 
@@ -188,15 +189,16 @@ export default defineComponent({
           placeholder: this.placeholder,
         })
         if (!$slots['addon-after'] && !$slots['addon-before']) {
-          return children
+          return renderField ? renderField(children) : children
         }
-        return (
+        const fieldVNode = (
           <NInputGroup>
             {$slots['addon-before']?.()}
             {children}
             {$slots['addon-after']?.()}
           </NInputGroup>
         )
+        return renderField ? renderField(fieldVNode) : fieldVNode
       }
       return !empty
         ? readonlyRender?.()

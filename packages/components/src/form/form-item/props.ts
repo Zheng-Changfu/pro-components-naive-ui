@@ -43,6 +43,13 @@ export const proFormItemExtendProps = {
   renderFormItem: {
     type: Function as PropType<(domVNode: VNodeChild) => VNodeChild>,
   },
+  /**
+   * 自定义渲染 field 控件
+   * @param domVNode field 控件的 vnode
+   */
+  renderField: {
+    type: Function as PropType<(domVNode: VNodeChild) => VNodeChild>,
+  },
 } as const
 
 /**
