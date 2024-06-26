@@ -33,8 +33,8 @@ importers:
         specifier: ^12.0.2
         version: 12.0.2
       pro-components-hooks:
-        specifier: ^0.0.47
-        version: 0.0.47(vue@3.4.27(typescript@5.4.5))
+        specifier: ^0.0.50
+        version: 0.0.50(vue@3.4.27(typescript@5.4.5))
       vfonts:
         specifier: ^0.0.3
         version: 0.0.3
@@ -78,6 +78,9 @@ importers:
       naive-ui:
         specifier: ^2.38.2
         version: 2.38.2(vue@3.4.27(typescript@5.4.5))
+      seemly:
+        specifier: ^0.3.8
+        version: 0.3.8
       typescript:
         specifier: ^5.2.2
         version: 5.4.5
@@ -2534,8 +2537,8 @@ packages:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  pro-components-hooks@0.0.47:
-    resolution: {integrity: sha512-lwTUz1u8xc0bvK1mwrtKr+mylaCSlR1Q5/uiF4rGvptKJ3pkT9Otqi3H7OoX6u+NL5/CDeopFgS6otYik+48KA==}
+  pro-components-hooks@0.0.50:
+    resolution: {integrity: sha512-yVDahgsfSYL0XxWyu6M1smZm6qk1Wb/5ladK6vaqI42Cc9D1rTQ6JGJSwA78D2/QA1rVAHLC3tIpN9AgE25zrg==}
     peerDependencies:
       '@vue/composition-api': ^1.0.0-rc.1
       vue: ^2.7.0 || >=3.0.0
@@ -6055,7 +6058,7 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 18.3.1
 
-  pro-components-hooks@0.0.47(vue@3.4.27(typescript@5.4.5)):
+  pro-components-hooks@0.0.50(vue@3.4.27(typescript@5.4.5)):
     dependencies:
       '@vueuse/core': 10.10.0(vue@3.4.27(typescript@5.4.5))
       vue: 3.4.27(typescript@5.4.5)
