@@ -7,12 +7,12 @@ export const zhDocRoutes = [
 
 export const zhComponentRoutes = [
   {
-    path: 'input',
-    component: () => import('../../packages/components/src/input/demos/zhCN/index.demo-entry.md'),
-  },
-  {
     path: 'button',
     component: () => import('../../packages/components/src/button/demos/zhCN/index.demo-entry.md'),
+  },
+  {
+    path: 'tree',
+    component: () => import('../../packages/components/src/tree/demos/zhCN/index.demo-entry.md'),
   },
 ]
 
