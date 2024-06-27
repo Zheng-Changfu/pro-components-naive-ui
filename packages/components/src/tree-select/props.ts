@@ -3,30 +3,54 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression, UseRequestOptions } from 'pro-components-hooks'
 import { proFieldProps, proFormItemProps } from '../form'
 
-interface ProTreeSelectFieldProps extends Omit<
-TreeSelectProps,
-| 'value'
-| 'placeholder'
-| 'defaultValue'
-| 'onUpdateValue'
-| 'onUpdate:value'
-> {
+export const proTreeSelectExtendProps = {
+  /**
+   * 替代 TreeOption 中的 isLeaf 字段
+   */
+  leafField: {
+    type: String,
+    default: 'isLeaf',
+  },
   /**
    * 是否为异步加载，搭配 fetchConfig 使用
    * @default false
    */
-  remote: boolean
+  remote: {
+    type: Boolean,
+    default: false,
+  },
   /**
    * 空子节点是否当成叶子节点（空数组或者 undefined/null），在异步模式下生效
    * @default true
    */
-  emptyChildrenConsideredLeafNode: boolean
+  emptyChildrenConsideredLeafNode: {
+    type: Boolean,
+    default: true,
+  },
   /**
-   * 是否过滤掉空子节点字段（空数组或者 undefined/null），在非异步模式下生效
+   * 是否过滤掉空子节点字段（空数组或者 undefined/null）
    * @default true
    */
-  filterEmptyChildrenField: boolean
-}
+  filterEmptyChildrenField: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * 请求成功后是否展开全部节点（搭配 fetchConfig）
+   * @default false
+   */
+  expandAllOnFetchSuccess: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 请求配置
+   */
+  fetchConfig: {
+    type: Object as PropType<UseRequestOptions<any, any>>,
+    default: () => ({}),
+  },
+} as const
 
 export const proTreeSelectProps = {
   /**
@@ -38,12 +62,9 @@ export const proTreeSelectProps = {
    */
   ...proFieldProps,
   /**
-   * 请求配置
+   * 扩展的属性
    */
-  fetchConfig: {
-    type: Object as PropType<UseRequestOptions<any, any>>,
-    default: () => ({}),
-  },
+  ...proTreeSelectExtendProps,
   /**
    * 透传给表单，支持表达式
    */
@@ -51,9 +72,19 @@ export const proTreeSelectProps = {
     type: String as PropType<MaybeExpression<string>>,
   },
   fieldProps: {
-    type: Object as PropType<MaybeExpression<ProTreeSelectFieldProps>>,
+    type: Object as PropType<MaybeExpression<Omit<
+    TreeSelectProps,
+    | 'value'
+    | 'placeholder'
+    | 'defaultValue'
+    | 'defaultExpandAll'
+    | 'defaultExpandedKeys'
+    | 'onUpdateValue'
+    | 'onUpdate:value'
+    >>>,
     default: () => ({}),
   },
 } as const
 
 export type ProTreeSelectProps = ExtractPublicPropTypes<typeof proTreeSelectProps>
+export type ProTreeSelectExtendProps = ExtractPublicPropTypes<typeof proTreeSelectExtendProps>
