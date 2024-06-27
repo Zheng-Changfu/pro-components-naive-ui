@@ -48,7 +48,7 @@ export const proFieldProps = {
     type: [String, Object, Array] as PropType<Dependencie | Dependencie[]>,
   },
   /**
-   * 后置状态钩子，可以二次修改数据，表单值的任何改变都会触发该钩子，返回的值为表单的最终结果值
+   * 后置状态钩子，可以二次修改数据，返回的值为表单的最终结果值
    * @param val 当前表单值
    * @returns 表单结果值
    */

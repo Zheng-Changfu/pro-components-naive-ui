@@ -49,7 +49,7 @@ export default defineComponent({
     const compiledDisabled = useCompile(toRef(props, 'disabled'), { scope })
     const compiledReadonly = useCompile(toRef(props, 'readonly'), { scope })
 
-    const getFormProps = computed<FormProps>(() => {
+    const nFormProps = computed<FormProps>(() => {
       return {
         ...formProps.value,
         rules: {},
@@ -112,15 +112,15 @@ export default defineComponent({
     provideProFormInstanceContext(exposed)
     provide(proFormReadonlyContextKey, compiledReadonly)
     return {
-      getFormProps,
+      nFormProps,
     }
   },
   render() {
     const {
       $slots,
-      getFormProps,
+      nFormProps,
     } = this
-    return <NForm {...getFormProps} v-slots={$slots}></NForm>
+    return <NForm {...nFormProps} v-slots={$slots}></NForm>
   },
 })
 </script>

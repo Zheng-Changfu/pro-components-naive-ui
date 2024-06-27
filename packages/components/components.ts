@@ -1,11 +1,11 @@
-export * from './src/tree'
-export * from './src/form'
+export * from './src/tree' // ok
+export * from './src/form' // ok
 export * from './src/date'
 export * from './src/rate'
 export * from './src/time'
 export * from './src/input'
 export * from './src/digit'
-export * from './src/button'
+export * from './src/button' // ok
 export * from './src/slider'
 export * from './src/select'
 export * from './src/switch'
@@ -18,7 +18,7 @@ export * from './src/date-year'
 export * from './src/date-range'
 export * from './src/date-month'
 export * from './src/radio-group'
-export * from './src/tree-select'
+export * from './src/tree-select' // ok
 export * from './src/date-quarter'
 export * from './src/checkbox-group'
 export * from './src/config-provider'

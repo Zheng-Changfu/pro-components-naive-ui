@@ -1,4 +1,5 @@
-import { type ComputedRef, computed } from 'vue'
+import type { ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { isUndefined } from 'lodash-es'
 import { useInjectGlobalConfigContext } from '../config-provider'
 import type { ProComponentConfig } from './field'
