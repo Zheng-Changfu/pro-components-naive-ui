@@ -14,6 +14,10 @@ export const zhComponentRoutes = [
     path: 'tree',
     component: () => import('../../packages/components/src/tree/demos/zhCN/index.demo-entry.md'),
   },
+  {
+    path: 'common-configuration',
+    component: () => import('../../packages/components/src/common-configuration/demos/zhCN/index.demo-entry.md'),
+  },
 ]
 
 export const routes = [

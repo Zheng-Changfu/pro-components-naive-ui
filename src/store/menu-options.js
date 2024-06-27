@@ -204,6 +204,19 @@ export function createDocumentationMenuOptions({ lang, theme }) {
 export function createComponentMenuOptions({ lang, theme }) {
   return createItems(lang, theme, '/components', [
     appendCounts({
+      zh: '架构设计',
+      en: 'Framework Design',
+      type: 'group',
+      children: [
+        {
+          en: 'CommonConfiguration',
+          zh: '通用配置',
+          enSuffix: true,
+          path: '/common-configuration',
+        },
+      ],
+    }),
+    appendCounts({
       zh: '通用组件',
       en: 'Common Components',
       type: 'group',
