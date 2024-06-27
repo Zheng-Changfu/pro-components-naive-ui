@@ -53,6 +53,7 @@ interface DateValueFormat {
 
 export type GlobalConfigProTime = DateValueFormat
 export type GlobalConfigProDateYear = DateValueFormat
+export type GlobalConfigProDateWeek = DateValueFormat
 export type GlobalConfigProDateMonth = DateValueFormat
 export type GlobalConfigProDateQuarter = DateValueFormat
 export type GlobalConfigProDateYearRange = DateValueFormat

@@ -23,6 +23,7 @@ export default defineComponent({
       proUpload = {},
       proRequest = {},
       proDateYear = {},
+      proDateWeek = {},
       proDateMonth = {},
       proDateRange = {},
       proDateQuarter = {},
@@ -58,6 +59,7 @@ export default defineComponent({
       proUpload: parentProUpload,
       proRequest: parentProRequest,
       proDateYear: parentProDateYear,
+      proDateWeek: parentProDateWeek,
       proDateMonth: parentProDateMonth,
       proDateRange: parentProDateRange,
       proDateQuarter: parentProDateQuarter,
@@ -111,6 +113,11 @@ export default defineComponent({
         valueFormat: 'YYYY',
         ...parentProDateYear,
         ...proDateYear,
+      },
+      proDateWeek: {
+        valueFormat: 'YYYY-w',
+        ...parentProDateWeek,
+        ...proDateWeek,
       },
       proDateMonth: {
         valueFormat: 'YYYY-MM',

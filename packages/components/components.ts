@@ -17,6 +17,7 @@ export * from './src/password' // ok
 export * from './src/checkbox'
 export * from './src/form-list'
 export * from './src/date-year' // ok
+export * from './src/date-week' // ok
 export * from './src/date-range' // ok
 export * from './src/date-month' // ok
 export * from './src/radio-group'
