@@ -3,6 +3,7 @@ import type { SlotsType } from 'vue'
 import { computed, defineComponent, ref } from 'vue'
 import type { TreeInst, TreeProps } from 'naive-ui'
 import { NSpin, NTree } from 'naive-ui'
+import { get } from 'lodash-es'
 import { useOmitProps } from '../hooks'
 import { proTreeExtendProps, proTreeProps } from './props'
 import type { ProTreeSlots } from './slots'
@@ -55,24 +56,6 @@ export default defineComponent({
       doUpdateCheckedKeys,
     } = useCheckKeys(props, { keyToTreeNodeMap })
 
-    function getLevelKeys(level: number, needLtLevelKey = true) {
-      if (level <= 0) {
-        return []
-      }
-      const keys: Array<string | number> = []
-      const map = keyToTreeNodeMap.value
-      map.forEach((value, key) => {
-        const nodeLevel = value[LevelKey as any]
-        if (nodeLevel === level) {
-          keys.push(key)
-        }
-        if (needLtLevelKey && nodeLevel < level) {
-          keys.push(key)
-        }
-      })
-      return keys
-    }
-
     const nTreeProps = computed<TreeProps>(() => {
       const { remote, onLoad: userOnLoad } = props
       const loadFn = (remote || userOnLoad) ? onLoad : undefined
@@ -99,12 +82,53 @@ export default defineComponent({
       expandAllOnFetchSuccess && setExpandedKeys()
     })
 
+    function getFullKeys() {
+      return [...keyToTreeNodeMap.value.keys()]
+    }
+
+    function getLevelKeys(level: number, needLtLevelKey = true) {
+      if (level <= 0) {
+        return []
+      }
+      const keys: Array<string | number> = []
+      const map = keyToTreeNodeMap.value
+      map.forEach((value, key) => {
+        const nodeLevel = value[LevelKey as any]
+        if (nodeLevel === level) {
+          keys.push(key)
+        }
+        if (needLtLevelKey && nodeLevel < level) {
+          keys.push(key)
+        }
+      })
+      return keys
+    }
+
+    function getEnabledKeys() {
+      const keys: Array<string | number> = []
+      const map = keyToTreeNodeMap.value
+      const disabledField = props.disabledField ?? 'disabled'
+
+      const isEnabledNode = (node: Record<string, any>) => {
+        return !get(node, disabledField) && !node.checkboxDisabled
+      }
+
+      map.forEach((value, key) => {
+        if (isEnabledNode(value)) {
+          keys.push(key)
+        }
+      })
+      return keys
+    }
+
     const exposed: ProTreeInstance = {
+      getFullKeys,
       getLevelKeys,
+      getEnabledKeys,
+      setCheckedKeys,
       getCheckedKeys,
       getSelectedKeys,
       getExpandedKeys,
-      setCheckedKeys,
       setExpandedKeys,
       setSelectedKeys,
       getTreeData: () => data.value,

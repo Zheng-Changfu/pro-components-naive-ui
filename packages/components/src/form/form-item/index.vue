@@ -178,7 +178,8 @@ export default defineComponent({
 
     const {
       simple,
-      renderFormItem,
+      fieldRender,
+      formItemRender,
     } = $props
 
     const renderContent = () => {
@@ -188,15 +189,16 @@ export default defineComponent({
           placeholder: this.placeholder,
         })
         if (!$slots['addon-after'] && !$slots['addon-before']) {
-          return children
+          return fieldRender ? fieldRender(children) : children
         }
-        return (
+        const fieldVNode = (
           <NInputGroup>
             {$slots['addon-before']?.()}
             {children}
             {$slots['addon-after']?.()}
           </NInputGroup>
         )
+        return fieldRender ? fieldRender(fieldVNode) : fieldVNode
       }
       return !empty
         ? readonlyRender?.()
@@ -270,7 +272,7 @@ export default defineComponent({
       >
       </NFormItem>
     )
-    return renderFormItem ? renderFormItem(domVNode) : domVNode
+    return formItemRender ? formItemRender(domVNode) : domVNode
   },
 })
 </script>

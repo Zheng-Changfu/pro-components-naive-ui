@@ -1,4 +1,4 @@
 export interface ProButtonSlots {
-  icon: any
-  default: any
+  icon?: any
+  default?: any
 }

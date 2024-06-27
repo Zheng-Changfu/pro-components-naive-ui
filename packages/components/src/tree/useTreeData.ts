@@ -1,29 +1,20 @@
-import { computed, onMounted } from 'vue'
-import { eachTree, useRequest } from 'pro-components-hooks'
+import { computed, ref, toRef, watch } from 'vue'
+import { eachTree, mapTree, useRequest } from 'pro-components-hooks'
 import { get, has, isArray, isNumber, isString, set, unset } from 'lodash-es'
-import { useTimeoutFn, useVModel } from '@vueuse/core'
-import type { TreeSelectOption } from 'naive-ui'
+import type { TreeOption, TreeSelectOption } from 'naive-ui'
+import type { AnyFn } from '../types'
 import type { ProTreeProps } from './props'
 import { LevelKey } from './key'
 
 export function useTreeData(props: ProTreeProps) {
-  const fetchImmediate = props.fetchConfig?.immediate ?? true
-
-  const controls = useRequest({
-    ...props.fetchConfig,
-    immediate: false,
-  } as any)
-
-  const treeData = useVModel(
-    props,
-    'data',
-    undefined,
-    { passive: true, shouldEmit: () => false },
-  )
+  const loaded = ref(false)
+  const treeData = ref<TreeOption[]>([])
+  const controls = useRequest(props.fetchConfig as any)
 
   const {
     remote = false,
     keyField = 'key',
+    leafField = 'isLeaf',
     childrenField = 'children',
     filterEmptyChildrenField = true,
     emptyChildrenConsideredLeafNode = true,
@@ -37,27 +28,39 @@ export function useTreeData(props: ProTreeProps) {
     onFailure,
   } = controls
 
-  const normalizedData = computed(() => {
-    const data = treeData.value ?? []
-    eachTree(
+  watch(
+    toRef(props, 'data'),
+    (propTreeData = []) => treeData.value = normalizeTreeData(propTreeData),
+    { immediate: true, deep: true },
+  )
+
+  function normalizeNode(node: TreeOption, level: number) {
+    const shallowNode = { ...node }
+    if (!has(shallowNode, LevelKey)) {
+      set(shallowNode, LevelKey, level)
+    }
+    if (remote && !has(shallowNode, leafField)) {
+      shallowNode.isLeaf = false
+    }
+    if (filterEmptyChildrenField && isEmptyChildren(shallowNode)) {
+      unset(shallowNode, childrenField)
+    }
+    return shallowNode
+  }
+
+  function normalizeTreeData(data: TreeOption[]) {
+    data = isArray(data) ? data : []
+    return mapTree(
       data,
-      (item, _, info) => {
-        if (!has(item, LevelKey)) {
-          set(item, LevelKey, info.level)
-        }
-        if (!remote && filterEmptyChildrenField) {
-          unset(item, childrenField)
-        }
-      },
+      (node, _, { level }) => normalizeNode(node, level),
       childrenField,
     )
-    return data
-  })
+  }
 
   const keyToTreeNodeMap = computed(() => {
     const map = new Map<string | number, Record<string, any>>()
     eachTree(
-      treeData.value ?? [],
+      treeData.value,
       (node) => {
         const key = get(node, keyField)
         if (isString(key) || isNumber(key)) {
@@ -69,6 +72,20 @@ export function useTreeData(props: ProTreeProps) {
     return map
   })
 
+  const getLoading = computed(() => {
+    return loaded.value ? false : loading.value
+  })
+
+  async function callWithLoaded<T extends AnyFn>(fn: T, ...args: any[]) {
+    try {
+      loaded.value = true
+      return await fn(...args)
+    }
+    finally {
+      loaded.value = false
+    }
+  }
+
   function isEmptyChildren(item: any) {
     const children = get(item, childrenField, [])
     return !isArray(children) || children.length <= 0
@@ -77,50 +94,52 @@ export function useTreeData(props: ProTreeProps) {
   function onLoad(node: TreeSelectOption) {
     const { onLoad: userOnLoad } = props
     if (userOnLoad) {
-      return userOnLoad(node)
+      return callWithLoaded(userOnLoad, node)
     }
     /**
      * remote：true 并且用户没重写 onLoad，由内部控制远程加载
      */
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise<void>(async (resolve) => {
-      const [err, response] = await run(node)
+      const [err, response] = await callWithLoaded(run, node)
       if (err) {
         node.isLeaf = true
         resolve()
         return
       }
 
-      const isLeaf = emptyChildrenConsideredLeafNode && isEmptyChildren(response)
-      const childNode = { isLeaf, ...response }
-      set(node, childrenField, childNode)
+      let children = isArray(response) ? response : []
+      if (emptyChildrenConsideredLeafNode) {
+        children = children.map((node) => {
+          const isLeaf = isEmptyChildren(node)
+          return {
+            isLeaf,
+            ...node,
+          }
+        })
+      }
+      set(node, childrenField, children)
       resolve()
     })
   }
 
   onSuccess((response) => {
-    treeData.value = isArray(response) ? response : []
+    if (!loaded.value) {
+      treeData.value = normalizeTreeData(response)
+    }
   })
 
   onFailure(() => {
-    const vals = data.value
-    treeData.value = isArray(vals) ? vals : []
-  })
-
-  onMounted(() => {
-    if (!remote && fetchImmediate) {
-      /**
-       * 保持 useRequest 原来的逻辑
-       */
-      useTimeoutFn(run, 16)
+    if (!loaded.value) {
+      const vals = data.value
+      treeData.value = normalizeTreeData(vals)
     }
   })
 
   return {
-    loading,
     controls,
+    data: treeData,
     keyToTreeNodeMap,
-    data: normalizedData,
+    loading: getLoading,
     onLoad,
   }
 }
