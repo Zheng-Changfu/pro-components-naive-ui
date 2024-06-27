@@ -1,0 +1,5 @@
+export * from './inst'
+export * from './props'
+export * from './slots'
+export * from './useProCheckbox'
+export { default as ProCheckbox } from './index.vue'
