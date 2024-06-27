@@ -12,7 +12,7 @@ export default defineComponent({
   name: 'ProConfigProvider',
   props: proConfigProviderProps,
   setup(props) {
-    const configProviderProps = useOmitProps(props, proConfigProviderExtendProps)
+    const nConfigProviderProps = useOmitProps(props, proConfigProviderExtendProps)
 
     const {
       proDate = {},
@@ -152,15 +152,15 @@ export default defineComponent({
       },
     })
     return {
-      configProviderProps,
+      nConfigProviderProps,
     }
   },
   render() {
     const {
       $slots,
-      configProviderProps,
+      nConfigProviderProps,
     } = this
-    return <NConfigProvider {...configProviderProps} v-slots={$slots}></NConfigProvider>
+    return <NConfigProvider {...nConfigProviderProps} v-slots={$slots}></NConfigProvider>
   },
 })
 </script>
