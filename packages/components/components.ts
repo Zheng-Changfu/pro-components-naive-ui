@@ -24,17 +24,12 @@ export * from './src/radio-group' // ok
 export * from './src/tree-select' // ok
 export * from './src/date-quarter' // ok
 export * from './src/checkbox-group' // ok
-export * from './src/config-provider'
+export * from './src/config-provider' // ok
 export * from './src/date-year-range' // ok
 export * from './src/date-month-range' // ok
 export * from './src/date-quarter-range' // ok
 export { uid, useRequest as useProRequest } from 'pro-components-hooks'
 
-/**
- * 组件的 props 记得要 omit，defaultXXX
- */
-
-// export * from './src/wang-editor'
 // export * from './src/tags'
 // export * from './src/image'
 // export * from './src/text'

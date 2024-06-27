@@ -15,7 +15,7 @@
   </n-form-item>
 </template>
 ```
-`n-input` 的所有属性被放在了 `field-props` 上，`form-item` 的属性正常书写即可，如以下代码
+`n-input` 的所有属性被放在了 `field-props` 上，`form-item` 的属性正常书写即可，为了方便，`placeholder` 放在了上层，会透传给表单，如以下代码
 ```html
 <template>
   <pro-input 
