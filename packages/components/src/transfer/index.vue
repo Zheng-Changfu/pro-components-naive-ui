@@ -52,7 +52,7 @@ export default defineComponent({
       empty: computed(() => !isArray(value.value) || value.value.length <= 0),
     } as Partial<ProComponentConfig>
 
-    const transferProps = computed<TransferProps>(() => {
+    const nTransferProps = computed<TransferProps>(() => {
       return {
         value: value.value,
         onUpdateValue: doUpdateValue,
@@ -68,7 +68,7 @@ export default defineComponent({
       options,
       loading,
       stringPath,
-      transferProps,
+      nTransferProps,
     }
   },
   render() {
@@ -78,7 +78,7 @@ export default defineComponent({
       options,
       loading,
       stringPath,
-      transferProps,
+      nTransferProps,
     } = this
 
     return (
@@ -98,7 +98,7 @@ export default defineComponent({
                       <NTransfer
                         {...$attrs}
                         {...fieldProps}
-                        {...transferProps}
+                        {...nTransferProps}
                         options={options}
                         sourceFilterPlaceholder={s}
                         targetFilterPlaceholder={t}

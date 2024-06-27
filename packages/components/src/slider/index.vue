@@ -17,7 +17,7 @@ export default defineComponent({
   props: proSliderProps,
   slots: Object as SlotsType<ProSliderSlots>,
   setup(props, { slots }) {
-    const sliderSlots = useOmitSlots(slots, proSliderExtendSlotKeys)
+    const nSliderSlots = useOmitSlots(slots, proSliderExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
     const field = createField({ ...proFieldProps, defaultValue: null })
@@ -41,7 +41,7 @@ export default defineComponent({
       ),
     } as Partial<ProComponentConfig>
 
-    const sliderProps = computed<SliderProps>(() => {
+    const nSliderProps = computed<SliderProps>(() => {
       return {
         value: value.value,
         onUpdateValue: doUpdateValue,
@@ -50,8 +50,8 @@ export default defineComponent({
 
     return {
       stringPath,
-      sliderSlots,
-      sliderProps,
+      nSliderSlots,
+      nSliderProps,
     }
   },
   render() {
@@ -59,8 +59,8 @@ export default defineComponent({
       $props,
       $attrs,
       stringPath,
-      sliderSlots,
-      sliderProps,
+      nSliderSlots,
+      nSliderProps,
     } = this
 
     return (
@@ -73,8 +73,8 @@ export default defineComponent({
               <NSlider
                 {...$attrs}
                 {...fieldProps}
-                {...sliderProps}
-                v-slots={sliderSlots}
+                {...nSliderProps}
+                v-slots={nSliderSlots}
               />
             )
           },

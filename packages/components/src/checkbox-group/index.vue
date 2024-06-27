@@ -19,7 +19,7 @@ export default defineComponent({
   props: proCheckboxGroupProps,
   slots: Object as SlotsType<ProCheckboxGroupSlots>,
   setup(props, { slots, expose }) {
-    const checkboxGroupSlots = useOmitSlots(
+    const nCheckboxGroupSlots = useOmitSlots(
       slots,
       proCheckboxGroupExtendSlotKeys,
     )
@@ -61,7 +61,7 @@ export default defineComponent({
       empty: computed(() => !isArray(value.value) || value.value.length <= 0),
     } as Partial<ProComponentConfig>
 
-    const checkboxGroupProps = computed<CheckboxGroupProps>(() => {
+    const nCheckboxGroupProps = computed<CheckboxGroupProps>(() => {
       return {
         value: value.value,
         onUpdateValue: doUpdateValue,
@@ -77,8 +77,8 @@ export default defineComponent({
       loading,
       options,
       stringPath,
-      checkboxGroupProps,
-      checkboxGroupSlots,
+      nCheckboxGroupProps,
+      nCheckboxGroupSlots,
       spaceProps: compiledSpaceProps,
     }
   },
@@ -90,8 +90,8 @@ export default defineComponent({
       options,
       stringPath,
       spaceProps,
-      checkboxGroupSlots,
-      checkboxGroupProps,
+      nCheckboxGroupSlots,
+      nCheckboxGroupProps,
     } = this
 
     return (
@@ -110,9 +110,9 @@ export default defineComponent({
                       <NCheckboxGroup
                         {...$attrs}
                         {...fieldProps}
-                        {...checkboxGroupProps}
+                        {...nCheckboxGroupProps}
                         v-slots={{
-                          ...checkboxGroupSlots,
+                          ...nCheckboxGroupSlots,
                           default: () => {
                             return (
                               <NSpace

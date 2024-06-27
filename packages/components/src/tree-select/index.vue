@@ -21,8 +21,8 @@ export default defineComponent({
   props: proTreeSelectProps,
   slots: Object as SlotsType<ProTreeSelectSlots>,
   setup(props, { slots, expose }) {
-    const treeSelectInstRef = ref<TreeSelectInst>()
-    const treeSelectSlots = useOmitSlots(
+    const nTreeSelectInstRef = ref<TreeSelectInst>()
+    const nTreeSelectSlots = useOmitSlots(
       slots,
       proTreeSelectExtendSlotKeys,
     )
@@ -76,7 +76,7 @@ export default defineComponent({
       const { onLoad: userOnLoad } = compiledFieldProps.value ?? {}
       const loadFn = (remote || userOnLoad) ? onLoad : undefined
       return {
-        'ref': treeSelectInstRef,
+        'ref': nTreeSelectInstRef,
         'value': value.value,
         'loading': loading.value,
         'options': options.value,
@@ -156,18 +156,18 @@ export default defineComponent({
       getOptions: () => options.value,
       getFetchControls: () => controls,
       getCheckedKeys: () => value.value ?? [],
-      blur: () => treeSelectInstRef.value?.blur(),
-      focus: () => treeSelectInstRef.value?.focus(),
-      blurInput: () => treeSelectInstRef.value?.blurInput(),
-      focusInput: () => treeSelectInstRef.value?.focusInput(),
-      getCheckedData: () => treeSelectInstRef.value!.getCheckedData(),
-      getIndeterminateData: () => treeSelectInstRef.value!.getIndeterminateData(),
+      blur: () => nTreeSelectInstRef.value?.blur(),
+      focus: () => nTreeSelectInstRef.value?.focus(),
+      blurInput: () => nTreeSelectInstRef.value?.blurInput(),
+      focusInput: () => nTreeSelectInstRef.value?.focusInput(),
+      getCheckedData: () => nTreeSelectInstRef.value!.getCheckedData(),
+      getIndeterminateData: () => nTreeSelectInstRef.value!.getIndeterminateData(),
     }
 
     expose(exposed)
     return {
       stringPath,
-      treeSelectSlots,
+      nTreeSelectSlots,
       nTreeSelectProps,
     }
   },
@@ -176,7 +176,7 @@ export default defineComponent({
       $props,
       $attrs,
       stringPath,
-      treeSelectSlots,
+      nTreeSelectSlots,
       nTreeSelectProps,
     } = this
 
@@ -192,7 +192,7 @@ export default defineComponent({
                 {...fieldProps}
                 {...nTreeSelectProps}
                 placeholder={placeholder}
-                v-slots={treeSelectSlots}
+                v-slots={nTreeSelectSlots}
               />
             )
           },

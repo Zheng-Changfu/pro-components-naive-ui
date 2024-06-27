@@ -1,29 +1,29 @@
 export * from './src/tree' // ok
 export * from './src/form' // ok
 export * from './src/date' // ok
-export * from './src/rate'
+export * from './src/rate' // ok
 export * from './src/time' // ok
 export * from './src/input' // ok
-export * from './src/radio'
+export * from './src/radio' // ok
 export * from './src/digit' // ok
 export * from './src/button' // ok
-export * from './src/slider'
-export * from './src/select'
-export * from './src/switch'
-export * from './src/upload'
-export * from './src/transfer'
+export * from './src/slider' // ok
+export * from './src/select' // ok
+export * from './src/switch' // ok
+export * from './src/upload' // ok
+export * from './src/transfer' // ok
 export * from './src/textarea' // ok
 export * from './src/password' // ok
-export * from './src/checkbox'
+export * from './src/checkbox' // ok
 export * from './src/form-list'
 export * from './src/date-year' // ok
 export * from './src/date-week' // ok
 export * from './src/date-range' // ok
 export * from './src/date-month' // ok
-export * from './src/radio-group'
-export * from './src/tree-select'
+export * from './src/radio-group' // ok
+export * from './src/tree-select' // ok
 export * from './src/date-quarter' // ok
-export * from './src/checkbox-group'
+export * from './src/checkbox-group' // ok
 export * from './src/config-provider'
 export * from './src/date-year-range' // ok
 export * from './src/date-month-range' // ok

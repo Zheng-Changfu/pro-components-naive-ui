@@ -19,9 +19,9 @@ export default defineComponent({
   props: proUploadProps,
   slots: Object as SlotsType<ProUploadSlots>,
   setup(props, { slots, expose }) {
-    const uploadInstRef = ref<UploadInst>()
+    const nUploadInstRef = ref<UploadInst>()
     const { proUpload } = useInjectGlobalConfigContext()
-    const uploadSlots = useOmitSlots(slots, proUploadExtendSlotKeys)
+    const nUploadSlots = useOmitSlots(slots, proUploadExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
     const field = createField({
@@ -88,8 +88,11 @@ export default defineComponent({
     }) {
       const {
         maxSize: userMaxSize,
-        onBeforeUpload: userOnBeforeUpload,
         onOverFileMaxSize: userOnOverFileMaxSize,
+      } = props
+
+      const {
+        onBeforeUpload: userOnBeforeUpload,
       } = compiledFieldProps.value ?? {}
 
       const fileSize = data.file.file?.size
@@ -119,9 +122,9 @@ export default defineComponent({
       empty: computed(() => !isArray(value.value) || value.value.length <= 0),
     } as Partial<ProComponentConfig>
 
-    const uploadProps = computed<UploadProps>(() => {
+    const nUploadProps = computed<UploadProps>(() => {
       return {
-        ref: uploadInstRef,
+        ref: nUploadInstRef,
         fileList: value.value,
         onBeforeUpload,
         onUpdateFileList: doUpdateValue,
@@ -129,18 +132,18 @@ export default defineComponent({
     })
 
     const exposed: ProUploadInstance = {
-      clear: () => uploadInstRef.value?.clear(),
-      openOpenFileDialog: () => uploadInstRef.value?.openOpenFileDialog(),
-      submit: (...args: any[]) => ((uploadInstRef.value?.submit) as any)(...args),
+      clear: () => nUploadInstRef.value?.clear(),
+      openOpenFileDialog: () => nUploadInstRef.value?.openOpenFileDialog(),
+      submit: (...args: any[]) => ((nUploadInstRef.value?.submit) as any)(...args),
     }
 
     expose(exposed)
     return {
       stringPath,
-      uploadSlots,
-      uploadProps,
       globalTitle,
       globalAction,
+      nUploadSlots,
+      nUploadProps,
       globalCustomRequest,
     }
   },
@@ -150,10 +153,10 @@ export default defineComponent({
       $props,
       $attrs,
       stringPath,
-      uploadSlots,
-      uploadProps,
       globalTitle,
       globalAction,
+      nUploadSlots,
+      nUploadProps,
       globalCustomRequest,
     } = this
 
@@ -164,33 +167,30 @@ export default defineComponent({
         v-slots={{
           default: ({ fieldProps }: any) => {
             const {
-              title,
               action,
-              maxSize,
               listType,
               customRequest,
-              onOverFileMaxSize,
-              ...nUploadProps
+              ...restProps
             } = fieldProps ?? {}
 
             return (
               <NUpload
                 {...$attrs}
+                {...restProps}
                 {...nUploadProps}
-                {...uploadProps}
                 listType={listType}
                 action={action ?? globalAction}
                 customRequest={customRequest ?? globalCustomRequest}
                 v-slots={{
-                  ...uploadSlots,
+                  ...nUploadSlots,
                   default: () => {
                     if ($slots.default) {
                       return $slots.default()
                     }
                     if (listType === 'image-card') {
-                      return title ?? globalTitle
+                      return $props.title ?? globalTitle
                     }
-                    return <NButton type="primary">{title ?? globalTitle}</NButton>
+                    return <NButton type="primary">{$props.title ?? globalTitle}</NButton>
                   },
                 }}
               />

@@ -103,28 +103,33 @@
 | addon-after | `{}` | 表单组件的后缀插槽 | | 
 
 ## 所有表单组件
-| 控件名称 | 支持接口调用 | 获取控件实例函数 | 版本 |
-| - | - | - | - |
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProDigit` | ✅❎ | `useProDigit` | | 
-| `ProPassword` | ✅❎ | `useProPassword` | | 
-| `ProTextarea` | ✅❎ | `useProTextarea` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
-| `ProInput` | ✅❎ | `useProInput` | | 
+支持异步数据源的表单控件都会有一个 `fetchConfig` 属性
+
+| 控件名称 | 说明 | 异步数据源 | 获取控件实例函数 | 表达式不支持属性 | 版本 |
+| - | - | - | - | - | - |
+| `ProInput` | 输入框 | ❌ | `useProInput` | | | 
+| `ProDigit` | 数字输入框 | ❌ | `useProDigit` | | | 
+| `ProPassword` | 密码输入框 | ❌ | `useProPassword` | | | 
+| `ProTextarea` | 文本域 | ❌ | `useProTextarea` | | | 
+| `ProDate` | 日期选择器 | ❌ | `useProDate` | `type`、`valueFormat` | | 
+| `ProDateYear` | 年选择器 | ❌ | `useProDateYear` | `type`、`valueFormat` | | 
+| `ProDateWeek` | 周选择器 | ❌ | `useProDateWeek` | `type`、`valueFormat` | | 
+| `ProDateMonth` | 月选择器 | ❌ | `useProDateMonth` | `type`、`valueFormat` | | 
+| `ProDateQuarter` | 季度选择器 | ❌ | `useProDateQuarter` | `type`、`valueFormat` | | 
+| `ProTime` | 时间选择器 | ❌ | `useProTime` | `type`、`valueFormat` | | 
+| `ProDateRange` | 日期范围选择器 | ❌ | `useProDateRange` | `type`、`valueFormat` | | 
+| `ProDateYearRange` | 年范围选择器 | ❌ | `useProDateYearRange` | `type`、`valueFormat` | | 
+| `ProDateMonthRange` | 月范围选择器 | ❌ | `useProDateMonthRange` | `type`、`valueFormat` | | 
+| `ProDateQuarterRange` | 季度范围选择器 | ❌ | `useProDateQuarterRange` | `type`、`valueFormat` | | 
+| `ProRadio` | 单选框 | ❌ | | | | 
+| `ProRadioGroup` | 单选框组 | ✅ | `useProRadioGroup` | | | 
+| `ProCheckbox` | 复选框 | ❌ | `useProCheckbox` | | | 
+| `ProCheckboxGroup` | 复选框组 | ✅ | `useProCheckboxGroup` | | | 
+| `ProRate` | 评分 | ❌ | | | | 
+| `ProSlider` | 滑动选择 | ❌ | | | | 
+| `ProSelect` | 选择器 | ✅ | `useProSelect` | | | 
+| `ProSwitch` | 开关 | ❌ | | | | 
+| `ProUpload` | 上传 | ❌ | `useProUpload` | | | 
+| `ProTransfer` | 穿梭框 | ❌ | `useProTransfer` | | | 
+| `ProTreeSelect` | 树型选择 | ✅ | `useProTreeSelect` | | | 
+

@@ -18,7 +18,7 @@ export default defineComponent({
   props: proRadioGroupProps,
   slots: Object as SlotsType<ProRadioGroupSlots>,
   setup(props, { slots, expose }) {
-    const radioGroupSlots = useOmitSlots(slots, proRadioGroupExtendSlotKeys)
+    const nRadioGroupSlots = useOmitSlots(slots, proRadioGroupExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
     const field = createField({
@@ -61,7 +61,7 @@ export default defineComponent({
       ),
     } as Partial<ProComponentConfig>
 
-    const radioGroupProps = computed<RadioGroupProps>(() => {
+    const nRadioGroupProps = computed<RadioGroupProps>(() => {
       return {
         value: value.value,
         onUpdateValue: doUpdateValue,
@@ -77,8 +77,8 @@ export default defineComponent({
       loading,
       options,
       stringPath,
-      radioGroupProps,
-      radioGroupSlots,
+      nRadioGroupProps,
+      nRadioGroupSlots,
       spaceProps: compiledSpaceProps,
     }
   },
@@ -90,8 +90,8 @@ export default defineComponent({
       options,
       spaceProps,
       stringPath,
-      radioGroupSlots,
-      radioGroupProps,
+      nRadioGroupSlots,
+      nRadioGroupProps,
     } = this
 
     return (
@@ -110,9 +110,9 @@ export default defineComponent({
                       <NRadioGroup
                         {...$attrs}
                         {...fieldProps}
-                        {...radioGroupProps}
+                        {...nRadioGroupProps}
                         v-slots={{
-                          ...radioGroupSlots,
+                          ...nRadioGroupSlots,
                           default: () => {
                             return (
                               <NSpace

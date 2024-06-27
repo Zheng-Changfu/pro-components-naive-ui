@@ -19,8 +19,8 @@ export default defineComponent({
   props: proSelectProps,
   slots: Object as SlotsType<ProSelectSlots>,
   setup(props, { slots, expose }) {
-    const selectInstRef = ref<SelectInst>()
-    const selectSlots = useOmitSlots(slots, proSelectExtendSlotKeys)
+    const nSelectInstRef = ref<SelectInst>()
+    const nSelectSlots = useOmitSlots(slots, proSelectExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
     const field = createField({
@@ -61,9 +61,9 @@ export default defineComponent({
       ),
     } as Partial<ProComponentConfig>
 
-    const selectProps = computed<SelectProps>(() => {
+    const nSelectProps = computed<SelectProps>(() => {
       return {
-        ref: selectInstRef,
+        ref: nSelectInstRef,
         value: value.value,
         loading: loading.value,
         options: options.value,
@@ -74,17 +74,17 @@ export default defineComponent({
 
     const exposed: ProSelectInstance = {
       getFetchControls: () => controls,
-      blur: () => selectInstRef.value?.blur(),
-      focus: () => selectInstRef.value?.focus(),
-      blurInput: () => selectInstRef.value?.blurInput(),
-      focusInput: () => selectInstRef.value?.focusInput(),
+      blur: () => nSelectInstRef.value?.blur(),
+      focus: () => nSelectInstRef.value?.focus(),
+      blurInput: () => nSelectInstRef.value?.blurInput(),
+      focusInput: () => nSelectInstRef.value?.focusInput(),
     }
 
     expose(exposed)
     return {
       stringPath,
-      selectSlots,
-      selectProps,
+      nSelectSlots,
+      nSelectProps,
     }
   },
   render() {
@@ -92,8 +92,8 @@ export default defineComponent({
       $props,
       $attrs,
       stringPath,
-      selectSlots,
-      selectProps,
+      nSelectSlots,
+      nSelectProps,
     } = this
 
     return (
@@ -106,9 +106,9 @@ export default defineComponent({
               <NSelect
                 {...$attrs}
                 {...fieldProps}
-                {...selectProps}
+                {...nSelectProps}
                 placeholder={placeholder}
-                v-slots={selectSlots}
+                v-slots={nSelectSlots}
               />
             )
           },

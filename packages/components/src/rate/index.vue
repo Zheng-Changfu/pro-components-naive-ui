@@ -16,7 +16,7 @@ export default defineComponent({
   props: proRateProps,
   slots: Object as SlotsType<ProRateSlots>,
   setup(props, { slots }) {
-    const rateSlots = useOmitSlots(slots, proRateExtendSlotKeys)
+    const nRateSlots = useOmitSlots(slots, proRateExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
     const field = createField({ ...proFieldProps, defaultValue: null })
@@ -37,7 +37,7 @@ export default defineComponent({
       empty: computed(() => [null, undefined].includes(value.value)),
     } as Partial<ProComponentConfig>
 
-    const rateProps = computed<RateProps>(() => {
+    const nRateProps = computed<RateProps>(() => {
       return {
         value: value.value,
         onUpdateValue: doUpdateValue,
@@ -45,8 +45,8 @@ export default defineComponent({
     })
 
     return {
-      rateSlots,
-      rateProps,
+      nRateSlots,
+      nRateProps,
       stringPath,
     }
   },
@@ -54,9 +54,9 @@ export default defineComponent({
     const {
       $props,
       $attrs,
-      rateSlots,
+      nRateSlots,
+      nRateProps,
       stringPath,
-      rateProps,
     } = this
 
     return (
@@ -69,8 +69,8 @@ export default defineComponent({
               <NRate
                 {...$attrs}
                 {...fieldProps}
-                {...rateProps}
-                v-slots={rateSlots}
+                {...nRateProps}
+                v-slots={nRateSlots}
               />
             )
           },

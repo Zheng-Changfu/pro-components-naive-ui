@@ -16,7 +16,7 @@ export default defineComponent({
   props: proSwitchProps,
   slots: Object as SlotsType<ProSwitchSlots>,
   setup(props, { slots }) {
-    const switchSlots = useOmitSlots(
+    const nSwitchSlots = useOmitSlots(
       slots,
       proSwitchExtendSlotKeys,
     )
@@ -40,7 +40,7 @@ export default defineComponent({
       empty: computed(() => [null, undefined, ''].includes(value.value)),
     } as Partial<ProComponentConfig>
 
-    const switchProps = computed<SwitchProps>(() => {
+    const nSwitchProps = computed<SwitchProps>(() => {
       return {
         value: value.value,
         onUpdateValue: doUpdateValue,
@@ -49,8 +49,8 @@ export default defineComponent({
 
     return {
       stringPath,
-      switchSlots,
-      switchProps,
+      nSwitchSlots,
+      nSwitchProps,
     }
   },
   render() {
@@ -58,8 +58,8 @@ export default defineComponent({
       $props,
       $attrs,
       stringPath,
-      switchSlots,
-      switchProps,
+      nSwitchSlots,
+      nSwitchProps,
     } = this
 
     return (
@@ -72,8 +72,8 @@ export default defineComponent({
               <NSwitch
                 {...$attrs}
                 {...fieldProps}
-                {...switchProps}
-                v-slots={switchSlots}
+                {...nSwitchProps}
+                v-slots={nSwitchSlots}
               />
             )
           },

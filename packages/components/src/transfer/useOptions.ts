@@ -21,10 +21,8 @@ export function useOptions(
 
   watch(
     computed(() => compiledFieldProps.value?.options),
-    (vals) => {
-      options.value = isArray(vals) ? vals : []
-    },
-    { immediate: true },
+    vals => options.value = isArray(vals) ? vals : [],
+    { immediate: true, deep: true },
   )
 
   const normalizedOptions = computed(() => {
