@@ -18,9 +18,13 @@ export const proTimeProps = {
   placeholder: {
     type: String as PropType<MaybeExpression<string>>,
   },
+  /**
+   * valueFormat 不支持表达式
+   */
   fieldProps: {
     type: Object as PropType<MaybeExpression<Omit<
     DatePickerProps,
+    | 'valueFormat'
     | 'value'
     | 'placeholder'
     | 'defaultTime'
@@ -31,7 +35,9 @@ export const proTimeProps = {
     | 'defaultFormattedValue'
     | 'onUpdateFormattedValue'
     | 'onUpdate:formattedValue'
-> & { showTime: boolean }>>,
+>> & {
+  valueFormat: string
+}>,
     default: () => ({}),
   },
 } as const

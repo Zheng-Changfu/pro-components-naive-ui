@@ -209,10 +209,8 @@ export function createComponentMenuOptions({ lang, theme }) {
       type: 'group',
       children: [
         {
-          en: 'CommonConfiguration',
-          zh: '通用配置',
-          enSuffix: true,
-          path: '/common-configuration',
+          zh: '表单通用配置',
+          path: '/form-common-configuration',
         },
       ],
     }),
@@ -230,10 +228,34 @@ export function createComponentMenuOptions({ lang, theme }) {
       ],
     }),
     appendCounts({
-      zh: '数据录入组件',
+      zh: '表单组件',
       en: 'Data Input Components',
       type: 'group',
       children: [
+        {
+          en: 'ProInput',
+          zh: '输入框',
+          enSuffix: true,
+          path: '/input',
+        },
+        {
+          en: 'ProDigit',
+          zh: '数字输入框',
+          enSuffix: true,
+          path: '/digit',
+        },
+        {
+          en: 'ProPassword',
+          zh: '密码框',
+          enSuffix: true,
+          path: '/password',
+        },
+        {
+          en: 'ProTextarea',
+          zh: '文本域',
+          enSuffix: true,
+          path: '/textarea',
+        },
         {
           en: 'ProTreeSelect',
           zh: '树型选择',

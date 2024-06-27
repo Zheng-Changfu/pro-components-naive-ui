@@ -52,9 +52,10 @@ export default defineComponent({
 
     const valueFormat = computed(() => {
       const {
-        showTime,
+        type,
         valueFormat,
-      } = compiledFieldProps.value
+      } = props.fieldProps ?? {}
+      const showTime = type === 'datetimerange'
       return valueFormat
         ?? showTime
         ? proDateRange.valueFormatIfShowTime
@@ -65,7 +66,7 @@ export default defineComponent({
       const { postState } = props
       if (isString(val)) {
         shouldConvertValueOnTransform = true
-        const timestamp = dayjs(val).format(valueFormat.value).valueOf()
+        const timestamp = dayjs(dayjs(val).format(valueFormat.value)).valueOf()
         return postState ? postState(timestamp) : timestamp
       }
       else {
@@ -111,13 +112,13 @@ export default defineComponent({
     } as Partial<ProComponentConfig>
 
     const pickerProps = computed<DatePickerProps>(() => {
-      const { showTime } = compiledFieldProps.value
+      const { type } = props.fieldProps ?? {}
       return {
         ref: pickerInstRef,
         value: value.value,
         formattedValue: undefined,
         onUpdateValue: doUpdateValue,
-        type: showTime ? 'datetimerange' : 'daterange',
+        type: type === 'datetimerange' ? 'datetimerange' : 'daterange',
       }
     })
 

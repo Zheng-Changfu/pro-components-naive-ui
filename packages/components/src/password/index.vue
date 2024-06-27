@@ -17,8 +17,8 @@ export default defineComponent({
   props: proPasswordProps,
   slots: Object as SlotsType<ProPasswordSlots>,
   setup(props, { slots, expose }) {
-    const passwordInstRef = ref<InputInst>()
-    const passwordSlots = useOmitSlots(slots, proPasswordExtendSlotKeys)
+    const nPasswordInstRef = ref<InputInst>()
+    const nPasswordSlots = useOmitSlots(slots, proPasswordExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
     const field = createField({ ...proFieldProps, defaultValue: null })
@@ -39,9 +39,9 @@ export default defineComponent({
       empty: computed(() => [null, undefined, ''].includes(value.value)),
     } as Partial<ProComponentConfig>
 
-    const passwordProps = computed<InputProps>(() => {
+    const nPasswordProps = computed<InputProps>(() => {
       return {
-        ref: passwordInstRef,
+        ref: nPasswordInstRef,
         pair: false,
         type: 'password',
         value: value.value,
@@ -50,20 +50,20 @@ export default defineComponent({
     })
 
     const exposed: ProPasswordInstance = {
-      blur: () => passwordInstRef.value?.blur(),
-      clear: () => passwordInstRef.value?.clear(),
-      focus: () => passwordInstRef.value?.focus(),
-      select: () => passwordInstRef.value?.select(),
-      activate: () => passwordInstRef.value?.activate(),
-      deactivate: () => passwordInstRef.value?.deactivate(),
-      scrollTo: (options: any) => passwordInstRef.value?.scrollTo(options),
+      blur: () => nPasswordInstRef.value?.blur(),
+      clear: () => nPasswordInstRef.value?.clear(),
+      focus: () => nPasswordInstRef.value?.focus(),
+      select: () => nPasswordInstRef.value?.select(),
+      activate: () => nPasswordInstRef.value?.activate(),
+      deactivate: () => nPasswordInstRef.value?.deactivate(),
+      scrollTo: (options: any) => nPasswordInstRef.value?.scrollTo(options),
     }
 
     expose(exposed)
     return {
       stringPath,
-      passwordSlots,
-      passwordProps,
+      nPasswordSlots,
+      nPasswordProps,
     }
   },
   render() {
@@ -71,8 +71,8 @@ export default defineComponent({
       $props,
       $attrs,
       stringPath,
-      passwordSlots,
-      passwordProps,
+      nPasswordSlots,
+      nPasswordProps,
     } = this
 
     return (
@@ -85,9 +85,9 @@ export default defineComponent({
               <NInput
                 {...$attrs}
                 {...fieldProps}
-                {...passwordProps}
+                {...nPasswordProps}
                 placeholder={placeholder}
-                v-slots={passwordSlots}
+                v-slots={nPasswordSlots}
               />
             )
           },

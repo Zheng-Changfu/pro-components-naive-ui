@@ -17,8 +17,8 @@ export default defineComponent({
   props: proDigitProps,
   slots: Object as SlotsType<ProDigitSlots>,
   setup(props, { slots, expose }) {
-    const digitInstRef = ref<InputNumberInst>()
-    const digitSlots = useOmitSlots(slots, proDigitExtendSlotKeys)
+    const nDigitInstRef = ref<InputNumberInst>()
+    const nDigitSlots = useOmitSlots(slots, proDigitExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
     const field = createField({ ...proFieldProps, defaultValue: null })
@@ -39,25 +39,25 @@ export default defineComponent({
       empty: computed(() => [null, undefined].includes(value.value)),
     } as Partial<ProComponentConfig>
 
-    const digitProps = computed<InputNumberProps>(() => {
+    const nDigitProps = computed<InputNumberProps>(() => {
       return {
-        ref: digitInstRef,
+        ref: nDigitInstRef,
         value: value.value,
         onUpdateValue: doUpdateValue,
       }
     })
 
     const exposed: ProDigitInstance = {
-      blur: () => digitInstRef.value?.blur(),
-      focus: () => digitInstRef.value?.focus(),
-      select: () => digitInstRef.value?.select(),
+      blur: () => nDigitInstRef.value?.blur(),
+      focus: () => nDigitInstRef.value?.focus(),
+      select: () => nDigitInstRef.value?.select(),
     }
 
     expose(exposed)
     return {
       stringPath,
-      digitSlots,
-      digitProps,
+      nDigitSlots,
+      nDigitProps,
     }
   },
   render() {
@@ -65,8 +65,8 @@ export default defineComponent({
       $props,
       $attrs,
       stringPath,
-      digitSlots,
-      digitProps,
+      nDigitSlots,
+      nDigitProps,
     } = this
 
     return (
@@ -79,9 +79,9 @@ export default defineComponent({
               <NInputNumber
                 {...$attrs}
                 {...fieldProps}
-                {...digitProps}
+                {...nDigitProps}
                 placeholder={placeholder}
-                v-slots={digitSlots}
+                v-slots={nDigitSlots}
               />
             )
           },

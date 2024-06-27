@@ -1,8 +1,6 @@
-# 通用配置
+# 表单通用配置
 
-在 ProComponentsNaiveUi 项目中，对于一些组件扩展了部分字段，可以让其满足更多的需求
-
-## 表单组件的重大变更（必看）
+## 重大变更（必看）
 表单组件 = ProFormItem + 组件本身，例如以下代码
 ```html
 <template>
@@ -53,6 +51,8 @@
 ```
 
 对于表单值，有一些需要注意的点，如果你需要设定表单组件的默认值，请使用 `initialValue` 或者 `ProForm.initialValues` 或者 `value` 都可以，你可以用以下这几种方法设定默认值
+
+优先级：value > initialValue > initialValues
 1. 使用 `initialValue` 属性
 ```html
 <template>
@@ -74,7 +74,7 @@
 </template>
 ```
 
-## 表单组件的通用属性
+## 通用属性
 
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
@@ -94,20 +94,37 @@
 | onChange | `(val: any) => void`  | `undefined` | 表单值发生变化后触发的回调函数 | |
 | transform | `(val: any) => void`  | `undefined` | 转换字段的值，后端想要的数据结构或者字段名称不一致时会用到，表单提交或者使用 `proFormInst.getFieldsTransformedValue` 方法触发 | |
 
-## 表单组件的通用插槽
+## 通用插槽
 | 属性 | 参数 | 说明 | 版本 |
 | --- | --- | --- | --- |
 | readonly | `{value:any}` | 只读状态下渲染的内容 | | 
 | readonly-empty | `{value:any}` | 只读状态下并且内容为空时渲染的内容 | | 
+| addon-before | `{}` | 表单组件的前缀插槽 | | 
+| addon-after | `{}` | 表单组件的后缀插槽 | | 
 
-## API
-
-### ProButton 新增 Props
-
-| 名称 | 类型 | 默认值 | 说明 | 版本 |
-| --- | --- | --- | --- | --- |
-| autoLoading | `boolean` | `true` | 是否自动检测异步函数开启 loading |  |
-| tooltip | `string \| string[]` | `undefined` | 提示文字，单行使用字符串表示，多行使用字符串数组表示，禁用时不生效 |  |
-| disabledTooltip | `string \| string[]` | `undefined` | 禁用时的提示文字，单行使用字符串表示，多行使用字符串数组表示，非禁用时不生效 |  |
-| auth | `any` | `undefined` | 权限编码，可以是任意数据，配合 `ProConfigProvider` 使用 |  |
-
+## 所有表单组件
+| 控件名称 | 支持接口调用 | 获取控件实例函数 | 版本 |
+| - | - | - | - |
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProDigit` | ✅❎ | `useProDigit` | | 
+| `ProPassword` | ✅❎ | `useProPassword` | | 
+| `ProTextarea` | ✅❎ | `useProTextarea` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 
+| `ProInput` | ✅❎ | `useProInput` | | 

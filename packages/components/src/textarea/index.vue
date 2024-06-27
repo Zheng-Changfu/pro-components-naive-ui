@@ -17,8 +17,8 @@ export default defineComponent({
   props: proTextareaProps,
   slots: Object as SlotsType<ProTextareaSlots>,
   setup(props, { slots, expose }) {
-    const textareaInstRef = ref<InputInst>()
-    const textareaSlots = useOmitSlots(slots, proTextareaExtendSlotKeys)
+    const nTextareaInstRef = ref<InputInst>()
+    const nTextareaSlots = useOmitSlots(slots, proTextareaExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
     const field = createField({ ...proFieldProps, defaultValue: null })
@@ -39,9 +39,9 @@ export default defineComponent({
       empty: computed(() => [null, undefined, ''].includes(value.value)),
     } as Partial<ProComponentConfig>
 
-    const textareaProps = computed<InputProps>(() => {
+    const nTextareaProps = computed<InputProps>(() => {
       return {
-        ref: textareaInstRef,
+        ref: nTextareaInstRef,
         pair: false,
         type: 'textarea',
         value: value.value,
@@ -50,20 +50,20 @@ export default defineComponent({
     })
 
     const exposed: ProTextareaInstance = {
-      blur: () => textareaInstRef.value?.blur(),
-      clear: () => textareaInstRef.value?.clear(),
-      focus: () => textareaInstRef.value?.focus(),
-      select: () => textareaInstRef.value?.select(),
-      activate: () => textareaInstRef.value?.activate(),
-      deactivate: () => textareaInstRef.value?.deactivate(),
-      scrollTo: (options: any) => textareaInstRef.value?.scrollTo(options),
+      blur: () => nTextareaInstRef.value?.blur(),
+      clear: () => nTextareaInstRef.value?.clear(),
+      focus: () => nTextareaInstRef.value?.focus(),
+      select: () => nTextareaInstRef.value?.select(),
+      activate: () => nTextareaInstRef.value?.activate(),
+      deactivate: () => nTextareaInstRef.value?.deactivate(),
+      scrollTo: (options: any) => nTextareaInstRef.value?.scrollTo(options),
     }
 
     expose(exposed)
     return {
       stringPath,
-      textareaSlots,
-      textareaProps,
+      nTextareaSlots,
+      nTextareaProps,
     }
   },
   render() {
@@ -71,8 +71,8 @@ export default defineComponent({
       $props,
       $attrs,
       stringPath,
-      textareaSlots,
-      textareaProps,
+      nTextareaSlots,
+      nTextareaProps,
     } = this
 
     return (
@@ -85,9 +85,9 @@ export default defineComponent({
               <NInput
                 {...$attrs}
                 {...fieldProps}
-                {...textareaProps}
+                {...nTextareaProps}
                 placeholder={placeholder}
-                v-slots={textareaSlots}
+                v-slots={nTextareaSlots}
               />
             )
           },

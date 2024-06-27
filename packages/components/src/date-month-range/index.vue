@@ -51,7 +51,7 @@ export default defineComponent({
     )
 
     const valueFormat = computed(() => {
-      const { valueFormat } = compiledFieldProps.value
+      const { valueFormat } = props.fieldProps ?? {}
       return valueFormat ?? proDateMonthRange.valueFormat
     })
 
@@ -59,7 +59,7 @@ export default defineComponent({
       const { postState } = props
       if (isString(val)) {
         shouldConvertValueOnTransform = true
-        const timestamp = dayjs(val).format(valueFormat.value).valueOf()
+        const timestamp = dayjs(dayjs(val).format(valueFormat.value)).valueOf()
         return postState ? postState(timestamp) : timestamp
       }
       else {

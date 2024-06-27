@@ -17,8 +17,8 @@ export default defineComponent({
   props: proInputProps,
   slots: Object as SlotsType<ProInputSlots>,
   setup(props, { slots, expose }) {
-    const inputInstRef = ref<InputInst>()
-    const inputSlots = useOmitSlots(slots, proInputExtendSlotKeys)
+    const nInputInstRef = ref<InputInst>()
+    const nInputSlots = useOmitSlots(slots, proInputExtendSlotKeys)
 
     const proFieldProps = useGetProFieldProps(props)
     const field = createField({ ...proFieldProps, defaultValue: '' })
@@ -39,9 +39,9 @@ export default defineComponent({
       empty: computed(() => [null, undefined, ''].includes(value.value)),
     } as Partial<ProComponentConfig>
 
-    const inputProps = computed<InputProps>(() => {
+    const nInputProps = computed<InputProps>(() => {
       return {
-        ref: inputInstRef,
+        ref: nInputInstRef,
         pair: false,
         type: 'text',
         value: value.value,
@@ -50,29 +50,29 @@ export default defineComponent({
     })
 
     const exposed: ProInputInstance = {
-      blur: () => inputInstRef.value?.blur(),
-      clear: () => inputInstRef.value?.clear(),
-      focus: () => inputInstRef.value?.focus(),
-      select: () => inputInstRef.value?.select(),
-      activate: () => inputInstRef.value?.activate(),
-      deactivate: () => inputInstRef.value?.deactivate(),
-      scrollTo: (options: any) => inputInstRef.value?.scrollTo(options),
+      blur: () => nInputInstRef.value?.blur(),
+      clear: () => nInputInstRef.value?.clear(),
+      focus: () => nInputInstRef.value?.focus(),
+      select: () => nInputInstRef.value?.select(),
+      activate: () => nInputInstRef.value?.activate(),
+      deactivate: () => nInputInstRef.value?.deactivate(),
+      scrollTo: (options: any) => nInputInstRef.value?.scrollTo(options),
     }
 
     expose(exposed)
     return {
       stringPath,
-      inputSlots,
-      inputProps,
+      nInputSlots,
+      nInputProps,
     }
   },
   render() {
     const {
       $props,
       $attrs,
-      inputSlots,
       stringPath,
-      inputProps,
+      nInputSlots,
+      nInputProps,
     } = this
 
     return (
@@ -85,9 +85,9 @@ export default defineComponent({
               <NInput
                 {...$attrs}
                 {...fieldProps}
-                {...inputProps}
+                {...nInputProps}
                 placeholder={placeholder}
-                v-slots={inputSlots}
+                v-slots={nInputSlots}
               />
             )
           },

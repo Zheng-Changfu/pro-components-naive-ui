@@ -18,9 +18,14 @@ export const proDateYearRangeProps = {
   placeholder: {
     type: Array as PropType<MaybeExpression<string[]>>,
   },
+  /**
+   * type 和 valueFormat 不支持表达式
+   */
   fieldProps: {
     type: Object as PropType<MaybeExpression<Omit<
     DatePickerProps,
+    | 'type'
+    | 'valueFormat'
     | 'value'
     | 'placeholder'
     | 'defaultTime'
@@ -35,7 +40,9 @@ export const proDateYearRangeProps = {
     | 'onUpdateFormattedValue'
     | 'onUpdate:formattedValue'
     | 'defaultCalendarStartTime'
->>>,
+>> & {
+  valueFormat: string
+}>,
     default: () => ({}),
   },
 } as const
