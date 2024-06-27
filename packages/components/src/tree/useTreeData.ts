@@ -30,9 +30,7 @@ export function useTreeData(props: ProTreeProps) {
 
   watch(
     toRef(props, 'data'),
-    (propTreeData = []) => {
-      treeData.value = normalizeTreeData(propTreeData)
-    },
+    (propTreeData = []) => treeData.value = normalizeTreeData(propTreeData),
     { immediate: true, deep: true },
   )
 
@@ -62,7 +60,7 @@ export function useTreeData(props: ProTreeProps) {
   const keyToTreeNodeMap = computed(() => {
     const map = new Map<string | number, Record<string, any>>()
     eachTree(
-      treeData.value ?? [],
+      treeData.value,
       (node) => {
         const key = get(node, keyField)
         if (isString(key) || isNumber(key)) {
@@ -119,7 +117,6 @@ export function useTreeData(props: ProTreeProps) {
           }
         })
       }
-
       set(node, childrenField, children)
       resolve()
     })

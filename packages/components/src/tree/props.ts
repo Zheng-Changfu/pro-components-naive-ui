@@ -28,7 +28,7 @@ export const proTreeExtendProps = {
     default: true,
   },
   /**
-   * 是否过滤掉空子节点字段（空数组或者 undefined/null
+   * 是否过滤掉空子节点字段（空数组或者 undefined/null）
    * @default true
    */
   filterEmptyChildrenField: {
