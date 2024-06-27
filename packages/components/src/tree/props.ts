@@ -2,6 +2,7 @@ import type { SpinProps } from 'naive-ui'
 import { treeProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { UseRequestOptions } from 'pro-components-hooks'
+import { omit } from 'lodash-es'
 
 export const proTreeExtendProps = {
   /**
@@ -60,7 +61,12 @@ export const proTreeExtendProps = {
 } as const
 
 export const proTreeProps = {
-  ...treeProps,
+  ...omit(treeProps, [
+    'defaultExpandAll',
+    'defaultCheckedKeys',
+    'defaultExpandedKeys',
+    'defaultSelectedKeys',
+  ]),
   ...proTreeExtendProps,
 } as const
 
