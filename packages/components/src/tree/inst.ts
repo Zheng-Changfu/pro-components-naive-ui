@@ -41,7 +41,6 @@ export type ProTreeInstance<Data = any> = PickFunction<TreeInst & {
   /**
    * 选中节点，不传选中所有
    * @param keys 需要选中的 keys
-   * @param filterDisabledKeys 是否过滤禁用的节点，默认为 true
    */
   setSelectedKeys: (keys?: Array<string | number>) => void
   /**
