@@ -9,6 +9,7 @@ import { proFormReadonlyContextKey } from '../context'
 import { ProComponentConfigKey } from '../field'
 import { useReadonlyRenderer } from '../useReadonlyRenderer'
 import { usePlaceholder } from '../usePlaceholder'
+import { useAddonSlotRenderer } from '../useAddonSlotRenderer'
 import { proFormItemProps } from './props'
 import type { ProFormItemSlots } from './slots'
 import { useFormItemRule } from './useFormItemRule'
@@ -146,12 +147,19 @@ export default defineComponent({
       readonlyEmptyRender,
     } = useReadonlyRenderer(field[ProComponentConfigKey])
 
+    const {
+      addonAfterSlot,
+      addonBeforeSlot,
+    } = useAddonSlotRenderer(field[ProComponentConfigKey])
+
     return {
       show,
       path,
       empty,
       readonly,
       readonlyRender,
+      addonAfterSlot,
+      addonBeforeSlot,
       readonlyEmptyRender,
       fieldProps: compiledFieldProps,
       placeholder: mergedPlaceholder,
@@ -166,6 +174,8 @@ export default defineComponent({
       $props,
       $slots,
       readonly,
+      addonAfterSlot,
+      addonBeforeSlot,
       readonlyRender,
       readonlyEmptyRender,
     } = this
@@ -188,14 +198,14 @@ export default defineComponent({
           fieldProps: this.fieldProps,
           placeholder: this.placeholder,
         })
-        if (!$slots['addon-after'] && !$slots['addon-before']) {
+        if (!addonBeforeSlot && !addonAfterSlot) {
           return fieldRender ? fieldRender(children) : children
         }
         const fieldVNode = (
           <NInputGroup>
-            {$slots['addon-before']?.()}
+            {addonBeforeSlot?.()}
             {children}
-            {$slots['addon-after']?.()}
+            {addonAfterSlot?.()}
           </NInputGroup>
         )
         return fieldRender ? fieldRender(fieldVNode) : fieldVNode
