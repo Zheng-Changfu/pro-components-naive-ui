@@ -4,11 +4,11 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { useProForm } from 'pro-components-naive-ui'
+import { useProFormInstance } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
-    const [proFormInst, { submit }] = useProForm()
+    const [proFormInst, { submit }] = useProFormInstance()
 
     async function register(e: MouseEvent) {
       e.preventDefault()
@@ -29,7 +29,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <ProForm ref="proFormInst" label-placement="left" label-width="auto">
+  <ProForm ref="proFormInst" label-placement="left" label-width="auto" @finish="onFinish">
     <ProInput label="用户名" path="username" required />
     <ProPassword label="密码" path="password" required />
     <ProPassword label="确认密码" path="rePassword" required />

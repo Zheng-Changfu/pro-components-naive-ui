@@ -8,7 +8,7 @@
 import { repeat } from 'seemly'
 import type { TreeOption } from 'naive-ui'
 import { defineComponent } from 'vue'
-import { uid, useProTree } from 'pro-components-naive-ui'
+import { uid, useProTreeInstance } from 'pro-components-naive-ui'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))
@@ -38,7 +38,7 @@ function createLabel(level: number): string {
 
 export default defineComponent({
   setup() {
-    const [treeInstRef, { getFetchControls }] = useProTree()
+    const [treeInstRef, { getFetchControls }] = useProTreeInstance()
 
     async function fetchTreeData() {
       await delay(1000)

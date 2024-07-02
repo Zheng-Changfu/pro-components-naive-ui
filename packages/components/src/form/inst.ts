@@ -1,7 +1,7 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseForm } from 'pro-components-hooks'
 
-export type ProFormInstance<Data = any> = Pick<
+export type ProFormInstance = Pick<
 BaseForm,
 | 'matchPath'
 | 'getFieldValue'
@@ -14,7 +14,7 @@ BaseForm,
 | 'setInitialValues'
 | 'getFieldsTransformedValue'
 > & {
-  submit: () => Promise<Data>
+  submit: () => void
   validate: (paths?: string | string[]) => ReturnType<FormInst['validate']>
   restoreValidation: (paths?: string | string[]) => ReturnType<FormInst['restoreValidation']>
 }
