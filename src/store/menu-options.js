@@ -203,17 +203,17 @@ export function createDocumentationMenuOptions({ lang, theme }) {
 
 export function createComponentMenuOptions({ lang, theme }) {
   return createItems(lang, theme, '/components', [
-    appendCounts({
-      zh: '架构设计',
-      en: 'Framework Design',
-      type: 'group',
-      children: [
-        {
-          zh: '表单通用配置',
-          path: '/form-common-configuration',
-        },
-      ],
-    }),
+    // appendCounts({
+    //   zh: '架构设计',
+    //   en: 'Framework Design',
+    //   type: 'group',
+    //   children: [
+    //     {
+    //       zh: '表单通用配置',
+    //       path: '/form-common-configuration',
+    //     },
+    //   ],
+    // }),
     appendCounts({
       zh: '通用组件',
       en: 'Common Components',
@@ -233,34 +233,10 @@ export function createComponentMenuOptions({ lang, theme }) {
       type: 'group',
       children: [
         {
-          en: 'ProInput',
-          zh: '输入框',
+          en: 'ProForm',
+          zh: '表单',
           enSuffix: true,
-          path: '/input',
-        },
-        {
-          en: 'ProDigit',
-          zh: '数字输入框',
-          enSuffix: true,
-          path: '/digit',
-        },
-        {
-          en: 'ProPassword',
-          zh: '密码框',
-          enSuffix: true,
-          path: '/password',
-        },
-        {
-          en: 'ProTextarea',
-          zh: '文本域',
-          enSuffix: true,
-          path: '/textarea',
-        },
-        {
-          en: 'ProTreeSelect',
-          zh: '树型选择',
-          enSuffix: true,
-          path: '/tree-select',
+          path: '/form',
         },
       ],
     }),
@@ -275,34 +251,6 @@ export function createComponentMenuOptions({ lang, theme }) {
           enSuffix: true,
           path: '/tree',
         },
-      ],
-    }),
-    appendCounts({
-      zh: '导航组件',
-      en: 'Navigation Components',
-      type: 'group',
-      children: [
-
-      ],
-    }),
-    appendCounts({
-      zh: '反馈组件',
-      en: 'Feedback Components',
-      type: 'group',
-      children: [],
-    }),
-    appendCounts({
-      zh: '布局组件',
-      en: 'Layout Components',
-      type: 'group',
-      children: [],
-    }),
-    appendCounts({
-      zh: '工具组件',
-      en: 'Utility Components',
-      type: 'group',
-      children: [
-
       ],
     }),
     appendCounts({

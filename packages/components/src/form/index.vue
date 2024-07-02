@@ -66,6 +66,13 @@ export default defineComponent({
       }
     }
 
+    async function submit() {
+      const { warnings } = await validate()
+      console.log(warnings, 'warnings')
+      const values = getFieldsTransformedValue()
+      return [warnings, values]
+    }
+
     function validate(paths?: string | string[]) {
       if (!paths) {
         return formInstRef.value!.validate()
@@ -94,6 +101,7 @@ export default defineComponent({
     }
 
     const exposed: ProFormInstance = {
+      submit,
       validate,
       matchPath,
       getFieldValue,

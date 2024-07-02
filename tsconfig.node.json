@@ -5,6 +5,7 @@
     "moduleResolution": "bundler",
     "allowJs": true,
     "strict": true,
+    "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },
