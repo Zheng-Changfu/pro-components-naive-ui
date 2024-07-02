@@ -1,3 +1,3 @@
 import { createProComponentInstanceFactory } from '../hooks'
 
-export const useProTime = createProComponentInstanceFactory('ProTime')
+export const useProTimeInstance = createProComponentInstanceFactory('ProTime')

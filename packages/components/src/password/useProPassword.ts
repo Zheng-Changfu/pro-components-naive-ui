@@ -1,4 +1,4 @@
 import { createProComponentInstanceFactory } from '../hooks'
 import type { ProPasswordInstance } from './inst'
 
-export const useProPassword = createProComponentInstanceFactory<ProPasswordInstance>('ProPassword')
+export const useProPasswordInstance = createProComponentInstanceFactory<ProPasswordInstance>('ProPassword')

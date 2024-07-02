@@ -1,4 +1,4 @@
 import { createProComponentInstanceFactory } from '../hooks'
 import type { ProTreeSelectInstance } from './inst'
 
-export const useProTreeSelect = createProComponentInstanceFactory<ProTreeSelectInstance>('ProTreeSelect')
+export const useProTreeSelectInstance = createProComponentInstanceFactory<ProTreeSelectInstance>('ProTreeSelect')

@@ -1,3 +1,3 @@
 import { createProComponentInstanceFactory } from '../hooks'
 
-export const useProDateQuarterRange = createProComponentInstanceFactory('ProDateQuarterRange')
+export const useProDateQuarterRangeInstance = createProComponentInstanceFactory('ProDateQuarterRange')

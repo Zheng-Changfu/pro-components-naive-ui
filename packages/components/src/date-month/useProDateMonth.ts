@@ -1,3 +1,3 @@
 import { createProComponentInstanceFactory } from '../hooks'
 
-export const useProDateMonth = createProComponentInstanceFactory('ProDateMonth')
+export const useProDateMonthInstance = createProComponentInstanceFactory('ProDateMonth')
