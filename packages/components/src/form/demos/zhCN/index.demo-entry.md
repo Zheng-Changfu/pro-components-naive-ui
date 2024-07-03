@@ -18,6 +18,7 @@
 
 ```demo
 basic.vue
+disabledAndReadonly.vue
 ```
 
 ## API

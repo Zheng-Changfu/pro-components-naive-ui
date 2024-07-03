@@ -10,18 +10,13 @@ export default defineComponent({
   setup() {
     const [proFormInst, { submit }] = useProFormInstance()
 
-    async function register(e: MouseEvent) {
-      e.preventDefault()
-      try {
-        const r = await submit()
-        console.log(r, 'r')
-      }
-      catch (error) {
-        console.log(error)
-      }
+    function onSubmit(values: any) {
+      console.log(values, 'values')
     }
+
     return {
-      register,
+      submit,
+      onSubmit,
       proFormInst,
     }
   },
@@ -29,12 +24,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <ProForm ref="proFormInst" label-placement="left" label-width="auto" @finish="onFinish">
-    <ProInput label="用户名" path="username" required />
-    <ProPassword label="密码" path="password" required />
-    <ProPassword label="确认密码" path="rePassword" required />
-    <NButton type="primary" @click="register">
-      注册
-    </NButton>
-  </ProForm>
+  <pro-form ref="proFormInst" label-placement="left" label-width="auto" @submit="onSubmit">
+    <pro-input label="用户名" path="username" required />
+    <pro-password label="密码" path="password" required />
+    <n-button type="primary" @click="submit">
+      登录
+    </n-button>
+  </pro-form>
 </template>
