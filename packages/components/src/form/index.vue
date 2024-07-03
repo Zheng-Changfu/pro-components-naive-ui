@@ -66,11 +66,21 @@ export default defineComponent({
       }
     }
 
-    async function submit() {
-      const { warnings } = await validate()
-      console.log(warnings, 'warnings')
-      const values = getFieldsTransformedValue()
-      return [warnings, values]
+    function submit() {
+      const {
+        onSubmit,
+        onSubmitFailed,
+      } = props
+
+      return validate()
+        .then(({ warnings }) => {
+          const values = getFieldsTransformedValue()
+          onSubmit && onSubmit(values, warnings ?? [])
+        })
+        .catch((errors) => {
+          onSubmitFailed && onSubmitFailed(errors)
+          console.log(errors, 'errors')
+        })
     }
 
     function validate(paths?: string | string[]) {

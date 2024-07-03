@@ -3,6 +3,12 @@ import { omit } from 'lodash-es'
 import { formProps } from 'naive-ui'
 import type { ArrayField, BaseField, MaybeExpression } from 'pro-components-hooks'
 
+interface ValidateError {
+  message?: string
+  fieldValue?: any
+  field?: string
+}
+
 export const proFormExtendProps = {
   /**
    * 表单是否切换为禁用状态
@@ -24,6 +30,14 @@ export const proFormExtendProps = {
    * 表单初始值
    */
   initialValues: Object,
+  /**
+   * 数据验证成功后回调事件
+   */
+  onSubmit: Function as PropType<(values: Record<string, any>, warnings: ValidateError[][]) => void>,
+  /**
+   * 数据验证失败后回调事件
+   */
+  onSubmitFailed: Function as PropType<(errors: ValidateError[][]) => void>,
   /**
    * 字段值发生变化时触发的回调函数
    */
