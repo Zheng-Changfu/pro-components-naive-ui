@@ -6,7 +6,7 @@ import { provideRequestTipConfigContext } from 'pro-components-hooks'
 import { useOmitProps } from '../hooks'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 import { provideGlobalConfigContext, useInjectGlobalConfigContext } from './context'
-import type { ProComponentGlobalConfig } from './types'
+import type { ProFieldGlobalConfig } from './types'
 
 export default defineComponent({
   name: 'ProConfigProvider',
@@ -32,19 +32,26 @@ export default defineComponent({
       proDateQuarterRange = {},
     } = props
 
-    function builtInPlaceholderRender(options: ProComponentGlobalConfig) {
-      const { type, formItemProps } = options
-      const { label } = formItemProps
-      switch (type) {
+    function builtInPlaceholderRender(options: ProFieldGlobalConfig) {
+      const { name, formItemProps } = options
+      const { label } = formItemProps.value
+      switch (name) {
         case 'ProInput':
-          return `请输入${toString(label?.value)}`
+        case 'ProTextarea':
+        case 'ProPassword':
+          return `请输入${toString(label)}`
+        case 'ProDate':
+          return `请选择${toString(label)}`
       }
     }
 
-    function builtInValidateMessageRender(options: ProComponentGlobalConfig) {
+    function builtInValidateMessageRender(options: ProFieldGlobalConfig) {
       const { formItemProps } = options
-      const { label } = formItemProps
-      return `${toString(label?.value)}为必填字段`
+      const { label, path } = formItemProps.value
+      const sLabel = toString(label)
+      return sLabel
+        ? `${sLabel}为必填字段`
+        : `${path}为必填字段`
     }
 
     /**
@@ -99,8 +106,8 @@ export default defineComponent({
         ...proRequest,
       },
       proDate: {
-        valueFormat: 'yyyy-MM-DD',
-        valueFormatIfShowTime: 'yyyy-MM-DD HH:mm:ss',
+        valueFormat: 'YYYY-MM-DD',
+        valueFormatIfShowTime: 'YYYY-MM-DD HH:mm:ss',
         ...parentProDate,
         ...proDate,
       },
@@ -110,43 +117,43 @@ export default defineComponent({
         ...proTime,
       },
       proDateYear: {
-        valueFormat: 'yyyy',
+        valueFormat: 'YYYY',
         ...parentProDateYear,
         ...proDateYear,
       },
       proDateWeek: {
-        valueFormat: 'yyyy-w',
+        valueFormat: 'YYYY-w',
         ...parentProDateWeek,
         ...proDateWeek,
       },
       proDateMonth: {
-        valueFormat: 'yyyy-MM',
+        valueFormat: 'YYYY-MM',
         ...parentProDateMonth,
         ...proDateMonth,
       },
       proDateRange: {
-        valueFormat: 'yyyy-MM-DD',
-        valueFormatIfShowTime: 'yyyy-MM-DD HH:mm:ss',
+        valueFormat: 'YYYY-MM-DD',
+        valueFormatIfShowTime: 'YYYY-MM-DD HH:mm:ss',
         ...parentProDateRange,
         ...proDateRange,
       },
       proDateQuarter: {
-        valueFormat: 'yyyy-[Q]Q',
+        valueFormat: 'YYYY-[Q]Q',
         ...parentProDateQuarter,
         ...proDateQuarter,
       },
       proDateYearRange: {
-        valueFormat: 'yyyy',
+        valueFormat: 'YYYY',
         ...parentProDateYearRange,
         ...proDateYearRange,
       },
       proDateMonthRange: {
-        valueFormat: 'yyyy-MM',
+        valueFormat: 'YYYY-MM',
         ...parentProDateMonthRange,
         ...proDateMonthRange,
       },
       proDateQuarterRange: {
-        valueFormat: 'yyyy-[Q]Q',
+        valueFormat: 'YYYY-[Q]Q',
         ...parentProDateQuarterRange,
         ...proDateQuarterRange,
       },

@@ -1,11 +1,5 @@
 export interface ProFormItemSlots {
   label: any
+  default: any
   feedback: any
-  /**
-   * 扩展参数
-   */
-  default: {
-    fieldProps: Record<string, any>
-    placeholder: any
-  }
 }

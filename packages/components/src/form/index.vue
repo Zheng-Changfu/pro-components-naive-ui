@@ -9,8 +9,8 @@ import { useInjectGlobalConfigContext } from '../config-provider'
 import { proFormReadonlyContextKey, provideProFormInstanceContext } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 import type { ProFormInstance } from './inst'
-import type { ProComponentConfig } from './field'
-import { ProComponentConfigKey } from './field'
+import type { ProFieldConfig } from './field'
+import { ProFieldConfigKey } from './field'
 
 export default defineComponent({
   name: 'ProForm',
@@ -79,7 +79,6 @@ export default defineComponent({
         })
         .catch((errors) => {
           onSubmitFailed && onSubmitFailed(errors)
-          console.log(errors, 'errors')
         })
     }
 
@@ -102,10 +101,10 @@ export default defineComponent({
       const normalizedPaths = (isString(paths) ? [paths] : paths).map(toPath) as Array<string[]>
       normalizedPaths.forEach((path) => {
         const field = pathField.get(path)
-        if (!field || !field[ProComponentConfigKey])
+        if (!field || !field[ProFieldConfigKey])
           return
-        const proComponentConfig: ProComponentConfig = field[ProComponentConfigKey]
-        const formItemInst = proComponentConfig.formItemInstRef.value
+        const proFieldConfig: ProFieldConfig = field[ProFieldConfigKey]
+        const formItemInst = proFieldConfig.formItemInstRef.value
         formItemInst.restoreValidation()
       })
     }

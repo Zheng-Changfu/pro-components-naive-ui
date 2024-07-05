@@ -7,6 +7,13 @@ export const proFieldProps = {
    */
   path: String,
   /**
+   * 默认值，优先级最低
+   */
+  defaultValue: {
+    type: undefined as any as PropType<any>,
+    default: undefined,
+  },
+  /**
    * 初始值，优先级大于 Form 组件的 initialValues
    */
   initialValue: {

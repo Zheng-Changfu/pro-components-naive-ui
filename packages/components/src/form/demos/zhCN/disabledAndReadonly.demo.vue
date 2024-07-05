@@ -25,12 +25,15 @@ export default defineComponent({
 
 <template>
   <pro-form ref="proFormInst" label-placement="left" label-width="auto" @submit="onSubmit">
-    <pro-input label="用户名" path="username" required />
+    <!-- <pro-input label="用户名" path="username" required />
     <pro-password label="密码" path="password" required />
-    <pro-digit label="数字" path="digit" required />
+    <pro-digit label="数字" path="digit" required /> -->
     <pro-date label="日期" path="date" required />
     <pro-date label="日期-时间" path="date-time" required :field-props="{ type: 'datetime' }" />
-    <pro-time label="时间" path="time" required />
+    <!-- <pro-date label="日期-时间2" path="date-time2" required :initial-value="1721979383000" :field-props="{ type: 'datetime' }" /> -->
+    <!-- <pro-date label="日期-时间2" path="date-time2" required initial-value="2024-07-26 15:36:24" :field-props="{ type: 'datetime' }" /> -->
+    <!-- <pro-date label="日期-时间2" path="date-time2" required initial-value="" :field-props="{ type: 'datetime' }" /> -->
+    <!-- <pro-time label="时间" path="time" required />
     <pro-radio label="单选" path="radio" required />
     <pro-slider label="滑动选择" path="slider" required />
     <pro-select
@@ -209,7 +212,7 @@ export default defineComponent({
     />
     <pro-date-year-range label="日期-年范围" path="date-year-range" required />
     <pro-date-month-range label="日期-月范围" path="date-month-range" required />
-    <pro-date-quarter-range label="日期-季度范围" path="date-quarter-range" required />
+    <pro-date-quarter-range label="日期-季度范围" path="date-quarter-range" required /> -->
     <n-button type="primary" @click="submit">
       登录
     </n-button>

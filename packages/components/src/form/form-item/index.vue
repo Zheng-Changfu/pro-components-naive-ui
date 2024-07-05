@@ -1,18 +1,18 @@
 <script lang="tsx">
-import type { SlotsType, ToRefs } from 'vue'
-import { computed, defineComponent, inject, ref, toRefs, unref } from 'vue'
+import type { SlotsType } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import type { FormItemInst, FormItemProps } from 'naive-ui'
 import { NFormItem, NInputGroup } from 'naive-ui'
-import { useCompile, useInjectFieldContext } from 'pro-components-hooks'
-import { isBoolean } from 'lodash-es'
-import { proFormReadonlyContextKey } from '../context'
-import { ProComponentConfigKey } from '../field'
-import { useReadonlyRenderer } from '../useReadonlyRenderer'
-import { usePlaceholder } from '../usePlaceholder'
-import { useAddonSlotRenderer } from '../useAddonSlotRenderer'
+import { useInjectFieldContext } from 'pro-components-hooks'
+import { ProFieldConfigKey } from '../field'
 import { proFormItemProps } from './props'
 import type { ProFormItemSlots } from './slots'
 import { useFormItemRule } from './useFormItemRule'
+import { isEmptyValue } from './utils/valueUtil'
+import { useCompileFormItemProps } from './useCompileFormItemProps'
+import { useFormItemReadonly } from './useFormItemReadonly'
+import { useReadonlyRenderer } from './useReadonlyRenderer'
+import { useAddonSlotRenderer } from './useAddonSlotRenderer'
 
 export default defineComponent({
   name: 'ProFormItem',
@@ -20,151 +20,71 @@ export default defineComponent({
   props: proFormItemProps,
   slots: Object as SlotsType<ProFormItemSlots>,
   setup(props) {
-    const {
-      rule,
-      size,
-      label,
-      first,
-      feedback,
-      rulePath,
-      required,
-      showLabel,
-      fieldProps,
-      labelWidth,
-      labelAlign,
-      labelProps,
-      labelStyle,
-      placeholder,
-      showFeedback,
-      feedbackClass,
-      feedbackStyle,
-      labelPlacement,
-      showRequireMark,
-      validationStatus,
-      ignorePathChange,
-      requireMarkPlacement,
-      path, // path 不支持表达式
-    } = toRefs(props)
-
     const field = useInjectFieldContext()!
     const formItemInstRef = ref<FormItemInst>()
-    const formReadonlyRef = inject(proFormReadonlyContextKey)
 
     const {
       show,
-      scope,
       value,
+      stringPath,
     } = field
 
-    /**
-     * 每个属性单独使用 useCompile 编译，提高性能（缓存）
-     */
-    const compiledRule = useCompile(rule, { scope })
-    const compiledSize = useCompile(size, { scope })
-    const compiledLabel = useCompile(label, { scope })
-    const compiledFirst = useCompile(first, { scope })
-    const compiledRequired = useCompile(required, { scope })
-    const compiledFeedback = useCompile(feedback, { scope })
-    const compiledRulePath = useCompile(rulePath, { scope })
-    const compiledShowLabel = useCompile(showLabel, { scope })
-    const compiledLabelWidth = useCompile(labelWidth, { scope })
-    const compiledFieldProps = useCompile(fieldProps, { scope })
-    const compiledLabelAlign = useCompile(labelAlign, { scope })
-    const compiledLabelProps = useCompile(labelProps, { scope })
-    const compiledLabelStyle = useCompile(labelStyle, { scope })
-    const compiledPlaceholder = useCompile(placeholder, { scope })
-    const compiledShowFeedback = useCompile(showFeedback, { scope })
-    const compiledFeedbackClass = useCompile(feedbackClass, { scope })
-    const compiledFeedbackStyle = useCompile(feedbackStyle, { scope })
-    const compiledLabelPlacement = useCompile(labelPlacement, { scope })
-    const compiledShowRequireMark = useCompile(showRequireMark, { scope })
-    const compiledValidationStatus = useCompile(validationStatus, { scope })
-    const compiledIgnorePathChange = useCompile(ignorePathChange, { scope })
-    const compiledRequireMarkPlacement = useCompile(requireMarkPlacement, { scope })
+    const {
+      rule: compiledRule,
+      simple: compiledSimple,
+      readonly: compiledReadonly,
+      required: compiledRequired,
+      nFormItemProps: compiledNFormItemProps,
+    } = useCompileFormItemProps(props)
 
     const mergedRule = useFormItemRule({
       rule: compiledRule,
       required: compiledRequired,
     })
 
-    const readonly = computed(() => {
-      const propReadonly = props.readonly
-      const formReadonly = unref(formReadonlyRef)
-      if (isBoolean(propReadonly)) {
-        return propReadonly
-      }
-      if (isBoolean(formReadonly)) {
-        return formReadonly
-      }
-      return false
+    const readonly = useFormItemReadonly({
+      readonly: compiledReadonly,
     })
 
-    const formItemProps: ToRefs<FormItemProps> = {
-      path,
-      rule: mergedRule,
-      size: compiledSize,
-      label: compiledLabel,
-      first: compiledFirst,
-      feedback: compiledFeedback,
-      rulePath: compiledRulePath,
-      showLabel: compiledShowLabel,
-      labelWidth: compiledLabelWidth,
-      labelAlign: compiledLabelAlign,
-      labelProps: compiledLabelProps,
-      labelStyle: compiledLabelStyle,
-      showFeedback: compiledShowFeedback,
-      feedbackClass: compiledFeedbackClass,
-      feedbackStyle: compiledFeedbackStyle,
-      labelPlacement: compiledLabelPlacement,
-      showRequireMark: compiledShowRequireMark,
-      validationStatus: compiledValidationStatus,
-      ignorePathChange: compiledIgnorePathChange,
-      requireMarkPlacement: compiledRequireMarkPlacement,
-    }
-
-    /**
-     * 完善 ProComponentConfig
-     */
-    field[ProComponentConfigKey] = {
-      value,
-      formItemProps,
-      formItemInstRef,
-      fieldProps: compiledFieldProps,
-      ...field[ProComponentConfigKey],
-    }
-
-    const {
-      empty,
-    } = field[ProComponentConfigKey]
-
-    const mergedPlaceholder = usePlaceholder(
-      compiledPlaceholder,
-      field[ProComponentConfigKey],
-    )
+    const empty = computed(() => {
+      return isEmptyValue(value.value)
+    })
 
     const {
       readonlyRender,
       readonlyEmptyRender,
-    } = useReadonlyRenderer(field[ProComponentConfigKey])
+    } = useReadonlyRenderer(field[ProFieldConfigKey])
 
     const {
       addonAfterSlot,
       addonBeforeSlot,
-    } = useAddonSlotRenderer(field[ProComponentConfigKey])
+    } = useAddonSlotRenderer(field[ProFieldConfigKey])
+
+    const nFormItemProps = computed<FormItemProps>(() => {
+      return {
+        ref: formItemInstRef,
+        path: stringPath.value,
+        rule: mergedRule.value,
+        ...compiledNFormItemProps.value,
+      }
+    })
+
+    field[ProFieldConfigKey] = {
+      formItemInstRef,
+      formItemProps: nFormItemProps,
+      ...field[ProFieldConfigKey],
+    }
 
     return {
       show,
-      path,
       empty,
       readonly,
-      readonlyRender,
+      nFormItemProps,
       addonAfterSlot,
+      readonlyRender,
       addonBeforeSlot,
       readonlyEmptyRender,
-      fieldProps: compiledFieldProps,
-      placeholder: mergedPlaceholder,
-      formItemInst: { ref: formItemInstRef },
-      ...formItemProps,
+      simple: compiledSimple,
     }
   },
   render() {
@@ -173,7 +93,9 @@ export default defineComponent({
       empty,
       $props,
       $slots,
+      simple,
       readonly,
+      nFormItemProps,
       addonAfterSlot,
       addonBeforeSlot,
       readonlyRender,
@@ -186,29 +108,19 @@ export default defineComponent({
       feedback: feedbackSlot,
     } = $slots
 
-    const {
-      simple,
-      fieldRender,
-      formItemRender,
-    } = $props
-
     const renderContent = () => {
       if (!readonly) {
-        const children = defaultSlot?.({
-          fieldProps: this.fieldProps,
-          placeholder: this.placeholder,
-        })
+        const children = defaultSlot?.()
         if (!addonBeforeSlot && !addonAfterSlot) {
-          return fieldRender ? fieldRender(children) : children
+          return children
         }
-        const fieldVNode = (
+        return (
           <NInputGroup>
             {addonBeforeSlot?.()}
             {children}
             {addonAfterSlot?.()}
           </NInputGroup>
         )
-        return fieldRender ? fieldRender(fieldVNode) : fieldVNode
       }
       return !empty
         ? readonlyRender?.()
@@ -223,66 +135,26 @@ export default defineComponent({
       return renderContent()
     }
 
-    const {
-      rule,
-      size,
-      label,
-      path,
-      first,
-      feedback,
-      rulePath,
-      showLabel,
-      labelWidth,
-      labelAlign,
-      labelProps,
-      labelStyle,
-      formItemInst,
-      showFeedback,
-      feedbackClass,
-      feedbackStyle,
-      labelPlacement,
-      showRequireMark,
-      validationStatus,
-      ignorePathChange,
-      requireMarkPlacement,
-    } = this
-
-    const formItemProps: FormItemProps = {
-      rule,
-      size,
-      label,
-      path,
-      first,
-      feedback,
-      rulePath,
-      showLabel,
-      labelWidth,
-      labelAlign,
-      labelProps,
-      labelStyle,
-      showFeedback,
-      feedbackClass,
-      feedbackStyle,
-      labelPlacement,
-      showRequireMark,
-      validationStatus,
-      ignorePathChange,
-      requireMarkPlacement,
+    const nFormItemSlots = {
+      label: labelSlot,
+      feedback: feedbackSlot,
+      default: () => renderContent(),
     }
 
-    const domVNode = (
+    if ($props.renderFormItem) {
+      return $props.renderFormItem({
+        bindSlots: nFormItemSlots,
+        bindValues: nFormItemProps,
+      })
+    }
+
+    return (
       <NFormItem
-        {...formItemProps}
-        ref={formItemInst.ref}
-        v-slots={{
-          label: labelSlot,
-          feedback: feedbackSlot,
-          default: () => renderContent(),
-        }}
+        {...nFormItemProps}
+        v-slots={nFormItemSlots}
       >
       </NFormItem>
     )
-    return formItemRender ? formItemRender(domVNode) : domVNode
   },
 })
 </script>

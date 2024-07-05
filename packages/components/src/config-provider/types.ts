@@ -1,29 +1,29 @@
 import type { VNodeChild } from 'vue'
 import type { RequestTipConfig } from 'pro-components-hooks'
-import type { ProComponentConfig } from '../form'
+import type { ProFieldConfig } from '../form'
 import type { ProUploadFieldProps } from '../upload'
 
-export type ProComponentGlobalConfig = ProComponentConfig
+export type ProFieldGlobalConfig = ProFieldConfig
 
 export interface GlobalConfigProForm {
   /**
    * 自定义渲染只读状态下的表单
    * @param value 当前值
    */
-  readonlyRender: (options: ProComponentGlobalConfig) => VNodeChild
+  readonlyRender: (options: ProFieldGlobalConfig) => VNodeChild
   /**
    * 自定义渲染只读模式下并且表单值为空时的内容
    */
-  readonlyEmptyRender: (options: ProComponentGlobalConfig) => VNodeChild
+  readonlyEmptyRender: (options: ProFieldGlobalConfig) => VNodeChild
   /**
    * 配置表单控件的 placeholder
    */
-  placeholderRender: (options: ProComponentGlobalConfig) => any
+  placeholderRender: (options: ProFieldGlobalConfig) => any
   /**
    * 自定义渲染校验信息（目前只处理了 required:true），后续有可能会重构成一套完整的验证模版
    * @param value 当前值
    */
-  validateMessageRender: (options: ProComponentGlobalConfig) => VNodeChild
+  validateMessageRender: (options: ProFieldGlobalConfig) => VNodeChild
   /**
    * 统一设置表单校验时机
    * @default 'input'

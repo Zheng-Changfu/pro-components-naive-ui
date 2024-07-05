@@ -1,21 +1,22 @@
-import type { FormItemRule } from 'naive-ui'
-import { type MaybeExpression, compile, useInjectFieldContext } from 'pro-components-hooks'
+import type { ExcludeExpression } from 'pro-components-hooks'
+import { useInjectFieldContext } from 'pro-components-hooks'
 import type { ToRefs } from 'vue'
 import { computed } from 'vue'
-import { isArray, isBoolean, isFunction, isString } from 'lodash-es'
-import { ProComponentConfigKey } from '../field'
+import { isArray } from 'lodash-es'
+import type { FormItemRule } from 'naive-ui'
 import { useInjectGlobalConfigContext } from '../../config-provider'
-import type { ProFormItemRule } from './types'
+import { ProFieldConfigKey } from '../field'
+import { isEmptyValue } from './utils/valueUtil'
 
 export interface UseFormItemRuleOptions {
   /**
-   * props 的 required
+   * 编译后的 required
    */
-  required: MaybeExpression<boolean | undefined>
+  required: boolean | undefined
   /**
-   * props 的 rule
+   * 编译后的 rule
    */
-  rule: MaybeExpression<ProFormItemRule | ProFormItemRule[] | undefined>
+  rule: ExcludeExpression<FormItemRule | FormItemRule[] | undefined>
 }
 export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
   const {
@@ -29,57 +30,23 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
   } = useInjectGlobalConfigContext().proForm
 
   const field = useInjectFieldContext()!
-  const { scope, stringPath } = field
-
-  function convertWhenErrorToValidator(rule: ProFormItemRule): FormItemRule {
-    const { whenError, ...restRule } = rule
-    if (!whenError) {
-      return rule
-    }
-
-    if (isFunction(whenError)) {
-      return {
-        ...restRule,
-        validator: (...args) => !whenError(...args),
-      }
-    }
-
-    if (isBoolean(whenError)) {
-      return {
-        ...restRule,
-        validator: () => !whenError,
-      }
-    }
-
-    if (isString(whenError)) {
-      return {
-        ...restRule,
-        validator: () => !compile(whenError, scope),
-      }
-    }
-    return restRule
-  }
+  const { stringPath } = field
 
   return computed(() => {
     const rawRule = rule.value
     const rawRequired = required.value
-    const normalizedRule = (isArray(rawRule) ? [...rawRule] : [rawRule].filter(Boolean)) as ProFormItemRule[]
+    const normalizedRule = (isArray(rawRule) ? [...rawRule] : [rawRule].filter(Boolean)) as FormItemRule[]
     if (rawRequired) {
-      // 增加规则
-      const ruleType = field[ProComponentConfigKey].ruleType
-      const ruleTypes = isArray(ruleType) ? ruleType : [ruleType]
-      const requiredRules = ruleTypes.map((t) => {
-        const baseRule: ProFormItemRule = {
-          type: t,
-          required: true,
-        }
-        // 支持 required 提示信息国际化
-        if (validateMessageRender) {
-          baseRule.renderMessage = () => validateMessageRender(field[ProComponentConfigKey])
-        }
-        return baseRule
-      })
-      normalizedRule.push(...requiredRules)
+      // 增加 required 规则
+      const requiredRule: FormItemRule = {
+        required: true,
+        validator: (_, value) => !isEmptyValue(value),
+      }
+      // 支持 required 提示信息国际化
+      if (validateMessageRender) {
+        requiredRule.renderMessage = () => validateMessageRender(field[ProFieldConfigKey])
+      }
+      normalizedRule.push(requiredRule)
     }
     return normalizedRule.map((rule) => {
       return {
@@ -87,11 +54,7 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
          * 统一设置表单校验时机
          */
         trigger: validateTrigger,
-        /**
-         *  whenError 代替了 validator，是 validator 的一种简写形式
-         *  如果既有 whenError，又有 validator，忽略掉 validator
-         */
-        ...convertWhenErrorToValidator(rule),
+        ...rule,
         /**
          * 给每个 rule 增加 key，方便 validate 方法校验
          */
