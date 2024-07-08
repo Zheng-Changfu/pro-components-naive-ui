@@ -36,12 +36,27 @@ export default defineComponent({
       const { name, formItemProps } = options
       const { label } = formItemProps.value
       switch (name) {
-        case 'ProInput':
-        case 'ProTextarea':
-        case 'ProPassword':
-          return `请输入${toString(label)}`
         case 'ProDate':
+        case 'ProDateYear':
+        case 'ProDateTime':
+        case 'ProDateWeek':
+        case 'ProDateMonth':
+        case 'ProDateQuarter':
+        case 'ProSelect':
+        case 'ProTreeSelect':
           return `请选择${toString(label)}`
+        case 'ProDateRange':
+          return ['开始日期', '结束日期']
+        case 'ProDateYearRange':
+          return ['开始年份', '结束年份']
+        case 'ProDateMonthRange':
+          return ['开始月份', '结束月份']
+        case 'ProDateQuarterRange':
+          return ['开始季度', '结束季度']
+        case 'ProTransfer':
+          return ['请输入', '请输入2']
+        default:
+          return `请输入${toString(label)}`
       }
     }
 
@@ -98,6 +113,7 @@ export default defineComponent({
         }),
       },
       proUpload: {
+        title: '上传',
         ...parentProUpload,
         ...proUpload,
       },
