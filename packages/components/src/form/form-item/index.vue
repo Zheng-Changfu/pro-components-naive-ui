@@ -13,6 +13,7 @@ import { useCompileFormItemProps } from './useCompileFormItemProps'
 import { useFormItemReadonly } from './useFormItemReadonly'
 import { useReadonlyRenderer } from './useReadonlyRenderer'
 import { useAddonSlotRenderer } from './useAddonSlotRenderer'
+import { resolveFormItem } from './resolveFormItem'
 
 export default defineComponent({
   name: 'ProFormItem',
@@ -141,19 +142,19 @@ export default defineComponent({
       default: () => renderContent(),
     }
 
-    if ($props.renderFormItem) {
-      return $props.renderFormItem({
+    return resolveFormItem(
+      $props.renderFormItem,
+      {
         bindSlots: nFormItemSlots,
         bindValues: nFormItemProps,
-      })
-    }
-
-    return (
-      <NFormItem
-        {...nFormItemProps}
-        v-slots={nFormItemSlots}
-      >
-      </NFormItem>
+      },
+      () => (
+        <NFormItem
+          {...nFormItemProps}
+          v-slots={nFormItemSlots}
+        >
+        </NFormItem>
+      ),
     )
   },
 })

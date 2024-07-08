@@ -1,5 +1,6 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import { omit } from 'lodash-es'
+import type { FormItemProps } from 'naive-ui'
 import { formProps } from 'naive-ui'
 import type { ArrayField, BaseField, MaybeExpression } from 'pro-components-hooks'
 
@@ -57,6 +58,16 @@ export const proFormExtendProps = {
       value: any
     }) => void>,
   },
+  /**
+   * 自定义渲染 formItem，优先级比 ProFormItem 低
+   * @param bindValues formItem 的属性
+   * @param bindSlots formItem 的插槽
+   */
+  renderFormItem: Function as PropType<(
+    opt: {
+      bindValues: FormItemProps
+      bindSlots: Record<string, any>
+    }) => VNodeChild>,
 } as const
 
 export const proFormProps = {

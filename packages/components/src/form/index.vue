@@ -6,7 +6,7 @@ import { computed, defineComponent, provide, ref, toRef } from 'vue'
 import { isString, toPath } from 'lodash-es'
 import { useOmitProps } from '../hooks'
 import { useInjectGlobalConfigContext } from '../config-provider'
-import { proFormReadonlyContextKey, provideProFormInstanceContext } from './context'
+import { proFormReadonlyContextKey, proFormRenderFormItemContextKey, provideProFormInstanceContext } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 import type { ProFormInstance } from './inst'
 import type { ProFieldConfig } from './field'
@@ -128,6 +128,7 @@ export default defineComponent({
     expose(exposed)
     provideProFormInstanceContext(exposed)
     provide(proFormReadonlyContextKey, compiledReadonly)
+    provide(proFormRenderFormItemContextKey, props.renderFormItem)
     return {
       nFormProps,
     }
