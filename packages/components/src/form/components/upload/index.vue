@@ -6,7 +6,7 @@ import { NButton, NUpload } from 'naive-ui'
 import { uid } from 'pro-components-hooks'
 import { isArray, isString } from 'lodash-es'
 import { useInjectGlobalConfigContext } from '../../../config-provider'
-import { useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useFieldBindValues } from '../../field'
 import { isEmptyValue } from '../../form-item/utils/valueUtil'
 import { ProFormItem } from '../../form-item'
 import { proUploadProps } from './props'
@@ -172,22 +172,29 @@ export default defineComponent({
         {...$props}
         v-slots={{
           default: () => {
-            return (
-              <NUpload
-                {...this.nUploadProps}
-                v-slots={{
-                  ...$slots,
-                  default: () => {
-                    if ($slots.default) {
-                      return $slots.default()
-                    }
-                    if (this.nUploadProps.listType === 'image-card') {
-                      return this.title
-                    }
-                    return <NButton type="primary">{this.title}</NButton>
-                  },
-                }}
-              />
+            return resolveField(
+              $props.renderField,
+              {
+                bindSlots: $slots,
+                bindValues: this.nUploadProps,
+              },
+              () => (
+                <NUpload
+                  {...this.nUploadProps}
+                  v-slots={{
+                    ...$slots,
+                    default: () => {
+                      if ($slots.default) {
+                        return $slots.default()
+                      }
+                      if (this.nUploadProps.listType === 'image-card') {
+                        return this.title
+                      }
+                      return <NButton type="primary">{this.title}</NButton>
+                    },
+                  }}
+                />
+              ),
             )
           },
         }}
