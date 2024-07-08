@@ -47,7 +47,7 @@ export default defineComponent({
       const { type } = bindValues.value
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value,
+        ...bindValues.value as any,
         'ref': pickerInstRef,
         'value': value.value,
         'defaultTime': undefined,

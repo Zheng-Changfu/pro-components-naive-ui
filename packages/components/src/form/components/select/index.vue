@@ -38,6 +38,7 @@ export default defineComponent({
     const nSelectProps = computed<SelectProps>(() => {
       const { value, doUpdateValue } = field
       return {
+        ...bindValues.value as any,
         'ref': nSelectInstRef,
         'value': value.value,
         'loading': loading.value,

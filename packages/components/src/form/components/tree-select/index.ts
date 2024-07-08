@@ -1,5 +1,4 @@
 export * from './inst'
 export * from './props'
 export * from './slots'
-export * from './useProTreeSelect'
 export { default as ProTreeSelect } from './index.vue'

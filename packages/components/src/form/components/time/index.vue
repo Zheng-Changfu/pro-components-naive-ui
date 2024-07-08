@@ -46,7 +46,7 @@ export default defineComponent({
     const nPickerProps = computed<TimePickerProps>(() => {
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value,
+        ...bindValues.value as any,
         'ref': pickerInstRef,
         'value': value.value,
         'defaultValue': undefined,

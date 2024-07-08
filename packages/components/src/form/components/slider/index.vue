@@ -28,7 +28,7 @@ export default defineComponent({
       const { value, doUpdateValue } = field
       const { placeholder, ...rest } = bindValues.value
       return {
-        ...rest,
+        ...rest as any,
         'value': value.value,
         'defaultValue': undefined,
         'onUpdate:value': undefined,

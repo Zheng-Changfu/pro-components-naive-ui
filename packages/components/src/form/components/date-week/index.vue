@@ -46,7 +46,7 @@ export default defineComponent({
     const nPickerProps = computed<DatePickerProps>(() => {
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value,
+        ...bindValues.value as any,
         'type': 'week',
         'value': value.value,
         'ref': pickerInstRef,

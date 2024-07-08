@@ -2,9 +2,9 @@ import type { ComputedRef } from 'vue'
 import { computed, ref, watch } from 'vue'
 import type { ExcludeExpression } from 'pro-components-hooks'
 import { eachTree, mapTree, useRequest } from 'pro-components-hooks'
-import { get, has, isArray, isNumber, isString, set, unset } from 'lodash-es'
+import { debounce, get, has, isArray, isNumber, isString, set, unset } from 'lodash-es'
 import type { TreeSelectOption } from 'naive-ui'
-import type { AnyFn } from '../types'
+import type { AnyFn } from '../../../types'
 import type { ProTreeSelectProps } from './props'
 import { LevelKey } from './key'
 
@@ -15,18 +15,16 @@ export function useOptions(
   const loaded = ref(false)
   const options = ref<TreeSelectOption[]>([])
   const controls = useRequest(props.fetchConfig as any)
+  const debounceTime = props.fetchConfig?.debounceTime ?? 500
 
   const {
     remote = false,
+    keyField = 'key',
     leafField = 'isLeaf',
+    childrenField = 'children',
     filterEmptyChildrenField = true,
     emptyChildrenConsideredLeafNode = true,
-  } = props
-
-  const {
-    keyField = 'key',
-    childrenField = 'children',
-  } = compiledFieldProps.value ?? {}
+  } = compiledFieldProps.value!
 
   const {
     run,
@@ -35,6 +33,11 @@ export function useOptions(
     onSuccess,
     onFailure,
   } = controls
+
+  const debounceRun = debounce(
+    run,
+    debounceTime,
+  )
 
   watch(
     computed(() => compiledFieldProps.value?.options ?? []),
@@ -108,7 +111,7 @@ export function useOptions(
      * remote：true 并且用户没重写 onLoad，由内部控制远程加载
      */
     return new Promise<void>(async (resolve) => {
-      const [err, response] = await callWithLoaded(run, node)
+      const [err, response] = await callWithLoaded(debounceRun, node)
       if (err) {
         node.isLeaf = true
         resolve()

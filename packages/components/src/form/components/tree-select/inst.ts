@@ -1,6 +1,7 @@
 import type { TreeSelectInst } from 'naive-ui'
 import type { UseRequestReturned } from 'pro-components-hooks'
-import type { PickFunction } from '../types'
+import type { PickFunction } from '../../../types'
+import { createProComponentInstanceFactory } from '../../../hooks'
 
 export type ProTreeSelectInstance<Data = any> = PickFunction<TreeSelectInst & {
   /**
@@ -40,7 +41,17 @@ export type ProTreeSelectInstance<Data = any> = PickFunction<TreeSelectInst & {
    */
   setCheckedKeys: (keys?: Array<string | number>) => void
   /**
+   * 获取部分选中选项的 keys
+   */
+  getIndeterminateKeys: () => Array<string | number>
+  /**
+   * 设置部分选中 keys
+   * @param keys 需要部分选中的 keys
+   */
+  setIndeterminateKeys: (keys: Array<string | number>) => void
+  /**
    * 获取请求控制器
    */
   getFetchControls: () => UseRequestReturned<any, any>
 }>
+export const useProTreeSelectInstance = createProComponentInstanceFactory<ProTreeSelectInstance>('ProTreeSelect')

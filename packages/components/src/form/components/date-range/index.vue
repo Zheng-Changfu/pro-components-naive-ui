@@ -59,7 +59,7 @@ export default defineComponent({
       const { value, doUpdateValue } = field
       const [sp, ep] = placeholder ?? []
       return {
-        ...bindValues.value,
+        ...bindValues.value as any,
         'ref': pickerInstRef,
         'value': value.value,
         'endPlaceholder': ep,
