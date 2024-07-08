@@ -77,7 +77,7 @@ export default defineComponent({
         {
           key: 'component',
           label: t('component'),
-          path: `${themeAndLocaleReg.exec(route.path)![0]}/components/input`,
+          path: `${themeAndLocaleReg.exec(route.path)![0]}/components/form`,
         },
       ]
     })
