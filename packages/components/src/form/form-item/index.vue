@@ -51,14 +51,14 @@ export default defineComponent({
     })
 
     const {
-      readonlyRender,
-      readonlyEmptyRender,
-    } = useReadonlyRenderer(field[ProFieldConfigKey])
-
-    const {
       addonAfterSlot,
       addonBeforeSlot,
     } = useAddonSlotRenderer(field[ProFieldConfigKey])
+
+    const {
+      readonlyRender,
+      readonlyEmptyRender,
+    } = useReadonlyRenderer(props, field[ProFieldConfigKey])
 
     const nFormItemProps = computed<FormItemProps>(() => {
       return {

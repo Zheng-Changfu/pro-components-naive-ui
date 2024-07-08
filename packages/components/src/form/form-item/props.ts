@@ -22,6 +22,18 @@ export const proFormItemExtendProps = {
     default: undefined,
   },
   /**
+   * 自定义渲染只读模式下的控件
+   */
+  readonlyRender: Function as PropType<(
+    (opt: { value: any }) => VNodeChild
+  )>,
+  /**
+   * 自定义渲染只读模式下并且内容为空时的控件
+   */
+  readonlyEmptyRender: Function as PropType<(
+    (opt: { value: any }) => VNodeChild
+  )>,
+  /**
    * 自定义渲染控件
    */
   renderField: Function as PropType<(
