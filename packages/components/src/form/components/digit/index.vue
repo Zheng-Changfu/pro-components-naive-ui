@@ -22,10 +22,10 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+      placeholder,
+    } = useFieldBindValues(field, props)
 
     const nDigitProps = computed<InputNumberProps>(() => {
       const { value, doUpdateValue } = field
@@ -36,6 +36,7 @@ export default defineComponent({
 
         'ref': nDigitInstRef,
         'value': value.value,
+        'placeholder': placeholder.value,
         'onUpdateValue': doUpdateValue,
       }
     })

@@ -19,16 +19,14 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+    } = useFieldBindValues(field, props)
 
     const nRadioProps = computed<RadioProps>(() => {
       const { value, doUpdateValue } = field
-      const { placeholder, ...rest } = bindValues.value
       return {
-        ...rest,
+        ...bindValues.value,
         'defaultChecked': undefined,
         'onUpdate:checked': undefined,
 

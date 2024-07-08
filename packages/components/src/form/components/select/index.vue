@@ -23,10 +23,10 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+      placeholder,
+    } = useFieldBindValues(field, props)
 
     const {
       loading,
@@ -46,6 +46,7 @@ export default defineComponent({
         'value': value.value,
         'loading': loading.value,
         'options': options.value,
+        'placeholder': placeholder.value,
         onSearch,
         'onUpdateValue': doUpdateValue,
       }

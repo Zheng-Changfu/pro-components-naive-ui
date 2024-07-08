@@ -19,16 +19,14 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+    } = useFieldBindValues(field, props)
 
     const nRateProps = computed<RateProps>(() => {
       const { value, doUpdateValue } = field
-      const { placeholder, ...rest } = bindValues.value
       return {
-        ...rest,
+        ...bindValues.value,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
 

@@ -21,10 +21,10 @@ export default defineComponent({
       { defaultValue: [] },
     )
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+      placeholder,
+    } = useFieldBindValues(field, props)
 
     const {
       options,
@@ -34,10 +34,9 @@ export default defineComponent({
 
     const nTransferProps = computed<TransferProps>(() => {
       const { value, doUpdateValue } = field
-      const { placeholder, ...rest } = bindValues.value
-      const [s, t] = placeholder ?? []
+      const [s, t] = placeholder.value ?? []
       return {
-        ...rest,
+        ...bindValues.value as any,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
 

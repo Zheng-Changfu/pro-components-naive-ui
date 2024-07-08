@@ -26,10 +26,9 @@ export default defineComponent({
       postState: convertValueToFile,
     })
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+    } = useFieldBindValues(field, props)
 
     const {
       title: globalTitle,
@@ -121,7 +120,6 @@ export default defineComponent({
       const {
         title,
         maxSize,
-        placeholder,
         onUnAccpetType,
         onlyAcceptImage,
         onOverFileMaxSize,

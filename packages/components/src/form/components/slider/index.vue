@@ -19,16 +19,14 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+    } = useFieldBindValues(field, props)
 
     const nSliderProps = computed<SliderProps>(() => {
       const { value, doUpdateValue } = field
-      const { placeholder, ...rest } = bindValues.value
       return {
-        ...rest as any,
+        ...bindValues.value as any,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
 

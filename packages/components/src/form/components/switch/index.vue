@@ -19,16 +19,14 @@ export default defineComponent({
       { defaultValue: false },
     )
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+    } = useFieldBindValues(field, props)
 
     const nSwitchProps = computed<SwitchProps>(() => {
       const { value, doUpdateValue } = field
-      const { placeholder, ...rest } = bindValues.value
       return {
-        ...rest,
+        ...bindValues.value as any,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
 

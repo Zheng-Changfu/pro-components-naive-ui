@@ -22,10 +22,10 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+      placeholder,
+    } = useFieldBindValues(field, props)
 
     const nTextareaProps = computed<InputProps>(() => {
       const { value, doUpdateValue } = field
@@ -38,6 +38,7 @@ export default defineComponent({
         'pair': false,
         'type': 'textarea',
         'value': value.value,
+        'placeholder': placeholder.value,
         'onUpdateValue': doUpdateValue,
       }
     })

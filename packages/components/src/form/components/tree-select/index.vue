@@ -27,10 +27,10 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+      placeholder,
+    } = useFieldBindValues(field, props)
 
     const {
       options,
@@ -78,6 +78,7 @@ export default defineComponent({
         'value': value.value,
         'loading': loading.value,
         'options': options.value,
+        'placeholder': placeholder.value,
         'expandedKeys': expandedKeys.value,
         'indeterminateKeys': indeterminateKeys.value,
         'onLoad': loadFn,

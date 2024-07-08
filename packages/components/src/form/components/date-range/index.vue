@@ -24,10 +24,10 @@ export default defineComponent({
       postState: convertStringArrayToTimestampArray,
     })
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+      placeholder,
+    } = useFieldBindValues(field, props)
 
     function convertStringToTimestamp(val: any) {
       if (isEmptyValue(val)) {
@@ -55,9 +55,9 @@ export default defineComponent({
     }
 
     const nPickerProps = computed<DatePickerProps>(() => {
-      const { type, placeholder } = bindValues.value
+      const { type } = bindValues.value
       const { value, doUpdateValue } = field
-      const [sp, ep] = placeholder ?? []
+      const [sp, ep] = placeholder.value ?? []
       return {
         ...bindValues.value as any,
         'defaultTime': undefined,

@@ -24,10 +24,10 @@ export default defineComponent({
       postState: convertStringToTimestamp,
     })
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+      placeholder,
+    } = useFieldBindValues(field, props)
 
     function convertStringToTimestamp(val: any) {
       const { postState } = props
@@ -59,6 +59,7 @@ export default defineComponent({
         'ref': pickerInstRef,
         'value': value.value,
         'onUpdateValue': doUpdateValue,
+        'placeholder': placeholder.value,
         'type': type === 'datetime' ? 'datetime' : 'date',
       }
     })

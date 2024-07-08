@@ -21,10 +21,9 @@ export default defineComponent({
       { defaultValue: [] },
     )
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+    } = useFieldBindValues(field, props)
 
     const {
       loading,
@@ -34,9 +33,8 @@ export default defineComponent({
 
     const nCheckboxGroupProps = computed<CheckboxGroupProps>(() => {
       const { value, doUpdateValue } = field
-      const { placeholder, ...rest } = bindValues.value
       return {
-        ...rest,
+        ...bindValues.value as any,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
 

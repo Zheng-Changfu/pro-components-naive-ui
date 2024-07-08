@@ -40,11 +40,15 @@ export function useFieldBindValues<T extends {
       : proForm.placeholderRender?.(field[ProFieldConfigKey])
   })
 
-  return computed<ExcludeExpression<T['fieldProps'] & { placeholder: any }>>(() => {
+  const bindValues = computed<ExcludeExpression<T['fieldProps']>>(() => {
     return {
       ...compiledAttrs.value,
       ...compiledFieldProps.value,
-      placeholder: placeholder.value,
     }
   })
+
+  return {
+    bindValues,
+    placeholder,
+  }
 }

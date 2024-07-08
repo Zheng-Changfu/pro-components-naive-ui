@@ -22,16 +22,14 @@ export default defineComponent({
       { defaultValue: false },
     )
 
-    const bindValues = useFieldBindValues(
-      field,
-      props,
-    )
+    const {
+      bindValues,
+    } = useFieldBindValues(field, props)
 
     const nCheckboxProps = computed<CheckboxProps>(() => {
       const { value, doUpdateValue } = field
-      const { placeholder, ...rest } = bindValues.value
       return {
-        ...rest,
+        ...bindValues.value as any,
         'defaultChecked': undefined,
         'onUpdate:checked': undefined,
 
