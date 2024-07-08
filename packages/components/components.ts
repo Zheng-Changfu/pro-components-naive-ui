@@ -1,8 +1,7 @@
 export * from './src/tree' // ok
 export * from './src/form' // ok
-// export * from './src/button' // ok
+export * from './src/button' // ok
 // export * from './src/select' // 14
-// export * from './src/upload' // 16
 // export * from './src/transfer' // 17
 // export * from './src/form-list'
 // export * from './src/radio-group' // 19
