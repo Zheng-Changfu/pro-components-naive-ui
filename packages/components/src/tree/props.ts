@@ -4,6 +4,17 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { UseRequestOptions } from 'pro-components-hooks'
 import { omit } from 'lodash-es'
 
+/**
+ * 只在 remote:true 时生效
+ */
+interface FetchRemoteConfig {
+  /**
+   * 防抖时间，单位 ms
+   * @default '500'
+   */
+  debounceTime?: number
+}
+
 export const proTreeExtendProps = {
   /**
    * 替代 TreeOption 中的 isLeaf 字段
@@ -48,7 +59,7 @@ export const proTreeExtendProps = {
    * 请求配置
    */
   fetchConfig: {
-    type: Object as PropType<UseRequestOptions<any, any>>,
+    type: Object as PropType<UseRequestOptions<any, any> & FetchRemoteConfig>,
     default: () => ({}),
   },
   /**

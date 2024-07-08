@@ -13,6 +13,7 @@ import { useExpandKeys } from './useExpandKeys'
 import { useSelectKeys } from './useSelectKeys'
 import { useCheckKeys } from './useCheckKeys'
 import { LevelKey } from './key'
+import { useIndeterminateKeys } from './useIndeterminateKeys'
 
 export default defineComponent({
   name: 'ProTree',
@@ -56,23 +57,34 @@ export default defineComponent({
       doUpdateCheckedKeys,
     } = useCheckKeys(props, { keyToTreeNodeMap })
 
+    const {
+      indeterminateKeys,
+      getIndeterminateKeys,
+      setIndeterminateKeys,
+      doUpdateIndeterminateKeys,
+    } = useIndeterminateKeys(props, { keyToTreeNodeMap })
+
     const nTreeProps = computed<TreeProps>(() => {
       const { remote, onLoad: propOnLoad } = props
       const loadFn = (remote || propOnLoad) ? onLoad : undefined
       return {
         ...treeProps.value,
+        'onUpdate:checkedKeys': undefined,
+        'onUpdate:expandedKeys': undefined,
+        'onUpdate:selectedKeys': undefined,
+        'onUpdate:indeterminateKeys': undefined,
+
         'ref': treeInstRef,
         'data': data.value,
         'loading': loading.value,
         'checkedKeys': checkedKeys.value,
         'expandedKeys': expandedKeys.value,
         'selectedKeys': selectedKeys.value,
-        'onUpdate:checkedKeys': undefined,
-        'onUpdate:expandedKeys': undefined,
-        'onUpdate:selectedKeys': undefined,
+        'indeterminateKeys': indeterminateKeys.value,
         'onUpdateCheckedKeys': doUpdateCheckedKeys,
         'onUpdateExpandedKeys': doUpdateExpandedKeys,
         'onUpdateSelectedKeys': doUpdateSelectedKeys,
+        'onUpdateIndeterminateKeys': doUpdateIndeterminateKeys,
         'onLoad': loadFn,
       }
     })
@@ -131,6 +143,8 @@ export default defineComponent({
       getExpandedKeys,
       setExpandedKeys,
       setSelectedKeys,
+      getIndeterminateKeys,
+      setIndeterminateKeys,
       getTreeData: () => data.value,
       getFetchControls: () => controls,
       getCheckedData: () => treeInstRef.value!.getCheckedData(),
