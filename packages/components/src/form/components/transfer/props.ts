@@ -1,9 +1,10 @@
 import type { SpinProps, TransferOption, TransferProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression, UseRequestOptions } from 'pro-components-hooks'
-import { proFieldProps, proFormItemProps } from '../form'
+import { proFormItemProps } from '../../form-item'
+import { proFieldProps } from '../../field'
 
-interface ProTransferFieldProps extends Omit<TransferProps, 'value' | 'onUpdateValue' | 'onUpdate:value' | 'defaultValue' | 'sourceFilterPlaceholder' | 'targetFilterPlaceholder'> {
+interface ProTransferFieldProps extends TransferProps {
   /**
    * 选项 label 的字段名
    * @default 'label'
@@ -50,7 +51,15 @@ export const proTransferProps = {
     type: Array as PropType<MaybeExpression<string[]>>,
   },
   fieldProps: {
-    type: Object as PropType<MaybeExpression<ProTransferFieldProps>>,
+    type: Object as PropType<MaybeExpression<Omit<
+    ProTransferFieldProps,
+    | 'value'
+    | 'defaultValue'
+    | 'onUpdateValue'
+    | 'onUpdate:value'
+    | 'sourceFilterPlaceholder'
+    | 'targetFilterPlaceholder'
+>>>,
     default: () => ({}),
   },
 } as const
