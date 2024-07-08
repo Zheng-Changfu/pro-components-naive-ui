@@ -1,7 +1,8 @@
 import type { SelectProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression, UseRequestOptions } from 'pro-components-hooks'
-import { proFieldProps, proFormItemProps } from '../form'
+import { proFormItemProps } from '../../form-item'
+import { proFieldProps } from '../../field'
 
 /**
  * 只在 remote:true 时生效
@@ -37,7 +38,14 @@ export const proSelectProps = {
     type: String as PropType<MaybeExpression<string>>,
   },
   fieldProps: {
-    type: Object as PropType<MaybeExpression<Omit<SelectProps, 'value' | 'placeholder' | 'onUpdateValue' | 'onUpdate:value' | 'defaultValue'>>>,
+    type: Object as PropType<MaybeExpression<Omit<
+    SelectProps,
+    | 'value'
+    | 'placeholder'
+    | 'onUpdateValue'
+    | 'onUpdate:value'
+    | 'defaultValue'
+>>>,
     default: () => ({}),
   },
 } as const
