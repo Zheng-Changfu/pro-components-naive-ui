@@ -1,9 +1,10 @@
 import type { RadioGroupProps, RadioProps, SpaceProps, SpinProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression, UseRequestOptions } from 'pro-components-hooks'
-import { proFieldProps, proFormItemProps } from '../form'
+import { proFormItemProps } from '../../form-item'
+import { proFieldProps } from '../../field'
 
-interface ProRadioGroupFieldProps extends Omit<RadioGroupProps, 'value' | 'onUpdateValue' | 'onUpdate:value' | 'defaultValue'> {
+interface ProRadioGroupFieldProps extends RadioGroupProps {
   /**
    * 选项 label 的字段名
    * @default 'label'
@@ -17,7 +18,13 @@ interface ProRadioGroupFieldProps extends Omit<RadioGroupProps, 'value' | 'onUpd
   /**
    * 配置选项内容
    */
-  options?: Array<Omit<RadioProps, 'checked' | 'default-checked' | 'onUpdate:checked' | 'onUpdateChecked'> & ([x: string])>
+  options?: Array<Omit<
+  RadioProps,
+  | 'checked'
+  | 'defaultChecked'
+  | 'onUpdateChecked'
+  | 'onUpdate:checked'
+> & ([x: string])>
 }
 
 export const proRadioGroupProps = {
@@ -44,14 +51,20 @@ export const proRadioGroupProps = {
     default: () => ({}),
   },
   fieldProps: {
-    type: Object as PropType<MaybeExpression<ProRadioGroupFieldProps>>,
+    type: Object as PropType<MaybeExpression<Omit<
+    ProRadioGroupFieldProps,
+    | 'value'
+    | 'defaultValue'
+    | 'onUpdateValue'
+    | 'onUpdate:value'
+>>>,
     default: () => ({}),
   },
   /**
    * 包裹 n-radio 的 space 属性
    */
   spaceProps: {
-    type: Object as PropType<MaybeExpression<SpaceProps>>,
+    type: Object as PropType<SpaceProps>,
     default: () => ({}),
   },
 } as const

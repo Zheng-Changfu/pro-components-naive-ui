@@ -1,5 +1,4 @@
 export * from './inst'
 export * from './props'
 export * from './slots'
-export * from './useProRadioGroup'
 export { default as ProRadioGroup } from './index.vue'
