@@ -59,13 +59,13 @@ export default defineComponent({
       const {
         remote,
         leafField,
-        onLoad: userOnLoad,
+        onLoad: propOnLoad,
         expandAllOnFetchSuccess,
         filterEmptyChildrenField,
         emptyChildrenConsideredLeafNode,
         ...rest
       } = bindValues.value
-      const loadFn = (remote || userOnLoad) ? onLoad : undefined
+      const loadFn = (remote || propOnLoad) ? onLoad : undefined
       return {
         ...rest as any,
         'defaultValue': undefined,

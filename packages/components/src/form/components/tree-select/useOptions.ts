@@ -103,9 +103,9 @@ export function useOptions(
   }
 
   function onLoad(node: TreeSelectOption) {
-    const { onLoad: userOnLoad } = compiledFieldProps.value ?? {}
-    if (userOnLoad) {
-      return callWithLoaded(userOnLoad, node)
+    const { onLoad: propOnLoad } = compiledFieldProps.value ?? {}
+    if (propOnLoad) {
+      return callWithLoaded(propOnLoad, node)
     }
     /**
      * remote：true 并且用户没重写 onLoad，由内部控制远程加载

@@ -92,9 +92,9 @@ export function useTreeData(props: ProTreeProps) {
   }
 
   function onLoad(node: TreeSelectOption) {
-    const { onLoad: userOnLoad } = props
-    if (userOnLoad) {
-      return callWithLoaded(userOnLoad, node)
+    const { onLoad: propOnLoad } = props
+    if (propOnLoad) {
+      return callWithLoaded(propOnLoad, node)
     }
     /**
      * remote：true 并且用户没重写 onLoad，由内部控制远程加载

@@ -57,8 +57,8 @@ export default defineComponent({
     } = useCheckKeys(props, { keyToTreeNodeMap })
 
     const nTreeProps = computed<TreeProps>(() => {
-      const { remote, onLoad: userOnLoad } = props
-      const loadFn = (remote || userOnLoad) ? onLoad : undefined
+      const { remote, onLoad: propOnLoad } = props
+      const loadFn = (remote || propOnLoad) ? onLoad : undefined
       return {
         ...treeProps.value,
         'ref': treeInstRef,
