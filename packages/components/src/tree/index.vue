@@ -170,6 +170,7 @@ export default defineComponent({
     return (
       <NSpin
         show={loading}
+        style={{ width: '100%' }}
         {...$props.spinProps}
         v-slots={{
           default: () => (
