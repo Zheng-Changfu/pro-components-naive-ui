@@ -39,7 +39,6 @@ export default defineComponent({
         ...bindValues.value as any,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
-
         'value': value.value,
         'options': options.value,
         'sourceFilterPlaceholder': s,

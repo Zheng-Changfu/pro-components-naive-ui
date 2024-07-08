@@ -1,4 +1,4 @@
-import type { Dependencie, MaybeExpression } from 'pro-components-hooks'
+import type { Dependencie, FieldOptions, MaybeExpression } from 'pro-components-hooks'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 
 export const proFieldProps = {
