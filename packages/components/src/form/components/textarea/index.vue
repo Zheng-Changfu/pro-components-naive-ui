@@ -31,12 +31,13 @@ export default defineComponent({
       const { value, doUpdateValue } = field
       return {
         ...bindValues.value,
+        'defaultValue': undefined,
+        'onUpdate:value': undefined,
+
         'ref': nTextareaInstRef,
         'pair': false,
         'type': 'textarea',
         'value': value.value,
-        'defaultValue': undefined,
-        'onUpdate:value': undefined,
         'onUpdateValue': doUpdateValue,
       }
     })

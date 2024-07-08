@@ -32,10 +32,8 @@ export const proDateQuarterProps = {
     | 'endPlaceholder'
     | 'startPlaceholder'
     | 'defaultFormattedValue'
-    | 'defaultCalendarEndTime'
     | 'onUpdateFormattedValue'
     | 'onUpdate:formattedValue'
-    | 'defaultCalendarStartTime'
 >>>,
     default: () => ({}),
   },

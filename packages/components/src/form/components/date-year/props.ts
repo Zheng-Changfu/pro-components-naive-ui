@@ -32,10 +32,8 @@ export const proDateYearProps = {
     | 'endPlaceholder'
     | 'startPlaceholder'
     | 'defaultFormattedValue'
-    | 'defaultCalendarEndTime'
     | 'onUpdateFormattedValue'
     | 'onUpdate:formattedValue'
-    | 'defaultCalendarStartTime'
 >>>,
     default: () => ({}),
   },

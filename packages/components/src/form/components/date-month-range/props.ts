@@ -32,10 +32,8 @@ export const proDateMonthRangeProps = {
     | 'endPlaceholder'
     | 'startPlaceholder'
     | 'defaultFormattedValue'
-    | 'defaultCalendarEndTime'
     | 'onUpdateFormattedValue'
     | 'onUpdate:formattedValue'
-    | 'defaultCalendarStartTime'
 >>>,
     default: () => ({}),
   },

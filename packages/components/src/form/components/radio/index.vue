@@ -29,9 +29,10 @@ export default defineComponent({
       const { placeholder, ...rest } = bindValues.value
       return {
         ...rest,
-        'checked': value.value,
         'defaultChecked': undefined,
         'onUpdate:checked': undefined,
+
+        'checked': value.value,
         'onUpdateChecked': doUpdateValue,
       }
     })

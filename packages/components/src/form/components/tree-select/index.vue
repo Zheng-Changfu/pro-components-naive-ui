@@ -80,7 +80,6 @@ export default defineComponent({
         'options': options.value,
         'expandedKeys': expandedKeys.value,
         'indeterminateKeys': indeterminateKeys.value,
-
         'onLoad': loadFn,
         'onUpdateValue': doUpdateValue,
         'onUpdateExpandedKeys': doUpdateExpandedKeys,

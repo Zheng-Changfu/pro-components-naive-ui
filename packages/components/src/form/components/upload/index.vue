@@ -133,11 +133,12 @@ export default defineComponent({
       const customRequest = propCustomRequest ?? globalCustomRequest
       return {
         ...rest,
-        action,
-        'ref': nUploadInstRef,
-        'fileList': value.value,
         'defaultFileList': undefined,
         'onUpdate:fileList': undefined,
+
+        'ref': nUploadInstRef,
+        'fileList': value.value,
+        action,
         customRequest,
         onBeforeUpload,
         'onUpdateFileList': doUpdateValue,

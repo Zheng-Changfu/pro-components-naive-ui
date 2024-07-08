@@ -32,10 +32,8 @@ export const proDateProps = {
     | 'endPlaceholder'
     | 'startPlaceholder'
     | 'defaultFormattedValue'
-    | 'defaultCalendarEndTime'
     | 'onUpdateFormattedValue'
     | 'onUpdate:formattedValue'
-    | 'defaultCalendarStartTime'
 >>>,
     default: () => ({}),
   },

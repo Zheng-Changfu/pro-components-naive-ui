@@ -47,15 +47,16 @@ export default defineComponent({
       const { value, doUpdateValue } = field
       return {
         ...bindValues.value as any,
-        'ref': pickerInstRef,
-        'value': value.value,
         'defaultValue': undefined,
         'formattedValue': undefined,
         'onUpdate:value': undefined,
-        'onUpdateValue': doUpdateValue,
         'defaultFormattedValue': undefined,
         'onUpdateFormattedValue': undefined,
         'onUpdate:formattedValue': undefined,
+
+        'ref': pickerInstRef,
+        'value': value.value,
+        'onUpdateValue': doUpdateValue,
       }
     })
 

@@ -31,12 +31,13 @@ export default defineComponent({
       const { value, doUpdateValue } = field
       return {
         ...bindValues.value,
+        'defaultValue': undefined,
+        'onUpdate:value': undefined,
+
         'ref': nPasswordInstRef,
         'pair': false,
         'type': 'password',
         'value': value.value,
-        'defaultValue': undefined,
-        'onUpdate:value': undefined,
         'onUpdateValue': doUpdateValue,
       }
     })

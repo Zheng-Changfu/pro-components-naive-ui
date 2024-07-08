@@ -39,12 +39,13 @@ export default defineComponent({
       const { value, doUpdateValue } = field
       return {
         ...bindValues.value as any,
+        'defaultValue': undefined,
+        'onUpdate:value': undefined,
+
         'ref': nSelectInstRef,
         'value': value.value,
         'loading': loading.value,
         'options': options.value,
-        'defaultValue': undefined,
-        'onUpdate:value': undefined,
         onSearch,
         'onUpdateValue': doUpdateValue,
       }

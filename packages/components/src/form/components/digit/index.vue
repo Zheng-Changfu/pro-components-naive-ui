@@ -31,10 +31,11 @@ export default defineComponent({
       const { value, doUpdateValue } = field
       return {
         ...bindValues.value,
-        'ref': nDigitInstRef,
-        'value': value.value,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
+
+        'ref': nDigitInstRef,
+        'value': value.value,
         'onUpdateValue': doUpdateValue,
       }
     })

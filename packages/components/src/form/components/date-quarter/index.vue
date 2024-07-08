@@ -47,18 +47,17 @@ export default defineComponent({
       const { value, doUpdateValue } = field
       return {
         ...bindValues.value as any,
-        'type': 'quarter',
-        'value': value.value,
-        'ref': pickerInstRef,
         'defaultTime': undefined,
         'defaultValue': undefined,
         'formattedValue': undefined,
         'onUpdate:value': undefined,
         'defaultFormattedValue': undefined,
         'onUpdateFormattedValue': undefined,
-        'defaultCalendarEndTime': undefined,
         'onUpdate:formattedValue': undefined,
-        'defaultCalendarStartTime': undefined,
+
+        'type': 'quarter',
+        'ref': pickerInstRef,
+        'value': value.value,
         'onUpdateValue': doUpdateValue,
       }
     })

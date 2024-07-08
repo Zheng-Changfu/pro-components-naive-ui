@@ -31,12 +31,13 @@ export default defineComponent({
       const { value, doUpdateValue } = field
       return {
         ...bindValues.value,
+        'defaultValue': undefined,
+        'onUpdate:value': undefined,
+
         'ref': nInputInstRef,
         'pair': false,
         'type': 'text',
         'value': value.value,
-        'defaultValue': undefined,
-        'onUpdate:value': undefined,
         'onUpdateValue': doUpdateValue,
       }
     })

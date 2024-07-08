@@ -48,18 +48,17 @@ export default defineComponent({
       const { value, doUpdateValue } = field
       return {
         ...bindValues.value as any,
-        'ref': pickerInstRef,
-        'value': value.value,
         'defaultTime': undefined,
         'defaultValue': undefined,
         'formattedValue': undefined,
         'onUpdate:value': undefined,
-        'onUpdateValue': doUpdateValue,
         'defaultFormattedValue': undefined,
         'onUpdateFormattedValue': undefined,
-        'defaultCalendarEndTime': undefined,
         'onUpdate:formattedValue': undefined,
-        'defaultCalendarStartTime': undefined,
+
+        'ref': pickerInstRef,
+        'value': value.value,
+        'onUpdateValue': doUpdateValue,
         'type': type === 'datetime' ? 'datetime' : 'date',
       }
     })

@@ -32,10 +32,11 @@ export default defineComponent({
       const { placeholder, ...rest } = bindValues.value
       return {
         ...rest,
-        'ref': nCheckboxInst,
-        'checked': value.value,
         'defaultChecked': undefined,
         'onUpdate:checked': undefined,
+
+        'ref': nCheckboxInst,
+        'checked': value.value,
         'onUpdateChecked': doUpdateValue,
       }
     })
