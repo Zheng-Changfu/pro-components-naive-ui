@@ -31,7 +31,7 @@ export interface GlobalConfigProForm {
   /**
    * form 表单可以读取到的上下文
    */
-  expressionContext: Record<string, any>
+  expressionContext: Record<`$${string}`, any>
 }
 
 export interface GlobalConfigProButton {
