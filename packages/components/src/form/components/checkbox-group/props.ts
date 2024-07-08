@@ -1,9 +1,10 @@
 import type { CheckboxGroupProps, CheckboxProps, SpaceProps, SpinProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression, UseRequestOptions } from 'pro-components-hooks'
-import { proFieldProps, proFormItemProps } from '../form'
+import { proFormItemProps } from '../../form-item'
+import { proFieldProps } from '../../field'
 
-interface ProCheckboxGroupFieldProps extends Omit<CheckboxGroupProps, 'value' | 'onUpdateValue' | 'onUpdate:value' | 'defaultValue'> {
+interface ProCheckboxGroupFieldProps extends CheckboxGroupProps {
   /**
    * 选项 label 的字段名
    * @default 'label'
@@ -17,7 +18,13 @@ interface ProCheckboxGroupFieldProps extends Omit<CheckboxGroupProps, 'value' | 
   /**
    * 配置选项内容
    */
-  options?: Array<Omit<CheckboxProps, 'checked' | 'default-checked' | 'onUpdate:checked' | 'onUpdateChecked'> & ([x: string])>
+  options?: Array<Omit<
+  CheckboxProps,
+  | 'checked'
+  | 'default-checked'
+  | 'onUpdateChecked'
+  | 'onUpdate:checked'
+> & ([x: string])>
 }
 
 export const proCheckboxGroupProps = {
@@ -44,14 +51,20 @@ export const proCheckboxGroupProps = {
     default: () => ({}),
   },
   fieldProps: {
-    type: Object as PropType<MaybeExpression<ProCheckboxGroupFieldProps>>,
+    type: Object as PropType<MaybeExpression<Omit<
+    ProCheckboxGroupFieldProps,
+    | 'value'
+    | 'defaultValue'
+    | 'onUpdateValue'
+    | 'onUpdate:value'
+>>>,
     default: () => ({}),
   },
   /**
    * 包裹 n-checkbox 的 space 属性
    */
   spaceProps: {
-    type: Object as PropType<MaybeExpression<SpaceProps>>,
+    type: Object as PropType<SpaceProps>,
     default: () => ({}),
   },
 } as const

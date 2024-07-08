@@ -2,7 +2,6 @@ export * from './src/tree' // ok
 export * from './src/form' // ok
 export * from './src/button' // ok
 // export * from './src/form-list'
-// export * from './src/checkbox-group' // 21
 export * from './src/config-provider'
 export { uid, useRequest as useProRequest } from 'pro-components-hooks'
 
