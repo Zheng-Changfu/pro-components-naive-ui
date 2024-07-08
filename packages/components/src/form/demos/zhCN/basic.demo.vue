@@ -25,7 +25,7 @@ export default defineComponent({
 
 <template>
   <pro-form ref="proFormInst" label-placement="left" label-width="auto" @submit="onSubmit">
-    <pro-input label="用户名" path="username" required :style="{ background: '{{ $self }}' }" />
+    <pro-input label="用户名" path="username" required />
     <pro-password label="密码" path="password" required />
     <n-button type="primary" @click="submit">
       登录

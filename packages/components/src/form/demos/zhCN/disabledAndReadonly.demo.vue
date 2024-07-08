@@ -8,6 +8,7 @@ import { useProFormInstance } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
+    const disabled = ref(false)
     const readonly = ref(false)
     const [instRef, { submit }] = useProFormInstance()
 
@@ -16,6 +17,7 @@ export default defineComponent({
     }
 
     return {
+      disabled,
       readonly,
       instRef,
       submit,
@@ -27,10 +29,14 @@ export default defineComponent({
 
 <template>
   <n-flex vertical>
-    <div>只读：<n-switch v-model:value="readonly" /></div>
+    <n-flex>
+      <div>只读：<n-switch v-model:value="readonly" /></div>
+      <div>禁用：<n-switch v-model:value="disabled" /></div>
+    </n-flex>
     <pro-form
       ref="instRef"
       :readonly="readonly"
+      :disabled="disabled"
       label-width="auto"
       label-placement="left"
       @submit="onSubmit"
@@ -40,9 +46,6 @@ export default defineComponent({
       <pro-digit label="数字" path="digit" required />
       <pro-date label="日期" path="date" required />
       <pro-date label="日期-时间" path="date-time" required :field-props="{ type: 'datetime' }" />
-      <!-- <pro-date label="日期-时间2" path="date-time2" required :initial-value="1721979383000" :field-props="{ type: 'datetime' }" /> -->
-      <!-- <pro-date label="日期-时间2" path="date-time2" required initial-value="2024-07-26 15:36:24" :field-props="{ type: 'datetime' }" /> -->
-      <!-- <pro-date label="日期-时间2" path="date-time2" required initial-value="" :field-props="{ type: 'datetime' }" /> -->
       <pro-time label="时间" path="time" required />
       <pro-radio label="单选" path="radio" required />
       <pro-slider label="滑动选择" path="slider" required />
@@ -70,7 +73,20 @@ export default defineComponent({
       />
       <pro-switch label="开关" path="switch" required />
       <pro-upload label="上传" path="upload" required />
-      <pro-transfer label="穿梭框" path="transfer" required />
+      <pro-transfer
+        label="穿梭框"
+        path="transfer"
+        required
+        :field-props="{
+          sourceFilterable: true,
+          targetFilterable: true,
+          options: Array.from({ length: 100 }).map((v, i) => ({
+            label: `Option ${i}`,
+            value: i,
+            disabled: i % 5 === 0,
+          })),
+        }"
+      />
       <pro-textarea label="文本域" path="textarea" required />
       <pro-checkbox label="复选框" path="checkbox" required />
       <pro-date-year label="日期-年" path="date-year" required />

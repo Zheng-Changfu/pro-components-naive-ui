@@ -19,6 +19,11 @@
 ```demo
 basic.vue
 disabledAndReadonly.vue
+initialValue.vue
+transform.vue
+postState.vue
+customRenderReadonly.vue
+customRenderFormItem.vue
 ```
 
 ## API
