@@ -5,21 +5,21 @@ import type { DatePickerInst, DatePickerProps } from 'naive-ui'
 import { NDatePicker } from 'naive-ui'
 import dayjs from 'dayjs'
 import { isString } from 'lodash-es'
-import { ProFormItem } from '../../form-item'
 import { resolveField, useField, useFieldBindValues } from '../../field'
 import { isEmptyValue } from '../../form-item/utils/valueUtil'
-import { proDateProps } from './props'
-import type { ProDateSlots } from './slots'
-import type { ProDateInstance } from './inst'
+import { ProFormItem } from '../../form-item'
+import { proDateYearProps } from './props'
+import type { ProDateYearInstance } from './inst'
+import type { ProDateYearSlots } from './slots'
 
 export default defineComponent({
-  name: 'ProDate',
-  props: proDateProps,
-  slots: Object as SlotsType<ProDateSlots>,
+  name: 'ProDateYear',
+  props: proDateYearProps,
+  slots: Object as SlotsType<ProDateYearSlots>,
   setup(props, { expose }) {
     const pickerInstRef = ref<DatePickerInst>()
 
-    const field = useField('ProDate', props, {
+    const field = useField('ProDateYear', props, {
       defaultValue: null,
       postState: convertStringToTimestamp,
     })
@@ -44,27 +44,26 @@ export default defineComponent({
     }
 
     const nPickerProps = computed<DatePickerProps>(() => {
-      const { type } = bindValues.value
       const { value, doUpdateValue } = field
       return {
         ...bindValues.value,
+        'type': 'year',
         'ref': pickerInstRef,
         'value': value.value,
         'defaultTime': undefined,
         'defaultValue': undefined,
         'formattedValue': undefined,
         'onUpdate:value': undefined,
-        'onUpdateValue': doUpdateValue,
         'defaultFormattedValue': undefined,
         'onUpdateFormattedValue': undefined,
         'defaultCalendarEndTime': undefined,
         'onUpdate:formattedValue': undefined,
         'defaultCalendarStartTime': undefined,
-        'type': type === 'datetime' ? 'datetime' : 'date',
+        'onUpdateValue': doUpdateValue,
       }
     })
 
-    const exposed: ProDateInstance = {
+    const exposed: ProDateYearInstance = {
       blur: () => pickerInstRef.value?.blur(),
       focus: () => pickerInstRef.value?.focus(),
     }

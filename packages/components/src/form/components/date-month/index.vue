@@ -5,21 +5,21 @@ import type { DatePickerInst, DatePickerProps } from 'naive-ui'
 import { NDatePicker } from 'naive-ui'
 import dayjs from 'dayjs'
 import { isString } from 'lodash-es'
-import { ProFormItem } from '../../form-item'
 import { resolveField, useField, useFieldBindValues } from '../../field'
 import { isEmptyValue } from '../../form-item/utils/valueUtil'
-import { proDateProps } from './props'
-import type { ProDateSlots } from './slots'
-import type { ProDateInstance } from './inst'
+import { ProFormItem } from '../../form-item'
+import { proDateMonthProps } from './props'
+import type { ProDateMonthSlots } from './slots'
+import type { ProDateMonthInstance } from './inst'
 
 export default defineComponent({
-  name: 'ProDate',
-  props: proDateProps,
-  slots: Object as SlotsType<ProDateSlots>,
+  name: 'ProDateMonth',
+  props: proDateMonthProps,
+  slots: Object as SlotsType<ProDateMonthSlots>,
   setup(props, { expose }) {
     const pickerInstRef = ref<DatePickerInst>()
 
-    const field = useField('ProDate', props, {
+    const field = useField('ProDateMonth', props, {
       defaultValue: null,
       postState: convertStringToTimestamp,
     })
@@ -44,27 +44,26 @@ export default defineComponent({
     }
 
     const nPickerProps = computed<DatePickerProps>(() => {
-      const { type } = bindValues.value
       const { value, doUpdateValue } = field
       return {
         ...bindValues.value,
-        'ref': pickerInstRef,
+        'type': 'month',
         'value': value.value,
+        'ref': pickerInstRef,
         'defaultTime': undefined,
         'defaultValue': undefined,
         'formattedValue': undefined,
         'onUpdate:value': undefined,
-        'onUpdateValue': doUpdateValue,
         'defaultFormattedValue': undefined,
         'onUpdateFormattedValue': undefined,
         'defaultCalendarEndTime': undefined,
         'onUpdate:formattedValue': undefined,
         'defaultCalendarStartTime': undefined,
-        'type': type === 'datetime' ? 'datetime' : 'date',
+        'onUpdateValue': doUpdateValue,
       }
     })
 
-    const exposed: ProDateInstance = {
+    const exposed: ProDateMonthInstance = {
       blur: () => pickerInstRef.value?.blur(),
       focus: () => pickerInstRef.value?.focus(),
     }

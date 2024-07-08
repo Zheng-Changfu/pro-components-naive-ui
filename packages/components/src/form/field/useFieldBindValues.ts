@@ -1,4 +1,4 @@
-import type { BaseField } from 'pro-components-hooks'
+import type { BaseField, ExcludeExpression } from 'pro-components-hooks'
 import { useCompile } from 'pro-components-hooks'
 import { computed, toRef, useAttrs } from 'vue'
 import { isUndefined } from 'lodash-es'
@@ -7,7 +7,7 @@ import { ProFieldConfigKey } from './fieldCustomKeys'
 
 export function useFieldBindValues<T extends {
   fieldProps: any
-  placeholder: any
+  placeholder?: any
 }>(
   field: BaseField,
   props: T,
@@ -40,7 +40,7 @@ export function useFieldBindValues<T extends {
       : proForm.placeholderRender?.(field[ProFieldConfigKey])
   })
 
-  return computed<any>(() => {
+  return computed<ExcludeExpression<T['fieldProps'] & { placeholder: any }>>(() => {
     return {
       ...compiledAttrs.value,
       ...compiledFieldProps.value,

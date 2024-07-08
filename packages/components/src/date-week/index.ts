@@ -1,5 +1,0 @@
-export * from './inst'
-export * from './props'
-export * from './slots'
-export * from './useProDateWeek'
-export { default as ProDateWeek } from './index.vue'

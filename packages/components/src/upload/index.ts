@@ -1,5 +1,0 @@
-export * from './inst'
-export * from './props'
-export * from './slots'
-export * from './useProUpload'
-export { default as ProUpload } from './index.vue'

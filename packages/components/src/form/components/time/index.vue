@@ -1,25 +1,25 @@
 <script lang="tsx">
 import type { SlotsType } from 'vue'
 import { computed, defineComponent, ref } from 'vue'
-import type { DatePickerInst, DatePickerProps } from 'naive-ui'
-import { NDatePicker } from 'naive-ui'
+import type { TimePickerInst, TimePickerProps } from 'naive-ui'
+import { NTimePicker } from 'naive-ui'
 import dayjs from 'dayjs'
 import { isString } from 'lodash-es'
-import { ProFormItem } from '../../form-item'
 import { resolveField, useField, useFieldBindValues } from '../../field'
 import { isEmptyValue } from '../../form-item/utils/valueUtil'
-import { proDateProps } from './props'
-import type { ProDateSlots } from './slots'
-import type { ProDateInstance } from './inst'
+import { ProFormItem } from '../../form-item'
+import { proTimeProps } from './props'
+import type { ProTimeSlots } from './slots'
+import type { ProTimeInstance } from './inst'
 
 export default defineComponent({
-  name: 'ProDate',
-  props: proDateProps,
-  slots: Object as SlotsType<ProDateSlots>,
+  name: 'ProTime',
+  props: proTimeProps,
+  slots: Object as SlotsType<ProTimeSlots>,
   setup(props, { expose }) {
-    const pickerInstRef = ref<DatePickerInst>()
+    const pickerInstRef = ref<TimePickerInst>()
 
-    const field = useField('ProDate', props, {
+    const field = useField('ProTime', props, {
       defaultValue: null,
       postState: convertStringToTimestamp,
     })
@@ -43,28 +43,23 @@ export default defineComponent({
       return val
     }
 
-    const nPickerProps = computed<DatePickerProps>(() => {
-      const { type } = bindValues.value
+    const nPickerProps = computed<TimePickerProps>(() => {
       const { value, doUpdateValue } = field
       return {
         ...bindValues.value,
         'ref': pickerInstRef,
         'value': value.value,
-        'defaultTime': undefined,
         'defaultValue': undefined,
         'formattedValue': undefined,
         'onUpdate:value': undefined,
         'onUpdateValue': doUpdateValue,
         'defaultFormattedValue': undefined,
         'onUpdateFormattedValue': undefined,
-        'defaultCalendarEndTime': undefined,
         'onUpdate:formattedValue': undefined,
-        'defaultCalendarStartTime': undefined,
-        'type': type === 'datetime' ? 'datetime' : 'date',
       }
     })
 
-    const exposed: ProDateInstance = {
+    const exposed: ProTimeInstance = {
       blur: () => pickerInstRef.value?.blur(),
       focus: () => pickerInstRef.value?.focus(),
     }
@@ -92,7 +87,7 @@ export default defineComponent({
                 bindValues: this.nPickerProps,
               },
               () => (
-                <NDatePicker
+                <NTimePicker
                   {...this.nPickerProps}
                   v-slots={$slots}
                 />

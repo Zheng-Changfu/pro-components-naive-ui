@@ -5,23 +5,23 @@ import type { DatePickerInst, DatePickerProps } from 'naive-ui'
 import { NDatePicker } from 'naive-ui'
 import dayjs from 'dayjs'
 import { isString } from 'lodash-es'
-import { ProFormItem } from '../../form-item'
 import { resolveField, useField, useFieldBindValues } from '../../field'
+import { ProFormItem } from '../../form-item'
 import { isEmptyValue } from '../../form-item/utils/valueUtil'
-import { proDateProps } from './props'
-import type { ProDateSlots } from './slots'
-import type { ProDateInstance } from './inst'
+import { proDateQuarterRangeProps } from './props'
+import type { ProDateQuarterRangeSlots } from './slots'
+import type { ProDateQuarterRangeInstance } from './inst'
 
 export default defineComponent({
-  name: 'ProDate',
-  props: proDateProps,
-  slots: Object as SlotsType<ProDateSlots>,
+  name: 'ProDateQuarterRange',
+  props: proDateQuarterRangeProps,
+  slots: Object as SlotsType<ProDateQuarterRangeSlots>,
   setup(props, { expose }) {
     const pickerInstRef = ref<DatePickerInst>()
 
-    const field = useField('ProDate', props, {
+    const field = useField('ProDateQuarterRange', props, {
       defaultValue: null,
-      postState: convertStringToTimestamp,
+      postState: convertStringArrayToTimestampArray,
     })
 
     const bindValues = useFieldBindValues(
@@ -30,10 +30,6 @@ export default defineComponent({
     )
 
     function convertStringToTimestamp(val: any) {
-      const { postState } = props
-      if (postState) {
-        return postState(val)
-      }
       if (isEmptyValue(val)) {
         return null
       }
@@ -43,13 +39,32 @@ export default defineComponent({
       return val
     }
 
+    function convertStringArrayToTimestampArray(val: any) {
+      const { postState } = props
+      if (postState) {
+        return postState(val)
+      }
+      if (isEmptyValue(val)) {
+        return null
+      }
+      let [s, e] = val ?? []
+      s = convertStringToTimestamp(s)
+      e = convertStringToTimestamp(e)
+      const r = [s, e].filter(Boolean)
+      return r.length > 0 ? r : null
+    }
+
     const nPickerProps = computed<DatePickerProps>(() => {
-      const { type } = bindValues.value
+      const { placeholder } = bindValues.value
       const { value, doUpdateValue } = field
+      const [sp, ep] = placeholder ?? []
       return {
         ...bindValues.value,
         'ref': pickerInstRef,
         'value': value.value,
+        'endPlaceholder': ep,
+        'startPlaceholder': sp,
+        'type': 'quarterrange',
         'defaultTime': undefined,
         'defaultValue': undefined,
         'formattedValue': undefined,
@@ -60,11 +75,10 @@ export default defineComponent({
         'defaultCalendarEndTime': undefined,
         'onUpdate:formattedValue': undefined,
         'defaultCalendarStartTime': undefined,
-        'type': type === 'datetime' ? 'datetime' : 'date',
       }
     })
 
-    const exposed: ProDateInstance = {
+    const exposed: ProDateQuarterRangeInstance = {
       blur: () => pickerInstRef.value?.blur(),
       focus: () => pickerInstRef.value?.focus(),
     }
