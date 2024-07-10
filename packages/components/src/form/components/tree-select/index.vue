@@ -38,7 +38,7 @@ export default defineComponent({
       controls,
       keyToTreeSelectNodeMap,
       onLoad,
-    } = useOptions(props, bindValues)
+    } = useOptions(props, bindValues, field.scope)
 
     const {
       expandedKeys,

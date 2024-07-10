@@ -30,7 +30,7 @@ export default defineComponent({
       options,
       loading,
       controls,
-    } = useOptions(props, bindValues)
+    } = useOptions(props, bindValues, field.scope)
 
     const nTransferProps = computed<TransferProps>(() => {
       const { value, doUpdateValue } = field

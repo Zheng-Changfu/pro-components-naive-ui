@@ -29,7 +29,7 @@ export default defineComponent({
       loading,
       options,
       controls,
-    } = useOptions(props, bindValues)
+    } = useOptions(props, bindValues, field.scope)
 
     const nRadioGroupProps = computed<RadioGroupProps>(() => {
       const { value, doUpdateValue } = field

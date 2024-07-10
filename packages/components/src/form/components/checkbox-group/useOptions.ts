@@ -1,14 +1,16 @@
 import { type ComputedRef, computed, ref, watch } from 'vue'
-import { type ExcludeExpression, useRequest } from 'pro-components-hooks'
+import type { ExcludeExpression, ExpressionScope } from 'pro-components-hooks'
 import { get, isArray } from 'lodash-es'
+import { useInternalScopeRequest } from '../_internal/useInternalRequest'
 import type { ProCheckboxGroupProps } from './props'
 
 export function useOptions(
   props: ProCheckboxGroupProps,
   compiledFieldProps: ComputedRef<ExcludeExpression<ProCheckboxGroupProps['fieldProps']>>,
+  scope: ExpressionScope,
 ) {
   const options = ref<any[]>([])
-  const controls = useRequest(props.fetchConfig as any)
+  const controls = useInternalScopeRequest(props.fetchConfig!, scope)
 
   const {
     data,

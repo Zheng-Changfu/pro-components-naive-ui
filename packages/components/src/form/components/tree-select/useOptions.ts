@@ -1,21 +1,23 @@
 import type { ComputedRef } from 'vue'
 import { computed, ref, watch } from 'vue'
-import type { ExcludeExpression } from 'pro-components-hooks'
-import { eachTree, mapTree, useRequest } from 'pro-components-hooks'
+import type { ExcludeExpression, ExpressionScope } from 'pro-components-hooks'
+import { eachTree, mapTree } from 'pro-components-hooks'
 import { debounce, get, has, isArray, isNumber, isString, set, unset } from 'lodash-es'
 import type { TreeSelectOption } from 'naive-ui'
 import type { AnyFn } from '../../../types'
+import { useInternalScopeRequest } from '../_internal/useInternalRequest'
 import type { ProTreeSelectProps } from './props'
 import { LevelKey } from './key'
 
 export function useOptions(
   props: ProTreeSelectProps,
   compiledFieldProps: ComputedRef<ExcludeExpression<ProTreeSelectProps['fieldProps']>>,
+  scope: ExpressionScope,
 ) {
   const loaded = ref(false)
   const options = ref<TreeSelectOption[]>([])
-  const controls = useRequest(props.fetchConfig as any)
   const debounceTime = props.fetchConfig?.debounceTime ?? 500
+  const controls = useInternalScopeRequest(props.fetchConfig!, scope)
 
   const {
     remote = false,

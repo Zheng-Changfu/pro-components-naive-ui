@@ -4,21 +4,32 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { useProFormInstance } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
-    return { }
+    function isEmpty(val: any) {
+      return [null, undefined].includes(val)
+    }
+
+    return {
+      isEmpty,
+    }
   },
 })
 </script>
 
 <template>
-  <pro-form label-placement="left" label-width="auto">
+  <pro-form
+    label-placement="left"
+    label-width="auto"
+    :expression="{
+      $empty: isEmpty,
+    }"
+  >
     <pro-digit
       label="总价"
       path="total"
-      value="{{ ![null,undefined].includes($vals.count) && ![null,undefined].includes($vals.price) ? $vals.count * $vals.price : $self }}"
+      value="{{ !$empty($vals.count) && !$empty($vals.price) ? $vals.count * $vals.price : $self }}"
     />
     <pro-digit
       label="数量"
