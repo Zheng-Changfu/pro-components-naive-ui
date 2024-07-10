@@ -33,7 +33,7 @@ export default defineComponent({
       options,
       controls,
       onSearch,
-    } = useOptions(props, bindValues)
+    } = useOptions(props, bindValues, field.scope)
 
     const nSelectProps = computed<SelectProps>(() => {
       const { value, doUpdateValue } = field

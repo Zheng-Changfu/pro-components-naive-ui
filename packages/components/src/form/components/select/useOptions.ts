@@ -1,17 +1,18 @@
 import { type ComputedRef, computed, ref, watch } from 'vue'
-import type { ExcludeExpression } from 'pro-components-hooks'
-import { useRequest } from 'pro-components-hooks'
+import type { ExcludeExpression, ExpressionScope } from 'pro-components-hooks'
 import { debounce, isArray } from 'lodash-es'
+import { useInternalScopeRequest } from '../_internal/useInternalRequest'
 import type { ProSelectProps } from './props'
 
 export function useOptions(
   props: ProSelectProps,
   compiledFieldProps: ComputedRef<ExcludeExpression<ProSelectProps['fieldProps']>>,
+  scope: ExpressionScope,
 ) {
   const options = ref<any[]>([])
   const { remote = false } = compiledFieldProps.value!
-  const controls = useRequest(props.fetchConfig as any)
   const debounceTime = props.fetchConfig?.debounceTime ?? 500
+  const controls = useInternalScopeRequest(props.fetchConfig!, scope)
 
   const {
     run,

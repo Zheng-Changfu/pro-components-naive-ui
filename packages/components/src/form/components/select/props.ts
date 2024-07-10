@@ -28,7 +28,7 @@ export const proSelectProps = {
    * 请求配置
    */
   fetchConfig: {
-    type: Object as PropType<UseRequestOptions<any, any> & FetchRemoteConfig>,
+    type: Object as PropType<MaybeExpression<UseRequestOptions<any, any>> & FetchRemoteConfig>,
     default: () => ({}),
   },
   /**
