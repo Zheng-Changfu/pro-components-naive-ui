@@ -3,6 +3,7 @@ import { computed, defineComponent } from 'vue'
 import { NConfigProvider } from 'naive-ui'
 import { toString } from 'lodash-es'
 import { provideRequestTipConfigContext } from 'pro-components-hooks'
+import type { FormValidateMessages } from 'naive-ui/es/form/src/interface'
 import { useOmitProps } from '../hooks'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 import { provideGlobalConfigContext, useInjectGlobalConfigContext } from './context'
@@ -60,13 +61,17 @@ export default defineComponent({
       }
     }
 
-    function builtInValidateMessageRender(options: ProFieldGlobalConfig) {
+    function builtInGetValidateMessages(options: ProFieldGlobalConfig): FormValidateMessages {
       const { formItemProps } = options
       const { label, path } = formItemProps.value
       const sLabel = toString(label)
-      return sLabel
-        ? `${sLabel}为必填字段`
-        : `${path}为必填字段`
+      return {
+        required: () => {
+          return sLabel
+            ? `${sLabel}为必填字段`
+            : `${path}为必填字段`
+        },
+      }
     }
 
     /**
@@ -95,7 +100,7 @@ export default defineComponent({
       proForm: {
         validateTrigger: 'input',
         placeholderRender: builtInPlaceholderRender,
-        validateMessageRender: builtInValidateMessageRender,
+        getValidateMessages: builtInGetValidateMessages,
         ...parentProForm,
         ...proForm,
       },
