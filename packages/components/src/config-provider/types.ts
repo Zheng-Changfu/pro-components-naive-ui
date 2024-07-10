@@ -1,5 +1,6 @@
 import type { VNodeChild } from 'vue'
 import type { RequestTipConfig } from 'pro-components-hooks'
+import type { FormValidateMessages } from 'naive-ui/es/form/src/interface'
 import type { ProFieldConfig, ProUploadFieldProps } from '../form'
 
 export type ProFieldGlobalConfig = ProFieldConfig
@@ -7,7 +8,6 @@ export type ProFieldGlobalConfig = ProFieldConfig
 export interface GlobalConfigProForm {
   /**
    * 自定义渲染只读状态下的表单
-   * @param value 当前值
    */
   readonlyRender: (options: ProFieldGlobalConfig) => VNodeChild
   /**
@@ -19,10 +19,9 @@ export interface GlobalConfigProForm {
    */
   placeholderRender: (options: ProFieldGlobalConfig) => any
   /**
-   * 自定义渲染校验信息（目前只处理了 required:true），后续有可能会重构成一套完整的验证模版
-   * @param value 当前值
+   * 获取验证规则模版（目前只处理了 required:true）
    */
-  validateMessageRender: (options: ProFieldGlobalConfig) => VNodeChild
+  getValidateMessages: (options: ProFieldGlobalConfig) => FormValidateMessages
   /**
    * 统一设置表单校验时机
    * @default 'input'
@@ -31,7 +30,7 @@ export interface GlobalConfigProForm {
   /**
    * form 表单可以读取到的上下文
    */
-  expressionContext: Record<`$${string}`, any>
+  expression: Record<`$${string}`, any>
 }
 
 export interface GlobalConfigProButton {

@@ -18,12 +18,18 @@ export default defineComponent({
   setup(props, { expose }) {
     const formInstRef = ref<FormInst>()
     const formProps = useOmitProps(props, proFormExtendProps)
-    const { expressionContext = {} } = useInjectGlobalConfigContext().proForm
+    const { expression: globalExpression } = useInjectGlobalConfigContext().proForm
 
     const {
+      expression,
       initialValues,
       onFieldValueChange,
     } = props
+
+    const expressionContext = {
+      ...(expression ?? {}),
+      ...(globalExpression ?? {}),
+    }
 
     const {
       scope,
@@ -52,7 +58,7 @@ export default defineComponent({
     const nFormProps = computed<FormProps>(() => {
       return {
         ...formProps.value,
-        rules: {},
+        rules: undefined,
         ref: formInstRef,
         model: values.value,
         disabled: compiledDisabled.value,

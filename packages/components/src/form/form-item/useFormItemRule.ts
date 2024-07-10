@@ -2,7 +2,7 @@ import type { ExcludeExpression } from 'pro-components-hooks'
 import { useInjectFieldContext } from 'pro-components-hooks'
 import type { ToRefs } from 'vue'
 import { computed } from 'vue'
-import { isArray } from 'lodash-es'
+import { isArray, isUndefined } from 'lodash-es'
 import type { FormItemRule } from 'naive-ui'
 import { useInjectGlobalConfigContext } from '../../config-provider'
 import { ProFieldConfigKey } from '../field'
@@ -26,11 +26,25 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
 
   const {
     validateTrigger,
-    validateMessageRender,
+    getValidateMessages,
   } = useInjectGlobalConfigContext().proForm
 
   const field = useInjectFieldContext()!
   const { stringPath } = field
+
+  const validateMessages = computed(() => {
+    return getValidateMessages?.(field[ProFieldConfigKey]) ?? {}
+  })
+
+  function getRuleMessage(rule: FormItemRule) {
+    const messages = validateMessages.value as any
+    for (const key in rule) {
+      const message = messages[key]
+      if (!isUndefined(message)) {
+        return message
+      }
+    }
+  }
 
   return computed(() => {
     const rawRule = rule.value
@@ -42,10 +56,6 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
         required: true,
         validator: (_, value) => !isEmptyValue(value),
       }
-      // 支持 required 提示信息国际化
-      if (validateMessageRender) {
-        requiredRule.renderMessage = () => validateMessageRender(field[ProFieldConfigKey])
-      }
       normalizedRule.push(requiredRule)
     }
     return normalizedRule.map((rule) => {
@@ -54,6 +64,10 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
          * 统一设置表单校验时机
          */
         trigger: validateTrigger,
+        /**
+         * 统一设置提示信息
+         */
+        message: getRuleMessage(rule),
         ...rule,
         /**
          * 给每个 rule 增加 key，方便 validate 方法校验

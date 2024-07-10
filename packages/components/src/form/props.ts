@@ -28,6 +28,10 @@ export const proFormExtendProps = {
     default: undefined,
   },
   /**
+   * 表达式，浅合并，优先级比全局高
+   */
+  expression: Object as PropType<Record<`$${string}`, any>>,
+  /**
    * 表单初始值
    */
   initialValues: Object,

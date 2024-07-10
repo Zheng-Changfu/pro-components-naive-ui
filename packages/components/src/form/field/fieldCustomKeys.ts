@@ -17,7 +17,7 @@ export interface ProFieldConfig {
   /**
    * n-form-item 编译后的属性
    */
-  formItemProps: ComputedRef<FormItemProps>
+  formItemProps: ComputedRef<Omit<FormItemProps, 'rule'>>
   /**
    * n-form-item 的实例
    */

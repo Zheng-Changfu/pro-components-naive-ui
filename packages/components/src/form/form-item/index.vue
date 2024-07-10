@@ -61,18 +61,24 @@ export default defineComponent({
       readonlyEmptyRender,
     } = useReadonlyRenderer(props, field[ProFieldConfigKey])
 
-    const nFormItemProps = computed<FormItemProps>(() => {
+    const nFormItemExcludeRuleProps = computed<Omit<FormItemProps, 'rule'>>(() => {
       return {
         ref: formItemInstRef,
         path: stringPath.value,
-        rule: mergedRule.value,
         ...compiledNFormItemProps.value,
+      }
+    })
+
+    const nFormItemProps = computed<FormItemProps>(() => {
+      return {
+        rule: mergedRule.value,
+        ...nFormItemExcludeRuleProps.value,
       }
     })
 
     field[ProFieldConfigKey] = {
       formItemInstRef,
-      formItemProps: nFormItemProps,
+      formItemProps: nFormItemExcludeRuleProps,
       ...field[ProFieldConfigKey],
     }
 
