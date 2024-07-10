@@ -24,6 +24,15 @@ transform.vue
 postState.vue
 customRenderReadonly.vue
 customRenderFormItem.vue
+customRenderField.vue
+linkExpression.vue
+linkRegister.vue
+linkOneToMany.vue
+linkDep.vue
+linkChain.vue
+linkLoop.vue
+linkSelf.vue
+linkAsync.vue
 ```
 
 ## API

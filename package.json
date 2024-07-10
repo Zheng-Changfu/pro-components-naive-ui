@@ -21,7 +21,7 @@
     "katex": "^0.16.10",
     "lodash-es": "^4.17.21",
     "marked": "^12.0.2",
-    "pro-components-hooks": "^0.0.53",
+    "pro-components-hooks": "^0.0.55",
     "vfonts": "^0.0.3",
     "vooks": "0.2.12",
     "vue": "^3.4.21",

@@ -7,11 +7,17 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
 import type { FormItemProps } from 'naive-ui'
-import { NFormItemGi } from 'naive-ui'
+import { NCol, NFormItem } from 'naive-ui'
 import { useProFormInstance } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
+    const [instRef, { submit }] = useProFormInstance()
+
+    function onSubmit(values: any) {
+      console.log(values)
+    }
+
     function renderFormItemGi(
       opt: {
         bindValues: FormItemProps
@@ -22,10 +28,17 @@ export default defineComponent({
         bindSlots,
         bindValues,
       } = opt
-      return <NFormItemGi {...bindValues} v-slots={bindSlots} span={12}></NFormItemGi>
+      return (
+        <NCol span={12}>
+          <NFormItem {...bindValues} v-slots={bindSlots}></NFormItem>
+        </NCol>
+      )
     }
 
     return {
+      instRef,
+      submit,
+      onSubmit,
       renderFormItemGi,
     }
   },
@@ -33,12 +46,21 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-form label-placement="left" label-width="auto" :render-form-item="renderFormItemGi">
-    <n-grid :cols="24" :gap="[12, 12]">
+  <pro-form
+    ref="instRef"
+    label-placement="left"
+    label-width="auto"
+    :render-form-item="renderFormItemGi"
+    @submit="onSubmit"
+  >
+    <n-row gutter="12">
       <pro-input label="用户名" path="username" />
       <pro-password label="密码" path="password" />
       <pro-digit label="数字" path="digit" />
       <pro-textarea label="文本域" path="textarea" />
-    </n-grid>
+      <n-button type="primary" @click="submit">
+        提交
+      </n-button>
+    </n-row>
   </pro-form>
 </template>
