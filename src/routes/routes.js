@@ -18,10 +18,6 @@ export const zhComponentRoutes = [
     path: 'form',
     component: () => import('../../packages/components/src/form/demos/zhCN/index.demo-entry.md'),
   },
-  {
-    path: 'form-common-configuration',
-    component: () => import('../../packages/components/src/form-common-configuration/demos/zhCN/index.demo-entry.md'),
-  },
 ]
 
 export const routes = [

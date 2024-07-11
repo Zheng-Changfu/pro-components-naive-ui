@@ -203,17 +203,6 @@ export function createDocumentationMenuOptions({ lang, theme }) {
 
 export function createComponentMenuOptions({ lang, theme }) {
   return createItems(lang, theme, '/components', [
-    // appendCounts({
-    //   zh: '架构设计',
-    //   en: 'Framework Design',
-    //   type: 'group',
-    //   children: [
-    //     {
-    //       zh: '表单通用配置',
-    //       path: '/form-common-configuration',
-    //     },
-    //   ],
-    // }),
     appendCounts({
       zh: '通用组件',
       en: 'Common Components',
@@ -253,19 +242,18 @@ export function createComponentMenuOptions({ lang, theme }) {
         },
       ],
     }),
-    appendCounts({
-      zh: '配置组件',
-      en: 'Config Components',
-      type: 'group',
-      children: [
-        {
-          en: 'ProConfigProvider',
-          zh: '全局化配置',
-          enSuffix: true,
-          path: '/config-provider',
-        },
-      ],
-    }),
-
+    // appendCounts({
+    //   zh: '配置组件',
+    //   en: 'Config Components',
+    //   type: 'group',
+    //   children: [
+    //     {
+    //       en: 'ProConfigProvider',
+    //       zh: '全局化配置',
+    //       enSuffix: true,
+    //       path: '/config-provider',
+    //     },
+    //   ],
+    // }),
   ])
 }
