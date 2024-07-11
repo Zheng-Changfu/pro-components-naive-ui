@@ -1,3 +1,6 @@
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-nocheck
+
 import hljs from 'highlight.js'
 import { marked } from 'marked'
 

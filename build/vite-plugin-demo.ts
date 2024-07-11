@@ -1,3 +1,6 @@
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-nocheck
+
 import vue from '@vitejs/plugin-vue'
 import getTransformedVueSrc from './utils/get-demo-by-path'
 
@@ -16,7 +19,7 @@ export default function createDemoPlugin() {
         return getTransformedVueSrc(id)
       }
     },
-    async handleHotUpdate(ctx) {
+    async handleHotUpdate(ctx: { file: any }) {
       const { file } = ctx
       if (fileRegex.test(file)) {
         const code = await getTransformedVueSrc(file)

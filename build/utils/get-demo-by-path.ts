@@ -1,3 +1,6 @@
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-nocheck
+
 import fs from 'fs-extra'
 import demoLoader from '../loaders/naive-ui-demo-loader'
 import docLoader from '../loaders/naive-ui-doc-loader'

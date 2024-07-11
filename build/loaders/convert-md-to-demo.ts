@@ -1,3 +1,6 @@
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-nocheck
+
 import fs from 'node:fs'
 import path from 'node:path'
 import { marked } from 'marked'

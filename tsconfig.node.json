@@ -5,9 +5,11 @@
     "moduleResolution": "bundler",
     "allowJs": true,
     "strict": true,
-    "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },
-  "include": ["vite.config.ts"]
+  "include": [
+    "vite.config.ts",
+    "./build/**/*.ts"
+  ]
 }

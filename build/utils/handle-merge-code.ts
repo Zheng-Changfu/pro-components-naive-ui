@@ -1,3 +1,6 @@
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-nocheck
+
 function handleMergeCode({ parts, mergedParts, isVue }) {
   const isCompositionApi = parts.api === 'composition'
   if (isVue && ['ts', 'tsx'].includes(parts.language)) {

@@ -1,3 +1,6 @@
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-nocheck
+
 import { convertMd2Demo } from './convert-md-to-demo'
 import convertVue2Demo from './convert-vue-to-demo'
 import projectPath from './project-path'

@@ -1,3 +1,6 @@
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-nocheck
+
 import convertMd2Doc from './convert-md-to-doc'
 import projectPath from './project-path'
 
