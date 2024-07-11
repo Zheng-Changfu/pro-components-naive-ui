@@ -1,8 +1,8 @@
 <script lang="tsx">
 import type { SlotsType } from 'vue'
-import { computed, defineComponent, ref } from 'vue'
+import { Fragment, computed, defineComponent, ref } from 'vue'
 import type { FormItemInst, FormItemProps } from 'naive-ui'
-import { NFormItem, NInputGroup } from 'naive-ui'
+import { NFlex, NFormItem } from 'naive-ui'
 import { useInjectFieldContext } from 'pro-components-hooks'
 import { ProFieldConfigKey } from '../field'
 import { proFormItemProps } from './props'
@@ -14,6 +14,7 @@ import { useFormItemReadonly } from './useFormItemReadonly'
 import { useReadonlyRenderer } from './useReadonlyRenderer'
 import { useAddonSlotRenderer } from './useAddonSlotRenderer'
 import { resolveFormItem } from './resolveFormItem'
+import { resolveFieldGroup } from './resolveFieldGroup'
 
 export default defineComponent({
   name: 'ProFormItem',
@@ -121,12 +122,25 @@ export default defineComponent({
         if (!addonBeforeSlot && !addonAfterSlot) {
           return children
         }
-        return (
-          <NInputGroup>
+        const vnode = (
+          <Fragment>
             {addonBeforeSlot?.()}
             {children}
             {addonAfterSlot?.()}
-          </NInputGroup>
+          </Fragment>
+        )
+
+        return resolveFieldGroup(
+          $props.renderFieldGroup,
+          { vnode },
+          () => (
+            <NFlex
+              wrap={false}
+              style={{ width: '100%' }}
+            >
+              {vnode}
+            </NFlex>
+          ),
         )
       }
       return !empty

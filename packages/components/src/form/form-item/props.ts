@@ -51,6 +51,14 @@ export const proFormItemExtendProps = {
       bindValues: FormItemProps
       bindSlots: Record<string, any>
     }) => VNodeChild>,
+  /**
+   * 自定义渲染控件组（控件 + 前后缀插槽）
+   * @param vnode 控件组的虚拟节点
+   */
+  renderFieldGroup: Function as PropType<(
+    opts: {
+      vnode: VNodeChild
+    }) => VNodeChild>,
 } as const
 
 /**
