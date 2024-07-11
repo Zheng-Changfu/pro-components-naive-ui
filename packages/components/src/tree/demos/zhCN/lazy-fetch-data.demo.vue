@@ -59,8 +59,12 @@ export default defineComponent({
     <ProButton @click="getFetchControls().run()">
       请求数据
     </ProButton>
-    <ProTree ref="treeInstRef" remote :fetch-config="{
-      api,
-    }" />
+    <ProTree
+      ref="treeInstRef"
+      remote
+      :fetch-config="{
+        api,
+      }"
+    />
   </NFlex>
 </template>

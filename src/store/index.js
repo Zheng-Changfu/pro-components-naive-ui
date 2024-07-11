@@ -1,14 +1,13 @@
 import { computed, ref } from 'vue'
 import { useMemo } from 'vooks'
 import {
-  NConfigProvider,
   darkTheme,
   dateZhCN,
   useOsTheme,
   zhCN,
 } from 'naive-ui'
 import {
-  ProConfigProvider
+  ProConfigProvider,
 } from 'pro-components-naive-ui'
 import { i18n, useIsMobile } from '../utils/composables'
 import {

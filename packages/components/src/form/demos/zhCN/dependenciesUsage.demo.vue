@@ -1,11 +1,11 @@
 <markdown>
 # dependencies 的几种用法
 
-在一些复杂的表单场景中做联动校验可能会用到
+字段的依赖项，当依赖项的值发生变化时，会触发当前字段校验，在一些复杂的表单场景中做联动校验可能会用到
 </markdown>
 
 <script lang="tsx">
-import { defineComponent, nextTick } from 'vue'
+import { defineComponent } from 'vue'
 import { useProFormInstance } from 'pro-components-naive-ui'
 
 export default defineComponent({

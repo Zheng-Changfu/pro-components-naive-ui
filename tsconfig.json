@@ -3,7 +3,11 @@
     "target": "ES2020",
     "jsx": "preserve",
     "jsxImportSource": "vue",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "useDefineForClassFields": true,
     "module": "ESNext",
     /* Bundler mode */
@@ -16,7 +20,6 @@
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
     "allowJs": true,
-
     /* Linting */
     "strict": true,
     "noFallthroughCasesInSwitch": true,
@@ -26,7 +29,11 @@
     "isolatedModules": true,
     "skipLibCheck": true
   },
-  "references": [{ "path": "./tsconfig.node.json" }],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
   "include": [
     "src/**/*.ts",
     "src/**/*.js",

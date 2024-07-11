@@ -4,7 +4,6 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { useProFormInstance } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {

@@ -5,9 +5,9 @@
 </markdown>
 
 <script lang="tsx">
+import type { VNodeChild } from 'vue'
 import { defineComponent } from 'vue'
-import type { InputProps } from 'naive-ui'
-import { NInput, NInputGroup } from 'naive-ui'
+import { NInputGroup } from 'naive-ui'
 import { useProFormInstance } from 'pro-components-naive-ui'
 
 export default defineComponent({
