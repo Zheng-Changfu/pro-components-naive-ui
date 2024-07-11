@@ -1,29 +1,27 @@
 import type { VNodeChild } from 'vue'
 import type { RequestTipConfig } from 'pro-components-hooks'
-import type { ProComponentConfig } from '../form'
-import type { ProUploadFieldProps } from '../upload'
+import type { FormValidateMessages } from 'naive-ui/es/form/src/interface'
+import type { ProFieldConfig, ProUploadFieldProps } from '../form'
 
-export type ProComponentGlobalConfig = ProComponentConfig
+export type ProFieldGlobalConfig = ProFieldConfig
 
 export interface GlobalConfigProForm {
   /**
    * 自定义渲染只读状态下的表单
-   * @param value 当前值
    */
-  readonlyRender: (options: ProComponentGlobalConfig) => VNodeChild
+  readonlyRender: (options: ProFieldGlobalConfig) => VNodeChild
   /**
    * 自定义渲染只读模式下并且表单值为空时的内容
    */
-  readonlyEmptyRender: (options: ProComponentGlobalConfig) => VNodeChild
+  readonlyEmptyRender: (options: ProFieldGlobalConfig) => VNodeChild
   /**
    * 配置表单控件的 placeholder
    */
-  placeholderRender: (options: ProComponentGlobalConfig) => any
+  placeholderRender: (options: ProFieldGlobalConfig) => any
   /**
-   * 自定义渲染校验信息（目前只处理了 required:true），后续有可能会重构成一套完整的验证模版
-   * @param value 当前值
+   * 获取验证规则模版（目前只处理了 required:true）
    */
-  validateMessageRender: (options: ProComponentGlobalConfig) => VNodeChild
+  getValidateMessages: (options: ProFieldGlobalConfig) => FormValidateMessages
   /**
    * 统一设置表单校验时机
    * @default 'input'
@@ -32,7 +30,7 @@ export interface GlobalConfigProForm {
   /**
    * form 表单可以读取到的上下文
    */
-  expressionContext: Record<string, any>
+  expression: Record<`$${string}`, any>
 }
 
 export interface GlobalConfigProButton {
@@ -53,6 +51,7 @@ interface DateValueFormat {
 
 export type GlobalConfigProTime = DateValueFormat
 export type GlobalConfigProDateYear = DateValueFormat
+export type GlobalConfigProDateWeek = DateValueFormat
 export type GlobalConfigProDateMonth = DateValueFormat
 export type GlobalConfigProDateQuarter = DateValueFormat
 export type GlobalConfigProDateYearRange = DateValueFormat
@@ -62,7 +61,16 @@ export type GlobalConfigProDate = DateValueFormat & { valueFormatIfShowTime: str
 export type GlobalConfigProDateRange = DateValueFormat & { valueFormatIfShowTime: string }
 
 export type GlobalConfigProRequest = RequestTipConfig
-export type GlobalConfigProUpload = Pick<ProUploadFieldProps, 'maxSize' | 'onOverFileMaxSize' | 'title' | 'onBeforeUpload' | 'action' | 'customRequest'>
+export type GlobalConfigProUpload = Pick<
+  ProUploadFieldProps,
+  | 'title'
+  | 'action'
+  | 'maxSize'
+  | 'customRequest'
+  | 'onBeforeUpload'
+  | 'onUnAccpetType'
+  | 'onOverFileMaxSize'
+>
 
 export interface GlobalConfigProTable {
 

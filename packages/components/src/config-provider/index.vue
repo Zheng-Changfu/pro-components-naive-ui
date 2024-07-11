@@ -3,16 +3,17 @@ import { computed, defineComponent } from 'vue'
 import { NConfigProvider } from 'naive-ui'
 import { toString } from 'lodash-es'
 import { provideRequestTipConfigContext } from 'pro-components-hooks'
+import type { FormValidateMessages } from 'naive-ui/es/form/src/interface'
 import { useOmitProps } from '../hooks'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 import { provideGlobalConfigContext, useInjectGlobalConfigContext } from './context'
-import type { ProComponentGlobalConfig } from './types'
+import type { ProFieldGlobalConfig } from './types'
 
 export default defineComponent({
   name: 'ProConfigProvider',
   props: proConfigProviderProps,
   setup(props) {
-    const configProviderProps = useOmitProps(props, proConfigProviderExtendProps)
+    const nConfigProviderProps = useOmitProps(props, proConfigProviderExtendProps)
 
     const {
       proDate = {},
@@ -23,6 +24,7 @@ export default defineComponent({
       proUpload = {},
       proRequest = {},
       proDateYear = {},
+      proDateWeek = {},
       proDateMonth = {},
       proDateRange = {},
       proDateQuarter = {},
@@ -31,19 +33,45 @@ export default defineComponent({
       proDateQuarterRange = {},
     } = props
 
-    function builtInPlaceholderRender(options: ProComponentGlobalConfig) {
-      const { type, formItemProps } = options
-      const { label } = formItemProps
-      switch (type) {
-        case 'ProInput':
-          return `请输入${toString(label?.value)}`
+    function builtInPlaceholderRender(options: ProFieldGlobalConfig) {
+      const { name, formItemProps } = options
+      const { label } = formItemProps.value
+      switch (name) {
+        case 'ProDate':
+        case 'ProDateYear':
+        case 'ProDateTime':
+        case 'ProDateWeek':
+        case 'ProDateMonth':
+        case 'ProDateQuarter':
+        case 'ProSelect':
+        case 'ProTreeSelect':
+          return `请选择${toString(label)}`
+        case 'ProDateRange':
+          return ['开始日期', '结束日期']
+        case 'ProDateYearRange':
+          return ['开始年份', '结束年份']
+        case 'ProDateMonthRange':
+          return ['开始月份', '结束月份']
+        case 'ProDateQuarterRange':
+          return ['开始季度', '结束季度']
+        case 'ProTransfer':
+          return ['请输入', '请输入2']
+        default:
+          return `请输入${toString(label)}`
       }
     }
 
-    function builtInValidateMessageRender(options: ProComponentGlobalConfig) {
+    function builtInGetValidateMessages(options: ProFieldGlobalConfig): FormValidateMessages {
       const { formItemProps } = options
-      const { label } = formItemProps
-      return `${toString(label?.value)}为必填字段`
+      const { label, path } = formItemProps.value
+      const sLabel = toString(label)
+      return {
+        required: () => {
+          return sLabel
+            ? `${sLabel}为必填字段`
+            : `${path}为必填字段`
+        },
+      }
     }
 
     /**
@@ -58,6 +86,7 @@ export default defineComponent({
       proUpload: parentProUpload,
       proRequest: parentProRequest,
       proDateYear: parentProDateYear,
+      proDateWeek: parentProDateWeek,
       proDateMonth: parentProDateMonth,
       proDateRange: parentProDateRange,
       proDateQuarter: parentProDateQuarter,
@@ -71,7 +100,7 @@ export default defineComponent({
       proForm: {
         validateTrigger: 'input',
         placeholderRender: builtInPlaceholderRender,
-        validateMessageRender: builtInValidateMessageRender,
+        getValidateMessages: builtInGetValidateMessages,
         ...parentProForm,
         ...proForm,
       },
@@ -89,6 +118,7 @@ export default defineComponent({
         }),
       },
       proUpload: {
+        title: '上传',
         ...parentProUpload,
         ...proUpload,
       },
@@ -111,6 +141,11 @@ export default defineComponent({
         valueFormat: 'YYYY',
         ...parentProDateYear,
         ...proDateYear,
+      },
+      proDateWeek: {
+        valueFormat: 'YYYY-w',
+        ...parentProDateWeek,
+        ...proDateWeek,
       },
       proDateMonth: {
         valueFormat: 'YYYY-MM',
@@ -145,15 +180,15 @@ export default defineComponent({
       },
     })
     return {
-      configProviderProps,
+      nConfigProviderProps,
     }
   },
   render() {
     const {
       $slots,
-      configProviderProps,
+      nConfigProviderProps,
     } = this
-    return <NConfigProvider {...configProviderProps} v-slots={$slots}></NConfigProvider>
+    return <NConfigProvider {...nConfigProviderProps} v-slots={$slots}></NConfigProvider>
   },
 })
 </script>

@@ -204,19 +204,6 @@ export function createDocumentationMenuOptions({ lang, theme }) {
 export function createComponentMenuOptions({ lang, theme }) {
   return createItems(lang, theme, '/components', [
     appendCounts({
-      zh: '架构设计',
-      en: 'Framework Design',
-      type: 'group',
-      children: [
-        {
-          en: 'CommonConfiguration',
-          zh: '通用配置',
-          enSuffix: true,
-          path: '/common-configuration',
-        },
-      ],
-    }),
-    appendCounts({
       zh: '通用组件',
       en: 'Common Components',
       type: 'group',
@@ -230,15 +217,15 @@ export function createComponentMenuOptions({ lang, theme }) {
       ],
     }),
     appendCounts({
-      zh: '数据录入组件',
+      zh: '表单组件',
       en: 'Data Input Components',
       type: 'group',
       children: [
         {
-          en: 'ProTreeSelect',
-          zh: '树型选择',
+          en: 'ProForm',
+          zh: '表单',
           enSuffix: true,
-          path: '/tree-select',
+          path: '/form',
         },
       ],
     }),
@@ -255,47 +242,18 @@ export function createComponentMenuOptions({ lang, theme }) {
         },
       ],
     }),
-    appendCounts({
-      zh: '导航组件',
-      en: 'Navigation Components',
-      type: 'group',
-      children: [
-
-      ],
-    }),
-    appendCounts({
-      zh: '反馈组件',
-      en: 'Feedback Components',
-      type: 'group',
-      children: [],
-    }),
-    appendCounts({
-      zh: '布局组件',
-      en: 'Layout Components',
-      type: 'group',
-      children: [],
-    }),
-    appendCounts({
-      zh: '工具组件',
-      en: 'Utility Components',
-      type: 'group',
-      children: [
-
-      ],
-    }),
-    appendCounts({
-      zh: '配置组件',
-      en: 'Config Components',
-      type: 'group',
-      children: [
-        {
-          en: 'ProConfigProvider',
-          zh: '全局化配置',
-          enSuffix: true,
-          path: '/config-provider',
-        },
-      ],
-    }),
-
+    // appendCounts({
+    //   zh: '配置组件',
+    //   en: 'Config Components',
+    //   type: 'group',
+    //   children: [
+    //     {
+    //       en: 'ProConfigProvider',
+    //       zh: '全局化配置',
+    //       enSuffix: true,
+    //       path: '/config-provider',
+    //     },
+    //   ],
+    // }),
   ])
 }

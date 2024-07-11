@@ -1,7 +1,14 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import { omit } from 'lodash-es'
+import type { FormItemProps } from 'naive-ui'
 import { formProps } from 'naive-ui'
 import type { ArrayField, BaseField, MaybeExpression } from 'pro-components-hooks'
+
+interface ValidateError {
+  message?: string
+  fieldValue?: any
+  field?: string
+}
 
 export const proFormExtendProps = {
   /**
@@ -21,9 +28,21 @@ export const proFormExtendProps = {
     default: undefined,
   },
   /**
+   * 表达式，浅合并，优先级比全局高
+   */
+  expression: Object as PropType<Record<`$${string}`, any>>,
+  /**
    * 表单初始值
    */
   initialValues: Object,
+  /**
+   * 数据验证成功后回调事件
+   */
+  onSubmit: Function as PropType<(values: Record<string, any>, warnings: ValidateError[][]) => void>,
+  /**
+   * 数据验证失败后回调事件
+   */
+  onSubmitFailed: Function as PropType<(errors: ValidateError[][]) => void>,
   /**
    * 字段值发生变化时触发的回调函数
    */
@@ -43,6 +62,16 @@ export const proFormExtendProps = {
       value: any
     }) => void>,
   },
+  /**
+   * 自定义渲染 formItem，优先级比 ProFormItem 低
+   * @param bindValues formItem 的属性
+   * @param bindSlots formItem 的插槽
+   */
+  renderFormItem: Function as PropType<(
+    opt: {
+      bindValues: FormItemProps
+      bindSlots: Record<string, any>
+    }) => VNodeChild>,
 } as const
 
 export const proFormProps = {

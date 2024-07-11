@@ -1,55 +1,64 @@
 import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType, VNodeChild } from 'vue'
-import type { LabelAlign, LabelPlacement } from 'naive-ui/es/form/src/interface'
+import type { FormItemRule, LabelAlign, LabelPlacement } from 'naive-ui/es/form/src/interface'
 import type { ThemeProps } from 'naive-ui/es/_mixins'
 import { useTheme } from 'naive-ui/es/_mixins'
 import type { FormTheme } from 'naive-ui/es/form/styles'
 import type { MaybeExpression } from 'pro-components-hooks'
-import type { ProFormItemRule } from './types'
+import type { FormItemProps } from 'naive-ui'
 
 export const proFormItemExtendProps = {
   /**
    * 精简模式，不包装 formItem
    */
   simple: {
-    type: Boolean,
+    type: [Boolean, String] as PropType<MaybeExpression<boolean>>,
     default: false,
   },
   /**
    * 是否只读
    */
   readonly: {
-    type: Boolean,
+    type: [Boolean, String] as PropType<MaybeExpression<boolean>>,
     default: undefined,
   },
   /**
-   * 传递给 input.. 等的属性
-   * 类型会被 input... 等重写
-   * 这里只是占位
+   * 自定义渲染只读模式下的控件
    */
-  fieldProps: {
-    type: Object,
-    default: () => ({}),
-  },
+  readonlyRender: Function as PropType<(
+    (opt: { value: any }) => VNodeChild
+  )>,
   /**
-   * 传递给 input.. 等的属性
-   * 类型会被 input... 等重写
-   * 这里只是占位
+   * 自定义渲染只读模式下并且内容为空时的控件
    */
-  placeholder: undefined as any as PropType<any>,
+  readonlyEmptyRender: Function as PropType<(
+    (opt: { value: any }) => VNodeChild
+  )>,
   /**
-   * 自定义 formItem，可以用来进行自定义布局
-   * @param domVNode FormItem 的 vnode
+   * 自定义渲染控件
    */
-  formItemRender: {
-    type: Function as PropType<(domVNode: VNodeChild) => VNodeChild>,
-  },
+  renderField: Function as PropType<(
+    opts: {
+      bindValues: Record<string, any>
+      bindSlots: Record<string, any>
+    }) => VNodeChild>,
   /**
-   * 自定义 field 控件，可以用来进行自定义布局
-   * @param domVNode field 控件的 vnode
+   * 自定义渲染 formItem
+   * @param bindValues formItem 的属性
+   * @param bindSlots formItem 的插槽
    */
-  fieldRender: {
-    type: Function as PropType<(domVNode: VNodeChild) => VNodeChild>,
-  },
+  renderFormItem: Function as PropType<(
+    opt: {
+      bindValues: FormItemProps
+      bindSlots: Record<string, any>
+    }) => VNodeChild>,
+  /**
+   * 自定义渲染控件组（控件 + 前后缀插槽）
+   * @param vnode 控件组的虚拟节点
+   */
+  renderFieldGroup: Function as PropType<(
+    opts: {
+      vnode: VNodeChild
+    }) => VNodeChild>,
 } as const
 
 /**
@@ -72,10 +81,10 @@ export const proFormItemProps = {
   size: String as PropType<MaybeExpression<'small' | 'medium' | 'large'>>,
   ignorePathChange: [Boolean, String] as PropType<MaybeExpression<boolean>>,
   labelWidth: [Number, String] as PropType<MaybeExpression<string | number>>,
+  rule: [Object, Array] as PropType<MaybeExpression<FormItemRule | FormItemRule[]>>,
   labelStyle: [String, Object] as PropType<MaybeExpression<CSSProperties | string>>,
   feedbackStyle: [String, Object] as PropType<MaybeExpression<CSSProperties | string>>,
   validationStatus: String as PropType<MaybeExpression<'error' | 'warning' | 'success'>>,
-  rule: [Object, Array] as PropType<MaybeExpression<ProFormItemRule | ProFormItemRule[]>>,
   requireMarkPlacement: String as PropType<MaybeExpression<'left' | 'right' | 'right-hanging'>>,
   showRequireMark: {
     type: [Boolean, String] as PropType<MaybeExpression<boolean | undefined>>,

@@ -15,8 +15,8 @@ export const zhComponentRoutes = [
     component: () => import('../../packages/components/src/tree/demos/zhCN/index.demo-entry.md'),
   },
   {
-    path: 'common-configuration',
-    component: () => import('../../packages/components/src/common-configuration/demos/zhCN/index.demo-entry.md'),
+    path: 'form',
+    component: () => import('../../packages/components/src/form/demos/zhCN/index.demo-entry.md'),
   },
 ]
 

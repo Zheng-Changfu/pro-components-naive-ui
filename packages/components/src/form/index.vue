@@ -1,16 +1,17 @@
 <script lang="tsx">
 import type { FormInst, FormProps } from 'naive-ui'
 import { NForm } from 'naive-ui'
+import type { Path } from 'pro-components-hooks'
 import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
 import { computed, defineComponent, provide, ref, toRef } from 'vue'
 import { isString, toPath } from 'lodash-es'
 import { useOmitProps } from '../hooks'
 import { useInjectGlobalConfigContext } from '../config-provider'
-import { proFormReadonlyContextKey, provideProFormInstanceContext } from './context'
+import { proFormReadonlyContextKey, proFormRenderFormItemContextKey, provideProFormInstanceContext } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 import type { ProFormInstance } from './inst'
-import type { ProComponentConfig } from './field'
-import { ProComponentConfigKey } from './field'
+import type { ProFieldConfig } from './field'
+import { ProFieldConfigKey } from './field'
 
 export default defineComponent({
   name: 'ProForm',
@@ -18,12 +19,18 @@ export default defineComponent({
   setup(props, { expose }) {
     const formInstRef = ref<FormInst>()
     const formProps = useOmitProps(props, proFormExtendProps)
-    const { expressionContext = {} } = useInjectGlobalConfigContext().proForm
+    const { expression: globalExpression } = useInjectGlobalConfigContext().proForm
 
     const {
+      expression,
       initialValues,
       onFieldValueChange,
     } = props
+
+    const expressionContext = {
+      ...(expression ?? {}),
+      ...(globalExpression ?? {}),
+    }
 
     const {
       scope,
@@ -52,7 +59,7 @@ export default defineComponent({
     const nFormProps = computed<FormProps>(() => {
       return {
         ...formProps.value,
-        rules: {},
+        rules: undefined,
         ref: formInstRef,
         model: values.value,
         disabled: compiledDisabled.value,
@@ -66,7 +73,26 @@ export default defineComponent({
       }
     }
 
+    function submit() {
+      const {
+        onSubmit,
+        onSubmitFailed,
+      } = props
+
+      return validate()
+        .then(({ warnings }) => {
+          const values = getFieldsTransformedValue()
+          onSubmit && onSubmit(values, warnings ?? [])
+        })
+        .catch((errors) => {
+          onSubmitFailed && onSubmitFailed(errors)
+        })
+    }
+
+    let shouldTriggerValidate = true
     function validate(paths?: string | string[]) {
+      if (!shouldTriggerValidate)
+        return Promise.resolve({ warnings: undefined })
       if (!paths) {
         return formInstRef.value!.validate()
       }
@@ -85,32 +111,50 @@ export default defineComponent({
       const normalizedPaths = (isString(paths) ? [paths] : paths).map(toPath) as Array<string[]>
       normalizedPaths.forEach((path) => {
         const field = pathField.get(path)
-        if (!field || !field[ProComponentConfigKey])
+        if (!field || !field[ProFieldConfigKey])
           return
-        const proComponentConfig: ProComponentConfig = field[ProComponentConfigKey]
-        const formItemInst = proComponentConfig.formItemInstRef.value
+        const proFieldConfig: ProFieldConfig = field[ProFieldConfigKey]
+        const formItemInst = proFieldConfig.formItemInstRef.value
         formItemInst.restoreValidation()
       })
     }
 
+    function restoreFieldValue(path: Path) {
+      shouldTriggerValidate = false
+      resetFieldValue(path)
+      restoreValidation(toPath(path))
+      shouldTriggerValidate = true
+    }
+
+    function restoreFieldsValue() {
+      shouldTriggerValidate = false
+      resetFieldsValue()
+      restoreValidation()
+      shouldTriggerValidate = true
+    }
+
     const exposed: ProFormInstance = {
+      submit,
       validate,
       matchPath,
       getFieldValue,
       setFieldValue,
       getFieldsValue,
       setFieldsValue,
-      resetFieldValue,
       setInitialValue,
-      resetFieldsValue,
       setInitialValues,
       restoreValidation,
+      resetFieldValue,
+      resetFieldsValue,
+      restoreFieldValue,
+      restoreFieldsValue,
       getFieldsTransformedValue,
     }
 
     expose(exposed)
     provideProFormInstanceContext(exposed)
     provide(proFormReadonlyContextKey, compiledReadonly)
+    provide(proFormRenderFormItemContextKey, props.renderFormItem)
     return {
       nFormProps,
     }

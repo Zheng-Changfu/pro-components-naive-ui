@@ -1,6 +1,6 @@
 import { computed, ref, toRef, watch } from 'vue'
 import { eachTree, mapTree, useRequest } from 'pro-components-hooks'
-import { get, has, isArray, isNumber, isString, set, unset } from 'lodash-es'
+import { debounce, get, has, isArray, isNumber, isString, set, unset } from 'lodash-es'
 import type { TreeOption, TreeSelectOption } from 'naive-ui'
 import type { AnyFn } from '../types'
 import type { ProTreeProps } from './props'
@@ -10,6 +10,7 @@ export function useTreeData(props: ProTreeProps) {
   const loaded = ref(false)
   const treeData = ref<TreeOption[]>([])
   const controls = useRequest(props.fetchConfig as any)
+  const debounceTime = props.fetchConfig?.debounceTime ?? 500
 
   const {
     remote = false,
@@ -27,6 +28,11 @@ export function useTreeData(props: ProTreeProps) {
     onSuccess,
     onFailure,
   } = controls
+
+  const debounceRun = debounce(
+    run,
+    debounceTime,
+  )
 
   watch(
     toRef(props, 'data'),
@@ -92,15 +98,15 @@ export function useTreeData(props: ProTreeProps) {
   }
 
   function onLoad(node: TreeSelectOption) {
-    const { onLoad: userOnLoad } = props
-    if (userOnLoad) {
-      return callWithLoaded(userOnLoad, node)
+    const { onLoad: propOnLoad } = props
+    if (propOnLoad) {
+      return callWithLoaded(propOnLoad, node)
     }
     /**
      * remote：true 并且用户没重写 onLoad，由内部控制远程加载
      */
     return new Promise<void>(async (resolve) => {
-      const [err, response] = await callWithLoaded(run, node)
+      const [err, response] = await callWithLoaded(debounceRun, node)
       if (err) {
         node.isLeaf = true
         resolve()

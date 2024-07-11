@@ -1,5 +1,0 @@
-export * from './inst'
-export * from './props'
-export * from './slots'
-export * from './useProInput'
-export { default as ProInput } from './index.vue'

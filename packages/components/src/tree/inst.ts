@@ -49,6 +49,15 @@ export type ProTreeInstance<Data = any> = PickFunction<TreeInst & {
    */
   setCheckedKeys: (keys?: Array<string | number>) => void
   /**
+   * 获取部分选中选项的 keys
+   */
+  getIndeterminateKeys: () => Array<string | number>
+  /**
+   * 设置部分选中 keys
+   * @param keys 需要部分选中的 keys
+   */
+  setIndeterminateKeys: (keys: Array<string | number>) => void
+  /**
    * 获取请求控制器
    */
   getFetchControls: () => UseRequestReturned<any, any>

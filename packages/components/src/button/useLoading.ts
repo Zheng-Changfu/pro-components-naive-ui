@@ -15,15 +15,15 @@ export function useLoading(props: ProButtonProps) {
   function clickLoading(event: MouseEvent) {
     const {
       autoLoading,
-      onClick: userOnClick,
+      onClick: propOnClick,
     } = props
 
     /**
      * vue 会进行事件合并
      */
-    const clickQueue = isFunction(userOnClick)
-      ? [userOnClick]
-      : userOnClick
+    const clickQueue = isFunction(propOnClick)
+      ? [propOnClick]
+      : propOnClick
 
     if (!isArray(clickQueue))
       return

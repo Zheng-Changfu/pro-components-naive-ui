@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import 'virtual:uno.css'
 import naive from 'naive-ui'
 import proComponents from 'pro-components-naive-ui'
 import SiteRoot from './SiteRoot.vue'

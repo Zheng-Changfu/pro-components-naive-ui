@@ -1,6 +1,6 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { configProviderProps } from 'naive-ui'
-import type { GlobalConfigProButton, GlobalConfigProDate, GlobalConfigProDateMonth, GlobalConfigProDateMonthRange, GlobalConfigProDateQuarter, GlobalConfigProDateQuarterRange, GlobalConfigProDateRange, GlobalConfigProDateYear, GlobalConfigProDateYearRange, GlobalConfigProForm, GlobalConfigProRequest, GlobalConfigProTable, GlobalConfigProTime, GlobalConfigProUpload } from './types'
+import type { GlobalConfigProButton, GlobalConfigProDate, GlobalConfigProDateMonth, GlobalConfigProDateMonthRange, GlobalConfigProDateQuarter, GlobalConfigProDateQuarterRange, GlobalConfigProDateRange, GlobalConfigProDateWeek, GlobalConfigProDateYear, GlobalConfigProDateYearRange, GlobalConfigProForm, GlobalConfigProRequest, GlobalConfigProTable, GlobalConfigProTime, GlobalConfigProUpload } from './types'
 
 export const proConfigProviderExtendProps = {
   proDate: Object as PropType<Partial<GlobalConfigProDate>>,
@@ -11,6 +11,7 @@ export const proConfigProviderExtendProps = {
   proUpload: Object as PropType<Partial<GlobalConfigProUpload>>,
   proRequest: Object as PropType<Partial<GlobalConfigProRequest>>,
   proDateYear: Object as PropType<Partial<GlobalConfigProDateYear>>,
+  proDateWeek: Object as PropType<Partial<GlobalConfigProDateWeek>>,
   proDateMonth: Object as PropType<Partial<GlobalConfigProDateMonth>>,
   proDateRange: Object as PropType<Partial<GlobalConfigProDateRange>>,
   proDateQuarter: Object as PropType<Partial<GlobalConfigProDateQuarter>>,

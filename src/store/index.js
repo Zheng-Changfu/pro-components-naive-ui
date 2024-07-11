@@ -7,6 +7,9 @@ import {
   useOsTheme,
   zhCN,
 } from 'naive-ui'
+import {
+  ProConfigProvider
+} from 'pro-components-naive-ui'
 import { i18n, useIsMobile } from '../utils/composables'
 import {
   createComponentMenuOptions,
@@ -85,7 +88,7 @@ const themeRef = computed(() => {
 // config provider
 const configProviderNameRef = ref('default')
 const configProviderRef = computed(() => {
-  return NConfigProvider
+  return ProConfigProvider
 })
 
 // options
