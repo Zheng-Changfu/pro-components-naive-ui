@@ -19,6 +19,7 @@ customRenderReadonly.vue
 customRenderFormItem.vue
 customRenderField.vue
 customRenderFieldGroup.vue
+dependenciesUsage.vue
 linkExpression.vue
 linkRegister.vue
 linkOneToMany.vue
@@ -51,8 +52,6 @@ formApi.vue
 | rules | 校验规则在控件上写 |  |
 
 ### ProForm Methods
-使用 `ref` 或者 `useProTree` 可以拿到组件方法
-
 | 名称 | 类型 | 说明 | 版本 |
 | --- | --- | --- | --- |
 | `matchPath` | `(pathMatch: PathMatch) => string[]` | 匹配字段，返回匹配到的字段数组 |  |
@@ -61,7 +60,9 @@ formApi.vue
 | `setFieldValue` | `(path: Path, value: any) => void` | 设置指定路径字段的值 |  |
 | `setFieldsValue` | `(values: Record<string,any>) => void` | 设置多个路径字段的值 |  |
 | `resetFieldValue` | `(path: Path) => void` | 重置指定路径字段的值 |  |
+| `restoreFieldValue` | `(path: Path) => void` | 重置指定路径字段的值并清空校验 |  |
 | `resetFieldsValue` | `() => void` | 重置所有字段的值 |  |
+| `restoreFieldsValue` | `() => void` | 重置所有字段的值并清空校验 |  |
 | `setInitialValue` | `(path: Path, value: any) => void` | 设置指定路径字段的初始值，重置字段值时会重置会设置的初始值或者本身的初始值  |  |
 | `setInitialValues` | `(values: Record<string,any>) => void` | 设置多个字段初始值，重置字段值时会重置会设置的初始值或者本身的初始值 |  |
 | `getFieldsTransformedValue` | `() => Record<string,any>` | 获取表单值，不包含被隐藏的和设置过的（但是被 transform 处理过的） |  |
@@ -109,6 +110,78 @@ formApi.vue
   </template>
   ```
 
+### 控件原理说明
+表单控件可以看成 `form-item` + `组件`，例如
+```html
+  <pro-input></pro-input>
+```
+等价于
+```html
+  <n-form-item>
+    <n-input></n-input>
+  </n-form-item>
+```
+`n-form-item` 的属性可以在控件上直接书写，`n-input` 的所有属性被放在了 `field-props` 上，为了方便，`placeholder` 放在了上层，会透传给表单，如以下代码
+```html
+  <pro-input
+      label="用户名" 
+      path="username" 
+      required
+      placeholder="请输入用户名"
+      :field-props="{
+        clearable:true,
+        minlength:10,
+        maxlength:20
+      }"
+    >
+  </pro-input>
+```
+等价于
+```html
+  <n-form-item
+    label="用户名" 
+    path="username" 
+    required
+  >
+    <n-input 
+      clearable
+      placeholder="请输入用户名"
+      :minlength="10"
+      :maxlength="20"
+    ></n-input>
+  </n-form-item>
+```
+
+### 全部表单控件
+支持异步数据源的表单控件都会有一个 `fetchConfig` 属性
+
+| 控件名称 | 说明 | 异步数据源 | 获取控件实例函数 | 版本 |
+| - | - | - | - | - |
+| `ProInput` | 输入框 | ❌ | `useProInput` | | 
+| `ProDigit` | 数字输入框 | ❌ | `useProDigit` | | 
+| `ProPassword` | 密码输入框 | ❌ | `useProPassword` | | 
+| `ProTextarea` | 文本域 | ❌ | `useProTextarea` | | 
+| `ProDate` | 日期选择器 | ❌ | `useProDate` | | 
+| `ProDateYear` | 年选择器 | ❌ | `useProDateYear` | | 
+| `ProDateWeek` | 周选择器 | ❌ | `useProDateWeek` | | 
+| `ProDateMonth` | 月选择器 | ❌ | `useProDateMonth` | | 
+| `ProDateQuarter` | 季度选择器 | ❌ | `useProDateQuarter` | | 
+| `ProTime` | 时间选择器 | ❌ | `useProTime` | | 
+| `ProDateRange` | 日期范围选择器 | ❌ | `useProDateRange` | | 
+| `ProDateYearRange` | 年范围选择器 | ❌ | `useProDateYearRange` | | 
+| `ProDateMonthRange` | 月范围选择器 | ❌ | `useProDateMonthRange` | | 
+| `ProDateQuarterRange` | 季度范围选择器 | ❌ | `useProDateQuarterRange` | | 
+| `ProRadio` | 单选框 | ❌ | | 
+| `ProRadioGroup` | 单选框组 | ✅ | `useProRadioGroup` | 
+| `ProCheckbox` | 复选框 | ❌ | `useProCheckbox` |  
+| `ProCheckboxGroup` | 复选框组 | ✅ | `useProCheckboxGroup` |  
+| `ProRate` | 评分 | ❌ | |  
+| `ProSlider` | 滑动选择 | ❌ | |  
+| `ProSelect` | 选择器 | ✅ | `useProSelect` |  
+| `ProSwitch` | 开关 | ❌ | |  
+| `ProUpload` | 上传 | ❌ | `useProUpload` |  
+| `ProTransfer` | 穿梭框 | ✅ | `useProTransfer` |  
+| `ProTreeSelect` | 树型选择 | ✅ | `useProTreeSelect` |  
 
 ### 表达式内置变量
 | 名称 | 别名 | 说明 | 版本 | 
