@@ -1,6 +1,7 @@
 <script lang="tsx">
 import type { FormInst, FormProps } from 'naive-ui'
 import { NForm } from 'naive-ui'
+import type { Path } from 'pro-components-hooks'
 import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
 import { computed, defineComponent, provide, ref, toRef } from 'vue'
 import { isString, toPath } from 'lodash-es'
@@ -88,7 +89,10 @@ export default defineComponent({
         })
     }
 
+    let shouldTriggerValidate = true
     function validate(paths?: string | string[]) {
+      if (!shouldTriggerValidate)
+        return Promise.resolve({ warnings: undefined })
       if (!paths) {
         return formInstRef.value!.validate()
       }
@@ -115,6 +119,20 @@ export default defineComponent({
       })
     }
 
+    function restoreFieldValue(path: Path) {
+      shouldTriggerValidate = false
+      resetFieldValue(path)
+      restoreValidation(toPath(path))
+      shouldTriggerValidate = true
+    }
+
+    function restoreFieldsValue() {
+      shouldTriggerValidate = false
+      resetFieldsValue()
+      restoreValidation()
+      shouldTriggerValidate = true
+    }
+
     const exposed: ProFormInstance = {
       submit,
       validate,
@@ -123,11 +141,13 @@ export default defineComponent({
       setFieldValue,
       getFieldsValue,
       setFieldsValue,
-      resetFieldValue,
       setInitialValue,
-      resetFieldsValue,
       setInitialValues,
       restoreValidation,
+      resetFieldValue,
+      resetFieldsValue,
+      restoreFieldValue,
+      restoreFieldsValue,
       getFieldsTransformedValue,
     }
 
