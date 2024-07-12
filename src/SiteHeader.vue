@@ -311,7 +311,7 @@ export default defineComponent({
 <template>
   <n-layout-header bordered class="nav" :style="style">
     <n-text tag="div" class="ui-logo" :depth="1" @click="handleLogoClick">
-      <img src="./assets/images/naivelogo.svg">
+      <img src="/logo.svg">
       <span v-if="!isMobile">Pro Naive UI</span>
     </n-text>
     <div
