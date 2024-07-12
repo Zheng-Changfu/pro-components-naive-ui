@@ -2,7 +2,7 @@
 import type { SlotsType } from 'vue'
 import { computed, defineComponent } from 'vue'
 import type { CheckboxGroupProps } from 'naive-ui'
-import { NCheckbox, NCheckboxGroup, NSpace, NSpin } from 'naive-ui'
+import { NCheckbox, NCheckboxGroup, NFlex, NSpin } from 'naive-ui'
 import { resolveField, useField, useFieldBindValues } from '../../field'
 import { ProFormItem } from '../../form-item'
 import { proCheckboxGroupProps } from './props'
@@ -29,7 +29,8 @@ export default defineComponent({
       loading,
       options,
       controls,
-    } = useOptions(props, bindValues, field.scope)
+      setOptions,
+    } = useOptions(props, bindValues, field)
 
     const nCheckboxGroupProps = computed<CheckboxGroupProps>(() => {
       const { value, doUpdateValue } = field
@@ -44,6 +45,8 @@ export default defineComponent({
     })
 
     const exposed: ProCheckboxGroupInstance = {
+      setOptions,
+      getOptions: () => options.value,
       getFetchControls: () => controls,
     }
 
@@ -87,8 +90,8 @@ export default defineComponent({
                             ...$slots,
                             default: () => {
                               return (
-                                <NSpace
-                                  {...$props.spaceProps}
+                                <NFlex
+                                  {...$props.flexProps}
                                   v-slots={{
                                     default: () => {
                                       return options.map((item) => {
