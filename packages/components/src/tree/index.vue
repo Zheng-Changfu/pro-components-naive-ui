@@ -34,6 +34,7 @@ export default defineComponent({
       controls,
       keyToTreeNodeMap,
       onLoad,
+      setData,
     } = useTreeData(props)
 
     const {
@@ -145,6 +146,7 @@ export default defineComponent({
       setSelectedKeys,
       getIndeterminateKeys,
       setIndeterminateKeys,
+      setTreeData: setData,
       getTreeData: () => data.value,
       getFetchControls: () => controls,
       getCheckedData: () => treeInstRef.value!.getCheckedData(),
