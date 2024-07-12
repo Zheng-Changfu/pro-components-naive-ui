@@ -5,7 +5,6 @@
 </markdown>
 
 <script lang="tsx">
-import { repeat } from 'seemly'
 import type { TreeOption } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { uid, useProTreeInstance } from 'pro-components-naive-ui'
@@ -14,35 +13,55 @@ function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))
 }
 
-function createData(level = 4): TreeOption[] | undefined {
-  return repeat(6 - level, undefined).map(() => {
-    return {
-      label: createLabel(level),
-      key: uid(),
-      children: [],
-    }
-  })
-}
-
-function createLabel(level: number): string {
-  if (level === 4)
-    return '道生一'
-  if (level === 3)
-    return '一生二'
-  if (level === 2)
-    return '二生三'
-  if (level === 1)
-    return '三生万物'
+function nextLabel(currentLabel?: string): string {
+  if (!currentLabel)
+    return 'Out of Tao, One is born'
+  if (currentLabel === 'Out of Tao, One is born')
+    return 'Out of One, Two'
+  if (currentLabel === 'Out of One, Two')
+    return 'Out of Two, Three'
+  if (currentLabel === 'Out of Two, Three') {
+    return 'Out of Three, the created universe'
+  }
+  if (currentLabel === 'Out of Three, the created universe') {
+    return 'Out of Tao, One is born'
+  }
   return ''
 }
+
+let count = 0
 
 export default defineComponent({
   setup() {
     const [treeInstRef, { getFetchControls }] = useProTreeInstance()
 
-    async function fetchTreeData() {
+    async function fetchTreeData(node?: TreeOption) {
+      count++
       await delay(1000)
-      return createData()
+      if (!node) {
+        return [
+          {
+            label: nextLabel(),
+            key: uid(),
+            isLeaf: true,
+            children: [],
+          },
+          {
+            label: nextLabel(),
+            key: uid(),
+            isLeaf: false,
+            children: [],
+          },
+        ]
+      }
+      return [
+        {
+          label: nextLabel(node.label),
+          key: node.key + nextLabel(node.label),
+          isLeaf: count === 4,
+          children: [],
+        },
+      ]
     }
 
     return {

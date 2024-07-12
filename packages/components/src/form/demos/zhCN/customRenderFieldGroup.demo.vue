@@ -1,7 +1,7 @@
 <markdown>
 # 自定义渲染控件组
 
-控件组 = 当前控件 + 前缀后插槽
+控件组 = 当前控件 + 前后缀插槽
 </markdown>
 
 <script lang="tsx">

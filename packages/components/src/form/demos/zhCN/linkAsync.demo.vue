@@ -54,9 +54,6 @@ export default defineComponent({
     <pro-select
       label="城市"
       path="city"
-      :field-props="{
-        fallbackOption: false,
-      }"
       :fetch-config="{
         immediate: false,
         api: fetchCitys,

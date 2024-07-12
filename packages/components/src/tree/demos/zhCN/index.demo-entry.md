@@ -32,7 +32,6 @@ action.vue
 | --- | --- | --- | --- | --- |
 | leafField | `string` | `isLeaf` | 替代 TreeOption 中的 isLeaf 字段 |  |
 | remote | `boolean` | `false` | 是否为异步加载，搭配 fetchConfig 使用 |  |
-| emptyChildrenConsideredLeafNode | `boolean` | `true` | 空子节点是否当成叶子节点（空数组或者 undefined/null），在异步模式下生效 |  |
 | filterEmptyChildrenField | `boolean` | `true` | 是否过滤掉空子节点字段（空数组或者 undefined/null） |  |
 | expandAllOnFetchSuccess | `boolean` | `false` | 请求成功后是否展开全部节点（搭配 fetchConfig） |  |
 | spinProps | `SpinProps` | `{}` | Spin 组件属性 |  |
@@ -44,6 +43,7 @@ action.vue
 | 名称 | 类型 | 说明 | 版本 |
 | --- | --- | --- | --- |
 | getTreeData | `() => void` | 获取数据 |  |
+| setTreeData | `() => void` | 设置数据 |  |
 | getFullKeys | `() => Array<string \| number>` | 获取全部节点的 keys | |
 | getCheckedKeys | `() => Array<string \| number>` | 获取勾选的节点 keys | |
 | getSelectedKeys | `() => Array<string \| number>` | 获取选中的节点 keys | |
