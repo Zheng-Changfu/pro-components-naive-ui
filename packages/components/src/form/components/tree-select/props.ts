@@ -16,11 +16,6 @@ export interface ProTreeSelectFieldProps extends TreeSelectProps {
    */
   remote: boolean
   /**
-   * 空子节点是否当成叶子节点（空数组或者 undefined/null），在异步模式下生效
-   * @default true
-   */
-  emptyChildrenConsideredLeafNode: boolean
-  /**
    * 是否过滤掉空子节点字段（空数组或者 undefined/null）
    * @default true
    */
@@ -30,17 +25,6 @@ export interface ProTreeSelectFieldProps extends TreeSelectProps {
    * @default false
    */
   expandAllOnFetchSuccess: boolean
-}
-
-/**
- * 只在 remote:true 时生效
- */
-interface FetchRemoteConfig {
-  /**
-   * 防抖时间，单位 ms
-   * @default '500'
-   */
-  debounceTime?: number
 }
 
 export const proTreeSelectProps = {
@@ -56,7 +40,7 @@ export const proTreeSelectProps = {
    * 请求配置
    */
   fetchConfig: {
-    type: Object as PropType<UseRequestOptions<any, any> & FetchRemoteConfig>,
+    type: Object as PropType<MaybeExpression<UseRequestOptions<any, any>> & { restoreValueOnFetched: boolean /** 请求结束后是否还原值并清空校验，防止匹配不到结果造成显示上的错误，默认 true */ }>,
     default: () => ({}),
   },
   /**

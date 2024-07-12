@@ -38,7 +38,8 @@ export default defineComponent({
       controls,
       keyToTreeSelectNodeMap,
       onLoad,
-    } = useOptions(props, bindValues, field.scope)
+      setOptions,
+    } = useOptions(props, bindValues, field)
 
     const {
       expandedKeys,
@@ -62,7 +63,6 @@ export default defineComponent({
         onLoad: propOnLoad,
         expandAllOnFetchSuccess,
         filterEmptyChildrenField,
-        emptyChildrenConsideredLeafNode,
         ...rest
       } = bindValues.value
       const loadFn = (remote || propOnLoad) ? onLoad : undefined
@@ -147,6 +147,7 @@ export default defineComponent({
     }
 
     const exposed: ProTreeSelectInstance = {
+      setOptions,
       getFullKeys,
       getLevelKeys,
       getEnabledKeys,

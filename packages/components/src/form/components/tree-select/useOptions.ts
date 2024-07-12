@@ -1,23 +1,25 @@
 import type { ComputedRef } from 'vue'
 import { computed, ref, watch } from 'vue'
-import type { ExcludeExpression, ExpressionScope } from 'pro-components-hooks'
+import type { BaseField, ExcludeExpression } from 'pro-components-hooks'
 import { eachTree, mapTree } from 'pro-components-hooks'
-import { debounce, get, has, isArray, isNumber, isString, set, unset } from 'lodash-es'
+import { get, has, isArray, isNumber, isString, set, unset } from 'lodash-es'
 import type { TreeSelectOption } from 'naive-ui'
 import type { AnyFn } from '../../../types'
 import { useInternalScopeRequest } from '../_internal/useInternalRequest'
+import { useInjectProFormInstanceContext } from '../../context'
 import type { ProTreeSelectProps } from './props'
 import { LevelKey } from './key'
 
 export function useOptions(
   props: ProTreeSelectProps,
   compiledFieldProps: ComputedRef<ExcludeExpression<ProTreeSelectProps['fieldProps']>>,
-  scope: ExpressionScope,
+  field: BaseField,
 ) {
   const loaded = ref(false)
   const options = ref<TreeSelectOption[]>([])
-  const debounceTime = props.fetchConfig?.debounceTime ?? 500
-  const controls = useInternalScopeRequest(props.fetchConfig!, scope)
+  const proFormInst = useInjectProFormInstanceContext()
+  const controls = useInternalScopeRequest(props.fetchConfig!, field.scope)
+  const restoreValueOnFetched = props.fetchConfig?.restoreValueOnFetched ?? true
 
   const {
     remote = false,
@@ -25,7 +27,6 @@ export function useOptions(
     leafField = 'isLeaf',
     childrenField = 'children',
     filterEmptyChildrenField = true,
-    emptyChildrenConsideredLeafNode = true,
   } = compiledFieldProps.value!
 
   const {
@@ -35,11 +36,6 @@ export function useOptions(
     onSuccess,
     onFailure,
   } = controls
-
-  const debounceRun = debounce(
-    run,
-    debounceTime,
-  )
 
   watch(
     computed(() => compiledFieldProps.value?.options ?? []),
@@ -61,11 +57,11 @@ export function useOptions(
     return shallowNode
   }
 
-  function normalizeTreeSelectOptions(data: TreeSelectOption[]) {
+  function normalizeTreeSelectOptions(data: TreeSelectOption[], startLevel = 0) {
     data = isArray(data) ? data : []
     return mapTree(
       data,
-      (node, _, { level }) => normalizeNode(node, level),
+      (node, _, { level }) => normalizeNode(node, startLevel + level),
       childrenField,
     )
   }
@@ -113,31 +109,40 @@ export function useOptions(
      * remote：true 并且用户没重写 onLoad，由内部控制远程加载
      */
     return new Promise<void>(async (resolve) => {
-      const [err, response] = await callWithLoaded(debounceRun, node)
+      const [err, response] = await callWithLoaded(run, node)
       if (err) {
         node.isLeaf = true
         resolve()
         return
       }
 
-      let children = isArray(response) ? response : []
-      if (emptyChildrenConsideredLeafNode) {
-        children = children.map((node) => {
-          const isLeaf = isEmptyChildren(node)
-          return {
-            isLeaf,
-            ...node,
-          }
-        })
+      const children = normalizeTreeSelectOptions(response, node[LevelKey as any] as number)
+      if (children.length <= 0) {
+        node.isLeaf = true
       }
       set(node, childrenField, children)
       resolve()
     })
   }
 
+  function tryRestoreValue() {
+    if (
+      restoreValueOnFetched
+      && proFormInst
+      && field.stringPath.value
+    ) {
+      proFormInst.restoreFieldValue(field.stringPath.value)
+    }
+  }
+
+  function setOptions(opts: any[]) {
+    options.value = normalizeTreeSelectOptions(opts)
+  }
+
   onSuccess((response) => {
     if (!loaded.value) {
       options.value = normalizeTreeSelectOptions(response)
+      tryRestoreValue()
     }
   })
 
@@ -145,6 +150,7 @@ export function useOptions(
     if (!loaded.value) {
       const vals = data.value
       options.value = normalizeTreeSelectOptions(vals)
+      tryRestoreValue()
     }
   })
 
@@ -154,5 +160,6 @@ export function useOptions(
     loading: getLoading,
     keyToTreeSelectNodeMap,
     onLoad,
+    setOptions,
   }
 }

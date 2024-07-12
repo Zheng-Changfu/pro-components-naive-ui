@@ -9,6 +9,10 @@ export type ProTreeSelectInstance<Data = any> = PickFunction<TreeSelectInst & {
    */
   getOptions: () => Data[]
   /**
+   * 设置数据
+   */
+  setOptions: (opts: Data[]) => void
+  /**
    * 获取全部节点的 keys
    */
   getFullKeys: () => Array<string | number>
