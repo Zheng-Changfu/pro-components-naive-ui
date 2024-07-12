@@ -227,6 +227,12 @@ export function createComponentMenuOptions({ lang, theme }) {
           enSuffix: true,
           path: '/form',
         },
+        {
+          en: 'AsyncField',
+          zh: '异步控件',
+          enSuffix: true,
+          path: '/async-field',
+        },
       ],
     }),
     appendCounts({
