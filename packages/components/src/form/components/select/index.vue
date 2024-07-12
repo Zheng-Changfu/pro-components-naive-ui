@@ -33,7 +33,8 @@ export default defineComponent({
       options,
       controls,
       onSearch,
-    } = useOptions(props, bindValues, field.scope)
+      setOptions,
+    } = useOptions(props, bindValues, field)
 
     const nSelectProps = computed<SelectProps>(() => {
       const { value, doUpdateValue } = field
@@ -53,6 +54,8 @@ export default defineComponent({
     })
 
     const exposed: ProSelectInstance = {
+      setOptions,
+      getOptions: () => options.value,
       getFetchControls: () => controls,
       blur: () => nSelectInstRef.value?.blur(),
       focus: () => nSelectInstRef.value?.focus(),

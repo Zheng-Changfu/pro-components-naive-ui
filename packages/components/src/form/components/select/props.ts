@@ -28,7 +28,7 @@ export const proSelectProps = {
    * 请求配置
    */
   fetchConfig: {
-    type: Object as PropType<MaybeExpression<UseRequestOptions<any, any>> & FetchRemoteConfig>,
+    type: Object as PropType<MaybeExpression<UseRequestOptions<any, any>> & FetchRemoteConfig & { restoreValueOnFetched: boolean /** 请求结束后是否还原值并清空校验，防止匹配不到结果造成显示上的错误，默认 true */ }>,
     default: () => ({}),
   },
   /**
