@@ -18,12 +18,12 @@ export function useInternalScopeRequest(
   const compiledSuccessTip = useCompile(computed(() => options.successTip), { scope })
   const compiledFailureTip = useCompile(computed(() => options.failureTip), { scope })
   const compiledInitialValue = useCompile(computed(() => options.initialValue), { scope })
-  const compiledDependencies = useCompile(computed(() => options.dependencies), { scope })
+  const compiledDepsWatch = useCompile(computed(() => (options.dependencies as any)?.watch), { scope })
+  const compiledDepsRunable = useCompile(computed(() => (options.dependencies as any)?.runable), { scope })
 
   return useRequest({
     api: compiledApi.value,
     tipApi: compiledTipApi.value,
-    dependencies: compiledDependencies,
     onFailure: compiledOnFailure.value,
     onSuccess: compiledOnSuccess.value,
     transform: compiledTransform.value,
@@ -31,5 +31,6 @@ export function useInternalScopeRequest(
     successTip: compiledSuccessTip.value,
     failureTip: compiledFailureTip.value,
     initialValue: compiledInitialValue.value,
+    dependencies: { watch: compiledDepsWatch, runable: compiledDepsRunable },
   })
 }
