@@ -30,7 +30,8 @@ export default defineComponent({
       options,
       loading,
       controls,
-    } = useOptions(props, bindValues, field.scope)
+      setOptions,
+    } = useOptions(props, bindValues, field)
 
     const nTransferProps = computed<TransferProps>(() => {
       const { value, doUpdateValue } = field
@@ -48,6 +49,8 @@ export default defineComponent({
     })
 
     const exposed: ProTransferInstance = {
+      setOptions,
+      getOptions: () => options.value,
       getFetchControls: () => controls,
     }
 
