@@ -19,7 +19,7 @@ export function useInternalScopeRequest(
   const compiledFailureTip = useCompile(computed(() => options.failureTip), { scope })
   const compiledInitialValue = useCompile(computed(() => options.initialValue), { scope })
   const compiledDepsWatch = useCompile(computed(() => (options.dependencies as any)?.watch), { scope })
-  const compiledDepsApiGuard = useCompile(computed(() => (options.dependencies as any)?.apiGuard), { scope })
+  const compiledDepsApiGuard = useCompile(computed(() => (options.dependencies as any)?.apiGuard ?? true), { scope })
 
   return useRequest({
     api: compiledApi.value,
