@@ -63,11 +63,11 @@ export const proFormExtendProps = {
     }) => void>,
   },
   /**
-   * 自定义渲染 formItem，优先级比 ProFormItem 低
+   * 自定义渲染 formItem，优先级比 ProFormItem 的低
    * @param bindValues formItem 的属性
    * @param bindSlots formItem 的插槽
    */
-  renderFormItem: Function as PropType<(
+  formItemRender: Function as PropType<(
     opt: {
       bindValues: FormItemProps
       bindSlots: Record<string, any>

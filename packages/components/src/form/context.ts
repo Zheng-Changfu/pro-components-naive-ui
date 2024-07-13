@@ -5,7 +5,7 @@ import type { ProFormInstance } from './inst'
 
 export const proFormInstanceContextKey = Symbol('proFormInstance') as InjectionKey<ProFormInstance>
 export const proFormReadonlyContextKey = Symbol('proFormReadonly') as InjectionKey<MaybeRef<boolean | undefined>>
-export const proFormRenderFormItemContextKey = Symbol('proFormRenderFormItem') as InjectionKey<((
+export const proFormItemRenderContextKey = Symbol('proFormItemRender') as InjectionKey<((
   opt: {
     bindValues: FormItemProps
     bindSlots: Record<string, any>

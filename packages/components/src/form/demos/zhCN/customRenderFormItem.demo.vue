@@ -1,7 +1,7 @@
 <markdown>
 # 自定义渲染FormItem
 
-组件的 `renderFormItem` 属性优先级比表单的 `renderFormItem` 高，你可以单独对某一个组件使用，也可以针对整个表单使用
+组件的 `formItemRender` 属性优先级比表单的 `formItemRender` 高，你可以单独对某一个组件使用，也可以针对整个表单使用
 </markdown>
 
 <script lang="tsx">
@@ -18,7 +18,7 @@ export default defineComponent({
       console.log(values)
     }
 
-    function renderFormItemGi(
+    function formItemGiRender(
       opt: {
         bindValues: FormItemProps
         bindSlots: Record<string, any>
@@ -39,7 +39,7 @@ export default defineComponent({
       instRef,
       submit,
       onSubmit,
-      renderFormItemGi,
+      formItemGiRender,
     }
   },
 })
@@ -50,7 +50,7 @@ export default defineComponent({
     ref="instRef"
     label-placement="left"
     label-width="auto"
-    :render-form-item="renderFormItemGi"
+    :form-item-render="formItemGiRender"
     @submit="onSubmit"
   >
     <n-row gutter="12">

@@ -46,7 +46,7 @@ export const proFormItemExtendProps = {
    * @param bindValues formItem 的属性
    * @param bindSlots formItem 的插槽
    */
-  renderFormItem: Function as PropType<(
+  formItemRender: Function as PropType<(
     opt: {
       bindValues: FormItemProps
       bindSlots: Record<string, any>

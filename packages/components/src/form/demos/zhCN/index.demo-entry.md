@@ -45,7 +45,7 @@ formApi.vue
 | onSubmitFailed | `(errors: ValidateError[][]) => void` | `undefined` | 数据验证失败后回调事件 |  |
 | onFieldValueChange | `(opt: { field: BaseField \| ArrayField, value:any }) => void` | | 字段值发生变化时触发的回调函数 |  |
 | onDependenciesValueChange | `(opt: { path: string[], depPath: string[], value: any }) => void` | | 依赖项的值发生变化时触发的回调函数 |  |
-| renderFormItem | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | | 自定义渲染 formItem，优先级比 ProFormItem 低 |  |
+| formItemRender | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | | 自定义渲染 formItem，优先级比 ProFormItem 低 |  |
 
 ### ProForm 不兼容属性
 
@@ -94,7 +94,7 @@ formApi.vue
 | readonlyRender | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下的控件 |  |
 | readonlyEmptyRender | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下并且内容为空时的控件 |  |
 | renderField | `(opt: { bindValues:Record<string, any>, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染控件 |  |
-| renderFormItem | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染 FormItem |  |
+| formItemRender | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染 FormItem |  |
 | renderFieldGroup | `(opts: { vnode: VNodeChild }) => VNodeChild` | `undefined` | 自定义渲染控件组（控件 + 前后缀插槽） |  |
 
 ### 控件的注意事项
@@ -210,7 +210,7 @@ formApi.vue
     'readonlyRender',
     'readonlyEmptyRender',
     'renderField',
-    'renderFormItem',
+    'formItemRender',
     'renderFieldGroup',
   ] as const
   ```

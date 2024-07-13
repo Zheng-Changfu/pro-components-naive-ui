@@ -1,11 +1,11 @@
 <markdown>
 # 表单布局
 
-可以使用 `renderFormItem` 统一进行布局，也可以正常编写布局代码
+可以使用 `formItemRender` 统一进行布局，也可以正常编写布局代码
 </markdown>
 
 <script lang="tsx">
-import { computed, defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {

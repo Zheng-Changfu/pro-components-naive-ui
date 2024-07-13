@@ -1,22 +1,22 @@
 import type { VNodeChild } from 'vue'
 import { inject } from 'vue'
 import type { FormItemProps } from 'naive-ui'
-import { proFormRenderFormItemContextKey } from '../context'
+import { proFormItemRenderContextKey } from '../context'
 
-interface RenderFormItemParams {
+interface FormItemRenderParams {
   bindValues: FormItemProps
   bindSlots: Record<string, any>
 }
 
 export function resolveFormItem(
-  renderFormItem: ((params: RenderFormItemParams) => VNodeChild) | undefined,
-  params: RenderFormItemParams,
+  formItemRender: ((params: FormItemRenderParams) => VNodeChild) | undefined,
+  params: FormItemRenderParams,
   defaultRender: () => VNodeChild,
 ) {
-  const formRenderFormItem = inject(proFormRenderFormItemContextKey)
-  return renderFormItem
-    ? renderFormItem(params)
-    : formRenderFormItem
-      ? formRenderFormItem(params)
+  const formPropFormItemRender = inject(proFormItemRenderContextKey)
+  return formItemRender
+    ? formItemRender(params)
+    : formPropFormItemRender
+      ? formPropFormItemRender(params)
       : defaultRender()
 }

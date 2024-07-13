@@ -163,7 +163,7 @@ export default defineComponent({
     }
 
     return resolveFormItem(
-      $props.renderFormItem,
+      $props.formItemRender,
       {
         bindSlots: nFormItemSlots,
         bindValues: nFormItemProps,
