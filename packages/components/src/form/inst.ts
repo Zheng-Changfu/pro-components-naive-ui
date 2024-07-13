@@ -28,6 +28,10 @@ BaseForm,
    */
   restoreFieldsValue: () => void
   /**
+   * 获取表达式作用域内容
+   */
+  getExpressionScope: () => Record<`$${string}`, any>
+  /**
    * 校验
    */
   validate: (paths?: string | string[]) => ReturnType<FormInst['validate']>
