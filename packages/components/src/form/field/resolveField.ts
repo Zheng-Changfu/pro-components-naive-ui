@@ -1,12 +1,12 @@
 import type { VNodeChild } from 'vue'
 
-interface RenderFieldParams {
+interface FieldRenderParams {
   bindSlots: Record<string, any>
   bindValues: Record<string, any>
 }
 export function resolveField(
-  render: ((opts: RenderFieldParams) => VNodeChild) | undefined,
-  params: RenderFieldParams,
+  render: ((opts: FieldRenderParams) => VNodeChild) | undefined,
+  params: FieldRenderParams,
   defaultRender: () => VNodeChild,
 ) {
   return render

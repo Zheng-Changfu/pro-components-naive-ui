@@ -36,7 +36,7 @@ export const proFormItemExtendProps = {
   /**
    * 自定义渲染控件
    */
-  renderField: Function as PropType<(
+  fieldRender: Function as PropType<(
     opts: {
       bindValues: Record<string, any>
       bindSlots: Record<string, any>

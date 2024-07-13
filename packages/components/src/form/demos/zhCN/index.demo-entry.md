@@ -93,7 +93,7 @@ formApi.vue
 | transform | `(val: any, path: string) => any` | `undefined` | 转换字段的值，如果返回的是一个对象，将和当前字段所在层级的对象进行深度合并 |  |
 | readonlyRender | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下的控件 |  |
 | readonlyEmptyRender | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下并且内容为空时的控件 |  |
-| renderField | `(opt: { bindValues:Record<string, any>, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染控件 |  |
+| fieldRender | `(opt: { bindValues:Record<string, any>, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染控件 |  |
 | formItemRender | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染 FormItem |  |
 | renderFieldGroup | `(opts: { vnode: VNodeChild }) => VNodeChild` | `undefined` | 自定义渲染控件组（控件 + 前后缀插槽） |  |
 
@@ -209,7 +209,7 @@ formApi.vue
     'transform',
     'readonlyRender',
     'readonlyEmptyRender',
-    'renderField',
+    'fieldRender',
     'formItemRender',
     'renderFieldGroup',
   ] as const

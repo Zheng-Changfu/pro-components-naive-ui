@@ -50,7 +50,7 @@ export default defineComponent({
     label-width="auto"
     @submit="onSubmit"
   >
-    <pro-input label="用户名" path="username" required :render-field="renderInput" />
+    <pro-input label="用户名" path="username" required :field-render="renderInput" />
     <pro-password label="密码" path="password" required />
     <n-button type="primary" @click="submit">
       提交

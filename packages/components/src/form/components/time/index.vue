@@ -83,7 +83,7 @@ export default defineComponent({
         v-slots={{
           default: () => {
             return resolveField(
-              $props.renderField,
+              $props.fieldRender,
               {
                 bindSlots: $slots,
                 bindValues: this.nPickerProps,
