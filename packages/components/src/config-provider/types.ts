@@ -9,7 +9,7 @@ export interface GlobalConfigProForm {
   /**
    * 自定义渲染只读状态下的表单
    */
-  readonlyRender: (options: ProFieldGlobalConfig) => VNodeChild
+  renderReadonly: (options: ProFieldGlobalConfig) => VNodeChild
   /**
    * 自定义渲染只读模式下并且表单值为空时的内容
    */

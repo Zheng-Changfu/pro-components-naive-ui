@@ -6,14 +6,14 @@ export function useReadonlyRenderer(props: ProFormItemProps, options: ProFieldCo
   const { value } = options
   const { proForm } = useInjectGlobalConfigContext()
 
-  function readonlyRender() {
-    const { readonlyRender: propReadonlyRender } = props
-    const { readonlyRender: globalReadonlyRender } = proForm
+  function renderReadonly() {
+    const { renderReadonly: propRenderReadonly } = props
+    const { renderReadonly: globalRenderReadonly } = proForm
 
-    return propReadonlyRender
-      ? propReadonlyRender({ value: value.value })
-      : globalReadonlyRender
-        ? globalReadonlyRender(options)
+    return propRenderReadonly
+      ? propRenderReadonly({ value: value.value })
+      : globalRenderReadonly
+        ? globalRenderReadonly(options)
         : value.value
   }
 
@@ -29,7 +29,7 @@ export function useReadonlyRenderer(props: ProFormItemProps, options: ProFieldCo
   }
 
   return {
-    readonlyRender,
+    renderReadonly,
     readonlyEmptyRender,
   }
 }

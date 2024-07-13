@@ -24,7 +24,7 @@ export const proFormItemExtendProps = {
   /**
    * 自定义渲染只读模式下的控件
    */
-  readonlyRender: Function as PropType<(
+  renderReadonly: Function as PropType<(
     (opt: { value: any }) => VNodeChild
   )>,
   /**

@@ -58,7 +58,7 @@ export default defineComponent({
     } = useAddonSlotRenderer(field[ProFieldConfigKey])
 
     const {
-      readonlyRender,
+      renderReadonly,
       readonlyEmptyRender,
     } = useReadonlyRenderer(props, field[ProFieldConfigKey])
 
@@ -89,7 +89,7 @@ export default defineComponent({
       readonly,
       nFormItemProps,
       addonAfterSlot,
-      readonlyRender,
+      renderReadonly,
       addonBeforeSlot,
       readonlyEmptyRender,
       simple: compiledSimple,
@@ -106,7 +106,7 @@ export default defineComponent({
       nFormItemProps,
       addonAfterSlot,
       addonBeforeSlot,
-      readonlyRender,
+      renderReadonly,
       readonlyEmptyRender,
     } = this
 
@@ -144,7 +144,7 @@ export default defineComponent({
         )
       }
       return !empty
-        ? readonlyRender?.()
+        ? renderReadonly?.()
         : readonlyEmptyRender?.()
     }
 

@@ -91,7 +91,7 @@ formApi.vue
 | postState | `(val: any) => any` | `undefined` | 后置状态钩子，可以二次修改数据，返回的值为表单的最终结果值，字段值变化后会触发该钩子 |  |
 | onChange | `(val: any) => void` | `undefined` | 字段值发生变化后触发的回调函数 |  |
 | transform | `(val: any, path: string) => any` | `undefined` | 转换字段的值，如果返回的是一个对象，将和当前字段所在层级的对象进行深度合并 |  |
-| readonlyRender | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下的控件 |  |
+| renderReadonly | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下的控件 |  |
 | readonlyEmptyRender | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下并且内容为空时的控件 |  |
 | fieldRender | `(opt: { bindValues:Record<string, any>, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染控件 |  |
 | formItemRender | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染 FormItem |  |
@@ -207,7 +207,7 @@ formApi.vue
     'postState',
     'onChange',
     'transform',
-    'readonlyRender',
+    'renderReadonly',
     'readonlyEmptyRender',
     'fieldRender',
     'formItemRender',
