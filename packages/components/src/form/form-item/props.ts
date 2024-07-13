@@ -55,7 +55,7 @@ export const proFormItemExtendProps = {
    * 自定义渲染控件组（控件 + 前后缀插槽）
    * @param vnode 控件组的虚拟节点
    */
-  renderFieldGroup: Function as PropType<(
+  fieldGroupRender: Function as PropType<(
     opts: {
       vnode: VNodeChild
     }) => VNodeChild>,

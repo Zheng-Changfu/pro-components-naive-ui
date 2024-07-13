@@ -18,7 +18,7 @@ export default defineComponent({
       console.log(values)
     }
 
-    function renderFieldGroup(
+    function fieldGroupRender(
       opt: { vnode: VNodeChild },
     ) {
       return <NInputGroup>{opt.vnode}</NInputGroup>
@@ -28,7 +28,7 @@ export default defineComponent({
       instRef,
       submit,
       onSubmit,
-      renderFieldGroup,
+      fieldGroupRender,
     }
   },
 })
@@ -41,7 +41,7 @@ export default defineComponent({
     label-width="auto"
     @submit="onSubmit"
   >
-    <pro-input label="用户名" path="username" required :render-field-group="renderFieldGroup">
+    <pro-input label="用户名" path="username" required :field-group-render="fieldGroupRender">
       <template #addon-before>
         <n-button type="primary">
           搜索

@@ -95,7 +95,7 @@ formApi.vue
 | readonlyEmptyRender | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下并且内容为空时的控件 |  |
 | fieldRender | `(opt: { bindValues:Record<string, any>, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染控件 |  |
 | formItemRender | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染 FormItem |  |
-| renderFieldGroup | `(opts: { vnode: VNodeChild }) => VNodeChild` | `undefined` | 自定义渲染控件组（控件 + 前后缀插槽） |  |
+| fieldGroupRender | `(opts: { vnode: VNodeChild }) => VNodeChild` | `undefined` | 自定义渲染控件组（控件 + 前后缀插槽） |  |
 
 ### 控件的注意事项
 1. 所有表单控件的 `placeholder` 应该在控件的一级属性上直接书写，会透传给渲染的组件
@@ -211,6 +211,6 @@ formApi.vue
     'readonlyEmptyRender',
     'fieldRender',
     'formItemRender',
-    'renderFieldGroup',
+    'fieldGroupRender',
   ] as const
   ```

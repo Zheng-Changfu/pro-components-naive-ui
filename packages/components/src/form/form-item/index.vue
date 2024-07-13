@@ -131,7 +131,7 @@ export default defineComponent({
         )
 
         return resolveFieldGroup(
-          $props.renderFieldGroup,
+          $props.fieldGroupRender,
           { vnode },
           () => (
             <NFlex

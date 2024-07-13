@@ -1,15 +1,15 @@
 import type { VNodeChild } from 'vue'
 
-interface RenderFieldGroupParams {
+interface fieldGroupRenderParams {
   vnode: VNodeChild
 }
 
 export function resolveFieldGroup(
-  renderFieldGroup: ((params: RenderFieldGroupParams) => VNodeChild) | undefined,
-  params: RenderFieldGroupParams,
+  render: ((params: fieldGroupRenderParams) => VNodeChild) | undefined,
+  params: fieldGroupRenderParams,
   defaultRender: () => VNodeChild,
 ) {
-  return renderFieldGroup
-    ? renderFieldGroup(params)
+  return render
+    ? render(params)
     : defaultRender()
 }
