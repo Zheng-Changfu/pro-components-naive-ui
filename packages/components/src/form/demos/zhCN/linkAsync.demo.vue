@@ -1,7 +1,7 @@
 <markdown>
 # 异步联动
 
-[关于支持异步数据源的表单控件请查阅]()
+[关于支持异步数据源的表单控件请查阅](async-field)
 </markdown>
 
 <script lang="tsx">
@@ -59,7 +59,6 @@ export default defineComponent({
         api: fetchCitys,
         dependencies: {
           watch: '{{ $vals.province }}',
-          apiGuard: '{{ !!$vals.province }}',
         },
       }"
     />

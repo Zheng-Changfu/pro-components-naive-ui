@@ -1,20 +1,11 @@
 # 树 ProTree
-<n-flex vertical>
-  <n-alert type="success" title="提示" show-icon :bordered="false">
-    增加请求加载<br />
-    增加一些额外的属性控制节点状态<br />
-    增加懒加载<br />
-    增加一些方法，可以更方便的操作<br />
-    没有破坏性变更，你可以把它当成 NTree<br />
-  </n-alert>
 
-  <n-alert type="warning" title="警告" show-icon :bordered="false">
+<n-alert type="warning" title="警告" show-icon :bordered="false">
      default-expand-all 无效，使用 setExpandedKeys 代替<br />
      default-checked-keys 无效，使用 v-model:checked-keys 或 setCheckedKeys 代替<br />
      default-expanded-keys 无效，使用 v-model:expanded-keys 或 setExpandedKeys 代替<br />
      default-selected-keys 无效，使用 v-model:selected-keys 或 setSelectedKeys 代替<br />
-  </n-alert>
-</n-flex>
+</n-alert>
 
 ## 演示
 
