@@ -48,9 +48,11 @@ action.vue
 | getCheckedKeys | `() => Array<string \| number>` | 获取勾选的节点 keys | |
 | getSelectedKeys | `() => Array<string \| number>` | 获取选中的节点 keys | |
 | getExpandedKeys | `() => Array<string \| number>` | 获取展开的节点 keys | |
+| getIndeterminateKeys | `() => Array<string \| number>` | 获取部分选中选项的 keys | |
 | getEnabledKeys | `() => Array<string \| number>` | 获取 `disabled` 为 false 并且 `checkboxDisabled` 为 false 的 keys | |
 | getLevelKeys | `(level: number, needLtLevelKey?: boolean) => Array<string \| number>` | 获取指定层级的 keys，`level` 从1开始，`needLtLevelKey` 代表是否需要小于指定层级的 keys，默认值 true | |
 | setCheckedKeys | `(keys?: Array<string \| number>) => void` | 勾选节点，不传参数勾选所有 | |
 | setExpandedKeys | `(keys?: Array<string \| number>) => void` | 展开节点，不传参数展开全部 | |
 | setSelectedKeys | `(keys?: Array<string \| number>) => void` | 选中节点，不传参数选中所有 | |
+| setIndeterminateKeys | `(keys: Array<string \| number>) => void` | 设置部分选中 keys | |
 | getFetchControls | `() => UseRequestReturned<any, any>` | $$$zcf$$ | |

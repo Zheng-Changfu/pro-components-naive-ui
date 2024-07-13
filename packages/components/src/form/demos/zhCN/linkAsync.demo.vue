@@ -59,7 +59,7 @@ export default defineComponent({
         api: fetchCitys,
         dependencies: {
           watch: '{{ $vals.province }}',
-          runable: '{{ !!$vals.province }}',
+          apiGuard: '{{ !!$vals.province }}',
         },
       }"
     />
