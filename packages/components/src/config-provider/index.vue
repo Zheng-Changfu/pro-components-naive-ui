@@ -33,7 +33,7 @@ export default defineComponent({
       proDateQuarterRange = {},
     } = props
 
-    function builtInPlaceholderRender(options: ProFieldGlobalConfig) {
+    function builtInRenderPlaceholder(options: ProFieldGlobalConfig) {
       const { name, formItemProps } = options
       const { label } = formItemProps.value
       switch (name) {
@@ -99,7 +99,7 @@ export default defineComponent({
     provideGlobalConfigContext({
       proForm: {
         validateTrigger: 'input',
-        placeholderRender: builtInPlaceholderRender,
+        renderPlaceholder: builtInRenderPlaceholder,
         getValidateMessages: builtInGetValidateMessages,
         ...parentProForm,
         ...proForm,

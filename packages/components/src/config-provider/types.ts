@@ -15,9 +15,9 @@ export interface GlobalConfigProForm {
    */
   renderReadonlyEmpty: (options: ProFieldGlobalConfig) => VNodeChild
   /**
-   * 配置表单控件的 placeholder
+   * 渲染表单控件的 placeholder
    */
-  placeholderRender: (options: ProFieldGlobalConfig) => any
+  renderPlaceholder: (options: ProFieldGlobalConfig) => string | string[]
   /**
    * 获取验证规则模版（目前只处理了 required:true）
    */

@@ -37,7 +37,7 @@ export function useFieldBindValues<T extends {
     const ph = compiledPlaceholder.value
     return !isUndefined(ph)
       ? ph
-      : proForm.placeholderRender?.(field[ProFieldConfigKey])
+      : proForm.renderPlaceholder?.(field[ProFieldConfigKey])
   })
 
   const bindValues = computed<ExcludeExpression<T['fieldProps']>>(() => {
