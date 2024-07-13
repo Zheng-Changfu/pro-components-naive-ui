@@ -59,7 +59,7 @@ export default defineComponent({
 
     const {
       renderReadonly,
-      readonlyEmptyRender,
+      renderReadonlyEmpty,
     } = useReadonlyRenderer(props, field[ProFieldConfigKey])
 
     const nFormItemExcludeRuleProps = computed<Omit<FormItemProps, 'rule'>>(() => {
@@ -91,7 +91,7 @@ export default defineComponent({
       addonAfterSlot,
       renderReadonly,
       addonBeforeSlot,
-      readonlyEmptyRender,
+      renderReadonlyEmpty,
       simple: compiledSimple,
     }
   },
@@ -107,7 +107,7 @@ export default defineComponent({
       addonAfterSlot,
       addonBeforeSlot,
       renderReadonly,
-      readonlyEmptyRender,
+      renderReadonlyEmpty,
     } = this
 
     const {
@@ -145,7 +145,7 @@ export default defineComponent({
       }
       return !empty
         ? renderReadonly?.()
-        : readonlyEmptyRender?.()
+        : renderReadonlyEmpty?.()
     }
 
     if (!show) {

@@ -17,19 +17,19 @@ export function useReadonlyRenderer(props: ProFormItemProps, options: ProFieldCo
         : value.value
   }
 
-  function readonlyEmptyRender() {
-    const { readonlyEmptyRender: propReadonlyEmptyRender } = props
-    const { readonlyEmptyRender: globalReadonlyEmptyRender } = proForm
+  function renderReadonlyEmpty() {
+    const { renderReadonlyEmpty: propRenderReadonlyEmpty } = props
+    const { renderReadonlyEmpty: globalRenderReadonlyEmpty } = proForm
 
-    return propReadonlyEmptyRender
-      ? propReadonlyEmptyRender({ value: value.value })
-      : globalReadonlyEmptyRender
-        ? globalReadonlyEmptyRender(options)
+    return propRenderReadonlyEmpty
+      ? propRenderReadonlyEmpty({ value: value.value })
+      : globalRenderReadonlyEmpty
+        ? globalRenderReadonlyEmpty(options)
         : '-'
   }
 
   return {
     renderReadonly,
-    readonlyEmptyRender,
+    renderReadonlyEmpty,
   }
 }

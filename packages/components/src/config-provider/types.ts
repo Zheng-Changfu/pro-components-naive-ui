@@ -13,7 +13,7 @@ export interface GlobalConfigProForm {
   /**
    * 自定义渲染只读模式下并且表单值为空时的内容
    */
-  readonlyEmptyRender: (options: ProFieldGlobalConfig) => VNodeChild
+  renderReadonlyEmpty: (options: ProFieldGlobalConfig) => VNodeChild
   /**
    * 配置表单控件的 placeholder
    */

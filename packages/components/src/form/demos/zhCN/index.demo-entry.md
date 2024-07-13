@@ -92,7 +92,7 @@ formApi.vue
 | onChange | `(val: any) => void` | `undefined` | 字段值发生变化后触发的回调函数 |  |
 | transform | `(val: any, path: string) => any` | `undefined` | 转换字段的值，如果返回的是一个对象，将和当前字段所在层级的对象进行深度合并 |  |
 | renderReadonly | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下的控件 |  |
-| readonlyEmptyRender | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下并且内容为空时的控件 |  |
+| renderReadonlyEmpty | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下并且内容为空时的控件 |  |
 | fieldRender | `(opt: { bindValues:Record<string, any>, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染控件 |  |
 | formItemRender | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染 FormItem |  |
 | fieldGroupRender | `(opts: { vnode: VNodeChild }) => VNodeChild` | `undefined` | 自定义渲染控件组（控件 + 前后缀插槽） |  |
@@ -201,16 +201,16 @@ formApi.vue
 3. 表单控件除以下这些属性外，其他都支持表达式，包括 `attrs` 和 `class`
   ```ts
   const unSupportExpressionAttributes = [
-    'initialValue',
-    'preserve',
-    'dependencies',
-    'postState',
     'onChange',
+    'preserve',
+    'postState',
     'transform',
-    'renderReadonly',
-    'readonlyEmptyRender',
     'fieldRender',
+    'dependencies',
+    'initialValue',
     'formItemRender',
+    'renderReadonly',
     'fieldGroupRender',
+    'renderReadonlyEmpty',
   ] as const
   ```

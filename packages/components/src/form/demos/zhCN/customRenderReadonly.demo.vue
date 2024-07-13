@@ -1,7 +1,7 @@
 <markdown>
 # 自定义渲染只读模式
 
-组件的 `readonly` 属性优先级比表单的 `readonly` 高，使用 `renderReadonly` 属性自定义渲染只读模式下的控件，`readonlyEmptyRender`
+组件的 `readonly` 属性优先级比表单的 `readonly` 高，使用 `renderReadonly` 属性自定义渲染只读模式下的控件，`renderReadonlyEmpty`
 属性自定义渲染只读模式下并且内容为空时的控件，你也可以在全局配置
 </markdown>
 
@@ -16,14 +16,14 @@ export default defineComponent({
       return <div class="color-red">{value}</div>
     }
 
-    function readonlyEmptyRender() {
+    function renderReadonlyEmpty() {
       return <div class="color-red">~暂无数据~</div>
     }
 
     return {
       readonly,
       renderReadonly,
-      readonlyEmptyRender,
+      renderReadonlyEmpty,
     }
   },
 })
@@ -39,7 +39,7 @@ export default defineComponent({
         label="用户名"
         path="username"
         :render-readonly="renderReadonly"
-        :readonly-empty-render="readonlyEmptyRender"
+        :render-readonly-empty="renderReadonlyEmpty"
       />
     </pro-form>
   </n-flex>
