@@ -28,9 +28,9 @@ export const proFormExtendProps = {
     default: undefined,
   },
   /**
-   * 表达式，浅合并，优先级比全局高
+   * 表达式可以读取到的作用域，浅合并，优先级比全局高
    */
-  expression: Object as PropType<Record<`$${string}`, any>>,
+  expressionScope: Object as PropType<Record<`$${string}`, any>>,
   /**
    * 表单初始值
    */

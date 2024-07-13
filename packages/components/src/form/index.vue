@@ -19,17 +19,17 @@ export default defineComponent({
   setup(props, { expose }) {
     const formInstRef = ref<FormInst>()
     const formProps = useOmitProps(props, proFormExtendProps)
-    const { expression: globalExpression } = useInjectGlobalConfigContext().proForm
+    const { expressionScope: globalExpressionScope } = useInjectGlobalConfigContext().proForm
 
     const {
-      expression,
       initialValues,
       onFieldValueChange,
+      expressionScope: propExpressionScope,
     } = props
 
-    const expressionContext = {
-      ...(expression ?? {}),
-      ...(globalExpression ?? {}),
+    const expressionScope = {
+      ...(propExpressionScope ?? {}),
+      ...(globalExpressionScope ?? {}),
     }
 
     const {
@@ -48,7 +48,7 @@ export default defineComponent({
       getFieldsTransformedValue,
     } = createForm({
       initialValues,
-      expressionContext,
+      expressionScope,
       onFieldValueChange,
       onDependenciesValueChange,
     })
@@ -149,6 +149,7 @@ export default defineComponent({
       restoreFieldValue,
       restoreFieldsValue,
       getFieldsTransformedValue,
+      getExpressionScope: () => scope,
     }
 
     expose(exposed)

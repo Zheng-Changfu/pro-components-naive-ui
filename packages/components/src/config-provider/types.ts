@@ -28,9 +28,9 @@ export interface GlobalConfigProForm {
    */
   validateTrigger: string | string[]
   /**
-   * form 表单可以读取到的上下文
+   * form 表单可以读取到的表达式作用域
    */
-  expression: Record<`$${string}`, any>
+  expressionScope: Record<`$${string}`, any>
 }
 
 export interface GlobalConfigProButton {
