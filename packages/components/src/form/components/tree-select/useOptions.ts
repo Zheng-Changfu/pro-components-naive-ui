@@ -38,7 +38,7 @@ export function useOptions(
   } = controls
 
   watch(
-    computed(() => compiledFieldProps.value?.options ?? []),
+    computed(() => compiledFieldProps.value?.options),
     (propTreeSelectOptions = []) => options.value = normalizeTreeSelectOptions(propTreeSelectOptions),
     { immediate: true, deep: true },
   )

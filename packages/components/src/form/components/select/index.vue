@@ -1,6 +1,6 @@
 <script lang="tsx">
 import type { SlotsType } from 'vue'
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import type { SelectInst, SelectProps } from 'naive-ui'
 import { NSelect } from 'naive-ui'
 import { resolveField, useField, useFieldBindValues } from '../../field'

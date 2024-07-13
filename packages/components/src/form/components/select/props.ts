@@ -10,7 +10,7 @@ import { proFieldProps } from '../../field'
 interface FetchRemoteConfig {
   /**
    * 防抖时间，单位 ms
-   * @default '500'
+   * @default 500
    */
   debounceTime?: number
 }

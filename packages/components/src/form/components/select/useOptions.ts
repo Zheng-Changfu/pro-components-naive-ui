@@ -31,7 +31,7 @@ export function useOptions(
   )
 
   watch(
-    computed(() => compiledFieldProps.value!.options ?? []),
+    computed(() => compiledFieldProps.value!.options),
     (propSelectOptions) => { options.value = isArray(propSelectOptions) ? propSelectOptions : [] },
     { immediate: true, deep: true },
   )
