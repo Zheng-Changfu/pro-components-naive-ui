@@ -36,13 +36,14 @@ formApi.vue
 
 ## API
 ### ProForm 新增 Props
+支持 `NaiveUI NForm` 组件的原来属性，下方为扩展的属性
 
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
-| expressionScope | `Record<string, any>` | `undefined` | 表达式可以读取到的作用域，浅合并，优先级比全局高 |  |
-| initialValues | `Object` | `undefined` | 表单初始值 |  |
-| onSubmit | `(values: Record<string, any>, warnings: ValidateError[][]) => void` | `undefined` | 数据验证成功后回调事件 |  |
-| onSubmitFailed | `(errors: ValidateError[][]) => void` | `undefined` | 数据验证失败后回调事件 |  |
+| expressionScope | `Record<string, any>` | | 表达式可以读取到的作用域，浅合并，优先级比全局高 |  |
+| initialValues | `Object` | | 表单初始值 |  |
+| onSubmit | `(values: Record<string, any>, warnings: ValidateError[][]) => void` | | 数据验证成功后回调事件 |  |
+| onSubmitFailed | `(errors: ValidateError[][]) => void` | | 数据验证失败后回调事件 |  |
 | onFieldValueChange | `(opt: { field: BaseField \| ArrayField, value:any }) => void` | | 字段值发生变化时触发的回调函数 |  |
 | onDependenciesValueChange | `(opt: { path: string[], depPath: string[], value: any }) => void` | | 依赖项的值发生变化时触发的回调函数 |  |
 | formItemRender | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | | 自定义渲染 formItem，优先级比 ProFormItem 低 |  |
@@ -78,24 +79,26 @@ formApi.vue
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
 | simple | `boolean` | `false` | 精简模式，不包装 FormItem |  |
-| readonly | `boolean` | `undefined` | 是否为只读态 |  |
-| initialValue | `any` | `undefined` | 初始值，优先级大于表单的 initialValues |  |
-| value | `any` | `undefined` | 表单值，优先级大于 initialValue |  |
+| readonly | `boolean` | | 是否为只读态 |  |
+| initialValue | `any` | | 初始值，优先级大于表单的 initialValues |  |
+| value | `any` | | 表单值，优先级大于 initialValue |  |
 | preserve | `boolean` | `true` | 字段被隐藏或删除时是否还保留值 |  |
-| visible | `boolean` | `undefined` | 是否显示 |  |
-| hidden | `boolean` | `undefined` | 是否隐藏 |  |
-| placeholder | `any` | `undefined` | 会透传给支持 placeholder 的控件 |  |
+| visible | `boolean` | | 是否显示 |  |
+| hidden | `boolean` | | 是否隐藏 |  |
+| placeholder | `any` | | 会透传给支持 placeholder 的控件 |  |
 | fieldProps | `Record<string,any>` | `{}` | 控件的 props，比如 `ProInput` 控件，这里就支持 `NInput` 的所有 `props`，其他控件同理 |  |
 | fetchConfig | [异步控件](async-field#通用-fetchConfig) | `{}` | 此属性只会在异步控件上生效 |  |
-| dependencies | `Dependencie \| Dependencie[]` | `undefined` | 字段的依赖项，当依赖项的值发生变化时，会触发当前字段校验 |  |
-| postState | `(val: any) => any` | `undefined` | 后置状态钩子，可以二次修改数据，返回的值为表单的最终结果值，字段值变化后会触发该钩子 |  |
-| onChange | `(val: any) => void` | `undefined` | 字段值发生变化后触发的回调函数 |  |
-| transform | `(val: any, path: string) => any` | `undefined` | 转换字段的值，如果返回的是一个对象，将和当前字段所在层级的对象进行深度合并 |  |
-| renderReadonly | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下的控件 |  |
-| renderReadonlyEmpty | `((opt: { value: any }) => VNodeChild)` | `undefined` | 自定义渲染只读模式下并且内容为空时的控件 |  |
-| fieldRender | `(opt: { bindValues:Record<string, any>, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染控件 |  |
-| formItemRender | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | `undefined` | 自定义渲染 FormItem |  |
-| fieldGroupRender | `(opts: { vnode: VNodeChild }) => VNodeChild` | `undefined` | 自定义渲染控件组（控件 + 前后缀插槽） |  |
+| dependencies | `Dependencie \| Dependencie[]` | | 字段的依赖项，当依赖项的值发生变化时，会触发当前字段校验 |  |
+| postState | `(val: any) => any` | | 后置状态钩子，可以二次修改数据，返回的值为表单的最终结果值，字段值变化后会触发该钩子 |  |
+| onChange | `(val: any) => void` | | 字段值发生变化后触发的回调函数 |  |
+| transform | `(val: any, path: string) => any` | | 转换字段的值，如果返回的是一个对象，将和当前字段所在层级的对象进行深度合并 |  |
+| renderReadonly | `((opt: { value: any }) => VNodeChild)` | | 自定义渲染只读模式下的控件 |  |
+| renderReadonlyEmpty | `((opt: { value: any }) => VNodeChild)` | | 自定义渲染只读模式下并且内容为空时的控件 |  |
+| fieldRender | `(opt: { bindValues:Record<string, any>, bindSlots: Record<string, any> }) => VNodeChild` | | 自定义渲染控件 |  |
+| formItemRender | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | | 自定义渲染 FormItem |  |
+| fieldGroupRender | `(opts: { vnode: VNodeChild }) => VNodeChild` | | 自定义渲染控件组（控件 + 前后缀插槽） |  |
+| formItemStyle | `CSSProperties` | | `NFormItem` 的样式 | |
+| formItemClass | `string` | | `NFormItem` 的类名 | |
 
 ### 控件的注意事项
 1. 所有表单控件的 `placeholder` 应该在控件的一级属性上直接书写，会透传给渲染的组件
