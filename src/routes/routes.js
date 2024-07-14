@@ -19,6 +19,10 @@ export const zhComponentRoutes = [
     component: () => import('../../packages/components/src/form/demos/zhCN/index.demo-entry.md'),
   },
   {
+    path: 'form-list',
+    component: () => import('../../packages/components/src/form-list/demos/zhCN/index.demo-entry.md'),
+  },
+  {
     path: 'async-field',
     component: () => import('../../packages/components/src/form/demos-async/zhCN/index.demo-entry.md'),
   },

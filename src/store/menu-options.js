@@ -228,6 +228,12 @@ export function createComponentMenuOptions({ lang, theme }) {
           path: '/form',
         },
         {
+          en: 'ProFormList',
+          zh: '结构化列表',
+          enSuffix: true,
+          path: '/form-list',
+        },
+        {
           en: 'AsyncField',
           zh: '异步控件',
           enSuffix: true,

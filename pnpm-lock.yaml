@@ -8,15 +8,24 @@ importers:
 
   .:
     dependencies:
+      '@css-render/plugin-bem':
+        specifier: ^0.15.14
+        version: 0.15.14(css-render@0.15.14)
       '@types/katex':
         specifier: ^0.16.7
         version: 0.16.7
+      '@vicons/antd':
+        specifier: ^0.12.0
+        version: 0.12.0
       '@vicons/fluent':
         specifier: 0.12.0
         version: 0.12.0
       '@vicons/ionicons5':
         specifier: 0.12.0
         version: 0.12.0
+      css-render:
+        specifier: ^0.15.14
+        version: 0.15.14
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
@@ -33,8 +42,8 @@ importers:
         specifier: ^12.0.2
         version: 12.0.2
       pro-components-hooks:
-        specifier: ^0.0.62
-        version: 0.0.62(vue@3.4.27(typescript@5.4.5))
+        specifier: ^0.0.63
+        version: 0.0.63(vue@3.4.27(typescript@5.4.5))
       seemly:
         specifier: ^0.3.8
         version: 0.3.8
@@ -1107,6 +1116,9 @@ packages:
     resolution: {integrity: sha512-gjxLJrja1hqDwdd8z3QvzfMCcKppGqiL2+A6aHwG/AXfEmZMydA50U7VvJK7Wx8/Enm26G6JQrtGrpu+kK3QpQ==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0
+
+  '@vicons/antd@0.12.0':
+    resolution: {integrity: sha512-C0p6aO1EmGG1QHrqgUWQS1No20934OdWSRQshM5NIDK5H1On6tC26U0hT6Rmp40KfUsvhvX5YW8BoWJdNFifPg==}
 
   '@vicons/fluent@0.12.0':
     resolution: {integrity: sha512-ATCiqPuiJ6RI5GBlD3BIpZ9Xw4MsCA4RpI5oR6MCti4quS4mX1Gp6N74FCzw7lgOj+80rV4HMKhZTVInwimpVQ==}
@@ -2862,8 +2874,8 @@ packages:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  pro-components-hooks@0.0.62:
-    resolution: {integrity: sha512-+iu0KzrJhOtxyiJO8Pl3gLeqTm6oGRwUKeNm0KTvMMh40MiyG2+giF7rwJFnHeYMTKo/dgKYRHYCX53h+uj3Kg==}
+  pro-components-hooks@0.0.63:
+    resolution: {integrity: sha512-o6DBH4DTrFbbNv6tdn6yM4wh31wkAULAcbc2EUab0rXwQdF6bozCF9arzoL7QhHN4wIC+e6mSb0NMyZ5m8bqig==}
     peerDependencies:
       '@vue/composition-api': ^1.0.0-rc.1
       vue: ^2.7.0 || >=3.0.0
@@ -4908,6 +4920,8 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
+  '@vicons/antd@0.12.0': {}
+
   '@vicons/fluent@0.12.0': {}
 
   '@vicons/ionicons5@0.12.0': {}
@@ -6870,7 +6884,7 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 18.3.1
 
-  pro-components-hooks@0.0.62(vue@3.4.27(typescript@5.4.5)):
+  pro-components-hooks@0.0.63(vue@3.4.27(typescript@5.4.5)):
     dependencies:
       '@vueuse/core': 10.10.0(vue@3.4.27(typescript@5.4.5))
       vue: 3.4.27(typescript@5.4.5)
