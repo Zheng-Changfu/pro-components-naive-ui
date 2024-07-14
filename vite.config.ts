@@ -6,9 +6,12 @@ import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import UnoCSS from 'unocss/vite'
 import vitePluginDemo from './build/vite-plugin-demo'
+import pkg from './package.json'
 
-// https://vitejs.dev/config/
+// eslint-disable-next-line node/prefer-global/process
+const prod = process.env.NODE_ENV === 'production'
 export default defineConfig({
+  base: prod ? `/${pkg.name}/` : '/',
   plugins: [
     UnoCSS(),
     ...vitePluginDemo(),

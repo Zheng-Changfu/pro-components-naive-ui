@@ -6,6 +6,7 @@
   "author": "zhengchangfu",
   "scripts": {
     "dev": "vite",
+    "build:docs": "vite build",
     "build:components": "pnpm --filter pro-components-naive-ui run build",
     "test": "pnpm --filter pro-components-naive-ui run test",
     "preview": "vite preview",
