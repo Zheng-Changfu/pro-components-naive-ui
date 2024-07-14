@@ -1,7 +1,6 @@
-import type { ProFieldExtendSlots } from '../form/field'
-import type { ProFormListInstance } from './inst'
+import type { ProFormListInstance } from '../inst'
 
-export interface ProFormListSlots extends ProFieldExtendSlots {
+export interface ProFormListItemSlots {
   default: {
     /**
      * 当前行索引

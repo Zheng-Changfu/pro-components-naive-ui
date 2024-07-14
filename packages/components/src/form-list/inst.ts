@@ -1,4 +1,5 @@
 import type { ArrayField } from 'pro-components-hooks'
+import { createProComponentInstanceFactory } from '../hooks'
 
 export type ProFormListInstance = Pick<
 ArrayField,
@@ -12,3 +13,4 @@ ArrayField,
 | 'shift'
 | 'unshift'
 >
+export const useProFormListInstance = createProComponentInstanceFactory<ProFormListInstance>('ProFormList')

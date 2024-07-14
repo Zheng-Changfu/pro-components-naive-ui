@@ -1,35 +1,74 @@
 <script lang="tsx">
 import type { SlotsType } from 'vue'
-import { TransitionGroup, computed, defineComponent } from 'vue'
-import { createArrayField, uid } from 'pro-components-hooks'
+import { Fragment, computed, defineComponent } from 'vue'
+import { uid } from 'pro-components-hooks'
 import { isArray } from 'lodash-es'
-import type { ProComponentConfig } from '../form'
-import { ProComponentConfigKey, ProFormItem, useGetProFieldProps } from '../form'
+import { NIcon } from 'naive-ui'
+import { PlusOutlined } from '@vicons/antd'
+import { useArrayField } from '../form/field'
+import { ProFormItem } from '../form/form-item'
+import { resolveArrayField } from '../form/field/resolveArrayField'
+import { ProButton, type ProButtonProps } from '../button'
 import { proFormListProps } from './props'
 import type { ProFormListSlots } from './slots'
 import type { ProFormListInstance } from './inst'
 import { AUTO_CREATE_ID, provideProFormListInstanceContext } from './context'
-import ProFormListItem from './FormListItem.vue'
-import './a.css'
+import { useCompileFormListProps } from './useCompileFormListProps'
+import { ProFormListItem } from './form-list-item'
+import style from './styles/index.cssr'
 
 export default defineComponent({
   name: 'ProFormList',
   props: proFormListProps,
   slots: Object as SlotsType<ProFormListSlots>,
-  setup(props, { slots, expose }) {
-    const proFieldProps = useGetProFieldProps(props)
-
-    const field = createArrayField({
-      ...proFieldProps,
+  setup(props, { expose }) {
+    style.mount({ id: 'form-item', head: true })
+    const field = useArrayField('ProFormList', props, {
       defaultValue: [],
       postState: autoCreateRowId,
     })
 
-    function autoCreateRowId(val: any) {
-      if (!isArray(val)) {
-        return []
+    const total = computed(() => {
+      return field.value.value.length
+    })
+
+    const {
+      min,
+      max,
+      attrs,
+      copyButtonProps,
+      removeButtonProps,
+      position: compiledPosition,
+      creatorButtonProps: compiledCreatorButtonProps,
+    } = useCompileFormListProps(props, field.scope)
+
+    const position = computed(() => compiledPosition.value ?? 'bottom')
+    const creatorButtonText = '添加一行数据' // TODO: 国际化配置
+    const creatorButtonProps = computed<ProButtonProps | false>(() => {
+      const btnProps = compiledCreatorButtonProps.value
+      if (btnProps === false) {
+        return false
       }
+      return {
+        block: true,
+        dashed: true,
+        renderIcon: () => {
+          return (
+            <NIcon>
+              <PlusOutlined />
+            </NIcon>
+          )
+        },
+        ...(compiledCreatorButtonProps.value || {}),
+        onClick: add,
+      }
+    })
+
+    function autoCreateRowId(val: any) {
       const { postState } = props
+      if (!isArray(val)) {
+        return postState ? postState(val) : []
+      }
       const normalizedVals = val.map((item) => {
         return item[AUTO_CREATE_ID]
           ? item
@@ -40,9 +79,26 @@ export default defineComponent({
         : normalizedVals
     }
 
+    async function add() {
+      const pos = position.value
+      const total = field.value.value.length
+      const insertIndex = pos === 'top' ? 0 : total
+      const { actionGuard, creatorInitialValue } = props
+
+      if (actionGuard?.beforeAddRow) {
+        const success = await actionGuard.beforeAddRow({
+          total,
+          index: -1,
+          insertIndex,
+        })
+        success && field.insert(insertIndex, creatorInitialValue ?? {})
+      }
+      else {
+        field.insert(insertIndex, creatorInitialValue ?? {})
+      }
+    }
+
     const {
-      stringPath,
-      value: list,
       pop,
       move,
       push,
@@ -52,17 +108,8 @@ export default defineComponent({
       moveUp,
       unshift,
       moveDown,
+      value: list,
     } = field
-
-    /**
-     * 注入自定义属性，在 pro-form-item 中完善 ProComponentConfig
-     */
-    field[ProComponentConfigKey] = {
-      type: 'ProFormList',
-      ruleType: 'array',
-      slots: computed(() => slots),
-      empty: computed(() => !isArray(list.value) || list.value.length <= 0),
-    } as Partial<ProComponentConfig>
 
     const exposed: ProFormListInstance = {
       pop,
@@ -79,26 +126,88 @@ export default defineComponent({
     expose(exposed)
     provideProFormListInstanceContext(exposed)
     return {
+      min,
+      max,
       list,
-      stringPath,
+      attrs,
+      total,
+      position,
+      action: exposed,
+      copyButtonProps,
+      removeButtonProps,
+      creatorButtonText,
+      creatorButtonProps,
     }
   },
   render() {
     const {
+      max,
       list,
+      total,
       $props,
       $slots,
-      stringPath,
+      position,
+      creatorButtonText,
+      creatorButtonProps,
     } = this
+
+    function renderCreatorButton() {
+      if (creatorButtonProps === false) {
+        return null
+      }
+      if (max !== undefined && total >= max) {
+        return null
+      }
+      return <ProButton {...creatorButtonProps}>{creatorButtonText}</ProButton>
+    }
 
     return (
       <ProFormItem
         {...$props}
-        path={stringPath}
+        fieldRender={undefined}
+        formItemClass="n-pro-form-item"
         v-slots={{
           default: () => {
+            const creatorButtonVNode = renderCreatorButton()
+            const listVNode = list.map((item, index) => {
+              return (
+                <ProFormListItem
+                  key={item[AUTO_CREATE_ID]}
+                  index={index}
+                  min={this.min}
+                  max={this.max}
+                  itemRender={$props.itemRender}
+                  actionGuard={$props.actionGuard}
+                  actionRender={$props.actionRender}
+                  copyButtonProps={this.copyButtonProps}
+                  removeButtonProps={this.removeButtonProps}
+                  v-slots={$slots}
+                />
+              )
+            })
+
+            const fieldVNode = (
+              <Fragment>
+                {position === 'top' && creatorButtonVNode}
+                {listVNode}
+                {position === 'bottom' && creatorButtonVNode}
+              </Fragment>
+            )
+
+            return resolveArrayField(
+              $props.fieldRender,
+              {
+                listVNode,
+                fieldVNode,
+                creatorButtonVNode,
+              },
+              () => fieldVNode,
+            )
+
+            return listVNode
+
             return (
-              <TransitionGroup
+              {/* <TransitionGroup
                 name="fade"
                 tag="div"
                 class="container"
@@ -116,7 +225,7 @@ export default defineComponent({
                     })
                   },
                 }}
-              />
+              /> */}
             )
           },
         }}
