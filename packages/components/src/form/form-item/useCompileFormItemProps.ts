@@ -22,6 +22,8 @@ export function useCompileFormItemProps(
     labelProps,
     labelStyle,
     showFeedback,
+    formItemClass,
+    formItemStyle,
     feedbackClass,
     feedbackStyle,
     labelPlacement,
@@ -55,6 +57,8 @@ export function useCompileFormItemProps(
   const compiledShowFeedback = useCompile(showFeedback!, { scope })
   const compiledFeedbackClass = useCompile(feedbackClass!, { scope })
   const compiledFeedbackStyle = useCompile(feedbackStyle!, { scope })
+  const compiledFormItemStyle = useCompile(formItemStyle!, { scope })
+  const compiledFormItemClass = useCompile(formItemClass!, { scope })
   const compiledLabelPlacement = useCompile(labelPlacement!, { scope })
   const compiledShowRequireMark = useCompile(showRequireMark!, { scope })
   const compiledValidationStatus = useCompile(validationStatus!, { scope })
@@ -68,6 +72,8 @@ export function useCompileFormItemProps(
       first: compiledFirst.value,
       feedback: compiledFeedback.value,
       rulePath: compiledRulePath.value,
+      class: compiledFormItemClass.value,
+      style: compiledFormItemStyle.value,
       showLabel: compiledShowLabel.value,
       labelWidth: compiledLabelWidth.value,
       labelAlign: compiledLabelAlign.value,

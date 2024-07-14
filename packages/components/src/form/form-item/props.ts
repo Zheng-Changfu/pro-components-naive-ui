@@ -1,10 +1,27 @@
-import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType, VNodeChild } from 'vue'
+import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType, StyleHTMLAttributes, VNodeChild } from 'vue'
 import type { FormItemRule, LabelAlign, LabelPlacement } from 'naive-ui/es/form/src/interface'
 import type { ThemeProps } from 'naive-ui/es/_mixins'
 import { useTheme } from 'naive-ui/es/_mixins'
 import type { FormTheme } from 'naive-ui/es/form/styles'
 import type { MaybeExpression } from 'pro-components-hooks'
 import type { FormItemProps } from 'naive-ui'
+
+export type FieldRender = (
+  opts: {
+    bindValues: Record<string, any>
+    bindSlots: Record<string, any>
+  }) => VNodeChild
+
+export type FormItemRender = (
+  opt: {
+    bindValues: FormItemProps
+    bindSlots: Record<string, any>
+  }) => VNodeChild
+
+export type FieldGroupRender = (
+  opts: {
+    vnode: VNodeChild
+  }) => VNodeChild
 
 export const proFormItemExtendProps = {
   /**
@@ -36,29 +53,24 @@ export const proFormItemExtendProps = {
   /**
    * 自定义渲染控件
    */
-  fieldRender: Function as PropType<(
-    opts: {
-      bindValues: Record<string, any>
-      bindSlots: Record<string, any>
-    }) => VNodeChild>,
+  fieldRender: Function as PropType<FieldRender>,
   /**
    * 自定义渲染 formItem
-   * @param bindValues formItem 的属性
-   * @param bindSlots formItem 的插槽
    */
-  formItemRender: Function as PropType<(
-    opt: {
-      bindValues: FormItemProps
-      bindSlots: Record<string, any>
-    }) => VNodeChild>,
+  formItemRender: Function as PropType<FormItemRender>,
   /**
    * 自定义渲染控件组（控件 + 前后缀插槽）
    * @param vnode 控件组的虚拟节点
    */
-  fieldGroupRender: Function as PropType<(
-    opts: {
-      vnode: VNodeChild
-    }) => VNodeChild>,
+  fieldGroupRender: Function as PropType<FieldGroupRender>,
+  /**
+   * NFormItem 的类名
+   */
+  formItemClass: String as PropType<MaybeExpression<string>>,
+  /**
+   * NFormItem 的样式
+   */
+  formItemStyle: Object as PropType<MaybeExpression<CSSProperties>>,
 } as const
 
 /**
