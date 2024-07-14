@@ -2,7 +2,7 @@ name: Deploy docs
 
 on:
   push:
-    branches: [docs]
+    branches: [master]
   workflow_dispatch:
 
 # 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages。
