@@ -17,7 +17,7 @@ export interface GlobalConfigProForm {
   /**
    * 渲染表单控件的 placeholder
    */
-  renderPlaceholder: (options: ProFieldGlobalConfig) => string | string[]
+  renderPlaceholder: (options: ProFieldGlobalConfig) => string | [string, string]
   /**
    * 获取验证规则模版（目前只处理了 required:true）
    */

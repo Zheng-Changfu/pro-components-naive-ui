@@ -201,6 +201,7 @@ formApi.vue
 3. 表单控件除以下这些属性外，其他都支持表达式，包括 `attrs` 和 `class`
   ```ts
   const unSupportExpressionAttributes = [
+    'path',
     'onChange',
     'preserve',
     'postState',

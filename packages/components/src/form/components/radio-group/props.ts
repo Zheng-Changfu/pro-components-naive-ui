@@ -44,7 +44,7 @@ export const proRadioGroupProps = {
     default: () => ({}),
   },
   /**
-   * 包裹 n-radio 的 space 属性
+   * 包裹 n-radio 的 flex 属性
    */
   flexProps: {
     type: Object as PropType<FlexProps>,
