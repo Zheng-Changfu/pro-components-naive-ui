@@ -22,7 +22,12 @@ export default defineComponent({
   props: proFormListProps,
   slots: Object as SlotsType<ProFormListSlots>,
   setup(props, { expose }) {
-    style.mount({ id: 'pro-form-item', head: true })
+    style.mount({
+      id: 'pro-form-item',
+      head: true,
+      anchorMetaName: 'naive-ui-style',
+    })
+
     const field = useArrayField('ProFormList', props, {
       defaultValue: [],
       postState: autoCreateRowId,
