@@ -5,8 +5,9 @@ import { useLocaleName } from '../store'
 export const loadingBarApiRef = {}
 
 export default function createDemoRouter(app, routes) {
+  console.log(__BASE__, '__BASE__')
   const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(__BASE__),
     routes,
   })
 

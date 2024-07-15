@@ -33,6 +33,9 @@ export default defineConfig({
       resolvers: [NaiveUiResolver()],
     }),
   ],
+  define: {
+    __BASE__: prod ? JSON.stringify(pkg.name) : JSON.stringify('/'),
+  },
   resolve: {
     alias: [
       {
