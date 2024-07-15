@@ -1,5 +1,6 @@
 import { useVModel } from '@vueuse/core'
 import { isArray, isFunction } from 'lodash-es'
+import { nextTick } from 'vue'
 import type { ProButtonProps } from './props'
 
 export function useLoading(props: ProButtonProps) {
@@ -34,8 +35,13 @@ export function useLoading(props: ProButtonProps) {
     }, [] as any[])
 
     if (autoLoading) {
-      setLoading(true)
       Promise.all(promises).finally(() => setLoading(false))
+      /**
+       * 防止同步任务耗时长出现 loading 效果
+       */
+      nextTick(() => {
+        setLoading(true)
+      })
     }
   }
 
