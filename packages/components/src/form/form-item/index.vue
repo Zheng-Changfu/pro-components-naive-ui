@@ -32,20 +32,20 @@ export default defineComponent({
     } = field
 
     const {
-      rule: compiledRule,
-      simple: compiledSimple,
-      readonly: compiledReadonly,
-      required: compiledRequired,
-      nFormItemProps: compiledNFormItemProps,
+      rule: parsedRule,
+      simple: parsedSimple,
+      readonly: parsedReadonly,
+      required: parsedRequired,
+      nFormItemProps: parsedNFormItemProps,
     } = useCompileFormItemProps(props)
 
     const mergedRule = useFormItemRule({
-      rule: compiledRule,
-      required: compiledRequired,
+      rule: parsedRule,
+      required: parsedRequired,
     })
 
     const readonly = useFormItemReadonly({
-      readonly: compiledReadonly,
+      readonly: parsedReadonly,
     })
 
     const empty = computed(() => {
@@ -66,7 +66,7 @@ export default defineComponent({
       return {
         ref: formItemInstRef,
         path: stringPath.value,
-        ...compiledNFormItemProps.value,
+        ...parsedNFormItemProps.value,
       }
     })
 
@@ -92,7 +92,7 @@ export default defineComponent({
       renderReadonly,
       addonBeforeSlot,
       renderReadonlyEmpty,
-      simple: compiledSimple,
+      simple: parsedSimple,
     }
   },
   render() {

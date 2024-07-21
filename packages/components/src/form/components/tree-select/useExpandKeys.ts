@@ -10,14 +10,14 @@ export interface UseExpandKeysOptions {
   keyToTreeSelectNodeMap: ComputedRef<Map<string | number, Record<string, any>>>
 }
 export function useExpandKeys(
-  compiledFieldProps: ComputedRef<ExcludeExpression<ProTreeSelectProps['fieldProps']>>,
+  parsedFieldProps: ComputedRef<ExcludeExpression<ProTreeSelectProps['fieldProps']>>,
   options: UseExpandKeysOptions,
 ) {
   const { keyToTreeSelectNodeMap } = options
   const expandedKeys = ref<Array<string | number>>([])
 
   watch(
-    computed(() => compiledFieldProps.value?.expandedKeys ?? []),
+    computed(() => parsedFieldProps.value?.expandedKeys ?? []),
     keys => expandedKeys.value = keys ?? [],
     { immediate: true },
   )
@@ -26,7 +26,7 @@ export function useExpandKeys(
     const {
       onUpdateExpandedKeys,
       'onUpdate:expandedKeys': _onUpdateExpandedKeys,
-    } = compiledFieldProps.value ?? {}
+    } = parsedFieldProps.value ?? {}
 
     expandedKeys.value = keys
     onUpdateExpandedKeys && (onUpdateExpandedKeys as any)(keys, ...args)

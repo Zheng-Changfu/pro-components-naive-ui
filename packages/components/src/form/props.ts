@@ -30,7 +30,7 @@ export const proFormExtendProps = {
   /**
    * 表达式可以读取到的作用域，浅合并，优先级比全局高
    */
-  expressionScope: Object as PropType<Record<`$${string}`, any>>,
+  scope: Object as PropType<Record<`$${string}`, any>>,
   /**
    * 表单初始值
    */
@@ -58,7 +58,7 @@ export const proFormExtendProps = {
   onDependenciesValueChange: {
     type: Function as PropType<(opt: {
       path: string[]
-      depPath: string[]
+      dependPath: string[]
       value: any
     }) => void>,
   },

@@ -1,12 +1,13 @@
 <script lang='tsx'>
 import type { SlotsType } from 'vue'
 import { Fragment, computed, defineComponent, inject, toRef } from 'vue'
-import { useInjectParentFieldContext } from 'pro-components-hooks'
+import { useInjectFormContext, useInjectParentFieldContext } from 'pro-components-hooks'
 import { NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
+import { omit } from 'lodash-es'
 import type { ProButtonProps } from '../../button'
 import { ProButton } from '../../button'
-import { useInjectProFormListInstanceContext } from '../context'
+import { AUTO_CREATE_ID, useInjectProFormListInstanceContext } from '../context'
 import { proFormListItemProps } from './props'
 import { resolveAction, resolveItem } from './resolveRender'
 import type { ProFormListItemSlots } from './slots'
@@ -18,10 +19,11 @@ export default defineComponent({
   slots: Object as SlotsType<ProFormListItemSlots>,
   setup(props) {
     const themeVars = useThemeVars()
-    useProvidePath(toRef(props, 'index')) // 处理嵌套路径
+    const form = useInjectFormContext()
     const nFormItem = inject<any>('n-form-item')
     const field = useInjectParentFieldContext()!
     const action = useInjectProFormListInstanceContext()
+    const { path } = useProvidePath(toRef(props, 'index')) // 处理嵌套路径
 
     const total = computed(() => {
       return field.value.value.length
@@ -85,6 +87,7 @@ export default defineComponent({
     async function copy() {
       const { index } = props
       const insertIndex = index + 1
+      const row = form?.values.get(path.value) ?? {}
 
       if (props.actionGuard?.beforeAddRow) {
         const success = await props.actionGuard.beforeAddRow({
@@ -92,10 +95,10 @@ export default defineComponent({
           insertIndex,
           total: total.value,
         })
-        success && action.insert(insertIndex, {})
+        success && action.insert(insertIndex, omit(row, AUTO_CREATE_ID))
       }
       else {
-        action.insert(insertIndex, {})
+        action.insert(insertIndex, omit(row, AUTO_CREATE_ID))
       }
     }
 

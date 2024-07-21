@@ -73,7 +73,7 @@ formApi.vue
 | validate | `(paths?: string \| string[]) => ReturnType<FormInst['validate']>` | 校验单个字段、多个字段或表单 |  |
 | submit | `() => void` | 提交表单 |  |
 | restoreValidation | `(paths?: string \| string[]) => ReturnType< FormInst['restoreValidation'] >` | 清空单个字段、多个字段或表单的校验 |  |
-| getExpressionScope | `() => Record<string,any>` | 获取表单的表达式作用域对象 |  |
+| getScope | `() => Record<string,any>` | 获取表单的表达式作用域对象 |  |
 
 ### 控件新增 Props
 | 名称 | 类型 | 默认值 | 说明 | 版本 |

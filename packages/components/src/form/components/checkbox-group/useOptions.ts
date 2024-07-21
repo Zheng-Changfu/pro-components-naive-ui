@@ -7,7 +7,7 @@ import type { ProCheckboxGroupProps } from './props'
 
 export function useOptions(
   props: ProCheckboxGroupProps,
-  compiledFieldProps: ComputedRef<ExcludeExpression<ProCheckboxGroupProps['fieldProps']>>,
+  parsedFieldProps: ComputedRef<ExcludeExpression<ProCheckboxGroupProps['fieldProps']>>,
   field: BaseField,
 ) {
   const options = ref<any[]>([])
@@ -23,7 +23,7 @@ export function useOptions(
   } = controls
 
   watch(
-    computed(() => compiledFieldProps.value?.options),
+    computed(() => parsedFieldProps.value?.options),
     (propOptions) => { options.value = isArray(propOptions) ? propOptions : [] },
     { immediate: true, deep: true },
   )
@@ -32,7 +32,7 @@ export function useOptions(
     const {
       labelField = 'label',
       valueField = 'value',
-    } = compiledFieldProps.value ?? {}
+    } = parsedFieldProps.value ?? {}
 
     return options.value.map((item) => {
       const label = get(item, labelField)

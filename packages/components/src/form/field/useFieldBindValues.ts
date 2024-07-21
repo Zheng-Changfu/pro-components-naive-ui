@@ -15,7 +15,7 @@ export function useFieldBindValues<T extends {
   const attrs = useAttrs()
   const { proForm } = useInjectGlobalConfigContext()
 
-  const compiledFieldProps = useCompile(
+  const parsedFieldProps = useCompile(
     toRef(props, 'fieldProps'),
     { scope: field.scope },
   )
@@ -23,18 +23,18 @@ export function useFieldBindValues<T extends {
   /**
    * attrs 虽然是 proxy，但 isProxy 返回 false，所以浅克隆一层
    */
-  const compiledAttrs = useCompile(
+  const parsedAttrs = useCompile(
     computed(() => ({ ...attrs })),
     { scope: field.scope },
   )
 
-  const compiledPlaceholder = useCompile(
+  const parsedPlaceholder = useCompile(
     toRef(props, 'placeholder'),
     { scope: field.scope },
   )
 
   const placeholder = computed(() => {
-    const ph = compiledPlaceholder.value
+    const ph = parsedPlaceholder.value
     return !isUndefined(ph)
       ? ph
       : proForm.renderPlaceholder?.(field[ProFieldConfigKey])
@@ -42,8 +42,8 @@ export function useFieldBindValues<T extends {
 
   const bindValues = computed<ExcludeExpression<T['fieldProps']>>(() => {
     return {
-      ...compiledAttrs.value,
-      ...compiledFieldProps.value,
+      ...parsedAttrs.value,
+      ...parsedFieldProps.value,
     }
   })
 

@@ -30,7 +30,7 @@ export interface GlobalConfigProForm {
   /**
    * form 表单可以读取到的表达式作用域
    */
-  expressionScope: Record<`$${string}`, any>
+  scope: Record<`$${string}`, any>
 }
 
 export interface GlobalConfigProButton {

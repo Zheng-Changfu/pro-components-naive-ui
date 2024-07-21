@@ -12,7 +12,7 @@ import { LevelKey } from './key'
 
 export function useOptions(
   props: ProTreeSelectProps,
-  compiledFieldProps: ComputedRef<ExcludeExpression<ProTreeSelectProps['fieldProps']>>,
+  parsedFieldProps: ComputedRef<ExcludeExpression<ProTreeSelectProps['fieldProps']>>,
   field: BaseField,
 ) {
   const loaded = ref(false)
@@ -27,7 +27,7 @@ export function useOptions(
     leafField = 'isLeaf',
     childrenField = 'children',
     filterEmptyChildrenField = true,
-  } = compiledFieldProps.value!
+  } = parsedFieldProps.value!
 
   const {
     run,
@@ -38,7 +38,7 @@ export function useOptions(
   } = controls
 
   watch(
-    computed(() => compiledFieldProps.value?.options),
+    computed(() => parsedFieldProps.value?.options),
     (propTreeSelectOptions = []) => options.value = normalizeTreeSelectOptions(propTreeSelectOptions),
     { immediate: true, deep: true },
   )
@@ -101,7 +101,7 @@ export function useOptions(
   }
 
   function onLoad(node: TreeSelectOption) {
-    const { onLoad: propOnLoad } = compiledFieldProps.value ?? {}
+    const { onLoad: propOnLoad } = parsedFieldProps.value ?? {}
     if (propOnLoad) {
       return callWithLoaded(propOnLoad, node)
     }

@@ -30,7 +30,7 @@ BaseForm,
   /**
    * 获取表达式作用域内容
    */
-  getExpressionScope: () => Record<`$${string}`, any>
+  getScope: () => Record<`$${string}`, any>
   /**
    * 校验
    */

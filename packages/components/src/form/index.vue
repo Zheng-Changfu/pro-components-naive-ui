@@ -1,7 +1,7 @@
 <script lang="tsx">
 import type { FormInst, FormProps } from 'naive-ui'
 import { NForm } from 'naive-ui'
-import type { Path } from 'pro-components-hooks'
+import type { BaseField, Path } from 'pro-components-hooks'
 import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
 import { computed, defineComponent, provide, ref, toRef } from 'vue'
 import { isString, toPath } from 'lodash-es'
@@ -19,24 +19,24 @@ export default defineComponent({
   setup(props, { expose }) {
     const formInstRef = ref<FormInst>()
     const formProps = useOmitProps(props, proFormExtendProps)
-    const { expressionScope: globalExpressionScope } = useInjectGlobalConfigContext().proForm
+    const { scope: globalScope } = useInjectGlobalConfigContext().proForm
 
     const {
       initialValues,
+      scope: propScope,
       onFieldValueChange,
-      expressionScope: propExpressionScope,
     } = props
 
     const expressionScope = {
-      ...(propExpressionScope ?? {}),
-      ...(globalExpressionScope ?? {}),
+      ...(globalScope ?? {}),
+      ...(propScope ?? {}),
     }
 
     const {
       scope,
-      values,
-      pathField,
       matchPath,
+      fieldStore,
+      valueStore,
       getFieldValue,
       setFieldValue,
       getFieldsValue,
@@ -53,23 +53,37 @@ export default defineComponent({
       onDependenciesValueChange,
     })
 
-    const compiledDisabled = useCompile(toRef(props, 'disabled'), { scope })
-    const compiledReadonly = useCompile(toRef(props, 'readonly'), { scope })
+    const parsedDisabled = useCompile(toRef(props, 'disabled'), { scope })
+    const parsedReadonly = useCompile(toRef(props, 'readonly'), { scope })
 
     const nFormProps = computed<FormProps>(() => {
       return {
         ...formProps.value,
         rules: undefined,
         ref: formInstRef,
-        model: values.value,
-        disabled: compiledDisabled.value,
+        model: valueStore.values.value,
+        disabled: parsedDisabled.value,
       }
     })
 
-    function onDependenciesValueChange(opt: { path: string[], depPath: string[], value: any }) {
-      validate(stringifyPath(opt.depPath))
-      if (props.onDependenciesValueChange) {
-        props.onDependenciesValueChange(opt)
+    function onDependenciesValueChange(opt: {
+      value: any
+      path: string[]
+      field: BaseField
+      dependPath: string[]
+    }) {
+      const {
+        field,
+        path,
+        value,
+        dependPath,
+      } = opt
+
+      if (field.show.value) {
+        validate(stringifyPath(opt.dependPath))
+        if (props.onDependenciesValueChange) {
+          props.onDependenciesValueChange({ path, value, dependPath })
+        }
       }
     }
 
@@ -108,9 +122,9 @@ export default defineComponent({
         formInstRef.value!.restoreValidation()
         return
       }
-      const normalizedPaths = (isString(paths) ? [paths] : paths).map(toPath) as Array<string[]>
+      const normalizedPaths = (isString(paths) ? [paths] : paths).map(stringifyPath) as Array<string>
       normalizedPaths.forEach((path) => {
-        const field = pathField.get(path)
+        const field = fieldStore.fieldsPathMap.value.get(path)
         if (!field || !field[ProFieldConfigKey])
           return
         const proFieldConfig: ProFieldConfig = field[ProFieldConfigKey]
@@ -148,13 +162,13 @@ export default defineComponent({
       resetFieldsValue,
       restoreFieldValue,
       restoreFieldsValue,
+      getScope: () => scope,
       getFieldsTransformedValue,
-      getExpressionScope: () => scope,
     }
 
     expose(exposed)
     provideProFormInstanceContext(exposed)
-    provide(proFormReadonlyContextKey, compiledReadonly)
+    provide(proFormReadonlyContextKey, parsedReadonly)
     provide(proFormItemRenderContextKey, props.formItemRender)
     return {
       nFormProps,

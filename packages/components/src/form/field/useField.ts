@@ -1,6 +1,7 @@
 import { createField } from 'pro-components-hooks'
 import { computed, toRef, useSlots } from 'vue'
-import { type ProFieldConfig, ProFieldConfigKey } from './fieldCustomKeys'
+import type { ProFieldConfig } from './fieldCustomKeys'
+import { ProFieldConfigKey } from './fieldCustomKeys'
 import type { ProFieldProps } from './props'
 
 export function useField(

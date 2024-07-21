@@ -5,24 +5,24 @@ import type { ProFormListProps } from './props'
 
 export function useCompileFormListProps(props: ProFormListProps, scope: ExpressionScope) {
   const attrs = useAttrs()
-  const compiledMin = useCompile(toRef(props, 'min'), { scope })
-  const compiledMax = useCompile(toRef(props, 'max'), { scope })
-  const compiledPosition = useCompile(toRef(props, 'position'), { scope })
+  const parsedMin = useCompile(toRef(props, 'min'), { scope })
+  const parsedMax = useCompile(toRef(props, 'max'), { scope })
+  const parsedPosition = useCompile(toRef(props, 'position'), { scope })
   /**
    * attrs 虽然是 proxy，但 isProxy 返回 false，所以浅克隆一层
    */
-  const compiledAttrs = useCompile(computed(() => ({ ...attrs })), { scope })
-  const compiledCopyButtonProps = useCompile(toRef(props, 'copyButtonProps'), { scope })
-  const compiledRemoveButtonProps = useCompile(toRef(props, 'removeButtonProps'), { scope })
-  const compiledCreatorButtonProps = useCompile(toRef(props, 'creatorButtonProps'), { scope })
+  const parsedAttrs = useCompile(computed(() => ({ ...attrs })), { scope })
+  const parsedCopyButtonProps = useCompile(toRef(props, 'copyButtonProps'), { scope })
+  const parsedRemoveButtonProps = useCompile(toRef(props, 'removeButtonProps'), { scope })
+  const parsedCreatorButtonProps = useCompile(toRef(props, 'creatorButtonProps'), { scope })
 
   return {
-    min: compiledMin,
-    max: compiledMax,
-    attrs: compiledAttrs,
-    position: compiledPosition,
-    copyButtonProps: compiledCopyButtonProps,
-    removeButtonProps: compiledRemoveButtonProps,
-    creatorButtonProps: compiledCreatorButtonProps,
+    min: parsedMin,
+    max: parsedMax,
+    attrs: parsedAttrs,
+    position: parsedPosition,
+    copyButtonProps: parsedCopyButtonProps,
+    removeButtonProps: parsedRemoveButtonProps,
+    creatorButtonProps: parsedCreatorButtonProps,
   }
 }

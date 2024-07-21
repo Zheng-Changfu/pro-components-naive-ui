@@ -66,9 +66,9 @@ linkAsync.vue
 `fiedProps` 中也新增了一些属性
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
-| labelField | `string` | `'label'` | 选项 label 的字段名 | | 
-| valueField | `string` | `'value'` | 选项 value 的字段名 | | 
-| options | `TransferOption[]` | | 配置选项内容 | | 
+| labelField | `string` | `'label'` | 选项 label 的字段名 | |
+| valueField | `string` | `'value'` | 选项 value 的字段名 | |
+| options | `TransferOption[]` | | 配置选项内容 | |
 
 `注意：这些属性应该书写到组件的 fieldProps 中`
 ```html
@@ -100,9 +100,9 @@ linkAsync.vue
 `fiedProps` 中也新增了一些属性
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
-| labelField | `string` | `'label'` | 选项 label 的字段名 | | 
-| valueField | `string` | `'value'` | 选项 value 的字段名 | | 
-| options | `Array<Omit<RadioProps,'checked' \| 'defaultChecked' \| 'onUpdateChecked' \| 'onUpdate:checked'>>` | | 配置选项内容 | | 
+| labelField | `string` | `'label'` | 选项 label 的字段名 | |
+| valueField | `string` | `'value'` | 选项 value 的字段名 | |
+| options | `Array<Omit<RadioProps,'checked' \| 'defaultChecked' \| 'onUpdateChecked' \| 'onUpdate:checked'>>` | | 配置选项内容 | |
 
 `注意：这些属性应该书写到组件的 fieldProps 中`
 ```html
@@ -134,9 +134,9 @@ linkAsync.vue
 `fiedProps` 中也新增了一些属性
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
-| labelField | `string` | `'label'` | 选项 label 的字段名 | | 
-| valueField | `string` | `'value'` | 选项 value 的字段名 | | 
-| options | `Array<Omit<CheckboxProps,'checked' \| 'defaultChecked' \| 'onUpdateChecked' \| 'onUpdate:checked'>>` | | 配置选项内容 | | 
+| labelField | `string` | `'label'` | 选项 label 的字段名 | |
+| valueField | `string` | `'value'` | 选项 value 的字段名 | |
+| options | `Array<Omit<CheckboxProps,'checked' \| 'defaultChecked' \| 'onUpdateChecked' \| 'onUpdate:checked'>>` | | 配置选项内容 | |
 
 `注意：这些属性应该书写到组件的 fieldProps 中`
 ```html
@@ -152,10 +152,10 @@ linkAsync.vue
 
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
-| leafField | `string` | `'label'` | 选项 isLeaf 的字段名 | | 
-| remote | `boolean` | `false` | 是否为懒加载，搭配 fetchConfig 使用 | | 
-| filterEmptyChildrenField | `boolean` | `true` | 是否过滤掉空子节点字段（空数组或者 undefined/null） | | 
-| expandAllOnFetchSuccess | `boolean` | `false` | 请求成功后是否展开全部节点（搭配 fetchConfig） | | 
+| leafField | `string` | `'label'` | 选项 isLeaf 的字段名 | |
+| remote | `boolean` | `false` | 是否为懒加载，搭配 fetchConfig 使用 | |
+| filterEmptyChildrenField | `boolean` | `true` | 是否过滤掉空子节点字段（空数组或者 undefined/null） | |
+| expandAllOnFetchSuccess | `boolean` | `false` | 请求成功后是否展开全部节点（搭配 fetchConfig） | |
 
 `注意：这些属性应该书写到组件的 fieldProps 中`
 ```html
@@ -183,47 +183,43 @@ linkAsync.vue
 ### FetchControls
 ```ts
 interface FetchControls {
-    /**
-     * 请求失败后的信息
-     */
-    error: Ref<any>;
-    /**
-     * 是否在请求中
-     */
-    loading: Ref<boolean>;
-    /**
-     * 请求失败后的回调，参数为错误内容
-     * ```example
-     * onFailure((error) =>{
-     *   message.error(error)
-     * })
-     * ```
-     */
-    onFailure: EventHookOn<any>;
-    /**
-     * 响应结果
-     */
-    data: Ref<any>;
-    /**
-     * 调用 api 函数，返回布尔值，传递的参数会透传给 api 
-     */
-    runBool: (...args: any[]) => Promise<boolean>;
-    /**
-     * 请求成功后的回调，参数为响应结果(被 transform 过的)
-     * ```example
-     * onSuccess((transformedResponse) =>{})
-     * ```
-     */
-    onSuccess: EventHookOn<any>;
-    /**
-     * 调用 api 函数，返回 [err,response]
-     * 如果没有发生错误，err 为 undefined，response 为响应结果
-     * 如果发生了错误，err 为错误原因，response 为 undefined
-     */
-    run: (...args: any[]) => Promise<[any, any]>;
+  /**
+   * 请求失败后的信息
+   */
+  error: Ref<any>
+  /**
+   * 是否在请求中
+   */
+  loading: Ref<boolean>
+  /**
+   * 请求失败后的回调，参数为错误内容
+   * ```example
+   * onFailure((error) =>{
+   *   message.error(error)
+   * })
+   * ```
+   */
+  onFailure: EventHookOn<any>
+  /**
+   * 响应结果
+   */
+  data: Ref<any>
+  /**
+   * 调用 api 函数，返回布尔值，传递的参数会透传给 api
+   */
+  runBool: (...args: any[]) => Promise<boolean>
+  /**
+   * 请求成功后的回调，参数为响应结果(被 transform 过的)
+   * ```example
+   * onSuccess((transformedResponse) =>{})
+   * ```
+   */
+  onSuccess: EventHookOn<any>
+  /**
+   * 调用 api 函数，返回 [err,response]
+   * 如果没有发生错误，err 为 undefined，response 为响应结果
+   * 如果发生了错误，err 为错误原因，response 为 undefined
+   */
+  run: (...args: any[]) => Promise<[any, any]>
 }
 ```
-
-
-
-

@@ -12,12 +12,12 @@ import { useProFormInstance } from 'pro-components-naive-ui'
 export default defineComponent({
   setup() {
     const isMounted = useMounted()
-    const [aInstRef, { getExpressionScope: getAFormExpressionScope }] = useProFormInstance()
-    const [bInstRef, { getExpressionScope: getBFormExpressionScope }] = useProFormInstance()
+    const [aInstRef, { getScope: getAFormScope }] = useProFormInstance()
+    const [bInstRef, { getScope: getBFormScope }] = useProFormInstance()
 
     const expressionScope = {
-      $aForm: computed(() => getAFormExpressionScope()),
-      $bForm: computed(() => getBFormExpressionScope()),
+      $aForm: computed(() => getAFormScope()),
+      $bForm: computed(() => getBFormScope()),
     }
 
     return {

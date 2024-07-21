@@ -43,14 +43,14 @@ export default defineComponent({
       attrs,
       copyButtonProps,
       removeButtonProps,
-      position: compiledPosition,
-      creatorButtonProps: compiledCreatorButtonProps,
+      position: parsedPosition,
+      creatorButtonProps: parsedCreatorButtonProps,
     } = useCompileFormListProps(props, field.scope)
 
-    const position = computed(() => compiledPosition.value ?? 'bottom')
+    const position = computed(() => parsedPosition.value ?? 'bottom')
     const creatorButtonText = '添加一行数据' // TODO: 国际化配置
     const creatorButtonProps = computed<ProButtonProps | false>(() => {
-      const btnProps = compiledCreatorButtonProps.value
+      const btnProps = parsedCreatorButtonProps.value
       if (btnProps === false) {
         return false
       }
@@ -64,7 +64,7 @@ export default defineComponent({
             </NIcon>
           )
         },
-        ...(compiledCreatorButtonProps.value || {}),
+        ...(parsedCreatorButtonProps.value || {}),
         onClick: add,
       }
     })

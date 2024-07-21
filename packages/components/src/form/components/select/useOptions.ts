@@ -7,11 +7,11 @@ import type { ProSelectProps } from './props'
 
 export function useOptions(
   props: ProSelectProps,
-  compiledFieldProps: ComputedRef<ExcludeExpression<ProSelectProps['fieldProps']>>,
+  parsedFieldProps: ComputedRef<ExcludeExpression<ProSelectProps['fieldProps']>>,
   field: BaseField,
 ) {
   const options = ref<any[]>([])
-  const { remote = false } = compiledFieldProps.value!
+  const { remote = false } = parsedFieldProps.value!
   const proFormInst = useInjectProFormInstanceContext()
   const debounceTime = props.fetchConfig?.debounceTime ?? 500
   const controls = useInternalScopeRequest(props.fetchConfig!, field.scope)
@@ -31,13 +31,13 @@ export function useOptions(
   )
 
   watch(
-    computed(() => compiledFieldProps.value!.options),
+    computed(() => parsedFieldProps.value!.options),
     (propSelectOptions) => { options.value = isArray(propSelectOptions) ? propSelectOptions : [] },
     { immediate: true, deep: true },
   )
 
   function onSearch(query: string) {
-    const { onSearch: propOnSearch } = compiledFieldProps.value ?? {}
+    const { onSearch: propOnSearch } = parsedFieldProps.value ?? {}
     if (propOnSearch) {
       ;(propOnSearch as any)(query)
       return

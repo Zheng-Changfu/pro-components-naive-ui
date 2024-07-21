@@ -10,14 +10,14 @@ export interface UseIndeterminateKeysOptions {
   keyToTreeSelectNodeMap: ComputedRef<Map<string | number, Record<string, any>>>
 }
 export function useIndeterminateKeys(
-  compiledFieldProps: ComputedRef<ExcludeExpression<ProTreeSelectProps['fieldProps']>>,
+  parsedFieldProps: ComputedRef<ExcludeExpression<ProTreeSelectProps['fieldProps']>>,
   options: UseIndeterminateKeysOptions,
 ) {
   const { keyToTreeSelectNodeMap } = options
   const indeterminateKeys = ref<Array<string | number>>([])
 
   watch(
-    computed(() => compiledFieldProps.value?.indeterminateKeys ?? []),
+    computed(() => parsedFieldProps.value?.indeterminateKeys ?? []),
     keys => indeterminateKeys.value = keys ?? [],
     { immediate: true },
   )
@@ -26,7 +26,7 @@ export function useIndeterminateKeys(
     const {
       onUpdateIndeterminateKeys,
       'onUpdate:indeterminateKeys': _onUpdateIndeterminateKeys,
-    } = compiledFieldProps.value ?? {}
+    } = parsedFieldProps.value ?? {}
 
     indeterminateKeys.value = keys
     onUpdateIndeterminateKeys && (onUpdateIndeterminateKeys as any)(keys, ...args)

@@ -47,7 +47,7 @@ export default defineComponent({
         label="城市"
         path="city"
         class="w-150px"
-        visible="{{ !!$row.nameSlot }}"
+        visible="{{ !!$row.nameExpression }}"
         required
         :field-props="{
           options: [
