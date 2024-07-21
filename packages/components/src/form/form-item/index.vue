@@ -9,10 +9,10 @@ import { proFormItemProps } from './props'
 import type { ProFormItemSlots } from './slots'
 import { useFormItemRule } from './useFormItemRule'
 import { isEmptyValue } from './utils/valueUtil'
-import { useCompileFormItemProps } from './useCompileFormItemProps'
 import { useFormItemReadonly } from './useFormItemReadonly'
 import { useReadonlyRenderer } from './useReadonlyRenderer'
 import { useAddonSlotRenderer } from './useAddonSlotRenderer'
+import { useParseFormItemProps } from './useParseFormItemProps'
 import { resolveFormItem } from './resolveFormItem'
 import { resolveFieldGroup } from './resolveFieldGroup'
 
@@ -37,7 +37,7 @@ export default defineComponent({
       readonly: parsedReadonly,
       required: parsedRequired,
       nFormItemProps: parsedNFormItemProps,
-    } = useCompileFormItemProps(props)
+    } = useParseFormItemProps(props)
 
     const mergedRule = useFormItemRule({
       rule: parsedRule,
@@ -101,6 +101,7 @@ export default defineComponent({
       empty,
       $props,
       $slots,
+      $attrs,
       simple,
       readonly,
       nFormItemProps,
@@ -166,7 +167,7 @@ export default defineComponent({
       $props.formItemRender,
       {
         bindSlots: nFormItemSlots,
-        bindValues: nFormItemProps,
+        bindValues: { ...$attrs, ...nFormItemProps },
       },
       () => (
         <NFormItem

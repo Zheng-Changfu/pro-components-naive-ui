@@ -3,7 +3,7 @@ import { useCompile, useInjectFieldContext } from 'pro-components-hooks'
 import type { FormItemProps } from 'naive-ui'
 import type { ProFormItemProps } from './props'
 
-export function useCompileFormItemProps(
+export function useParseFormItemProps(
   props: ProFormItemProps,
 ) {
   const {
