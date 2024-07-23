@@ -2,8 +2,7 @@ import type { ComputedRef } from 'vue'
 import { computed, ref, watch } from 'vue'
 import type { BaseField, ExcludeExpression } from 'pro-components-hooks'
 import { get, isArray } from 'lodash-es'
-import { useInternalScopeRequest } from '../_internal/useInternalRequest'
-import { useInjectProFormInstanceContext } from '../../context'
+import { useInternalRequest } from '../_internal/useInternalRequest'
 import type { ProTransferProps } from './props'
 
 export function useOptions(
@@ -12,9 +11,7 @@ export function useOptions(
   field: BaseField,
 ) {
   const options = ref<any[]>([])
-  const proFormInst = useInjectProFormInstanceContext()
-  const controls = useInternalScopeRequest(props.fetchConfig!, field.scope)
-  const restoreValueOnFetched = props.fetchConfig?.restoreValueOnFetched ?? true
+  const controls = useInternalRequest(field, props.fetchConfig as any)
 
   const {
     data,
@@ -46,29 +43,17 @@ export function useOptions(
     })
   })
 
-  function tryRestoreValue() {
-    if (
-      restoreValueOnFetched
-      && proFormInst
-      && field.stringPath.value
-    ) {
-      proFormInst.restoreFieldValue(field.stringPath.value)
-    }
-  }
-
   function setOptions(opts: any[]) {
     options.value = opts
   }
 
   onSuccess((response) => {
     options.value = isArray(response) ? response : []
-    tryRestoreValue()
   })
 
   onFailure(() => {
     const vals = data.value
     options.value = isArray(vals) ? vals : []
-    tryRestoreValue()
   })
 
   return {

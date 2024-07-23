@@ -1,4 +1,4 @@
-import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType, StyleHTMLAttributes, VNodeChild } from 'vue'
+import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType, VNodeChild } from 'vue'
 import type { FormItemRule, LabelAlign, LabelPlacement } from 'naive-ui/es/form/src/interface'
 import type { ThemeProps } from 'naive-ui/es/_mixins'
 import { useTheme } from 'naive-ui/es/_mixins'
@@ -8,13 +8,13 @@ import type { FormItemProps } from 'naive-ui'
 
 export type FieldRender = (
   opts: {
-    bindValues: Record<string, any>
+    bindProps: Record<string, any>
     bindSlots: Record<string, any>
   }) => VNodeChild
 
 export type FormItemRender = (
   opt: {
-    bindValues: FormItemProps
+    bindProps: FormItemProps
     bindSlots: Record<string, any>
   }) => VNodeChild
 

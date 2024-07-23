@@ -1,9 +1,9 @@
 <script lang="tsx">
 import type { SlotsType } from 'vue'
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import type { SelectInst, SelectProps } from 'naive-ui'
 import { NSelect } from 'naive-ui'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { ProFormItem } from '../../form-item'
 import { proSelectProps } from './props'
 import type { ProSelectSlots } from './slots'
@@ -23,10 +23,10 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const {
-      bindValues,
-      placeholder,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+    )
 
     const {
       loading,
@@ -34,20 +34,18 @@ export default defineComponent({
       controls,
       onSearch,
       setOptions,
-    } = useOptions(props, bindValues, field)
+    } = useOptions(props, parsedProps, field)
 
     const nSelectProps = computed<SelectProps>(() => {
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value as any,
+        ...parsedProps.value as any,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
-
         'ref': nSelectInstRef,
         'value': value.value,
         'loading': loading.value,
         'options': options.value,
-        'placeholder': placeholder.value,
         onSearch,
         'onUpdateValue': doUpdateValue,
       }
@@ -83,7 +81,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: this.nSelectProps,
+                bindProps: this.nSelectProps,
               },
               () => (
                 <NSelect

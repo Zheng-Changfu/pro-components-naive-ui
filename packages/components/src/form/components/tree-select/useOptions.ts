@@ -5,8 +5,7 @@ import { eachTree, mapTree } from 'pro-components-hooks'
 import { get, has, isArray, isNumber, isString, set, unset } from 'lodash-es'
 import type { TreeSelectOption } from 'naive-ui'
 import type { AnyFn } from '../../../types'
-import { useInternalScopeRequest } from '../_internal/useInternalRequest'
-import { useInjectProFormInstanceContext } from '../../context'
+import { useInternalRequest } from '../_internal/useInternalRequest'
 import type { ProTreeSelectProps } from './props'
 import { LevelKey } from './key'
 
@@ -17,9 +16,7 @@ export function useOptions(
 ) {
   const loaded = ref(false)
   const options = ref<TreeSelectOption[]>([])
-  const proFormInst = useInjectProFormInstanceContext()
-  const controls = useInternalScopeRequest(props.fetchConfig!, field.scope)
-  const restoreValueOnFetched = props.fetchConfig?.restoreValueOnFetched ?? true
+  const controls = useInternalRequest(field, props.fetchConfig as any)
 
   const {
     remote = false,
@@ -125,16 +122,6 @@ export function useOptions(
     })
   }
 
-  function tryRestoreValue() {
-    if (
-      restoreValueOnFetched
-      && proFormInst
-      && field.stringPath.value
-    ) {
-      proFormInst.restoreFieldValue(field.stringPath.value)
-    }
-  }
-
   function setOptions(opts: any[]) {
     options.value = normalizeTreeSelectOptions(opts)
   }
@@ -142,7 +129,6 @@ export function useOptions(
   onSuccess((response) => {
     if (!loaded.value) {
       options.value = normalizeTreeSelectOptions(response)
-      tryRestoreValue()
     }
   })
 
@@ -150,7 +136,6 @@ export function useOptions(
     if (!loaded.value) {
       const vals = data.value
       options.value = normalizeTreeSelectOptions(vals)
-      tryRestoreValue()
     }
   })
 

@@ -20,7 +20,16 @@ export const proTextareaProps = {
     type: String as PropType<MaybeExpression<string>>,
   },
   fieldProps: {
-    type: Object as PropType<MaybeExpression<Omit<InputProps, 'value' | 'placeholder' | 'onUpdateValue' | 'onUpdate:value' | 'type' | 'pair' | 'defaultValue'>>>,
+    type: Object as PropType<MaybeExpression<Omit<
+    InputProps,
+    | 'value'
+    | 'placeholder'
+    | 'onUpdateValue'
+    | 'onUpdate:value'
+    | 'type'
+    | 'pair'
+    | 'defaultValue'
+>>>,
     default: () => ({}),
   },
 } as const

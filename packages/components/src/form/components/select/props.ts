@@ -1,8 +1,10 @@
 import type { SelectProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { MaybeExpression, UseRequestOptions } from 'pro-components-hooks'
+import type { MaybeExpression } from 'pro-components-hooks'
 import { proFormItemProps } from '../../form-item'
 import { proFieldProps } from '../../field'
+import type { UseInternalRequestOptions } from '../_internal/useInternalRequest'
+import type { ExtendPublicProps } from '../../../types'
 
 /**
  * 只在 remote:true 时生效
@@ -28,7 +30,7 @@ export const proSelectProps = {
    * 请求配置
    */
   fetchConfig: {
-    type: Object as PropType<MaybeExpression<UseRequestOptions<any, any>> & FetchRemoteConfig & { restoreValueOnFetched: boolean /** 请求结束后是否还原值并清空校验，防止匹配不到结果造成显示上的错误，默认 true */ }>,
+    type: Object as PropType<MaybeExpression<UseInternalRequestOptions> & FetchRemoteConfig>,
     default: () => ({}),
   },
   /**
@@ -38,14 +40,14 @@ export const proSelectProps = {
     type: String as PropType<MaybeExpression<string>>,
   },
   fieldProps: {
-    type: Object as PropType<MaybeExpression<Omit<
+    type: Object as PropType<MaybeExpression<ExtendPublicProps<Omit<
     SelectProps,
     | 'value'
     | 'placeholder'
     | 'onUpdateValue'
     | 'onUpdate:value'
     | 'defaultValue'
->>>,
+    >>>>,
     default: () => ({}),
   },
 } as const

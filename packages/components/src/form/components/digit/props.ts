@@ -3,6 +3,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
 import { proFormItemProps } from '../../form-item'
 import { proFieldProps } from '../../field'
+import type { ExtendPublicProps } from '../../../types'
 
 export const proDigitProps = {
   /**
@@ -20,14 +21,14 @@ export const proDigitProps = {
     type: String as PropType<MaybeExpression<string>>,
   },
   fieldProps: {
-    type: Object as PropType<MaybeExpression<Omit<
+    type: Object as PropType<MaybeExpression<ExtendPublicProps<Omit<
     InputNumberProps,
     | 'value'
     | 'placeholder'
     | 'onUpdateValue'
     | 'onUpdate:value'
     | 'defaultValue'
->>>,
+    >>>>,
     default: () => ({}),
   },
 } as const

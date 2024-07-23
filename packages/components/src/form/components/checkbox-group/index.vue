@@ -3,7 +3,7 @@ import type { SlotsType } from 'vue'
 import { computed, defineComponent } from 'vue'
 import type { CheckboxGroupProps } from 'naive-ui'
 import { NCheckbox, NCheckboxGroup, NFlex, NSpin } from 'naive-ui'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { ProFormItem } from '../../form-item'
 import { proCheckboxGroupProps } from './props'
 import type { ProCheckboxGroupSlots } from './slots'
@@ -21,24 +21,25 @@ export default defineComponent({
       { defaultValue: [] },
     )
 
-    const {
-      bindValues,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+      { placeholderIntoProps: false },
+    )
 
     const {
       loading,
       options,
       controls,
       setOptions,
-    } = useOptions(props, bindValues, field)
+    } = useOptions(props, parsedProps, field)
 
     const nCheckboxGroupProps = computed<CheckboxGroupProps>(() => {
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value as any,
+        ...parsedProps.value,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
-
         'value': value.value,
         'onUpdateValue': doUpdateValue,
       }
@@ -74,7 +75,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: { options, ...this.nCheckboxGroupProps },
+                bindProps: { options, ...this.nCheckboxGroupProps },
               },
               () => (
                 <NSpin

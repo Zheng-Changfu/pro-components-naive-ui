@@ -5,7 +5,7 @@ import type { TimePickerInst, TimePickerProps } from 'naive-ui'
 import { NTimePicker } from 'naive-ui'
 import dayjs from 'dayjs'
 import { isString } from 'lodash-es'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { isEmptyValue } from '../../form-item/utils/valueUtil'
 import { ProFormItem } from '../../form-item'
 import { proTimeProps } from './props'
@@ -24,10 +24,10 @@ export default defineComponent({
       postState: convertStringToTimestamp,
     })
 
-    const {
-      bindValues,
-      placeholder,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+    )
 
     function convertStringToTimestamp(val: any) {
       const { postState } = props
@@ -46,17 +46,15 @@ export default defineComponent({
     const nPickerProps = computed<TimePickerProps>(() => {
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value as any,
+        ...parsedProps.value as any,
         'defaultValue': undefined,
         'formattedValue': undefined,
         'onUpdate:value': undefined,
         'defaultFormattedValue': undefined,
         'onUpdateFormattedValue': undefined,
         'onUpdate:formattedValue': undefined,
-
         'ref': pickerInstRef,
         'value': value.value,
-        'placeholder': placeholder.value,
         'onUpdateValue': doUpdateValue,
       }
     })
@@ -86,7 +84,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: this.nPickerProps,
+                bindProps: this.nPickerProps,
               },
               () => (
                 <NTimePicker

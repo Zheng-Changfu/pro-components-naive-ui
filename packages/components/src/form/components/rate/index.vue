@@ -3,7 +3,7 @@ import type { SlotsType } from 'vue'
 import { computed, defineComponent } from 'vue'
 import type { RateProps } from 'naive-ui'
 import { NRate } from 'naive-ui'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { ProFormItem } from '../../form-item'
 import { proRateProps } from './props'
 import type { ProRateSlots } from './slots'
@@ -19,17 +19,18 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const {
-      bindValues,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+      { placeholderIntoProps: false },
+    )
 
     const nRateProps = computed<RateProps>(() => {
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value,
+        ...parsedProps.value,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
-
         'value': value.value,
         'onUpdateValue': doUpdateValue,
       }
@@ -54,7 +55,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: this.nRateProps,
+                bindProps: this.nRateProps,
               },
               () => (
                 <NRate

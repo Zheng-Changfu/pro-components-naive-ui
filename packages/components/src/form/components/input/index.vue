@@ -4,7 +4,7 @@ import { computed, defineComponent, ref } from 'vue'
 import type { InputInst, InputProps } from 'naive-ui'
 import { NInput } from 'naive-ui'
 import { ProFormItem } from '../../form-item'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { proInputProps } from './props'
 import type { ProInputSlots } from './slots'
 import type { ProInputInstance } from './inst'
@@ -22,23 +22,21 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const {
-      bindValues,
-      placeholder,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+    )
 
     const nInputProps = computed<InputProps>(() => {
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value,
+        ...parsedProps.value,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
-
         'ref': nInputInstRef,
         'pair': false,
         'type': 'text',
         'value': value.value,
-        'placeholder': placeholder.value,
         'onUpdateValue': doUpdateValue,
       }
     })
@@ -73,7 +71,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: this.nInputProps,
+                bindProps: this.nInputProps,
               },
               () => (
                 <NInput

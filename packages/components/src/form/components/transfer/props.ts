@@ -1,8 +1,10 @@
 import type { SpinProps, TransferOption, TransferProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { MaybeExpression, UseRequestOptions } from 'pro-components-hooks'
+import type { MaybeExpression } from 'pro-components-hooks'
 import { proFormItemProps } from '../../form-item'
 import { proFieldProps } from '../../field'
+import type { UseInternalRequestOptions } from '../_internal/useInternalRequest'
+import type { ExtendPublicProps } from '../../../types'
 
 interface ProTransferFieldProps extends TransferProps {
   /**
@@ -41,7 +43,7 @@ export const proTransferProps = {
    * 请求配置
    */
   fetchConfig: {
-    type: Object as PropType<MaybeExpression<UseRequestOptions<any, any>> & { restoreValueOnFetched: boolean /** 请求结束后是否还原值并清空校验，防止匹配不到结果造成显示上的错误，默认 true */ }>,
+    type: Object as PropType<MaybeExpression<UseInternalRequestOptions>>,
     default: () => ({}),
   },
   /**
@@ -51,7 +53,7 @@ export const proTransferProps = {
     type: Array as PropType<MaybeExpression<string[]>>,
   },
   fieldProps: {
-    type: Object as PropType<MaybeExpression<Omit<
+    type: Object as PropType<MaybeExpression<ExtendPublicProps<Omit<
     ProTransferFieldProps,
     | 'value'
     | 'defaultValue'
@@ -59,7 +61,7 @@ export const proTransferProps = {
     | 'onUpdate:value'
     | 'sourceFilterPlaceholder'
     | 'targetFilterPlaceholder'
->>>,
+    >>>>,
     default: () => ({}),
   },
 } as const

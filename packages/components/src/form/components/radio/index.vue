@@ -3,7 +3,7 @@ import type { SlotsType } from 'vue'
 import { computed, defineComponent } from 'vue'
 import type { RadioProps } from 'naive-ui'
 import { NRadio } from 'naive-ui'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { ProFormItem } from '../../form-item'
 import { proRadioProps } from './props'
 import type { ProRadioSlots } from './slots'
@@ -19,17 +19,18 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const {
-      bindValues,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+      { placeholderIntoProps: false },
+    )
 
     const nRadioProps = computed<RadioProps>(() => {
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value,
+        ...parsedProps.value,
         'defaultChecked': undefined,
         'onUpdate:checked': undefined,
-
         'checked': value.value,
         'onUpdateChecked': doUpdateValue,
       }
@@ -54,7 +55,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: this.nRadioProps,
+                bindProps: this.nRadioProps,
               },
               () => (
                 <NRadio

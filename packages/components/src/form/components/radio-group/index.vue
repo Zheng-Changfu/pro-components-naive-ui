@@ -3,7 +3,7 @@ import type { SlotsType } from 'vue'
 import { computed, defineComponent } from 'vue'
 import type { RadioGroupProps } from 'naive-ui'
 import { NFlex, NRadio, NRadioGroup, NSpin } from 'naive-ui'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { ProFormItem } from '../../form-item'
 import { proRadioGroupProps } from './props'
 import type { ProRadioGroupSlots } from './slots'
@@ -21,24 +21,25 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const {
-      bindValues,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+      { placeholderIntoProps: false },
+    )
 
     const {
       loading,
       options,
       controls,
       setOptions,
-    } = useOptions(props, bindValues, field)
+    } = useOptions(props, parsedProps, field)
 
     const nRadioGroupProps = computed<RadioGroupProps>(() => {
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value as any,
+        ...parsedProps.value,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
-
         'value': value.value,
         'onUpdateValue': doUpdateValue,
       }
@@ -74,7 +75,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: { options, ...this.nRadioGroupProps },
+                bindProps: { options, ...this.nRadioGroupProps },
               },
               () => (
                 <NSpin

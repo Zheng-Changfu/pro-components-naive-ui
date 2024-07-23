@@ -3,6 +3,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
 import { proFormItemProps } from '../../form-item'
 import { proFieldProps } from '../../field'
+import type { ExtendPublicProps } from '../../../types'
 
 export const proSliderProps = {
   /**
@@ -14,13 +15,13 @@ export const proSliderProps = {
    */
   ...proFieldProps,
   fieldProps: {
-    type: Object as PropType<MaybeExpression<Omit<
+    type: Object as PropType<MaybeExpression<ExtendPublicProps<Omit<
     SliderProps,
     | 'value'
     | 'onUpdateValue'
     | 'onUpdate:value'
     | 'defaultValue'
->>>,
+    >>>>,
     default: () => ({}),
   },
 } as const

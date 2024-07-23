@@ -3,7 +3,7 @@ import type { SlotsType } from 'vue'
 import { computed, defineComponent } from 'vue'
 import type { TransferProps } from 'naive-ui'
 import { NSpin, NTransfer } from 'naive-ui'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { ProFormItem } from '../../form-item'
 import { proTransferProps } from './props'
 import type { ProTransferSlots } from './slots'
@@ -21,23 +21,24 @@ export default defineComponent({
       { defaultValue: [] },
     )
 
-    const {
-      bindValues,
-      placeholder,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+    )
 
     const {
       options,
       loading,
       controls,
       setOptions,
-    } = useOptions(props, bindValues, field)
+    } = useOptions(props, parsedProps, field)
 
     const nTransferProps = computed<TransferProps>(() => {
       const { value, doUpdateValue } = field
-      const [s, t] = placeholder.value ?? []
+      const { placeholder, ...restProps } = parsedProps.value
+      const [s, t] = placeholder ?? []
       return {
-        ...bindValues.value as any,
+        ...restProps,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
         'value': value.value,
@@ -76,7 +77,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: this.nTransferProps,
+                bindProps: this.nTransferProps,
               },
               () => (
                 <NSpin

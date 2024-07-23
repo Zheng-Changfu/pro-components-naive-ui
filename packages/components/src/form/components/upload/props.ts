@@ -3,6 +3,7 @@ import type { ExtractPublicPropTypes, MaybeRefOrGetter, PropType } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
 import { proFormItemProps } from '../../form-item'
 import { proFieldProps } from '../../field'
+import type { ExtendPublicProps } from '../../../types'
 
 export interface ProUploadFieldProps extends UploadProps {
   /**
@@ -44,13 +45,13 @@ export const proUploadProps = {
    */
   ...proFieldProps,
   fieldProps: {
-    type: Object as PropType<MaybeExpression<Omit<
+    type: Object as PropType<MaybeExpression<ExtendPublicProps<Omit<
       ProUploadFieldProps,
       | 'fileList'
       | 'defaultFileList'
       | 'onUpdate:fileList'
       | 'onUpdateFileList'
->>>,
+    >>>>,
     default: () => ({}),
   },
 } as const

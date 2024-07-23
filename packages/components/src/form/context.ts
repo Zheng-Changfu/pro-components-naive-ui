@@ -7,7 +7,7 @@ export const proFormInstanceContextKey = Symbol('proFormInstance') as InjectionK
 export const proFormReadonlyContextKey = Symbol('proFormReadonly') as InjectionKey<MaybeRef<boolean | undefined>>
 export const proFormItemRenderContextKey = Symbol('proFormItemRender') as InjectionKey<((
   opt: {
-    bindValues: FormItemProps
+    bindProps: FormItemProps
     bindSlots: Record<string, any>
   }) => VNodeChild) | undefined>
 

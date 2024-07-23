@@ -69,7 +69,7 @@ export const proFormExtendProps = {
    */
   formItemRender: Function as PropType<(
     opt: {
-      bindValues: FormItemProps
+      bindProps: FormItemProps
       bindSlots: Record<string, any>
     }) => VNodeChild>,
 } as const

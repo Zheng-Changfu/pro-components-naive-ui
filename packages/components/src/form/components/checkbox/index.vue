@@ -3,7 +3,7 @@ import type { SlotsType } from 'vue'
 import { computed, defineComponent, ref } from 'vue'
 import type { CheckboxInst, CheckboxProps } from 'naive-ui'
 import { NCheckbox } from 'naive-ui'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { ProFormItem } from '../../form-item'
 import { proCheckboxProps } from './props'
 import type { ProCheckboxSlots } from './slots'
@@ -22,17 +22,18 @@ export default defineComponent({
       { defaultValue: false },
     )
 
-    const {
-      bindValues,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+      { placeholderIntoProps: false },
+    )
 
     const nCheckboxProps = computed<CheckboxProps>(() => {
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value as any,
+        ...parsedProps.value,
         'defaultChecked': undefined,
         'onUpdate:checked': undefined,
-
         'ref': nCheckboxInst,
         'checked': value.value,
         'onUpdateChecked': doUpdateValue,
@@ -64,7 +65,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: this.nCheckboxProps,
+                bindProps: this.nCheckboxProps,
               },
               () => (
                 <NCheckbox

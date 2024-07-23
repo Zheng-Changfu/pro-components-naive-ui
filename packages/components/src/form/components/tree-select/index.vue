@@ -4,7 +4,7 @@ import { computed, defineComponent, ref } from 'vue'
 import type { TreeSelectInst, TreeSelectProps } from 'naive-ui'
 import { NTreeSelect } from 'naive-ui'
 import { get, isUndefined } from 'lodash-es'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { ProFormItem } from '../../form-item'
 import { proTreeSelectProps } from './props'
 import type { ProTreeSelectSlots } from './slots'
@@ -27,10 +27,10 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const {
-      bindValues,
-      placeholder,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+    )
 
     const {
       options,
@@ -39,21 +39,21 @@ export default defineComponent({
       keyToTreeSelectNodeMap,
       onLoad,
       setOptions,
-    } = useOptions(props, bindValues, field)
+    } = useOptions(props, parsedProps, field)
 
     const {
       expandedKeys,
       getExpandedKeys,
       setExpandedKeys,
       doUpdateExpandedKeys,
-    } = useExpandKeys(bindValues, { keyToTreeSelectNodeMap })
+    } = useExpandKeys(parsedProps, { keyToTreeSelectNodeMap })
 
     const {
       indeterminateKeys,
       getIndeterminateKeys,
       setIndeterminateKeys,
       doUpdateIndeterminateKeys,
-    } = useIndeterminateKeys(bindValues, { keyToTreeSelectNodeMap })
+    } = useIndeterminateKeys(parsedProps, { keyToTreeSelectNodeMap })
 
     const nTreeSelectProps = computed<TreeSelectProps>(() => {
       const { value, doUpdateValue } = field
@@ -64,7 +64,7 @@ export default defineComponent({
         expandAllOnFetchSuccess,
         filterEmptyChildrenField,
         ...rest
-      } = bindValues.value
+      } = parsedProps.value
       const loadFn = (remote || propOnLoad) ? onLoad : undefined
       return {
         ...rest as any,
@@ -73,12 +73,10 @@ export default defineComponent({
         'defaultExpandedKeys': undefined,
         'onUpdate:expandedKeys': undefined,
         'onUpdate:indeterminateKeys': undefined,
-
         'ref': nTreeSelectInstRef,
         'value': value.value,
         'loading': loading.value,
         'options': options.value,
-        'placeholder': placeholder.value,
         'expandedKeys': expandedKeys.value,
         'indeterminateKeys': indeterminateKeys.value,
         'onLoad': loadFn,
@@ -89,7 +87,7 @@ export default defineComponent({
     })
 
     controls.onSuccess(() => {
-      const { expandAllOnFetchSuccess } = bindValues.value
+      const { expandAllOnFetchSuccess } = parsedProps.value
       expandAllOnFetchSuccess && setExpandedKeys()
     })
 
@@ -118,7 +116,7 @@ export default defineComponent({
     function getEnabledKeys() {
       const keys: Array<string | number> = []
       const map = keyToTreeSelectNodeMap.value
-      const disabledField = bindValues.value.disabledField ?? 'disabled'
+      const disabledField = parsedProps.value.disabledField ?? 'disabled'
 
       const isEnabledNode = (node: Record<string, any>) => {
         return !get(node, disabledField)
@@ -133,7 +131,7 @@ export default defineComponent({
     }
 
     function setCheckedKeys(keys?: Array<string | number>) {
-      const { multiple } = bindValues.value
+      const { multiple } = parsedProps.value
       const map = keyToTreeSelectNodeMap.value
       const allKeys = [...map.keys()]
       if (keys) {
@@ -187,7 +185,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: this.nTreeSelectProps,
+                bindProps: this.nTreeSelectProps,
               },
               () => (
                 <NTreeSelect

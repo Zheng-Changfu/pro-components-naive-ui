@@ -3,6 +3,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
 import { proFormItemProps } from '../../form-item'
 import { proFieldProps } from '../../field'
+import type { ExtendPublicProps } from '../../../types'
 
 export const proCheckboxProps = {
   /**
@@ -14,12 +15,12 @@ export const proCheckboxProps = {
    */
   ...proFieldProps,
   fieldProps: {
-    type: Object as PropType<MaybeExpression<Omit<
+    type: Object as PropType<MaybeExpression<ExtendPublicProps<Omit<
     CheckboxProps,
     | 'defaultChecked'
     | 'onUpdateChecked'
     | 'onUpdate:checked'
-    >>>,
+    >>>>,
     default: () => ({}),
   },
 } as const

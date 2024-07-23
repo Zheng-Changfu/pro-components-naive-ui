@@ -3,6 +3,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
 import { proFormItemProps } from '../../form-item'
 import { proFieldProps } from '../../field'
+import type { ExtendPublicProps } from '../../../types'
 
 export const proDateQuarterRangeProps = {
   /**
@@ -20,7 +21,7 @@ export const proDateQuarterRangeProps = {
     type: Array as PropType<MaybeExpression<string[]>>,
   },
   fieldProps: {
-    type: Object as PropType<MaybeExpression<Omit<
+    type: Object as PropType<MaybeExpression<ExtendPublicProps<Omit<
     DatePickerProps,
     | 'value'
     | 'placeholder'
@@ -34,7 +35,7 @@ export const proDateQuarterRangeProps = {
     | 'defaultFormattedValue'
     | 'onUpdateFormattedValue'
     | 'onUpdate:formattedValue'
->>>,
+    >>>>,
     default: () => ({}),
   },
 } as const

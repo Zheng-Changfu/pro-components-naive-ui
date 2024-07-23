@@ -5,7 +5,7 @@ import type { DatePickerInst, DatePickerProps } from 'naive-ui'
 import { NDatePicker } from 'naive-ui'
 import dayjs from 'dayjs'
 import { isString } from 'lodash-es'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { ProFormItem } from '../../form-item'
 import { isEmptyValue } from '../../form-item/utils/valueUtil'
 import { proDateQuarterRangeProps } from './props'
@@ -24,10 +24,10 @@ export default defineComponent({
       postState: convertStringArrayToTimestampArray,
     })
 
-    const {
-      bindValues,
-      placeholder,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+    )
 
     function convertStringToTimestamp(val: any) {
       if (isEmptyValue(val)) {
@@ -56,9 +56,10 @@ export default defineComponent({
 
     const nPickerProps = computed<DatePickerProps>(() => {
       const { value, doUpdateValue } = field
-      const [sp, ep] = placeholder.value ?? []
+      const { placeholder, ...restProps } = parsedProps.value
+      const [sp, ep] = placeholder ?? []
       return {
-        ...bindValues.value as any,
+        ...restProps as any,
         'defaultTime': undefined,
         'defaultValue': undefined,
         'formattedValue': undefined,
@@ -68,7 +69,6 @@ export default defineComponent({
         'defaultCalendarEndTime': undefined,
         'onUpdate:formattedValue': undefined,
         'defaultCalendarStartTime': undefined,
-
         'ref': pickerInstRef,
         'value': value.value,
         'endPlaceholder': ep,
@@ -103,7 +103,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: this.nPickerProps,
+                bindProps: this.nPickerProps,
               },
               () => (
                 <NDatePicker

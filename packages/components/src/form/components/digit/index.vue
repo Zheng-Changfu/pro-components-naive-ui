@@ -3,7 +3,7 @@ import type { SlotsType } from 'vue'
 import { computed, defineComponent, ref } from 'vue'
 import type { InputNumberInst, InputNumberProps } from 'naive-ui'
 import { NInputNumber } from 'naive-ui'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { ProFormItem } from '../../form-item'
 import { proDigitProps } from './props'
 import type { ProDigitSlots } from './slots'
@@ -22,21 +22,19 @@ export default defineComponent({
       { defaultValue: null },
     )
 
-    const {
-      bindValues,
-      placeholder,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+    )
 
     const nDigitProps = computed<InputNumberProps>(() => {
       const { value, doUpdateValue } = field
       return {
-        ...bindValues.value,
+        ...parsedProps.value,
         'defaultValue': undefined,
         'onUpdate:value': undefined,
-
         'ref': nDigitInstRef,
         'value': value.value,
-        'placeholder': placeholder.value,
         'onUpdateValue': doUpdateValue,
       }
     })
@@ -67,7 +65,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: this.nDigitProps,
+                bindProps: this.nDigitProps,
               },
               () => (
                 <NInputNumber

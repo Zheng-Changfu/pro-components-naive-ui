@@ -6,7 +6,7 @@ import { NButton, NUpload } from 'naive-ui'
 import { uid } from 'pro-components-hooks'
 import { isArray, isString } from 'lodash-es'
 import { useInjectGlobalConfigContext } from '../../../config-provider'
-import { resolveField, useField, useFieldBindValues } from '../../field'
+import { resolveField, useField, useParseFieldProps } from '../../field'
 import { isEmptyValue } from '../../form-item/utils/valueUtil'
 import { ProFormItem } from '../../form-item'
 import { proUploadProps } from './props'
@@ -26,9 +26,11 @@ export default defineComponent({
       postState: convertValueToFile,
     })
 
-    const {
-      bindValues,
-    } = useFieldBindValues(field, props)
+    const parsedProps = useParseFieldProps(
+      props,
+      field,
+      { placeholderIntoProps: false },
+    )
 
     const {
       title: globalTitle,
@@ -81,7 +83,7 @@ export default defineComponent({
         onUnAccpetType: propOnUnAccpetType,
         onBeforeUpload: propOnBeforeUpload,
         onOverFileMaxSize: propOnOverFileMaxSize,
-      } = bindValues.value
+      } = parsedProps.value
 
       const fileSize = data.file.file?.size
       const fileName = data.file.file?.name
@@ -126,14 +128,13 @@ export default defineComponent({
         action: propAction,
         customRequest: propCustomRequest,
         ...rest
-      } = bindValues.value
+      } = parsedProps.value
       const action = propAction ?? globalAction
       const customRequest = propCustomRequest ?? globalCustomRequest
       return {
         ...rest,
         'defaultFileList': undefined,
         'onUpdate:fileList': undefined,
-
         'ref': nUploadInstRef,
         'fileList': value.value,
         action,
@@ -144,7 +145,7 @@ export default defineComponent({
     })
 
     const title = computed(() => {
-      const { title } = bindValues.value
+      const { title } = parsedProps.value
       return toValue(title) ?? toValue(globalTitle)
     })
 
@@ -175,7 +176,7 @@ export default defineComponent({
               $props.fieldRender,
               {
                 bindSlots: $slots,
-                bindValues: this.nUploadProps,
+                bindProps: this.nUploadProps,
               },
               () => (
                 <NUpload

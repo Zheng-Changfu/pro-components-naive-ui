@@ -3,6 +3,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
 import { proFormItemProps } from '../../form-item'
 import { proFieldProps } from '../../field'
+import type { ExtendPublicProps } from '../../../types'
 
 export const proPasswordProps = {
   /**
@@ -20,7 +21,16 @@ export const proPasswordProps = {
     type: String as PropType<MaybeExpression<string>>,
   },
   fieldProps: {
-    type: Object as PropType<MaybeExpression<Omit<InputProps, 'value' | 'placeholder' | 'onUpdateValue' | 'onUpdate:value' | 'type' | 'pair' | 'defaultValue'>>>,
+    type: Object as PropType<MaybeExpression<ExtendPublicProps<Omit<
+    InputProps,
+    | 'value'
+    | 'placeholder'
+    | 'onUpdateValue'
+    | 'onUpdate:value'
+    | 'type'
+    | 'pair'
+    | 'defaultValue'
+    >>>>,
     default: () => ({}),
   },
 } as const
