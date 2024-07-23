@@ -78,9 +78,8 @@ export default defineComponent({
     })
 
     field[proFieldConfigKey] = {
-      formItemInstRef,
-      formItemProps: nFormItemExcludeRuleProps,
       ...field[proFieldConfigKey],
+      nFormItemInstRef: formItemInstRef,
     }
 
     return {

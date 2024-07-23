@@ -5,7 +5,7 @@ import { computed } from 'vue'
 import { isArray, isUndefined } from 'lodash-es'
 import type { FormItemRule } from 'naive-ui'
 import { useInjectGlobalConfigContext } from '../../config-provider'
-import { ProFieldConfigKey } from '../field'
+import { proFieldConfigKey } from '../field'
 import { isEmptyValue } from './utils/valueUtil'
 
 export interface UseFormItemRuleOptions {
@@ -33,7 +33,7 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
   const { stringPath } = field
 
   const validateMessages = computed(() => {
-    return getValidateMessages?.(field[ProFieldConfigKey]) ?? {}
+    return getValidateMessages?.(field[proFieldConfigKey]) ?? {}
   })
 
   function getRuleMessage(rule: FormItemRule) {

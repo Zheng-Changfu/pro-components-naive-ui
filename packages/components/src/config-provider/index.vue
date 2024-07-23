@@ -33,9 +33,10 @@ export default defineComponent({
       proDateQuarterRange = {},
     } = props
 
-    function builtInRenderPlaceholder(options: ProFieldGlobalConfig) {
-      const { name, formItemProps } = options
-      const { label } = formItemProps.value
+    function builtInRenderPlaceholder(options: ProFieldGlobalConfig): string | [string, string] {
+      const { name, nFormItemMeta } = options
+      const { label } = nFormItemMeta.value
+
       switch (name) {
         case 'ProDate':
         case 'ProDateYear':
@@ -55,15 +56,15 @@ export default defineComponent({
         case 'ProDateQuarterRange':
           return ['开始季度', '结束季度']
         case 'ProTransfer':
-          return ['请输入', '请输入2']
+          return ['请输入', '请输入']
         default:
           return `请输入${toString(label)}`
       }
     }
 
     function builtInGetValidateMessages(options: ProFieldGlobalConfig): FormValidateMessages {
-      const { formItemProps } = options
-      const { label, path } = formItemProps.value
+      const { nFormItemMeta } = options
+      const { label, path } = nFormItemMeta.value
       const sLabel = toString(label)
       return {
         required: () => {
