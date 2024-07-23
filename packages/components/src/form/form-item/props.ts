@@ -63,14 +63,6 @@ export const proFormItemExtendProps = {
    * @param vnode 控件组的虚拟节点
    */
   fieldGroupRender: Function as PropType<FieldGroupRender>,
-  /**
-   * NFormItem 的类名
-   */
-  formItemClass: String as PropType<MaybeExpression<string>>,
-  /**
-   * NFormItem 的样式
-   */
-  formItemStyle: Object as PropType<MaybeExpression<CSSProperties>>,
 } as const
 
 /**

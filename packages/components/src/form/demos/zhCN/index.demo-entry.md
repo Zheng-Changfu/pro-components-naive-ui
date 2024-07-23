@@ -99,8 +99,6 @@ formApi.vue
 | fieldRender | `(opt: { bindValues:Record<string, any>, bindSlots: Record<string, any> }) => VNodeChild` | | 自定义渲染控件 |  |
 | formItemRender | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | | 自定义渲染 FormItem |  |
 | fieldGroupRender | `(opts: { vnode: VNodeChild }) => VNodeChild` | | 自定义渲染控件组（控件 + 前后缀插槽） |  |
-| formItemStyle | `CSSProperties` | | `NFormItem` 的样式 | |
-| formItemClass | `string` | | `NFormItem` 的类名 | |
 
 ### 控件的注意事项
 1. 所有表单控件的 `placeholder` 应该在控件的一级属性上直接书写，会透传给渲染的组件

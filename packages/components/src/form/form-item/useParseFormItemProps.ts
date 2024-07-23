@@ -22,8 +22,6 @@ export function useParseFormItemProps(
     labelProps,
     labelStyle,
     showFeedback,
-    formItemClass,
-    formItemStyle,
     feedbackClass,
     feedbackStyle,
     labelPlacement,
@@ -59,8 +57,6 @@ export function useParseFormItemProps(
   const parsedShowFeedback = useCompile(showFeedback!, { scope })
   const parsedFeedbackClass = useCompile(feedbackClass!, { scope })
   const parsedFeedbackStyle = useCompile(feedbackStyle!, { scope })
-  const parsedFormItemStyle = useCompile(formItemStyle!, { scope })
-  const parsedFormItemClass = useCompile(formItemClass!, { scope })
   const parsedLabelPlacement = useCompile(labelPlacement!, { scope })
   const parsedShowRequireMark = useCompile(showRequireMark!, { scope })
   const parsedValidationStatus = useCompile(validationStatus!, { scope })
@@ -76,8 +72,6 @@ export function useParseFormItemProps(
       first: parsedFirst.value,
       feedback: parsedFeedback.value,
       rulePath: parsedRulePath.value,
-      class: parsedFormItemClass.value,
-      style: parsedFormItemStyle.value,
       showLabel: parsedShowLabel.value,
       labelWidth: parsedLabelWidth.value,
       labelAlign: parsedLabelAlign.value,

@@ -170,7 +170,7 @@ export default defineComponent({
       <ProFormItem
         {...$props}
         fieldRender={undefined}
-        formItemClass="n-pro-form-item"
+        class="n-pro-form-item"
         v-slots={{
           default: () => {
             const creatorButtonVNode = renderCreatorButton()
