@@ -15,7 +15,7 @@ export default defineComponent({
     const [instRef, { getFetchControls }] = useProTransferInstance()
     async function fetchOptions() {
       await delay(1000)
-      return Array.from({ length: 100 }).map((v, i) => ({
+      return Array.from({ length: 100 }).map((_, i) => ({
         label: `Option ${i}`,
         value: i,
         disabled: i % 5 === 0,

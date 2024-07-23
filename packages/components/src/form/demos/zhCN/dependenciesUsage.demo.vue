@@ -54,7 +54,7 @@ export default defineComponent({
       path="function"
       required
       :dependencies="{
-        pattern: (path:string, paths:string[]) => path === 'input',
+        pattern: (path:string, _:string[]) => path === 'input',
       }"
     />
     <pro-input
@@ -65,7 +65,7 @@ export default defineComponent({
         'input',
         { pattern: 'object' },
         { pattern: /regexp/ },
-        { pattern: (path:string, paths:string[]) => path === 'function' },
+        { pattern: (path:string, _:string[]) => path === 'function' },
       ]"
     />
     <n-button type="primary" @click="restoreFieldsValue">

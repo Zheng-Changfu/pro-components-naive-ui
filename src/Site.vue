@@ -14,6 +14,8 @@ export default defineComponent({
     const loadingBar = useLoadingBar()
     const isMobileRef = useIsMobile()
     onMounted(() => {
+      // eslint-disable-next-line ts/ban-ts-comment
+      // @ts-expect-error
       loadingBarApiRef.value = loadingBar
       loadingBar.finish()
     })

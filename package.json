@@ -8,11 +8,12 @@
   "scripts": {
     "dev": "vite",
     "build:docs": "vite build",
-    "build:components": "pnpm --filter pro-components-naive-ui run build",
+    "build:components": "npm --filter pro-components-naive-ui run build",
     "test": "pnpm --filter pro-components-naive-ui run test",
     "preview": "vite preview",
     "lint:fix": "eslint . --fix",
-    "release": "pnpm lint:fix && pnpm build:components && pnpm changeset && pnpm changeset version && pnpm changeset publish"
+    "tsc": "vue-tsc --noEmit",
+    "release": "pnpm tsc && pnpm lint:fix && pnpm build:components && pnpm changeset && pnpm changeset version && pnpm changeset publish"
   },
   "dependencies": {
     "@css-render/plugin-bem": "^0.15.14",
@@ -26,7 +27,7 @@
     "katex": "^0.16.10",
     "lodash-es": "^4.17.21",
     "marked": "^12.0.2",
-    "pro-components-hooks": "^0.0.79",
+    "pro-components-hooks": "^0.1.0",
     "seemly": "^0.3.8",
     "vfonts": "^0.0.3",
     "vooks": "0.2.12",

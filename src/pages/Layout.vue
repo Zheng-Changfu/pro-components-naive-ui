@@ -15,7 +15,7 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute()
-    const layoutInstRef = ref(null)
+    const layoutInstRef = ref(null) as any
     const docOptionsRef = useDocOptions()
     const componentOptionsRef = useComponentOptions()
     const optionsRef = computed(() => {

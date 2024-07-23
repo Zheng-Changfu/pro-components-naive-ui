@@ -45,7 +45,7 @@ export default defineComponent({
     })
     const showCodeRef = ref(false)
     const showTsRef = ref(['tsx', 'ts'].includes(props.languageType))
-    const expandCodeButtonRef = ref(null)
+    const expandCodeButtonRef = ref(null) as any
     watch(showCodeRef, () => {
       nextTick(() => {
         expandCodeButtonRef.value.syncPosition()
@@ -138,7 +138,7 @@ export default defineComponent({
         type="segment"
         style="padding: 12px 24px 0 24px"
         :value="showTs ? 'ts' : 'js'"
-        @update:value="($e) => (showTs = ['ts', 'tsx'].includes($e))"
+        @update:value="($e:any) => (showTs = ['ts', 'tsx'].includes($e))"
       >
         <n-tab name="ts">
           TypeScript

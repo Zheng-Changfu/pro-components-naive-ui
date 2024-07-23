@@ -38,7 +38,7 @@ export default defineComponent({
       :field-props="{
         onlyAcceptImage: true,
       }"
-      :transform="(val, path) => {
+      :transform="(val:any, _:any) => {
         console.log(val, 'val')
       }"
     />
@@ -46,7 +46,7 @@ export default defineComponent({
       label="日期"
       path="date"
       required
-      :transform="(val, path) => ({ start: val[0], end: val[1] })"
+      :transform="(val:any, _:any) => ({ start: val[0], end: val[1] })"
     />
     <n-button type="primary" @click="submit">
       登录

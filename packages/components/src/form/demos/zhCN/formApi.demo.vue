@@ -217,7 +217,7 @@ export default defineComponent({
           console.log(
             matchPath('username'),
             matchPath(/.*/),
-            matchPath((path, paths) => path === 'password'),
+            matchPath((path, _) => path === 'password'),
           )
         }"
       >
