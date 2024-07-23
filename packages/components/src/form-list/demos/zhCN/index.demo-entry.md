@@ -10,6 +10,11 @@
 
 ```demo
 basic.vue
+minMax.vue
+guard.vue
+customAddAndRemoveProps.vue
+creatorInitialValue.vue
+linkFormList.vue
 ```
 
 ## API
