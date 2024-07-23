@@ -1,4 +1,4 @@
-import { computed, toRefs } from 'vue'
+import { computed, toRefs, useAttrs } from 'vue'
 import { useCompile, useInjectFieldContext } from 'pro-components-hooks'
 import type { FormItemProps } from 'naive-ui'
 import type { ProFormItemProps } from './props'
@@ -33,6 +33,8 @@ export function useParseFormItemProps(
     requireMarkPlacement,
   } = toRefs(props)
 
+  const attrs = useAttrs()
+
   const {
     scope,
   } = useInjectFieldContext()!
@@ -63,10 +65,12 @@ export function useParseFormItemProps(
   const parsedShowRequireMark = useCompile(showRequireMark!, { scope })
   const parsedValidationStatus = useCompile(validationStatus!, { scope })
   const parsedIgnorePathChange = useCompile(ignorePathChange!, { scope })
+  const parsedAttrs = useCompile(computed(() => ({ ...attrs })), { scope })
   const parsedRequireMarkPlacement = useCompile(requireMarkPlacement!, { scope })
 
   const nFormItemProps = computed<FormItemProps>(() => {
     return {
+      ...parsedAttrs.value,
       size: parsedSize.value,
       label: parsedLabel.value,
       first: parsedFirst.value,
