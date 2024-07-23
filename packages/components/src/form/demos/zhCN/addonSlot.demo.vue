@@ -34,8 +34,8 @@ export default defineComponent({
       <pro-select
         label="下拉"
         path="select"
-        class="w-200px"
         :field-props="{
+          class: 'w-200px',
           options: [
             {
               label: 'Drive My Car',

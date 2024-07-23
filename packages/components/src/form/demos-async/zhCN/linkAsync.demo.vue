@@ -56,9 +56,9 @@ export default defineComponent({
       label="省份"
       path="province"
       required
-      class="w-150px"
       :field-props="{
         clearable: true,
+        class: 'w-150px',
       }"
       :fetch-config="{
         api: fetchProvince,
@@ -68,10 +68,10 @@ export default defineComponent({
       label="城市"
       path="city"
       required
-      class="w-150px"
       value="{{ !$vals.province ? null : $self }}"
       :field-props="{
         clearable: true,
+        class: 'w-150px',
       }"
       dependencies="province"
       :fetch-config="{

@@ -17,7 +17,11 @@ export default defineComponent({
     <pro-input
       label="颜色"
       path="color"
-      :style="{ background: '{{ $self }}' }"
+      :field-props="{
+        style: {
+          background: '{{ $self }}',
+        },
+      }"
     />
   </pro-form>
 </template>

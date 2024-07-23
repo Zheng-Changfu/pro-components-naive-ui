@@ -20,17 +20,17 @@ export default defineComponent({
 
     function formItemGiRender(
       opt: {
-        bindValues: FormItemProps
+        bindProps: FormItemProps
         bindSlots: Record<string, any>
       },
     ) {
       const {
         bindSlots,
-        bindValues,
+        bindProps,
       } = opt
       return (
         <NCol span={12}>
-          <NFormItem {...bindValues} v-slots={bindSlots}></NFormItem>
+          <NFormItem {...bindProps} v-slots={bindSlots}></NFormItem>
         </NCol>
       )
     }

@@ -20,16 +20,16 @@ export default defineComponent({
 
     function renderInput(
       opt: {
-        bindValues: InputProps
+        bindProps: InputProps
         bindSlots: Record<string, any>
       },
     ) {
       const {
         bindSlots,
-        bindValues,
+        bindProps,
       } = opt
       return (
-        <NInput {...bindValues} class="bg-red" v-slots={bindSlots} />
+        <NInput {...bindProps} class="bg-red" v-slots={bindSlots} />
       )
     }
 

@@ -37,8 +37,10 @@ export default defineComponent({
       path="color"
       required
       initial-value="#ccc"
-      :style="{
-        background: '{{ $self }}',
+      :field-props="{
+        style: {
+          background: '{{ $self }}',
+        },
       }"
     />
     <pro-digit

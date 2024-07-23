@@ -37,8 +37,10 @@ export default defineComponent({
         v-if="isMounted"
         label="控制B表单input颜色"
         path="color"
-        :style="{
-          background: '{{ $bForm.$vals.color }}',
+        :field-props="{
+          style: {
+            background: '{{ $bForm.$vals.color }}',
+          },
         }"
       />
     </pro-form>
@@ -49,8 +51,10 @@ export default defineComponent({
         v-if="isMounted"
         label="控制A表单input颜色"
         path="color"
-        :style="{
-          background: '{{ $aForm.$vals.color }}',
+        :field-props="{
+          style: {
+            background: '{{ $aForm.$vals.color }}',
+          },
         }"
       />
     </pro-form>
