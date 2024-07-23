@@ -87,7 +87,7 @@ export default defineComponent({
     async function copy() {
       const { index } = props
       const insertIndex = index + 1
-      const row = form?.values.get(path.value) ?? {}
+      const row = form.getFieldValue(path.value) ?? {}
 
       if (props.actionGuard?.beforeAddRow) {
         const success = await props.actionGuard.beforeAddRow({
