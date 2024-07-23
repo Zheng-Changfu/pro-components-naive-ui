@@ -3,7 +3,7 @@ import type { FormInst, FormProps } from 'naive-ui'
 import { NForm } from 'naive-ui'
 import type { BaseField, Path } from 'pro-components-hooks'
 import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
-import { computed, defineComponent, provide, ref, toRef } from 'vue'
+import { computed, defineComponent, nextTick, provide, ref, toRef } from 'vue'
 import { isString, toPath } from 'lodash-es'
 import { useOmitProps } from '../hooks'
 import { useInjectGlobalConfigContext } from '../config-provider'
@@ -11,7 +11,7 @@ import { proFormItemRenderContextKey, proFormReadonlyContextKey, provideProFormI
 import { proFormExtendProps, proFormProps } from './props'
 import type { ProFormInstance } from './inst'
 import type { ProFieldConfig } from './field'
-import { ProFieldConfigKey } from './field'
+import { proFieldConfigKey } from './field'
 
 export default defineComponent({
   name: 'ProForm',
@@ -45,6 +45,8 @@ export default defineComponent({
       resetFieldValue,
       resetFieldsValue,
       setInitialValues,
+      pauseDependenciesTrigger,
+      resumeDependenciesTrigger,
       getFieldsTransformedValue,
     } = createForm({
       initialValues,
@@ -103,10 +105,7 @@ export default defineComponent({
         })
     }
 
-    let shouldTriggerValidate = true
     function validate(paths?: string | string[]) {
-      if (!shouldTriggerValidate)
-        return Promise.resolve({ warnings: undefined })
       if (!paths) {
         return formInstRef.value!.validate()
       }
@@ -125,26 +124,26 @@ export default defineComponent({
       const normalizedPaths = (isString(paths) ? [paths] : paths).map(stringifyPath) as Array<string>
       normalizedPaths.forEach((path) => {
         const field = fieldStore.fieldsPathMap.value.get(path)
-        if (!field || !field[ProFieldConfigKey])
+        if (!field || !field[proFieldConfigKey])
           return
-        const proFieldConfig: ProFieldConfig = field[ProFieldConfigKey]
-        const formItemInst = proFieldConfig.formItemInstRef.value
+        const proFieldConfig: ProFieldConfig = field[proFieldConfigKey]
+        const formItemInst = proFieldConfig.nFormItemInstRef.value
         formItemInst.restoreValidation()
       })
     }
 
     function restoreFieldValue(path: Path) {
-      shouldTriggerValidate = false
+      pauseDependenciesTrigger()
       resetFieldValue(path)
       restoreValidation(toPath(path))
-      shouldTriggerValidate = true
+      nextTick(resumeDependenciesTrigger)
     }
 
     function restoreFieldsValue() {
-      shouldTriggerValidate = false
+      pauseDependenciesTrigger()
       resetFieldsValue()
       restoreValidation()
-      shouldTriggerValidate = true
+      nextTick(resumeDependenciesTrigger)
     }
 
     const exposed: ProFormInstance = {
@@ -155,15 +154,17 @@ export default defineComponent({
       setFieldValue,
       getFieldsValue,
       setFieldsValue,
+      resetFieldValue,
       setInitialValue,
       setInitialValues,
-      restoreValidation,
-      resetFieldValue,
       resetFieldsValue,
+      restoreValidation,
       restoreFieldValue,
       restoreFieldsValue,
       getScope: () => scope,
+      pauseDependenciesTrigger,
       getFieldsTransformedValue,
+      resumeDependenciesTrigger,
     }
 
     expose(exposed)

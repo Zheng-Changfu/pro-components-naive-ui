@@ -13,6 +13,8 @@ BaseForm,
 | 'resetFieldsValue'
 | 'setInitialValue'
 | 'setInitialValues'
+| 'pauseDependenciesTrigger'
+| 'resumeDependenciesTrigger'
 | 'getFieldsTransformedValue'
 > & {
   /**
