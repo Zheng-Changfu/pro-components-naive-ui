@@ -1,32 +1,24 @@
 <markdown>
-  # 基本使用
+# 增删限制
 </markdown>
 
 <script lang="tsx">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const position = ref<'top' | 'bottom'>('bottom')
-    return {
-      position,
-    }
+    return {}
   },
 })
 </script>
 
 <template>
-  <n-radio-group v-model:value="position" class="mb-16px">
-    <n-flex>
-      <n-radio label="顶部" value="top" />
-      <n-radio label="底部" value="bottom" />
-    </n-flex>
-  </n-radio-group>
   <pro-form>
     <pro-form-list
       label="用户信息"
       path="userInfo"
-      :position="position"
+      :min="1"
+      :max="3"
       only-show-first-item-label
     >
       <pro-input

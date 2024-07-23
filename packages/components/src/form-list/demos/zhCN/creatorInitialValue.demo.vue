@@ -1,33 +1,31 @@
 <markdown>
-  # 基本使用
+# 新建一行的默认值
+
+必须要是一个函数哦~，原因和 `Vue2 data 必须是一个函数` 同理！
 </markdown>
 
 <script lang="tsx">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const position = ref<'top' | 'bottom'>('bottom')
-    return {
-      position,
-    }
+    return { }
   },
 })
 </script>
 
 <template>
-  <n-radio-group v-model:value="position" class="mb-16px">
-    <n-flex>
-      <n-radio label="顶部" value="top" />
-      <n-radio label="底部" value="bottom" />
-    </n-flex>
-  </n-radio-group>
   <pro-form>
     <pro-form-list
       label="用户信息"
       path="userInfo"
-      :position="position"
       only-show-first-item-label
+      :initial-value="[
+        { name: 'zcf', age: 26 },
+        { name: 'zzx', age: 0.5 },
+        { name: 'cxh', age: 28 },
+      ]"
+      :creator-initial-value="() => ({ name: 'Name', age: 0 })"
     >
       <pro-input
         label="姓名"
