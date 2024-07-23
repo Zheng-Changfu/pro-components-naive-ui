@@ -1,7 +1,7 @@
 import { createField } from 'pro-components-hooks'
 import { computed, toRef, useSlots } from 'vue'
 import type { ProFieldConfig } from './fieldCustomKeys'
-import { ProFieldConfigKey } from './fieldCustomKeys'
+import { proFieldConfigKey } from './fieldCustomKeys'
 import type { ProFieldProps } from './props'
 
 export function useField(
@@ -35,13 +35,11 @@ export function useField(
     ...(options as any),
   })
 
-  const fieldConfig: Partial<ProFieldConfig> = {
+  field[proFieldConfigKey] = {
     name,
     slots,
     value: computed(() => field.value.value),
-  }
-
-  field[ProFieldConfigKey] = fieldConfig
+  } as Partial<ProFieldConfig>
 
   return field
 }

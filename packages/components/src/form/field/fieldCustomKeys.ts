@@ -15,13 +15,13 @@ export interface ProFieldConfig {
    */
   slots: Record<string, any>
   /**
-   * n-form-item 编译后的属性
+   * n-form-item 解析后的属性
    */
-  formItemProps: ComputedRef<Omit<FormItemProps, 'rule'>>
+  nFormItemProps: ComputedRef<Omit<FormItemProps, 'rule'>>
   /**
    * n-form-item 的实例
    */
-  formItemInstRef: Ref<FormItemInst>
+  nFormItemInstRef: Ref<FormItemInst>
 }
 
-export const ProFieldConfigKey = 'x-pro-field-config'
+export const proFieldConfigKey = 'x-pro-field-config'

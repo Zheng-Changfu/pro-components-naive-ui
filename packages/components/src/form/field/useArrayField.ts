@@ -1,6 +1,7 @@
 import { createArrayField } from 'pro-components-hooks'
 import { computed, toRef, useSlots } from 'vue'
-import { type ProFieldConfig, ProFieldConfigKey } from './fieldCustomKeys'
+import type { ProFieldConfig } from './fieldCustomKeys'
+import { proFieldConfigKey } from './fieldCustomKeys'
 import type { ProFieldProps } from './props'
 
 export function useArrayField(
@@ -34,13 +35,11 @@ export function useArrayField(
     ...(options as any),
   })
 
-  const fieldConfig: Partial<ProFieldConfig> = {
+  field[proFieldConfigKey] = {
     name,
     slots,
     value: computed(() => field.value.value),
-  }
-
-  field[ProFieldConfigKey] = fieldConfig
+  } as Partial<ProFieldConfig>
 
   return field
 }

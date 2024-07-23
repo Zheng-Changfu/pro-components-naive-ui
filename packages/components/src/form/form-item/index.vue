@@ -4,7 +4,7 @@ import { Fragment, computed, defineComponent, ref } from 'vue'
 import type { FormItemInst, FormItemProps } from 'naive-ui'
 import { NFlex, NFormItem } from 'naive-ui'
 import { useInjectFieldContext } from 'pro-components-hooks'
-import { ProFieldConfigKey } from '../field'
+import { proFieldConfigKey } from '../field'
 import { proFormItemProps } from './props'
 import type { ProFormItemSlots } from './slots'
 import { useFormItemRule } from './useFormItemRule'
@@ -55,12 +55,12 @@ export default defineComponent({
     const {
       addonAfterSlot,
       addonBeforeSlot,
-    } = useAddonSlotRenderer(field[ProFieldConfigKey])
+    } = useAddonSlotRenderer(field[proFieldConfigKey])
 
     const {
       renderReadonly,
       renderReadonlyEmpty,
-    } = useReadonlyRenderer(props, field[ProFieldConfigKey])
+    } = useReadonlyRenderer(props, field[proFieldConfigKey])
 
     const nFormItemExcludeRuleProps = computed<Omit<FormItemProps, 'rule'>>(() => {
       return {
@@ -77,10 +77,10 @@ export default defineComponent({
       }
     })
 
-    field[ProFieldConfigKey] = {
+    field[proFieldConfigKey] = {
       formItemInstRef,
       formItemProps: nFormItemExcludeRuleProps,
-      ...field[ProFieldConfigKey],
+      ...field[proFieldConfigKey],
     }
 
     return {
@@ -101,7 +101,6 @@ export default defineComponent({
       empty,
       $props,
       $slots,
-      $attrs,
       simple,
       readonly,
       nFormItemProps,
@@ -167,7 +166,7 @@ export default defineComponent({
       $props.formItemRender,
       {
         bindSlots: nFormItemSlots,
-        bindValues: { ...$attrs, ...nFormItemProps },
+        bindProps: nFormItemProps,
       },
       () => (
         <NFormItem
