@@ -50,9 +50,9 @@ export default defineNuxtConfig({
 在这种情况下，`nuxt.config.ts` 会比上面的例子多几行配置。
 
 ```ts
-import AutoImport from 'unplugin-auto-import/vite';
-import Components from 'unplugin-vue-components/vite';
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -77,7 +77,7 @@ export default defineNuxtConfig({
       })
     ]
   }
-});
+})
 ```
 
 ## Vite 示例

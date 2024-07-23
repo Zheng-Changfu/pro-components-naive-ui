@@ -25,4 +25,3 @@ auth.vue
 | tooltip | `string \| string[]` | `undefined` | 提示文字，单行使用字符串表示，多行使用字符串数组表示，禁用时不生效 |  |
 | disabledTooltip | `string \| string[]` | `undefined` | 禁用时的提示文字，单行使用字符串表示，多行使用字符串数组表示，非禁用时不生效 |  |
 | auth | `any` | `undefined` | 权限编码，可以是任意数据，配合 `ProConfigProvider` 使用 |  |
-

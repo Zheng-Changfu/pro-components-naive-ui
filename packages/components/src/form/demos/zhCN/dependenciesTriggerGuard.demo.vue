@@ -1,7 +1,7 @@
 <markdown>
 # 拦截 dependencies 的校验
 
-使用 `triggerGuard` 拦截由 `dependencies` 触发的校验，可能在某一些异步场景时会用到
+使用 `guard` 拦截由 `dependencies` 触发的校验，可能在某一些异步场景时会用到
 </markdown>
 
 <script lang="tsx">
@@ -12,13 +12,13 @@ export default defineComponent({
   setup() {
     const message = useMessage()
 
-    function validateTriggerGuard() {
+    function validateGuard() {
       message.info('校验被我拦截了')
       return false
     }
 
     return {
-      validateTriggerGuard,
+      validateGuard,
     }
   },
 })
@@ -35,8 +35,8 @@ export default defineComponent({
       path="object"
       required
       :dependencies="{
-        match: 'input',
-        triggerGuard: validateTriggerGuard,
+        pattern: 'input',
+        guard: validateGuard,
       }"
     />
   </pro-form>

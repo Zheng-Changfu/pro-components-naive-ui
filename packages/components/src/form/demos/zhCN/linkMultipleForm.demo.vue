@@ -15,16 +15,16 @@ export default defineComponent({
     const [aInstRef, { getScope: getAFormScope }] = useProFormInstance()
     const [bInstRef, { getScope: getBFormScope }] = useProFormInstance()
 
-    const expressionScope = {
+    const scope = {
       $aForm: computed(() => getAFormScope()),
       $bForm: computed(() => getBFormScope()),
     }
 
     return {
+      scope,
       aInstRef,
       bInstRef,
       isMounted,
-      expressionScope,
     }
   },
 })
@@ -32,7 +32,7 @@ export default defineComponent({
 
 <template>
   <n-card :bordered="false" title="A表单">
-    <pro-form ref="aInstRef" label-placement="left" label-width="auto" :expression-scope="expressionScope">
+    <pro-form ref="aInstRef" label-placement="left" label-width="auto" :scope="scope">
       <pro-input
         v-if="isMounted"
         label="控制B表单input颜色"
@@ -44,7 +44,7 @@ export default defineComponent({
     </pro-form>
   </n-card>
   <n-card :bordered="false" title="B表单">
-    <pro-form ref="bInstRef" label-placement="left" label-width="auto" :expression-scope="expressionScope">
+    <pro-form ref="bInstRef" label-placement="left" label-width="auto" :scope="scope">
       <pro-input
         v-if="isMounted"
         label="控制A表单input颜色"

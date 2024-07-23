@@ -34,7 +34,7 @@ linkAsync.vue
 | restoreValueOnFetched | `boolean` | `true` | 请求结束后是否还原值并清空校验，防止匹配不到结果造成显示上的错误，默认 true |
 | successTip | `string \| false \| ((response: any) => string \| false)` | | 请求成功后的提示，false 则不提示，可以在全局统一配置  |  |
 | failureTip | `string \| false \| ((error: any) => string \| false)` | | 请求失败后的提示，false 则不提示，可以在全局统一配置  |  |
-| dependencies | `{ watch: MaybeArray<WatchSource>; apiGuard?: MaybeRefOrGetter<boolean> }` | | 依赖项，当依赖发生变化时，触发 apiGrard，通过拦截器后，会重新调用 api |  |
+| dependencies | `{ watch: MaybeArray<WatchSource>; guard?: MaybeRefOrGetter<boolean> }` | | 依赖项，当依赖发生变化时，触发 guard，通过拦截器后，会重新调用 api |  |
 | onSuccess | `(response: any) => void` | | 请求成功后调用的回调 |  |
 | onFailure | `(error: any) => void` | | 请求失败后调用的回调 |  |
 | tipApi | `(type: 'success' \| 'failure', tipText: string, dataOrError: any) => void` | | 用什么形式去提示，可以在全局统一配置 |  |

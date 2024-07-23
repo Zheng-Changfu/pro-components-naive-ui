@@ -50,9 +50,9 @@ You can also use the `unplugin-auto-import` plugin to automatically import APIs 
 In this case, the `nuxt.config.ts` file will have a few additional configuration lines compared to the example above.
 
 ```ts
-import AutoImport from 'unplugin-auto-import/vite';
-import Components from 'unplugin-vue-components/vite';
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -77,7 +77,7 @@ export default defineNuxtConfig({
       })
     ]
   }
-});
+})
 ```
 
 ## Vite Example

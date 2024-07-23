@@ -36,6 +36,7 @@ export default defineComponent({
         show-label="{{ $index === 0 }}"
         label="姓名1"
         path="nameExpression"
+        a="{{ !!$row.nameExpression }}"
       />
       <pro-input
         show-label="{{ $index === 0 }}"

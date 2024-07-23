@@ -1,7 +1,7 @@
 <markdown>
 # 案例-注册
 
-扩展了 `dependencies` 属性，用来监控值的变化触发自身校验
+使用 `dependencies` 属性，用来监控值的变化触发自身校验
 </markdown>
 
 <script lang="tsx">

@@ -6,7 +6,7 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { useProFormInstance, useProSelectInstance } from 'pro-components-naive-ui'
+import { useProFormInstance } from 'pro-components-naive-ui'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))
@@ -15,7 +15,6 @@ function delay(time: number) {
 export default defineComponent({
   setup() {
     const [instRef, { getFieldValue }] = useProFormInstance()
-    const [sInstRef, { getFetchControls }] = useProSelectInstance()
 
     async function fetchProvince() {
       await delay(500)
@@ -42,17 +41,10 @@ export default defineComponent({
           ]
     }
 
-    function triggerGuard() {
-      const loading = getFetchControls().loading.value
-      return !loading
-    }
-
     return {
       instRef,
-      sInstRef,
       fetchCity,
       fetchProvince,
-      triggerGuard,
     }
   },
 })
@@ -73,7 +65,6 @@ export default defineComponent({
       }"
     />
     <pro-select
-      ref="sInstRef"
       label="城市"
       path="city"
       required
@@ -82,16 +73,13 @@ export default defineComponent({
       :field-props="{
         clearable: true,
       }"
-      :dependencies="{
-        match: 'province',
-        triggerGuard,
-      }"
+      dependencies="province"
       :fetch-config="{
         api: fetchCity,
         immediate: false,
         dependencies: {
           watch: '{{ $vals.province }}',
-          apiGuard: '{{ !!$vals.province }}',
+          guard: '{{ !!$vals.province }}',
         },
       }"
     />

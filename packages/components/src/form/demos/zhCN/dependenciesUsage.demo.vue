@@ -38,7 +38,7 @@ export default defineComponent({
       path="object"
       required
       :dependencies="{
-        match: 'input',
+        pattern: 'input',
       }"
     />
     <pro-date
@@ -46,7 +46,7 @@ export default defineComponent({
       path="regexp"
       required
       :dependencies="{
-        match: /.*/,
+        pattern: /.*/,
       }"
     />
     <pro-digit
@@ -54,7 +54,7 @@ export default defineComponent({
       path="function"
       required
       :dependencies="{
-        match: (path:string, paths:string[]) => path === 'input',
+        pattern: (path:string, paths:string[]) => path === 'input',
       }"
     />
     <pro-input
@@ -63,9 +63,9 @@ export default defineComponent({
       required
       :dependencies="[
         'input',
-        { match: 'object' },
-        { match: /regexp/ },
-        { match: (path:string, paths:string[]) => path === 'function' },
+        { pattern: 'object' },
+        { pattern: /regexp/ },
+        { pattern: (path:string, paths:string[]) => path === 'function' },
       ]"
     />
     <n-button type="primary" @click="restoreFieldsValue">

@@ -40,12 +40,12 @@ formApi.vue
 
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
-| expressionScope | `Record<string, any>` | | 表达式可以读取到的作用域，浅合并，优先级比全局高 |  |
+| scope | `Record<string, any>` | | 表达式可以读取到的作用域，浅合并，优先级比全局高 |  |
 | initialValues | `Object` | | 表单初始值 |  |
 | onSubmit | `(values: Record<string, any>, warnings: ValidateError[][]) => void` | | 数据验证成功后回调事件 |  |
 | onSubmitFailed | `(errors: ValidateError[][]) => void` | | 数据验证失败后回调事件 |  |
 | onFieldValueChange | `(opt: { field: BaseField \| ArrayField, value:any }) => void` | | 字段值发生变化时触发的回调函数 |  |
-| onDependenciesValueChange | `(opt: { path: string[], depPath: string[], value: any }) => void` | | 依赖项的值发生变化时触发的回调函数 |  |
+| onDependenciesValueChange | `(opt: { path: string[], dependPath: string[], value: any }) => void` | | 依赖项的值发生变化时触发的回调函数 |  |
 | formItemRender | `(opt: { bindValues: FormItemProps, bindSlots: Record<string, any> }) => VNodeChild` | | 自定义渲染 formItem，优先级比 ProFormItem 低 |  |
 
 ### ProForm 不兼容属性
@@ -74,6 +74,8 @@ formApi.vue
 | submit | `() => void` | 提交表单 |  |
 | restoreValidation | `(paths?: string \| string[]) => ReturnType< FormInst['restoreValidation'] >` | 清空单个字段、多个字段或表单的校验 |  |
 | getScope | `() => Record<string,any>` | 获取表单的表达式作用域对象 |  |
+| pauseDependenciesTrigger | `() => void` | 暂停 `onDependenciesValueChange` 的触发 | |
+| resumeDependenciesTrigger | `() => void` | 恢复 `onDependenciesValueChange` 的触发 | |
 
 ### 控件新增 Props
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
@@ -191,12 +193,13 @@ formApi.vue
 | ProTreeSelect | 树型选择 | ✅ | `useProTreeSelect` |
 
 ### 表达式内置变量
+可以在 `ProConfigProvider` 组件中注入额外的变量
 | 名称 | 别名 | 说明 | 版本 |
 | --- | --- | --- | --- |
 | $self | | 当前字段值 | |
 | $values | $vals | 整个表单的值，包含了已经被隐藏的字段和用户设置的字段 | |
 | $row | $record | 当前行的值，只会在 `ProFormList` 中生效，其他返回的是空对象 | |
-| $length | $len | 当前所在列表的长度，只会在 `ProFormList` 中生效，其他返回的是 0 | |
+| $total | | 当前所在列表的长度，只会在 `ProFormList` 中生效，其他返回的是 0 | |
 | $rowIndex | $index | 当前字段在列表中的索引，只会在 `ProFormList` 中生效，其他返回的是 -1 | |
 
 ### 支持表达式的属性

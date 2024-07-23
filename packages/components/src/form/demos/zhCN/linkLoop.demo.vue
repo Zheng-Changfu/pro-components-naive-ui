@@ -22,7 +22,7 @@ export default defineComponent({
   <pro-form
     label-placement="left"
     label-width="auto"
-    :expression-scope="{
+    :scope="{
       $empty: isEmpty,
     }"
   >
