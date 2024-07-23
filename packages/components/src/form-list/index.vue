@@ -13,7 +13,7 @@ import { proFormListProps } from './props'
 import type { ProFormListSlots } from './slots'
 import type { ProFormListInstance } from './inst'
 import { AUTO_CREATE_ID, provideProFormListInstanceContext } from './context'
-import { useCompileFormListProps } from './useCompileFormListProps'
+import { useParseFormListProps } from './useParseFormListProps'
 import { ProFormListItem } from './form-list-item'
 import style from './styles/index.cssr'
 
@@ -40,12 +40,11 @@ export default defineComponent({
     const {
       min,
       max,
-      attrs,
       copyButtonProps,
       removeButtonProps,
       position: parsedPosition,
       creatorButtonProps: parsedCreatorButtonProps,
-    } = useCompileFormListProps(props, field.scope)
+    } = useParseFormListProps(props, field.scope)
 
     const position = computed(() => parsedPosition.value ?? 'bottom')
     const creatorButtonText = '添加一行数据' // TODO: 国际化配置
@@ -96,10 +95,10 @@ export default defineComponent({
           index: -1,
           insertIndex,
         })
-        success && field.insert(insertIndex, creatorInitialValue ?? {})
+        success && field.insert(insertIndex, creatorInitialValue?.() ?? {})
       }
       else {
-        field.insert(insertIndex, creatorInitialValue ?? {})
+        field.insert(insertIndex, creatorInitialValue?.() ?? {})
       }
     }
 
@@ -134,7 +133,6 @@ export default defineComponent({
       min,
       max,
       list,
-      attrs,
       total,
       position,
       action: exposed,
@@ -163,7 +161,16 @@ export default defineComponent({
       if (max !== undefined && total >= max) {
         return null
       }
-      return <ProButton {...creatorButtonProps}>{creatorButtonText}</ProButton>
+      return (
+        <ProButton
+          {...creatorButtonProps}
+          style={{
+            marginBlockEnd: position === 'top' ? '24px' : 0,
+          }}
+        >
+          {creatorButtonText}
+        </ProButton>
+      )
     }
 
     return (
@@ -186,6 +193,7 @@ export default defineComponent({
                   actionRender={$props.actionRender}
                   copyButtonProps={this.copyButtonProps}
                   removeButtonProps={this.removeButtonProps}
+                  onlyShowFirstItemLabel={$props.onlyShowFirstItemLabel}
                   v-slots={$slots}
                 />
               )
@@ -208,8 +216,6 @@ export default defineComponent({
               },
               () => fieldVNode,
             )
-
-            return listVNode
 
             return (
               {/* <TransitionGroup

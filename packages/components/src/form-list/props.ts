@@ -68,11 +68,18 @@ export const proFormListProps = {
   /**
    * 最多行数，新增或复制时多于该数则无法新增或复制
    */
-  max: [String, Number] as PropType<MaybeExpression<number>>,
+  max: [Number] as PropType<MaybeExpression<number>>,
+  /**
+   * 只显示第一行的 label
+   */
+  onlyShowFirstItemLabel: {
+    type: Boolean,
+    default: false,
+  },
   /**
    * 新增一行的默认值
    */
-  creatorInitialValue: Object,
+  creatorInitialValue: Function as PropType<() => Record<string, any>>,
   /**
    * 新增一行按钮的属性，false 不显示
    */

@@ -1,13 +1,15 @@
 <script lang='tsx'>
 import type { SlotsType } from 'vue'
-import { Fragment, computed, defineComponent, inject, toRef } from 'vue'
+import { Fragment, computed, defineComponent, inject, provide, toRef } from 'vue'
 import { useInjectFormContext, useInjectParentFieldContext } from 'pro-components-hooks'
-import { NFlex, NIcon, useThemeVars } from 'naive-ui'
+import { NFlex, NFormItem, NIcon, useThemeVars } from 'naive-ui'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
 import { omit } from 'lodash-es'
 import type { ProButtonProps } from '../../button'
 import { ProButton } from '../../button'
 import { AUTO_CREATE_ID, useInjectProFormListInstanceContext } from '../context'
+import { proFormItemRenderContextKey } from '../../form/context'
+import type { FormItemRender } from '../../form/form-item'
 import { proFormListItemProps } from './props'
 import { resolveAction, resolveItem } from './resolveRender'
 import type { ProFormListItemSlots } from './slots'
@@ -23,6 +25,7 @@ export default defineComponent({
     const nFormItem = inject<any>('n-form-item')
     const field = useInjectParentFieldContext()!
     const action = useInjectProFormListInstanceContext()
+    const injectedFormItemRender = inject(proFormItemRenderContextKey)
     const { path } = useProvidePath(toRef(props, 'index')) // 处理嵌套路径
 
     const total = computed(() => {
@@ -116,6 +119,24 @@ export default defineComponent({
       }
     }
 
+    function formItemRender(opt: Parameters<FormItemRender>['0']) {
+      if (injectedFormItemRender) {
+        return injectedFormItemRender(opt)
+      }
+      return (
+        <NFormItem
+          {...opt.bindProps}
+          showLabel={props.index === 0}
+          v-slots={opt.bindSlots}
+        >
+        </NFormItem>
+      )
+    }
+
+    if (props.onlyShowFirstItemLabel) {
+      provide(proFormItemRenderContextKey, formItemRender)
+    }
+
     return {
       total,
       action,
@@ -202,7 +223,7 @@ export default defineComponent({
       () => (
         <div style={{
           display: 'flex',
-          gap: '16px',
+          gap: '0 16px',
           flexWrap: 'wrap',
           alignItems: 'flex-end',
         }}

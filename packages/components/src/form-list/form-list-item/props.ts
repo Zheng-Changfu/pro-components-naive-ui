@@ -12,6 +12,10 @@ export const proFormListItemProps = {
   itemRender: Function as PropType<ItemRender>,
   actionRender: Function as PropType<ActionRender>,
   actionGuard: Object as PropType<Partial<ActionGuard>>,
+  onlyShowFirstItemLabel: {
+    type: Boolean,
+    default: false,
+  },
   copyButtonProps: {
     type: [Object, Boolean] as PropType<ProButtonProps | false>,
     default: undefined,
