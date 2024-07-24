@@ -53,6 +53,7 @@ export default defineComponent({
   render() {
     const {
       pass,
+      $props,
       $attrs,
       $slots,
       nButtonProps,
@@ -73,7 +74,15 @@ export default defineComponent({
               <NButton
                 {...$attrs}
                 {...nButtonProps}
-                v-slots={$slots}
+                v-slots={{
+                  ...$slots,
+                  default: () => {
+                    if ($props.content) {
+                      return $props.content
+                    }
+                    return $slots.default?.()
+                  },
+                }}
               />
             )
           },

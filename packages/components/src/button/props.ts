@@ -35,6 +35,10 @@ export const proButtonExtendProps = {
     type: undefined as any as PropType<any>,
     default: undefined,
   },
+  /**
+   * 按钮文本
+   */
+  content: String,
 } as const
 
 export const proButtonProps = {
