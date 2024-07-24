@@ -1,6 +1,7 @@
 <script lang="tsx">
 import type { SlotsType } from 'vue'
 import { Fragment, computed, defineComponent, nextTick } from 'vue'
+import type { ArrayFieldAction } from 'pro-components-hooks'
 import { uid } from 'pro-components-hooks'
 import { isArray } from 'lodash-es'
 import { NIcon } from 'naive-ui'
@@ -34,7 +35,6 @@ export default defineComponent({
     const field = useArrayField('ProFormList', props, {
       defaultValue: [],
       postState: autoCreateRowId,
-      onActionChange: validateList,
     })
 
     const total = computed(() => {
@@ -87,7 +87,7 @@ export default defineComponent({
         : normalizedVals
     }
 
-    function validateList(action: FormListAction) {
+    function validateList(action: ArrayFieldAction) {
       if ([
         'pop',
         'push',
@@ -119,6 +119,8 @@ export default defineComponent({
         field.insert(insertIndex, creatorInitialValue?.() ?? {})
       }
     }
+
+    field.onActionChange(validateList)
 
     const {
       pop,
