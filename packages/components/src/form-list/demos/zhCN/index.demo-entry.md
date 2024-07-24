@@ -15,6 +15,11 @@ guard.vue
 customAddAndRemoveProps.vue
 creatorInitialValue.vue
 linkFormList.vue
+customItemRender.vue
+customActionRender.vue
+customFieldRender.vue
+horizontalLayout.vue
+listNest.vue
 ```
 
 ## API
