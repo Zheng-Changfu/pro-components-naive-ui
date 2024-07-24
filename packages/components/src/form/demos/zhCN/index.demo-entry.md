@@ -1,10 +1,5 @@
 # 表单 ProForm
 <!--single-column-->
-<n-flex vertical>
-    <n-alert type="success" title="提示" show-icon :bordered="false">
-    增加了太多功能，自己看演示吧<br />
-  </n-alert>
-</n-flex>
 
 ## 演示
 
@@ -36,7 +31,7 @@ formApi.vue
 
 ## API
 ### ProForm 新增 Props
-支持 `NaiveUI NForm` 组件的原来属性，下方为扩展的属性
+<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>支持 NaiveUI NForm 组件的原来属性，下方为扩展的属性</div>
 
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
@@ -56,6 +51,8 @@ formApi.vue
 | rules | 校验规则在控件上写 |  |
 
 ### ProForm Methods
+<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>使用 ref 或者 useProFormInstance 可以拿到组件方法，子组件中可以使用 useInjectProFormInstanceContext 方法直接注入</div>
+
 | 名称 | 类型 | 说明 | 版本 |
 | --- | --- | --- | --- |
 | matchPath | `(pathMatch: PathMatch) => string[]` | 匹配字段，返回匹配到的字段数组 |  |
@@ -78,6 +75,8 @@ formApi.vue
 | resumeDependenciesTrigger | `() => void` | 恢复 `onDependenciesValueChange` 的触发 | |
 
 ### 控件新增 Props
+<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>支持 NaiveUI NFormItem 组件的原来属性，下方为扩展的属性</div>
+
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
 | simple | `boolean` | `false` | 精简模式，不包装 FormItem |  |

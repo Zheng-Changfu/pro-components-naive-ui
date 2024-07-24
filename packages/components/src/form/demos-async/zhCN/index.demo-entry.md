@@ -1,10 +1,5 @@
 # 异步控件
 <!--single-column-->
-<n-flex vertical>
-    <n-alert type="success" title="提示" show-icon :bordered="false">
-    支持请求获取数据源<br />
-  </n-alert>
-</n-flex>
 
 ## 演示
 
@@ -27,7 +22,7 @@ linkAsync.vue
 
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
-| initialValue | `any` | `undefined` | 初始值，请求前 `data` 的值  |  |
+| initialValue | `any` | | 初始值，请求前 `data` 的值  |  |
 | immediate | `boolean` | `true` | 是否立即触发一次  |  |
 | api | `(...args: any[]) => any` | | 请求函数  |  |
 | transform | `(response:any) => any` | | 转换响应结果  |  |
@@ -38,7 +33,7 @@ linkAsync.vue
 | onSuccess | `(response: any) => void` | | 请求成功后调用的回调 |  |
 | onFailure | `(error: any) => void` | | 请求失败后调用的回调 |  |
 | tipApi | `(type: 'success' \| 'failure', tipText: string, dataOrError: any) => void` | | 用什么形式去提示，可以在全局统一配置 |  |
-| debounceTime | `number` | 500 | 防抖时间，单位 ms，只对 `ProSelect` 且 `remote` 为 `true` 时有效  |  |
+| debounceTime | `number` | `500` | 防抖时间，单位 ms，只对 `ProSelect` 且 `remote` 为 `true` 时有效  |  |
 
 ### 通用方法
 `除了支持组件本身的方法外，还加了一些通用的方法`

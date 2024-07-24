@@ -1,12 +1,5 @@
 # 树 ProTree
 
-<n-alert type="warning" title="警告" show-icon :bordered="false">
-     default-expand-all 无效，使用 setExpandedKeys 代替<br />
-     default-checked-keys 无效，使用 v-model:checked-keys 或 setCheckedKeys 代替<br />
-     default-expanded-keys 无效，使用 v-model:expanded-keys 或 setExpandedKeys 代替<br />
-     default-selected-keys 无效，使用 v-model:selected-keys 或 setSelectedKeys 代替<br />
-</n-alert>
-
 ## 演示
 
 ```demo
@@ -18,6 +11,7 @@ action.vue
 ## API
 
 ### ProTree 新增 Props
+<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>支持 NaiveUI NTree 组件的原来属性，下方为扩展的属性</div>
 
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
@@ -29,7 +23,7 @@ action.vue
 | fetchConfig | `UseRequestOptions<any, any>` | `{}` | $$$zcf$$ |  |
 
 ### ProTree 新增 Methods
-使用 `ref` 或者 `useProTree` 可以拿到组件方法
+<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>使用 ref 或者 useProTree 可以拿到组件方法，支持 NaiveUI NTree 组件的原来方法</div>
 
 | 名称 | 类型 | 说明 | 版本 |
 | --- | --- | --- | --- |
