@@ -127,8 +127,8 @@ export default defineComponent({
         if (!field || !field[proFieldConfigKey])
           return
         const proFieldConfig: ProFieldConfig = field[proFieldConfigKey]
-        const formItemInst = proFieldConfig.nFormItemInstRef.value
-        formItemInst.restoreValidation()
+        const formItemInst = proFieldConfig?.nFormItemInstRef?.value
+        formItemInst && formItemInst.restoreValidation()
       })
     }
 

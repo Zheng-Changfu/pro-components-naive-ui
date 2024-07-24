@@ -1,6 +1,6 @@
 <script lang="tsx">
 import type { SlotsType } from 'vue'
-import { Fragment, computed, defineComponent } from 'vue'
+import { Fragment, computed, defineComponent, nextTick } from 'vue'
 import { uid } from 'pro-components-hooks'
 import { isArray } from 'lodash-es'
 import { NIcon } from 'naive-ui'
@@ -9,6 +9,7 @@ import { useArrayField } from '../form/field'
 import { ProFormItem } from '../form/form-item'
 import { resolveArrayField } from '../form/field/resolveArrayField'
 import { ProButton, type ProButtonProps } from '../button'
+import { useInjectProFormInstanceContext } from '../form/context'
 import { proFormListProps } from './props'
 import type { ProFormListSlots } from './slots'
 import type { ProFormListInstance } from './inst'
@@ -28,9 +29,12 @@ export default defineComponent({
       anchorMetaName: 'naive-ui-style',
     })
 
+    const form = useInjectProFormInstanceContext()
+
     const field = useArrayField('ProFormList', props, {
       defaultValue: [],
       postState: autoCreateRowId,
+      onActionChange: validateList,
     })
 
     const total = computed(() => {
@@ -83,12 +87,26 @@ export default defineComponent({
         : normalizedVals
     }
 
+    function validateList(action: FormListAction) {
+      if ([
+        'pop',
+        'push',
+        'shift',
+        'insert',
+        'remove',
+        'unshift',
+      ].includes(action)) {
+        nextTick(() => {
+          form.validate(field.stringPath.value)
+        })
+      }
+    }
+
     async function add() {
       const pos = position.value
       const total = field.value.value.length
       const insertIndex = pos === 'top' ? 0 : total
       const { actionGuard, creatorInitialValue } = props
-
       if (actionGuard?.beforeAddRow) {
         const success = await actionGuard.beforeAddRow({
           total,
@@ -215,28 +233,6 @@ export default defineComponent({
                 creatorButtonVNode,
               },
               () => fieldVNode,
-            )
-
-            return (
-              {/* <TransitionGroup
-                name="fade"
-                tag="div"
-                class="container"
-                v-slots={{
-                  default: () => {
-                    return list.map((item, index) => {
-                      return (
-                        <div key={item[AUTO_CREATE_ID]}>
-                          <ProFormListItem
-                            index={index}
-                            v-slots={$slots}
-                          />
-                        </div>
-                      )
-                    })
-                  },
-                }}
-              /> */}
             )
           },
         }}

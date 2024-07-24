@@ -195,9 +195,11 @@ export default defineComponent({
       },
       () => (
         <NFlex style={{
-          marginBlockEnd: 'var(--n-feedback-height)',
           height: actionHeight,
           linHeight: actionHeight,
+          marginBlockEnd: $props.itemRender
+            ? 0
+            : 'var(--n-feedback-height)',
         }}
         >
           {actionVNode}

@@ -1,12 +1,13 @@
-import { createArrayField } from 'pro-components-hooks'
+import { createArrayField, useCompile } from 'pro-components-hooks'
 import { computed, toRef, useSlots } from 'vue'
+import type { ProFormListProps } from '../../form-list/props'
 import type { ProFieldConfig } from './fieldCustomKeys'
 import { proFieldConfigKey } from './fieldCustomKeys'
 import type { ProFieldProps } from './props'
 
 export function useArrayField(
   name: `Pro${string}`,
-  props: ProFieldProps,
+  props: ProFormListProps,
   options: ProFieldProps = {},
 ) {
   const slots = useSlots()
@@ -35,11 +36,22 @@ export function useArrayField(
     ...(options as any),
   })
 
+  const nFormItemPath = field.stringPath
+  const nFormItemLabel = useCompile(toRef(props, 'label'), { scope: field.scope })
+
+  const nFormItemMeta = computed(() => {
+    return {
+      path: nFormItemPath.value,
+      label: nFormItemLabel.value,
+    }
+  })
+
   field[proFieldConfigKey] = {
     name,
     slots,
+    nFormItemMeta,
     value: computed(() => field.value.value),
-  } as Partial<ProFieldConfig>
+  } as ProFieldConfig
 
   return field
 }
