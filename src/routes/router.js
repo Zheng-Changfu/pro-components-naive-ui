@@ -34,7 +34,7 @@ export default function createDemoRouter(app, routes) {
       nextTick(() => {
         const h1s = document.getElementsByTagName('h1')
         if (to.name !== 'home' && h1s.length !== 0) {
-          document.title = `${h1s[0].textContent} - Naive UI`
+          document.title = `${h1s[0].textContent} - Pro Naive UI`
         }
         else {
           // defined in index.html

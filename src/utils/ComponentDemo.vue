@@ -143,9 +143,6 @@ export default defineComponent({
         <n-tab name="ts">
           TypeScript
         </n-tab>
-        <n-tab name="js">
-          JavaScript
-        </n-tab>
       </n-tabs>
       <n-scrollbar
         x-scrollable
@@ -153,7 +150,6 @@ export default defineComponent({
         style="height: auto"
       >
         <n-code v-if="showTs" language="html" :code="sfcTsCode" />
-        <n-code v-else language="html" :code="sfcJsCode" />
       </n-scrollbar>
     </template>
   </n-card>
