@@ -1,7 +1,6 @@
 import type { VNodeChild } from 'vue'
 import type { RequestTipConfig } from 'pro-components-hooks'
-import type { FormValidateMessages } from 'naive-ui/es/form/src/interface'
-import type { ProFieldConfig, ProUploadFieldProps } from '../form'
+import type { ProFieldConfig, ProUploadFieldProps, ValidateMessages } from '../form'
 
 export type ProFieldGlobalConfig = ProFieldConfig
 
@@ -19,9 +18,13 @@ export interface GlobalConfigProForm {
    */
   renderPlaceholder: (options: ProFieldGlobalConfig) => string | [string, string]
   /**
+   * 表单校验模版
+   */
+  validateMessages: ValidateMessages
+  /**
    * 获取验证规则模版（目前只处理了 required:true）
    */
-  getValidateMessages: (options: ProFieldGlobalConfig) => FormValidateMessages
+  // getValidateMessages: (options: ProFieldGlobalConfig) => FormValidateMessages
   /**
    * 统一设置表单校验时机
    * @default 'input'

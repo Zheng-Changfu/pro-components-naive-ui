@@ -62,18 +62,18 @@ export default defineComponent({
       }
     }
 
-    function builtInGetValidateMessages(options: ProFieldGlobalConfig): FormValidateMessages {
-      const { nFormItemMeta } = options
-      const { label, path } = nFormItemMeta.value
-      const sLabel = toString(label)
-      return {
-        required: () => {
-          return sLabel
-            ? `${sLabel}为必填字段`
-            : `${path}为必填字段`
-        },
-      }
-    }
+    // function builtInGetValidateMessages(options: ProFieldGlobalConfig): FormValidateMessages {
+    //   const { nFormItemMeta } = options
+    //   const { label, path } = nFormItemMeta.value
+    //   const sLabel = toString(label)
+    //   return {
+    //     required: () => {
+    //       return sLabel
+    //         ? `${sLabel}为必填字段`
+    //         : `${path}为必填字段`
+    //     },
+    //   }
+    // }
 
     /**
      * 可能会嵌套，自己取不到，取上层的
@@ -101,7 +101,7 @@ export default defineComponent({
       proForm: {
         validateTrigger: 'input',
         renderPlaceholder: builtInRenderPlaceholder,
-        getValidateMessages: builtInGetValidateMessages,
+        // getValidateMessages: builtInGetValidateMessages,
         ...parentProForm,
         ...proForm,
       },
