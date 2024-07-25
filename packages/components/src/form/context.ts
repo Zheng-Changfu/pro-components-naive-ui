@@ -11,10 +11,10 @@ export const proFormItemRenderContextKey = Symbol('proFormItemRender') as Inject
     bindSlots: Record<string, any>
   }) => VNodeChild) | undefined>
 
-export function provideProFormInstanceContext(inst: ProFormInstance) {
+export function provideProFormInstance(inst: ProFormInstance) {
   provide(proFormInstanceContextKey, inst)
 }
 
-export function useInjectProFormInstanceContext() {
+export function useInjectProFormInstance() {
   return inject(proFormInstanceContextKey)!
 }

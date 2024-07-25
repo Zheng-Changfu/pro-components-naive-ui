@@ -5,7 +5,7 @@ import type { UploadFileInfo, UploadInst, UploadProps } from 'naive-ui'
 import { NButton, NUpload } from 'naive-ui'
 import { uid } from 'pro-components-hooks'
 import { isArray, isString } from 'lodash-es'
-import { useInjectGlobalConfigContext } from '../../../config-provider'
+import { useInjectGlobalConfig } from '../../../config-provider'
 import { resolveField, useField, useParseFieldProps } from '../../field'
 import { isEmptyValue } from '../../form-item/utils/valueUtil'
 import { ProFormItem } from '../../form-item'
@@ -19,7 +19,7 @@ export default defineComponent({
   slots: Object as SlotsType<ProUploadSlots>,
   setup(props, { expose }) {
     const nUploadInstRef = ref<UploadInst>()
-    const { proUpload } = useInjectGlobalConfigContext()
+    const { proUpload } = useInjectGlobalConfig()
 
     const field = useField('ProUpload', props, {
       defaultValue: [],

@@ -2,7 +2,7 @@ import type { BaseField, ExcludeExpression } from 'pro-components-hooks'
 import { useCompile } from 'pro-components-hooks'
 import { computed, toRef } from 'vue'
 import { isUndefined } from 'lodash-es'
-import { useInjectGlobalConfigContext } from '../../config-provider'
+import { useInjectGlobalConfig } from '../../config-provider'
 import { proFieldConfigKey } from './fieldCustomKeys'
 
 interface UseParseFieldPropsOptions {
@@ -19,8 +19,8 @@ export function useParseFieldProps<T extends {
   field: BaseField,
   options: UseParseFieldPropsOptions = {},
 ) {
+  const { proForm } = useInjectGlobalConfig()
   const { placeholderIntoProps = true } = options
-  const { proForm } = useInjectGlobalConfigContext()
 
   const parsedFieldProps = useCompile(
     toRef(props, 'fieldProps'),

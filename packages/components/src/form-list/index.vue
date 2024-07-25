@@ -10,11 +10,11 @@ import { useArrayField } from '../form/field'
 import { ProFormItem } from '../form/form-item'
 import { resolveArrayField } from '../form/field/resolveArrayField'
 import { ProButton, type ProButtonProps } from '../button'
-import { useInjectProFormInstanceContext } from '../form/context'
+import { useInjectProFormInstance } from '../form/context'
 import { proFormListProps } from './props'
 import type { ProFormListSlots } from './slots'
 import type { ProFormListInstance } from './inst'
-import { AUTO_CREATE_ID, provideProFormListInstanceContext } from './context'
+import { AUTO_CREATE_ID, provideProFormListInstance } from './context'
 import { useParseFormListProps } from './useParseFormListProps'
 import { ProFormListItem } from './form-list-item'
 import style from './styles/index.cssr'
@@ -30,7 +30,7 @@ export default defineComponent({
       anchorMetaName: 'naive-ui-style',
     })
 
-    const form = useInjectProFormInstanceContext()
+    const form = useInjectProFormInstance()
 
     const field = useArrayField('ProFormList', props, {
       defaultValue: [],
@@ -148,7 +148,7 @@ export default defineComponent({
     }
 
     expose(exposed)
-    provideProFormListInstanceContext(exposed)
+    provideProFormListInstance(exposed)
     return {
       min,
       max,

@@ -1,10 +1,10 @@
 import type { ProFieldConfig } from '../field'
-import { useInjectGlobalConfigContext } from '../../config-provider'
+import { useInjectGlobalConfig } from '../../config-provider'
 import type { ProFormItemProps } from './props'
 
 export function useReadonlyRenderer(props: ProFormItemProps, options: ProFieldConfig) {
   const { value } = options
-  const { proForm } = useInjectGlobalConfigContext()
+  const { proForm } = useInjectGlobalConfig()
 
   function renderReadonly() {
     const { renderReadonly: propRenderReadonly } = props

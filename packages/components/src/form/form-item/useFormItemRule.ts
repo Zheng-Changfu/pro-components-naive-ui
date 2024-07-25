@@ -4,7 +4,7 @@ import type { ToRefs } from 'vue'
 import { computed } from 'vue'
 import { isArray, isUndefined } from 'lodash-es'
 import type { FormItemRule } from 'naive-ui'
-import { useInjectGlobalConfigContext } from '../../config-provider'
+import { useInjectGlobalConfig } from '../../config-provider'
 import { proFieldConfigKey } from '../field'
 import { isEmptyValue } from './utils/valueUtil'
 
@@ -27,7 +27,7 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
   const {
     validateTrigger,
     getValidateMessages,
-  } = useInjectGlobalConfigContext().proForm
+  } = useInjectGlobalConfig().proForm
 
   const field = useInjectFieldContext()!
   const { stringPath } = field

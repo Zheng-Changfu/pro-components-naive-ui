@@ -2,7 +2,7 @@
 # 表单部分Api
 
 使用 `useProFormInstance` 可以拿到表单的所有Api，如果你想跨组件使用（Form 在顶层，其他表单控件在后代组件中）Api，
-请在后代组件中使用 `useInjectProFormInstanceContext` 方法注入表单实例
+请在后代组件中使用 `useInjectProFormInstance` 方法注入表单实例
 </markdown>
 
 <script lang="tsx">

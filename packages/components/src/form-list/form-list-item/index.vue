@@ -7,7 +7,7 @@ import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
 import { omit } from 'lodash-es'
 import type { ProButtonProps } from '../../button'
 import { ProButton } from '../../button'
-import { AUTO_CREATE_ID, useInjectProFormListInstanceContext } from '../context'
+import { AUTO_CREATE_ID, useInjectProFormListInstance } from '../context'
 import { proFormItemRenderContextKey } from '../../form/context'
 import type { FormItemRender } from '../../form/form-item'
 import { proFormListItemProps } from './props'
@@ -24,7 +24,7 @@ export default defineComponent({
     const form = useInjectFormContext()
     const nFormItem = inject<any>('n-form-item')
     const field = useInjectParentFieldContext()!
-    const action = useInjectProFormListInstanceContext()
+    const action = useInjectProFormListInstance()
     const injectedFormItemRender = inject(proFormItemRenderContextKey)
     const { path } = useProvidePath(toRef(props, 'index')) // 处理嵌套路径
 

@@ -1,7 +1,7 @@
 import type { BaseField, MaybeExpression, UseRequestOptions } from 'pro-components-hooks'
 import { useCompile, useRequest } from 'pro-components-hooks'
 import { computed } from 'vue'
-import { useInjectProFormInstanceContext } from '../../context'
+import { useInjectProFormInstance } from '../../context'
 
 /**
  * 1. 处理表达式
@@ -19,7 +19,7 @@ export function useInternalRequest(
   options: UseInternalRequestOptions,
 ) {
   const scope = field.scope
-  const proFormInst = useInjectProFormInstanceContext()
+  const proFormInst = useInjectProFormInstance()
   const restoreValueOnFetched = options.restoreValueOnFetched ?? true
   const parsedApi = useCompile(computed(() => options.api), { scope })
   const parsedTipApi = useCompile(computed(() => options.tipApi), { scope })

@@ -38,7 +38,7 @@ asyncFormList.vue
 | fieldRender | [ArrayFieldRender](form-list#ArrayFieldRender) | | 自定义渲染控件，可以用来包裹额外的 dom 结构 | |
 
 ### ProFormList Methods
-<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>使用 ref 或者 useProFormListInstance 可以拿到组件方法，子组件中可以使用 useInjectProFormListInstanceContext 方法直接注入</div>
+<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>使用 ref 或者 useProFormListInstance 可以拿到组件方法，子组件中可以使用 useInjectProFormListInstance 方法直接注入</div>
 
 | 名称 | 类型 | 说明 | 版本 |
 | --- | --- | --- | --- |

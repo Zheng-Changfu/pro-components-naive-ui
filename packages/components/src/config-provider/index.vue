@@ -6,7 +6,7 @@ import { provideRequestTipConfigContext } from 'pro-components-hooks'
 import type { FormValidateMessages } from 'naive-ui/es/form/src/interface'
 import { useOmitProps } from '../hooks'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
-import { provideGlobalConfigContext, useInjectGlobalConfigContext } from './context'
+import { provideGlobalConfig, useInjectGlobalConfig } from './context'
 import type { ProFieldGlobalConfig } from './types'
 
 export default defineComponent({
@@ -94,10 +94,10 @@ export default defineComponent({
       proDateYearRange: parentProDateYearRange,
       proDateMonthRange: parentProDateMonthRange,
       proDateQuarterRange: parentProDateQuarterRange,
-    } = useInjectGlobalConfigContext()
+    } = useInjectGlobalConfig()
 
     provideRequestTipConfigContext(proRequest)
-    provideGlobalConfigContext({
+    provideGlobalConfig({
       proForm: {
         validateTrigger: 'input',
         renderPlaceholder: builtInRenderPlaceholder,

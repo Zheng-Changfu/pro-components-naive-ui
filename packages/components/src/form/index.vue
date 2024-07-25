@@ -6,8 +6,8 @@ import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
 import { computed, defineComponent, nextTick, provide, ref, toRef } from 'vue'
 import { isString, toPath } from 'lodash-es'
 import { useOmitProps } from '../hooks'
-import { useInjectGlobalConfigContext } from '../config-provider'
-import { proFormItemRenderContextKey, proFormReadonlyContextKey, provideProFormInstanceContext } from './context'
+import { useInjectGlobalConfig } from '../config-provider'
+import { proFormItemRenderContextKey, proFormReadonlyContextKey, provideProFormInstance } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 import type { ProFormInstance } from './inst'
 import type { ProFieldConfig } from './field'
@@ -19,7 +19,7 @@ export default defineComponent({
   setup(props, { expose }) {
     const formInstRef = ref<FormInst>()
     const formProps = useOmitProps(props, proFormExtendProps)
-    const { scope: globalScope } = useInjectGlobalConfigContext().proForm
+    const { scope: globalScope } = useInjectGlobalConfig().proForm
 
     const {
       initialValues,
@@ -168,7 +168,7 @@ export default defineComponent({
     }
 
     expose(exposed)
-    provideProFormInstanceContext(exposed)
+    provideProFormInstance(exposed)
     provide(proFormReadonlyContextKey, parsedReadonly)
     provide(proFormItemRenderContextKey, props.formItemRender)
     return {

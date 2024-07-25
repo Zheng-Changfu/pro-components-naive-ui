@@ -4,11 +4,11 @@ import type { ProFormListInstance } from './inst'
 
 export const proFormListInstanceContextKey = Symbol('proFormListInstance') as InjectionKey<ProFormListInstance>
 
-export function provideProFormListInstanceContext(inst: ProFormListInstance) {
+export function provideProFormListInstance(inst: ProFormListInstance) {
   provide(proFormListInstanceContextKey, inst)
 }
 
-export function useInjectProFormListInstanceContext() {
+export function useInjectProFormListInstance() {
   return inject(proFormListInstanceContextKey)!
 }
 

@@ -4,11 +4,11 @@ import type { ProConfigProviderExtendProps } from './props'
 
 const globalConfigContextKey = Symbol('globalConfig') as InjectionKey<ProConfigProviderExtendProps>
 
-export function provideGlobalConfigContext(config: ProConfigProviderExtendProps) {
+export function provideGlobalConfig(config: ProConfigProviderExtendProps) {
   provide(globalConfigContextKey, config)
 }
 
-export function useInjectGlobalConfigContext() {
+export function useInjectGlobalConfig() {
   return inject(globalConfigContextKey, {
     proForm: {},
     proDate: {},
