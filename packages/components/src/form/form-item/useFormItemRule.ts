@@ -36,6 +36,10 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
     return getValidateMessages?.(field[proFieldConfigKey]) ?? {}
   })
 
+  function requiredValidator(_: any, value: any) {
+    return !isEmptyValue(value)
+  }
+
   function getRuleMessage(rule: FormItemRule) {
     const messages = validateMessages.value as any
     for (const key in rule) {
@@ -49,15 +53,28 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
   return computed(() => {
     const rawRule = rule.value
     const rawRequired = required.value
-    const normalizedRule = (isArray(rawRule) ? [...rawRule] : [rawRule].filter(Boolean)) as FormItemRule[]
+    let normalizedRule = (isArray(rawRule) ? [...rawRule] : [rawRule].filter(Boolean)) as FormItemRule[]
+    /**
+     * 解决 naive-ui 如果需要为一个值为 number 类型的表项设定 required，需要在 rule 对象中设定 `type: 'number'` 的问题
+     */
     if (rawRequired) {
-      // 增加 required 规则
-      const requiredRule: FormItemRule = {
+      normalizedRule.push({
         required: true,
-        validator: (_, value) => !isEmptyValue(value),
-      }
-      normalizedRule.push(requiredRule)
+        validator: requiredValidator,
+      })
     }
+    normalizedRule = normalizedRule.map((rule) => {
+      const { type, required, validator, asyncValidator } = rule
+      const shouldAddRequiredValidator = required && [type, validator, asyncValidator].filter(Boolean).length === 0
+      if (shouldAddRequiredValidator) {
+        return {
+          ...rule,
+          validator: requiredValidator,
+        }
+      }
+      return rule
+    })
+
     return normalizedRule.map((rule) => {
       return {
         /**
