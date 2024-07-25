@@ -1,13 +1,13 @@
 import { isBoolean } from 'lodash-es'
 import type { ComputedRef } from 'vue'
 import { computed, inject, unref } from 'vue'
-import { proFormReadonlyContextKey } from '../context'
+import { proFormContextKey } from '../context'
 
 export interface UseFormItemReadonlyOptions {
   readonly: ComputedRef<boolean | undefined>
 }
 export function useFormItemReadonly(options: UseFormItemReadonlyOptions) {
-  const formReadonlyRef = inject(proFormReadonlyContextKey)
+  const { readonly: formReadonlyRef } = inject(proFormContextKey)!
 
   return computed(() => {
     const propReadonly = options.readonly.value

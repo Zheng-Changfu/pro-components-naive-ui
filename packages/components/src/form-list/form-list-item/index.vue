@@ -8,7 +8,7 @@ import { omit } from 'lodash-es'
 import type { ProButtonProps } from '../../button'
 import { ProButton } from '../../button'
 import { AUTO_CREATE_ID, useInjectProFormListInstance } from '../context'
-import { proFormItemRenderContextKey } from '../../form/context'
+import { proFormContextKey } from '../../form/context'
 import type { FormItemRender } from '../../form/form-item'
 import { proFormListItemProps } from './props'
 import { resolveAction, resolveItem } from './resolveRender'
@@ -25,7 +25,7 @@ export default defineComponent({
     const nFormItem = inject<any>('n-form-item')
     const field = useInjectParentFieldContext()!
     const action = useInjectProFormListInstance()
-    const injectedFormItemRender = inject(proFormItemRenderContextKey)
+    const injectedFormProps = inject(proFormContextKey)!
     const { path } = useProvidePath(toRef(props, 'index')) // 处理嵌套路径
 
     const total = computed(() => {
@@ -120,8 +120,8 @@ export default defineComponent({
     }
 
     function formItemRender(opt: Parameters<FormItemRender>['0']) {
-      if (injectedFormItemRender) {
-        return injectedFormItemRender(opt)
+      if (injectedFormProps.formItemRender) {
+        return injectedFormProps.formItemRender(opt)
       }
       return (
         <NFormItem
@@ -134,7 +134,10 @@ export default defineComponent({
     }
 
     if (props.onlyShowFirstItemLabel) {
-      provide(proFormItemRenderContextKey, formItemRender)
+      provide(proFormContextKey, {
+        ...injectedFormProps,
+        formItemRender,
+      })
     }
 
     return {

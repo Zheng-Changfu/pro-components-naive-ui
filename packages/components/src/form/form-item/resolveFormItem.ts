@@ -1,6 +1,6 @@
 import type { VNodeChild } from 'vue'
 import { inject } from 'vue'
-import { proFormItemRenderContextKey } from '../context'
+import { proFormContextKey } from '../context'
 import type { FormItemRender } from './props'
 
 export function resolveFormItem(
@@ -8,7 +8,7 @@ export function resolveFormItem(
   params: Parameters<FormItemRender>['0'],
   defaultRender: () => VNodeChild,
 ) {
-  const formPropFormItemRender = inject(proFormItemRenderContextKey)
+  const formPropFormItemRender = inject(proFormContextKey)!.formItemRender
   return formItemRender
     ? formItemRender(params)
     : formPropFormItemRender

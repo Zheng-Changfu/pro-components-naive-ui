@@ -4,14 +4,15 @@ import { NForm } from 'naive-ui'
 import type { BaseField, Path } from 'pro-components-hooks'
 import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
 import { computed, defineComponent, nextTick, provide, ref, toRef } from 'vue'
-import { isString, toPath } from 'lodash-es'
+import { isString, merge, toPath } from 'lodash-es'
 import { useOmitProps } from '../hooks'
 import { useInjectGlobalConfig } from '../config-provider'
-import { proFormItemRenderContextKey, proFormReadonlyContextKey, provideProFormInstance } from './context'
+import { proFormContextKey, provideProFormInstance } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 import type { ProFormInstance } from './inst'
 import type { ProFieldConfig } from './field'
 import { proFieldConfigKey } from './field'
+import { defaultValidateMessages } from './form-item'
 
 export default defineComponent({
   name: 'ProForm',
@@ -19,12 +20,17 @@ export default defineComponent({
   setup(props, { expose }) {
     const formInstRef = ref<FormInst>()
     const formProps = useOmitProps(props, proFormExtendProps)
-    const { scope: globalScope } = useInjectGlobalConfig().proForm
+
+    const {
+      scope: globalScope,
+      validateMessages: globalValidateMessages,
+    } = useInjectGlobalConfig().proForm
 
     const {
       initialValues,
       scope: propScope,
       onFieldValueChange,
+      validateMessages: propValidateMessages,
     } = props
 
     const expressionScope = {
@@ -55,6 +61,14 @@ export default defineComponent({
       onDependenciesValueChange,
     })
 
+    const validateMessages = computed(() => {
+      return merge(
+        { ...defaultValidateMessages },
+        { ...(globalValidateMessages ?? {}) },
+        { ...(propValidateMessages ?? {}) },
+      )
+    })
+
     const parsedDisabled = useCompile(toRef(props, 'disabled'), { scope })
     const parsedReadonly = useCompile(toRef(props, 'readonly'), { scope })
 
@@ -65,6 +79,10 @@ export default defineComponent({
         ref: formInstRef,
         model: valueStore.values.value,
         disabled: parsedDisabled.value,
+        /**
+         * naive ui 没有实现校验模版，我们自己实现
+         */
+        // validateMessages: validateMessages.value,
       }
     })
 
@@ -169,8 +187,11 @@ export default defineComponent({
 
     expose(exposed)
     provideProFormInstance(exposed)
-    provide(proFormReadonlyContextKey, parsedReadonly)
-    provide(proFormItemRenderContextKey, props.formItemRender)
+    provide(proFormContextKey, {
+      readonly: parsedReadonly,
+      formItemRender: props.formItemRender,
+      mergedValidateMessages: validateMessages,
+    })
     return {
       nFormProps,
     }
