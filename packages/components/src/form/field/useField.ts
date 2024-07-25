@@ -1,5 +1,5 @@
 import { createField, useCompile } from 'pro-components-hooks'
-import { computed, toRef, useSlots } from 'vue'
+import { toRef, useSlots } from 'vue'
 import type { ProFormItemProps } from '../form-item'
 import type { ProFieldConfig } from './fieldCustomKeys'
 import { proFieldConfigKey } from './fieldCustomKeys'
@@ -36,21 +36,12 @@ export function useField(
     ...(options as any),
   })
 
-  const nFormItemPath = field.stringPath
-  const nFormItemLabel = useCompile(toRef(props, 'label'), { scope: field.scope })
-
-  const nFormItemMeta = computed(() => {
-    return {
-      path: nFormItemPath.value,
-      label: nFormItemLabel.value,
-    }
-  })
-
+  field.scope.$path = field.stringPath
+  field.scope.$label = useCompile(toRef(props, 'label'), { scope: field.scope })
   field[proFieldConfigKey] = {
     name,
     slots,
-    nFormItemMeta,
-    value: computed(() => field.value.value),
+    value: field.value,
   } as ProFieldConfig
 
   return field

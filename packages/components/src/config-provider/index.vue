@@ -1,13 +1,12 @@
 <script lang='tsx'>
 import { computed, defineComponent } from 'vue'
 import { NConfigProvider } from 'naive-ui'
-import { toString } from 'lodash-es'
 import { provideRequestTipConfigContext } from 'pro-components-hooks'
-import type { FormValidateMessages } from 'naive-ui/es/form/src/interface'
 import { useOmitProps } from '../hooks'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 import { provideGlobalConfig, useInjectGlobalConfig } from './context'
-import type { ProFieldGlobalConfig } from './types'
+import { builtInPlaceholder } from './templates/placeholders'
+import { builtInRequiredMessage } from './templates/messages'
 
 export default defineComponent({
   name: 'ProConfigProvider',
@@ -32,48 +31,6 @@ export default defineComponent({
       proDateMonthRange = {},
       proDateQuarterRange = {},
     } = props
-
-    function builtInRenderPlaceholder(options: ProFieldGlobalConfig): string | [string, string] {
-      const { name, nFormItemMeta } = options
-      const { label } = nFormItemMeta.value
-
-      switch (name) {
-        case 'ProDate':
-        case 'ProDateYear':
-        case 'ProDateTime':
-        case 'ProDateWeek':
-        case 'ProDateMonth':
-        case 'ProDateQuarter':
-        case 'ProSelect':
-        case 'ProTreeSelect':
-          return `请选择${toString(label)}`
-        case 'ProDateRange':
-          return ['开始日期', '结束日期']
-        case 'ProDateYearRange':
-          return ['开始年份', '结束年份']
-        case 'ProDateMonthRange':
-          return ['开始月份', '结束月份']
-        case 'ProDateQuarterRange':
-          return ['开始季度', '结束季度']
-        case 'ProTransfer':
-          return ['请输入', '请输入']
-        default:
-          return `请输入${toString(label)}`
-      }
-    }
-
-    // function builtInGetValidateMessages(options: ProFieldGlobalConfig): FormValidateMessages {
-    //   const { nFormItemMeta } = options
-    //   const { label, path } = nFormItemMeta.value
-    //   const sLabel = toString(label)
-    //   return {
-    //     required: () => {
-    //       return sLabel
-    //         ? `${sLabel}为必填字段`
-    //         : `${path}为必填字段`
-    //     },
-    //   }
-    // }
 
     /**
      * 可能会嵌套，自己取不到，取上层的
@@ -100,8 +57,8 @@ export default defineComponent({
     provideGlobalConfig({
       proForm: {
         validateTrigger: 'input',
-        renderPlaceholder: builtInRenderPlaceholder,
-        // getValidateMessages: builtInGetValidateMessages,
+        placeholder: builtInPlaceholder,
+        requiredMessage: builtInRequiredMessage,
         ...parentProForm,
         ...proForm,
       },

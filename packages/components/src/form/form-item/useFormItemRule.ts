@@ -1,8 +1,8 @@
 import type { ExcludeExpression } from 'pro-components-hooks'
-import { useInjectFieldContext } from 'pro-components-hooks'
+import { useCompile, useInjectFieldContext } from 'pro-components-hooks'
 import type { ToRefs } from 'vue'
 import { computed } from 'vue'
-import { isArray, isUndefined } from 'lodash-es'
+import { isArray, isFunction } from 'lodash-es'
 import type { FormItemRule } from 'naive-ui'
 import { useInjectGlobalConfig } from '../../config-provider'
 import { proFieldConfigKey } from '../field'
@@ -26,29 +26,35 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
 
   const {
     validateTrigger,
-    // getValidateMessages,
+    requiredMessage,
   } = useInjectGlobalConfig().proForm
 
   const field = useInjectFieldContext()!
-  const { stringPath } = field
-
-  // const validateMessages = computed(() => {
-  //   return getValidateMessages?.(field[proFieldConfigKey]) ?? {}
-  // })
+  const { scope, stringPath } = field
+  const { name: componentName } = field[proFieldConfigKey]
 
   function requiredValidator(_: any, value: any) {
     return !isEmptyValue(value)
   }
 
-  // function getRuleMessage(rule: FormItemRule) {
-  //   const messages = validateMessages.value as any
-  //   for (const key in rule) {
-  //     const message = messages[key]
-  //     if (!isUndefined(message)) {
-  //       return message
-  //     }
-  //   }
-  // }
+  const parsedRequiredMessage = useCompile(
+    computed(() => {
+      let kv = requiredMessage
+      if (!kv) {
+        return
+      }
+      if (isFunction(kv)) {
+        kv = kv()
+      }
+      const source = kv[componentName] ?? kv.default
+      return source
+    }),
+    { scope },
+  )
+
+  function getRequiredMessage() {
+    return parsedRequiredMessage.value!
+  }
 
   return computed(() => {
     const rawRule = rule.value
@@ -82,14 +88,10 @@ export function useFormItemRule(options: ToRefs<UseFormItemRuleOptions>) {
          */
         trigger: validateTrigger,
         /**
-         * 统一设置提示信息
+         * 统一设置必填的提示信息
          */
-        // message: getRuleMessage(rule),
+        message: getRequiredMessage,
         ...rule,
-        /**
-         * 统一 message 模版
-         */
-        // renderMessage: () => renderMessage(rule),
         /**
          * 给每个 rule 增加 key，方便 validate 方法校验
          */

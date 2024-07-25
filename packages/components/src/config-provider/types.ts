@@ -1,6 +1,6 @@
 import type { VNodeChild } from 'vue'
-import type { RequestTipConfig } from 'pro-components-hooks'
-import type { ProFieldConfig, ProUploadFieldProps, ValidateMessages } from '../form'
+import type { MaybeExpression, RequestTipConfig } from 'pro-components-hooks'
+import type { ProFieldConfig, ProUploadFieldProps } from '../form'
 
 export type ProFieldGlobalConfig = ProFieldConfig
 
@@ -14,17 +14,13 @@ export interface GlobalConfigProForm {
    */
   renderReadonlyEmpty: (options: ProFieldGlobalConfig) => VNodeChild
   /**
-   * 渲染表单控件的 placeholder
+   * 表单控件的 placeholder
    */
-  renderPlaceholder: (options: ProFieldGlobalConfig) => string | [string, string]
+  placeholder: Record<`${ProFieldConfig['name'] | 'default'}`, any> | (() => Record<`${ProFieldConfig['name'] | 'default'}`, any>)
   /**
-   * 表单校验模版
+   * 表单必填校验信息
    */
-  validateMessages: ValidateMessages
-  /**
-   * 获取验证规则模版（目前只处理了 required:true）
-   */
-  // getValidateMessages: (options: ProFieldGlobalConfig) => FormValidateMessages
+  requiredMessage: Record<`${ProFieldConfig['name'] | 'default'}`, MaybeExpression<string>> | (() => Record<`${ProFieldConfig['name'] | 'default'}`, MaybeExpression<string>>)
   /**
    * 统一设置表单校验时机
    * @default 'input'
