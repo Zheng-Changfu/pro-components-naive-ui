@@ -40,8 +40,7 @@ export default defineComponent({
       ]"
       :creator-initial-value="() => ({ name: 'Name', age: 0 })"
     >
-      <!-- eslint-disable-next-line vue/no-unused-vars -->
-      <template #default="{ index, total, action }">
+      <template #default="{ index, total }">
         <pro-input
           label="{{ '姓名-' + $index + 1 }}"
           path="name"

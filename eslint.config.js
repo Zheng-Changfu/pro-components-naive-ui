@@ -6,5 +6,6 @@ export default antfu({
     'no-console': 'off',
     'no-async-promise-executor': 'off',
     'vue/html-comment-content-spacing': 'off',
+    'no-template-curly-in-string': 'off',
   },
 })

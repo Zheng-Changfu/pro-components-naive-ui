@@ -80,7 +80,7 @@ export default defineComponent({
         :field-props="{
           sourceFilterable: true,
           targetFilterable: true,
-          options: Array.from({ length: 100 }).map((v, i) => ({
+          options: Array.from({ length: 100 }).map((_, i) => ({
             label: `Option ${i}`,
             value: i,
             disabled: i % 5 === 0,
