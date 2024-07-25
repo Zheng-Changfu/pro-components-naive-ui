@@ -1,5 +1,5 @@
 import type { VNodeChild } from 'vue'
-import type { ArrayFieldRender } from '../../form-list'
+import type { ArrayFieldRender } from '../../form-list/props'
 
 export function resolveArrayField(
   fieldRender: ArrayFieldRender | undefined,
