@@ -1,12 +1,11 @@
 import { createField, useCompile } from 'pro-components-hooks'
 import { toRef, useSlots } from 'vue'
 import type { ProFormItemProps } from '../form-item'
-import type { ProFieldConfig } from './fieldCustomKeys'
 import { proFieldConfigKey } from './fieldCustomKeys'
 import type { ProFieldProps } from './props'
 
 export function useField(
-  name: `Pro${string}`,
+  componentName: `Pro${string}`,
   props: ProFieldProps & ProFormItemProps,
   options: ProFieldProps = {},
 ) {
@@ -36,13 +35,13 @@ export function useField(
     ...(options as any),
   })
 
+  field[proFieldConfigKey] = {}
+  field[proFieldConfigKey].slots = slots
+  field[proFieldConfigKey].value = field.value
+  field[proFieldConfigKey].name = componentName
+
   field.scope.$path = field.stringPath
   field.scope.$label = useCompile(toRef(props, 'label'), { scope: field.scope })
-  field[proFieldConfigKey] = {
-    name,
-    slots,
-    value: field.value,
-  } as ProFieldConfig
 
   return field
 }

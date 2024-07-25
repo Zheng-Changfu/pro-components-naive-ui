@@ -1,31 +1,48 @@
-import type { ProFieldConfig } from '../field'
+import { useInjectFieldContext } from 'pro-components-hooks'
+import { proFieldConfigKey } from '../field'
 import { useInjectGlobalConfig } from '../../config-provider'
 import type { ProFormItemProps } from './props'
 
-export function useReadonlyRenderer(props: ProFormItemProps, options: ProFieldConfig) {
-  const { value } = options
+export function useReadonlyRenderer(props: ProFormItemProps) {
+  const field = useInjectFieldContext()!
   const { proForm } = useInjectGlobalConfig()
+  const customFieldConfig = field[proFieldConfigKey]
+
+  const {
+    value,
+    name: componentName,
+  } = customFieldConfig
 
   function renderReadonly() {
+    const payload = { value: value.value }
+    const { readonlyRenderers } = proForm
     const { renderReadonly: propRenderReadonly } = props
-    const { renderReadonly: globalRenderReadonly } = proForm
-
-    return propRenderReadonly
-      ? propRenderReadonly({ value: value.value })
-      : globalRenderReadonly
-        ? globalRenderReadonly(options)
-        : value.value
+    if (propRenderReadonly) {
+      return propRenderReadonly(payload)
+    }
+    if (readonlyRenderers) {
+      const render = readonlyRenderers[componentName]
+      if (render) {
+        return render(payload)
+      }
+    }
+    return value.value
   }
 
   function renderReadonlyEmpty() {
+    const payload = { value: value.value }
+    const { readonlyEmptyRenderers } = proForm
     const { renderReadonlyEmpty: propRenderReadonlyEmpty } = props
-    const { renderReadonlyEmpty: globalRenderReadonlyEmpty } = proForm
-
-    return propRenderReadonlyEmpty
-      ? propRenderReadonlyEmpty({ value: value.value })
-      : globalRenderReadonlyEmpty
-        ? globalRenderReadonlyEmpty(options)
-        : '-'
+    if (propRenderReadonlyEmpty) {
+      return propRenderReadonlyEmpty(payload)
+    }
+    if (readonlyEmptyRenderers) {
+      const render = readonlyEmptyRenderers[componentName]
+      if (render) {
+        return render(payload)
+      }
+    }
+    return '-'
   }
 
   return {

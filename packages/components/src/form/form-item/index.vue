@@ -60,7 +60,7 @@ export default defineComponent({
     const {
       renderReadonly,
       renderReadonlyEmpty,
-    } = useReadonlyRenderer(props, field[proFieldConfigKey])
+    } = useReadonlyRenderer(props)
 
     const nFormItemExcludeRuleProps = computed<Omit<FormItemProps, 'rule'>>(() => {
       return {
