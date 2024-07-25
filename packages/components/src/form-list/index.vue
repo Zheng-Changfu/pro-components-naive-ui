@@ -51,7 +51,6 @@ export default defineComponent({
     } = useParseFormListProps(props, field.scope)
 
     const position = computed(() => parsedPosition.value ?? 'bottom')
-    const creatorButtonText = '添加一行数据' // TODO: 国际化配置
     const creatorButtonProps = computed<ProButtonProps | false>(() => {
       const btnProps = parsedCreatorButtonProps.value
       if (btnProps === false) {
@@ -60,6 +59,7 @@ export default defineComponent({
       return {
         block: true,
         dashed: true,
+        content: '添加一行数据',
         renderIcon: () => {
           return (
             <NIcon>
@@ -158,7 +158,6 @@ export default defineComponent({
       action: exposed,
       copyButtonProps,
       removeButtonProps,
-      creatorButtonText,
       creatorButtonProps,
     }
   },
@@ -170,7 +169,6 @@ export default defineComponent({
       $props,
       $slots,
       position,
-      creatorButtonText,
       creatorButtonProps,
     } = this
 
@@ -187,9 +185,7 @@ export default defineComponent({
           style={{
             marginBlockEnd: position === 'top' ? '24px' : 0,
           }}
-        >
-          {creatorButtonText}
-        </ProButton>
+        />
       )
     }
 
