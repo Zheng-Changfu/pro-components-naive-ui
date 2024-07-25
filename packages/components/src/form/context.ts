@@ -1,15 +1,19 @@
-import type { InjectionKey, MaybeRef, VNodeChild } from 'vue'
+import type { ComputedRef, InjectionKey, MaybeRef, VNodeChild } from 'vue'
 import { inject, provide } from 'vue'
 import type { FormItemProps } from 'naive-ui'
 import type { ProFormInstance } from './inst'
+import type { ValidateMessages } from './form-item'
 
 export const proFormInstanceContextKey = Symbol('proFormInstance') as InjectionKey<ProFormInstance>
-export const proFormReadonlyContextKey = Symbol('proFormReadonly') as InjectionKey<MaybeRef<boolean | undefined>>
-export const proFormItemRenderContextKey = Symbol('proFormItemRender') as InjectionKey<((
-  opt: {
+
+export const proFormContextKey = Symbol('proForm') as InjectionKey<{
+  readonly: MaybeRef<boolean | undefined>
+  formItemRender: ((opt: {
     bindProps: FormItemProps
     bindSlots: Record<string, any>
-  }) => VNodeChild) | undefined>
+  }) => VNodeChild) | undefined
+  mergedValidateMessages: ComputedRef<ValidateMessages>
+}>
 
 export function provideProFormInstance(inst: ProFormInstance) {
   provide(proFormInstanceContextKey, inst)
