@@ -177,7 +177,6 @@ formApi.vue
 | ProDateYearRange | 年范围选择器 | ❌ | `useProDateYearRange` | |
 | ProDateMonthRange | 月范围选择器 | ❌ | `useProDateMonthRange` | |
 | ProDateQuarterRange | 季度范围选择器 | ❌ | `useProDateQuarterRange` | |
-| ProRadio | 单选框 | ❌ | |
 | ProRadioGroup | 单选框组 | ✅ | `useProRadioGroup` |
 | ProCheckbox | 复选框 | ❌ | `useProCheckbox` |
 | ProCheckboxGroup | 复选框组 | ✅ | `useProCheckboxGroup` |

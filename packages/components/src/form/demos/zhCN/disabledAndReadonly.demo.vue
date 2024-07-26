@@ -47,7 +47,6 @@ export default defineComponent({
       <pro-date label="日期" path="date" required />
       <pro-date label="日期-时间" path="date-time" required :field-props="{ type: 'datetime' }" />
       <pro-time label="时间" path="time" required />
-      <pro-radio label="单选" path="radio" required />
       <pro-slider label="滑动选择" path="slider" required />
       <pro-select
         label="下拉"
