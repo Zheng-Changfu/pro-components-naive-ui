@@ -53,6 +53,7 @@ export default defineComponent({
         path="select"
         required
         :field-props="{
+          multiple: true,
           options: [
             {
               label: 'Everybody\'s Got Something to Hide Except Me and My Monkey',
@@ -119,6 +120,7 @@ export default defineComponent({
         path="tree-select"
         required
         :field-props="{
+          multiple: true,
           options: [
             {
               label: 'Rubber Soul',

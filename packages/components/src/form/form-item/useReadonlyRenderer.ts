@@ -14,9 +14,10 @@ export function useReadonlyRenderer(props: ProFormItemProps) {
   } = customFieldConfig
 
   function renderReadonly() {
-    const payload = { value: value.value }
     const { readonlyRenderers } = proForm
     const { renderReadonly: propRenderReadonly } = props
+    const payload = { fullProps: props, value: value.value }
+
     if (propRenderReadonly) {
       return propRenderReadonly(payload)
     }
@@ -30,9 +31,10 @@ export function useReadonlyRenderer(props: ProFormItemProps) {
   }
 
   function renderReadonlyEmpty() {
-    const payload = { value: value.value }
     const { readonlyEmptyRenderers } = proForm
     const { renderReadonlyEmpty: propRenderReadonlyEmpty } = props
+    const payload = { fullProps: props, value: value.value }
+
     if (propRenderReadonlyEmpty) {
       return propRenderReadonlyEmpty(payload)
     }

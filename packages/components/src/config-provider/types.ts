@@ -8,11 +8,11 @@ export interface GlobalConfigProForm {
   /**
    * 自定义渲染只读状态下的表单
    */
-  readonlyRenderers: Record<ProFieldConfig['name'], (opt: { value: any }) => VNodeChild>
+  readonlyRenderers: Record<ProFieldConfig['name'], (opt: { value: any, fullProps: Record<string, any> }) => VNodeChild>
   /**
    * 自定义渲染只读模式下并且表单值为空时的内容
    */
-  readonlyEmptyRenderers: Record<ProFieldConfig['name'], (opt: { value: any }) => VNodeChild>
+  readonlyEmptyRenderers: Record<ProFieldConfig['name'], (opt: { value: any, fullProps: Record<string, any> }) => VNodeChild>
   /**
    * 表单控件的 placeholder
    */
