@@ -2,5 +2,5 @@ import type { CheckboxInst } from 'naive-ui'
 import type { PickFunction } from '../../../types'
 import { createProComponentInstanceFactory } from '../../../hooks'
 
-export type ProCheckboxInstance = PickFunction<CheckboxInst>
-export const useProCheckboxInstance = createProComponentInstanceFactory<ProCheckboxInstance>('ProCheckbox')
+export type ProCheckboxInst = PickFunction<CheckboxInst>
+export const useProCheckboxInst = createProComponentInstanceFactory<ProCheckboxInst>('ProCheckbox')

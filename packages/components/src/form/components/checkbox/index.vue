@@ -1,53 +1,24 @@
-<script lang="tsx">
+<script lang='tsx'>
 import type { SlotsType } from 'vue'
-import { computed, defineComponent, ref } from 'vue'
-import type { CheckboxInst, CheckboxProps } from 'naive-ui'
-import { NCheckbox } from 'naive-ui'
-import { resolveField, useField, useParseFieldProps } from '../../field'
-import { ProFormItem } from '../../form-item'
+import { defineComponent } from 'vue'
+import type { CheckboxProps } from 'naive-ui'
+import type { FieldRenderParameters } from '../field'
+import { ProField, ValueTypeEnum } from '../field'
 import { proCheckboxProps } from './props'
 import type { ProCheckboxSlots } from './slots'
-import type { ProCheckboxInstance } from './inst'
+import { useProCheckboxInst } from './inst'
+import FieldCheckbox from './fields/field-checkbox.vue'
 
 export default defineComponent({
   name: 'ProCheckbox',
   props: proCheckboxProps,
   slots: Object as SlotsType<ProCheckboxSlots>,
-  setup(props, { expose }) {
-    const nCheckboxInst = ref<CheckboxInst>()
+  setup(_, { expose }) {
+    const [instRef, methods] = useProCheckboxInst()
 
-    const field = useField(
-      'ProCheckbox',
-      props,
-      { defaultValue: false },
-    )
-
-    const parsedProps = useParseFieldProps(
-      props,
-      field,
-      { placeholderIntoProps: false },
-    )
-
-    const nCheckboxProps = computed<CheckboxProps>(() => {
-      const { value, doUpdateValue } = field
-      return {
-        ...parsedProps.value,
-        'defaultChecked': undefined,
-        'onUpdate:checked': undefined,
-        'ref': nCheckboxInst,
-        'checked': value.value,
-        'onUpdateChecked': doUpdateValue,
-      }
-    })
-
-    const exposed: ProCheckboxInstance = {
-      blur: () => nCheckboxInst.value?.blur(),
-      focus: () => nCheckboxInst.value?.focus(),
-    }
-
-    expose(exposed)
+    expose(methods)
     return {
-      nCheckboxProps,
+      instRef,
     }
   },
   render() {
@@ -57,27 +28,27 @@ export default defineComponent({
     } = this
 
     return (
-      <ProFormItem
+      <ProField
         {...$props}
+        defaultValue={false}
+        valueModelName="checked"
+        valueType={ValueTypeEnum.CHECKBOX}
         v-slots={{
-          default: () => {
-            return resolveField(
-              $props.fieldRender,
-              {
-                bindSlots: $slots,
-                bindProps: this.nCheckboxProps,
-              },
-              () => (
-                <NCheckbox
-                  {...this.nCheckboxProps}
-                  v-slots={$slots}
-                />
-              ),
+          ...$slots,
+          field: ({
+            bindProps,
+            bindSlots,
+          }: FieldRenderParameters<CheckboxProps, ProCheckboxSlots>) => {
+            return (
+              <FieldCheckbox
+                ref="instRef"
+                {...bindProps}
+                v-slots={bindSlots}
+              />
             )
           },
         }}
-      >
-      </ProFormItem>
+      />
     )
   },
 })
