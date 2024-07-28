@@ -5,9 +5,8 @@ import { provideRequestTipConfigContext } from 'pro-components-hooks'
 import { useOmitProps } from '../hooks'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 import { provideGlobalConfig, useInjectGlobalConfig } from './context'
-import { builtInPlaceholder } from './templates/placeholders'
-import { builtInRequiredMessage } from './templates/messages'
-import { builtInReadonlyRenderers } from './renderers/readonly'
+import { builtInRenderRequiredMessage } from './renderers/requiredMessage'
+import { builtInRenderPlaceholder } from './renderers/placeholder'
 
 export default defineComponent({
   name: 'ProConfigProvider',
@@ -58,27 +57,10 @@ export default defineComponent({
     provideGlobalConfig({
       proForm: {
         validateTrigger: 'input',
+        renderPlaceholder: builtInRenderPlaceholder,
+        renderRequiredMessage: builtInRenderRequiredMessage,
         ...parentProForm,
         ...proForm,
-        placeholder: {
-          ...builtInPlaceholder,
-          ...(parentProForm.placeholder ?? {}),
-          ...(proForm.placeholder ?? {}),
-        },
-        requiredMessage: {
-          ...builtInRequiredMessage,
-          ...(parentProForm.requiredMessage ?? {}),
-          ...(proForm.requiredMessage ?? {}),
-        },
-        readonlyRenderers: {
-          ...builtInReadonlyRenderers,
-          ...(parentProForm.readonlyRenderers ?? {}),
-          ...(proForm.readonlyRenderers ?? {}),
-        },
-        readonlyEmptyRenderers: {
-          ...(parentProForm.readonlyEmptyRenderers ?? {}),
-          ...(proForm.readonlyEmptyRenderers ?? {}),
-        },
       },
       proTable: {
         ...parentProTable,

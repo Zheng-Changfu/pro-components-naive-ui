@@ -1,26 +1,20 @@
 import type { VNodeChild } from 'vue'
-import type { MaybeExpression, RequestTipConfig } from 'pro-components-hooks'
-import type { ProFieldConfig, ProUploadFieldProps } from '../form'
-
-export type ProFieldGlobalConfig = ProFieldConfig
+import type { RequestTipConfig } from 'pro-components-hooks'
+import type { FieldExtraInfo } from '../form/components/field'
 
 export interface GlobalConfigProForm {
   /**
-   * 自定义渲染只读状态下的表单
-   */
-  readonlyRenderers: Record<ProFieldConfig['name'], (opt: { value: any, fullProps: Record<string, any> }) => VNodeChild>
-  /**
    * 自定义渲染只读模式下并且表单值为空时的内容
    */
-  readonlyEmptyRenderers: Record<ProFieldConfig['name'], (opt: { value: any, fullProps: Record<string, any> }) => VNodeChild>
+  renderReadonlyEmpty: (opt: FieldExtraInfo) => VNodeChild
   /**
-   * 表单控件的 placeholder
+   * 自定义渲染表单控件的 placeholder
    */
-  placeholder: Record<`${ProFieldConfig['name'] | 'default'}`, any> | (() => Record<`${ProFieldConfig['name'] | 'default'}`, any>)
+  renderPlaceholder: (opt: FieldExtraInfo) => string | [string, string]
   /**
-   * 表单必填校验信息
+   * 自定义渲染表单必填校验信息
    */
-  requiredMessage: Record<`${ProFieldConfig['name'] | 'default'}`, MaybeExpression<string>> | (() => Record<`${ProFieldConfig['name'] | 'default'}`, MaybeExpression<string>>)
+  renderRequiredMessage: (opt: FieldExtraInfo) => string
   /**
    * 统一设置表单校验时机
    * @default 'input'
