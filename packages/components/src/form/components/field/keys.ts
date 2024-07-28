@@ -15,7 +15,7 @@ export interface FieldExtraInfo {
   /**
    * 只读模式下的渲染
    */
-  readonlyRender: (opt: { fieldProps: Record<string, any> }) => VNodeChild
+  readonlyRender?: (opt: { fieldProps: Record<string, any> }) => VNodeChild
   /**
    * 表单项的类型
    */

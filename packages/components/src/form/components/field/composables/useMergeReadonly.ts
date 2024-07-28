@@ -13,7 +13,8 @@ export function useMergeReadonly(options: UseMergeReadonlyOptions) {
     if (propReadonly !== undefined) {
       return !!propReadonly
     }
-    if (propReadonly !== undefined) {
+
+    if (formReadonly !== undefined) {
       return !!formReadonly
     }
     return false

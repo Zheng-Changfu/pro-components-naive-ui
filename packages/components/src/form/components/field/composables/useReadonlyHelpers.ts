@@ -35,7 +35,7 @@ export function useReadonlyHelpers() {
     }
     return empty.value
       ? emptyText.value
-      : fieldExtraInfo.value.value
+      : value.value
   })
 
   return {
@@ -45,6 +45,8 @@ export function useReadonlyHelpers() {
     valueType,
     emptyText,
     readonlyText,
-    readonlyRender,
+    readonlyRender: readonlyRender
+      ? () => readonlyRender({ fieldProps: fieldProps.value })
+      : undefined,
   }
 }
