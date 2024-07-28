@@ -1,59 +1,24 @@
-<script lang="tsx">
+<script lang='tsx'>
 import type { SlotsType } from 'vue'
-import { computed, defineComponent, ref } from 'vue'
-import type { InputInst, InputProps } from 'naive-ui'
-import { NInput } from 'naive-ui'
-import { ProFormItem } from '../../form-item'
-import { resolveField, useField, useParseFieldProps } from '../../field'
+import { defineComponent } from 'vue'
+import type { InputProps } from 'naive-ui'
+import type { FieldRenderParameters } from '../field'
+import { ProField, ValueTypeEnum } from '../field'
 import { proInputProps } from './props'
 import type { ProInputSlots } from './slots'
-import type { ProInputInstance } from './inst'
+import { useProInputInst } from './inst'
+import FieldInput from './field-input.vue'
 
 export default defineComponent({
   name: 'ProInput',
   props: proInputProps,
   slots: Object as SlotsType<ProInputSlots>,
-  setup(props, { expose }) {
-    const nInputInstRef = ref<InputInst>()
+  setup(_, { expose }) {
+    const [instRef, methods] = useProInputInst()
 
-    const field = useField(
-      'ProInput',
-      props,
-      { defaultValue: null },
-    )
-
-    const parsedProps = useParseFieldProps(
-      props,
-      field,
-    )
-
-    const nInputProps = computed<InputProps>(() => {
-      const { value, doUpdateValue } = field
-      return {
-        ...parsedProps.value,
-        'defaultValue': undefined,
-        'onUpdate:value': undefined,
-        'ref': nInputInstRef,
-        'pair': false,
-        'type': 'text',
-        'value': value.value,
-        'onUpdateValue': doUpdateValue,
-      }
-    })
-
-    const exposed: ProInputInstance = {
-      blur: () => nInputInstRef.value?.blur(),
-      clear: () => nInputInstRef.value?.clear(),
-      focus: () => nInputInstRef.value?.focus(),
-      select: () => nInputInstRef.value?.select(),
-      activate: () => nInputInstRef.value?.activate(),
-      deactivate: () => nInputInstRef.value?.deactivate(),
-      scrollTo: (options: any) => nInputInstRef.value?.scrollTo(options),
-    }
-
-    expose(exposed)
+    expose(methods)
     return {
-      nInputProps,
+      instRef,
     }
   },
   render() {
@@ -63,27 +28,20 @@ export default defineComponent({
     } = this
 
     return (
-      <ProFormItem
+      <ProField
         {...$props}
+        defaultValue={null}
+        valueType={ValueTypeEnum.INPUT}
         v-slots={{
-          default: () => {
-            return resolveField(
-              $props.fieldRender,
-              {
-                bindSlots: $slots,
-                bindProps: this.nInputProps,
-              },
-              () => (
-                <NInput
-                  {...this.nInputProps}
-                  v-slots={$slots}
-                />
-              ),
-            )
+          ...$slots,
+          field: ({
+            bindProps,
+            bindSlots,
+          }: FieldRenderParameters<InputProps, ProInputSlots>) => {
+            return <FieldInput ref="instRef" {...bindProps} v-slots={bindSlots} />
           },
         }}
-      >
-      </ProFormItem>
+      />
     )
   },
 })
