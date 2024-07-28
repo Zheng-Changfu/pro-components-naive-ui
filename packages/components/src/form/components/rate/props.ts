@@ -1,27 +1,13 @@
 import type { RateProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
-import { proFormItemProps } from '../../form-item'
-import { proFieldProps } from '../../field'
-import type { ExtendPublicProps } from '../../../types'
+import { proFieldProps } from '../field'
+import type { ExtendAttrsStyleProps } from '../../../types'
 
 export const proRateProps = {
-  /**
-   * 继承属性
-   */
-  ...proFormItemProps,
-  /**
-   * 额外的字段属性
-   */
   ...proFieldProps,
   fieldProps: {
-    type: Object as PropType<MaybeExpression<ExtendPublicProps<Omit<
-    RateProps,
-    | 'value'
-    | 'onUpdateValue'
-    | 'onUpdate:value'
-    | 'defaultValue'
-    >>>>,
+    type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<RateProps>>>,
     default: () => ({}),
   },
 } as const
