@@ -2,8 +2,7 @@ import type { Ref } from 'vue'
 import { onScopeDispose, ref } from 'vue'
 import type { AnyFn } from '../types'
 
-type ProComponentName = `Pro${string}`
-export function createProComponentInstanceFactory<ProComponentInst extends Record<string, AnyFn>>(name: ProComponentName) {
+export function createProComponentInstanceFactory<ProComponentInst extends Record<string, AnyFn>>(name: string) {
   return function (): [Ref<ProComponentInst | undefined>, ProComponentInst] {
     const noop = () => undefined
     const instRef = ref<ProComponentInst>()
@@ -18,6 +17,9 @@ export function createProComponentInstanceFactory<ProComponentInst extends Recor
         cachedKeyToFuncProxyMap.set(key, funcProxy)
         return funcProxy
       },
+      has() {
+        return true
+      },
     })
 
     function createFuncProxy<T extends AnyFn>(fn: T, key: any): any {
@@ -25,7 +27,7 @@ export function createProComponentInstanceFactory<ProComponentInst extends Recor
         apply(_, thisArg, argArray) {
           const inst = instRef.value
           if (!inst) {
-            console.warn(`${name}: instance does not exits!`)
+            console.warn(`[${name}]：instance does not exits!`)
             return createFuncProxy(noop, key)
           }
           return Reflect.apply(inst[key], thisArg, argArray)

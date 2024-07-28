@@ -1,16 +1,14 @@
-import type { InjectionKey, MaybeRef, VNodeChild } from 'vue'
+import type { InjectionKey, MaybeRef, ToRef } from 'vue'
 import { inject, provide } from 'vue'
-import type { FormItemProps } from 'naive-ui'
 import type { ProFormInstance } from './inst'
+import type { FormItemRender } from './components/field/props'
 
 export const proFormInstanceContextKey = Symbol('proFormInstance') as InjectionKey<ProFormInstance>
 
 export const proFormContextKey = Symbol('proForm') as InjectionKey<{
   readonly: MaybeRef<boolean | undefined>
-  formItemRender: ((opt: {
-    bindProps: FormItemProps
-    bindSlots: Record<string, any>
-  }) => VNodeChild) | undefined
+  useFormItemGi: ToRef<boolean | undefined>
+  formItemRender: FormItemRender | undefined
 }>
 
 export function provideProFormInstance(inst: ProFormInstance) {

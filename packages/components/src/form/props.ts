@@ -28,6 +28,13 @@ export const proFormExtendProps = {
     default: undefined,
   },
   /**
+   * 是否使用 NFormItemGi，优先级比 ProFormItem 的低
+   */
+  useFormItemGi: {
+    type: Boolean as PropType<boolean>,
+    default: undefined,
+  },
+  /**
    * 表达式可以读取到的作用域，浅合并，优先级比全局高
    */
   scope: Object as PropType<Record<`$${string}`, any>>,
