@@ -1,6 +1,6 @@
-import type { ProFieldExtendSlots } from '../../field'
+import type { ProFieldSlots } from '../field'
 
-export interface ProDateWeekSlots extends ProFieldExtendSlots {
+export interface ProDatePickerSlots extends ProFieldSlots {
   'footer': any
   'prev-year': any
   'next-year': any
