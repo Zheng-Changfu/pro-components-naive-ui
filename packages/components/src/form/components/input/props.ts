@@ -13,3 +13,5 @@ export const proInputProps = {
 } as const
 
 export type ProInputProps = ExtractPublicPropTypes<typeof proInputProps>
+export type ProPasswordProps = ProInputProps
+export type ProTextareaProps = ProInputProps

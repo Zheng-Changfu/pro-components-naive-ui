@@ -9,3 +9,6 @@ export interface ProInputSlots extends ProFieldSlots {
   'password-visible-icon': any
   'password-invisible-icon': any
 }
+
+export type ProPasswordSlots = ProInputSlots
+export type ProTextareaSlots = ProInputSlots

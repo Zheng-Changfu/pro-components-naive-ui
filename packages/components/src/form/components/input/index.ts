@@ -1,4 +1,6 @@
 export * from './inst'
 export * from './props'
 export * from './slots'
-export { default as ProInput } from './index.vue'
+export { default as ProInput } from './input.vue'
+export { default as ProTextarea } from './textarea.vue'
+export { default as ProPassword } from './password.vue'
