@@ -1,45 +1,17 @@
-<script lang="tsx">
+<script lang='tsx'>
 import type { SlotsType } from 'vue'
-import { computed, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import type { SwitchProps } from 'naive-ui'
-import { NSwitch } from 'naive-ui'
-import { resolveField, useField, useParseFieldProps } from '../../field'
-import { ProFormItem } from '../../form-item'
+import type { FieldRenderParameters } from '../field'
+import { ProField, ValueTypeEnum } from '../field'
 import { proSwitchProps } from './props'
 import type { ProSwitchSlots } from './slots'
+import FieldSwitch from './fields/field-switch.vue'
 
 export default defineComponent({
   name: 'ProSwitch',
   props: proSwitchProps,
   slots: Object as SlotsType<ProSwitchSlots>,
-  setup(props) {
-    const field = useField(
-      'ProSwitch',
-      props,
-      { defaultValue: false },
-    )
-
-    const parsedProps = useParseFieldProps(
-      props,
-      field,
-      { placeholderIntoProps: false },
-    )
-
-    const nSwitchProps = computed<SwitchProps>(() => {
-      const { value, doUpdateValue } = field
-      return {
-        ...parsedProps.value,
-        'defaultValue': undefined,
-        'onUpdate:value': undefined,
-        'value': value.value,
-        'onUpdateValue': doUpdateValue,
-      }
-    })
-
-    return {
-      nSwitchProps,
-    }
-  },
   render() {
     const {
       $props,
@@ -47,27 +19,25 @@ export default defineComponent({
     } = this
 
     return (
-      <ProFormItem
+      <ProField
         {...$props}
+        defaultValue={false}
+        valueType={ValueTypeEnum.SWITCH}
         v-slots={{
-          default: () => {
-            return resolveField(
-              $props.fieldRender,
-              {
-                bindSlots: $slots,
-                bindProps: this.nSwitchProps,
-              },
-              () => (
-                <NSwitch
-                  {...this.nSwitchProps}
-                  v-slots={$slots}
-                />
-              ),
+          ...$slots,
+          field: ({
+            bindProps,
+            bindSlots,
+          }: FieldRenderParameters<SwitchProps, ProSwitchSlots>) => {
+            return (
+              <FieldSwitch
+                {...bindProps}
+                v-slots={bindSlots}
+              />
             )
           },
         }}
-      >
-      </ProFormItem>
+      />
     )
   },
 })

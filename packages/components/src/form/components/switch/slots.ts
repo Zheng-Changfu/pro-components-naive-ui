@@ -1,6 +1,6 @@
-import type { ProFieldExtendSlots } from '../../field'
+import type { ProFieldSlots } from '../field'
 
-export interface ProSwitchSlots extends ProFieldExtendSlots {
+export interface ProSwitchSlots extends ProFieldSlots {
   'icon': any
   'checked': any
   'unchecked': any
