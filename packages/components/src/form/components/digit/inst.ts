@@ -2,5 +2,5 @@ import type { InputNumberInst } from 'naive-ui'
 import type { PickFunction } from '../../../types'
 import { createProComponentInstanceFactory } from '../../../hooks'
 
-export type ProDigitInstance = PickFunction<InputNumberInst>
-export const useProDigitInstance = createProComponentInstanceFactory<ProDigitInstance>('ProDigit')
+export type ProDigitInst = PickFunction<InputNumberInst>
+export const useProDigitInst = createProComponentInstanceFactory<ProDigitInst>('ProDigit')

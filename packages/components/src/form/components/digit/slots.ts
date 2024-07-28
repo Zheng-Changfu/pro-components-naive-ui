@@ -1,6 +1,6 @@
-import type { ProFieldExtendSlots } from '../../field'
+import type { ProFieldSlots } from '../field'
 
-export interface ProDigitSlots extends ProFieldExtendSlots {
+export interface ProDigitSlots extends ProFieldSlots {
   'prefix': any
   'suffix': any
   'add-icon': any
