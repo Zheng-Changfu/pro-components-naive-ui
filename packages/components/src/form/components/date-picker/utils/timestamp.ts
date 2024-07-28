@@ -4,7 +4,7 @@ import { isEmptyValue } from '../../field/utils/valueUtil'
 
 export function convertStringToTimestamp(val: any, postState?: (val: any) => any) {
   if (postState) {
-    return postState(val)
+    return postState(val) ?? null
   }
   if (isEmptyValue(val)) {
     return null
@@ -17,7 +17,7 @@ export function convertStringToTimestamp(val: any, postState?: (val: any) => any
 
 export function convertStringArrayToTimestampArray(val: any, postState?: (val: any) => any) {
   if (postState) {
-    return postState(val)
+    return postState(val) ?? null
   }
   if (isEmptyValue(val)) {
     return null
