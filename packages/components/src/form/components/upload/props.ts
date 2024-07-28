@@ -1,9 +1,8 @@
 import type { UploadFileInfo, UploadProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, MaybeRefOrGetter, PropType } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
-import { proFormItemProps } from '../../form-item'
-import { proFieldProps } from '../../field'
-import type { ExtendPublicProps } from '../../../types'
+import { proFieldProps } from '../field'
+import type { ExtendAttrsStyleProps } from '../../../types'
 
 export interface ProUploadFieldProps extends UploadProps {
   /**
@@ -35,23 +34,42 @@ export interface ProUploadFieldProps extends UploadProps {
   }) => void
 }
 
+export const proUploadFieldProps = {
+/**
+ * 按钮文本，优先级低于插槽
+ */
+  title: [String, Object, Function] as PropType<MaybeRefOrGetter<string>>,
+  /**
+   * 文件的最大大小，单位 kb
+   */
+  maxSize: Number,
+  /**
+   * 是否只允许上传图片类型
+   */
+  onlyAcceptImage: {
+    type: Boolean,
+    default: undefined,
+  },
+  /**
+   * 超出文件最大大小时触发的回调
+   */
+  onOverFileMaxSize: Function as PropType<(maxSize: number, data: {
+    file: UploadFileInfo
+    fileList: UploadFileInfo[]
+  }) => void>,
+  /**
+   * 上传不支持类型文件时触发的回调
+   */
+  onUnAccpetType: Function as PropType<(data: {
+    file: UploadFileInfo
+    fileList: UploadFileInfo[]
+  }) => void>,
+} as const
+
 export const proUploadProps = {
-  /**
-   * 继承属性
-   */
-  ...proFormItemProps,
-  /**
-   * 额外的字段属性
-   */
   ...proFieldProps,
   fieldProps: {
-    type: Object as PropType<MaybeExpression<ExtendPublicProps<Omit<
-      ProUploadFieldProps,
-      | 'fileList'
-      | 'defaultFileList'
-      | 'onUpdate:fileList'
-      | 'onUpdateFileList'
-    >>>>,
+    type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<ProUploadFieldProps>>>,
     default: () => ({}),
   },
 } as const
