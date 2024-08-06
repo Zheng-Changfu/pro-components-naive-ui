@@ -1,54 +1,32 @@
-<script lang='tsx'>
-import type { SlotsType } from 'vue'
-import { defineComponent } from 'vue'
-import type { InputNumberProps } from 'naive-ui'
-import type { FieldRenderParameters } from '../field'
+<script setup lang='tsx'>
 import { ProField, ValueTypeEnum } from '../field'
 import { proDigitProps } from './props'
 import type { ProDigitSlots } from './slots'
 import { useProDigitInst } from './inst'
-import FieldDigit from './fields/field-digit.vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ProDigit',
-  props: proDigitProps,
-  slots: Object as SlotsType<ProDigitSlots>,
-  setup(_, { expose }) {
-    const [instRef, methods] = useProDigitInst()
-
-    expose(methods)
-    return {
-      instRef,
-    }
-  },
-  render() {
-    const {
-      $props,
-      $slots,
-    } = this
-
-    return (
-      <ProField
-        {...$props}
-        defaultValue={null}
-        valueType={ValueTypeEnum.DIGIT}
-        v-slots={{
-          ...$slots,
-          field: ({
-            bindProps,
-            bindSlots,
-          }: FieldRenderParameters<InputNumberProps, ProDigitSlots>) => {
-            return (
-              <FieldDigit
-                ref="instRef"
-                {...bindProps}
-                v-slots={bindSlots}
-              />
-            )
-          },
-        }}
-      />
-    )
-  },
 })
+defineProps(proDigitProps)
+defineSlots<ProDigitSlots>()
+
+const [
+  instRef,
+  methods,
+] = useProDigitInst()
+
+defineExpose(methods)
 </script>
+
+<template>
+  <ProField
+    ref="instRef"
+    v-bind="$props"
+    :default-value="null"
+    :value-type="ValueTypeEnum.DIGIT"
+  >
+    <template v-for="(_, name) in $slots" :key="name" #[name]="data">
+      <slot :name="name" v-bind="data ?? {}" />
+    </template>
+  </ProField>
+</template>
