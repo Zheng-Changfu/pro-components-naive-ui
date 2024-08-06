@@ -1,14 +1,16 @@
-import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { omit } from 'lodash-es'
-import type { FormItemProps } from 'naive-ui'
+import type { PopoverProps } from 'naive-ui'
 import { formProps } from 'naive-ui'
 import type { ArrayField, BaseField, MaybeExpression } from 'pro-components-hooks'
 
-interface ValidateError {
+export interface ValidateError {
   message?: string
   fieldValue?: any
   field?: string
 }
+
+export type ValidateBehavior = 'default' | 'popover'
 
 export const proFormExtendProps = {
   /**
@@ -43,6 +45,14 @@ export const proFormExtendProps = {
    */
   initialValues: Object,
   /**
+   * 校验行为，为 popover 时验证不通过会通过 popover 进行提示
+   */
+  validateBehavior: String as PropType<ValidateBehavior>,
+  /**
+   * 验证不通过时传递的属性，只对 popover 生效
+   */
+  validateBehaviorProps: Object as PropType<PopoverProps>,
+  /**
    * 数据验证成功后回调事件
    */
   onSubmit: Function as PropType<(values: Record<string, any>, warnings: ValidateError[][]) => void>,
@@ -69,16 +79,6 @@ export const proFormExtendProps = {
       value: any
     }) => void>,
   },
-  /**
-   * 自定义渲染 formItem，优先级比 ProFormItem 的低
-   * @param bindProps formItem 的属性
-   * @param bindSlots formItem 的插槽
-   */
-  formItemRender: Function as PropType<(
-    opt: {
-      bindProps: FormItemProps
-      bindSlots: Record<string, any>
-    }) => VNodeChild>,
 } as const
 
 export const proFormProps = {

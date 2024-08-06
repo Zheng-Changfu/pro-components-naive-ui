@@ -1,20 +1,25 @@
 import type { InjectionKey, MaybeRef, ToRef } from 'vue'
 import { inject, provide } from 'vue'
-import type { ProFormInstance } from './inst'
-import type { FormItemRender } from './components/field/props'
+import type { PopoverProps } from 'naive-ui'
+import type { ProFormInst } from './inst'
+import type { ValidateBehavior, ValidateError } from './props'
 
-export const proFormInstanceContextKey = Symbol('proFormInstance') as InjectionKey<ProFormInstance>
+export const proFormInstContextKey = Symbol('proFormInst') as InjectionKey<ProFormInst>
 
 export const proFormContextKey = Symbol('proForm') as InjectionKey<{
   readonly: MaybeRef<boolean | undefined>
   useFormItemGi: ToRef<boolean | undefined>
-  formItemRender: FormItemRender | undefined
+  validateBehavior: ToRef<ValidateBehavior | undefined>
+  validateBehaviorProps: ToRef<PopoverProps | undefined>
+  clearValidateResults: (path?: string) => void
+  addValidateErrors: (path: string | undefined, errors: ValidateError[] | undefined) => void
+  addValidateWarnings: (path: string | undefined, errors: ValidateError[] | undefined) => void
 }>
 
-export function provideProFormInstance(inst: ProFormInstance) {
-  provide(proFormInstanceContextKey, inst)
+export function provideProFormInst(inst: ProFormInst) {
+  provide(proFormInstContextKey, inst)
 }
 
-export function useInjectProFormInstance() {
-  return inject(proFormInstanceContextKey)!
+export function useInjectProFormInst() {
+  return inject(proFormInstContextKey)!
 }

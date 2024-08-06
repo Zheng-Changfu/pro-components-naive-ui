@@ -1,8 +1,9 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseForm, Path } from 'pro-components-hooks'
 import { createProComponentInstanceFactory } from '../hooks'
+import type { FormItemInternalValidateResult } from './composables/useValidateResult'
 
-export type ProFormInstance = Pick<
+export type ProFormInst = Pick<
 BaseForm,
 | 'matchPath'
 | 'getFieldValue'
@@ -34,6 +35,10 @@ BaseForm,
    */
   getScope: () => Record<`$${string}`, any>
   /**
+   * 获取字段值的校验结果
+   */
+  getFieldValidateResult: (path: Path) => FormItemInternalValidateResult | null
+  /**
    * 校验
    */
   validate: (paths?: string | string[]) => ReturnType<FormInst['validate']>
@@ -42,4 +47,4 @@ BaseForm,
    */
   restoreValidation: (paths?: string | string[]) => ReturnType<FormInst['restoreValidation']>
 }
-export const useProFormInstance = createProComponentInstanceFactory<ProFormInstance>('ProForm')
+export const useProFormInst = createProComponentInstanceFactory<ProFormInst>('ProForm')

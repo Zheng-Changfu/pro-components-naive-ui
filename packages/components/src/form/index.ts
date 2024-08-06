@@ -1,5 +1,6 @@
 export * from './inst'
 export * from './props'
+export * from './slots'
 export * from './context'
 export * from './components'
 export { default as ProForm } from './index.vue'
