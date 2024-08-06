@@ -11,18 +11,8 @@ export function provideGlobalConfig(config: ProConfigProviderExtendProps) {
 export function useInjectGlobalConfig() {
   return inject(globalConfigContextKey, {
     proForm: {},
-    proDate: {},
-    proTime: {},
     proTable: {},
     proButton: {},
     proUpload: {},
-    proRequest: {},
-    proDateYear: {},
-    proDateMonth: {},
-    proDateRange: {},
-    proDateQuarter: {},
-    proDateYearRange: {},
-    proDateMonthRange: {},
-    proDateQuarterRange: {},
   }) as any as Required<ProConfigProviderExtendProps>
 }

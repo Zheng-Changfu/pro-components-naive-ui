@@ -1,5 +1,4 @@
 import type { VNodeChild } from 'vue'
-import type { RequestTipConfig } from 'pro-components-hooks'
 import type { FieldExtraInfo } from '../form/components/field'
 
 export interface GlobalConfigProForm {
@@ -38,22 +37,6 @@ export interface GlobalConfigProButton {
   hasAuth: (auth: any, authData: any) => boolean
 }
 
-interface DateValueFormat {
-  valueFormat: string
-}
-
-export type GlobalConfigProTime = DateValueFormat
-export type GlobalConfigProDateYear = DateValueFormat
-export type GlobalConfigProDateWeek = DateValueFormat
-export type GlobalConfigProDateMonth = DateValueFormat
-export type GlobalConfigProDateQuarter = DateValueFormat
-export type GlobalConfigProDateYearRange = DateValueFormat
-export type GlobalConfigProDateMonthRange = DateValueFormat
-export type GlobalConfigProDateQuarterRange = DateValueFormat
-export type GlobalConfigProDate = DateValueFormat & { valueFormatIfShowTime: string }
-export type GlobalConfigProDateRange = DateValueFormat & { valueFormatIfShowTime: string }
-
-export type GlobalConfigProRequest = RequestTipConfig
 export type GlobalConfigProUpload = Pick<
   ProUploadFieldProps,
   | 'title'
