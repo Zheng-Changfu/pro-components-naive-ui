@@ -8,7 +8,7 @@ export const proFormItemProps = {
    */
   title: String,
   /**
-   * 显示在 label 右边
+   * 显示在 label 右边的提示
    */
   tooltip: [String, Array] as PropType<string | string[]>,
 } as const

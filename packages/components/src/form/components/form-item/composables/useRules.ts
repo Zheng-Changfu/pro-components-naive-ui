@@ -14,8 +14,8 @@ export function useRules(props: ProFormItemProps) {
   } = useInjectGlobalConfig().proForm
 
   const field = useInjectFieldContext()!
-  const { stringPath } = field
-  const fieldExtraInfo = field[fieldExtraKey]
+  const { stringPath } = field ?? {}
+  const fieldExtraInfo = field?.[fieldExtraKey]
 
   function requiredValidator(_: any, value: any) {
     return !isEmptyValue(value)
@@ -47,22 +47,23 @@ export function useRules(props: ProFormItemProps) {
       return rule
     })
 
-    return normalizedRule.map((rule) => {
-      return {
+    return normalizedRule
+      .map((rule) => {
+        return {
         /**
          * 统一设置表单校验时机
          */
-        trigger: validateTrigger,
-        /**
-         * 统一设置必填的提示信息
-         */
-        message: requiredMessage,
-        ...rule,
-        /**
-         * 给每个 rule 增加 key，方便 validate 方法校验
-         */
-        key: stringPath.value,
-      }
-    })
+          trigger: validateTrigger,
+          /**
+           * 统一设置必填的提示信息
+           */
+          message: requiredMessage,
+          ...rule,
+          /**
+           * 给每个 rule 增加 key，方便 validate 方法校验
+           */
+          key: stringPath.value,
+        }
+      })
   })
 }
