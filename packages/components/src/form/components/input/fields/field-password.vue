@@ -1,87 +1,65 @@
-<script lang='tsx'>
+<script setup lang='tsx'>
 import { NButton, NFlex, NIcon, NInput, inputProps } from 'naive-ui'
-import type { SlotsType } from 'vue'
-import { defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 import { EyeInvisibleOutlined, EyeOutlined } from '@vicons/antd'
 import type { ProPasswordSlots } from '../slots'
 import { useProPasswordInst } from '../inst'
 import { useReadonlyHelpers } from '../../field'
 
-export default defineComponent({
-  name: 'FieldPassword',
-  props: inputProps,
-  slots: Object as SlotsType<ProPasswordSlots>,
-  setup(_, { expose }) {
-    const open = ref(false)
-
-    const [
-      instRef,
-      methods,
-    ] = useProPasswordInst()
-
-    const {
-      empty,
-      value,
-      readonly,
-      emptyText,
-      readonlyRender,
-    } = useReadonlyHelpers()
-
-    function setOpen(v: boolean) {
-      open.value = v
-    }
-
-    expose(methods)
-    return {
-      open,
-      empty,
-      value,
-      instRef,
-      setOpen,
-      readonly,
-      emptyText,
-      readonlyRender,
-    }
-  },
-  render() {
-    const {
-      open,
-      empty,
-      value,
-      $props,
-      $slots,
-      setOpen,
-      readonly,
-      emptyText,
-      readonlyRender,
-    } = this
-
-    if (readonly) {
-      if (readonlyRender) {
-        return readonlyRender()
-      }
-      if (empty) {
-        return emptyText
-      }
-      return (
-        <NFlex align="center" wrap={false}>
-          {open ? value : '********'}
-          <NButton text type="primary" onClick={() => setOpen(!open)}>
-            <NIcon size={16}>
-              {open ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-            </NIcon>
-          </NButton>
-        </NFlex>
-      )
-    }
-
-    return (
-      <NInput
-        ref="instRef"
-        {...$props}
-        v-slots={$slots}
-      />
-    )
-  },
+defineOptions({
+  name: 'ProFieldPassword',
 })
+defineProps(inputProps)
+defineSlots<ProPasswordSlots>()
+
+const open = ref(false)
+
+const [
+  instRef,
+  methods,
+] = useProPasswordInst()
+
+const {
+  empty,
+  value,
+  readonly,
+  emptyText,
+} = useReadonlyHelpers()
+
+function setOpen(v: boolean) {
+  open.value = v
+}
+
+defineExpose(methods)
 </script>
+
+<template>
+  <slot
+    v-if="readonly"
+    name="readonly"
+    v-bind="$props"
+  >
+    <template v-if="empty">
+      {{ emptyText }}
+    </template>
+    <template v-else>
+      <NFlex align="center" :wrap="false">
+        {{ open ? value : '********' }}
+        <NButton text type="primary" @click="setOpen(!open)">
+          <NIcon :size="16">
+            <component :is="open ? EyeOutlined : EyeInvisibleOutlined" />
+          </NIcon>
+        </NButton>
+      </NFlex>
+    </template>
+  </slot>
+  <NInput
+    v-else
+    ref="instRef"
+    v-bind="$props"
+  >
+    <template v-for="(_, name) in $slots" :key="name" #[name]="data">
+      <slot :name="name" v-bind="data ?? {}" />
+    </template>
+  </NInput>
+</template>

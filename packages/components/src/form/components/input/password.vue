@@ -1,55 +1,36 @@
-<script lang='tsx'>
-import type { SlotsType } from 'vue'
-import { defineComponent } from 'vue'
-import type { InputProps } from 'naive-ui'
-import type { FieldRenderParameters } from '../field'
+<script setup lang='tsx'>
 import { ProField, ValueTypeEnum } from '../field'
 import { proInputProps } from './props'
-import type { ProPasswordSlots } from './slots'
+import type { ProInputSlots } from './slots'
 import { useProPasswordInst } from './inst'
-import FieldPassword from './fields/field-password.vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ProPassword',
-  props: proInputProps,
-  slots: Object as SlotsType<ProPasswordSlots>,
-  setup(_, { expose }) {
-    const [instRef, methods] = useProPasswordInst()
-
-    expose(methods)
-    return {
-      instRef,
-    }
-  },
-  render() {
-    const {
-      $props,
-      $slots,
-    } = this
-
-    return (
-      <ProField
-        {...$props}
-        defaultValue={null}
-        valueType={ValueTypeEnum.PASSWORD}
-        v-slots={{
-          ...$slots,
-          field: ({
-            bindProps,
-            bindSlots,
-          }: FieldRenderParameters<InputProps, ProPasswordSlots>) => {
-            return (
-              <FieldPassword
-                ref="instRef"
-                {...bindProps}
-                type="password"
-                v-slots={bindSlots}
-              />
-            )
-          },
-        }}
-      />
-    )
-  },
 })
+defineProps(proInputProps)
+defineSlots<ProInputSlots>()
+
+const [
+  instRef,
+  methods,
+] = useProPasswordInst()
+
+defineExpose(methods)
 </script>
+
+<template>
+  <ProField
+    ref="instRef"
+    v-bind="$props"
+    :default-value="null"
+    :value-type="ValueTypeEnum.PASSWORD"
+    :field-props="{
+      ...($props.fieldProps ?? {}),
+      type: 'password',
+    }"
+  >
+    <template v-for="(_, name) in $slots" :key="name" #[name]="data">
+      <slot :name="name" v-bind="data ?? {}" />
+    </template>
+  </ProField>
+</template>
