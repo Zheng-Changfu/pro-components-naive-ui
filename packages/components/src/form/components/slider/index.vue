@@ -1,44 +1,23 @@
-<script lang='tsx'>
-import type { SlotsType } from 'vue'
-import { defineComponent } from 'vue'
-import type { SliderProps } from 'naive-ui'
-import type { FieldRenderParameters } from '../field'
+<script setup lang='tsx'>
 import { ProField, ValueTypeEnum } from '../field'
 import { proSliderProps } from './props'
 import type { ProSliderSlots } from './slots'
-import FieldSlider from './fields/field-slider.vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ProSlider',
-  props: proSliderProps,
-  slots: Object as SlotsType<ProSliderSlots>,
-  render() {
-    const {
-      $props,
-      $slots,
-    } = this
-
-    return (
-      <ProField
-        {...$props}
-        defaultValue={null}
-        valueType={ValueTypeEnum.SLIDER}
-        v-slots={{
-          ...$slots,
-          field: ({
-            bindProps,
-            bindSlots,
-          }: FieldRenderParameters<SliderProps, ProSliderSlots>) => {
-            return (
-              <FieldSlider
-                {...bindProps}
-                v-slots={bindSlots}
-              />
-            )
-          },
-        }}
-      />
-    )
-  },
 })
+defineProps(proSliderProps)
+defineSlots<ProSliderSlots>()
 </script>
+
+<template>
+  <ProField
+    v-bind="$props"
+    :default-value="null"
+    :value-type="ValueTypeEnum.SLIDER"
+  >
+    <template v-for="(_, name) in $slots" :key="name" #[name]="data">
+      <slot :name="name" v-bind="data ?? {}" />
+    </template>
+  </ProField>
+</template>

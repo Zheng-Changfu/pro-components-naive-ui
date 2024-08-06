@@ -1,43 +1,27 @@
-<script lang='tsx'>
+<script setup lang='tsx'>
 import { NSlider, sliderProps } from 'naive-ui'
-import type { SlotsType } from 'vue'
-import { defineComponent } from 'vue'
 import type { ProSliderSlots } from '../slots'
 import { useReadonlyHelpers } from '../../field'
 
-export default defineComponent({
-  name: 'FieldSlider',
-  props: sliderProps,
-  slots: Object as SlotsType<ProSliderSlots>,
-  setup() {
-    const {
-      readonly,
-      readonlyText,
-    } = useReadonlyHelpers()
-
-    return {
-      readonly,
-      readonlyText,
-    }
-  },
-  render() {
-    const {
-      $props,
-      $slots,
-      readonly,
-      readonlyText,
-    } = this
-
-    if (readonly) {
-      return readonlyText
-    }
-
-    return (
-      <NSlider
-        {...$props}
-        v-slots={$slots}
-      />
-    )
-  },
+defineOptions({
+  name: 'ProFieldSlider',
 })
+defineProps(sliderProps)
+defineSlots<ProSliderSlots>()
+
+const {
+  readonly,
+  readonlyText,
+} = useReadonlyHelpers()
 </script>
+
+<template>
+  <slot v-if="readonly" name="readonly" v-bind="$props">
+    {{ readonlyText }}
+  </slot>
+  <NSlider v-else v-bind="$props">
+    <template v-for="(_, name) in $slots" :key="name" #[name]="data">
+      <slot :name="name" v-bind="data ?? {}" />
+    </template>
+  </NSlider>
+</template>
