@@ -1,60 +1,36 @@
-<script lang='tsx'>
-import type { SlotsType } from 'vue'
-import { defineComponent } from 'vue'
-import type { DatePickerProps } from 'naive-ui'
-import type { FieldRenderParameters } from '../field'
+<script setup lang='tsx'>
 import { ProField, ValueTypeEnum } from '../field'
 import { proDatePickerProps } from './props'
 import type { ProDatePickerSlots } from './slots'
 import { useProDatePickerInst } from './inst'
-import FieldDatePicker from './fields/field-date-picker.vue'
-import { convertStringToTimestamp } from './utils/timestamp'
 
-export default defineComponent({
+defineOptions({
   name: 'ProDateMonth',
-  props: proDatePickerProps,
-  slots: Object as SlotsType<ProDatePickerSlots>,
-  setup(_, { expose }) {
-    const [instRef, methods] = useProDatePickerInst()
-    expose(methods)
-    return {
-      instRef,
-    }
-  },
-  render() {
-    const {
-      $props,
-      $slots,
-    } = this
-
-    function postState(val: any) {
-      return convertStringToTimestamp(val, $props.postState)
-    }
-
-    return (
-      <ProField
-        {...$props}
-        defaultValue={null}
-        postState={postState}
-        valueType={ValueTypeEnum.DATE_MONTH}
-        v-slots={{
-          ...$slots,
-          field: ({
-            bindProps,
-            bindSlots,
-          }: FieldRenderParameters<DatePickerProps, ProDatePickerSlots>) => {
-            return (
-              <FieldDatePicker
-                ref="instRef"
-                {...bindProps}
-                type="month"
-                v-slots={bindSlots}
-              />
-            )
-          },
-        }}
-      />
-    )
-  },
 })
+defineProps(proDatePickerProps)
+defineSlots<ProDatePickerSlots>()
+
+const [
+  instRef,
+  methods,
+] = useProDatePickerInst()
+
+defineExpose(methods)
 </script>
+
+<template>
+  <ProField
+    ref="instRef"
+    v-bind="$props"
+    :default-value="null"
+    :field-props="{
+      ...($props.fieldProps ?? {}),
+      type: 'month',
+    }"
+    :value-type="ValueTypeEnum.DATE_MONTH"
+  >
+    <template v-for="(_, name) in $slots" :key="name" #[name]="data">
+      <slot :name="name" v-bind="data ?? {}" />
+    </template>
+  </ProField>
+</template>
