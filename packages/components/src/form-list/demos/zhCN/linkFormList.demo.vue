@@ -9,11 +9,11 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { useProFormInstance } from 'pro-components-naive-ui'
+import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
-    const [instRef, { submit }] = useProFormInstance()
+    const [instRef, { submit }] = useProFormInst()
 
     function onSubmit(values: any) {
       console.log(values)
@@ -49,18 +49,11 @@ export default defineComponent({
           :label="`年龄-${index + 1}`"
           path="age"
         />
-        <pro-select
+        <pro-input
           :label="`城市-${total}`"
           path="city"
           required
           visible="{{ !!$row.name }}"
-          :field-props="{
-            class: 'w-150px',
-            options: [
-              { label: '北京', value: 0 },
-              { label: '泾县', value: 1 },
-            ],
-          }"
         />
       </template>
     </pro-form-list>

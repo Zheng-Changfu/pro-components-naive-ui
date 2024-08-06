@@ -1,13 +1,13 @@
 <markdown>
 # 表单部分Api
 
-使用 `useProFormInstance` 可以拿到表单的所有Api，如果你想跨组件使用（Form 在顶层，其他表单控件在后代组件中）Api，
-请在后代组件中使用 `useInjectProFormInstance` 方法注入表单实例
+使用 `useProFormInst` 可以拿到表单的所有Api，如果你想跨组件使用（Form 在顶层，其他表单控件在后代组件中）Api，
+请在后代组件中使用 `useInjectProFormInst` 方法注入表单实例
 </markdown>
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { useProFormInstance } from 'pro-components-naive-ui'
+import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
@@ -25,7 +25,7 @@ export default defineComponent({
       setInitialValues,
       restoreValidation,
       getFieldsTransformedValue,
-    }] = useProFormInstance()
+    }] = useProFormInst()
 
     function onSubmit(values: any) {
       console.log(values, 'values')

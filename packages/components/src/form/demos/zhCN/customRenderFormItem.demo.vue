@@ -8,11 +8,11 @@
 import { defineComponent } from 'vue'
 import type { FormItemProps } from 'naive-ui'
 import { NCol, NFormItem } from 'naive-ui'
-import { useProFormInstance } from 'pro-components-naive-ui'
+import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
-    const [instRef, { submit }] = useProFormInstance()
+    const [instRef, { submit }] = useProFormInst()
 
     function onSubmit(values: any) {
       console.log(values)

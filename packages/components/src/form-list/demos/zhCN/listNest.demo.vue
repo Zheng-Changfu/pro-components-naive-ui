@@ -8,14 +8,14 @@
 import { defineComponent } from 'vue'
 import { NCard } from 'naive-ui'
 import type { ProFormListItemRender } from 'pro-components-naive-ui'
-import { useProFormInstance } from 'pro-components-naive-ui'
+import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
     const [instRef, {
       submit,
       restoreFieldsValue,
-    }] = useProFormInstance()
+    }] = useProFormInst()
 
     function onSubmit(values: any) {
       console.log(values)

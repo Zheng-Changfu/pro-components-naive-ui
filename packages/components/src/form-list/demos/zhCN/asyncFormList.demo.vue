@@ -6,7 +6,7 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { useProFormInstance, useProRequest } from 'pro-components-naive-ui'
+import { useProFormInst, useProRequest } from 'pro-components-naive-ui'
 
 interface Info {
   name: string
@@ -30,7 +30,7 @@ export default defineComponent({
       setInitialValues,
       restoreFieldsValue,
       restoreValidation,
-    }] = useProFormInstance()
+    }] = useProFormInst()
 
     const { run, loading } = useProRequest({
       api: reqUserInfo,

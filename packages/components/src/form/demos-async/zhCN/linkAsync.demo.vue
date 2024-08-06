@@ -6,7 +6,7 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { useProFormInstance } from 'pro-components-naive-ui'
+import { useProFormInst } from 'pro-components-naive-ui'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))
@@ -14,7 +14,7 @@ function delay(time: number) {
 
 export default defineComponent({
   setup() {
-    const [instRef, { getFieldValue }] = useProFormInstance()
+    const [instRef, { getFieldValue }] = useProFormInst()
 
     async function fetchProvince() {
       await delay(500)

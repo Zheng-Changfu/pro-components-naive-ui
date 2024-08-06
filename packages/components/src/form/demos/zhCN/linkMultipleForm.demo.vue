@@ -7,13 +7,13 @@
 <script lang="tsx">
 import { computed, defineComponent } from 'vue'
 import { useMounted } from '@vueuse/core'
-import { useProFormInstance } from 'pro-components-naive-ui'
+import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
     const isMounted = useMounted()
-    const [aInstRef, { getScope: getAFormScope }] = useProFormInstance()
-    const [bInstRef, { getScope: getBFormScope }] = useProFormInstance()
+    const [aInstRef, { getScope: getAFormScope }] = useProFormInst()
+    const [bInstRef, { getScope: getBFormScope }] = useProFormInst()
 
     const scope = {
       $aForm: computed(() => getAFormScope()),

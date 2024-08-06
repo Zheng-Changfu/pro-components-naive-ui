@@ -6,14 +6,14 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { useProFormInstance } from 'pro-components-naive-ui'
+import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
     const [proFormInst, {
       submit,
       getFieldValue,
-    }] = useProFormInstance()
+    }] = useProFormInst()
 
     function onSubmit(values: any) {
       console.log(values, 'values')

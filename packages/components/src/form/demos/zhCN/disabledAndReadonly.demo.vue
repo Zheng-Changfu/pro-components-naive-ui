@@ -4,13 +4,13 @@
 
 <script lang="tsx">
 import { defineComponent, ref } from 'vue'
-import { useProFormInstance } from 'pro-components-naive-ui'
+import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
     const disabled = ref(false)
     const readonly = ref(false)
-    const [instRef, { submit }] = useProFormInstance()
+    const [instRef, { submit }] = useProFormInst()
 
     function onSubmit(values: any) {
       console.log(values, 'values')
