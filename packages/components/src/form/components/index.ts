@@ -16,3 +16,4 @@ export * from './time-picker'
 
 export * from './field'
 export * from './form-item'
+export * from './popover-form-item'

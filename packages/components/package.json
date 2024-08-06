@@ -27,7 +27,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "dayjs": "^1.11.11"
+    "date-fns": "^3.6.0"
   },
   "devDependencies": {
     "@vue/test-utils": "^2.4.6",
