@@ -1,52 +1,30 @@
-<script lang='tsx'>
+<script setup lang='tsx'>
 import { NRate, rateProps } from 'naive-ui'
-import type { SlotsType } from 'vue'
-import { defineComponent } from 'vue'
 import type { ProRateSlots } from '../slots'
 import { useReadonlyHelpers } from '../../field'
 
-export default defineComponent({
-  name: 'FieldRate',
-  props: rateProps,
-  slots: Object as SlotsType<ProRateSlots>,
-  setup() {
-    const {
-      readonly,
-      readonlyRender,
-    } = useReadonlyHelpers()
-
-    return {
-      readonly,
-      readonlyRender,
-    }
-  },
-  render() {
-    const {
-      $props,
-      $slots,
-      readonly,
-      readonlyRender,
-    } = this
-
-    if (readonly) {
-      if (readonlyRender) {
-        return readonlyRender()
-      }
-      return (
-        <NRate
-          {...$props}
-          readonly={true}
-          v-slots={$slots}
-        />
-      )
-    }
-
-    return (
-      <NRate
-        {...$props}
-        v-slots={$slots}
-      />
-    )
-  },
+defineOptions({
+  name: 'ProFieldRate',
 })
+defineProps(rateProps)
+defineSlots<ProRateSlots>()
+
+const {
+  readonly,
+} = useReadonlyHelpers()
 </script>
+
+<template>
+  <slot v-if="readonly" name="readonly" v-bind="$props">
+    <NRate v-bind="$props" readonly>
+      <template v-for="(_, name) in $slots" :key="name" #[name]="data">
+        <slot :name="name" v-bind="data ?? {}" />
+      </template>
+    </NRate>
+  </slot>
+  <NRate v-else v-bind="$props">
+    <template v-for="(_, name) in $slots" :key="name" #[name]="data">
+      <slot :name="name" v-bind="data ?? {}" />
+    </template>
+  </NRate>
+</template>
