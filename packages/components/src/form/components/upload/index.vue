@@ -1,61 +1,39 @@
-<script lang="tsx">
-import type { SlotsType } from 'vue'
-import { defineComponent } from 'vue'
-import type { FieldRenderParameters } from '../field'
+<script setup lang="tsx">
 import { ProField, ValueTypeEnum } from '../field'
-import type { ProUploadFieldProps } from './props'
 import { proUploadProps } from './props'
 import type { ProUploadSlots } from './slots'
 import { useProUploadInst } from './inst'
 import { convertValueToFile } from './utils/file'
-import FieldUpload from './fields/field-upload.vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ProUpload',
-  props: proUploadProps,
-  slots: Object as SlotsType<ProUploadSlots>,
-  setup(_, { expose }) {
-    const [instRef, methods] = useProUploadInst()
-
-    expose(methods)
-    return {
-      instRef,
-    }
-  },
-  render() {
-    const {
-      $slots,
-      $props,
-    } = this
-
-    function postState(val: any) {
-      return convertValueToFile(val, $props.postState)
-    }
-
-    return (
-      <ProField
-        {...$props}
-        defaultValue={[]}
-        postState={postState}
-        valueModelName="fileList"
-        valueType={ValueTypeEnum.UPLOAD}
-        v-slots={{
-          ...$slots,
-          field: ({
-            bindProps,
-            bindSlots,
-          }: FieldRenderParameters<ProUploadFieldProps, ProUploadSlots>) => {
-            return (
-              <FieldUpload
-                ref="instRef"
-                {...bindProps}
-                v-slots={bindSlots}
-              />
-            )
-          },
-        }}
-      />
-    )
-  },
 })
+const props = defineProps(proUploadProps)
+defineSlots<ProUploadSlots>()
+
+const [
+  instRef,
+  methods,
+] = useProUploadInst()
+
+function postState(val: any) {
+  return convertValueToFile(val, props.postState)
+}
+
+defineExpose(methods)
 </script>
+
+<template>
+  <ProField
+    ref="instRef"
+    v-bind="$props"
+    :default-value="[]"
+    :post-state="postState"
+    value-model-name="fileList"
+    :value-type="ValueTypeEnum.UPLOAD"
+  >
+    <template v-for="(_, name) in $slots" :key="name" #[name]="data">
+      <slot :name="name" v-bind="data ?? {}" />
+    </template>
+  </ProField>
+</template>
