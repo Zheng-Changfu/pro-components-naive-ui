@@ -71,11 +71,9 @@ useEventListener(
   >
     <template #trigger>
       <ProFormItem ref="formItemInstRef" v-bind="proFormItemProps">
-        <!-- 这里尽量让插槽类型变成静态，为了提示一丢丢性能 -->
-        <slot name="label" />
-        <slot name="tooltip" />
-        <slot name="default" />
-        <slot name="feedback" />
+        <template v-for="(_, name) in $slots" :key="name" #[name]="data">
+          <slot :name="name" v-bind="data ?? {}" />
+        </template>
       </ProFormItem>
     </template>
     <NEl
