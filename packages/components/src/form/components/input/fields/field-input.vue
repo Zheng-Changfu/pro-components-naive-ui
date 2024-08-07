@@ -1,5 +1,5 @@
 <script setup lang='tsx'>
-import { NFlex, NInput, inputProps } from 'naive-ui'
+import { NEl, NFlex, NInput, inputProps } from 'naive-ui'
 import type { ProInputSlots } from '../slots'
 import { useProInputInst } from '../inst'
 import { useReadonlyHelpers } from '../../field'
@@ -36,9 +36,9 @@ defineExpose(methods)
     </template>
     <template v-else>
       <NFlex :size="[8, 0]">
-        <NEL><slot name="prefix" /></NEL>
-        <NEL>{{ value }}</NEL>
-        <NEL><slot name="suffix" /></NEL>
+        <NEl><slot name="prefix" /></NEl>
+        <NEl>{{ value }}</NEl>
+        <NEl><slot name="suffix" /></NEl>
       </NFlex>
     </template>
   </slot>
