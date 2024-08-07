@@ -1,8 +1,9 @@
-import type { ProFieldExtendSlots } from '../form/field'
-import type { ProFormListInstance } from './inst'
+import type { ProFieldSlots } from '../form/components'
+import type { ProFormListInst } from './inst'
+import type { ActionRender, ContainerRender, ItemRender } from './props'
 
-export interface ProFormListSlots extends ProFieldExtendSlots {
-  default: {
+export interface ProFormListSlots extends Omit<ProFieldSlots, 'default'> {
+  default?: {
     /**
      * 当前行索引
      */
@@ -14,6 +15,18 @@ export interface ProFormListSlots extends ProFieldExtendSlots {
     /**
      * 操作行的一些方法
      */
-    action: ProFormListInstance
+    action: ProFormListInst
   }
+  /**
+   * 自定义渲染每一行的结构，主要就是将 action 放在别的地方
+   */
+  item?: Parameters<ItemRender>['0']
+  /**
+   * 自定义渲染操作按钮
+   */
+  action?: Parameters<ActionRender>['0']
+  /**
+   * 自定义渲染容器
+   */
+  container?: Parameters<ContainerRender>['0']
 }

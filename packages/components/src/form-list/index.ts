@@ -7,6 +7,7 @@ export type {
   ItemRender as ProFormListItemRender,
   ActionGuard as ProFormListActionGuard,
   ActionRender as ProFormListActionRender,
-  ArrayFieldRender as ProFormListArrayFieldRender,
+  ContainerRender as ProFormListContainerRender,
 } from './props'
 export { default as ProFormList } from './index.vue'
+export { default as ProFieldFormList } from './fields/field-list'
