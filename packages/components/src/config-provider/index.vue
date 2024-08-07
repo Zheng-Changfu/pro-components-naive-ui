@@ -1,5 +1,5 @@
 <script setup lang='tsx'>
-import { computed } from 'vue'
+import { computed, unref } from 'vue'
 import { NConfigProvider } from 'naive-ui'
 import { useOmitProps } from '../hooks'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
@@ -12,7 +12,6 @@ defineOptions({
 })
 
 const props = defineProps(proConfigProviderProps)
-
 const nConfigProviderProps = useOmitProps(props, proConfigProviderExtendProps)
 
 const {
@@ -30,7 +29,15 @@ const {
   proTable: parentProTable,
   proButton: parentProButton,
   proUpload: parentProUpload,
+  fieldComponents: parentFieldComponents,
 } = useInjectGlobalConfig()
+
+const fieldComponentsRecord = computed(() => {
+  return {
+    ...unref(parentFieldComponents),
+    ...(unref(props.fieldComponents) ?? {}),
+  }
+})
 
 provideGlobalConfig({
   proForm: {
@@ -58,6 +65,7 @@ provideGlobalConfig({
     ...parentProUpload,
     ...proUpload,
   },
+  fieldComponents: fieldComponentsRecord,
 })
 </script>
 

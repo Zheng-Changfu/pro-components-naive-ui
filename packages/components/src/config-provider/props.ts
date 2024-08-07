@@ -1,4 +1,4 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { Component, ExtractPublicPropTypes, MaybeRef, PropType } from 'vue'
 import { configProviderProps } from 'naive-ui'
 import type { GlobalConfigProButton, GlobalConfigProForm, GlobalConfigProTable, GlobalConfigProUpload } from './types'
 
@@ -7,6 +7,7 @@ export const proConfigProviderExtendProps = {
   proTable: Object as PropType<Partial<GlobalConfigProTable>>,
   proButton: Object as PropType<Partial<GlobalConfigProButton>>,
   proUpload: Object as PropType<Partial<GlobalConfigProUpload>>,
+  fieldComponents: Object as PropType<MaybeRef<Record<string, Component>>>,
 } as const
 
 export const proConfigProviderProps = {

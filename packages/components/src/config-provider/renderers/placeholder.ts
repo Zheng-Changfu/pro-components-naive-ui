@@ -1,7 +1,7 @@
 import { toString } from 'lodash-es'
 import type { FieldExtraInfo } from '../../form'
 
-export function builtInRenderPlaceholder(opt: FieldExtraInfo) {
+export function builtInRenderPlaceholder(opt: FieldExtraInfo): string | [string, string] {
   const { valueType, proFormItemProps } = opt
   const { title, label } = proFormItemProps.value
   const t = toString(title ?? label)
