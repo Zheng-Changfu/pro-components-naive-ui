@@ -1,4 +1,4 @@
-import type { ComputedRef, VNodeChild } from 'vue'
+import type { ComputedRef } from 'vue'
 import type { FormItemInst } from 'naive-ui'
 import type { ProFormItemProps } from '../form-item'
 import type { ValueTypeEnum } from './enums'
@@ -12,10 +12,6 @@ export interface FieldExtraInfo {
    * 是否为只读模式
    */
   readonly: ComputedRef<boolean>
-  /**
-   * 只读模式下的渲染
-   */
-  readonlyRender?: (opt: { fieldProps: Record<string, any> }) => VNodeChild
   /**
    * 表单项的类型
    */

@@ -38,7 +38,9 @@ export function useParseProps({ scope }: BaseField, props: ProFieldProps) {
   const parsedShowRequireMark = useCompile(toRef(props, 'showRequireMark'), { scope })
   const parsedIgnorePathChange = useCompile(toRef(props, 'ignorePathChange'), { scope })
   const parsedValidationStatus = useCompile(toRef(props, 'validationStatus'), { scope })
+  const parsedValidateBehavior = useCompile(toRef(props, 'validateBehavior'), { scope })
   const parsedRequireMarkPlacement = useCompile(toRef(props, 'requireMarkPlacement'), { scope })
+  const parsedValidateBehaviorProps = useCompile(toRef(props, 'validateBehaviorProps'), { scope })
 
   return {
     size: parsedSize,
@@ -74,6 +76,8 @@ export function useParseProps({ scope }: BaseField, props: ProFieldProps) {
     showRequireMark: parsedShowRequireMark,
     ignorePathChange: parsedIgnorePathChange,
     validationStatus: parsedValidationStatus,
+    validateBehavior: parsedValidateBehavior,
     requireMarkPlacement: parsedRequireMarkPlacement,
+    validateBehaviorProps: parsedValidateBehaviorProps,
   }
 }

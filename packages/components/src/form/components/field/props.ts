@@ -1,34 +1,7 @@
-import type { FormItemProps, FormItemRule } from 'naive-ui'
+import type { FormItemRule, PopoverProps } from 'naive-ui'
 import type { Dependencie, MaybeExpression } from 'pro-components-hooks'
-import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType, VNodeChild } from 'vue'
-
-export type ReadonlyRender = (
-  opts: {
-    fieldProps: Record<string, any>
-  }
-) => VNodeChild
-
-export type FieldRender = (
-  opts: {
-    bindProps: Record<string, any>
-    bindSlots: Record<string, any>
-  }) => VNodeChild
-
-export type FormItemRender = (
-  opt: {
-    bindProps: FormItemProps
-    bindSlots: Record<string, any>
-  }) => VNodeChild
-
-export type GroupRender = (
-  opts: {
-    vnode: VNodeChild
-  }) => VNodeChild
-
-export interface FieldRenderParameters<Props extends object, Slots extends object> {
-  bindProps: Props
-  bindSlots: Slots
-}
+import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType } from 'vue'
+import type { ValidateBehavior } from '../../props'
 
 export const proFieldProps = {
   /**
@@ -113,7 +86,18 @@ export const proFieldProps = {
   /**
    * 用于 v-model:xxx 的名称，默认为 'value'，用于支持 'v-model:value'
    */
-  valueModelName: String as PropType<MaybeExpression<string>>,
+  valueModelName: {
+    type: String as PropType<MaybeExpression<string>>,
+    default: 'value',
+  },
+  /**
+   * 校验行为，为 popover 时验证不通过会通过 popover 进行提示
+   */
+  validateBehavior: String as PropType<MaybeExpression<ValidateBehavior>>,
+  /**
+   * 验证不通过时传递的属性，只对 popover 生效
+   */
+  validateBehaviorProps: Object as PropType<MaybeExpression<PopoverProps>>,
   /**
    * 精简模式，不包装 formItem
    */
@@ -136,23 +120,6 @@ export const proFieldProps = {
    * 表单项后缀
    */
   addonAfter: String as PropType<MaybeExpression<string>>,
-  /**
-   * 自定义渲染只读模式下的控件，优先级小于插槽
-   */
-  readonlyRender: Function as PropType<ReadonlyRender>,
-  /**
-   * 自定义渲染控件，优先级小于插槽
-   */
-  fieldRender: Function as PropType<FieldRender>,
-  /**
-   * 自定义渲染 formItem，优先级小于插槽
-   */
-  formItemRender: Function as PropType<FormItemRender>,
-  /**
-   * 自定义渲染控件组（控件 + 前后缀插槽），优先级小于插槽
-   * @param vnode 控件组的虚拟节点
-   */
-  groupRender: Function as PropType<GroupRender>,
   /**
    * --------NFormItem 和 NFormItemGi 的 props-----------
    * NFormItemGi 的 props 必须在 form 中设置 useFormItemGi:true 后生效
