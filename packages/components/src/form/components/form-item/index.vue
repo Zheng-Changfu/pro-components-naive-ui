@@ -61,7 +61,9 @@ if (field) {
 
 <template>
   <NFormItemGi v-if="useFormItemGi" v-bind="nFormItemProps">
-    <slot name="feedback" />
+    <template v-if="$slots.feedback" #feedback>
+      <slot name="feedback" />
+    </template>
     <template #label>
       <NEl
         :style="{
@@ -98,7 +100,9 @@ if (field) {
     </PatchInternalValidate>
   </NFormItemGi>
   <NFormItem v-else v-bind="nFormItemProps">
-    <slot name="feedback" />
+    <template v-if="$slots.feedback" #feedback>
+      <slot name="feedback" />
+    </template>
     <template #label>
       <NEl
         :style="{
