@@ -8,6 +8,11 @@ import {
 } from 'naive-ui'
 import {
   ProConfigProvider,
+  ProFieldDigit,
+  ProFieldFormList,
+  ProFieldInput,
+  ProFieldPassword,
+  ValueTypeEnum,
 } from 'pro-components-naive-ui'
 import { i18n, useIsMobile } from '../utils/composables'
 import {
@@ -135,6 +140,12 @@ export function siteSetup() {
     locale: localeRef,
     dateLocale: dateLocaleRef,
     themeOverrides: {},
+    fieldComponents: {
+      [ValueTypeEnum.INPUT]: ProFieldInput,
+      [ValueTypeEnum.DIGIT]: ProFieldDigit,
+      [ValueTypeEnum.PASSWORD]: ProFieldPassword,
+      [ValueTypeEnum.FORM_LIST]: ProFieldFormList,
+    },
   }
 }
 

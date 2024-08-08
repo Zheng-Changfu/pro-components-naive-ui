@@ -27,6 +27,7 @@ export default defineComponent({
     :locale="locale"
     :date-locale="dateLocale"
     :theme-overrides="themeOverrides"
+    :field-components="fieldComponents"
     :hljs="hljs"
   >
     <n-theme-editor :style="themeEditorStyle">
