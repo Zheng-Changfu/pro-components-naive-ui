@@ -80,7 +80,7 @@ defineExpose(methods)
     v-bind="separateProps.proFieldProps"
     class="n-pro-form-item"
     is-list
-    :value-model-name="undefined"
+    value-model-name=""
     :post-state="autoCreateRowId"
     :value-type="ValueTypeEnum.FORM_LIST"
     :field-props="separateProps.fieldListProps"
