@@ -74,7 +74,7 @@ if (field) {
         <slot name="label">
           {{ title ?? label }}
         </slot>
-        <NTooltip trigger="hover">
+        <NTooltip v-if="tooltip || $slots.tooltip" trigger="hover">
           <template #trigger>
             <NIcon
               :size="16"
@@ -113,7 +113,7 @@ if (field) {
         <slot name="label">
           {{ title ?? label }}
         </slot>
-        <NTooltip trigger="hover">
+        <NTooltip v-if="tooltip || $slots.tooltip" trigger="hover">
           <template #trigger>
             <NIcon
               :size="16"
