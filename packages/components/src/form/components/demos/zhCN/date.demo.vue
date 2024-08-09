@@ -1,0 +1,151 @@
+<markdown>
+# 日期相关表单
+
+**支持字符串格式和时间戳格式，字符串格式解析请使用 `value-format`**
+</markdown>
+
+<script lang="tsx">
+import { defineComponent, ref } from 'vue'
+import { useProFormInst } from 'pro-components-naive-ui'
+
+export default defineComponent({
+  setup() {
+    const readonly = ref(false)
+    const [proFormInst, { submit, restoreFieldsValue }] = useProFormInst()
+
+    return {
+      readonly,
+      submit,
+      proFormInst,
+      restoreFieldsValue,
+    }
+  },
+})
+</script>
+
+<template>
+  <n-switch v-model:value="readonly" class="mb-8px">
+    <template #checked>
+      编辑
+    </template>
+    <template #unchecked>
+      只读
+    </template>
+  </n-switch>
+  <pro-form
+    ref="proFormInst"
+    :readonly="readonly"
+    label-width="auto"
+    validate-behavior="popover"
+    :initial-values="{
+      'date': Date.now(),
+      'time': '14:20:21',
+      'week': Date.now(),
+      'month': Date.now(),
+      'quarter': Date.now(),
+      'date-range': [
+        '2024/07/28',
+        '2024/07/29',
+      ],
+      'date-time-range': [
+        Date.now() - 1000 * 60 * 60 * 24,
+        Date.now(),
+      ],
+    }"
+    @submit="console.log"
+  >
+    <n-flex :style="{ width: '100%' }">
+      <pro-input
+        title="s"
+        path="s"
+        required
+        tooltip="123"
+      />
+      <pro-date
+        title="日期"
+        path="date"
+        required
+      >
+        <template #addon-before>
+          date---
+        </template>
+        <template #addon-after>
+          date---
+        </template>
+      </pro-date>
+      <pro-date
+        title="年月"
+        path="date2"
+        required
+        :field-props="{
+          format: 'yyyy/MM',
+        }"
+      />
+      <pro-date-time
+        title="时间"
+        path="time"
+        :field-props="{
+          valueFormat: 'HH:mm:ss',
+        }"
+      />
+      <pro-date-week
+        title="周"
+        path="week"
+      />
+      <pro-date-month
+        title="月"
+        path="month"
+      />
+      <pro-date-month-range
+        title="月区间"
+        path="month-range"
+      />
+      <pro-date-quarter
+        title="季度"
+        path="quarter"
+      />
+      <pro-date-quarter-range
+        title="季度区间"
+        path="quarter-range"
+      />
+      <pro-date-year
+        title="年"
+        path="year"
+      />
+      <pro-date-year-range
+        title="年区间"
+        path="year-range"
+      />
+      <pro-date
+        title="日期时间"
+        path="date-time"
+        :field-props="{
+          type: 'datetime',
+        }"
+      />
+      <pro-date-range
+        title="日期区间"
+        path="date-range"
+        :field-props="{
+          separator: '至',
+          valueFormat: 'yyyy/MM/dd',
+        }"
+      />
+      <pro-date-range
+        title="日期时间区间"
+        path="date-time-range"
+        :field-props="{
+          type: 'datetimerange',
+        }"
+      />
+    </n-flex>
+    <n-flex>
+      <n-button @click="restoreFieldsValue">
+        重置
+      </n-button>
+      <n-button type="primary" @click="submit">
+        提交
+      </n-button>
+    </n-flex>
+  </pro-form>
+</template>

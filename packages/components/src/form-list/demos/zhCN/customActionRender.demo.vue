@@ -8,54 +8,11 @@
 import { defineComponent } from 'vue'
 import { NButton, NFlex, NIcon } from 'naive-ui'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@vicons/antd'
-import type { ProFormListActionRender } from 'pro-components-naive-ui'
 
 export default defineComponent({
-  setup() {
-    function actionRender(opt: Parameters<ProFormListActionRender>['0']) {
-      const {
-        total,
-        index,
-        action,
-        actionVNode,
-      } = opt
-      console.log(total, index, action)
-      return (
-        <NFlex class="h-34px leading-34px mb-24px">
-          <NButton
-            text
-            renderIcon={() => {
-              return (
-                <NIcon>
-                  <ArrowUpOutlined />
-                </NIcon>
-              )
-            }}
-            onClick={() => {
-              action.moveUp(index)
-            }}
-          />
-          <NButton
-            text
-            renderIcon={() => {
-              return (
-                <NIcon>
-                  <ArrowDownOutlined />
-                </NIcon>
-              )
-            }}
-            onClick={() => {
-              action.moveDown(index)
-            }}
-          />
-          {actionVNode}
-        </NFlex>
-      )
-    }
-
-    return {
-      actionRender,
-    }
+  components: {
+    ArrowUpOutlined,
+    ArrowDownOutlined,
   },
 })
 </script>
@@ -66,7 +23,6 @@ export default defineComponent({
       label="用户信息"
       path="userInfo"
       only-show-first-item-label
-      :action-render="actionRender"
     >
       <pro-input
         label="姓名"
@@ -76,6 +32,25 @@ export default defineComponent({
         label="年龄"
         path="age"
       />
+      <template #action="{ index, action, actionVNode }">
+        <n-flex class="h-34px leading-34px mb-24px">
+          <n-button text @click="action.moveUp(index)">
+            <template #icon>
+              <n-icon>
+                <ArrowUpOutlined />
+              </n-icon>
+            </template>
+          </n-button>
+          <n-button text @click="action.moveDown(index)">
+            <template #icon>
+              <n-icon>
+                <ArrowDownOutlined />
+              </n-icon>
+            </template>
+          </n-button>
+          <component :is="actionVNode" />
+        </n-flex>
+      </template>
     </pro-form-list>
   </pro-form>
 </template>

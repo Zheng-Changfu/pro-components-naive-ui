@@ -4,19 +4,14 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { useProFormInstance } from 'pro-components-naive-ui'
+import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
-    const [proFormInst, { submit }] = useProFormInstance()
-
-    function onSubmit(values: any) {
-      console.log(values, 'values')
-    }
+    const [proFormInst, { submit }] = useProFormInst()
 
     return {
       submit,
-      onSubmit,
       proFormInst,
     }
   },
@@ -24,7 +19,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-form ref="proFormInst" label-placement="left" label-width="auto" @submit="onSubmit">
+  <pro-form ref="proFormInst" label-placement="left" label-width="auto" @submit="console.log">
     <pro-input label="用户名" path="username" required />
     <pro-password label="密码" path="password" required />
     <n-button type="primary" @click="submit">
