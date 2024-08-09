@@ -8,10 +8,12 @@ import {
 } from 'naive-ui'
 import {
   ProConfigProvider,
+  ProFieldDatePicker,
   ProFieldDigit,
   ProFieldFormList,
   ProFieldInput,
   ProFieldPassword,
+  ProFieldTimePicker,
   ValueTypeEnum,
 } from 'pro-components-naive-ui'
 import { i18n, useIsMobile } from '../utils/composables'
@@ -143,6 +145,18 @@ export function siteSetup() {
     fieldComponents: {
       [ValueTypeEnum.INPUT]: ProFieldInput,
       [ValueTypeEnum.DIGIT]: ProFieldDigit,
+      [ValueTypeEnum.DATE]: ProFieldDatePicker,
+      [ValueTypeEnum.TIME]: ProFieldTimePicker,
+      [ValueTypeEnum.DATE_TIME]: ProFieldDatePicker,
+      [ValueTypeEnum.DATE_YEAR]: ProFieldDatePicker,
+      [ValueTypeEnum.DATE_WEEK]: ProFieldDatePicker,
+      [ValueTypeEnum.DATE_MONTH]: ProFieldDatePicker,
+      [ValueTypeEnum.DATE_RANGE]: ProFieldDatePicker,
+      [ValueTypeEnum.DATE_QUARTER]: ProFieldDatePicker,
+      [ValueTypeEnum.DATE_TIME_RANGE]: ProFieldDatePicker,
+      [ValueTypeEnum.DATE_YEAR_RANGE]: ProFieldDatePicker,
+      [ValueTypeEnum.DATE_MONTH_RANGE]: ProFieldDatePicker,
+      [ValueTypeEnum.DATE_QUARTER_RANGE]: ProFieldDatePicker,
       [ValueTypeEnum.PASSWORD]: ProFieldPassword,
       [ValueTypeEnum.FORM_LIST]: ProFieldFormList,
     },
