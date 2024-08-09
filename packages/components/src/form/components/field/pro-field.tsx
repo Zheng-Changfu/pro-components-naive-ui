@@ -1,5 +1,5 @@
 import type { SlotsType } from 'vue'
-import { Fragment, computed, defineComponent, h, inject, unref } from 'vue'
+import { Fragment, computed, defineComponent, h, inject, onBeforeUpdate, unref } from 'vue'
 import { NEl, NFlex, formItemGiProps } from 'naive-ui'
 import { omit, pick } from 'lodash-es'
 import { proFormContextKey } from '../../context'
@@ -33,6 +33,7 @@ export default defineComponent({
     const {
       show,
       value,
+      isList,
       stringPath,
       doUpdateValue,
     } = field
@@ -99,6 +100,11 @@ export default defineComponent({
       const name = valueModelName.value
       if (!name) {
         return {}
+      }
+      if (isList) {
+        return {
+          [name]: value.value,
+        }
       }
       const eventName = `onUpdate${name.slice(0, 1).toUpperCase()}${name.slice(1)}`
       return {
@@ -168,11 +174,17 @@ export default defineComponent({
     })
 
     const fieldSlots = computed(() => {
-      return omit(slots, ['label', 'tooltip', 'feedback'])
+      return omit(
+        slots,
+        ['label', 'tooltip', 'feedback', 'addon-after', 'addon-before', 'group'],
+      )
     })
 
     const proFormItemSlots = computed(() => {
-      return pick(slots, ['label', 'tooltip', 'feedback'])
+      return pick(
+        slots,
+        ['label', 'tooltip', 'feedback'],
+      )
     })
 
     const FieldComponent = computed(() => {
