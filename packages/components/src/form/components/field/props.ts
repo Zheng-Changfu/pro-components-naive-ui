@@ -2,6 +2,7 @@ import type { FormItemRule, PopoverProps } from 'naive-ui'
 import type { Dependencie, MaybeExpression } from 'pro-components-hooks'
 import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType } from 'vue'
 import type { ValidateBehavior } from '../../props'
+import type { FieldValueType } from './enums'
 
 export const proFieldProps = {
   /**
@@ -80,9 +81,9 @@ export const proFieldProps = {
     default: undefined,
   },
   /**
-   * 用于表示值的类型是属于哪个组件的，全局设置 readonly 和 empty 会有用
+   * 用于表示值的类型是属于哪个组件的
    */
-  valueType: String as PropType<MaybeExpression<string>>,
+  valueType: String as PropType<MaybeExpression<FieldValueType>>,
   /**
    * 用于 v-model:xxx 的名称，默认为 'value'，用于支持 'v-model:value'
    */

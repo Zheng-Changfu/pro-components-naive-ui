@@ -1,5 +1,5 @@
 import type { PropType, SlotsType } from 'vue'
-import { Fragment, computed, defineComponent, nextTick, onBeforeUpdate } from 'vue'
+import { Fragment, computed, defineComponent, nextTick } from 'vue'
 import type { ArrayField } from 'pro-components-hooks'
 import { useInjectFieldContext } from 'pro-components-hooks'
 import { NIcon } from 'naive-ui'

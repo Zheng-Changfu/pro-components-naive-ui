@@ -1,5 +1,6 @@
 import type { VNodeChild } from 'vue'
 import type { FieldExtraInfo } from '../form/components/field'
+import type { ProUploadFieldProps } from '../form/components/upload'
 
 export interface GlobalConfigProForm {
   /**

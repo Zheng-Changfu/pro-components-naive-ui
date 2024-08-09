@@ -26,3 +26,8 @@ export enum ValueTypeEnum {
 
   FORM_LIST = 'form-list',
 }
+
+/**
+ * 留给外面方便扩展自定义类型
+ */
+export type FieldValueType = `${ValueTypeEnum}`

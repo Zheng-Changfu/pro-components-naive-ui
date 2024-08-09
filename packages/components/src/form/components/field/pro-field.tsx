@@ -1,5 +1,5 @@
 import type { SlotsType } from 'vue'
-import { Fragment, computed, defineComponent, h, inject, onBeforeUpdate, unref } from 'vue'
+import { Fragment, computed, defineComponent, h, inject, unref } from 'vue'
 import { NEl, NFlex, formItemGiProps } from 'naive-ui'
 import { omit, pick } from 'lodash-es'
 import { proFormContextKey } from '../../context'

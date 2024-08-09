@@ -18,6 +18,7 @@ defineOptions({
  */
 const props = defineProps({
   ...datePickerProps,
+  placeholder: [String, Array],
   value: [String, Number, Array] as PropType<string | number | Array<string | number> | null>,
   formattedValue: [String, Number] as PropType<string | number | Array<string | number> | null>,
 } as const)
@@ -60,7 +61,7 @@ const vModelProps = computed<TimePickerProps>(() => {
   }
 })
 
-const convertPlaceholder = computed<DatePickerProps>(() => {
+const convertPlaceholder = computed(() => {
   const { placeholder } = props
   if (!isArray(placeholder)) {
     return { placeholder }
@@ -110,7 +111,7 @@ defineExpose(methods)
           <NEl>{{ (displayDateText as [string, string])[0] }}</NEl>
           <NEl>
             <slot name="separator">
-              {{ $props.separator }}
+              {{ $props.separator ?? '-' }}
             </slot>
           </NEl>
           <NEl>{{ (displayDateText as [string, string])[1] }}</NEl>

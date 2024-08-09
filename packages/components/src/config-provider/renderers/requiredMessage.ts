@@ -23,6 +23,6 @@ export function builtInRenderRequiredMessage(opt: FieldExtraInfo) {
 
   switch (valueType.value) {
     default:
-      return `请输入${t}`
+      return `${t}不能为空`
   }
 }
