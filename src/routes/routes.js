@@ -26,10 +26,10 @@ export const zhComponentRoutes = [
     path: 'form-list',
     component: () => import('../../packages/components/src/form-list/demos/zhCN/index.demo-entry.md'),
   },
-  {
-    path: 'async-field',
-    component: () => import('../../packages/components/src/form/demos-async/zhCN/index.demo-entry.md'),
-  },
+  // {
+  //   path: 'async-field',
+  //   component: () => import('../../packages/components/src/form/demos-async/zhCN/index.demo-entry.md'),
+  // },
 ]
 
 export const routes = [
