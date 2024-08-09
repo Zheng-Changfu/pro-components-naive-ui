@@ -15,20 +15,16 @@ export default defineComponent({
   setup() {
     const [instRef, { submit }] = useProFormInst()
 
-    function onSubmit(values: any) {
-      console.log(values)
-    }
     return {
       instRef,
       submit,
-      onSubmit,
     }
   },
 })
 </script>
 
 <template>
-  <pro-form ref="instRef" @submit="onSubmit">
+  <pro-form ref="instRef" @submit="console.log">
     <pro-form-list
       label="用户信息"
       path="userInfo"

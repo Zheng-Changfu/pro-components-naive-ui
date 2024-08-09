@@ -6,7 +6,6 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { NButton, NFlex, NIcon } from 'naive-ui'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@vicons/antd'
 
 export default defineComponent({

@@ -5,47 +5,9 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
 import { NCard } from 'naive-ui'
-import type { ProFormListItemRender } from 'pro-components-naive-ui'
 
 export default defineComponent({
-  setup() {
-    function itemRender(opt: Parameters<ProFormListItemRender>['0']) {
-      const {
-        total,
-        index,
-        action,
-        itemVNode,
-        actionVNode,
-      } = opt
-      console.log(total, index, action)
-      return (
-        <NCard
-          title={`规格${index + 1}`}
-          embedded
-          class="mb-8px"
-          v-slots={{
-            'default': () => itemVNode,
-            'header-extra': () => actionVNode,
-          }}
-        />
-      )
-    }
 
-    function nestItemRender(opt: Parameters<ProFormListItemRender>['0']) {
-      const { itemVNode, actionVNode } = opt
-      return (
-        <div class="inline-flex me-25px">
-          {itemVNode}
-          <div class="ml-8px">{actionVNode}</div>
-        </div>
-      )
-    }
-
-    return {
-      itemRender,
-      nestItemRender,
-    }
-  },
 })
 </script>
 
@@ -71,12 +33,23 @@ export default defineComponent({
           { name: '橙' },
         ],
       })"
-      :item-render="itemRender"
       :copy-button-props="false"
       :creator-button-props="{
         content: '添加规格项',
       }"
     >
+      <template #item="{ index, itemVNode, actionVNode }">
+        <n-card
+          embedded
+          :title="`规格${index + 1}`"
+          class="mb-8px"
+        >
+          <template #header-extra>
+            <component :is="actionVNode" />
+          </template>
+          <component :is="itemVNode" />
+        </n-card>
+      </template>
       <pro-input
         label="规格名"
         path="name"
@@ -98,8 +71,15 @@ export default defineComponent({
         :remove-button-props="{
           tooltip: '删除',
         }"
-        :item-render="nestItemRender"
       >
+        <template #item="{ itemVNode, actionVNode }">
+          <div class="inline-flex me-25px">
+            <component :is="itemVNode" />
+            <div class="ml-8px">
+              <component :is="actionVNode" />
+            </div>
+          </div>
+        </template>
         <pro-input
           path="name"
           :field-props="{

@@ -52,16 +52,11 @@ export default defineComponent({
       }
     }
 
-    async function onSubmit(values: Info) {
-      console.log(values)
-    }
-
     return {
       run,
       instRef,
       loading,
       submit,
-      onSubmit,
       restoreFieldsValue,
     }
   },
@@ -81,7 +76,7 @@ export default defineComponent({
     </n-button>
   </n-flex>
   <n-spin :show="loading">
-    <pro-form ref="instRef" @submit="onSubmit">
+    <pro-form ref="instRef" @submit="console.log">
       <pro-input
         label="姓名"
         path="name"

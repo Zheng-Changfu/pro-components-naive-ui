@@ -12,7 +12,7 @@ creatorInitialValue.vue
 linkFormList.vue
 customItemRender.vue
 customActionRender.vue
-customFieldRender.vue
+customContainerRender.vue
 horizontalLayout.vue
 listNest.vue
 asyncFormList.vue

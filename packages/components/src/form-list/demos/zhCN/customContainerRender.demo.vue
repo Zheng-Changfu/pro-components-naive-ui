@@ -5,8 +5,7 @@
 </markdown>
 
 <script lang="tsx">
-import { TransitionGroup, defineComponent } from 'vue'
-import { NFlex } from 'naive-ui'
+import { defineComponent } from 'vue'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@vicons/antd'
 
 export default defineComponent({

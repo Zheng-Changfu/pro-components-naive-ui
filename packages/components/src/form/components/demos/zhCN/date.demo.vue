@@ -55,34 +55,21 @@ export default defineComponent({
     @submit="console.log"
   >
     <n-flex :style="{ width: '100%' }">
-      <pro-input
-        title="s"
-        path="s"
-        required
-        tooltip="123"
-      />
       <pro-date
         title="日期"
         path="date"
         required
-      >
-        <template #addon-before>
-          date---
-        </template>
-        <template #addon-after>
-          date---
-        </template>
-      </pro-date>
+      />
       <pro-date
         title="年月"
-        path="date2"
+        path="date"
         required
         :field-props="{
           format: 'yyyy/MM',
         }"
       />
       <pro-date-time
-        title="时间"
+        title="日期时间"
         path="time"
         :field-props="{
           valueFormat: 'HH:mm:ss',
@@ -116,12 +103,9 @@ export default defineComponent({
         title="年区间"
         path="year-range"
       />
-      <pro-date
-        title="日期时间"
+      <pro-time
+        title="时间"
         path="date-time"
-        :field-props="{
-          type: 'datetime',
-        }"
       />
       <pro-date-range
         title="日期区间"
@@ -131,15 +115,12 @@ export default defineComponent({
           valueFormat: 'yyyy/MM/dd',
         }"
       />
-      <pro-date-range
+      <pro-date-time-range
         title="日期时间区间"
         path="date-time-range"
-        :field-props="{
-          type: 'datetimerange',
-        }"
       />
     </n-flex>
-    <n-flex>
+    <n-flex class="mt-16px">
       <n-button @click="restoreFieldsValue">
         重置
       </n-button>

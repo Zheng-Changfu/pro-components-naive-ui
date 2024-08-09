@@ -5,28 +5,6 @@
 
 ```demo
 basic.vue
-disabledAndReadonly.vue
-initialValue.vue
-transform.vue
-postState.vue
-addonSlot.vue
-customRenderReadonly.vue
-customRenderFormItem.vue
-customRenderField.vue
-customRenderFieldGroup.vue
-formLayout.vue
-dependenciesUsage.vue
-dependenciesTriggerGuard.vue
-linkExpression.vue
-linkRegister.vue
-linkOneToMany.vue
-linkDep.vue
-linkChain.vue
-linkLoop.vue
-linkSelf.vue
-linkAsync.vue
-linkMultipleForm.vue
-formApi.vue
 ```
 
 ## API
@@ -51,7 +29,7 @@ formApi.vue
 | rules | 校验规则在控件上写 |  |
 
 ### ProForm Methods
-<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>使用 ref 或者 useProFormInstance 可以拿到组件方法，子组件中可以使用 useInjectProFormInstance 方法直接注入</div>
+<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>使用 ref 或者 useProFormInst 可以拿到组件方法，子组件中可以使用 useInjectProFormInst 方法直接注入</div>
 
 | 名称 | 类型 | 说明 | 版本 |
 | --- | --- | --- | --- |

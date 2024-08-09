@@ -7,7 +7,6 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
 import { NCard } from 'naive-ui'
-import type { ProFormListItemRender } from 'pro-components-naive-ui'
 import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
@@ -17,30 +16,9 @@ export default defineComponent({
       restoreFieldsValue,
     }] = useProFormInst()
 
-    function onSubmit(values: any) {
-      console.log(values)
-    }
-
-    function itemRender(opt: Parameters<ProFormListItemRender>['0']) {
-      const { index, itemVNode, actionVNode } = opt
-      return (
-        <NCard
-          title={`标题${index + 1}`}
-          embedded
-          class="mb-8px"
-          v-slots={{
-            'default': () => itemVNode,
-            'header-extra': () => actionVNode,
-          }}
-        />
-      )
-    }
-
     return {
       instRef,
       submit,
-      onSubmit,
-      itemRender,
       restoreFieldsValue,
     }
   },
@@ -48,7 +26,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-form ref="instRef" @submit="onSubmit">
+  <pro-form ref="instRef" @submit="console.log">
     <pro-input
       label="姓名"
       path="name"
@@ -61,8 +39,19 @@ export default defineComponent({
       :initial-value="[
         { name: 'zcf' },
       ]"
-      :item-render="itemRender"
     >
+      <template #item="{ index, itemVNode, actionVNode }">
+        <n-card
+          embedded
+          :title="`标题${index + 1}`"
+          class="mb-8px"
+        >
+          <component :is="itemVNode" />
+          <template #header-extra>
+            <component :is="actionVNode" />
+          </template>
+        </n-card>
+      </template>
       <n-flex>
         <pro-input
           label="姓名"
@@ -77,7 +66,6 @@ export default defineComponent({
         label="用户信息"
         path="labels"
         required
-        :item-render="itemRender"
         :copy-button-props="{
           tooltip: '复制',
         }"
