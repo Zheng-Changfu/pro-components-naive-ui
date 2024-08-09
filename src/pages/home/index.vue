@@ -52,7 +52,7 @@ export default defineComponent({
   },
   methods: {
     handleStartClick() {
-      this.$router.push(`${this.$route.path}/docs/introduction`)
+      this.$router.push(`${this.$route.path}/components/form-list`)
     },
     handleTitleMouseEnter() {
       this.hover = true

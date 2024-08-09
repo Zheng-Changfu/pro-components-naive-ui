@@ -1,8 +1,9 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useMessage, version } from 'naive-ui'
+import { useMessage } from 'naive-ui'
 import { MenuOutline } from '@vicons/ionicons5'
+import { version } from 'pro-components-naive-ui'
 import { repoUrl } from './utils/github-url'
 import { i18n, useIsMobile, useIsTablet } from './utils/composables'
 import { findMenuValue } from './utils/route'
@@ -69,11 +70,11 @@ export default defineComponent({
           label: t('home'),
           path: themeAndLocaleReg.exec(route.path)![0],
         },
-        {
-          key: 'doc',
-          label: t('doc'),
-          path: `${themeAndLocaleReg.exec(route.path)![0]}/docs/introduction`,
-        },
+        // {
+        //   key: 'doc',
+        //   label: t('doc'),
+        //   path: `${themeAndLocaleReg.exec(route.path)![0]}/docs/introduction`,
+        // },
         {
           key: 'component',
           label: t('component'),

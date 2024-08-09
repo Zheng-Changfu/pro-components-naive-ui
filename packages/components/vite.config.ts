@@ -1,4 +1,6 @@
 import { resolve } from 'node:path'
+// import process from 'node:process'
+// import dts from 'vite-plugin-dts'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -16,6 +18,9 @@ export default defineConfig({
     Components({
       resolvers: [NaiveUiResolver()],
     }),
+    // dts({
+    //   rollupTypes: true,
+    // }),
   ],
   build: {
     lib: {
@@ -32,6 +37,10 @@ export default defineConfig({
           format: 'cjs',
           dir: './dist',
         },
+      ],
+      external: [
+        'vue',
+        'naive-ui',
       ],
     },
   },
