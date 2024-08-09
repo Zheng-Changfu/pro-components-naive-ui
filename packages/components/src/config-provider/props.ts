@@ -8,7 +8,7 @@ export const proConfigProviderExtendProps = {
   proTable: Object as PropType<Partial<GlobalConfigProTable>>,
   proButton: Object as PropType<Partial<GlobalConfigProButton>>,
   proUpload: Object as PropType<Partial<GlobalConfigProUpload>>,
-  fieldComponents: Object as PropType<MaybeRef<Record<FieldValueType, Component>>>,
+  fieldComponents: Object as PropType<MaybeRef<Partial<Record<FieldValueType, Component>>>>,
 } as const
 
 export const proConfigProviderProps = {
