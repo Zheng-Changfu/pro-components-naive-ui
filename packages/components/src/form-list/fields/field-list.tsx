@@ -1,5 +1,5 @@
 import type { PropType, SlotsType } from 'vue'
-import { Fragment, computed, defineComponent, nextTick } from 'vue'
+import { Fragment, computed, defineComponent, nextTick, onBeforeUpdate } from 'vue'
 import type { ArrayField } from 'pro-components-hooks'
 import { useInjectFieldContext } from 'pro-components-hooks'
 import { NIcon } from 'naive-ui'
@@ -126,6 +126,10 @@ export default defineComponent({
     min: Number,
     max: Number,
     position: String as PropType<'top' | 'bottom'>,
+    value: {
+      type: Array as PropType<Array<Record<string, any>>>,
+      required: true,
+    },
     actionGuard: Object as PropType<Partial<ActionGuard>>,
     creatorInitialValue: Function as PropType<() => Record<string, any>>,
     onlyShowFirstItemLabel: {
@@ -146,7 +150,7 @@ export default defineComponent({
     },
   },
   slots: Object as SlotsType<ProFormListSlots>,
-  setup(_, { expose }) {
+  setup(props, { expose }) {
     const form = useInjectProFormInst()
 
     const {
@@ -164,12 +168,11 @@ export default defineComponent({
       unshift,
       moveDown,
       onActionChange,
-      value: list,
       stringPath,
     } = useInjectFieldContext()! as ArrayField
 
     const total = computed(() => {
-      return list.value.length
+      return props.value.length
     })
 
     onActionChange((action) => {
@@ -205,18 +208,17 @@ export default defineComponent({
     expose(exposed)
     provideProFormListInst(exposed)
     return {
-      list,
       total,
       readonly,
     }
   },
   render() {
     const {
-      list,
       total,
       $props,
       $slots,
       readonly,
+      value: list,
     } = this
 
     const {
