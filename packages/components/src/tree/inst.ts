@@ -30,9 +30,9 @@ export type ProTreeInstance<Data = any> = PickFunction<TreeInst & {
   /**
    * 获取指定层级的 keys
    * @param level 层级，大于 0
-   * @param needLtLevelKey 是否需要小于指定层级的 keys，默认值 true
+   * @param getLtLevelKey 是否需要小于指定层级的 keys，默认值 true
    */
-  getLevelKeys: (level: number, needLtLevelKey?: boolean) => Array<string | number>
+  getLevelKeys: (level: number, getLtLevelKey?: boolean) => Array<string | number>
   /**
    * 获取 `disabled` 为 false 并且 `checkboxDisabled` 为 false 的 keys
    */

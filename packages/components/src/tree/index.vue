@@ -99,7 +99,7 @@ export default defineComponent({
       return [...keyToTreeNodeMap.value.keys()]
     }
 
-    function getLevelKeys(level: number, needLtLevelKey = true) {
+    function getLevelKeys(level: number, getLtLevelKey = true) {
       if (level <= 0) {
         return []
       }
@@ -110,7 +110,7 @@ export default defineComponent({
         if (nodeLevel === level) {
           keys.push(key)
         }
-        if (needLtLevelKey && nodeLevel < level) {
+        if (getLtLevelKey && nodeLevel < level) {
           keys.push(key)
         }
       })

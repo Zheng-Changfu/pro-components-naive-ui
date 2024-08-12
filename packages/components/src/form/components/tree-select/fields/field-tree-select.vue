@@ -84,7 +84,7 @@ function getFullKeys() {
   return [...keyToNodeMap.value.keys()]
 }
 
-function getLevelKeys(level: number, needLtLevelKey = true) {
+function getLevelKeys(level: number, getLtLevelKey = true) {
   if (level <= 0) {
     return []
   }
@@ -95,7 +95,7 @@ function getLevelKeys(level: number, needLtLevelKey = true) {
     if (nodeLevel === level) {
       keys.push(key)
     }
-    if (needLtLevelKey && nodeLevel < level) {
+    if (getLtLevelKey && nodeLevel < level) {
       keys.push(key)
     }
   })
