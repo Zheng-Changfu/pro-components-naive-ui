@@ -9,7 +9,10 @@ export enum ValueTypeEnum {
   PASSWORD = 'password',
   TEXTAREA = 'textarea',
   CHECKBOX = 'checkbox',
+  TRANSFER = 'transfer',
   TREE_SELECT = 'tree-select',
+  RADIO_GROUP = 'radio-group',
+  CHECKBOX_GROUP = 'checkbox-group',
 
   DATE = 'date',
   TIME = 'time',

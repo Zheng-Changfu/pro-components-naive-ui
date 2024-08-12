@@ -1,17 +1,8 @@
 import type { TreeSelectInst } from 'naive-ui'
-import type { UseRequestReturned } from 'pro-components-hooks'
 import type { PickFunction } from '../../../types'
 import { createProComponentInstanceFactory } from '../../../hooks'
 
-export type ProTreeSelectInstance<Data = any> = PickFunction<TreeSelectInst & {
-  /**
-   * 获取数据
-   */
-  getOptions: () => Data[]
-  /**
-   * 设置数据
-   */
-  setOptions: (opts: Data[]) => void
+export type ProTreeSelectInst = PickFunction<TreeSelectInst & {
   /**
    * 获取全部节点的 keys
    */
@@ -53,9 +44,5 @@ export type ProTreeSelectInstance<Data = any> = PickFunction<TreeSelectInst & {
    * @param keys 需要部分选中的 keys
    */
   setIndeterminateKeys: (keys: Array<string | number>) => void
-  /**
-   * 获取请求控制器
-   */
-  getFetchControls: () => UseRequestReturned<any, any>
 }>
-export const useProTreeSelectInstance = createProComponentInstanceFactory<ProTreeSelectInstance>('ProTreeSelect')
+export const useProTreeSelectInst = createProComponentInstanceFactory<ProTreeSelectInst>('ProTreeSelect')

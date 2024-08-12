@@ -1,23 +1,22 @@
 import type { ComputedRef } from 'vue'
 import { computed, ref, watch } from 'vue'
-import type { ExcludeExpression } from 'pro-components-hooks'
-import type { ProTreeSelectProps } from './props'
+import type { TreeSelectProps } from 'naive-ui'
 
 export interface UseIndeterminateKeysOptions {
   /**
    * key 对应树节点的映射表
    */
-  keyToTreeSelectNodeMap: ComputedRef<Map<string | number, Record<string, any>>>
+  keyToNodeMap: ComputedRef<Map<string | number, Record<string, any>>>
 }
 export function useIndeterminateKeys(
-  parsedFieldProps: ComputedRef<ExcludeExpression<ProTreeSelectProps['fieldProps']>>,
+  props: TreeSelectProps,
   options: UseIndeterminateKeysOptions,
 ) {
-  const { keyToTreeSelectNodeMap } = options
+  const { keyToNodeMap } = options
   const indeterminateKeys = ref<Array<string | number>>([])
 
   watch(
-    computed(() => parsedFieldProps.value?.indeterminateKeys ?? []),
+    computed(() => props.indeterminateKeys ?? []),
     keys => indeterminateKeys.value = keys ?? [],
     { immediate: true },
   )
@@ -26,7 +25,7 @@ export function useIndeterminateKeys(
     const {
       onUpdateIndeterminateKeys,
       'onUpdate:indeterminateKeys': _onUpdateIndeterminateKeys,
-    } = parsedFieldProps.value ?? {}
+    } = props
 
     indeterminateKeys.value = keys
     onUpdateIndeterminateKeys && (onUpdateIndeterminateKeys as any)(keys, ...args)
@@ -38,7 +37,7 @@ export function useIndeterminateKeys(
   }
 
   function setIndeterminateKeys(keys: Array<string | number>) {
-    const map = keyToTreeSelectNodeMap.value
+    const map = keyToNodeMap.value
     if (keys) {
       keys = keys.filter(k => map.get(k))
     }

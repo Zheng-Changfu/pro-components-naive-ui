@@ -1,3 +1,3 @@
-import type { ProFieldExtendSlots } from '../../field'
+import type { ProFieldSlots } from '../field'
 
-export interface ProCheckboxGroupSlots extends ProFieldExtendSlots {}
+export interface ProCheckboxGroupSlots extends ProFieldSlots {}

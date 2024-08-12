@@ -13,6 +13,7 @@ import { createField } from './composables/createField'
 import { fieldExtraKey } from './keys'
 import { useMergeOptions } from './composables/useMergeOptions'
 import { useForwardInst } from './inst'
+import type { FieldValueType } from './enums'
 
 const formItemGiKeys = Object.keys(formItemGiProps)
 export default defineComponent({
@@ -188,15 +189,12 @@ export default defineComponent({
     })
 
     const FieldComponent = computed(() => {
-      const { valueType } = props
-      return unref(fieldComponents)[valueType as string]
+      return unref(fieldComponents)[valueType.value as FieldValueType]
     })
 
     field[fieldExtraKey] = {
-      value,
       valueType,
       readonly: mergedReadonly,
-      fieldProps: fieldBindProps,
       proFormItemProps: proFormItemBindProps,
     }
 
@@ -230,7 +228,7 @@ export default defineComponent({
 
     const renderFieldGroup = () => {
       const groupRender = $slots.group
-      const FieldComp = h(this.FieldComponent, fieldBindProps, this.fieldSlots)
+      const FieldComp = h(this.FieldComponent!, fieldBindProps, this.fieldSlots)
       const addonAfterRender = $slots['addon-after'] ?? (() => <NEl>{addonAfter}</NEl>)
       const addonBeforeRender = $slots['addon-before'] ?? (() => <NEl>{addonBefore}</NEl>)
 

@@ -11,13 +11,12 @@ export function useReadonlyHelpers() {
   const { renderReadonlyEmpty } = useInjectGlobalConfig().proForm
 
   const {
-    value,
     readonly,
     valueType,
   } = fieldExtraInfo
 
   const empty = computed(() => {
-    return isEmptyValue(value.value)
+    return isEmptyValue(field.value.value)
   })
 
   const emptyText = computed(() => {
@@ -30,15 +29,15 @@ export function useReadonlyHelpers() {
   const readonlyText = computed(() => {
     return empty.value
       ? emptyText.value
-      : value.value
+      : field.value.value
   })
 
   return {
     empty,
-    value,
     readonly,
     valueType,
     emptyText,
     readonlyText,
+    value: field.value,
   }
 }

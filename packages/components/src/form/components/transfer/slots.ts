@@ -1,3 +1,3 @@
-import type { ProFieldExtendSlots } from '../../field'
+import type { ProFieldSlots } from '../field'
 
-export interface ProTransferSlots extends ProFieldExtendSlots {}
+export interface ProTransferSlots extends ProFieldSlots {}
