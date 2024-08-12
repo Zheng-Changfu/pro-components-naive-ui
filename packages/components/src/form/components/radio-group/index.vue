@@ -15,7 +15,7 @@ const proFieldProps = computed(() => {
   return {
     ...rest,
     fieldProps: {
-      ...flexProps,
+      flexProps,
       ...fieldProps,
     },
   }

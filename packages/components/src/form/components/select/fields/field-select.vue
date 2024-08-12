@@ -8,6 +8,7 @@ import { useReadonlyHelpers } from '../../field'
 
 defineOptions({
   name: 'ProFieldSelect',
+  inheritAttrs: false,
 })
 const props = defineProps(selectProps)
 defineSlots<ProSelectSlots>()
@@ -64,7 +65,7 @@ defineExpose(methods)
       {{ selectedLabels.join('，') }}
     </template>
   </slot>
-  <NSelect v-else ref="instRef" v-bind="$props">
+  <NSelect v-else ref="instRef" v-bind="{ ...$props, ...$attrs }">
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
       <slot :name="name" v-bind="data ?? {}" />
     </template>

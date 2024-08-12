@@ -5,6 +5,7 @@ import { useReadonlyHelpers } from '../../field'
 
 defineOptions({
   name: 'ProFieldSlider',
+  inheritAttrs: false,
 })
 defineProps(sliderProps)
 defineSlots<ProSliderSlots>()
@@ -19,7 +20,7 @@ const {
   <slot v-if="readonly" name="readonly" v-bind="$props">
     {{ readonlyText }}
   </slot>
-  <NSlider v-else v-bind="$props">
+  <NSlider v-else v-bind="{ ...$props, ...$attrs }">
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
       <slot :name="name" v-bind="data ?? {}" />
     </template>

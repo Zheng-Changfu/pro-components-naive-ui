@@ -8,6 +8,7 @@ import type { ProRadioGroupSlots } from '../slots'
 
 defineOptions({
   name: 'ProFieldRadioGroup',
+  inheritAttrs: false,
 })
 const props = defineProps({
   labelField: String,
@@ -54,11 +55,10 @@ const nRadioGroupProps = computed<RadioGroupProps>(() => {
   return rest
 })
 
-const selectedLabels = computed(() => {
-  const selectedValue = value.value ?? []
-  return normalizedOptions.value
-    .filter(item => selectedValue.includes(item.value))
-    .map(item => item.label)
+const selectedLabel = computed(() => {
+  const selectedValue = value.value
+  const valueLabelOption = normalizedOptions.value.find(item => item.value === selectedValue)
+  return valueLabelOption ? (valueLabelOption.label ?? selectedValue) : selectedValue
 })
 </script>
 
@@ -72,10 +72,10 @@ const selectedLabels = computed(() => {
       {{ emptyText }}
     </template>
     <template v-else>
-      {{ $slots.default ? (value ?? []).join('，') : selectedLabels.join('，') }}
+      {{ $slots.default ? value : selectedLabel }}
     </template>
   </slot>
-  <NRadioGroup v-else v-bind="nRadioGroupProps">
+  <NRadioGroup v-else v-bind="{ ...nRadioGroupProps, ...$attrs }">
     <template v-if="$slots.default">
       <slot name="default" />
     </template>

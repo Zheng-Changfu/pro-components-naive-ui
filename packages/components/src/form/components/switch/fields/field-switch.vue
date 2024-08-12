@@ -5,6 +5,7 @@ import { useReadonlyHelpers } from '../../field'
 
 defineOptions({
   name: 'ProFieldSwitch',
+  inheritAttrs: false,
 })
 defineProps(switchProps)
 defineSlots<ProSwitchSlots>()
@@ -24,7 +25,7 @@ const {
       关闭
     </slot>
   </slot>
-  <NSwitch v-else v-bind="$props">
+  <NSwitch v-else v-bind="{ ...$props, ...$attrs }">
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
       <slot :name="name" v-bind="data ?? {}" />
     </template>

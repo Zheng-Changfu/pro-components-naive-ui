@@ -8,6 +8,7 @@ import type { ProCheckboxGroupSlots } from '../slots'
 
 defineOptions({
   name: 'ProFieldCheckboxGroup',
+  inheritAttrs: false,
 })
 const props = defineProps({
   labelField: String,
@@ -75,7 +76,7 @@ const selectedLabels = computed(() => {
       {{ $slots.default ? (value ?? []).join('，') : selectedLabels.join('，') }}
     </template>
   </slot>
-  <NCheckboxGroup v-else v-bind="nCheckboxGroupProps">
+  <NCheckboxGroup v-else v-bind="{ ...nCheckboxGroupProps, ...$attrs }">
     <template v-if="$slots.default">
       <slot name="default" />
     </template>

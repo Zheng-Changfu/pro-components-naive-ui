@@ -5,6 +5,7 @@ import { useReadonlyHelpers } from '../../field'
 
 defineOptions({
   name: 'ProFieldRate',
+  inheritAttrs: false,
 })
 defineProps(rateProps)
 defineSlots<ProRateSlots>()
@@ -22,7 +23,7 @@ const {
       </template>
     </NRate>
   </slot>
-  <NRate v-else v-bind="$props">
+  <NRate v-else v-bind="{ ...$props, ...$attrs }">
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
       <slot :name="name" v-bind="data ?? {}" />
     </template>

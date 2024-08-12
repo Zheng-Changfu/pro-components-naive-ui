@@ -12,6 +12,7 @@ import { levelKey, useOptions } from './composables/useOptions'
 
 defineOptions({
   name: 'ProFieldTreeSelect',
+  inheritAttrs: false,
 })
 const props = defineProps(treeSelectProps)
 defineSlots<ProTreeSelectSlots>()
@@ -165,7 +166,7 @@ defineExpose(exposed)
       {{ selectedLabels.join('，') }}
     </template>
   </slot>
-  <NTreeSelect v-else ref="instRef" v-bind="nTreeSelectProps">
+  <NTreeSelect v-else ref="instRef" v-bind="{ ...nTreeSelectProps, ...$attrs }">
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
       <slot :name="name" v-bind="data ?? {}" />
     </template>

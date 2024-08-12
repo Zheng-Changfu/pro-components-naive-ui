@@ -6,6 +6,7 @@ import { useReadonlyHelpers } from '../../field'
 
 defineOptions({
   name: 'ProFieldTransfer',
+  inheritAttrs: false,
 })
 const props = defineProps({
   ...transferProps,
@@ -71,5 +72,5 @@ const selectedLabels = computed(() => {
       {{ selectedLabels.join('，') }}
     </template>
   </slot>
-  <NTransfer v-else v-bind="nTransferProps" />
+  <NTransfer v-else v-bind="{ ...nTransferProps, ...$attrs }" />
 </template>
