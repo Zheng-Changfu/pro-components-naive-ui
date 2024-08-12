@@ -1,8 +1,8 @@
-import type { ProFieldExtendSlots } from '../../field'
+import type { ProFieldSlots } from '../field'
 
-export interface ProSelectSlots extends ProFieldExtendSlots {
-  header: any
-  action: any
-  empty: any
-  arrow: any
+export interface ProSelectSlots extends ProFieldSlots {
+  empty?: any
+  arrow?: any
+  action?: any
+  header?: any
 }
