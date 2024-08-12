@@ -8,12 +8,22 @@ import {
 } from 'naive-ui'
 import {
   ProConfigProvider,
+  ProFieldCheckbox,
+  ProFieldCheckboxGroup,
   ProFieldDatePicker,
   ProFieldDigit,
   ProFieldFormList,
   ProFieldInput,
   ProFieldPassword,
+  ProFieldRadioGroup,
+  ProFieldRate,
+  ProFieldSelect,
+  ProFieldSlider,
+  ProFieldSwitch,
   ProFieldTimePicker,
+  ProFieldTransfer,
+  ProFieldTreeSelect,
+  ProFieldUpload,
   ValueTypeEnum,
 } from 'pro-components-naive-ui'
 import { i18n, useIsMobile } from '../utils/composables'
@@ -159,6 +169,16 @@ export function siteSetup() {
       [ValueTypeEnum.DATE_QUARTER_RANGE]: ProFieldDatePicker,
       [ValueTypeEnum.PASSWORD]: ProFieldPassword,
       [ValueTypeEnum.FORM_LIST]: ProFieldFormList,
+      [ValueTypeEnum.CHECKBOX]: ProFieldCheckbox,
+      [ValueTypeEnum.CHECKBOX_GROUP]: ProFieldCheckboxGroup,
+      [ValueTypeEnum.TRANSFER]: ProFieldTransfer,
+      [ValueTypeEnum.SELECT]: ProFieldSelect,
+      [ValueTypeEnum.RADIO_GROUP]: ProFieldRadioGroup,
+      [ValueTypeEnum.TREE_SELECT]: ProFieldTreeSelect,
+      [ValueTypeEnum.SWITCH]: ProFieldSwitch,
+      [ValueTypeEnum.SLIDER]: ProFieldSlider,
+      [ValueTypeEnum.RATE]: ProFieldRate,
+      [ValueTypeEnum.UPLOAD]: ProFieldUpload,
     },
   }
 }
