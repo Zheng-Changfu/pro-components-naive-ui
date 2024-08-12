@@ -18,5 +18,6 @@ ProInput 是 NFormItem + Input 的产物，可以简单理解成以下的代码
 ## 演示
 
 ```demo
+item.vue
 date.vue
 ```
