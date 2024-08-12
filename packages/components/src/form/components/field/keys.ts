@@ -5,10 +5,6 @@ import type { ValueTypeEnum } from './enums'
 
 export interface FieldExtraInfo {
   /**
-   * 表单项的值
-   */
-  value: ComputedRef<any>
-  /**
    * 是否为只读模式
    */
   readonly: ComputedRef<boolean>
@@ -16,10 +12,6 @@ export interface FieldExtraInfo {
    * 表单项的类型
    */
   valueType: ComputedRef<ValueTypeEnum | undefined>
-  /**
-   * 表单项的 props
-   */
-  fieldProps: ComputedRef<Record<string, any>>
   /**
    * ProFormItem 的实例，校验的时候会用到
    */
