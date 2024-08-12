@@ -6,6 +6,7 @@ import { useReadonlyHelpers } from '../../field'
 
 defineOptions({
   name: 'ProFieldDigit',
+  inheritAttrs: false,
 })
 defineProps(inputNumberProps)
 defineSlots<ProDigitSlots>()
@@ -41,7 +42,7 @@ defineExpose(methods)
   <NInputNumber
     v-else
     ref="instRef"
-    v-bind="$props"
+    v-bind="{ ...$props, ...$attrs }"
   >
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
       <slot :name="name" v-bind="data ?? {}" />

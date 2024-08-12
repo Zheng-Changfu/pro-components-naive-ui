@@ -10,6 +10,7 @@ import { useReadonlyHelpers } from '../../field'
 
 defineOptions({
   name: 'ProFieldTimePicker',
+  inheritAttrs: false,
 })
 /**
  * 支持 value 传递字符串
@@ -70,7 +71,7 @@ defineExpose(methods)
   <slot v-if="readonly" name="readonly" v-bind="$props">
     {{ readonlyText }}
   </slot>
-  <NTimePicker v-else ref="instRef" v-bind="nTimePickerProps">
+  <NTimePicker v-else ref="instRef" v-bind="{ ...nTimePickerProps, ...$attrs }">
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
       <slot :name="name" v-bind="data ?? {}" />
     </template>

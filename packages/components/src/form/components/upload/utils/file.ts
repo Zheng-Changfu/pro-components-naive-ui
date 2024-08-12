@@ -21,8 +21,8 @@ export function convertValueToFile(val: any, postState?: (val: any) => any): Upl
     if (isString(file)) {
       return {
         id: uid(),
-        url: val,
-        name: val,
+        url: file,
+        name: file,
         status: 'finished',
       }
     }

@@ -10,7 +10,7 @@ export interface GlobalConfigProForm {
   /**
    * 自定义渲染表单控件的 placeholder
    */
-  renderPlaceholder: (opt: FieldExtraInfo) => string | [string, string]
+  renderPlaceholder: (opt: FieldExtraInfo) => string | [string, string] | void
   /**
    * 自定义渲染表单必填校验信息
    */

@@ -12,6 +12,7 @@ import { useOmitProps } from '../../../../hooks'
 
 defineOptions({
   name: 'ProFieldUpload',
+  inheritAttrs: false,
 })
 const props = defineProps({
   ...uploadProps,
@@ -105,6 +106,20 @@ function onBeforeUpload(data: {
   return true
 }
 
+/**
+ * issues: https://github.com/tusen-ai/naive-ui/issues/5312
+ */
+function fixUploadDragger() {
+  const inst = instRef.value as any
+  if (inst.$slots?.default) {
+    const defaultSlot = inst.$slots.default()[0] as any
+    if (defaultSlot.children?.[0]?.children?.[0]?.type?.name === 'UploadDragger') {
+      inst.draggerInsideRef.value = true
+    }
+  }
+}
+
+onMounted(fixUploadDragger)
 defineExpose(methods)
 </script>
 
@@ -114,7 +129,7 @@ defineExpose(methods)
       {{ emptyText }}
     </template>
     <template v-else>
-      <NUpload v-bind="nUploadProps" disabled>
+      <NUpload v-bind="{ ...nUploadProps, ...$attrs }" disabled>
         <template v-for="(_, name) in omit($slots, 'default')" :key="name" #[name]="data">
           <slot :name="name" v-bind="data ?? {}" />
         </template>
@@ -133,7 +148,7 @@ defineExpose(methods)
       </NUpload>
     </template>
   </slot>
-  <NUpload v-else ref="instRef" v-bind="nUploadProps">
+  <NUpload v-else ref="instRef" v-bind="{ ...nUploadProps, ...$attrs }">
     <template v-for="(_, name) in omit($slots, 'default')" :key="name" #[name]="data">
       <slot :name="name" v-bind="data ?? {}" />
     </template>
