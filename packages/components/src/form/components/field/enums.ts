@@ -12,6 +12,7 @@ export enum ValueTypeEnum {
   TRANSFER = 'transfer',
   TREE_SELECT = 'tree-select',
   RADIO_GROUP = 'radio-group',
+  COLOR_PICKER = 'color-picker',
   CHECKBOX_GROUP = 'checkbox-group',
 
   DATE = 'date',
