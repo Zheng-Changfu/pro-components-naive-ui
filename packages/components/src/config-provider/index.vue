@@ -30,12 +30,20 @@ const {
   proButton: parentProButton,
   proUpload: parentProUpload,
   fieldComponents: parentFieldComponents,
+  presetFieldProps: parentPresetFieldProps,
 } = useInjectGlobalConfig()
 
 const fieldComponentsRecord = computed(() => {
   return {
     ...unref(parentFieldComponents),
     ...(unref(props.fieldComponents) ?? {}),
+  }
+})
+
+const presetFieldPropsRecord = computed(() => {
+  return {
+    ...unref(parentPresetFieldProps),
+    ...(unref(props.presetFieldProps) ?? {}),
   }
 })
 
@@ -66,6 +74,7 @@ provideGlobalConfig({
     ...proUpload,
   },
   fieldComponents: fieldComponentsRecord,
+  presetFieldProps: presetFieldPropsRecord,
 })
 </script>
 

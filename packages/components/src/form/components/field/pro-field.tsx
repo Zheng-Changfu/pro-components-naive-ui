@@ -82,10 +82,13 @@ export default defineComponent({
       mergedReadonly,
       mergedBehavior,
       mergedShowLabel,
+      mergedFieldProps,
       mergedPlaceholder,
       mergedBehaviorProps,
     } = useMergeOptions({
       field,
+      valueType,
+      fieldProps,
       readonly: parsedReadonly,
       showLabel: parsedShowLabel,
       placeholder: parsedPlaceholder,
@@ -118,13 +121,13 @@ export default defineComponent({
       if (mergedPlaceholder.value === undefined) {
         return {
           ref: forwardInstRef,
-          ...fieldProps.value,
+          ...mergedFieldProps.value,
           ...fieldVModelProps.value,
         }
       }
       return {
         ref: forwardInstRef,
-        ...fieldProps.value,
+        ...mergedFieldProps.value,
         ...fieldVModelProps.value,
         placeholder: mergedPlaceholder.value,
       }
