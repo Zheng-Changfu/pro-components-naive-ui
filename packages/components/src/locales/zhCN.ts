@@ -42,4 +42,7 @@ export const zhCN = createLocale({
     copyThisLine: '复制此项',
     removeThisLine: '删除此项',
   },
+  ProUpload: {
+    title: '上传',
+  },
 } as any, nZhCN)
