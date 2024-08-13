@@ -1,5 +1,5 @@
 import type { UploadFileInfo, UploadProps } from 'naive-ui'
-import type { ExtractPublicPropTypes, MaybeRefOrGetter, PropType } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
 import { proFieldProps } from '../field'
 import type { ExtendAttrsStyleProps } from '../../../types'
