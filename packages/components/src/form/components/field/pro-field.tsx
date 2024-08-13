@@ -79,6 +79,7 @@ export default defineComponent({
     } = useParseProps(field, props)
 
     const {
+      mergedTitle,
       mergedReadonly,
       mergedBehavior,
       mergedShowLabel,
@@ -86,6 +87,8 @@ export default defineComponent({
       mergedPlaceholder,
       mergedBehaviorProps,
     } = useMergeOptions({
+      title,
+      label,
       field,
       valueType,
       fieldProps,
@@ -152,13 +155,12 @@ export default defineComponent({
         ...proFormItemAttrs.value,
         size: size.value,
         rule: rule.value,
-        label: label.value,
-        title: title.value,
         first: first.value,
         tooltip: tooltip.value,
         path: stringPath.value,
         rulePath: rulePath.value,
         feedback: feedback.value,
+        title: mergedTitle.value,
         required: required.value,
         labelWidth: labelWidth.value,
         labelAlign: labelAlign.value,
@@ -198,7 +200,6 @@ export default defineComponent({
     field[fieldExtraKey] = {
       valueType,
       readonly: mergedReadonly,
-      proFormItemProps: proFormItemBindProps,
     }
 
     expose(methods)

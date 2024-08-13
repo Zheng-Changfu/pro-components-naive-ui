@@ -1,6 +1,5 @@
 import type { ComputedRef } from 'vue'
 import type { FormItemInst } from 'naive-ui'
-import type { ProFormItemProps } from '../form-item'
 import type { ValueTypeEnum } from './enums'
 
 export interface FieldExtraInfo {
@@ -16,10 +15,6 @@ export interface FieldExtraInfo {
    * ProFormItem 的实例，校验的时候会用到
    */
   proFormItemInst: ComputedRef<FormItemInst>
-  /**
-   * ProFormItem 的 props
-   */
-  proFormItemProps: ComputedRef<ProFormItemProps>
 }
 
 export const fieldExtraKey = 'x-field-extra-key'
