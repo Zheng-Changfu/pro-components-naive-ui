@@ -11,17 +11,24 @@ defineProps(colorPickerProps)
 defineSlots<ProColorPickerSlots>()
 
 const {
+  empty,
   readonly,
+  emptyText,
 } = useReadonlyHelpers()
 </script>
 
 <template>
   <slot v-if="readonly" name="readonly" v-bind="$props">
-    <NColorPicker v-bind="$props" disabled>
-      <template v-for="(_, name) in $slots" :key="name" #[name]="data">
-        <slot :name="name === 'title' ? 'label' : ''" v-bind="data ?? {}" />
-      </template>
-    </NColorPicker>
+    <template v-if="empty">
+      {{ emptyText }}
+    </template>
+    <template v-else>
+      <NColorPicker v-bind="$props" disabled>
+        <template v-for="(_, name) in $slots" :key="name" #[name]="data">
+          <slot :name="name === 'title' ? 'label' : ''" v-bind="data ?? {}" />
+        </template>
+      </NColorPicker>
+    </template>
   </slot>
   <NColorPicker v-else v-bind="{ ...$props, ...$attrs }">
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
