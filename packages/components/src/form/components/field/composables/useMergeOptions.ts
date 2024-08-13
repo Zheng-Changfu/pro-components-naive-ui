@@ -2,14 +2,17 @@ import type { ComputedRef } from 'vue'
 import { computed, inject, unref } from 'vue'
 import type { BaseField } from 'pro-components-hooks'
 import type { PopoverProps } from 'naive-ui'
-import { fieldExtraKey } from '../keys'
+import { toString } from 'lodash-es'
 import { useInjectGlobalConfig } from '../../../../config-provider'
 import { proFormContextKey } from '../../../context'
 import { proFormListContextKey } from '../../../../form-list'
 import type { FieldValueType } from '../enums'
+import { useLocale } from '../../../../locales'
 
 interface UseMergeOptions {
   field: BaseField
+  label: ComputedRef<string | undefined>
+  title: ComputedRef<string | undefined>
   readonly: ComputedRef<boolean | undefined>
   showLabel: ComputedRef<boolean | undefined>
   valueType: ComputedRef<FieldValueType | undefined>
@@ -21,6 +24,8 @@ interface UseMergeOptions {
 export function useMergeOptions(options: UseMergeOptions) {
   const {
     field,
+    title,
+    label,
     readonly,
     valueType,
     fieldProps,
@@ -31,13 +36,12 @@ export function useMergeOptions(options: UseMergeOptions) {
   } = options
 
   const {
-    proForm,
-    presetFieldProps,
-  } = useInjectGlobalConfig()
+    getMessage,
+  } = useLocale('ProForm')
 
   const {
-    renderPlaceholder,
-  } = proForm
+    presetFieldProps,
+  } = useInjectGlobalConfig()
 
   const {
     showLabel,
@@ -49,13 +53,18 @@ export function useMergeOptions(options: UseMergeOptions) {
     readonly: formReadonlyRef,
   } = inject(proFormContextKey)!
 
+  const mergedTitle = computed(() => {
+    return title.value ?? label.value
+  })
+
   const mergedPlaceholder = computed(() => {
     const propPlaceholder = placeholder.value
     if (propPlaceholder !== undefined) {
       return propPlaceholder
     }
-    if (renderPlaceholder !== undefined && !field.isList) {
-      return renderPlaceholder(field[fieldExtraKey])
+    if (!field.isList) {
+      const localePlaceholder = getMessage('fieldPlaceholder')
+      return localePlaceholder(toString(mergedTitle.value), valueType.value)
     }
   })
 
@@ -101,6 +110,7 @@ export function useMergeOptions(options: UseMergeOptions) {
   })
 
   return {
+    mergedTitle,
     mergedReadonly,
     mergedBehavior,
     mergedShowLabel,

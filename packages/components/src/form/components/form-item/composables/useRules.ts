@@ -1,28 +1,33 @@
 import { computed } from 'vue'
-import { isArray } from 'lodash-es'
+import { isArray, toString } from 'lodash-es'
 import type { FormItemRule } from 'naive-ui'
 import { useInjectFieldContext } from 'pro-components-hooks'
 import { useInjectGlobalConfig } from '../../../../config-provider'
 import type { ProFormItemProps } from '../props'
 import { isEmptyValue } from '../../field/utils/valueUtil'
-import { fieldExtraKey } from '../../field'
+import { useLocale } from '../../../../locales'
 
 export function useRules(props: ProFormItemProps) {
   const {
+    getMessage,
+  } = useLocale('ProForm')
+
+  const {
     validateTrigger,
-    renderRequiredMessage,
   } = useInjectGlobalConfig().proForm
 
-  const field = useInjectFieldContext()!
-  const { stringPath } = field ?? {}
-  const fieldExtraInfo = field?.[fieldExtraKey]
+  const {
+    stringPath,
+  } = useInjectFieldContext() ?? {}
 
   function requiredValidator(_: any, value: any) {
     return !isEmptyValue(value)
   }
 
   function requiredMessage() {
-    return renderRequiredMessage?.(fieldExtraInfo) as string
+    const localeRequiredMessage = getMessage('validateMessages.required')
+    const { title, label } = props
+    return localeRequiredMessage(toString(title ?? label))
   }
 
   return computed(() => {
@@ -62,7 +67,7 @@ export function useRules(props: ProFormItemProps) {
           /**
            * 给每个 rule 增加 key，方便 validate 方法校验
            */
-          key: stringPath.value,
+          key: stringPath?.value,
         }
       })
   })
