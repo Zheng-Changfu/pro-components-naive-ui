@@ -11,6 +11,7 @@ import type { ProFormListInst } from '../inst'
 import { AUTO_CREATE_ID, provideProFormListInst, useInjectProFormListInst } from '../context'
 import { useInjectProFormInst } from '../../form/context'
 import { useReadonlyHelpers } from '../../form/components'
+import { useLocale } from '../../locales'
 import FieldItem from './field-item'
 
 const CreatorButton = defineComponent({
@@ -35,6 +36,7 @@ const CreatorButton = defineComponent({
   },
   setup(props) {
     const action = useInjectProFormListInst()
+    const { getMessage } = useLocale('ProFormList')
 
     const showButton = computed(() => {
       const {
@@ -56,7 +58,7 @@ const CreatorButton = defineComponent({
       return {
         block: true,
         dashed: true,
-        content: '添加一行数据',
+        content: getMessage('add'),
         renderIcon: () => {
           return (
             <NIcon>

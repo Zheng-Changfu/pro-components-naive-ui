@@ -4,7 +4,6 @@ import {
   darkTheme,
   dateZhCN,
   useOsTheme,
-  zhCN,
 } from 'naive-ui'
 import {
   ProConfigProvider,
@@ -25,6 +24,7 @@ import {
   ProFieldTreeSelect,
   ProFieldUpload,
   ValueTypeEnum,
+  zhCN,
 } from 'pro-components-naive-ui'
 import { i18n, useIsMobile } from '../utils/composables'
 import {

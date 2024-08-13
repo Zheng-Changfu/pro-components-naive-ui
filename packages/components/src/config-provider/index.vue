@@ -4,8 +4,6 @@ import { NConfigProvider } from 'naive-ui'
 import { useOmitProps } from '../hooks'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 import { provideGlobalConfig, useInjectGlobalConfig } from './context'
-import { builtInRenderRequiredMessage } from './renderers/requiredMessage'
-import { builtInRenderPlaceholder } from './renderers/placeholder'
 
 defineOptions({
   name: 'ProConfigProvider',
@@ -21,15 +19,13 @@ const {
   proUpload = {},
 } = props
 
-/**
- * 可能会嵌套，自己取不到，取上层的
- */
 const {
   proForm: parentProForm,
   proTable: parentProTable,
   proButton: parentProButton,
   proUpload: parentProUpload,
   fieldComponents: parentFieldComponents,
+  presetFieldProps: parentPresetFieldProps,
 } = useInjectGlobalConfig()
 
 const fieldComponentsRecord = computed(() => {
@@ -39,11 +35,16 @@ const fieldComponentsRecord = computed(() => {
   }
 })
 
+const presetFieldPropsRecord = computed(() => {
+  return {
+    ...unref(parentPresetFieldProps),
+    ...(unref(props.presetFieldProps) ?? {}),
+  }
+})
+
 provideGlobalConfig({
   proForm: {
     validateTrigger: 'input',
-    renderPlaceholder: builtInRenderPlaceholder,
-    renderRequiredMessage: builtInRenderRequiredMessage,
     ...parentProForm,
     ...proForm,
   },
@@ -66,6 +67,7 @@ provideGlobalConfig({
     ...proUpload,
   },
   fieldComponents: fieldComponentsRecord,
+  presetFieldProps: presetFieldPropsRecord,
 })
 </script>
 

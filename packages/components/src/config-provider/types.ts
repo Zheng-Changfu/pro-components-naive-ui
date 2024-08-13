@@ -8,14 +8,6 @@ export interface GlobalConfigProForm {
    */
   renderReadonlyEmpty: (opt: FieldExtraInfo) => VNodeChild
   /**
-   * 自定义渲染表单控件的 placeholder
-   */
-  renderPlaceholder: (opt: FieldExtraInfo) => string | [string, string] | void
-  /**
-   * 自定义渲染表单必填校验信息
-   */
-  renderRequiredMessage: (opt: FieldExtraInfo) => string
-  /**
    * 统一设置表单校验时机
    * @default 'input'
    */
