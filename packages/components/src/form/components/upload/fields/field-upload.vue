@@ -1,14 +1,14 @@
 <script setup lang='tsx'>
 import type { UploadFileInfo, UploadProps } from 'naive-ui'
 import { NButton, NUpload, uploadProps } from 'naive-ui'
-import { computed, toValue } from 'vue'
+import { computed } from 'vue'
 import { omit } from 'lodash-es'
 import type { ProUploadSlots } from '../slots'
 import { useProUploadInst } from '../inst'
 import { useReadonlyHelpers } from '../../field'
 import { proUploadFieldProps } from '../props'
-import { useInjectGlobalConfig } from '../../../../config-provider'
 import { useOmitProps } from '../../../../hooks'
+import { useLocale } from '../../../../locales'
 
 defineOptions({
   name: 'ProFieldUpload',
@@ -36,28 +36,11 @@ const pureProps = useOmitProps(
   proUploadFieldProps,
 )
 
-const {
-  title: globalTitle,
-  action: globalAction,
-  maxSize: globalMaxSize,
-  customRequest: globalCustomRequest,
-  onUnAccpetType: globalOnUnAcceptType,
-  onBeforeUpload: globalOnBeforeUpload,
-  onOverFileMaxSize: globalOnOverFileMaxSize,
-} = useInjectGlobalConfig().proUpload
-
-const title = computed(() => {
-  const { title } = props
-  return toValue(title) ?? toValue(globalTitle)
-})
+const { localeRef } = useLocale('ProUpload')
 
 const nUploadProps = computed<UploadProps>(() => {
-  const action = props.action ?? globalAction
-  const customRequest = props.customRequest ?? globalCustomRequest
   return {
     ...pureProps.value,
-    action,
-    customRequest,
     onBeforeUpload,
   }
 })
@@ -67,19 +50,15 @@ function onBeforeUpload(data: {
   fileList: UploadFileInfo[]
 }) {
   const {
+    maxSize,
+    onUnAcceptType,
     onlyAcceptImage,
-    maxSize: propMaxSize,
-    onUnAccpetType: propOnUnAccpetType,
+    onOverFileMaxSize,
     onBeforeUpload: propOnBeforeUpload,
-    onOverFileMaxSize: propOnOverFileMaxSize,
   } = props
 
   const fileSize = data.file.file?.size
   const fileName = data.file.file?.name
-  const maxSize = propMaxSize ?? globalMaxSize
-  const beforeUpload = propOnBeforeUpload ?? globalOnBeforeUpload
-  const onUnAcceptType = propOnUnAccpetType ?? globalOnUnAcceptType
-  const onOverFileMaxSize = propOnOverFileMaxSize ?? globalOnOverFileMaxSize
 
   if (
     onlyAcceptImage
@@ -100,8 +79,8 @@ function onBeforeUpload(data: {
     return false
   }
 
-  if (beforeUpload) {
-    return beforeUpload(data as any)
+  if (propOnBeforeUpload) {
+    return propOnBeforeUpload(data as any)
   }
   return true
 }
@@ -136,11 +115,11 @@ defineExpose(methods)
         <template #default>
           <slot name="default">
             <template v-if="nUploadProps.listType === 'image-card'">
-              {{ title }}
+              {{ localeRef.title }}
             </template>
             <template v-else>
               <NButton type="primary">
-                {{ title }}
+                {{ localeRef.title }}
               </NButton>
             </template>
           </slot>
@@ -155,11 +134,11 @@ defineExpose(methods)
     <template #default>
       <slot name="default">
         <template v-if="nUploadProps.listType === 'image-card'">
-          {{ title }}
+          {{ localeRef.title }}
         </template>
         <template v-else>
           <NButton type="primary">
-            {{ title }}
+            {{ localeRef.title }}
           </NButton>
         </template>
       </slot>

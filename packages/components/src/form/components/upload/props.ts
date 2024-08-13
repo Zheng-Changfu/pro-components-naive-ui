@@ -8,7 +8,7 @@ export interface ProUploadFieldProps extends UploadProps {
   /**
    * 按钮文本，优先级低于插槽
    */
-  title?: MaybeRefOrGetter<string>
+  title?: string
   /**
    * 文件的最大大小，单位 kb
    */
@@ -28,7 +28,7 @@ export interface ProUploadFieldProps extends UploadProps {
   /**
    * 上传不支持类型文件时触发的回调
    */
-  onUnAccpetType?: (data: {
+  onUnAcceptType?: (data: {
     file: UploadFileInfo
     fileList: UploadFileInfo[]
   }) => void
@@ -38,7 +38,7 @@ export const proUploadFieldProps = {
 /**
  * 按钮文本，优先级低于插槽
  */
-  title: [String, Object, Function] as PropType<MaybeRefOrGetter<string>>,
+  title: String,
   /**
    * 文件的最大大小，单位 kb
    */
@@ -60,7 +60,7 @@ export const proUploadFieldProps = {
   /**
    * 上传不支持类型文件时触发的回调
    */
-  onUnAccpetType: Function as PropType<(data: {
+  onUnAcceptType: Function as PropType<(data: {
     file: UploadFileInfo
     fileList: UploadFileInfo[]
   }) => void>,
