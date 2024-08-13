@@ -17,7 +17,7 @@ const {
 
 <template>
   <slot v-if="readonly" name="readonly" v-bind="$props">
-    <NRate v-bind="$props" readonly>
+    <NRate v-bind="{ ...$props, ...$attrs }" readonly>
       <template v-for="(_, name) in $slots" :key="name" #[name]="data">
         <slot :name="name" v-bind="data ?? {}" />
       </template>

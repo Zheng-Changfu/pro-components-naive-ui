@@ -41,4 +41,7 @@ export const enUS = createLocale({
     copyThisLine: 'copyThisLine',
     removeThisLine: 'removeThisLine',
   },
+  ProUpload: {
+    title: 'Upload',
+  },
 } as any, nEnUS)

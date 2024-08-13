@@ -29,10 +29,7 @@ defineExpose(methods)
     name="readonly"
     v-bind="$props"
   >
-    <NCheckbox
-      v-bind="{ ...$props, ...$attrs }"
-      disabled
-    >
+    <NCheckbox v-bind="{ ...$props, ...$attrs }" disabled>
       <template v-for="(_, name) in $slots" :key="name" #[name]="data">
         <slot :name="name" v-bind="data ?? {}" />
       </template>

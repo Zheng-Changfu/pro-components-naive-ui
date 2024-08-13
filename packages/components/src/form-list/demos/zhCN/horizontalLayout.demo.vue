@@ -4,7 +4,6 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { NCard } from 'naive-ui'
 
 export default defineComponent({
 

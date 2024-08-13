@@ -11,6 +11,7 @@ export * from './date-picker'
 export * from './tree-select'
 export * from './time-picker'
 export * from './radio-group'
+export * from './color-picker'
 export * from './checkbox-group'
 
 export * from './field'
