@@ -11,6 +11,7 @@ import { ProButton } from '../../button'
 import { proFormContextKey, useInjectProFormInst } from '../../form/context'
 import { AUTO_CREATE_ID, proFormListContextKey, useInjectProFormListInst } from '../context'
 import { useReadonlyHelpers } from '../../form/components'
+import { useLocale } from '../../locales'
 import { useProvidePath } from './composables/useProvidePath'
 
 const Action = defineComponent({
@@ -44,6 +45,7 @@ const Action = defineComponent({
   setup(props) {
     const form = useInjectProFormInst()
     const action = useInjectProFormListInst()
+    const { getMessage } = useLocale('ProFormList')
 
     const showCopyButton = computed(() => {
       const {
@@ -78,7 +80,7 @@ const Action = defineComponent({
     const getCopyButtonProps = computed<ProButtonProps>(() => {
       return {
         text: true,
-        tooltip: '复制此项',
+        tooltip: getMessage('copyThisLine'),
         renderIcon: () => {
           return (
             <NIcon>
@@ -93,7 +95,7 @@ const Action = defineComponent({
     const getRemoveButtonProps = computed<ProButtonProps>(() => {
       return {
         text: true,
-        tooltip: '删除此项',
+        tooltip: getMessage('removeThisLine'),
         renderIcon: () => {
           return (
             <NIcon>
