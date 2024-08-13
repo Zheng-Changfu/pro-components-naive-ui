@@ -1,6 +1,5 @@
 import type { VNodeChild } from 'vue'
 import type { FieldExtraInfo } from '../form/components/field'
-import type { ProUploadFieldProps } from '../form/components/upload'
 
 export interface GlobalConfigProForm {
   /**
@@ -29,17 +28,6 @@ export interface GlobalConfigProButton {
    */
   hasAuth: (auth: any, authData: any) => boolean
 }
-
-export type GlobalConfigProUpload = Pick<
-  ProUploadFieldProps,
-  | 'title'
-  | 'action'
-  | 'maxSize'
-  | 'customRequest'
-  | 'onBeforeUpload'
-  | 'onUnAccpetType'
-  | 'onOverFileMaxSize'
->
 
 export interface GlobalConfigProTable {
 

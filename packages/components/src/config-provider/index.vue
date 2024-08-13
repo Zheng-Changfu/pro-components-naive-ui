@@ -16,14 +16,12 @@ const {
   proForm = {},
   proTable = {},
   proButton = {},
-  proUpload = {},
 } = props
 
 const {
   proForm: parentProForm,
   proTable: parentProTable,
   proButton: parentProButton,
-  proUpload: parentProUpload,
   fieldComponents: parentFieldComponents,
   presetFieldProps: parentPresetFieldProps,
 } = useInjectGlobalConfig()
@@ -60,11 +58,6 @@ provideGlobalConfig({
       const parentAuthData = parentProButton.authData?.value
       return propAuthData ?? parentAuthData
     }),
-  },
-  proUpload: {
-    title: '上传',
-    ...parentProUpload,
-    ...proUpload,
   },
   fieldComponents: fieldComponentsRecord,
   presetFieldProps: presetFieldPropsRecord,
