@@ -9,6 +9,7 @@ import {
   ProConfigProvider,
   ProFieldCheckbox,
   ProFieldCheckboxGroup,
+  ProFieldColorPicker,
   ProFieldDatePicker,
   ProFieldDigit,
   ProFieldFormList,
@@ -179,6 +180,7 @@ export function siteSetup() {
       [ValueTypeEnum.SLIDER]: ProFieldSlider,
       [ValueTypeEnum.RATE]: ProFieldRate,
       [ValueTypeEnum.UPLOAD]: ProFieldUpload,
+      [ValueTypeEnum.COLOR_PICKER]: ProFieldColorPicker,
     },
   }
 }

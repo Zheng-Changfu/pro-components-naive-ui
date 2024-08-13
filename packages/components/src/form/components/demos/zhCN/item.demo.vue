@@ -222,6 +222,11 @@ export default defineComponent({
             </n-gi>
           </n-grid>
         </pro-checkbox-group>
+        <pro-color-picker
+          title="颜色选择"
+          path="color-picker"
+          required
+        />
       </n-flex>
     </n-card>
     <n-card title="其他" embedded>
