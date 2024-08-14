@@ -7,6 +7,8 @@ import { isString } from 'lodash-es'
 import type { ProTimePickerSlots } from '../slots'
 import { useProTimePickerInst } from '../inst'
 import { useReadonlyHelpers } from '../../field'
+import { toDisplayDate } from '../../date-picker/fields/utils/toDisplayDate'
+import { useMergeFormat } from './composables/useMergeFormat'
 
 defineOptions({
   name: 'ProFieldTimePicker',
@@ -28,9 +30,13 @@ const [
 ] = useProTimePickerInst()
 
 const {
+  value,
+  empty,
   readonly,
-  readonlyText,
+  emptyText,
 } = useReadonlyHelpers()
+
+const mergedFormat = useMergeFormat(props as any)
 
 /**
  * 传递了 value-format 属性并且 value 是一个字符串 使用 v-model:formattedValue
@@ -64,12 +70,24 @@ const nTimePickerProps = computed<TimePickerProps>(() => {
   }
 })
 
+const displayDateText = computed(() => {
+  return toDisplayDate(
+    value.value,
+    mergedFormat.value,
+  )
+})
+
 defineExpose(methods)
 </script>
 
 <template>
   <slot v-if="readonly" name="readonly" v-bind="$props">
-    {{ readonlyText }}
+    <template v-if="empty">
+      {{ emptyText }}
+    </template>
+    <template v-else>
+      {{ displayDateText }}
+    </template>
   </slot>
   <NTimePicker v-else ref="instRef" v-bind="{ ...nTimePickerProps, ...$attrs }">
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
