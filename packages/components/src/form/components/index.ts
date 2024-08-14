@@ -13,9 +13,8 @@ export * from './time-picker'
 export * from './radio-group'
 export * from './color-picker'
 export * from './dynamic-tags'
+export * from './auto-complete'
 export * from './checkbox-group'
-
-// auto complete
 // Cascader
 // Mention
 
