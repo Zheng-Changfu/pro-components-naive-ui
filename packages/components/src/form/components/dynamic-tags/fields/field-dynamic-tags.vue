@@ -1,14 +1,14 @@
 <script setup lang='tsx'>
-import { NColorPicker, colorPickerProps } from 'naive-ui'
-import type { ProColorPickerSlots } from '../slots'
+import { NDynamicTags, dynamicTagsProps } from 'naive-ui'
+import type { ProDynamicTagsSlots } from '../slots'
 import { useReadonlyHelpers } from '../../field'
 
 defineOptions({
-  name: 'ProFieldColorPicker',
+  name: 'ProFieldDynamicTags',
   inheritAttrs: false,
 })
-defineProps(colorPickerProps)
-defineSlots<ProColorPickerSlots>()
+defineProps(dynamicTagsProps)
+defineSlots<ProDynamicTagsSlots>()
 
 const {
   empty,
@@ -23,16 +23,16 @@ const {
       {{ emptyText }}
     </template>
     <template v-else>
-      <NColorPicker v-bind="$props" disabled>
+      <NDynamicTags v-bind="{ ...$props, ...$attrs }" :closable="false" disabled>
         <template v-for="(_, name) in $slots" :key="name" #[name]="data">
-          <slot :name="name === 'title' ? 'label' : ''" v-bind="data ?? {}" />
+          <slot :name="name" v-bind="data ?? {}" />
         </template>
-      </NColorPicker>
+      </NDynamicTags>
     </template>
   </slot>
-  <NColorPicker v-else v-bind="{ ...$props, ...$attrs }">
+  <NDynamicTags v-else v-bind="{ ...$props, ...$attrs }">
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
-      <slot :name="name === 'title' ? 'label' : ''" v-bind="data ?? {}" />
+      <slot :name="name" v-bind="data ?? {}" />
     </template>
-  </NColorPicker>
+  </NDynamicTags>
 </template>
