@@ -23,7 +23,7 @@ const {
       {{ emptyText }}
     </template>
     <template v-else>
-      <NDynamicTags v-bind="{ ...$props, ...$attrs }" disabled>
+      <NDynamicTags v-bind="{ ...$props, ...$attrs }" :closable="false" disabled>
         <template v-for="(_, name) in $slots" :key="name" #[name]="data">
           <slot :name="name" v-bind="data ?? {}" />
         </template>

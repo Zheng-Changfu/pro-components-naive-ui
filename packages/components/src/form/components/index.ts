@@ -17,7 +17,6 @@ export * from './checkbox-group'
 
 // auto complete
 // Cascader
-// dynamic tags Todo: readonly {label:xx,value:xx}
 // Mention
 
 export * from './field'
