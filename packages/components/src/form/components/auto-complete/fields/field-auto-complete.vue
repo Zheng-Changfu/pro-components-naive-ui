@@ -1,6 +1,6 @@
 <script setup lang='tsx'>
 import type { AutoCompleteProps } from 'naive-ui'
-import { NAutoComplete, autoCompleteProps } from 'naive-ui'
+import { NAutoComplete, NEl, NFlex, autoCompleteProps } from 'naive-ui'
 import type { PropType } from 'vue'
 import { isFunction } from 'lodash-es'
 import type { ProAutoCompleteSlots } from '../slots'
@@ -30,8 +30,9 @@ const [
 
 const {
   value,
+  empty,
   readonly,
-  readonlyText,
+  emptyText,
 } = useReadonlyHelpers()
 
 const nAutoCompleteOptions = computed(() => {
@@ -51,7 +52,16 @@ defineExpose(methods)
 
 <template>
   <slot v-if="readonly" name="readonly" v-bind="$props">
-    {{ readonlyText }}
+    <template v-if="empty">
+      {{ emptyText }}
+    </template>
+    <template v-else>
+      <NFlex :size="[8, 0]">
+        <NEl><slot name="prefix" /></NEl>
+        <NEl>{{ value }}</NEl>
+        <NEl><slot name="suffix" /></NEl>
+      </NFlex>
+    </template>
   </slot>
   <NAutoComplete v-else ref="instRef" v-bind="{ ...nAutoCompleteProps, ...$attrs }">
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
