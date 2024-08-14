@@ -7,11 +7,13 @@ import {
 } from 'naive-ui'
 import {
   ProConfigProvider,
+  ProFieldAutoComplete,
   ProFieldCheckbox,
   ProFieldCheckboxGroup,
   ProFieldColorPicker,
   ProFieldDatePicker,
   ProFieldDigit,
+  ProFieldDynamicTags,
   ProFieldFormList,
   ProFieldInput,
   ProFieldPassword,
@@ -181,6 +183,8 @@ export function siteSetup() {
       [ValueTypeEnum.RATE]: ProFieldRate,
       [ValueTypeEnum.UPLOAD]: ProFieldUpload,
       [ValueTypeEnum.COLOR_PICKER]: ProFieldColorPicker,
+      [ValueTypeEnum.DYNAMIC_TAGS]: ProFieldDynamicTags,
+      [ValueTypeEnum.AUTO_COMPLETE]: ProFieldAutoComplete,
     },
   }
 }
