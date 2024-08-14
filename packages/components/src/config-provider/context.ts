@@ -13,7 +13,6 @@ export function useInjectGlobalConfig() {
     proForm: {},
     proTable: {},
     proButton: {},
-    proUpload: {},
     fieldComponents: {},
     presetFieldProps: {},
   }) as any as Required<ProConfigProviderExtendProps>
