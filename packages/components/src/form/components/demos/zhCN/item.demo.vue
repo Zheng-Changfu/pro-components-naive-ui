@@ -82,6 +82,21 @@ export default defineComponent({
             ],
           }"
         />
+        <pro-auto-complete
+          title="AutoComplete"
+          path="auto-complete"
+          :field-props="{
+            options: (value:string | null) => {
+              return ['@gmail.com', '@163.com', '@qq.com'].map((suffix) => {
+                const prefix = (value ?? '').split('@')[0]
+                return {
+                  label: prefix + suffix,
+                  value: prefix + suffix,
+                }
+              })
+            },
+          }"
+        />
       </n-flex>
     </n-card>
     <n-card title="选择类" embedded class="my-8px">
@@ -272,6 +287,11 @@ export default defineComponent({
         <pro-rate
           title="Rate"
           path="rate"
+        />
+        <pro-dynamic-tags
+          title="动态标签"
+          path="dynamic-tags"
+          required
         />
         <pro-upload
           title="上传"

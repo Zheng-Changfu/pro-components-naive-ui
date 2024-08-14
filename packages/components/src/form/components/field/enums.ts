@@ -14,6 +14,8 @@ export enum ValueTypeEnum {
   TREE_SELECT = 'tree-select',
   RADIO_GROUP = 'radio-group',
   COLOR_PICKER = 'color-picker',
+  DYNAMIC_TAGS = 'dynamic-tags',
+  AUTO_COMPLETE = 'auto-complete',
   CHECKBOX_GROUP = 'checkbox-group',
 
   DATE = 'date',
