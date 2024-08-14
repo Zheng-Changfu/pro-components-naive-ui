@@ -14,6 +14,7 @@ export const enUS = createLocale({
         case ValueTypeEnum.DIGIT:
         case ValueTypeEnum.MENTION:
         case ValueTypeEnum.PASSWORD:
+        case ValueTypeEnum.AUTO_COMPLETE:
           return `Please Input ${title}`
         case ValueTypeEnum.DATE:
         case ValueTypeEnum.TIME:

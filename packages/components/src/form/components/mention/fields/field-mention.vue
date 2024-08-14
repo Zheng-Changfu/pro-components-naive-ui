@@ -28,11 +28,7 @@ defineExpose(methods)
   <slot v-if="readonly" name="readonly" v-bind="$props">
     {{ readonlyText }}
   </slot>
-  <NMention
-    v-else
-    ref="instRef"
-    v-bind="{ ...$props, ...$attrs }"
-  >
+  <NMention v-else ref="instRef" v-bind="{ ...$props, ...$attrs }">
     <template v-for="(_, name) in $slots" :key="name" #[name]="data">
       <slot :name="name" v-bind="data ?? {}" />
     </template>

@@ -17,7 +17,6 @@ export * from './dynamic-tags'
 export * from './auto-complete'
 export * from './checkbox-group'
 // Cascader
-// Mention
 
 export * from './field'
 export * from './form-item'

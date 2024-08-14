@@ -1,15 +1,13 @@
 import type { DatePickerProps } from 'naive-ui'
-import { enUS } from 'naive-ui'
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
+import { useLocale } from '../../../../../locales'
 
 export function useMergeFormat(props: DatePickerProps) {
-  const ns = 'DatePicker'
   const { type, format, valueFormat } = props
-  const { mergedLocaleRef } = (inject('n-config-provider', null) ?? {}) as any
+  const { localeRef } = useLocale('DatePicker')
 
   return computed<string>(() => {
-    const locale = mergedLocaleRef?.value?.[ns] ?? enUS[ns]
-
+    const locale = localeRef.value
     if (valueFormat) {
       return valueFormat
     }

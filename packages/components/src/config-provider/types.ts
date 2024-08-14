@@ -1,11 +1,8 @@
-import type { VNodeChild } from 'vue'
-import type { FieldExtraInfo } from '../form/components/field'
-
 export interface GlobalConfigProForm {
   /**
-   * 自定义渲染只读模式下并且表单值为空时的内容
+   * 只读模式下并且表单值为空时的内容
    */
-  renderReadonlyEmpty: (opt: FieldExtraInfo) => VNodeChild
+  readonlyEmptyText: string
   /**
    * 统一设置表单校验时机
    * @default 'input'

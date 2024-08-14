@@ -8,7 +8,7 @@ import { isEmptyValue } from '../utils/valueUtil'
 export function useReadonlyHelpers() {
   const field = useInjectFieldContext()!
   const fieldExtraInfo = field[fieldExtraKey] as FieldExtraInfo
-  const { renderReadonlyEmpty } = useInjectGlobalConfig().proForm
+  const { readonlyEmptyText } = useInjectGlobalConfig().proForm
 
   const {
     readonly,
@@ -20,10 +20,7 @@ export function useReadonlyHelpers() {
   })
 
   const emptyText = computed(() => {
-    if (renderReadonlyEmpty) {
-      return renderReadonlyEmpty(fieldExtraInfo)
-    }
-    return '-'
+    return readonlyEmptyText ?? '-'
   })
 
   const readonlyText = computed(() => {
