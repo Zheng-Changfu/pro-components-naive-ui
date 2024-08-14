@@ -66,6 +66,22 @@ export default defineComponent({
           title="password"
           path="password"
         />
+        <pro-mention
+          title="mention"
+          path="mention"
+          :field-props="{
+            options: [
+              {
+                label: 'zcf',
+                value: 'zcf',
+              },
+              {
+                label: 'star-kirby',
+                value: 'star-kirby',
+              },
+            ],
+          }"
+        />
         <pro-auto-complete
           title="AutoComplete"
           path="auto-complete"

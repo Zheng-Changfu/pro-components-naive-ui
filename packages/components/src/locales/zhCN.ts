@@ -13,6 +13,7 @@ export const zhCN = createLocale({
       switch (valueType) {
         case ValueTypeEnum.INPUT:
         case ValueTypeEnum.DIGIT:
+        case ValueTypeEnum.MENTION:
         case ValueTypeEnum.PASSWORD:
           return `请输入${title}`
         case ValueTypeEnum.DATE:

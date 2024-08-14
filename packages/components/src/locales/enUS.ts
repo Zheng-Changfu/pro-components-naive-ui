@@ -12,6 +12,7 @@ export const enUS = createLocale({
       switch (valueType) {
         case ValueTypeEnum.INPUT:
         case ValueTypeEnum.DIGIT:
+        case ValueTypeEnum.MENTION:
         case ValueTypeEnum.PASSWORD:
           return `Please Input ${title}`
         case ValueTypeEnum.DATE:
