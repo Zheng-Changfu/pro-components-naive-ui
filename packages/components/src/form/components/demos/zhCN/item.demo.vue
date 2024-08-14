@@ -66,6 +66,22 @@ export default defineComponent({
           title="password"
           path="password"
         />
+        <pro-mention
+          title="mention"
+          path="mention"
+          :field-props="{
+            options: [
+              {
+                label: 'zcf',
+                value: 'zcf',
+              },
+              {
+                label: 'star-kirby',
+                value: 'star-kirby',
+              },
+            ],
+          }"
+        />
       </n-flex>
     </n-card>
     <n-card title="选择类" embedded class="my-8px">
