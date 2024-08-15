@@ -20,6 +20,7 @@ export const zhCN = createLocale({
         case ValueTypeEnum.DATE:
         case ValueTypeEnum.TIME:
         case ValueTypeEnum.SELECT:
+        case ValueTypeEnum.CASCADER:
         case ValueTypeEnum.DATE_TIME:
         case ValueTypeEnum.DATE_YEAR:
         case ValueTypeEnum.DATE_WEEK:

@@ -7,6 +7,7 @@ export enum ValueTypeEnum {
   UPLOAD = 'upload',
   SELECT = 'select',
   MENTION = 'mention',
+  CASCADER = 'cascader',
   PASSWORD = 'password',
   TEXTAREA = 'textarea',
   CHECKBOX = 'checkbox',
