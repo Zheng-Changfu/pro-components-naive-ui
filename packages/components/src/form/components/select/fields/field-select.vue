@@ -1,7 +1,7 @@
 <script setup lang='tsx'>
 import { NEl, NFlex, NSelect, selectProps } from 'naive-ui'
 import { eachTree } from 'pro-components-hooks'
-import { get, isArray, noop } from 'lodash-es'
+import { get, isArray, isFunction, noop } from 'lodash-es'
 import type { VNodeChild } from 'vue'
 import type { ProSelectSlots } from '../slots'
 import { useProSelectInst } from '../inst'
@@ -49,6 +49,9 @@ const selectedLabels = computed(() => {
         }
         if (renderLabel) {
           label = renderLabel(item as any, true)
+        }
+        if (isFunction(label)) {
+          label = label(item, true)
         }
         if (label) {
           labels.push(<NEl>{label}</NEl>)
