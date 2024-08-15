@@ -1,7 +1,8 @@
 <script setup lang='tsx'>
-import { NCascader, cascaderProps } from 'naive-ui'
+import { NCascader, NEl, NFlex, cascaderProps } from 'naive-ui'
 import { get, isArray } from 'lodash-es'
 import { eachTree } from 'pro-components-hooks'
+import type { VNodeChild } from 'vue'
 import type { ProCascaderSlots } from '../slots'
 import { useProCascaderInst } from '../inst'
 import { useReadonlyHelpers } from '../../field'
@@ -27,21 +28,26 @@ const {
 
 const selectedLabels = computed(() => {
   const {
+    renderLabel,
     options = [],
     labelField = 'label',
     valueField = 'value',
     childrenField = 'children',
   } = props
-
-  const labels: string[] = []
+  const labels: VNodeChild[] = []
   const selectedValue = isArray(value.value) ? value.value : [value.value]
   eachTree(
     options,
     (item) => {
-      const label = get(item, labelField)
       const value = get(item, valueField)
-      if (label && selectedValue.includes(value)) {
-        labels.push(label as string)
+      if (selectedValue.includes(value)) {
+        let label = get(item, labelField) as VNodeChild
+        if (renderLabel) {
+          label = renderLabel(item as any, true)
+        }
+        if (label) {
+          labels.push(<NEl>{label}</NEl>)
+        }
       }
     },
     childrenField,
@@ -63,7 +69,9 @@ defineExpose(methods)
       {{ emptyText }}
     </template>
     <template v-else>
-      {{ selectedLabels.join('，') }}
+      <NFlex :size="[8, 0]">
+        <component :is="() => selectedLabels" />
+      </NFlex>
     </template>
   </slot>
   <NCascader v-else ref="instRef" v-bind="{ ...$props, ...$attrs }">
