@@ -1,7 +1,8 @@
 <script setup lang='tsx'>
-import { NSelect, selectProps } from 'naive-ui'
+import { NEl, NFlex, NSelect, selectProps } from 'naive-ui'
 import { eachTree } from 'pro-components-hooks'
-import { get, isArray } from 'lodash-es'
+import { get, isArray, noop } from 'lodash-es'
+import type { VNodeChild } from 'vue'
 import type { ProSelectSlots } from '../slots'
 import { useProSelectInst } from '../inst'
 import { useReadonlyHelpers } from '../../field'
@@ -27,21 +28,31 @@ const {
 
 const selectedLabels = computed(() => {
   const {
+    renderTag,
+    renderLabel,
     options = [],
     labelField = 'label',
     valueField = 'value',
     childrenField = 'children',
   } = props
 
-  const labels: string[] = []
+  const labels: VNodeChild[] = []
   const selectedValue = isArray(value.value) ? value.value : [value.value]
   eachTree(
     options,
     (item) => {
-      const label = get(item, labelField)
       const value = get(item, valueField)
-      if (label && selectedValue.includes(value)) {
-        labels.push(label as string)
+      if (selectedValue.includes(value)) {
+        let label = get(item, labelField) as VNodeChild
+        if (renderTag) {
+          label = renderTag({ option: item as any, handleClose: noop })
+        }
+        if (renderLabel) {
+          label = renderLabel(item as any, true)
+        }
+        if (label) {
+          labels.push(<NEl>{label}</NEl>)
+        }
       }
     },
     childrenField,
@@ -62,7 +73,9 @@ defineExpose(methods)
       {{ emptyText }}
     </template>
     <template v-else>
-      {{ selectedLabels.join('，') }}
+      <NFlex :size="[8, 0]">
+        <component :is="() => selectedLabels" />
+      </NFlex>
     </template>
   </slot>
   <NSelect v-else ref="instRef" v-bind="{ ...$props, ...$attrs }">
