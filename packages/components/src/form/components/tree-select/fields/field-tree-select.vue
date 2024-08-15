@@ -1,8 +1,9 @@
 <script setup lang='tsx'>
 import type { TreeSelectInst, TreeSelectProps } from 'naive-ui'
-import { NTreeSelect, treeSelectProps } from 'naive-ui'
-import { get, isArray, isUndefined } from 'lodash-es'
+import { NEl, NFlex, NTreeSelect, treeSelectProps } from 'naive-ui'
+import { get, isArray, isUndefined, noop } from 'lodash-es'
 import { eachTree, useInjectFieldContext } from 'pro-components-hooks'
+import type { VNodeChild } from 'vue'
 import type { ProTreeSelectSlots } from '../slots'
 import type { ProTreeSelectInst } from '../inst'
 import { useReadonlyHelpers } from '../../field'
@@ -59,21 +60,31 @@ const nTreeSelectProps = computed<TreeSelectProps>(() => {
 
 const selectedLabels = computed(() => {
   const {
+    renderTag,
+    renderLabel,
     options = [],
     keyField = 'key',
     labelField = 'label',
     childrenField = 'children',
   } = props
 
-  const labels: string[] = []
+  const labels: VNodeChild[] = []
   const selectedValue = isArray(value.value) ? value.value : [value.value]
   eachTree(
     options,
     (item) => {
-      const key = get(item, keyField)
-      const label = get(item, labelField)
-      if (label && selectedValue.includes(key)) {
-        labels.push(label as string)
+      const value = get(item, keyField)
+      if (selectedValue.includes(value)) {
+        let label = get(item, labelField) as VNodeChild
+        if (renderTag) {
+          label = renderTag({ option: item as any, handleClose: noop })
+        }
+        if (renderLabel) {
+          label = renderLabel({ option: item, checked: true, selected: true })
+        }
+        if (label) {
+          labels.push(<NEl>{label}</NEl>)
+        }
       }
     },
     childrenField,
@@ -163,7 +174,9 @@ defineExpose(exposed)
       {{ emptyText }}
     </template>
     <template v-else>
-      {{ selectedLabels.join('，') }}
+      <NFlex :size="[8, 0]">
+        <component :is="() => selectedLabels" />
+      </NFlex>
     </template>
   </slot>
   <NTreeSelect v-else ref="instRef" v-bind="{ ...nTreeSelectProps, ...$attrs }">
