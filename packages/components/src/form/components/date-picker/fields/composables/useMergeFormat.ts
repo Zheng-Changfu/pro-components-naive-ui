@@ -3,11 +3,12 @@ import { computed } from 'vue'
 import { useLocale } from '../../../../../locales'
 
 export function useMergeFormat(props: DatePickerProps) {
-  const { type, format, valueFormat } = props
   const { localeRef } = useLocale('DatePicker')
 
   return computed<string>(() => {
     const locale = localeRef.value
+    const { type, format, valueFormat } = props
+
     if (valueFormat) {
       return valueFormat
     }
