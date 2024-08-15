@@ -3,4 +3,4 @@ import type { PickFunction } from '../../../types'
 import { createProComponentInstanceFactory } from '../../../hooks'
 
 export type ProCascaderInst = PickFunction<CascaderInst>
-export const useCascaderInst = createProComponentInstanceFactory<ProCascaderInst>('ProCascader')
+export const useProCascaderInst = createProComponentInstanceFactory<ProCascaderInst>('ProCascader')

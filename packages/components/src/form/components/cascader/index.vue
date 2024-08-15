@@ -2,7 +2,7 @@
 import { ProField, ValueTypeEnum } from '../field'
 import { proCascaderProps } from './props'
 import type { ProCascaderSlots } from './slots'
-import { useCascaderInst } from './inst'
+import { useProCascaderInst } from './inst'
 
 defineOptions({
   name: 'ProCascader',
@@ -13,7 +13,7 @@ defineSlots<ProCascaderSlots>()
 const [
   instRef,
   methods,
-] = useCascaderInst()
+] = useProCascaderInst()
 
 defineExpose(methods)
 </script>

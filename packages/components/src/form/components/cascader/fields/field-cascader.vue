@@ -3,7 +3,7 @@ import { NCascader, cascaderProps } from 'naive-ui'
 import { get, isArray } from 'lodash-es'
 import { eachTree } from 'pro-components-hooks'
 import type { ProCascaderSlots } from '../slots'
-import { useCascaderInst } from '../inst'
+import { useProCascaderInst } from '../inst'
 import { useReadonlyHelpers } from '../../field'
 
 defineOptions({
@@ -16,7 +16,7 @@ defineSlots<ProCascaderSlots>()
 const [
   instRef,
   methods,
-] = useCascaderInst()
+] = useProCascaderInst()
 
 const {
   empty,
@@ -46,7 +46,6 @@ const selectedLabels = computed(() => {
     },
     childrenField,
   )
-  console.log(labels, 'labels')
 
   return labels
 })
