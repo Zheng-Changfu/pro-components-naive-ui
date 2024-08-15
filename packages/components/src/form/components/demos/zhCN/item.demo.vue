@@ -165,6 +165,45 @@ export default defineComponent({
             ],
           }"
         />
+        <pro-cascader
+          title="cascader"
+          path="cascader"
+          required
+          :field-props="{
+            class: 'w-180px',
+            options: [
+              {
+                label: 'Rubber Soul',
+                value: 0,
+                children: [
+                  {
+                    label: 'Drive My Car',
+                    value: 1,
+                    disabled: true,
+                  },
+                  {
+                    label: 'Wait',
+                    value: 2,
+                  },
+                ],
+              },
+              {
+                label: 'Let It Be',
+                value: 3,
+                children: [
+                  {
+                    label: 'For You Blue',
+                    value: 4,
+                  },
+                  {
+                    label: 'Get Back',
+                    value: 5,
+                  },
+                ],
+              },
+            ],
+          }"
+        />
         <pro-radio-group
           title="RadioGroup"
           path="radio-group"

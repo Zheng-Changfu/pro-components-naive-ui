@@ -8,6 +8,7 @@ import {
 import {
   ProConfigProvider,
   ProFieldAutoComplete,
+  ProFieldCascader,
   ProFieldCheckbox,
   ProFieldCheckboxGroup,
   ProFieldColorPicker,
@@ -183,6 +184,7 @@ export function siteSetup() {
       [ValueTypeEnum.SLIDER]: ProFieldSlider,
       [ValueTypeEnum.RATE]: ProFieldRate,
       [ValueTypeEnum.MENTION]: ProFieldMention,
+      [ValueTypeEnum.CASCADER]: ProFieldCascader,
       [ValueTypeEnum.UPLOAD]: ProFieldUpload,
       [ValueTypeEnum.COLOR_PICKER]: ProFieldColorPicker,
       [ValueTypeEnum.DYNAMIC_TAGS]: ProFieldDynamicTags,
