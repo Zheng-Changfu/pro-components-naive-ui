@@ -19,17 +19,14 @@ interface ProCheckboxGroupFieldProps extends CheckboxGroupProps {
    * 配置选项内容
    */
   options?: Array<CheckboxProps & ([x: string])>
+  /**
+   * 包裹 n-checkbox 的 flex 属性
+   */
+  flexProps: FlexProps
 }
 
 export const proCheckboxGroupProps = {
   ...proFieldProps,
-  /**
-   * 包裹 n-checkbox 的 flex 属性
-   */
-  flexProps: {
-    type: Object as PropType<MaybeExpression<FlexProps>>,
-    default: () => ({}),
-  },
   fieldProps: {
     type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<ProCheckboxGroupFieldProps>>>,
     default: () => ({}),
