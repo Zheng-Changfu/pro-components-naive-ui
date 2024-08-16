@@ -7,24 +7,13 @@ import type { ProRadioGroupSlots } from './slots'
 defineOptions({
   name: 'ProRadioGroup',
 })
-const props = defineProps(proRadioGroupProps)
+defineProps(proRadioGroupProps)
 defineSlots<ProRadioGroupSlots>()
-
-const proFieldProps = computed(() => {
-  const { flexProps, fieldProps, ...rest } = props
-  return {
-    ...rest,
-    fieldProps: {
-      flexProps,
-      ...fieldProps,
-    },
-  }
-})
 </script>
 
 <template>
   <ProField
-    v-bind="proFieldProps"
+    v-bind="$props"
     :default-value="null"
     :value-type="ValueTypeEnum.RADIO_GROUP"
   >

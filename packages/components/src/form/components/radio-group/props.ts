@@ -19,17 +19,14 @@ interface ProRadioGroupFieldProps extends RadioGroupProps {
    * 配置选项内容
    */
   options?: Array<RadioProps & ([x: string])>
+  /**
+   * 包裹 n-radio 的 flex 属性
+   */
+  flexProps: FlexProps
 }
 
 export const proRadioGroupProps = {
   ...proFieldProps,
-  /**
-   * 包裹 n-radio 的 flex 属性
-   */
-  flexProps: {
-    type: Object as PropType<MaybeExpression<FlexProps>>,
-    default: () => ({}),
-  },
   fieldProps: {
     type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<ProRadioGroupFieldProps>>>,
     default: () => ({}),
