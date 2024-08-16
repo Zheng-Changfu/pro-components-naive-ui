@@ -35,9 +35,9 @@ export interface ProUploadFieldProps extends UploadProps {
 }
 
 export const proUploadFieldProps = {
-/**
- * 按钮文本，优先级低于插槽
- */
+  /**
+   * 按钮文本，优先级低于插槽
+   */
   title: String,
   /**
    * 文件的最大大小，单位 kb

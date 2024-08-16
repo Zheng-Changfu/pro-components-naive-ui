@@ -218,10 +218,10 @@ export default defineComponent({
         <pro-radio-group
           title="RadioGroup"
           path="radio-group-vertical"
-          :flex-props="{
-            vertical: true,
-          }"
           :field-props="{
+            flexProps: {
+              vertical: true,
+            },
             options: [
               { label: 'item1', value: 0 },
               { label: 'item2', value: 1 },
@@ -260,10 +260,10 @@ export default defineComponent({
           title="checkbox-group"
           path="checkbox-group-vertical"
           required
-          :flex-props="{
-            vertical: true,
-          }"
           :field-props="{
+            flexProps: {
+              vertical: true,
+            },
             options: [
               { label: 'A', value: 0 },
               { label: 'B', value: 1 },

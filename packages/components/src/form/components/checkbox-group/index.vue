@@ -1,5 +1,4 @@
 <script setup lang="tsx">
-import { computed } from 'vue'
 import { ProField, ValueTypeEnum } from '../field'
 import { proCheckboxGroupProps } from './props'
 import type { ProCheckboxGroupSlots } from './slots'
@@ -7,24 +6,13 @@ import type { ProCheckboxGroupSlots } from './slots'
 defineOptions({
   name: 'ProCheckboxGroup',
 })
-const props = defineProps(proCheckboxGroupProps)
+defineProps(proCheckboxGroupProps)
 defineSlots<ProCheckboxGroupSlots>()
-
-const proFieldProps = computed(() => {
-  const { flexProps, fieldProps, ...rest } = props
-  return {
-    ...rest,
-    fieldProps: {
-      flexProps,
-      ...fieldProps,
-    },
-  }
-})
 </script>
 
 <template>
   <ProField
-    v-bind="proFieldProps"
+    v-bind="$props"
     :default-value="[]"
     :value-type="ValueTypeEnum.CHECKBOX_GROUP"
   >
