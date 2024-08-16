@@ -8,16 +8,13 @@ import { isEmptyValue } from '../../field/utils/valueUtil'
  * 支持文件 url 组成的 fileList 回显
  */
 export function convertValueToFile(val: any, postState?: (val: any) => any): UploadFileInfo[] {
-  if (postState) {
-    return postState(val) ?? []
-  }
   if (isEmptyValue(val)) {
-    return []
+    return postState ? postState(val) : []
   }
   if (!isArray(val)) {
     val = [val].filter(Boolean)
   }
-  return val.map((file: any) => {
+  const fileList = val.map((file: any) => {
     if (isString(file)) {
       return {
         id: uid(),
@@ -31,4 +28,5 @@ export function convertValueToFile(val: any, postState?: (val: any) => any): Upl
       ...file,
     }
   })
+  return postState ? postState(fileList) : fileList
 }
