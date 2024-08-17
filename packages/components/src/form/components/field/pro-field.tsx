@@ -1,8 +1,7 @@
 import type { SlotsType } from 'vue'
-import { Fragment, computed, defineComponent, h, inject, unref } from 'vue'
-import { NEl, NFlex, formItemGiProps } from 'naive-ui'
+import { Fragment, computed, defineComponent, h, unref } from 'vue'
+import { NEl, NFlex } from 'naive-ui'
 import { omit, pick } from 'lodash-es'
-import { proFormContextKey } from '../../context'
 import { ProFormItem } from '../form-item'
 import { ProPopoverFormItem } from '../popover-form-item'
 import { useInjectGlobalConfig } from '../../../config-provider'
@@ -15,7 +14,6 @@ import { useMergeOptions } from './composables/useMergeOptions'
 import { useForwardInst } from './inst'
 import type { FieldValueType } from './enums'
 
-const formItemGiKeys = Object.keys(formItemGiProps)
 export default defineComponent({
   name: 'ProField',
   inheritAttrs: false,
@@ -29,7 +27,6 @@ export default defineComponent({
 
     const field = createField(props)
     const { fieldComponents } = useInjectGlobalConfig()
-    const { useFormItemGi } = inject(proFormContextKey)!
 
     const {
       show,
@@ -42,13 +39,10 @@ export default defineComponent({
     const {
       size,
       rule,
-      span,
       label,
       title,
       first,
-      suffix,
       simple,
-      offset,
       tooltip,
       rulePath,
       feedback,
@@ -136,23 +130,9 @@ export default defineComponent({
       }
     })
 
-    const gridItemProps = computed(() => {
-      return {
-        span: span.value,
-        suffix: suffix.value,
-        offset: offset.value,
-      }
-    })
-
-    const proFormItemAttrs = computed(() => {
-      return useFormItemGi.value
-        ? parsedAttrs.value
-        : omit(parsedAttrs.value, formItemGiKeys)
-    })
-
     const proFormItemBindProps = computed(() => {
       return {
-        ...proFormItemAttrs.value,
+        ...parsedAttrs.value,
         size: size.value,
         rule: rule.value,
         first: first.value,
@@ -175,7 +155,6 @@ export default defineComponent({
         ignorePathChange: ignorePathChange.value,
         validationStatus: validationStatus.value,
         requireMarkPlacement: requireMarkPlacement.value,
-        ...(useFormItemGi.value ? gridItemProps.value : {}),
       }
     })
 

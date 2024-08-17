@@ -1,7 +1,7 @@
 <markdown>
-# 前缀&后缀插槽
+# 前缀和后缀
 
-所有表单控件除了支持原有的插槽外，还新增了2个插槽，`addon-before` 和 `addon-after`
+你可以使用 `addon-before` 和 `addon-after` 属性来定义前缀和后缀，也可以使用插槽来定义，属性定义时只支持字符串格式
 </markdown>
 
 <script lang="tsx">
@@ -17,14 +17,14 @@ export default defineComponent({
 <template>
   <n-flex vertical>
     <pro-form label-width="auto" label-placement="left">
-      <pro-input label="用户名" path="username">
+      <pro-input title="用户名" path="username">
         <template #addon-after>
           <n-button type="primary">
             搜索
           </n-button>
         </template>
       </pro-input>
-      <pro-password label="密码" path="password">
+      <pro-password title="密码" path="password">
         <template #addon-before>
           <div class="flex items-center">
             😁
@@ -32,7 +32,7 @@ export default defineComponent({
         </template>
       </pro-password>
       <pro-select
-        label="下拉"
+        title="下拉"
         path="select"
         :field-props="{
           class: 'w-200px',
@@ -54,14 +54,12 @@ export default defineComponent({
           </div>
         </template>
       </pro-select>
-      <pro-switch label="开关" path="switch">
-        <template #addon-before>
-          before...
-        </template>
-        <template #addon-after>
-          after...
-        </template>
-      </pro-switch>
+      <pro-switch
+        title="开关"
+        path="switch"
+        addon-before="before..."
+        addon-after="after..."
+      />
     </pro-form>
   </n-flex>
 </template>

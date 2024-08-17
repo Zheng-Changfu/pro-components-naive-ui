@@ -12,13 +12,8 @@ export default defineComponent({
   setup() {
     const [proFormInst, { submit }] = useProFormInst()
 
-    function onSubmit(values: any) {
-      console.log(values, 'values')
-    }
-
     return {
       submit,
-      onSubmit,
       proFormInst,
     }
   },
@@ -30,7 +25,7 @@ export default defineComponent({
     ref="proFormInst"
     label-placement="left"
     label-width="auto"
-    @submit="onSubmit"
+    @submit="console.log"
   >
     <pro-upload
       label="图片"

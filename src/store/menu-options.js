@@ -234,6 +234,12 @@ export function createComponentMenuOptions({ lang, theme }) {
           path: '/field',
         },
         {
+          en: 'FieldDependency',
+          zh: '字段联动',
+          enSuffix: true,
+          path: '/field-dependency',
+        },
+        {
           en: 'ProFormList',
           zh: '结构化列表',
           enSuffix: true,

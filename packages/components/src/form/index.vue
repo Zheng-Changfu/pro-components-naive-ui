@@ -212,7 +212,6 @@ provide(proFormContextKey, {
   addValidateWarnings,
   clearValidateResults,
   readonly: parsedReadonly,
-  useFormItemGi: toRef(props, 'useFormItemGi'),
   validateBehavior: toRef(props, 'validateBehavior'),
   validateBehaviorProps: toRef(props, 'validateBehaviorProps'),
 })

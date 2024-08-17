@@ -1,34 +1,22 @@
 <markdown>
-# 自定义渲染控件组
+# 自定义表单项容器
 
-控件组 = 当前控件 + 前后缀插槽
+表单项容器包括了当前表单项和前后缀插槽，默认内部使用了 `NFlex` 包裹，您可以使用表单项的 `group` 插槽自定义
 </markdown>
 
 <script lang="tsx">
-import type { VNodeChild } from 'vue'
 import { defineComponent } from 'vue'
 import { NInputGroup } from 'naive-ui'
 import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
+  components: { NInputGroup },
   setup() {
     const [instRef, { submit }] = useProFormInst()
-
-    function onSubmit(values: any) {
-      console.log(values)
-    }
-
-    function fieldGroupRender(
-      opt: { vnode: VNodeChild },
-    ) {
-      return <NInputGroup>{opt.vnode}</NInputGroup>
-    }
 
     return {
       instRef,
       submit,
-      onSubmit,
-      fieldGroupRender,
     }
   },
 })
@@ -39,9 +27,13 @@ export default defineComponent({
     ref="instRef"
     label-placement="left"
     label-width="auto"
-    @submit="onSubmit"
+    @submit="console.log"
   >
-    <pro-input label="用户名" path="username" required :field-group-render="fieldGroupRender">
+    <pro-input
+      title="用户名"
+      path="username"
+      required
+    >
       <template #addon-before>
         <n-button type="primary">
           搜索
@@ -50,8 +42,17 @@ export default defineComponent({
       <template #addon-after>
         <n-button>搜索</n-button>
       </template>
+      <template #group="vnode">
+        <NInputGroup>
+          <component :is="vnode" />
+        </NInputGroup>
+      </template>
     </pro-input>
-    <pro-password label="密码" path="password" required />
+    <pro-password
+      title="密码"
+      path="password"
+      required
+    />
     <n-button type="primary" @click="submit">
       提交
     </n-button>
