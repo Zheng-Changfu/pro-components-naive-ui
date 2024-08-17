@@ -7,12 +7,9 @@ export function useParseProps({ scope }: BaseField, props: ProFieldProps) {
   const attrs = useAttrs()
   const parsedSize = useCompile(toRef(props, 'size'), { scope })
   const parsedRule = useCompile(toRef(props, 'rule'), { scope })
-  const parsedSpan = useCompile(toRef(props, 'span'), { scope })
   const parsedTitle = useCompile(toRef(props, 'title'), { scope })
   const parsedLabel = useCompile(toRef(props, 'label'), { scope })
   const parsedFirst = useCompile(toRef(props, 'first'), { scope })
-  const parsedOffset = useCompile(toRef(props, 'offset'), { scope })
-  const parsedSuffix = useCompile(toRef(props, 'suffix'), { scope })
   const parsedSimple = useCompile(toRef(props, 'simple'), { scope })
   const parsedTooltip = useCompile(toRef(props, 'tooltip'), { scope })
   const parsedRulePath = useCompile(toRef(props, 'rulePath'), { scope })
@@ -45,13 +42,10 @@ export function useParseProps({ scope }: BaseField, props: ProFieldProps) {
   return {
     size: parsedSize,
     rule: parsedRule,
-    span: parsedSpan,
     title: parsedTitle,
     label: parsedLabel,
     first: parsedFirst,
     attrs: parsedAttrs,
-    offset: parsedOffset,
-    suffix: parsedSuffix,
     simple: parsedSimple,
     tooltip: parsedTooltip,
     rulePath: parsedRulePath,

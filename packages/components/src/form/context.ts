@@ -8,7 +8,6 @@ export const proFormInstContextKey = Symbol('proFormInst') as InjectionKey<ProFo
 
 export const proFormContextKey = Symbol('proForm') as InjectionKey<{
   readonly: MaybeRef<boolean | undefined>
-  useFormItemGi: ToRef<boolean | undefined>
   validateBehavior: ToRef<ValidateBehavior | undefined>
   validateBehaviorProps: ToRef<PopoverProps | undefined>
   clearValidateResults: (path?: string) => void

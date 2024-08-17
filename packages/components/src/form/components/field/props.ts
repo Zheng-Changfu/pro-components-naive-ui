@@ -122,8 +122,7 @@ export const proFieldProps = {
    */
   addonAfter: String as PropType<MaybeExpression<string>>,
   /**
-   * --------NFormItem 和 NFormItemGi 的 props-----------
-   * NFormItemGi 的 props 必须在 form 中设置 useFormItemGi:true 后生效
+   * --------NFormItem 的 props-----------
    */
   label: String as PropType<MaybeExpression<string>>,
   title: String as PropType<MaybeExpression<string>>, // 同 label，为了工程化统一
@@ -155,20 +154,8 @@ export const proFieldProps = {
     type: [Boolean, String] as PropType<MaybeExpression<boolean | undefined>>,
     default: undefined,
   },
-  span: {
-    type: [String, Number] as PropType<MaybeExpression<string | number>>,
-    default: 1,
-  },
-  offset: {
-    type: [String, Number] as PropType<MaybeExpression<string | number>>,
-    default: 0,
-  },
-  suffix: {
-    type: [String, Boolean] as PropType<MaybeExpression<boolean>>,
-    default: false,
-  },
   /**
-   * --------NFormItem 和 NFormItemGi 的 props-----------
+   * --------NFormItem 的 props-----------
    */
 } as const
 
