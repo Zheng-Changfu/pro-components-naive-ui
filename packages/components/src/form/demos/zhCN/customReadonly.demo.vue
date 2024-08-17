@@ -1,11 +1,11 @@
 <markdown>
-# 自定义渲染只读模式
+# 自定义只读模式
 
-组件的 `readonly` 属性优先级比表单的 `readonly` 高，使用 `renderReadonly` 属性自定义渲染只读模式下的控件，`renderReadonlyEmpty`
-属性自定义渲染只读模式下并且内容为空时的控件，你也可以在全局配置
+默认内部预设了每个组件的只读模式，如果不满足您的需求，可以使用组件的 `readonly` 插槽自定义渲染，参数为当前组件的所有 props
 </markdown>
 
 <script lang="tsx">
+import { InputProps } from 'naive-ui'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
@@ -34,13 +34,21 @@ export default defineComponent({
     <n-flex>
       <div>只读：<n-switch v-model:value="readonly" /></div>
     </n-flex>
-    <pro-form label-placement="left" label-width="auto" :readonly="readonly">
+    <pro-form
+      label-width="auto"
+      label-placement="left"
+      :readonly="readonly"
+    >
       <pro-input
-        label="用户名"
+        title="用户名"
         path="username"
-        :render-readonly="renderReadonly"
-        :render-readonly-empty="renderReadonlyEmpty"
-      />
+      >
+        <template #readonly="{ value }:InputProps">
+          <div class="color-red">
+            {{ value ? value : '暂无数据' }}
+          </div>
+        </template>
+      </pro-input>
     </pro-form>
   </n-flex>
 </template>

@@ -14,13 +14,8 @@ export default defineComponent({
   setup() {
     const [proFormInst, { submit }] = useProFormInst()
 
-    function onSubmit(values: any) {
-      console.log(values, 'values')
-    }
-
     return {
       submit,
-      onSubmit,
       proFormInst,
     }
   },
@@ -35,7 +30,7 @@ export default defineComponent({
     :initial-values="{
       username: 'zcf',
     }"
-    @submit="onSubmit"
+    @submit="console.log"
   >
     <pro-input
       label="用户名"

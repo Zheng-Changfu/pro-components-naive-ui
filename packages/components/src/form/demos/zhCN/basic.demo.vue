@@ -1,5 +1,5 @@
 <markdown>
-  # 基本使用
+# 基本使用
 </markdown>
 
 <script lang="tsx">
@@ -20,8 +20,8 @@ export default defineComponent({
 
 <template>
   <pro-form ref="proFormInst" label-placement="left" label-width="auto" @submit="console.log">
-    <pro-input label="用户名" path="username" required />
-    <pro-password label="密码" path="password" required />
+    <pro-input tooltip="用户名" title="用户名" path="username" required />
+    <pro-password :tooltip="['1', '2']" title="密码" path="password" required />
     <n-button type="primary" @click="submit">
       登录
     </n-button>

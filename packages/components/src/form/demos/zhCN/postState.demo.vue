@@ -12,10 +12,6 @@ export default defineComponent({
   setup() {
     const [proFormInst, { submit }] = useProFormInst()
 
-    function onSubmit(values: any) {
-      console.log(values, 'values')
-    }
-
     function selectAllToClearOtherPostState(val: number[] | null) {
       if (!val) {
         return val
@@ -30,7 +26,6 @@ export default defineComponent({
 
     return {
       submit,
-      onSubmit,
       proFormInst,
       selectAllToClearOtherPostState,
     }
@@ -43,7 +38,7 @@ export default defineComponent({
     ref="proFormInst"
     label-placement="left"
     label-width="auto"
-    @submit="onSubmit"
+    @submit="console.log"
   >
     <pro-select
       label="城市"

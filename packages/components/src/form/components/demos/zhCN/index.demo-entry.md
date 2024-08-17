@@ -51,7 +51,7 @@ preset-field-props.vue
 | isList | `boolean` | | 是否为列表字段，自定义列表组件时可能会用到 |  |
 | valueType | `FieldValueType` | | 用于表示值的类型是属于哪个组件的，自定义组件时可能会用到 |  |
 | valueModelName | `string` | | 用于 `v-model:xxx` 的名称，默认为 `'value'`，用于支持 `v-model:value`，如果你想支持 `v-model:checked`，设置为 `checked`，自定义组件时可能会用到 |  |
-| [...NFormItemProps](https://www.naiveui.com/zh-CN/os-theme/components/form#FormItemGi-Props) | | | 默认内部是用 `NFormItem` 组件，如果要支持 `NFormItemGi` 的属性，请在 `ProForm` 上设置 `useFormItemGi` 为 `true`，这时内部会使用 `NFormItemGi` 组件渲染 | |
+| [...NFormItemProps](https://www.naiveui.com/zh-CN/os-theme/components/form#FormItem-Props) | | | 支持 `NFormItem` 的所有 props | |
 
 ### 通用的插槽
 | 名称 | 参数 | 说明 | 版本 |

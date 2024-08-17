@@ -27,14 +27,9 @@ export default defineComponent({
       getFieldsTransformedValue,
     }] = useProFormInst()
 
-    function onSubmit(values: any) {
-      console.log(values, 'values')
-    }
-
     return {
       instRef,
       submit,
-      onSubmit,
       validate,
       matchPath,
       getFieldValue,
@@ -232,13 +227,13 @@ export default defineComponent({
       ref="instRef"
       label-width="auto"
       label-placement="left"
-      @submit="onSubmit"
+      @submit="console.log"
     >
-      <pro-input label="用户名" path="username" required />
-      <pro-password label="密码" path="password" required />
-      <pro-digit label="数字" path="digit" required />
+      <pro-input title="用户名" path="username" required />
+      <pro-password title="密码" path="password" required />
+      <pro-digit title="数字" path="digit" required />
       <pro-select
-        label="下拉"
+        title="下拉"
         path="select"
         required
         :field-props="{
@@ -259,7 +254,7 @@ export default defineComponent({
           ],
         }"
       />
-      <pro-switch label="开关" path="switch" required />
+      <pro-switch title="开关" path="switch" required />
       <n-button type="primary" @click="submit">
         登录
       </n-button>
