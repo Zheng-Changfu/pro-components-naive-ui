@@ -5,13 +5,10 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import UnoCSS from 'unocss/vite'
+// import { analyzer } from 'vite-bundle-analyzer'
 import vitePluginDemo from './build/vite-plugin-demo'
-import pkg from './package.json'
 
-// eslint-disable-next-line node/prefer-global/process
-const prod = process.env.NODE_ENV === 'production'
 export default defineConfig({
-  base: prod ? `/${pkg.name}/` : '/',
   plugins: [
     UnoCSS(),
     ...vitePluginDemo(),
@@ -32,6 +29,7 @@ export default defineConfig({
     Components({
       resolvers: [NaiveUiResolver()],
     }),
+    // analyzer(),
   ],
   resolve: {
     alias: [
@@ -44,5 +42,14 @@ export default defineConfig({
         replacement: resolve(__dirname, './src'),
       },
     ],
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'naive-ui': ['naive-ui'],
+        },
+      },
+    },
   },
 })
