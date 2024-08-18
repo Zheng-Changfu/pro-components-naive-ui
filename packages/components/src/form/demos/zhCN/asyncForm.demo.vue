@@ -1,12 +1,10 @@
 <markdown>
 # 异步获取数据
-
-可以使用自己封装的请求或者 `useProRequest` 轻松完成异步效果
 </markdown>
 
 <script lang="tsx">
-import { defineComponent } from 'vue'
-import { useProFormInst, useProRequest } from 'pro-components-naive-ui'
+import { defineComponent, ref } from 'vue'
+import { useProFormInst } from 'pro-components-naive-ui'
 
 interface Info {
   name: string
@@ -32,31 +30,29 @@ export default defineComponent({
       restoreValidation,
     }] = useProFormInst()
 
-    const { run, loading } = useProRequest({
-      api: reqUserInfo,
-      immediate: false,
-      onSuccess: (response) => {
-        restoreValidation()
-        setFieldsValue(response, 'overwrite')
-        setInitialValues(response, 'overwrite') // 将请求回来的值作为初始值，重置会回到初始值
-      },
-    })
+    const loading = ref(false)
 
-    async function reqUserInfo(): Promise<Info> {
+    async function reqUserInfo() {
+      loading.value = true
       await delay(1000)
-      return {
+      const result: Info = {
         name: 'zcf',
         userInfo: [
           { name: 'zcf', age: 18 },
         ],
       }
+      restoreValidation() // 根据实际需求判断是否需要添加此代码，这里添加此行代码是有可能先点击提交触发校验，在点击获取数据需要清空校验
+      setFieldsValue(result, 'overwrite') // 覆盖表单的所有数据，而不是合并
+      setInitialValues(result, 'overwrite') // 将请求回来的值作为初始值，重置会回到初始值
+      loading.value = false
+      return result
     }
 
     return {
-      run,
       instRef,
       loading,
       submit,
+      reqUserInfo,
       restoreFieldsValue,
     }
   },
@@ -65,7 +61,7 @@ export default defineComponent({
 
 <template>
   <n-flex class="mb-8px">
-    <n-button @click="run">
+    <n-button @click="reqUserInfo">
       请求
     </n-button>
     <n-button @click="restoreFieldsValue">

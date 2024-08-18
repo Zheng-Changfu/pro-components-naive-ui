@@ -15,12 +15,11 @@ customActionRender.vue
 customContainerRender.vue
 horizontalLayout.vue
 listNest.vue
-asyncFormList.vue
 ```
 
 ## API
-### ProFormList 新增 Props
-<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>除了是一个表单控件，可以接受所有的表单控件属性外，还扩展了一些属性</div>
+### ProFormList 属性
+除了是一个表单项，支持这些 [通用属性](field#通用的属性) 外，还扩展了一些属性
 
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
 | --- | --- | --- | --- | --- |
@@ -33,12 +32,10 @@ asyncFormList.vue
 | copyButtonProps | `ProButtonProps \| false` | | 复制按钮的属性，false 不显示 | |
 | removeButtonProps | `ProButtonProps \| false` | | 删除按钮的属性，false 不显示 | |
 | actionGuard | [ActionGuard](form-list#ActionGuard) | | 添加行和删除行的拦截器 | |
-| itemRender | [ItemRender](form-list#ItemRender) | | 自定义渲染每一行的结构，主要就是将 action 放在别的地方 | |
-| actionRender | [ActionRender](form-list#ActionRender) | | 自定义渲染操作按钮 | |
-| fieldRender | [ArrayFieldRender](form-list#ArrayFieldRender) | | 自定义渲染控件，可以用来包裹额外的 dom 结构 | |
+| [...通用属性](field#通用的属性) | | | | |
 
-### ProFormList Methods
-<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>使用 ref 或者 useProFormListInstance 可以拿到组件方法，子组件中可以使用 useInjectProFormListInstance 方法直接注入</div>
+### ProFormList 实例方法
+使用 `useProFormListInst` 可以拿到组件方法，如果想在子组件中使用，可以使用 `useInjectProFormListInst` 方法直接注入，您无需使用 `useProFormListInst` 注册
 
 | 名称 | 类型 | 说明 | 版本 |
 | --- | --- | --- | --- |
@@ -52,10 +49,13 @@ asyncFormList.vue
 | moveUp | `(index: number) => void` | 上移数据 | |
 | moveDown | `(index: number) => void` | 下移数据 | |
 
-### ProFormList Slots
+### ProFormList 插槽
 | 名称 | 参数 | 说明 | 版本 |
 | --- | --- | --- | --- |
-| default | `(opt:{index:number, total:number, action:ProFormListInstance})` | | |
+| default | `(opt:{index: number, total: number, action: ProFormListInstance})` | | |
+| item | `(opt:{index: number, total: number, itemVNode: VNodeChild, actionVNode: VNodeChild, action: ProFormListInst})` | 自定义渲染每一行的结构，主要就是将 action 放在别的地方 | |
+| action | `(opt:{index: number, total: number, actionVNode: VNodeChild, action: ProFormListInst})` | 自定义渲染操作按钮 | |
+| container | `(opt:{listVNode: VNodeChild, creatorButtonVNode: VNodeChild})` | 自定义渲染列表容器 | |
 
 ### ActionGuard
 ```ts
@@ -74,55 +74,4 @@ interface ActionGuard {
    */
   beforeRemoveRow: (opt: { index: number, total: number }) => boolean | Promise<boolean>
 }
-```
-
-### ItemRender
-```ts
-/**
- * 自定义渲染每一行的结构，主要就是将 action 放在别的地方
- * @param index 当前行索引
- * @param total 当前列表总行数
- * @param itemVNode 当前行(不包括 action 区域)的虚拟节点
- * @param actionVNode 当前行(action 区域)的虚拟节点
- * @param action 表单列表实例，上面有很多方法
- */
-type ItemRender = (opt: {
-  index: number
-  total: number
-  itemVNode: VNodeChild
-  actionVNode: VNodeChild
-  action: ProFormListInstance
-}) => VNodeChild
-```
-
-### ActionRender
-```ts
-/**
- * 自定义渲染操作按钮
- * @param index 当前行索引
- * @param total 当前列表总行数
- * @param actionVNode 当前行(action 区域)的虚拟节点
- * @param action 表单列表实例，上面有很多方法
- */
-type ActionRender = (opt: {
-  index: number
-  total: number
-  actionVNode: VNodeChild
-  action: ProFormListInstance
-}) => VNodeChild
-```
-
-### ArrayFieldRender
-```ts
-/**
- * 自定义渲染控件，可以包裹一些额外的 dom 结构
- * @param listVNode 列表的虚拟节点
- * @param fieldVNode 列表 + 添加一行数据的虚拟节点
- * @param creatorButtonVNode 添加一行数据的虚拟节点
- */
-type ArrayFieldRender = (opt: {
-  listVNode: VNodeChild
-  fieldVNode: VNodeChild
-  creatorButtonVNode: VNodeChild
-}) => VNodeChild
 ```
