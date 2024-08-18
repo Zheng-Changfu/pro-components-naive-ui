@@ -19,6 +19,15 @@
     }
     deriveTitleFromLocale(pathLocale)
   </script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const p = urlParams.get('path');
+
+    if (p) {
+      // 假设你使用的是基于History API的路由
+      history.replaceState(null, '', p);
+    }
+  </script>
   <div id="app"></div>
   <script type="module" src="/src/main.ts"></script>
 </body>
