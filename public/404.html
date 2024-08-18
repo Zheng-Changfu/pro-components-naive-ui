@@ -5,10 +5,9 @@
   <script type="text/javascript">
     // 检查是否在404页面
     if (window.location.pathname !== '/index.html') {
-      // 获取当前路径
-      var pathname = window.location.pathname;
-      // 重定向到index.html，并将路径作为查询参数传递
-      window.location.replace('/index.html?path=' + pathname);
+      const hash = window.location.hash
+      const pathname = window.location.pathname;
+      window.location.replace(`/index.html?path=${pathname}&hash=${hash}`);
     }
   </script>
 </head>
