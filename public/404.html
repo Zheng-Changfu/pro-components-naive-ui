@@ -7,7 +7,7 @@
     if (window.location.pathname !== '/index.html') {
       const hash = window.location.hash
       const pathname = window.location.pathname;
-      window.location.replace(`/index.html?path=${pathname}&hash=${hash}`);
+      window.location.replace(`/index.html?path=${encodeURIComponent(pathname)}${encodeURIComponent(hash)}`);
     }
   </script>
 </head>
