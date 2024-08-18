@@ -22,11 +22,9 @@
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const p = urlParams.get('path');
-    const h = urlParams.get('hash')
 
     if (p) {
-      const redirectPath = h ? `${p}${h}` : p
-      history.replaceState(null, '', redirectPath);
+      history.replaceState(null, '', p + window.location.hash);
     }
   </script>
   <div id="app"></div>
