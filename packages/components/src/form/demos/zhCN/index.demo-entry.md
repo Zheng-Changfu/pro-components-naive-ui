@@ -1,12 +1,13 @@
 # 表单 ProForm
 <!--single-column-->
 
-我们封装 `ProForm` 组件解决了 `NaiveUi` 的一些比较麻烦的点，如
+我们封装 `ProForm` 组件除了支持 [NForm](https://www.naiveui.com/zh-CN/os-theme/components/form) 的原有功能外，还解决了一些比较麻烦的点，如
 - 重置表单
-- 初始值需要为 `null`
+- 表单联动
+- 表单值的管理
 - 必填校验在某些表单项上需要设定 `type` 属性
 - 想在 `label` 旁边增加 `tooltip`
-- ...
+- [...不止于此]()
 
 ## 演示
 
@@ -20,6 +21,7 @@ customReadonly.vue
 customFieldGroup.vue
 formLayout.vue
 formApi.vue
+asyncForm.vue
 ```
 
 ## API
@@ -42,10 +44,10 @@ formApi.vue
 | 名称 | 说明 | 版本 |
 | --- | --- | --- |
 | model | 表单值内部进行管理 |  |
-| rules | 校验规则在控件上写 |  |
+| rules | 校验规则在表单项上写 |  |
 
 ### ProForm 实例方法
-使用 `useProFormInst` 可以拿到组件方法，如果想在子组件中使用，可以使用 `useInjectProFormInst` 方法直接注入
+使用 `useProFormInst` 可以拿到组件方法，如果想在子组件中使用，可以使用 `useInjectProFormInst` 方法直接注入，您无需使用 `useProFormInst` 注册表单
 
 | 名称 | 类型 | 说明 | 版本 |
 | --- | --- | --- | --- |
