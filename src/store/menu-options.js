@@ -209,6 +209,12 @@ export function createComponentMenuOptions({ lang, theme }) {
       type: 'group',
       children: [
         {
+          en: 'ProCard',
+          zh: '卡片',
+          enSuffix: true,
+          path: '/card',
+        },
+        {
           en: 'ProButton',
           zh: '按钮',
           enSuffix: true,
