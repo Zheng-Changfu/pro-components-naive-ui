@@ -47,4 +47,7 @@ export const enUS = createLocale({
   ProUpload: {
     title: 'Upload',
   },
+  ProCard: {
+    expandText: (expanded: boolean) => expanded ? 'fold' : 'unfold',
+  },
 } as any, nEnUS)
