@@ -3,6 +3,7 @@ import { useSsrAdapter } from '@css-render/vue3-ssr'
 import { inject, onBeforeMount } from 'vue'
 
 export function useMountStyle(
+  resolveId: string,
   mountId: string,
   style: CNode | undefined,
 ) {
@@ -26,4 +27,8 @@ export function useMountStyle(
       onBeforeMount(mountStyle)
     }
   }
+
+  return computed(() => {
+    return NConfigProvider?.mergedThemeOverridesRef.value?.[resolveId] ?? {}
+  })
 }

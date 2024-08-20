@@ -48,4 +48,7 @@ export const zhCN = createLocale({
   ProUpload: {
     title: '上传',
   },
+  ProCard: {
+    expandText: (expanded: boolean) => expanded ? '收起' : '展开',
+  },
 } as any, nZhCN)

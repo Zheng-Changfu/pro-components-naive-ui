@@ -52,6 +52,7 @@ const separateProps = computed(() => {
 })
 
 useMountStyle(
+  'ProFormItem',
   'pro-form-item',
   style,
 )

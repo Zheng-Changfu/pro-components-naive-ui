@@ -1,7 +1,8 @@
 <script setup lang='tsx'>
 import { computed, unref } from 'vue'
+import type { ConfigProviderProps } from 'naive-ui'
 import { NConfigProvider } from 'naive-ui'
-import { useOmitProps } from '../hooks'
+import { merge, omit } from 'lodash-es'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 import { provideGlobalConfig, useInjectGlobalConfig } from './context'
 
@@ -10,7 +11,6 @@ defineOptions({
 })
 
 const props = defineProps(proConfigProviderProps)
-const nConfigProviderProps = useOmitProps(props, proConfigProviderExtendProps)
 
 const {
   proForm = {},
@@ -38,6 +38,23 @@ const presetFieldPropsRecord = computed(() => {
     ...unref(parentPresetFieldProps),
     ...(unref(props.presetFieldProps) ?? {}),
   }
+})
+
+const nConfigProviderProps = computed<ConfigProviderProps>(() => {
+  return omit(
+    {
+      ...props,
+      themeOverrides: merge(
+        {
+          Card: {
+            borderRadius: '8px',
+          },
+        },
+        props.themeOverrides ?? {},
+      ),
+    },
+    Object.keys(proConfigProviderExtendProps),
+  )
 })
 
 provideGlobalConfig({

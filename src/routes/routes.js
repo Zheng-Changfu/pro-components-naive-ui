@@ -7,6 +7,10 @@ export const zhDocRoutes = [
 
 export const zhComponentRoutes = [
   {
+    path: 'card',
+    component: () => import('../../packages/components/src/card/demos/zhCN/index.demo-entry.md'),
+  },
+  {
     path: 'button',
     component: () => import('../../packages/components/src/button/demos/zhCN/index.demo-entry.md'),
   },
