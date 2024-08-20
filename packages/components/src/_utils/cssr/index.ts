@@ -20,6 +20,17 @@ cssr.use(plugin)
 const { c, find } = cssr
 const { cB, cE, cM, cNotM } = plugin
 
+function createKey<P extends string, S extends string>(
+  prefix: P,
+  suffix: S,
+): S extends 'default' ? P : `${P}${Capitalize<S>}` {
+  return (prefix
+    + (suffix === 'default'
+      ? ''
+      : suffix.replace(/^[a-z]/, startChar =>
+        startChar.toUpperCase()))) as any
+}
+
 export {
   c,
   cB,
@@ -28,5 +39,6 @@ export {
   find,
   cNotM,
   prefix,
+  createKey,
   namespace,
 }
