@@ -1,15 +1,15 @@
 import type { ComputedRef } from 'vue'
 import { computed, ref, watch } from 'vue'
-import type { ProTreeProps } from './props'
+import type { ProTreeProps } from '../props'
 
 export interface UseCheckKeysOptions {
   /**
    * key 对应树节点的映射表
    */
-  keyToTreeNodeMap: ComputedRef<Map<string | number, Record<string, any>>>
+  keyToNodeMap: ComputedRef<Map<string | number, Record<string, any>>>
 }
 export function useCheckKeys(props: ProTreeProps, options: UseCheckKeysOptions) {
-  const { keyToTreeNodeMap } = options
+  const { keyToNodeMap } = options
   const checkedKeys = ref<Array<string | number>>([])
 
   watch(
@@ -34,7 +34,7 @@ export function useCheckKeys(props: ProTreeProps, options: UseCheckKeysOptions) 
   }
 
   function setCheckedKeys(keys?: Array<string | number>) {
-    const map = keyToTreeNodeMap.value
+    const map = keyToNodeMap.value
     if (keys) {
       keys = keys.filter(k => map.get(k))
     }

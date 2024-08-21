@@ -1,18 +1,18 @@
 import type { ComputedRef } from 'vue'
 import { computed, ref, watch } from 'vue'
-import type { ProTreeProps } from './props'
+import type { ProTreeProps } from '../props'
 
 export interface UseIndeterminateKeysOptions {
   /**
    * key 对应树节点的映射表
    */
-  keyToTreeNodeMap: ComputedRef<Map<string | number, Record<string, any>>>
+  keyToNodeMap: ComputedRef<Map<string | number, Record<string, any>>>
 }
 export function useIndeterminateKeys(
   props: ProTreeProps,
   options: UseIndeterminateKeysOptions,
 ) {
-  const { keyToTreeNodeMap } = options
+  const { keyToNodeMap } = options
   const indeterminateKeys = ref<Array<string | number>>([])
 
   watch(
@@ -37,7 +37,7 @@ export function useIndeterminateKeys(
   }
 
   function setIndeterminateKeys(keys: Array<string | number>) {
-    const map = keyToTreeNodeMap.value
+    const map = keyToNodeMap.value
     if (keys) {
       keys = keys.filter(k => map.get(k))
     }
