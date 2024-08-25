@@ -114,10 +114,11 @@ export default defineComponent({
         return emptyText
       }
       if (arrayableDateText) {
+        const separator = this.$slots.separator?.() ?? this.$props.separator
         return (
           <NFlex size={[8, 0]}>
             <NEl>{(displayDateText as [string, string])[0]}</NEl>
-            <NEl>{this.$slots.separator?.() ?? '-'}</NEl>
+            {separator && <NEl>{separator}</NEl>}
             <NEl>{(displayDateText as [string, string])[1]}</NEl>
           </NFlex>
         )
