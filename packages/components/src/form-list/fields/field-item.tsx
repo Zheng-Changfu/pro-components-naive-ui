@@ -332,7 +332,6 @@ export default defineComponent({
         })}
       </Fragment>
     )
-
     return $slots.item
       ? $slots.item({
         total,

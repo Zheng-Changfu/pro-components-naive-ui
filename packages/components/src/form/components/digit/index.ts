@@ -1,5 +1,4 @@
 export * from './inst'
 export * from './props'
 export * from './slots'
-export { default as ProDigit } from './index.vue'
-export { default as ProFieldDigit } from './fields/field-digit.vue'
+export { default as ProDigit } from './digit'

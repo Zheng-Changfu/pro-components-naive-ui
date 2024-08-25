@@ -9,5 +9,4 @@ export type {
   ActionRender as ProFormListActionRender,
   ContainerRender as ProFormListContainerRender,
 } from './props'
-export { default as ProFormList } from './index.vue'
-export { default as ProFieldFormList } from './fields/field-list'
+export { default as ProFormList } from './form-list'

@@ -1,5 +1,4 @@
 export * from './inst'
 export * from './props'
 export * from './slots'
-export { default as ProAutoComplete } from './index.vue'
-export { default as ProFieldAutoComplete } from './fields/field-auto-complete.vue'
+export { default as ProAutoComplete } from './auto-complete'

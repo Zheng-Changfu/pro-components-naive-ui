@@ -1,5 +1,4 @@
 export * from './inst'
 export * from './props'
 export * from './slots'
-export { default as ProSelect } from './index.vue'
-export { default as ProFieldSelect } from './fields/field-select.vue'
+export { default as ProSelect } from './select'

@@ -1,5 +1,4 @@
 export * from './inst'
 export * from './props'
 export * from './slots'
-export { default as ProTime } from './index.vue'
-export { default as ProFieldTimePicker } from './fields/field-time-picker.vue'
+export { default as ProTime } from './time-picker'
