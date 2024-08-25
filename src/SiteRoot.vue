@@ -27,7 +27,7 @@ export default defineComponent({
     :locale="locale"
     :date-locale="dateLocale"
     :theme-overrides="themeOverrides"
-    :field-components="fieldComponents"
+    :value-type-map="valueTypeMap"
     :hljs="hljs"
   >
     <n-loading-bar-provider>

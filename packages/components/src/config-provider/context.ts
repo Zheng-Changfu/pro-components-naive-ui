@@ -13,7 +13,7 @@ export function useInjectGlobalConfig() {
     proForm: {},
     proTable: {},
     proButton: {},
-    fieldComponents: {},
+    valueTypeMap: {},
     presetFieldProps: {},
   }) as any as Required<ProConfigProviderExtendProps>
 }

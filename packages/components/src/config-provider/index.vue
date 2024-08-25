@@ -22,14 +22,14 @@ const {
   proForm: parentProForm,
   proTable: parentProTable,
   proButton: parentProButton,
-  fieldComponents: parentFieldComponents,
+  valueTypeMap: parentValueTypeMap,
   presetFieldProps: parentPresetFieldProps,
 } = useInjectGlobalConfig()
 
-const fieldComponentsRecord = computed(() => {
+const valueTypeMap = computed(() => {
   return {
-    ...unref(parentFieldComponents),
-    ...(unref(props.fieldComponents) ?? {}),
+    ...unref(parentValueTypeMap),
+    ...(unref(props.valueTypeMap) ?? {}),
   }
 })
 
@@ -76,7 +76,7 @@ provideGlobalConfig({
       return propAuthData ?? parentAuthData
     }),
   },
-  fieldComponents: fieldComponentsRecord,
+  valueTypeMap,
   presetFieldProps: presetFieldPropsRecord,
 })
 </script>
