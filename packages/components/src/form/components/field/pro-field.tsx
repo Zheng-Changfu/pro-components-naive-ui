@@ -173,15 +173,10 @@ export default defineComponent({
   },
   render() {
     const {
-      show,
-      simple,
       $slots,
       addonAfter,
       addonBefore,
       fieldBindProps,
-      mergedBehavior,
-      mergedBehaviorProps,
-      proFormItemBindProps,
     } = this
 
     const renderFieldGroup = () => {
@@ -223,14 +218,20 @@ export default defineComponent({
       )
     }
 
-    if (!show) {
+    if (!this.show) {
       return null
     }
 
-    if (simple) {
+    if (this.simple) {
       // 简单模式下不包裹 ProFormItem
       return renderFieldGroup()
     }
+
+    const {
+      mergedBehavior,
+      mergedBehaviorProps,
+      proFormItemBindProps,
+    } = this
 
     if (mergedBehavior === 'popover') {
       return (

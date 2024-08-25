@@ -4,7 +4,7 @@ import { inject, onUnmounted, provide } from 'vue'
 import type { FormItemRule } from 'naive-ui'
 import type { FieldExtraInfo } from '../../field'
 import { fieldExtraKey } from '../../field'
-import { proFormContextKey } from '../../../context'
+import { useInjectProFormContext } from '../../../context'
 import type { FormItemInternalValidateResult } from '../../../composables/useValidateResult'
 
 /**
@@ -18,7 +18,7 @@ export default defineComponent({
   setup(props) {
     const field = useInjectFieldContext()!
     const nFormItem = inject('n-form-item')!
-    const formContext = inject(proFormContextKey)
+    const formContext = useInjectProFormContext()
     const formItemInstRef = (field?.[fieldExtraKey] as FieldExtraInfo)?.proFormItemInst
 
     function collectValidateResult(trigger: string, res: Partial<FormItemInternalValidateResult>) {

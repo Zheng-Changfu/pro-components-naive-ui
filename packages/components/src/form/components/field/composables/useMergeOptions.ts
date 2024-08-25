@@ -4,7 +4,7 @@ import type { BaseField } from 'pro-components-hooks'
 import type { PopoverProps } from 'naive-ui'
 import { toString } from 'lodash-es'
 import { useInjectGlobalConfig } from '../../../../config-provider'
-import { proFormContextKey } from '../../../context'
+import { useInjectProFormContext } from '../../../context'
 import { proFormListContextKey } from '../../../../form-list'
 import type { FieldValueType } from '../enums'
 import { useLocale } from '../../../../locales'
@@ -51,7 +51,7 @@ export function useMergeOptions(options: UseMergeOptions) {
     validateBehavior,
     validateBehaviorProps,
     readonly: formReadonlyRef,
-  } = inject(proFormContextKey)!
+  } = useInjectProFormContext()
 
   const mergedTitle = computed(() => {
     return title.value ?? label.value

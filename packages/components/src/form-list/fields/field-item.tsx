@@ -8,7 +8,7 @@ import type { ProFormListSlots } from '../slots'
 import type { ActionGuard } from '../props'
 import type { ProButtonProps } from '../../button'
 import { ProButton } from '../../button'
-import { proFormContextKey, useInjectProFormInst } from '../../form/context'
+import { useInjectProFormContext, useInjectProFormInst } from '../../form/context'
 import { AUTO_CREATE_ID, proFormListContextKey, useInjectProFormListInst } from '../context'
 import { useReadonlyHelpers } from '../../form/components'
 import { useLocale } from '../../locales'
@@ -225,7 +225,7 @@ export default defineComponent({
     const { readonly } = useReadonlyHelpers()
     const nFormItem = inject<any>('n-form-item')
     const field = useInjectParentFieldContext()!
-    const { validateBehavior } = inject(proFormContextKey)!
+    const { validateBehavior } = useInjectProFormContext()
     const { path } = useProvidePath(toRef(props, 'index')) // 处理嵌套路径
 
     const total = computed(() => {

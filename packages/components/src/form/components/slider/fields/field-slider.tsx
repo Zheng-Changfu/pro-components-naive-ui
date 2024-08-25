@@ -3,13 +3,6 @@ import type { SlotsType } from 'vue'
 import type { ProSliderSlots } from '../slots'
 import { useReadonlyHelpers } from '../../field'
 
-defineOptions({
-  name: 'ProFieldSlider',
-  inheritAttrs: false,
-})
-defineProps(sliderProps)
-defineSlots<ProSliderSlots>()
-
 export default defineComponent({
   name: 'ProFieldSlider',
   props: sliderProps,
