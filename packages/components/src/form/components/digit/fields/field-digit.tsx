@@ -33,19 +33,19 @@ export default defineComponent({
   },
   render() {
     if (this.readonly) {
-      const { value, empty, emptyText } = this
+      const { value, empty, emptyText, $slots } = this
 
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
+      if ($slots.readonly) {
+        return $slots.readonly(this.$props)
       }
       if (empty) {
         return emptyText
       }
       return (
         <NFlex size={[8, 0]}>
-          <NEl>{this.$slots.prefix?.()}</NEl>
+          {$slots.prefix && <NEl>{this.$slots.prefix()}</NEl>}
           <NEl>{value}</NEl>
-          <NEl>{this.$slots.suffix?.()}</NEl>
+          {$slots.suffix && <NEl>{this.$slots.suffix()}</NEl>}
         </NFlex>
       )
     }
