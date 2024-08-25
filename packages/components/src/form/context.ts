@@ -1,6 +1,7 @@
 import type { InjectionKey, MaybeRef, ToRef } from 'vue'
 import { inject, provide } from 'vue'
 import type { PopoverProps } from 'naive-ui'
+import { noop } from 'lodash-es'
 import type { ProFormInst } from './inst'
 import type { ValidateBehavior, ValidateError } from './props'
 
@@ -21,4 +22,15 @@ export function provideProFormInst(inst: ProFormInst) {
 
 export function useInjectProFormInst() {
   return inject(proFormInstContextKey)!
+}
+
+export function useInjectProFormContext() {
+  return inject(proFormContextKey, {
+    readonly: undefined,
+    validateBehavior: ref(undefined),
+    validateBehaviorProps: ref(undefined),
+    addValidateErrors: noop,
+    clearValidateResults: noop,
+    addValidateWarnings: noop,
+  })!
 }

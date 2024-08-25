@@ -9,6 +9,11 @@ import UnoCSS from 'unocss/vite'
 import vitePluginDemo from './build/vite-plugin-demo'
 
 export default defineConfig({
+  optimizeDeps: {
+    include: [
+      'seemly',
+    ],
+  },
   plugins: [
     UnoCSS(),
     ...vitePluginDemo(),

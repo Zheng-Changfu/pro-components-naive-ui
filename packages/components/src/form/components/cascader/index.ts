@@ -1,5 +1,4 @@
 export * from './inst'
 export * from './props'
 export * from './slots'
-export { default as ProCascader } from './index.vue'
-export { default as ProFieldCascader } from './fields/field-cascader.vue'
+export { default as ProCascader } from './cascader'

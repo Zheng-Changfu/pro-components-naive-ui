@@ -1,32 +1,23 @@
 import type { SlotsType } from 'vue'
-import { Fragment, computed, defineComponent, h, unref } from 'vue'
+import { Fragment, computed, defineComponent } from 'vue'
 import { NEl, NFlex } from 'naive-ui'
-import { omit, pick } from 'lodash-es'
+import { pick } from 'lodash-es'
 import { ProFormItem } from '../form-item'
 import { ProPopoverFormItem } from '../popover-form-item'
-import { useInjectGlobalConfig } from '../../../config-provider'
 import { proFieldProps } from './props'
 import type { ProFieldSlots } from './slots'
 import { useParseProps } from './composables/useParseProps'
 import { createField } from './composables/createField'
 import { fieldExtraKey } from './keys'
 import { useMergeOptions } from './composables/useMergeOptions'
-import { useForwardInst } from './inst'
-import type { FieldValueType } from './enums'
 
 export default defineComponent({
   name: 'ProField',
   inheritAttrs: false,
   props: proFieldProps,
   slots: Object as SlotsType<ProFieldSlots>,
-  setup(props, { slots, expose }) {
-    const [
-      forwardInstRef,
-      methods,
-    ] = useForwardInst()
-
+  setup(props, { slots }) {
     const field = createField(props)
-    const { fieldComponents } = useInjectGlobalConfig()
 
     const {
       show,
@@ -117,13 +108,11 @@ export default defineComponent({
     const fieldBindProps = computed(() => {
       if (mergedPlaceholder.value === undefined) {
         return {
-          ref: forwardInstRef,
           ...mergedFieldProps.value,
           ...fieldVModelProps.value,
         }
       }
       return {
-        ref: forwardInstRef,
         ...mergedFieldProps.value,
         ...fieldVModelProps.value,
         placeholder: mergedPlaceholder.value,
@@ -158,13 +147,6 @@ export default defineComponent({
       }
     })
 
-    const fieldSlots = computed(() => {
-      return omit(
-        slots,
-        ['label', 'tooltip', 'feedback', 'addon-after', 'addon-before', 'group'],
-      )
-    })
-
     const proFormItemSlots = computed(() => {
       return pick(
         slots,
@@ -172,25 +154,18 @@ export default defineComponent({
       )
     })
 
-    const FieldComponent = computed(() => {
-      return unref(fieldComponents)[valueType.value as FieldValueType]
-    })
-
     field[fieldExtraKey] = {
       valueType,
       readonly: mergedReadonly,
     }
 
-    expose(methods)
     return {
       show,
       simple,
-      fieldSlots,
       addonAfter,
       addonBefore,
       fieldBindProps,
       mergedBehavior,
-      FieldComponent,
       proFormItemSlots,
       mergedBehaviorProps,
       proFormItemBindProps,
@@ -198,20 +173,15 @@ export default defineComponent({
   },
   render() {
     const {
-      show,
-      simple,
       $slots,
       addonAfter,
       addonBefore,
       fieldBindProps,
-      mergedBehavior,
-      mergedBehaviorProps,
-      proFormItemBindProps,
     } = this
 
     const renderFieldGroup = () => {
       const groupRender = $slots.group
-      const FieldComp = h(this.FieldComponent!, fieldBindProps, this.fieldSlots)
+      const FieldComp = $slots.input?.(fieldBindProps)
       const addonAfterRender = $slots['addon-after'] ?? (() => <NEl>{addonAfter}</NEl>)
       const addonBeforeRender = $slots['addon-before'] ?? (() => <NEl>{addonBefore}</NEl>)
 
@@ -248,14 +218,20 @@ export default defineComponent({
       )
     }
 
-    if (!show) {
+    if (!this.show) {
       return null
     }
 
-    if (simple) {
+    if (this.simple) {
       // 简单模式下不包裹 ProFormItem
       return renderFieldGroup()
     }
+
+    const {
+      mergedBehavior,
+      mergedBehaviorProps,
+      proFormItemBindProps,
+    } = this
 
     if (mergedBehavior === 'popover') {
       return (

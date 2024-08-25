@@ -1,34 +1,23 @@
 # 树 ProTree
-
+基于 [NTree](https://www.naiveui.com/zh-CN/os-theme/components/tree) 封装，增加了一些操作树的方法
 ## 演示
 
 ```demo
-fetch-data.vue
-lazy-fetch-data.vue
 action.vue
 ```
 
 ## API
 
-### ProTree 新增 Props
-<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>支持 NaiveUI NTree 组件的原来属性，下方为扩展的属性</div>
-
-| 名称 | 类型 | 默认值 | 说明 | 版本 |
-| --- | --- | --- | --- | --- |
-| leafField | `string` | `isLeaf` | 替代 TreeOption 中的 isLeaf 字段 |  |
-| remote | `boolean` | `false` | 是否为异步加载，搭配 fetchConfig 使用 |  |
-| filterEmptyChildrenField | `boolean` | `true` | 是否过滤掉空子节点字段（空数组或者 undefined/null） |  |
-| expandAllOnFetchSuccess | `boolean` | `false` | 请求成功后是否展开全部节点（搭配 fetchConfig） |  |
-| spinProps | `SpinProps` | `{}` | Spin 组件属性 |  |
-| fetchConfig | `UseRequestOptions<any, any>` | `{}` | $$$zcf$$ |  |
+### ProTree 属性
+请查阅 [NTreeProps](https://www.naiveui.com/zh-CN/os-theme/components/tree#Tree-Props)
 
 ### ProTree 新增 Methods
-<div class='inline-flex leading-5 text-sky-600 text-xs font-500  mb-16px px-3 py-1 bg-sky-400/10 rounded-full'>使用 ref 或者 useProTree 可以拿到组件方法，支持 NaiveUI NTree 组件的原来方法</div>
+可以使用 `useProTreeInst` 获取实例上的方法
 
 | 名称 | 类型 | 说明 | 版本 |
 | --- | --- | --- | --- |
 | getTreeData | `() => void` | 获取数据 |  |
-| setTreeData | `() => void` | 设置数据 |  |
+| setTreeData | `() => void` | 设置数据，覆盖原数据 |  |
 | getFullKeys | `() => Array<string \| number>` | 获取全部节点的 keys | |
 | getCheckedKeys | `() => Array<string \| number>` | 获取勾选的节点 keys | |
 | getSelectedKeys | `() => Array<string \| number>` | 获取选中的节点 keys | |
@@ -40,4 +29,4 @@ action.vue
 | setExpandedKeys | `(keys?: Array<string \| number>) => void` | 展开节点，不传参数展开全部 | |
 | setSelectedKeys | `(keys?: Array<string \| number>) => void` | 选中节点，不传参数选中所有 | |
 | setIndeterminateKeys | `(keys: Array<string \| number>) => void` | 设置部分选中 keys | |
-| getFetchControls | `() => UseRequestReturned<any, any>` | $$$zcf$$ | |
+| [...NTreeMethods](https://www.naiveui.com/zh-CN/os-theme/components/tree#Tree-Methods) | | | |

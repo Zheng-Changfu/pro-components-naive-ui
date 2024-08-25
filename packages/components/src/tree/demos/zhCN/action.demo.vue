@@ -1,28 +1,25 @@
 <markdown>
 # 操作
 
-一些操作树方法的示例
+部分操作树方法的示例
 </markdown>
 
 <script lang="tsx">
 import { repeat } from 'seemly'
 import type { TreeOption } from 'naive-ui'
 import { defineComponent } from 'vue'
-import { uid, useProTreeInstance } from 'pro-components-naive-ui'
+import { useProTreeInst } from 'pro-components-naive-ui'
 
-function delay(time: number) {
-  return new Promise(resolve => setTimeout(resolve, time))
-}
-
-function createData(level = 4): TreeOption[] | undefined {
+function createData(level = 4, baseKey = ''): TreeOption[] | undefined {
   if (!level)
-    return []
-  return repeat(6 - level, undefined).map(() => {
+    return undefined
+  return repeat(5 - level, undefined).map((_, index) => {
+    const key = `${baseKey}${level}${index}`
     return {
+      key,
       label: createLabel(level),
-      key: uid(),
       disabled: Math.random() < 0.3,
-      children: createData(level - 1),
+      children: createData(level - 1, key),
     }
   })
 }
@@ -41,6 +38,7 @@ function createLabel(level: number): string {
 
 export default defineComponent({
   setup() {
+    const data = ref(createData())
     const [
       treeInstRef,
       {
@@ -49,20 +47,15 @@ export default defineComponent({
         setCheckedKeys,
         setExpandedKeys,
       },
-    ] = useProTreeInstance()
-
-    async function fetchTreeData() {
-      await delay(1000)
-      return createData()
-    }
+    ] = useProTreeInst()
 
     return {
+      data,
       treeInstRef,
       getLevelKeys,
       setCheckedKeys,
       getEnabledKeys,
       setExpandedKeys,
-      api: fetchTreeData,
     }
   },
 })
@@ -93,6 +86,6 @@ export default defineComponent({
         勾选全部节点（包括禁用）
       </NButton>
     </NFlex>
-    <ProTree ref="treeInstRef" checkable :fetch-config="{ api }" />
+    <ProTree ref="treeInstRef" checkable :data="data" />
   </NFlex>
 </template>

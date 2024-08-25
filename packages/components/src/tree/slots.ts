@@ -1,3 +1,3 @@
 export interface ProTreeSlots {
-  empty: any
+  empty?: any
 }

@@ -48,6 +48,7 @@ declare module 'vue' {
     NTag: typeof import('naive-ui')['NTag']
     NText: typeof import('naive-ui')['NText']
     NTooltip: typeof import('naive-ui')['NTooltip']
+    NTree: typeof import('naive-ui')['NTree']
     NUl: typeof import('naive-ui')['NUl']
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
     RouterLink: typeof import('vue-router')['RouterLink']
