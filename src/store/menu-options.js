@@ -264,6 +264,12 @@ export function createComponentMenuOptions({ lang, theme }) {
           enSuffix: true,
           path: '/tree',
         },
+        {
+          en: 'ProDescriptions',
+          zh: '描述',
+          enSuffix: true,
+          path: '/descriptions',
+        },
       ],
     }),
     // appendCounts({

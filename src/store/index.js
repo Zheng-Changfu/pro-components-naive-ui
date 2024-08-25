@@ -6,6 +6,10 @@ import {
   useOsTheme,
 } from 'naive-ui'
 import {
+  ProConfigProvider,
+  ProDateTime,
+  ProInput,
+  ValueTypeEnum,
   zhCN,
 } from 'pro-components-naive-ui'
 import { i18n, useIsMobile } from '../utils/composables'
@@ -135,12 +139,12 @@ export function siteSetup() {
     dateLocale: dateLocaleRef,
     themeOverrides: {},
     valueTypeMap: {
-      // [ValueTypeEnum.INPUT]: ProInput,
+      [ValueTypeEnum.INPUT]: ProInput,
       // [ValueTypeEnum.DIGIT]: ProFieldDigit,
       // [ValueTypeEnum.TEXTAREA]: ProTextarea,
       // [ValueTypeEnum.DATE]: ProFieldDatePicker,
       // [ValueTypeEnum.TIME]: ProFieldTimePicker,
-      // [ValueTypeEnum.DATE_TIME]: ProFieldDatePicker,
+      [ValueTypeEnum.DATE_TIME]: ProDateTime,
       // [ValueTypeEnum.DATE_YEAR]: ProFieldDatePicker,
       // [ValueTypeEnum.DATE_WEEK]: ProFieldDatePicker,
       // [ValueTypeEnum.DATE_MONTH]: ProFieldDatePicker,
