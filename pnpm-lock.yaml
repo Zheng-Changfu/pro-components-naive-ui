@@ -45,8 +45,8 @@ importers:
         specifier: ^12.0.2
         version: 12.0.2
       pro-components-hooks:
-        specifier: ^0.1.7
-        version: 0.1.7(vue@3.4.35(typescript@5.4.5))
+        specifier: ^0.1.9
+        version: 0.1.9(vue@3.4.35(typescript@5.4.5))
       seemly:
         specifier: ^0.3.8
         version: 0.3.8
@@ -3019,8 +3019,8 @@ packages:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  pro-components-hooks@0.1.7:
-    resolution: {integrity: sha512-2qkQlBWNVqo/WsRzVtBPvcnTMu7TDktWOb1u+eB0R7A2F5ibITFeaSj1BgIxEEkNJL4FEKCI2MaqoYE7DoBr8Q==}
+  pro-components-hooks@0.1.9:
+    resolution: {integrity: sha512-/ejx5zGibc7mtI0JPAhIoH/AmmKWrSSfYkOH82G37ATCgsq3hel7JIHiaxD+/Yz+tine/OIs1UIobaIf7fet4A==}
     peerDependencies:
       '@vue/composition-api': ^1.0.0-rc.1
       vue: ^2.7.0 || >=3.0.0
@@ -7259,7 +7259,7 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 18.3.1
 
-  pro-components-hooks@0.1.7(vue@3.4.35(typescript@5.4.5)):
+  pro-components-hooks@0.1.9(vue@3.4.35(typescript@5.4.5)):
     dependencies:
       '@vueuse/core': 10.10.0(vue@3.4.35(typescript@5.4.5))
       vue: 3.4.35(typescript@5.4.5)

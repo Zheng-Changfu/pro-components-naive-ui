@@ -1,15 +1,18 @@
-import type { SlotsType } from 'vue'
-import { NDescriptions, NDescriptionsItem, NSpin } from 'naive-ui'
-import { isFunction } from 'lodash-es'
+import { Fragment, type SlotsType } from 'vue'
+import { NDescriptions, NDescriptionsItem, NEl, NIcon, NSpin, NTooltip } from 'naive-ui'
+import { isFunction, isString } from 'lodash-es'
 import { createForm, uid } from 'pro-components-hooks'
+import { InfoCircleOutlined } from '@vicons/antd'
 import { useInjectGlobalConfig } from '../config-provider'
 import { useOmitProps } from '../hooks'
 import { proDescriptionsExtendProps, proDescriptionsProps } from './props'
 import type { ProDescriptionsSlots } from './slots'
 import { useFetchData } from './composables/useFetchData'
+import type { ProDescriptionsInst } from './inst'
 
 export default defineComponent({
   name: 'ProDescriptions',
+  inheritAttrs: false,
   props: proDescriptionsProps,
   slots: Object as SlotsType<ProDescriptionsSlots>,
   setup(props, { expose }) {
@@ -41,9 +44,19 @@ export default defineComponent({
 
     const normalizedColumns = computed(() => {
       return (props.columns ?? []).filter(Boolean).map((column) => {
+        const {
+          label,
+          title,
+          tooltip,
+          valueType = 'input',
+          ...rest
+        } = column
         return {
-          ...column,
+          ...rest,
           uid: uid(),
+          valueType,
+          title: title ?? label,
+          tooltip: isString(tooltip) ? [tooltip] : [tooltip].filter(Boolean) as any as string[],
         }
       })
     })
@@ -56,13 +69,20 @@ export default defineComponent({
       { deep: true },
     )
 
+    watch(
+      toRef(props, 'loading'),
+      v => loading.value = !!v,
+    )
+
     onRequestSuccess((res) => {
       setFieldsValue(res ?? {}, 'overwrite')
     })
 
-    expose({
+    const exposed: ProDescriptionsInst = {
       reload,
-    })
+    }
+
+    expose(exposed)
     return {
       data,
       loading,
@@ -74,6 +94,7 @@ export default defineComponent({
   render() {
     const {
       data,
+      $attrs,
       loading,
       valueTypeMap,
       normalizedColumns,
@@ -82,7 +103,7 @@ export default defineComponent({
 
     return (
       <NSpin show={loading}>
-        <NDescriptions {...nDescriptionsProps}>
+        <NDescriptions {...nDescriptionsProps} {...$attrs}>
           {{
             ...this.$slots,
             default: () => {
@@ -91,22 +112,54 @@ export default defineComponent({
                   uid,
                   key,
                   path,
-                  label,
                   slots,
                   title,
                   render,
+                  tooltip,
+                  valueType,
                   fieldProps,
-                  valueType = 'input',
+                  addonAfter,
+                  addonBefore,
                   ...nDescriptionsItemProps
                 } = column
-
                 return (
                   <NDescriptionsItem key={key ?? uid} {...nDescriptionsItemProps}>
                     {{
                       label: () => {
                         const resolvedTitle = isFunction(title) ? title() : title
-                        const resolvedLabel = isFunction(label) ? label() : label
-                        return resolvedTitle ?? resolvedLabel
+                        if (!resolvedTitle) {
+                          return null
+                        }
+                        return (
+                          <Fragment>
+                            {resolvedTitle}
+                            {tooltip.length > 0 && (
+                              <NTooltip trigger="hover">
+                                {{
+                                  trigger: () => {
+                                    return (
+                                      <NIcon
+                                        size={16}
+                                        style={{
+                                          cursor: 'pointer',
+                                          verticalAlign: 'text-bottom',
+                                          marginInlineStart: '4px',
+                                        }}
+                                      >
+                                        <InfoCircleOutlined />
+                                      </NIcon>
+                                    )
+                                  },
+                                  default: () => {
+                                    return tooltip.map((t, i) => {
+                                      return <NEl key={i + t}>{t}</NEl>
+                                    })
+                                  },
+                                }}
+                              </NTooltip>
+                            )}
+                          </Fragment>
+                        )
                       },
                       default: () => {
                         if (render) {
@@ -121,6 +174,8 @@ export default defineComponent({
                           fieldProps,
                           simple: true,
                           readonly: true,
+                          addonAfter,
+                          addonBefore,
                         }, slots)
                       },
                     }}

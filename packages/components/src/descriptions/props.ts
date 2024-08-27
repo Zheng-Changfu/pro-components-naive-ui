@@ -7,12 +7,12 @@ export const proDescriptionsExtendProps = {
   /**
    * 数据源
    */
-  data: Object as PropType<Record<string, any>>,
+  data: Object as PropType<any>,
   /**
    * DescriptionItems
    */
   columns: {
-    type: Array as PropType<ProDescriptionColumns>,
+    type: Array as PropType<ProDescriptionColumns<any>>,
   },
   /**
    * 是否在请求中
@@ -33,6 +33,13 @@ export const proDescriptionsExtendProps = {
    */
   refreshOnWindowFocus: {
     type: [Boolean, Object] as PropType<RefreshOnWindowFocus>,
+    default: undefined,
+  },
+  /**
+   * 是否接收路由的 query 和 params 参数作为请求参数
+   */
+  receiveRouteQueryParams: {
+    type: Boolean,
     default: undefined,
   },
   /**
