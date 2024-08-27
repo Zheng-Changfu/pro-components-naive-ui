@@ -58,52 +58,56 @@ export default defineComponent({
     }
   },
   render() {
+    const showLabel = !!(this.$slots.label?.() ?? this.title ?? this.label)
+
     return (
       <NFormItem {...this.nFormItemProps}>
         {{
           feedback: this.$slots.feedback,
-          label: () => {
-            const label = this.$slots.label?.() ?? this.title ?? this.label
-            const showTooltip = this.tooltips.length > 0 || !!this.$slots.tooltip
-            return (
-              <NEl
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                }}
-              >
-                {label}
-                {showTooltip && (
-                  <NTooltip trigger="hover">
-                    {{
-                      trigger: () => {
-                        return (
-                          <NIcon
-                            size={16}
-                            depth={3}
-                            style={{
-                              cursor: 'help',
-                              marginInlineStart: '4px',
-                            }}
-                          >
-                            <QuestionCircleOutlined />
-                          </NIcon>
-                        )
-                      },
-                      default: () => {
-                        if (this.$slots.tooltip) {
-                          return this.$slots.tooltip()
-                        }
-                        return this.tooltips.map((t, i) => {
-                          return <NEl key={i + t}>{t}</NEl>
-                        })
-                      },
+          label: showLabel
+            ? () => {
+                const label = this.$slots.label?.() ?? this.title ?? this.label
+                const showTooltip = this.tooltips.length > 0 || !!this.$slots.tooltip
+                return (
+                  <NEl
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
                     }}
-                  </NTooltip>
-                )}
-              </NEl>
-            )
-          },
+                  >
+                    {label}
+                    {showTooltip && (
+                      <NTooltip trigger="hover">
+                        {{
+                          trigger: () => {
+                            return (
+                              <NIcon
+                                size={16}
+                                depth={3}
+                                style={{
+                                  cursor: 'help',
+                                  marginInlineStart: '4px',
+                                }}
+                              >
+                                <QuestionCircleOutlined />
+                              </NIcon>
+                            )
+                          },
+                          default: () => {
+                            if (this.$slots.tooltip) {
+                              return this.$slots.tooltip()
+                            }
+                            return this.tooltips.map((t, i) => {
+                              return <NEl key={i + t}>{t}</NEl>
+                            })
+                          },
+                        }}
+                      </NTooltip>
+                    )}
+                  </NEl>
+                )
+              }
+            : undefined,
           default: () => {
             return (
               <PatchInternalValidate rule={this.rules}>
