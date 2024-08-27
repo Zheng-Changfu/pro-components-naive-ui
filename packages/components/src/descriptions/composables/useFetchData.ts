@@ -3,8 +3,9 @@ import { createEventHook, useDocumentVisibility } from '@vueuse/core'
 import { isBoolean } from 'lodash-es'
 import { useRoute } from 'vue-router'
 import type { RefreshOnWindowFocus } from '../types'
+import type { AnyFn } from '../../types'
 
-export interface UseFetchDataOptions<ResponseData = any> {
+export interface UseFetchDataOptions<RequestFn extends AnyFn = AnyFn> {
   /**
    * 是否手动调用 request，设置后不会调用 request
    * @default false
@@ -23,7 +24,7 @@ export interface UseFetchDataOptions<ResponseData = any> {
   /**
    * 请求函数
    */
-  request?: (params?: any) => Promise<ResponseData>
+  request?: RequestFn
   /**
    * 请求失败触发的函数
    */
@@ -31,7 +32,7 @@ export interface UseFetchDataOptions<ResponseData = any> {
   /**
    * 请求成功触发的函数
    */
-  onRequestSuccess?: (res: ResponseData) => void
+  onRequestSuccess?: (res: Awaited<ReturnType<RequestFn>>) => void
   /**
    * 请求完成后触发的函数，不论成功或失败
    */
@@ -42,14 +43,14 @@ type PartialValue<T> = {
   [P in keyof T]: T[P] | undefined
 }
 
-export interface UseFetchDataReturned<ResponseData = any> {
+export interface UseFetchDataReturned<RequestFn extends AnyFn = AnyFn> {
   loading: Ref<boolean>
   onRequestSuccess: EventHookOn
-  data: Ref<PartialValue<ResponseData>>
+  data: Ref<PartialValue<Awaited<ReturnType<RequestFn>>>>
   reload: (params?: any) => Promise<void>
 }
 
-export function useFetchData<ResponseData = any>(options: UseFetchDataOptions<ResponseData>): UseFetchDataReturned<ResponseData> {
+export function useFetchData<RequestFn extends AnyFn = AnyFn>(options: UseFetchDataOptions<RequestFn>): UseFetchDataReturned<RequestFn> {
   const {
     onRequestError,
     onRequestSuccess,
@@ -60,8 +61,8 @@ export function useFetchData<ResponseData = any>(options: UseFetchDataOptions<Re
 
   const route = useRoute()
   const loading = ref(false)
+  const data = ref({} as any)
   let prevNow = performance.now()
-  const data = ref<ResponseData>({} as any)
   const visibility = useDocumentVisibility()
 
   const {
@@ -76,21 +77,19 @@ export function useFetchData<ResponseData = any>(options: UseFetchDataOptions<Re
     }
   })
 
-  async function fetchData(params?: any) {
+  async function fetchData(params: any = {}) {
     if (!options.request || loading.value)
       return
     try {
       loading.value = true
       const routeParams = receiveRouteQueryParams ? routeQueryParams.value : undefined
-      const requestParams = params === undefined && routeParams === undefined
-        ? undefined
-        : {
-            ...(routeParams ?? {}),
-            ...(params ?? {}),
-          }
+      const requestParams = {
+        ...(routeParams ?? {}),
+        ...(params ?? {}),
+      }
       const res = (await options.request(requestParams)) ?? {}
-      data.value = res as ResponseData
-      triggerSuccess(toRaw(res) as ResponseData)
+      data.value = res
+      triggerSuccess(toRaw(res))
     }
     catch (error) {
       data.value = {} as any
