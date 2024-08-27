@@ -182,8 +182,8 @@ export default defineComponent({
     const renderFieldGroup = () => {
       const groupRender = $slots.group
       const FieldComp = $slots.input?.(fieldBindProps)
-      const addonAfterRender = $slots['addon-after'] ?? (() => <NEl>{addonAfter}</NEl>)
-      const addonBeforeRender = $slots['addon-before'] ?? (() => <NEl>{addonBefore}</NEl>)
+      const addonAfterRender = $slots['addon-after'] ?? (() => addonAfter)
+      const addonBeforeRender = $slots['addon-before'] ?? (() => addonBefore)
 
       if (
         !addonAfter
