@@ -21,6 +21,7 @@ compositionApi.vue
 | refreshOnWindowFocus | `boolean \| { intervalTime: number }` | { intervalTime: 3000 } | 屏幕聚焦刷新请求，默认间隔3秒 | |
 | receiveRouteQueryParams | `boolean` | | 是否接收路由的 query 和 params 参数作为请求参数 | |
 | request | `Function` | | 请求函数 | |
+| transform | `(res:DataSource) => any` | | 请求成功后可以转化数据，返回值为最终的结果值 | |
 | onRequestError | `(error:Error) => void` | | 请求失败触发的函数 | |
 | onRequestSuccess | `(res:DataSource) => void` | | 请求成功触发的函数 | |
 | onRequestComplete | `() => void` | | 请求结束后触发的函数 | |
