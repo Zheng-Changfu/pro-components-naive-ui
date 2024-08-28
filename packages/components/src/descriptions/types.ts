@@ -43,7 +43,7 @@ export interface ProDescriptionColumn<T = InternalDataSource> extends Omit<Descr
    * 当 valueType 不满足需求时，可以自定义渲染
    * @param dataSource 数据源
    */
-  render?: (dataSource: T) => VNodeChild
+  render?: (dataSource: { [K in keyof T]: T[K] }) => VNodeChild
   /**
    * 组件的 slots，自定义渲染时无效
    */

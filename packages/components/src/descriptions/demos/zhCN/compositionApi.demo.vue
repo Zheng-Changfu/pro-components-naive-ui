@@ -29,6 +29,20 @@ export default defineComponent({
       column: 2,
       bordered: true,
       labelPlacement: 'left',
+      // data: {
+      //   date: Date.now(),
+      //   time: Date.now(),
+      //   text: '我是一段没用的文本',
+      //   switch: true,
+      //   dateTimeRange: [
+      //     Date.now(),
+      //     Date.now(),
+      //   ],
+      //   nestObject: {
+      //     customFormat: Date.now(),
+      //   },
+      //   other: '按钮',
+      // },
       request,
       columns: [
         {
@@ -74,6 +88,9 @@ export default defineComponent({
           },
         },
       ],
+      // transform(res) {
+      //   return res.switch
+      // },
       onRequestSuccess(res) {
         console.log(res)
         message.success(`牛会哞，马会啸，牛马会收到`)
@@ -87,6 +104,7 @@ export default defineComponent({
         time: Date.now(),
         text: '我是一段没用的文本',
         switch: true,
+        other: '按钮',
         dateTimeRange: [
           Date.now(),
           Date.now(),
@@ -94,7 +112,6 @@ export default defineComponent({
         nestObject: {
           customFormat: Date.now(),
         },
-        other: '按钮',
       }
     }
 

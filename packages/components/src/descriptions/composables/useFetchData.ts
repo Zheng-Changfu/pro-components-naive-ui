@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router'
 import type { RefreshOnWindowFocus } from '../types'
 import type { AnyFn } from '../../types'
 
-export interface UseFetchDataOptions<RequestFn extends AnyFn = AnyFn> {
+export interface UseFetchDataBaseOptions<RequestFn extends AnyFn> {
   /**
    * 是否手动调用 request，设置后不会调用 request
    * @default false
@@ -37,6 +37,21 @@ export interface UseFetchDataOptions<RequestFn extends AnyFn = AnyFn> {
    * 请求完成后触发的函数，不论成功或失败
    */
   onRequestComplete?: () => void
+  /**
+   * 请求成功后可以转化数据，返回值为最终的结果值
+   */
+  transform?: never
+}
+
+export interface UseFetchDataOptionsPassedTransform<T extends AnyFn, R> extends Omit<UseFetchDataBaseOptions<T>, 'transform'> {
+  /**
+   * 请求成功触发的函数，执行时机在 transform 之后
+   */
+  onRequestSuccess?: (res: R) => void
+  /**
+   * 请求成功后可以转化数据，返回值为最终的结果值
+   */
+  transform: (response: Awaited<ReturnType<T>>) => R
 }
 
 type PartialValue<T> = {
@@ -46,12 +61,18 @@ type PartialValue<T> = {
 export interface UseFetchDataReturned<RequestFn extends AnyFn = AnyFn> {
   loading: Ref<boolean>
   onRequestSuccess: EventHookOn
+  /**
+   * 这里留给 ly
+   */
   data: Ref<PartialValue<Awaited<ReturnType<RequestFn>>>>
   reload: (params?: any) => Promise<void>
 }
 
-export function useFetchData<RequestFn extends AnyFn = AnyFn>(options: UseFetchDataOptions<RequestFn>): UseFetchDataReturned<RequestFn> {
+export function useFetchData<T extends AnyFn>(options: UseFetchDataBaseOptions<T>): UseFetchDataReturned<T>
+export function useFetchData<T extends AnyFn, R>(options: UseFetchDataOptionsPassedTransform<T, R>): UseFetchDataReturned<T>
+export function useFetchData<T extends AnyFn, R>(options: UseFetchDataBaseOptions<T> | UseFetchDataOptionsPassedTransform<T, R>): UseFetchDataReturned<T> {
   const {
+    transform,
     onRequestError,
     onRequestSuccess,
     onRequestComplete,
@@ -87,7 +108,10 @@ export function useFetchData<RequestFn extends AnyFn = AnyFn>(options: UseFetchD
         ...(routeParams ?? {}),
         ...(params ?? {}),
       }
-      const res = (await options.request(requestParams)) ?? {}
+      let res = (await options.request(requestParams)) ?? {}
+      if (transform) {
+        res = transform(res)
+      }
       data.value = res
       triggerSuccess(toRaw(res))
     }

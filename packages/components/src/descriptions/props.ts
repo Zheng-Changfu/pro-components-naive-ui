@@ -43,6 +43,10 @@ export const proDescriptionsExtendProps = {
     default: undefined,
   },
   /**
+   * 请求成功后可以转化数据，返回值为最终的结果值
+   */
+  transform: Function as AnyFn,
+  /**
    * 请求函数
    */
   request: Function as AnyFn,
