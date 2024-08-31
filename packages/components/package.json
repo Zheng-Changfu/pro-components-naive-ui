@@ -31,7 +31,7 @@
     "build": "vite build"
   },
   "peerDependencies": {
-    "naive-ui": "^2.37.0",
+    "naive-ui": "^2.38.0",
     "vue": "^3.0.0"
   },
   "dependencies": {
