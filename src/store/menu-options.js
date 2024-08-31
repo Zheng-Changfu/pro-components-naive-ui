@@ -265,6 +265,12 @@ export function createComponentMenuOptions({ lang, theme }) {
           path: '/tree',
         },
         {
+          en: 'ProModal',
+          zh: '模态框',
+          enSuffix: true,
+          path: '/modal',
+        },
+        {
           en: 'ProDescriptions',
           zh: '描述',
           enSuffix: true,
