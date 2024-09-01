@@ -113,7 +113,7 @@ function submit() {
   return validate()
     .then(({ warnings }) => {
       const values = getFieldsTransformedValue()
-      onSubmit && onSubmit(values, warnings ?? [])
+      return onSubmit && onSubmit(values, warnings ?? [])
     })
     .catch((errors) => {
       onSubmitFailed && onSubmitFailed(errors)
