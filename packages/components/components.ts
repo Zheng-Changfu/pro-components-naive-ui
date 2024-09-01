@@ -1,6 +1,7 @@
 export * from './src/card'
 export * from './src/tree'
 export * from './src/form'
+export * from './src/modal'
 export * from './src/button'
 export * from './src/form-list'
 export * from './src/descriptions'
