@@ -1,5 +1,5 @@
 import type { EventHookOn } from '@vueuse/core'
-import { createProComponentInstanceFactory } from '../hooks'
+import { createProComponentInstanceFactory } from '../composables'
 import type { PickFunction } from '../types'
 
 type NextTickCallback = () => void

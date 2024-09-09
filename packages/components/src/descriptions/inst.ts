@@ -1,4 +1,4 @@
-import { createProComponentInstanceFactory } from '../hooks'
+import { createProComponentInstanceFactory } from '../composables'
 import type { PickFunction } from '../types'
 
 export interface ProDescriptionsInst {
