@@ -50,25 +50,25 @@ export default defineComponent({
 
     function handleContentBlur(): void {
       formItemInstRef?.value
-        .internalValidate('blur')
+        ?.internalValidate('blur')
         .then(res => collectValidateResult('blur', res))
     }
 
     function handleContentChange(): void {
       formItemInstRef?.value
-        .internalValidate('change')
+        ?.internalValidate('change')
         .then(res => collectValidateResult('change', res))
     }
 
     function handleContentFocus(): void {
       formItemInstRef?.value
-        .internalValidate('focus')
+        ?.internalValidate('focus')
         .then(res => collectValidateResult('focus', res))
     }
 
     function handleContentInput(): void {
       formItemInstRef?.value
-        .internalValidate('input')
+        ?.internalValidate('input')
         .then(res => collectValidateResult('input', res))
     }
 
