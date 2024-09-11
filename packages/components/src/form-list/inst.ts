@@ -1,5 +1,5 @@
 import type { ArrayField } from 'pro-components-hooks'
-import { createProComponentInstanceFactory } from '../hooks'
+import { createProComponentInstanceFactory } from '../composables'
 
 export type ProFormListInst = Pick<
 ArrayField,

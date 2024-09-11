@@ -6,7 +6,7 @@ import type { ProUploadSlots } from '../slots'
 import { useProUploadInst } from '../inst'
 import { useReadonlyHelpers } from '../../field'
 import { proUploadFieldProps } from '../props'
-import { useOmitProps } from '../../../../hooks'
+import { useOmitProps } from '../../../../composables'
 import { useLocale } from '../../../../locales'
 
 export default defineComponent({

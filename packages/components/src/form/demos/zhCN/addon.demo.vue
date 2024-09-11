@@ -4,16 +4,6 @@
 你可以使用 `addon-before` 和 `addon-after` 属性来定义前缀和后缀，也可以使用插槽来定义，属性定义时只支持字符串格式
 </markdown>
 
-<script lang="tsx">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  setup() {
-    return { }
-  },
-})
-</script>
-
 <template>
   <n-flex vertical>
     <pro-form label-width="auto" label-placement="left">

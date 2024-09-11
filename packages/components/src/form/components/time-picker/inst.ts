@@ -1,5 +1,5 @@
 import type { TimePickerInst } from 'naive-ui'
-import { createProComponentInstanceFactory } from '../../../hooks'
+import { createProComponentInstanceFactory } from '../../../composables'
 import type { PickFunction } from '../../../types'
 
 export type ProTimePickerInst = PickFunction<TimePickerInst>

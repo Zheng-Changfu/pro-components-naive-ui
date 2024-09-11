@@ -16,7 +16,7 @@ export default defineComponent({
   setup() {
     const loading = ref(false)
     const options = ref<any[]>([])
-    const [instRef, { submit, restoreFieldValue }] = useProFormInst()
+    const [instRef, { restoreFieldValue }] = useProFormInst()
 
     async function reqAsyncOptions(val: number) {
       console.log(val)
@@ -34,7 +34,6 @@ export default defineComponent({
     return {
       loading,
       instRef,
-      submit,
       options,
       reqAsyncOptions,
     }
@@ -68,7 +67,7 @@ export default defineComponent({
         options,
       }"
     />
-    <n-button @click="submit">
+    <n-button attr-type="submit">
       提交
     </n-button>
   </pro-form>

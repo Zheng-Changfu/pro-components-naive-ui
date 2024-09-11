@@ -13,6 +13,7 @@ import {
   ProInput,
   ProSwitch,
   ProTime,
+  ProSelect,
   ValueTypeEnum,
   zhCN,
 } from 'pro-components-naive-ui'
@@ -147,6 +148,7 @@ export function siteSetup() {
       [ValueTypeEnum.TIME]: ProTime,
       [ValueTypeEnum.INPUT]: ProInput,
       [ValueTypeEnum.SWITCH]: ProSwitch,
+      [ValueTypeEnum.SELECT]: ProSelect,
       [ValueTypeEnum.DATE_TIME]: ProDateTime,
       [ValueTypeEnum.DATE_TIME_RANGE]: ProDateTimeRange,
       // [ValueTypeEnum.TEXTAREA]: ProTextarea,
@@ -164,7 +166,6 @@ export function siteSetup() {
       // [ValueTypeEnum.CHECKBOX]: ProFieldCheckbox,
       // [ValueTypeEnum.CHECKBOX_GROUP]: ProFieldCheckboxGroup,
       // [ValueTypeEnum.TRANSFER]: ProFieldTransfer,
-      // [ValueTypeEnum.SELECT]: ProFieldSelect,
       // [ValueTypeEnum.RADIO_GROUP]: ProFieldRadioGroup,
       // [ValueTypeEnum.TREE_SELECT]: ProFieldTreeSelect,
       // [ValueTypeEnum.SLIDER]: ProFieldSlider,

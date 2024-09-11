@@ -61,9 +61,6 @@ type PartialValue<T> = {
 export interface UseFetchDataReturned<RequestFn extends AnyFn = AnyFn> {
   loading: Ref<boolean>
   onRequestSuccess: EventHookOn
-  /**
-   * 这里留给 ly
-   */
   data: Ref<PartialValue<Awaited<ReturnType<RequestFn>>>>
   reload: (params?: any) => Promise<void>
 }

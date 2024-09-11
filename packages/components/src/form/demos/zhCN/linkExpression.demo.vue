@@ -9,29 +9,8 @@
 5. `$rowIndex`:`$index`：当前字段在列表中的索引，只会在 `ProFormList` 中生效，其他返回的是 -1
 </markdown>
 
-<script lang="tsx">
-import { defineComponent } from 'vue'
-import { useProFormInst } from 'pro-components-naive-ui'
-
-export default defineComponent({
-  setup() {
-    const [proFormInst, { submit }] = useProFormInst()
-
-    function onSubmit(values: any) {
-      console.log(values, 'values')
-    }
-
-    return {
-      submit,
-      onSubmit,
-      proFormInst,
-    }
-  },
-})
-</script>
-
 <template>
-  <pro-form ref="proFormInst" label-placement="left" label-width="auto" @submit="onSubmit">
+  <pro-form label-placement="left" label-width="auto" @submit="console.log">
     <pro-input
       label="颜色"
       path="color"
@@ -55,7 +34,7 @@ export default defineComponent({
       required
       hidden="{{ $vals.color === '#eee' }}"
     />
-    <n-button type="primary" @click="submit">
+    <n-button type="primary" attr-type="submit">
       提交
     </n-button>
   </pro-form>

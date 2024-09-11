@@ -1,6 +1,6 @@
 import type { InputInst } from 'naive-ui'
 import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../hooks'
+import { createProComponentInstanceFactory } from '../../../composables'
 
 export type ProInputInst = PickFunction<InputInst>
 export type ProPasswordInst = ProInputInst

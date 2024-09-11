@@ -6,6 +6,7 @@ export * from './src/button'
 export * from './src/form-list'
 export * from './src/descriptions'
 export * from './src/config-provider'
+export * from './src/data-table/components/search-form'
 export { uid, useRequest as useProRequest } from 'pro-components-hooks'
 
 // export * from './src/tags'

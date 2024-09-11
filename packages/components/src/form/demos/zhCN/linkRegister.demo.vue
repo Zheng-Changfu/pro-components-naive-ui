@@ -10,18 +10,9 @@ import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
-    const [proFormInst, {
-      submit,
-      getFieldValue,
-    }] = useProFormInst()
-
-    function onSubmit(values: any) {
-      console.log(values, 'values')
-    }
+    const [proFormInst, { getFieldValue }] = useProFormInst()
 
     return {
-      submit,
-      onSubmit,
       proFormInst,
       getFieldValue,
     }
@@ -30,7 +21,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-form ref="proFormInst" label-placement="left" label-width="auto" @submit="onSubmit">
+  <pro-form ref="proFormInst" label-placement="left" label-width="auto" @submit="console.log">
     <pro-input
       label="用户名"
       path="username"
@@ -56,7 +47,7 @@ export default defineComponent({
         validator: (_:any, value:any) => !value || value === getFieldValue('password'),
       }"
     />
-    <n-button type="primary" @click="submit">
+    <n-button type="primary" attr-type="submit">
       注册
     </n-button>
   </pro-form>

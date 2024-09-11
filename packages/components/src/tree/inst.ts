@@ -1,6 +1,6 @@
 import type { TreeInst } from 'naive-ui'
 import type { PickFunction } from '../types'
-import { createProComponentInstanceFactory } from '../hooks'
+import { createProComponentInstanceFactory } from '../composables'
 
 export type ProTreeInst<Data = any> = PickFunction<TreeInst & {
   /**
