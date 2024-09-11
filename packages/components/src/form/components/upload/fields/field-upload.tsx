@@ -87,8 +87,10 @@ export default defineComponent({
      * issues: https://github.com/tusen-ai/naive-ui/issues/5312
      */
     function fixUploadDragger() {
+      if (!props.directory && !props.directoryDnd)
+        return
       const inst = instRef.value as any
-      if (inst.$slots?.default) {
+      if (inst?.$slots?.default) {
         const defaultSlot = inst.$slots.default()[0] as any
         if (defaultSlot.children?.[0]?.children?.[0]?.type?.name === 'UploadDragger') {
           inst.draggerInsideRef.value = true
@@ -96,7 +98,6 @@ export default defineComponent({
       }
     }
 
-    onMounted(fixUploadDragger)
     expose(methods)
     return {
       empty,
@@ -105,9 +106,11 @@ export default defineComponent({
       emptyText,
       localeRef,
       nUploadProps,
+      fixUploadDragger,
     }
   },
   render() {
+    this.fixUploadDragger()
     if (this.readonly) {
       const { empty, emptyText } = this
 
@@ -117,6 +120,7 @@ export default defineComponent({
       if (empty) {
         return emptyText
       }
+
       return (
         <NUpload
           ref="instRef"
