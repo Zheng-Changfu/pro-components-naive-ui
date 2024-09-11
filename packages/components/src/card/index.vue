@@ -65,8 +65,8 @@ const showSwitchArea = computed(() => {
   return !closable
 })
 
-const expandText = computed(() => {
-  return getMessage('expandText')(show.value)
+const collapseText = computed(() => {
+  return getMessage('collapseText')(!show.value)
 })
 
 function triggerExpand(area: 'main' | 'arrow') {
@@ -153,7 +153,7 @@ const tooltips = computed(() => {
         @click="triggerExpand('arrow')"
       >
         <slot name="switcher" v-bind="{ expanded: show }">
-          <NEl>{{ expandText }}</NEl>
+          <NEl>{{ collapseText }}</NEl>
           <NIcon>
             <component :is="show ? UpOutlined : DownOutlined" />
           </NIcon>
