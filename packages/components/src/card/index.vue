@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { DownOutlined, InfoCircleOutlined, UpOutlined } from '@vicons/antd'
 import { NCard, NEl, NFlex, NIcon, NTooltip, collapseTransitionProps, useThemeVars } from 'naive-ui'
 import { isArray, isFunction, omit } from 'lodash-es'
-import { useOmitProps } from '../hooks'
+import { useOmitProps } from '../composables'
 import { useMountStyle } from '../_internal/useMountStyle'
 import ProCollapseTransition from '../_internal/components/collapse-transition/index.vue'
 import { useLocale } from '../locales'
@@ -65,8 +65,8 @@ const showSwitchArea = computed(() => {
   return !closable
 })
 
-const expandText = computed(() => {
-  return getMessage('expandText')(show.value)
+const collapseText = computed(() => {
+  return getMessage('collapseText')(!show.value)
 })
 
 function triggerExpand(area: 'main' | 'arrow') {
@@ -153,7 +153,7 @@ const tooltips = computed(() => {
         @click="triggerExpand('arrow')"
       >
         <slot name="switcher" v-bind="{ expanded: show }">
-          <NEl>{{ expandText }}</NEl>
+          <NEl>{{ collapseText }}</NEl>
           <NIcon>
             <component :is="show ? UpOutlined : DownOutlined" />
           </NIcon>

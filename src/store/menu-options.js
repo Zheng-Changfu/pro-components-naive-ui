@@ -251,6 +251,12 @@ export function createComponentMenuOptions({ lang, theme }) {
           enSuffix: true,
           path: '/form-list',
         },
+        {
+          en: 'ProSearchForm',
+          zh: '查询表单',
+          enSuffix: true,
+          path: '/search-form',
+        },
       ],
     }),
     appendCounts({

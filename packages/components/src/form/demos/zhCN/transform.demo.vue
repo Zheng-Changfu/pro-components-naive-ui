@@ -4,25 +4,8 @@
 将和当前字段所在层级的对象进行深度合并
 </markdown>
 
-<script lang="tsx">
-import { defineComponent } from 'vue'
-import { useProFormInst } from 'pro-components-naive-ui'
-
-export default defineComponent({
-  setup() {
-    const [proFormInst, { submit }] = useProFormInst()
-
-    return {
-      submit,
-      proFormInst,
-    }
-  },
-})
-</script>
-
 <template>
   <pro-form
-    ref="proFormInst"
     label-placement="left"
     label-width="auto"
     @submit="console.log"
@@ -43,8 +26,8 @@ export default defineComponent({
       required
       :transform="(val:any, _:any) => ({ start: val[0], end: val[1] })"
     />
-    <n-button type="primary" @click="submit">
-      登录
+    <n-button type="primary" attr-type="submit">
+      提交
     </n-button>
   </pro-form>
 </template>

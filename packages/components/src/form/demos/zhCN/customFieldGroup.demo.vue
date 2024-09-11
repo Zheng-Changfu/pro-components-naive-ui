@@ -7,24 +7,14 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
 import { NInputGroup } from 'naive-ui'
-import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   components: { NInputGroup },
-  setup() {
-    const [instRef, { submit }] = useProFormInst()
-
-    return {
-      instRef,
-      submit,
-    }
-  },
 })
 </script>
 
 <template>
   <pro-form
-    ref="instRef"
     label-placement="left"
     label-width="auto"
     @submit="console.log"
@@ -53,7 +43,7 @@ export default defineComponent({
       path="password"
       required
     />
-    <n-button type="primary" @click="submit">
+    <n-button type="primary" attr-type="submit">
       提交
     </n-button>
   </pro-form>

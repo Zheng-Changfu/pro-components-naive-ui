@@ -255,8 +255,8 @@ export default defineComponent({
         }"
       />
       <pro-switch title="开关" path="switch" required />
-      <n-button type="primary" @click="submit">
-        登录
+      <n-button type="primary" attr-type="submit">
+        提交
       </n-button>
     </pro-form>
   </n-flex>

@@ -5,7 +5,7 @@ import type { BaseField, Path } from 'pro-components-hooks'
 import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
 import { computed, nextTick, provide, ref, toRef } from 'vue'
 import { isString, toPath } from 'lodash-es'
-import { useOmitProps } from '../hooks'
+import { useOmitProps } from '../composables'
 import { useInjectGlobalConfig } from '../config-provider'
 import { proFormContextKey, provideProFormInst } from './context'
 import type { ValidateError } from './props'
@@ -80,6 +80,10 @@ const nFormProps = computed<FormProps>(() => {
     ref: formInstRef,
     model: valueStore.values.value,
     disabled: parsedDisabled.value,
+    onSubmit: (e) => {
+      e.preventDefault()
+      submit()
+    },
   }
 })
 

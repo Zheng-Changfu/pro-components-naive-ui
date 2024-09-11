@@ -10,8 +10,6 @@ import { useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
-    const [proFormInst, { submit }] = useProFormInst()
-
     function selectAllToClearOtherPostState(val: number[] | null) {
       if (!val) {
         return val
@@ -25,8 +23,6 @@ export default defineComponent({
     }
 
     return {
-      submit,
-      proFormInst,
       selectAllToClearOtherPostState,
     }
   },
@@ -35,7 +31,6 @@ export default defineComponent({
 
 <template>
   <pro-form
-    ref="proFormInst"
     label-placement="left"
     label-width="auto"
     @submit="console.log"
@@ -54,8 +49,8 @@ export default defineComponent({
         ],
       }"
     />
-    <n-button type="primary" @click="submit">
-      登录
+    <n-button type="primary" attr-type="submit">
+      提交
     </n-button>
   </pro-form>
 </template>

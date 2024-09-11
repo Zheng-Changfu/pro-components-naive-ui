@@ -6,25 +6,8 @@
 3. 使用 `ProForm` 的 `initialValues` 属性
 </markdown>
 
-<script lang="tsx">
-import { defineComponent } from 'vue'
-import { useProFormInst } from 'pro-components-naive-ui'
-
-export default defineComponent({
-  setup() {
-    const [proFormInst, { submit }] = useProFormInst()
-
-    return {
-      submit,
-      proFormInst,
-    }
-  },
-})
-</script>
-
 <template>
   <pro-form
-    ref="proFormInst"
     label-placement="left"
     label-width="auto"
     :initial-values="{
@@ -49,8 +32,8 @@ export default defineComponent({
       required
       initial-value="zcf"
     />
-    <n-button type="primary" @click="submit">
-      登录
+    <n-button type="primary" attr-type="submit">
+      提交
     </n-button>
   </pro-form>
 </template>
