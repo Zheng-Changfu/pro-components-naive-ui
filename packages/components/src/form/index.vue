@@ -80,6 +80,10 @@ const nFormProps = computed<FormProps>(() => {
     ref: formInstRef,
     model: valueStore.values.value,
     disabled: parsedDisabled.value,
+    onSubmit: (e) => {
+      e.preventDefault()
+      submit()
+    },
   }
 })
 
