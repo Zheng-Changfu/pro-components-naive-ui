@@ -49,6 +49,11 @@ export const zhCN = createLocale({
     title: '上传',
   },
   ProCard: {
-    expandText: (expanded: boolean) => expanded ? '收起' : '展开',
+    collapseText: (collapsed: boolean) => collapsed ? '展开' : '收起',
+  },
+  ProSearchForm: {
+    resetText: '重置',
+    searchText: '查询',
+    collapseText: (collapsed: boolean) => collapsed ? '展开' : '收起',
   },
 } as any, nZhCN)

@@ -48,6 +48,11 @@ export const enUS = createLocale({
     title: 'Upload',
   },
   ProCard: {
-    expandText: (expanded: boolean) => expanded ? 'fold' : 'unfold',
+    collapseText: (collapsed: boolean) => collapsed ? 'uncollapsed' : 'collapsed',
+  },
+  ProSearchForm: {
+    resetText: 'reset',
+    searchText: 'search',
+    collapseText: (collapsed: boolean) => collapsed ? 'uncollapsed' : 'collapsed',
   },
 } as any, nEnUS)
