@@ -10,20 +10,8 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
-    const readonly = ref(false)
-
-    function renderReadonly({ value }: { value: string }) {
-      return <div class="color-red">{value}</div>
-    }
-
-    function renderReadonlyEmpty() {
-      return <div class="color-red">~暂无数据~</div>
-    }
-
     return {
-      readonly,
-      renderReadonly,
-      renderReadonlyEmpty,
+      readonly: ref(false),
     }
   },
 })

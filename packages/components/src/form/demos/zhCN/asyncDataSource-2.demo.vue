@@ -77,27 +77,18 @@ export default defineComponent({
     LinkageComp,
     AsyncOptionsComp,
   },
-  setup() {
-    const [instRef, { submit }] = useProFormInst()
-
-    return {
-      instRef,
-      submit,
-    }
-  },
 })
 </script>
 
 <template>
   <pro-form
-    ref="instRef"
     label-placement="left"
     label-width="auto"
     @submit="console.log"
   >
     <LinkageComp />
     <AsyncOptionsComp />
-    <n-button @click="submit">
+    <n-button attr-type="submit">
       提交
     </n-button>
   </pro-form>
