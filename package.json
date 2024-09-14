@@ -7,7 +7,9 @@
   "author": "zhengchangfu",
   "scripts": {
     "dev": "vite",
+    "dev-sfc-serve": "vite playground",
     "build:docs": "vite build",
+    "build-sfc-playground": "cd playground && npm run build",
     "build:components": "pnpm --filter pro-components-naive-ui run build",
     "test": "pnpm --filter pro-components-naive-ui run test",
     "preview": "vite preview",
