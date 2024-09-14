@@ -1,39 +1,43 @@
-<script lang='tsx'>
-import type { SlotsType } from 'vue'
-import { computed, defineComponent } from 'vue'
 import type { ButtonProps } from 'naive-ui'
-import { NButton, NEl, NTooltip } from 'naive-ui'
-import { useOmitProps } from '../composables'
-import { proButtonExtendProps, proButtonProps } from './props'
+import type { SlotsType } from 'vue'
 import type { ProButtonSlots } from './slots'
+import { NButton, NEl, NTooltip } from 'naive-ui'
+import { computed, defineComponent } from 'vue'
+import { useOmitProps, useOverrideProps } from '../composables'
+import { proButtonExtendProps, proButtonProps } from './props'
 import { useLoading } from './useLoading'
 import { useTooltip } from './useTooltip'
-import { useAuth } from './useAuth'
 
+const name = 'ProButton'
 export default defineComponent({
-  name: 'ProButton',
+  name,
   inheritAttrs: false,
   props: proButtonProps,
   slots: Object as SlotsType<ProButtonSlots>,
   setup(props) {
-    const buttonProps = useOmitProps(
+    const overridedProps = useOverrideProps(
+      name,
       props,
+    )
+
+    const buttonProps = useOmitProps(
+      overridedProps,
       proButtonExtendProps,
     )
 
     const {
       loading,
       clickLoading,
-    } = useLoading(props)
+    } = useLoading(overridedProps)
 
     const {
       tooltipProps,
       tooltipTexts,
-    } = useTooltip(props)
+    } = useTooltip(overridedProps)
 
-    const {
-      pass,
-    } = useAuth(props)
+    // const {
+    //   pass,
+    // } = useAuth(overridedProps)
 
     const nButtonProps = computed<ButtonProps>(() => {
       return {
@@ -44,7 +48,7 @@ export default defineComponent({
     })
 
     return {
-      pass,
+      // pass,
       tooltipProps,
       tooltipTexts,
       nButtonProps,
@@ -52,7 +56,7 @@ export default defineComponent({
   },
   render() {
     const {
-      pass,
+      // pass,
       $props,
       $attrs,
       $slots,
@@ -61,9 +65,9 @@ export default defineComponent({
       tooltipTexts,
     } = this
 
-    if (!pass) {
-      return null
-    }
+    // if (!pass) {
+    //   return null
+    // }
 
     return (
       <NTooltip
@@ -96,4 +100,3 @@ export default defineComponent({
     )
   },
 })
-</script>

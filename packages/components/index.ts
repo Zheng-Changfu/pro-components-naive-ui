@@ -1,5 +1,5 @@
-export * from './create'
 export * from './components'
-export * from './src/locales'
+export * from './create'
 export { default, install } from './preset'
+export * from './src/locales'
 export { default as version } from './version'

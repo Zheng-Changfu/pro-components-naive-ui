@@ -5,9 +5,9 @@
 </markdown>
 
 <script lang="tsx">
-import { computed, defineComponent } from 'vue'
 import { useMounted } from '@vueuse/core'
 import { useProFormInst } from 'pro-components-naive-ui'
+import { computed, defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {

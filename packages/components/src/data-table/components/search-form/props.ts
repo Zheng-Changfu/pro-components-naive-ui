@@ -1,8 +1,8 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { GridProps } from 'naive-ui'
-import { proFormProps } from '../../../form'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProButtonProps } from '../../../button'
 import type { ProSearchFormColumns } from './types'
+import { proFormProps } from '../../../form'
 
 export const proSearchFormProps = {
   ...proFormProps,

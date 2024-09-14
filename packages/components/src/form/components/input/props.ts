@@ -1,6 +1,6 @@
 import type { InputProps } from 'naive-ui'
-import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ExtendAttrsStyleProps } from '../../../types'
 import { proFieldProps } from '../field'
 

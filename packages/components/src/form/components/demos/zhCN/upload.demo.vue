@@ -10,11 +10,11 @@
 </markdown>
 
 <script lang="tsx">
-import { defineComponent } from 'vue'
-import { useProFormInst } from 'pro-components-naive-ui'
-import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
 import type { UploadFileInfo } from 'naive-ui'
+import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
 import { useMessage } from 'naive-ui'
+import { useProFormInst } from 'pro-components-naive-ui'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { ArchiveIcon },

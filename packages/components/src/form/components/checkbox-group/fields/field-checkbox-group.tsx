@@ -1,9 +1,9 @@
 import type { CheckboxGroupProps, CheckboxProps, FlexProps } from 'naive-ui'
-import { NCheckbox, NCheckboxGroup, NFlex, checkboxGroupProps } from 'naive-ui'
 import type { PropType, SlotsType } from 'vue'
-import { get, omit } from 'lodash-es'
-import { useReadonlyHelpers } from '../../field'
 import type { ProCheckboxGroupSlots } from '../slots'
+import { get, omit } from 'lodash-es'
+import { checkboxGroupProps, NCheckbox, NCheckboxGroup, NFlex } from 'naive-ui'
+import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
   name: 'ProFieldCheckboxGroup',

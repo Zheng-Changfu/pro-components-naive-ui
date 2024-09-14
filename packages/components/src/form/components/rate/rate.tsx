@@ -1,8 +1,8 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proRateProps } from './props'
 import type { ProRateSlots } from './slots'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldRate from './fields/field-rate'
+import { proRateProps } from './props'
 
 export default defineComponent({
   name: 'ProRate',

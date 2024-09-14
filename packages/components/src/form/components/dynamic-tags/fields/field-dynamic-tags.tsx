@@ -1,6 +1,6 @@
-import { NDynamicTags, dynamicTagsProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProDynamicTagsSlots } from '../slots'
+import { dynamicTagsProps, NDynamicTags } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({

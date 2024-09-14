@@ -1,8 +1,8 @@
-import { NEl, NFlex, NInputNumber, inputNumberProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProDigitSlots } from '../slots'
-import { useProDigitInst } from '../inst'
+import { inputNumberProps, NEl, NFlex, NInputNumber } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
+import { useProDigitInst } from '../inst'
 
 export default defineComponent({
   name: 'ProFieldDigit',

@@ -1,6 +1,6 @@
-import { modalProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProModalDraggable } from './types'
+import { modalProps } from 'naive-ui'
 
 export const proModalExtendProps = {
   /**

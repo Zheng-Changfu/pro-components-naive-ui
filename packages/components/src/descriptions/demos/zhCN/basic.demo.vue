@@ -6,8 +6,8 @@
 </markdown>
 
 <script lang="tsx">
-import { defineComponent } from 'vue'
 import type { ProDescriptionColumns } from 'pro-components-naive-ui'
+import { defineComponent } from 'vue'
 
 interface DataSource {
   date: number

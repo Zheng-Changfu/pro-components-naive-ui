@@ -1,6 +1,6 @@
 import type { ComputedRef } from 'vue'
-import { computed, ref, watch } from 'vue'
 import type { ProTreeProps } from '../props'
+import { computed, ref, watch } from 'vue'
 
 export interface UseSelectKeysOptions {
   /**

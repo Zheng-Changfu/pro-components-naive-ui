@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
-import { onScopeDispose, ref } from 'vue'
 import type { AnyFn } from '../types'
+import { onScopeDispose, ref } from 'vue'
 
 export function createProComponentInstanceFactory<ProComponentInst extends Record<string, AnyFn>>(name: string) {
   return function (): [Ref<ProComponentInst | undefined>, ProComponentInst] {

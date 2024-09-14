@@ -1,8 +1,8 @@
-import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import type { MaybeExpression } from 'pro-components-hooks'
-import { proFieldProps } from '../form'
+import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../button'
 import type { ProFormListInst } from './inst'
+import { proFieldProps } from '../form'
 
 export interface ActionGuard {
   /**

@@ -1,8 +1,8 @@
 import type { AutoCompleteProps } from 'naive-ui'
-import { NAutoComplete, NEl, NFlex, autoCompleteProps } from 'naive-ui'
 import type { PropType, SlotsType } from 'vue'
-import { isFunction } from 'lodash-es'
 import type { ProAutoCompleteSlots } from '../slots'
+import { isFunction } from 'lodash-es'
+import { autoCompleteProps, NAutoComplete, NEl, NFlex } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 import { useProAutoCompleteInst } from '../inst'
 

@@ -1,10 +1,10 @@
-import { isString } from 'lodash-es'
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proDigitProps } from './props'
 import type { ProDigitSlots } from './slots'
-import { useProDigitInst } from './inst'
+import { isString } from 'lodash-es'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldDigit from './fields/field-digit'
+import { useProDigitInst } from './inst'
+import { proDigitProps } from './props'
 
 export default defineComponent({
   name: 'ProDigit',

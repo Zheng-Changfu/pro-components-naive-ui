@@ -1,20 +1,20 @@
 <script setup lang="tsx">
 import type { FormInst, FormProps } from 'naive-ui'
-import { NForm } from 'naive-ui'
 import type { BaseField, Path } from 'pro-components-hooks'
+import type { FieldExtraInfo } from './components'
+import type { ProFormInst } from './inst'
+import type { ValidateError } from './props'
+import type { ProFormSlots } from './slots'
+import { isString, toPath } from 'lodash-es'
+import { NForm } from 'naive-ui'
 import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
 import { computed, nextTick, provide, ref, toRef } from 'vue'
-import { isString, toPath } from 'lodash-es'
 import { useOmitProps } from '../composables'
 import { useInjectGlobalConfig } from '../config-provider'
-import { proFormContextKey, provideProFormInst } from './context'
-import type { ValidateError } from './props'
-import { proFormExtendProps, proFormProps } from './props'
-import type { ProFormInst } from './inst'
-import type { FieldExtraInfo } from './components'
 import { fieldExtraKey } from './components'
 import { useValidateResults } from './composables/useValidateResult'
-import type { ProFormSlots } from './slots'
+import { proFormContextKey, provideProFormInst } from './context'
+import { proFormExtendProps, proFormProps } from './props'
 
 defineOptions({
   name: 'ProForm',
@@ -26,8 +26,8 @@ const formInstRef = ref<FormInst>()
 const formProps = useOmitProps(props, proFormExtendProps)
 
 const {
-  scope: globalScope,
-} = useInjectGlobalConfig().proForm
+  proForm,
+} = useInjectGlobalConfig()
 
 const {
   addValidateErrors,
@@ -38,14 +38,15 @@ const {
 
 const {
   initialValues,
-  scope: propScope,
   onFieldValueChange,
 } = props
 
-const expressionScope = {
-  ...(globalScope ?? {}),
-  ...(propScope ?? {}),
-}
+const expressionScope = computed(() => {
+  return {
+    ...(proForm.scope ?? {}),
+    ...(props.scope ?? {}),
+  }
+})
 
 const {
   scope,
@@ -203,11 +204,11 @@ const exposed: ProFormInst = {
   restoreValidation,
   restoreFieldValue,
   restoreFieldsValue,
-  getScope: () => scope,
   getFieldValidateResult,
   pauseDependenciesTrigger,
   getFieldsTransformedValue,
   resumeDependenciesTrigger,
+  getScope: () => scope.value,
 }
 
 provideProFormInst(exposed)

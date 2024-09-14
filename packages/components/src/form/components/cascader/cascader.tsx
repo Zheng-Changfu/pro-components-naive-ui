@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proCascaderProps } from './props'
 import type { ProCascaderSlots } from './slots'
-import { useProCascaderInst } from './inst'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldCascader from './fields/field-cascader'
+import { useProCascaderInst } from './inst'
+import { proCascaderProps } from './props'
 
 export default defineComponent({
   name: 'ProCascader',

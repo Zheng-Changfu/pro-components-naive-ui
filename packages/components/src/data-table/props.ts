@@ -1,16 +1,14 @@
 import type { ExtractPublicPropTypes } from 'vue'
-import { DataTableProps } from 'naive-ui'
+import { dataTableProps } from 'naive-ui'
+
+export const proDataTableExtendProps = {
+
+} as const
 
 export const proDataTableProps = {
-  a:false,
-  pagination:{
-    type:Boolean,
-  }
+  ...dataTableProps,
+
 } as const
-inject
-ProconfigProvider  propsOverwrite:{
 
-}
-
-export type ProTableProps = ExtractPublicPropTypes<typeof proTableProps>
-
+export type ProDataTableProps = ExtractPublicPropTypes<typeof proDataTableProps>
+export type ProDataTableExtendProps = ExtractPublicPropTypes<typeof proDataTableExtendProps>

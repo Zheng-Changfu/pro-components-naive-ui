@@ -1,17 +1,17 @@
 import type { SlotsType } from 'vue'
-import { defineComponent } from 'vue'
-import { NFlex, NGi, NGrid, NIcon } from 'naive-ui'
-import { DownOutlined, UpOutlined } from '@vicons/antd'
-import { ProForm } from '../../../form'
-import { useInjectGlobalConfig } from '../../../config-provider'
-import { useLocale } from '../../../locales'
-import { ProButton, type ProButtonProps } from '../../../button'
-import { proSearchFormProps } from './props'
+import type { ProSearchFormInst } from './inst'
 import type { ProSearchFormSlots } from './slots'
 import type { ProSearchFormColumn } from './types'
+import { DownOutlined, UpOutlined } from '@vicons/antd'
+import { NFlex, NGi, NGrid, NIcon } from 'naive-ui'
+import { defineComponent } from 'vue'
+import { ProButton, type ProButtonProps } from '../../../button'
+import { useInjectGlobalConfig } from '../../../config-provider'
+import { ProForm } from '../../../form'
+import { useLocale } from '../../../locales'
 import { useGridCollapsed } from './composables/useGridCollapsed'
 import { useGridForm } from './composables/useGridForm'
-import type { ProSearchFormInst } from './inst'
+import { proSearchFormProps } from './props'
 
 export default defineComponent({
   name: 'ProSearchForm',
@@ -23,6 +23,10 @@ export default defineComponent({
       nGridProps,
       toggleCollapsed,
     } = useGridCollapsed(props)
+
+    console.log('full props:', props)
+    console.log('full props2:', getCurrentInstance()?.props, getCurrentInstance().vnode.type.name)
+    console.log('inhert props:', getCurrentInstance()?.vnode.props)
 
     const {
       reset,
@@ -135,6 +139,8 @@ export default defineComponent({
       showSuffixGridItem,
     } = this
 
+    // console.log(this.$.vnode.props,this.$props)
+
     function resolveColumn(column: ProSearchFormColumn) {
       if (column.render) {
         return column.render()
@@ -155,15 +161,15 @@ export default defineComponent({
       <ProForm {...proFormProps}>
         <NGrid {...nGridProps}>
           {
-          (columns ?? []).map((column) => {
-            const show = getColumnVisible(column)
-            const { span, offset, ...restProps } = column
-            return (
-              <NGi v-show={show} span={span} offset={offset}>
-                {resolveColumn(restProps)}
-              </NGi>
-            )
-          })
+            (columns ?? []).map((column) => {
+              const show = getColumnVisible(column)
+              const { span, offset, ...restProps } = column
+              return (
+                <NGi v-show={show} span={span} offset={offset}>
+                  {resolveColumn(restProps)}
+                </NGi>
+              )
+            })
           }
           {showSuffixGridItem && (
             <NGi suffix={true}>
@@ -176,11 +182,11 @@ export default defineComponent({
                     collapsed: this.collapsed,
                   })
                   : (
-                    <NFlex justify="end">
-                      {this.searchButtonProps !== false && <ProButton {...this.searchButtonProps} />}
-                      {this.resetButtonProps !== false && <ProButton {...this.resetButtonProps} />}
-                      {this.collapseButtonProps !== false && <ProButton {...this.collapseButtonProps} />}
-                    </NFlex>
+                      <NFlex justify="end">
+                        {this.searchButtonProps !== false && <ProButton {...this.searchButtonProps} />}
+                        {this.resetButtonProps !== false && <ProButton {...this.resetButtonProps} />}
+                        {this.collapseButtonProps !== false && <ProButton {...this.collapseButtonProps} />}
+                      </NFlex>
                     )
               }
             </NGi>

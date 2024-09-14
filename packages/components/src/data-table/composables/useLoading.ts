@@ -1,5 +1,5 @@
-import { watchImmediate } from '@vueuse/core'
 import type { MaybeRef } from 'vue'
+import { watchImmediate } from '@vueuse/core'
 
 export function useLoading(loadingProp: MaybeRef<boolean>) {
   const loading = ref(false)

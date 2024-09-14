@@ -1,12 +1,12 @@
 import type { TimePickerProps } from 'naive-ui'
-import { NTimePicker, timePickerProps } from 'naive-ui'
 import type { PropType, SlotsType } from 'vue'
-import { computed } from 'vue'
-import { isString } from 'lodash-es'
 import type { ProTimePickerSlots } from '../slots'
-import { useProTimePickerInst } from '../inst'
-import { useReadonlyHelpers } from '../../field'
+import { isString } from 'lodash-es'
+import { NTimePicker, timePickerProps } from 'naive-ui'
+import { computed } from 'vue'
 import { toDisplayDate } from '../../date-picker/fields/utils/toDisplayDate'
+import { useReadonlyHelpers } from '../../field'
+import { useProTimePickerInst } from '../inst'
 import { useMergeFormat } from './composables/useMergeFormat'
 
 export default defineComponent({

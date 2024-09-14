@@ -1,6 +1,6 @@
+import type { GridItemProps } from 'naive-ui'
 import type { ExtractObjectPath } from 'pro-components-hooks'
 import type { VNodeChild } from 'vue'
-import type { GridItemProps } from 'naive-ui'
 import type { FieldValueType, ProFieldProps } from '../../../form'
 import type { AnyFn } from '../../../types'
 

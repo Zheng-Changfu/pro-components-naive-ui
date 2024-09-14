@@ -1,10 +1,10 @@
+import type { ProFormProps } from '../../../../form'
+import type { ProSearchFormProps } from '../props'
+import type { ProSearchFormColumn } from '../types'
 import { pick } from 'lodash-es'
 import { compile } from 'pro-components-hooks'
 import { useInjectGlobalConfig } from '../../../../config-provider'
-import type { ProFormProps } from '../../../../form'
 import { proFormProps as formProps, useProFormInst } from '../../../../form'
-import type { ProSearchFormProps } from '../props'
-import type { ProSearchFormColumn } from '../types'
 
 export function useGridForm(props: ProSearchFormProps) {
   const [formInstRef, formMethods] = useProFormInst()

@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proInputProps } from './props'
 import type { ProInputSlots } from './slots'
-import { useProInputInst } from './inst'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldInput from './fields/field-input'
+import { useProInputInst } from './inst'
+import { proInputProps } from './props'
 
 export default defineComponent({
   name: 'ProTextarea',

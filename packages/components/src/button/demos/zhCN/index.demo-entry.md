@@ -4,8 +4,7 @@
 
 ```demo
 auto-loading.vue
-tooltip.vue
-auth.vue
+
 ```
 
 ## API

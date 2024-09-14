@@ -2,12 +2,12 @@
 // @ts-nocheck
 
 import { marked } from 'marked'
-import createRenderer from './md-renderer'
 import {
   genVueComponent,
   getFileName,
   mergeParts,
 } from './convert-md-to-demo'
+import createRenderer from './md-renderer'
 
 const mdRenderer = createRenderer()
 

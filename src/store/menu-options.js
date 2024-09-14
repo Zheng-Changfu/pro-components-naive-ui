@@ -1,8 +1,8 @@
 // rubbish code here
 
+import { NSpace, NTag } from 'naive-ui'
 import { h } from 'vue'
 import { RouterLink } from 'vue-router'
-import { NSpace, NTag } from 'naive-ui'
 
 export function renderMenuLabel(option) {
   if (!('path' in option) || option.label === '--Debug') {
@@ -214,12 +214,12 @@ export function createComponentMenuOptions({ lang, theme }) {
           enSuffix: true,
           path: '/card',
         },
-        {
-          en: 'ProButton',
-          zh: '按钮',
-          enSuffix: true,
-          path: '/button',
-        },
+        // {
+        //   en: 'ProButton',
+        //   zh: '按钮',
+        //   enSuffix: true,
+        //   path: '/button',
+        // },
       ],
     }),
     appendCounts({

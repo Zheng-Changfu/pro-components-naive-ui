@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { initRouter, siteSetup } from './store'
 import Site from './Site.vue'
+import { initRouter, siteSetup } from './store'
 
 export default defineComponent({
   name: 'SiteProvider',
@@ -29,6 +29,7 @@ export default defineComponent({
     :theme-overrides="themeOverrides"
     :value-type-map="valueTypeMap"
     :hljs="hljs"
+    :prop-overrides="propOverrides"
   >
     <n-loading-bar-provider>
       <n-message-provider>

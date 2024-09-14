@@ -1,12 +1,9 @@
 <script lang="ts">
+import { MenuOutline } from '@vicons/ionicons5'
+import { useMessage } from 'naive-ui'
+import { version } from 'pro-components-naive-ui'
 import { computed, defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useMessage } from 'naive-ui'
-import { MenuOutline } from '@vicons/ionicons5'
-import { version } from 'pro-components-naive-ui'
-import { repoUrl } from './utils/github-url'
-import { i18n, useIsMobile, useIsTablet } from './utils/composables'
-import { findMenuValue } from './utils/route'
 import {
   useComponentOptions,
   useConfigProviderName,
@@ -17,6 +14,9 @@ import {
   useThemeName,
 } from './store'
 import { renderMenuLabel } from './store/menu-options'
+import { i18n, useIsMobile, useIsTablet } from './utils/composables'
+import { repoUrl } from './utils/github-url'
+import { findMenuValue } from './utils/route'
 
 // match substr
 function match(pattern: any, string: any) {

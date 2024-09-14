@@ -1,6 +1,6 @@
+import type { TreeSelectProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import { computed, ref, watch } from 'vue'
-import type { TreeSelectProps } from 'naive-ui'
 
 export interface UseIndeterminateKeysOptions {
   /**

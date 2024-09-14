@@ -1,11 +1,11 @@
-import { computed } from 'vue'
 import type { TooltipProps } from 'naive-ui'
-import { isArray } from 'lodash-es'
 import type { ProButtonProps } from './props'
+import { isArray } from 'lodash-es'
+import { computed } from 'vue'
 
-export function useTooltip(props: ProButtonProps) {
+export function useTooltip(props: ComputedRef<ProButtonProps>) {
   const disabled = computed(() => {
-    const { tooltip, disabled, disabledTooltip } = props
+    const { tooltip, disabled, disabledTooltip } = props.value
     return disabled ? !disabledTooltip : !tooltip
   })
 
@@ -23,7 +23,7 @@ export function useTooltip(props: ProButtonProps) {
   }
 
   const tooltipTexts = computed(() => {
-    const { tooltip, disabled, disabledTooltip } = props
+    const { tooltip, disabled, disabledTooltip } = props.value
     if (disabled && disabledTooltip) {
       return normalizeTooltip(disabledTooltip)
     }

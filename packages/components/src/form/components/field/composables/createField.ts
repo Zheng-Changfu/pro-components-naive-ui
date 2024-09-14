@@ -1,7 +1,7 @@
 import type { FieldOptions } from 'pro-components-hooks'
+import type { ProFieldProps } from '../props'
 import { createField as _createField, createArrayField } from 'pro-components-hooks'
 import { toRef } from 'vue'
-import type { ProFieldProps } from '../props'
 
 export function createField(props: ProFieldProps) {
   const {

@@ -1,6 +1,6 @@
-import { type ComputedRef, type Ref, inject, ref, watchEffect } from 'vue'
-import { hash } from 'css-render'
 import { useSsrAdapter } from '@css-render/vue3-ssr'
+import { hash } from 'css-render'
+import { type ComputedRef, inject, type Ref, ref, watchEffect } from 'vue'
 import { c } from '../_utils/cssr'
 
 export function useThemeClass(

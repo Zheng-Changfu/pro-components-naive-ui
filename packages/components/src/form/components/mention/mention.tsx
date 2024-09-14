@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proMentionProps } from './props'
 import type { ProMentionSlots } from './slots'
-import { useMentionInst } from './inst'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldMention from './fields/field-mention'
+import { useMentionInst } from './inst'
+import { proMentionProps } from './props'
 
 export default defineComponent({
   name: 'ProMention',

@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proCheckboxProps } from './props'
 import type { ProCheckboxSlots } from './slots'
-import { useProCheckboxInst } from './inst'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldCheckbox from './fields/field-checkbox'
+import { useProCheckboxInst } from './inst'
+import { proCheckboxProps } from './props'
 
 export default defineComponent({
   name: 'ProCheckbox',

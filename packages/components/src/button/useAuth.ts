@@ -1,7 +1,7 @@
-import { computed, unref } from 'vue'
-import { isFunction, isUndefined } from 'lodash-es'
-import { useInjectGlobalConfig } from '../config-provider'
 import type { ProButtonProps } from './props'
+import { isFunction, isUndefined } from 'lodash-es'
+import { computed, unref } from 'vue'
+import { useInjectGlobalConfig } from '../config-provider'
 
 export function useAuth(props: ProButtonProps) {
   const { proButton } = useInjectGlobalConfig()

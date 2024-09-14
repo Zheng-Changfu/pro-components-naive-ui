@@ -1,9 +1,9 @@
 import type { EventHookOn } from '@vueuse/core'
+import type { AnyFn } from '../../types'
+import type { RefreshOnWindowFocus } from '../types'
 import { createEventHook, useDocumentVisibility } from '@vueuse/core'
 import { isBoolean } from 'lodash-es'
 import { useRoute } from 'vue-router'
-import type { RefreshOnWindowFocus } from '../types'
-import type { AnyFn } from '../../types'
 
 export interface UseFetchDataBaseOptions<RequestFn extends AnyFn> {
   /**

@@ -1,6 +1,6 @@
 import type { InjectionKey } from 'vue'
-import { inject, provide } from 'vue'
 import type { ProConfigProviderExtendProps } from './props'
+import { inject, provide, ref } from 'vue'
 
 const globalConfigContextKey = Symbol('globalConfig') as InjectionKey<ProConfigProviderExtendProps>
 
@@ -9,11 +9,10 @@ export function provideGlobalConfig(config: ProConfigProviderExtendProps) {
 }
 
 export function useInjectGlobalConfig() {
-  return inject(globalConfigContextKey, {
-    proForm: {},
-    proTable: {},
-    proButton: {},
-    valueTypeMap: {},
-    presetFieldProps: {},
+  return inject(globalConfigContextKey, () => {
+    return {
+      valueTypeMap: ref({}),
+      propOverrides: ref({}),
+    }
   }) as any as Required<ProConfigProviderExtendProps>
 }

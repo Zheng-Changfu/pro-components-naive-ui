@@ -1,6 +1,6 @@
-import { NRate, rateProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProRateSlots } from '../slots'
+import { NRate, rateProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({

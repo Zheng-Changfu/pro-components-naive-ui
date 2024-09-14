@@ -13,9 +13,9 @@ export default function createRenderer(wrapCodeWithCard = true) {
       return (
         `<div class="md-table-wrapper"><n-table single-column class="md-table">\n`
         + `<thead>\n${
-        header
+          header
         }</thead>\n${
-        body
+          body
         }</n-table>\n`
         + `</div>`
       )

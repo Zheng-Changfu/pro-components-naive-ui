@@ -1,6 +1,6 @@
-import { watchImmediate } from '@vueuse/core'
 import type { GridProps } from 'naive-ui'
 import type { ProSearchFormProps } from '../props'
+import { watchImmediate } from '@vueuse/core'
 
 export function useGridCollapsed(props: ProSearchFormProps) {
   const collapsed = ref(true)
@@ -24,7 +24,9 @@ export function useGridCollapsed(props: ProSearchFormProps) {
   })
 
   function toggleCollapsed() {
+    const { onCollapse } = props
     collapsed.value = !collapsed.value
+    onCollapse && onCollapse(collapsed.value)
   }
 
   return {

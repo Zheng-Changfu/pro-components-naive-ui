@@ -6,8 +6,8 @@
 </markdown>
 
 <script lang="tsx">
+import { useProFormInst, ValueTypeEnum } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
-import { ValueTypeEnum, useProFormInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {

@@ -1,22 +1,22 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseForm, Path } from 'pro-components-hooks'
-import { createProComponentInstanceFactory } from '../composables'
 import type { FormItemInternalValidateResult } from './composables/useValidateResult'
+import { createProComponentInstanceFactory } from '../composables'
 
 export type ProFormInst = Pick<
-BaseForm,
-| 'matchPath'
-| 'getFieldValue'
-| 'getFieldsValue'
-| 'setFieldValue'
-| 'setFieldsValue'
-| 'resetFieldValue'
-| 'resetFieldsValue'
-| 'setInitialValue'
-| 'setInitialValues'
-| 'pauseDependenciesTrigger'
-| 'resumeDependenciesTrigger'
-| 'getFieldsTransformedValue'
+  BaseForm,
+  | 'matchPath'
+  | 'getFieldValue'
+  | 'getFieldsValue'
+  | 'setFieldValue'
+  | 'setFieldsValue'
+  | 'resetFieldValue'
+  | 'resetFieldsValue'
+  | 'setInitialValue'
+  | 'setInitialValues'
+  | 'pauseDependenciesTrigger'
+  | 'resumeDependenciesTrigger'
+  | 'getFieldsTransformedValue'
 > & {
   /**
    * 提交表单

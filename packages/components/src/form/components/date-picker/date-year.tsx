@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proDatePickerProps } from './props'
 import type { ProDatePickerSlots } from './slots'
-import { useProDatePickerInst } from './inst'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldDatePicker from './fields/field-date-picker'
+import { useProDatePickerInst } from './inst'
+import { proDatePickerProps } from './props'
 
 export default defineComponent({
   name: 'ProDateYear',

@@ -1,15 +1,15 @@
 import type { SlotsType } from 'vue'
-import { Fragment, computed, defineComponent } from 'vue'
-import { NFlex } from 'naive-ui'
+import type { ProFieldSlots } from './slots'
 import { pick } from 'lodash-es'
+import { NFlex } from 'naive-ui'
+import { computed, defineComponent, Fragment } from 'vue'
 import { ProFormItem } from '../form-item'
 import { ProPopoverFormItem } from '../popover-form-item'
-import { proFieldProps } from './props'
-import type { ProFieldSlots } from './slots'
-import { useParseProps } from './composables/useParseProps'
 import { createField } from './composables/createField'
-import { fieldExtraKey } from './keys'
 import { useMergeOptions } from './composables/useMergeOptions'
+import { useParseProps } from './composables/useParseProps'
+import { fieldExtraKey } from './keys'
+import { proFieldProps } from './props'
 
 export default defineComponent({
   name: 'ProField',

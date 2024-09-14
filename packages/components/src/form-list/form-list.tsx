@@ -1,15 +1,15 @@
 import type { SlotsType } from 'vue'
-import { computed } from 'vue'
-import { uid } from 'pro-components-hooks'
-import { isArray } from 'lodash-es'
-import { ProField, ValueTypeEnum } from '../form/components'
-import { useMountStyle } from '../_internal/useMountStyle'
-import { proFormListProps } from './props'
 import type { ProFormListSlots } from './slots'
+import { isArray } from 'lodash-es'
+import { uid } from 'pro-components-hooks'
+import { computed } from 'vue'
+import { useMountStyle } from '../_internal/useMountStyle'
+import { ProField, ValueTypeEnum } from '../form/components'
 import { AUTO_CREATE_ID } from './context'
-import style from './styles/index.cssr'
-import { useProFormListInst } from './inst'
 import FieldList from './fields/field-list'
+import { useProFormListInst } from './inst'
+import { proFormListProps } from './props'
+import style from './styles/index.cssr'
 
 export default defineComponent({
   name: 'ProFormList',

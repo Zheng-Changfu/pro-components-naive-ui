@@ -1,6 +1,6 @@
 import type { TransferProps } from 'naive-ui'
-import { NTransfer, transferProps } from 'naive-ui'
 import { get, omit } from 'lodash-es'
+import { NTransfer, transferProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({

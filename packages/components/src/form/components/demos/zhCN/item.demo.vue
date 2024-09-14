@@ -3,9 +3,9 @@
 </markdown>
 
 <script lang="tsx">
-import { defineComponent, ref } from 'vue'
-import { useProFormInst } from 'pro-components-naive-ui'
 import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
+import { useProFormInst } from 'pro-components-naive-ui'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   components: { ArchiveIcon },

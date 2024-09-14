@@ -1,5 +1,5 @@
-import { isPlainObject } from 'lodash-es'
 import type { App } from 'vue'
+import { isPlainObject } from 'lodash-es'
 
 type ComponentType = any
 export interface UiInstance {

@@ -1,6 +1,6 @@
-import { treeProps } from 'naive-ui'
 import type { ExtractPublicPropTypes } from 'vue'
 import { omit } from 'lodash-es'
+import { treeProps } from 'naive-ui'
 
 export const proTreeProps = {
   ...omit(treeProps, [

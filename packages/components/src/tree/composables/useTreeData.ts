@@ -1,8 +1,8 @@
-import { computed, ref, toRef, watch } from 'vue'
-import { eachTree, mapTree } from 'pro-components-hooks'
-import { get, has, isNumber, isString, set } from 'lodash-es'
 import type { TreeOption } from 'naive-ui'
 import type { ProTreeProps } from '../props'
+import { get, has, isNumber, isString, set } from 'lodash-es'
+import { eachTree, mapTree } from 'pro-components-hooks'
+import { computed, ref, toRef, watch } from 'vue'
 
 export const levelKey = '__level__'
 export function useTreeData(props: ProTreeProps) {

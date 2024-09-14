@@ -40,26 +40,26 @@ export default defineComponent({
               children
             )
           : (
-            <>
-              <div
-                style={{
-                  display: 'grid',
-                  gap: '16px',
-                  gridTemplateColumns: '100%',
-                }}
-              >
-                {children.filter((_, index) => index % 2 === 0)}
-              </div>
-              <div
-                style={{
-                  display: 'grid',
-                  gap: '16px',
-                  gridTemplateColumns: '100%',
-                }}
-              >
-                {children.filter((_, index) => index % 2 === 1)}
-              </div>
-            </>
+              <>
+                <div
+                  style={{
+                    display: 'grid',
+                    gap: '16px',
+                    gridTemplateColumns: '100%',
+                  }}
+                >
+                  {children.filter((_, index) => index % 2 === 0)}
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gap: '16px',
+                    gridTemplateColumns: '100%',
+                  }}
+                >
+                  {children.filter((_, index) => index % 2 === 1)}
+                </div>
+              </>
             )}
       </div>
     )

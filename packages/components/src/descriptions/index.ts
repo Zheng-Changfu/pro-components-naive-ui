@@ -1,6 +1,6 @@
+export { useProDescriptions } from './composables/useProDescriptions'
 export * from './inst'
+export { default as ProDescriptions } from './pro-descriptions'
 export * from './props'
 export * from './slots'
 export * from './types'
-export { default as ProDescriptions } from './pro-descriptions'
-export { useProDescriptions } from './composables/useProDescriptions'

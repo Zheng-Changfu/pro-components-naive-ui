@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
+import type { ProAutoCompleteSlots } from './slots'
 import { ProField, ValueTypeEnum } from '../field'
+import ProFieldAutoComplete from './fields/field-auto-complete'
 import { useProAutoCompleteInst } from './inst'
 import { proAutoCompleteProps } from './props'
-import type { ProAutoCompleteSlots } from './slots'
-import ProFieldAutoComplete from './fields/field-auto-complete'
 
 export default defineComponent({
   name: 'ProAutoComplete',

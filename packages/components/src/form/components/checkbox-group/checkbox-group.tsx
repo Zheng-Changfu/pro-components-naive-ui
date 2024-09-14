@@ -1,8 +1,8 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proCheckboxGroupProps } from './props'
 import type { ProCheckboxGroupSlots } from './slots'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldCheckboxGroup from './fields/field-checkbox-group'
+import { proCheckboxGroupProps } from './props'
 
 export default defineComponent({
   name: 'ProCheckboxGroup',

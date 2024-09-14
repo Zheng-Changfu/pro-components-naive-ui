@@ -1,7 +1,7 @@
-import { useEventListener } from '@vueuse/core'
 import type { ProModalProps } from '../props'
-import { draggableClass } from '../const'
 import type { ProModalDraggableOptions } from '../types'
+import { useEventListener } from '@vueuse/core'
+import { draggableClass } from '../const'
 
 export function useDragModal(props: ProModalProps) {
   const cleanups: Array<() => void> = []

@@ -5,9 +5,9 @@
 </markdown>
 
 <script lang="tsx">
-import { defineComponent } from 'vue'
-import { type ProDescriptionColumns, useProDescriptionsInst } from 'pro-components-naive-ui'
 import { NButton } from 'naive-ui'
+import { type ProDescriptionColumns, useProDescriptionsInst } from 'pro-components-naive-ui'
+import { defineComponent } from 'vue'
 
 interface DataSource {
   date: number
@@ -103,7 +103,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-card title="远程请求数据" >
+  <pro-card title="远程请求数据">
     <pro-descriptions
       ref="instRef"
       bordered

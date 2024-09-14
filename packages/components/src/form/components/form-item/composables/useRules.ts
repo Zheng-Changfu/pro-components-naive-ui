@@ -1,11 +1,11 @@
-import { computed } from 'vue'
-import { isArray, toString } from 'lodash-es'
 import type { FormItemRule } from 'naive-ui'
-import { useInjectFieldContext } from 'pro-components-hooks'
-import { useInjectGlobalConfig } from '../../../../config-provider'
 import type { ProFormItemProps } from '../props'
-import { isEmptyValue } from '../../field/utils/valueUtil'
+import { isArray, toString } from 'lodash-es'
+import { useInjectFieldContext } from 'pro-components-hooks'
+import { computed } from 'vue'
+import { useInjectGlobalConfig } from '../../../../config-provider'
 import { useLocale } from '../../../../locales'
+import { isEmptyValue } from '../../field/utils/valueUtil'
 
 export function useRules(props: ProFormItemProps) {
   const {

@@ -1,6 +1,6 @@
-import { createProComponentInstanceFactory } from '../../../composables'
 import type { ProFormInst } from '../../../form'
 import type { PickFunction } from '../../../types'
+import { createProComponentInstanceFactory } from '../../../composables'
 
 export interface ProSearchFormInst<DataSource = any> extends ProFormInst {
   /**

@@ -1,10 +1,10 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proUploadProps } from './props'
 import type { ProUploadSlots } from './slots'
-import { useProUploadInst } from './inst'
-import { convertValueToFile } from './utils/file'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldUpload from './fields/field-upload'
+import { useProUploadInst } from './inst'
+import { proUploadProps } from './props'
+import { convertValueToFile } from './utils/file'
 
 export default defineComponent({
   name: 'ProUpload',

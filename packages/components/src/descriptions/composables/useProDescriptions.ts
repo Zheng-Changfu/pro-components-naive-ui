@@ -1,10 +1,10 @@
-import { isFunction } from 'lodash-es'
 import type { DescriptionsProps } from 'naive-ui'
 import type { AnyFn } from '../../types'
 import type { ProDescriptionsProps } from '../props'
 import type { ProDescriptionColumns } from '../types'
-import { useProDescriptionsInst } from '../inst'
 import type { UseFetchDataBaseOptions, UseFetchDataOptionsPassedTransform } from './useFetchData'
+import { isFunction } from 'lodash-es'
+import { useProDescriptionsInst } from '../inst'
 
 export type UseProDescriptionsOptionsReturned = [
   ComputedRef<ProDescriptionsProps>,

@@ -1,3 +1,3 @@
-export * from './slots'
+export { default as ProCard } from './card'
 export * from './props'
-export { default as ProCard } from './index.vue'
+export * from './slots'

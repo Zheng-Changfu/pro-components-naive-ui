@@ -12,18 +12,21 @@ function delay(time: number) {
 }
 export default defineComponent({
   setup() {
+    const autoLoading = ref(false)
     async function submit() {
+      autoLoading.value = true
       await delay(1000)
     }
     return {
       submit,
+      autoLoading,
     }
   },
 })
 </script>
 
 <template>
-  <ProButton @click="submit">
+  <ProButton :auto-loading="autoLoading" @click="submit">
     按钮
   </ProButton>
 </template>

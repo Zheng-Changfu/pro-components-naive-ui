@@ -1,9 +1,9 @@
-import type { InjectionKey, MaybeRef, ToRef } from 'vue'
-import { inject, provide } from 'vue'
 import type { PopoverProps } from 'naive-ui'
-import { noop } from 'lodash-es'
+import type { InjectionKey, MaybeRef, ToRef } from 'vue'
 import type { ProFormInst } from './inst'
 import type { ValidateBehavior, ValidateError } from './props'
+import { noop } from 'lodash-es'
+import { inject, provide } from 'vue'
 
 export const proFormInstContextKey = Symbol('proFormInst') as InjectionKey<ProFormInst>
 

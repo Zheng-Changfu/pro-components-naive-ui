@@ -1,33 +1,35 @@
-import { createTextVNode, Fragment, Comment, isVNode, vShow, defineComponent, inject, getCurrentInstance, watch, onBeforeUnmount, onMounted, ref, readonly, computed, onBeforeMount, reactive, provide, withDirectives, toRef, h, Teleport, nextTick, renderSlot, onActivated, onDeactivated, mergeProps, shallowRef, watchEffect, Transition, TransitionGroup, cloneVNode, Text, onUnmounted, onBeforeUpdate, onUpdated, normalizeStyle, isReactive, markRaw, isProxy, toRaw, renderList, createApp, unref } from 'vue';
+import { cloneVNode, Comment, computed, createApp, createTextVNode, defineComponent, Fragment, getCurrentInstance, h, inject, isProxy, isReactive, isVNode, markRaw, mergeProps, nextTick, normalizeStyle, onActivated, onBeforeMount, onBeforeUnmount, onBeforeUpdate, onDeactivated, onMounted, onUnmounted, onUpdated, provide, reactive, readonly, ref, renderList, renderSlot, shallowRef, Teleport, Text, toRaw, toRef, Transition, TransitionGroup, unref, vShow, watch, watchEffect, withDirectives } from 'vue'
 
-let onceCbs = [];
-const paramsMap = new WeakMap();
+let onceCbs = []
+const paramsMap = new WeakMap()
 function flushOnceCallbacks() {
-  onceCbs.forEach(cb => cb(...paramsMap.get(cb)));
-  onceCbs = [];
+  onceCbs.forEach(cb => cb(...paramsMap.get(cb)))
+  onceCbs = []
 }
 function beforeNextFrameOnce(cb, ...params) {
-  paramsMap.set(cb, params);
-  if (onceCbs.includes(cb)) return;
-  onceCbs.push(cb) === 1 && requestAnimationFrame(flushOnceCallbacks);
+  paramsMap.set(cb, params)
+  if (onceCbs.includes(cb))
+    return
+  onceCbs.push(cb) === 1 && requestAnimationFrame(flushOnceCallbacks)
 }
 
 function getParentNode$1(node) {
   // document type
   if (node.nodeType === 9) {
-    return null;
+    return null
   }
-  return node.parentNode;
+  return node.parentNode
 }
 function getScrollParent$1(node) {
-  if (node === null) return null;
-  const parentNode = getParentNode$1(node);
+  if (node === null)
+    return null
+  const parentNode = getParentNode$1(node)
   if (parentNode === null) {
-    return null;
+    return null
   }
   // Document
   if (parentNode.nodeType === 9) {
-    return document.documentElement;
+    return document.documentElement
   }
   // Element
   if (parentNode.nodeType === 1) {
@@ -35,141 +37,157 @@ function getScrollParent$1(node) {
     const {
       overflow,
       overflowX,
-      overflowY
-    } = getComputedStyle(parentNode);
+      overflowY,
+    } = getComputedStyle(parentNode)
     if (/(auto|scroll|overlay)/.test(overflow + overflowY + overflowX)) {
-      return parentNode;
+      return parentNode
     }
   }
-  return getScrollParent$1(parentNode);
+  return getScrollParent$1(parentNode)
 }
 
 function unwrapElement(target) {
-  if (typeof target === 'string') return document.querySelector(target);
-  if (typeof target === 'function') return target();
-  return target;
+  if (typeof target === 'string')
+    return document.querySelector(target)
+  if (typeof target === 'function')
+    return target()
+  return target
 }
 
 function happensIn(e, dataSetPropName) {
   let {
-    target
-  } = e;
+    target,
+  } = e
   while (target) {
     if (target.dataset) {
-      if (target.dataset[dataSetPropName] !== undefined) return true;
+      if (target.dataset[dataSetPropName] !== undefined)
+        return true
     }
-    target = target.parentElement;
+    target = target.parentElement
   }
-  return false;
+  return false
 }
 
 function getPreciseEventTarget(event) {
-  return event.composedPath()[0] || null;
+  return event.composedPath()[0] || null
 }
 
 function parseResponsiveProp(reponsiveProp) {
-  if (typeof reponsiveProp === "number") {
+  if (typeof reponsiveProp === 'number') {
     return {
-      '': reponsiveProp.toString()
-    };
-  }
-  const params = {};
-  reponsiveProp.split(/ +/).forEach(pairLiteral => {
-    if (pairLiteral === '') return;
-    const [prefix, value] = pairLiteral.split(':');
-    if (value === undefined) {
-      params[''] = prefix;
-    } else {
-      params[prefix] = value;
+      '': reponsiveProp.toString(),
     }
-  });
-  return params;
+  }
+  const params = {}
+  reponsiveProp.split(/ +/).forEach((pairLiteral) => {
+    if (pairLiteral === '')
+      return
+    const [prefix, value] = pairLiteral.split(':')
+    if (value === undefined) {
+      params[''] = prefix
+    }
+    else {
+      params[prefix] = value
+    }
+  })
+  return params
 }
 function parseResponsivePropValue(reponsiveProp, activeKeyOrSize) {
-  var _a;
-  if (reponsiveProp === undefined || reponsiveProp === null) return undefined;
-  const classObj = parseResponsiveProp(reponsiveProp);
-  if (activeKeyOrSize === undefined) return classObj[''];
+  let _a
+  if (reponsiveProp === undefined || reponsiveProp === null)
+    return undefined
+  const classObj = parseResponsiveProp(reponsiveProp)
+  if (activeKeyOrSize === undefined)
+    return classObj['']
   if (typeof activeKeyOrSize === 'string') {
-    return (_a = classObj[activeKeyOrSize]) !== null && _a !== void 0 ? _a : classObj[''];
-  } else if (Array.isArray(activeKeyOrSize)) {
+    return (_a = classObj[activeKeyOrSize]) !== null && _a !== void 0 ? _a : classObj['']
+  }
+  else if (Array.isArray(activeKeyOrSize)) {
     for (let i = activeKeyOrSize.length - 1; i >= 0; --i) {
-      const key = activeKeyOrSize[i];
-      if (key in classObj) return classObj[key];
+      const key = activeKeyOrSize[i]
+      if (key in classObj)
+        return classObj[key]
     }
-    return classObj[''];
-  } else {
+    return classObj['']
+  }
+  else {
     // Here we suppose all the keys are number formatted
-    let activeValue = undefined;
-    let activeKey = -1;
-    Object.keys(classObj).forEach(key => {
-      const keyAsNum = Number(key);
+    let activeValue
+    let activeKey = -1
+    Object.keys(classObj).forEach((key) => {
+      const keyAsNum = Number(key)
       if (!Number.isNaN(keyAsNum) && activeKeyOrSize >= keyAsNum && keyAsNum >= activeKey) {
-        activeKey = keyAsNum;
-        activeValue = classObj[key];
+        activeKey = keyAsNum
+        activeValue = classObj[key]
       }
-    });
-    return activeValue;
+    })
+    return activeValue
   }
 }
 
 function depx(value) {
   if (typeof value === 'string') {
     if (value.endsWith('px')) {
-      return Number(value.slice(0, value.length - 2));
+      return Number(value.slice(0, value.length - 2))
     }
-    return Number(value);
+    return Number(value)
   }
-  return value;
+  return value
 }
 function pxfy(value) {
-  if (value === undefined || value === null) return undefined;
-  if (typeof value === 'number') return `${value}px`;
-  if (value.endsWith('px')) return value;
-  return `${value}px`;
+  if (value === undefined || value === null)
+    return undefined
+  if (typeof value === 'number')
+    return `${value}px`
+  if (value.endsWith('px'))
+    return value
+  return `${value}px`
 }
 function getMargin(value, position) {
-  const parts = value.trim().split(/\s+/g);
+  const parts = value.trim().split(/\s+/g)
   const margin = {
-    top: parts[0]
-  };
+    top: parts[0],
+  }
   switch (parts.length) {
     case 1:
-      margin.right = parts[0];
-      margin.bottom = parts[0];
-      margin.left = parts[0];
-      break;
+      margin.right = parts[0]
+      margin.bottom = parts[0]
+      margin.left = parts[0]
+      break
     case 2:
-      margin.right = parts[1];
-      margin.left = parts[1];
-      margin.bottom = parts[0];
-      break;
+      margin.right = parts[1]
+      margin.left = parts[1]
+      margin.bottom = parts[0]
+      break
     case 3:
-      margin.right = parts[1];
-      margin.bottom = parts[2];
-      margin.left = parts[1];
-      break;
+      margin.right = parts[1]
+      margin.bottom = parts[2]
+      margin.left = parts[1]
+      break
     case 4:
-      margin.right = parts[1];
-      margin.bottom = parts[2];
-      margin.left = parts[3];
-      break;
+      margin.right = parts[1]
+      margin.bottom = parts[2]
+      margin.left = parts[3]
+      break
     default:
-      throw new Error('[seemly/getMargin]:' + value + ' is not a valid value.');
+      throw new Error(`[seemly/getMargin]:${value} is not a valid value.`)
   }
-  if (position === undefined) return margin;
-  return margin[position];
+  if (position === undefined)
+    return margin
+  return margin[position]
 }
 function getGap(value, orient) {
-  const [rowGap, colGap] = value.split(' ');
-  if (!orient) return {
-    row: rowGap,
-    col: colGap || rowGap
-  };
-  return orient === 'row' ? rowGap : colGap;
+  const [rowGap, colGap] = value.split(' ')
+  if (!orient) {
+    return {
+      row: rowGap,
+      col: colGap || rowGap,
+    }
+  }
+  return orient === 'row' ? rowGap : colGap
 }
 
-var colors = {
+const colors = {
   black: '#000',
   silver: '#C0C0C0',
   gray: '#808080',
@@ -186,8 +204,8 @@ var colors = {
   blue: '#00F',
   teal: '#008080',
   aqua: '#0FF',
-  transparent: '#0000'
-};
+  transparent: '#0000',
+}
 
 // All the algorithms credit to https://stackoverflow.com/questions/36721830/convert-hsl-to-rgb-and-hex/54014428#54014428
 // original author: Kamil Kiełczewski
@@ -198,10 +216,10 @@ var colors = {
  * @returns [h, s, v] 360, 100, 100
  */
 function hsl2hsv(h, s, l) {
-  s /= 100;
-  l /= 100;
-  const v = s * Math.min(l, 1 - l) + l;
-  return [h, v ? (2 - 2 * l / v) * 100 : 0, v * 100];
+  s /= 100
+  l /= 100
+  const v = s * Math.min(l, 1 - l) + l
+  return [h, v ? (2 - 2 * l / v) * 100 : 0, v * 100]
 }
 /**
  * @param h 360
@@ -210,11 +228,11 @@ function hsl2hsv(h, s, l) {
  * @returns [h, s, l] 360, 100, 100
  */
 function hsv2hsl(h, s, v) {
-  s /= 100;
-  v /= 100;
-  const l = v - v * s / 2;
-  const m = Math.min(l, 1 - l);
-  return [h, m ? (v - l) / m * 100 : 0, l * 100];
+  s /= 100
+  v /= 100
+  const l = v - v * s / 2
+  const m = Math.min(l, 1 - l)
+  return [h, m ? (v - l) / m * 100 : 0, l * 100]
 }
 /**
  * @param h 360
@@ -223,10 +241,10 @@ function hsv2hsl(h, s, v) {
  * @returns [r, g, b] 255, 255, 255
  */
 function hsv2rgb(h, s, v) {
-  s /= 100;
-  v /= 100;
-  let f = (n, k = (n + h / 60) % 6) => v - v * s * Math.max(Math.min(k, 4 - k, 1), 0);
-  return [f(5) * 255, f(3) * 255, f(1) * 255];
+  s /= 100
+  v /= 100
+  const f = (n, k = (n + h / 60) % 6) => v - v * s * Math.max(Math.min(k, 4 - k, 1), 0)
+  return [f(5) * 255, f(3) * 255, f(1) * 255]
 }
 /**
  * @param r 255
@@ -235,13 +253,13 @@ function hsv2rgb(h, s, v) {
  * @returns [360, 100, 100]
  */
 function rgb2hsv(r, g, b) {
-  r /= 255;
-  g /= 255;
-  b /= 255;
-  let v = Math.max(r, g, b),
-    c = v - Math.min(r, g, b);
-  let h = c && (v == r ? (g - b) / c : v == g ? 2 + (b - r) / c : 4 + (r - g) / c);
-  return [60 * (h < 0 ? h + 6 : h), v && c / v * 100, v * 100];
+  r /= 255
+  g /= 255
+  b /= 255
+  const v = Math.max(r, g, b)
+  const c = v - Math.min(r, g, b)
+  const h = c && (v == r ? (g - b) / c : v == g ? 2 + (b - r) / c : 4 + (r - g) / c)
+  return [60 * (h < 0 ? h + 6 : h), v && c / v * 100, v * 100]
 }
 /**
  * @param r 255
@@ -250,14 +268,14 @@ function rgb2hsv(r, g, b) {
  * @returns [360, 100, 100]
  */
 function rgb2hsl(r, g, b) {
-  r /= 255;
-  g /= 255;
-  b /= 255;
-  let v = Math.max(r, g, b),
-    c = v - Math.min(r, g, b),
-    f = 1 - Math.abs(v + v - c - 1);
-  let h = c && (v == r ? (g - b) / c : v == g ? 2 + (b - r) / c : 4 + (r - g) / c);
-  return [60 * (h < 0 ? h + 6 : h), f ? c / f * 100 : 0, (v + v - c) * 50];
+  r /= 255
+  g /= 255
+  b /= 255
+  const v = Math.max(r, g, b)
+  const c = v - Math.min(r, g, b)
+  const f = 1 - Math.abs(v + v - c - 1)
+  const h = c && (v == r ? (g - b) / c : v == g ? 2 + (b - r) / c : 4 + (r - g) / c)
+  return [60 * (h < 0 ? h + 6 : h), f ? c / f * 100 : 0, (v + v - c) * 50]
 }
 /**
  * @param h 360
@@ -266,31 +284,31 @@ function rgb2hsl(r, g, b) {
  * @returns [255, 255, 255]
  */
 function hsl2rgb(h, s, l) {
-  s /= 100;
-  l /= 100;
-  let a = s * Math.min(l, 1 - l);
-  let f = (n, k = (n + h / 30) % 12) => l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-  return [f(0) * 255, f(8) * 255, f(4) * 255];
+  s /= 100
+  l /= 100
+  const a = s * Math.min(l, 1 - l)
+  const f = (n, k = (n + h / 30) % 12) => l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
+  return [f(0) * 255, f(8) * 255, f(4) * 255]
 }
 
-const prefix$1 = '^\\s*';
-const suffix = '\\s*$';
-const percent = '\\s*((\\.\\d+)|(\\d+(\\.\\d*)?))%\\s*'; // 4 offset
-const float = '\\s*((\\.\\d+)|(\\d+(\\.\\d*)?))\\s*'; // 4 offset
-const hex = '([0-9A-Fa-f])';
-const dhex = '([0-9A-Fa-f]{2})';
-const hslRegex = new RegExp(`${prefix$1}hsl\\s*\\(${float},${percent},${percent}\\)${suffix}`);
-const hsvRegex = new RegExp(`${prefix$1}hsv\\s*\\(${float},${percent},${percent}\\)${suffix}`);
-const hslaRegex = new RegExp(`${prefix$1}hsla\\s*\\(${float},${percent},${percent},${float}\\)${suffix}`);
-const hsvaRegex = new RegExp(`${prefix$1}hsva\\s*\\(${float},${percent},${percent},${float}\\)${suffix}`);
-const rgbRegex = new RegExp(`${prefix$1}rgb\\s*\\(${float},${float},${float}\\)${suffix}`);
-const rgbaRegex = new RegExp(`${prefix$1}rgba\\s*\\(${float},${float},${float},${float}\\)${suffix}`);
-const sHexRegex = new RegExp(`${prefix$1}#${hex}${hex}${hex}${suffix}`);
-const hexRegex = new RegExp(`${prefix$1}#${dhex}${dhex}${dhex}${suffix}`);
-const sHexaRegex = new RegExp(`${prefix$1}#${hex}${hex}${hex}${hex}${suffix}`);
-const hexaRegex = new RegExp(`${prefix$1}#${dhex}${dhex}${dhex}${dhex}${suffix}`);
+const prefix$1 = '^\\s*'
+const suffix = '\\s*$'
+const percent = '\\s*((\\.\\d+)|(\\d+(\\.\\d*)?))%\\s*' // 4 offset
+const float = '\\s*((\\.\\d+)|(\\d+(\\.\\d*)?))\\s*' // 4 offset
+const hex = '([0-9A-Fa-f])'
+const dhex = '([0-9A-Fa-f]{2})'
+const hslRegex = new RegExp(`${prefix$1}hsl\\s*\\(${float},${percent},${percent}\\)${suffix}`)
+const hsvRegex = new RegExp(`${prefix$1}hsv\\s*\\(${float},${percent},${percent}\\)${suffix}`)
+const hslaRegex = new RegExp(`${prefix$1}hsla\\s*\\(${float},${percent},${percent},${float}\\)${suffix}`)
+const hsvaRegex = new RegExp(`${prefix$1}hsva\\s*\\(${float},${percent},${percent},${float}\\)${suffix}`)
+const rgbRegex = new RegExp(`${prefix$1}rgb\\s*\\(${float},${float},${float}\\)${suffix}`)
+const rgbaRegex = new RegExp(`${prefix$1}rgba\\s*\\(${float},${float},${float},${float}\\)${suffix}`)
+const sHexRegex = new RegExp(`${prefix$1}#${hex}${hex}${hex}${suffix}`)
+const hexRegex = new RegExp(`${prefix$1}#${dhex}${dhex}${dhex}${suffix}`)
+const sHexaRegex = new RegExp(`${prefix$1}#${hex}${hex}${hex}${hex}${suffix}`)
+const hexaRegex = new RegExp(`${prefix$1}#${dhex}${dhex}${dhex}${dhex}${suffix}`)
 function parseHex(value) {
-  return parseInt(value, 16);
+  return Number.parseInt(value, 16)
 }
 /**
  * Convert color string to hsla array
@@ -299,15 +317,17 @@ function parseHex(value) {
  */
 function hsla(color) {
   try {
-    let i;
+    let i
     if (i = hslaRegex.exec(color)) {
-      return [roundDeg(i[1]), roundPercent(i[5]), roundPercent(i[9]), roundAlpha(i[13])];
-    } else if (i = hslRegex.exec(color)) {
-      return [roundDeg(i[1]), roundPercent(i[5]), roundPercent(i[9]), 1];
+      return [roundDeg(i[1]), roundPercent(i[5]), roundPercent(i[9]), roundAlpha(i[13])]
     }
-    throw new Error(`[seemly/hsla]: Invalid color value ${color}.`);
-  } catch (e) {
-    throw e;
+    else if (i = hslRegex.exec(color)) {
+      return [roundDeg(i[1]), roundPercent(i[5]), roundPercent(i[9]), 1]
+    }
+    throw new Error(`[seemly/hsla]: Invalid color value ${color}.`)
+  }
+  catch (e) {
+    throw e
   }
 }
 /**
@@ -317,15 +337,17 @@ function hsla(color) {
  */
 function hsva(color) {
   try {
-    let i;
+    let i
     if (i = hsvaRegex.exec(color)) {
-      return [roundDeg(i[1]), roundPercent(i[5]), roundPercent(i[9]), roundAlpha(i[13])];
-    } else if (i = hsvRegex.exec(color)) {
-      return [roundDeg(i[1]), roundPercent(i[5]), roundPercent(i[9]), 1];
+      return [roundDeg(i[1]), roundPercent(i[5]), roundPercent(i[9]), roundAlpha(i[13])]
     }
-    throw new Error(`[seemly/hsva]: Invalid color value ${color}.`);
-  } catch (e) {
-    throw e;
+    else if (i = hsvRegex.exec(color)) {
+      return [roundDeg(i[1]), roundPercent(i[5]), roundPercent(i[9]), 1]
+    }
+    throw new Error(`[seemly/hsva]: Invalid color value ${color}.`)
+  }
+  catch (e) {
+    throw e
   }
 }
 /**
@@ -335,116 +357,133 @@ function hsva(color) {
  */
 function rgba(color) {
   try {
-    let i;
+    let i
     if (i = hexRegex.exec(color)) {
-      return [parseHex(i[1]), parseHex(i[2]), parseHex(i[3]), 1];
-    } else if (i = rgbRegex.exec(color)) {
-      return [roundChannel(i[1]), roundChannel(i[5]), roundChannel(i[9]), 1];
-    } else if (i = rgbaRegex.exec(color)) {
-      return [roundChannel(i[1]), roundChannel(i[5]), roundChannel(i[9]), roundAlpha(i[13])];
-    } else if (i = sHexRegex.exec(color)) {
-      return [parseHex(i[1] + i[1]), parseHex(i[2] + i[2]), parseHex(i[3] + i[3]), 1];
-    } else if (i = hexaRegex.exec(color)) {
-      return [parseHex(i[1]), parseHex(i[2]), parseHex(i[3]), roundAlpha(parseHex(i[4]) / 255)];
-    } else if (i = sHexaRegex.exec(color)) {
-      return [parseHex(i[1] + i[1]), parseHex(i[2] + i[2]), parseHex(i[3] + i[3]), roundAlpha(parseHex(i[4] + i[4]) / 255)];
-    } else if (color in colors) {
-      return rgba(colors[color]);
+      return [parseHex(i[1]), parseHex(i[2]), parseHex(i[3]), 1]
     }
-    throw new Error(`[seemly/rgba]: Invalid color value ${color}.`);
-  } catch (e) {
-    throw e;
+    else if (i = rgbRegex.exec(color)) {
+      return [roundChannel(i[1]), roundChannel(i[5]), roundChannel(i[9]), 1]
+    }
+    else if (i = rgbaRegex.exec(color)) {
+      return [roundChannel(i[1]), roundChannel(i[5]), roundChannel(i[9]), roundAlpha(i[13])]
+    }
+    else if (i = sHexRegex.exec(color)) {
+      return [parseHex(i[1] + i[1]), parseHex(i[2] + i[2]), parseHex(i[3] + i[3]), 1]
+    }
+    else if (i = hexaRegex.exec(color)) {
+      return [parseHex(i[1]), parseHex(i[2]), parseHex(i[3]), roundAlpha(parseHex(i[4]) / 255)]
+    }
+    else if (i = sHexaRegex.exec(color)) {
+      return [parseHex(i[1] + i[1]), parseHex(i[2] + i[2]), parseHex(i[3] + i[3]), roundAlpha(parseHex(i[4] + i[4]) / 255)]
+    }
+    else if (color in colors) {
+      return rgba(colors[color])
+    }
+    throw new Error(`[seemly/rgba]: Invalid color value ${color}.`)
+  }
+  catch (e) {
+    throw e
   }
 }
 function normalizeAlpha$1(alphaValue) {
-  return alphaValue > 1 ? 1 : alphaValue < 0 ? 0 : alphaValue;
+  return alphaValue > 1 ? 1 : alphaValue < 0 ? 0 : alphaValue
 }
 function stringifyRgb(r, g, b) {
-  return `rgb(${roundChannel(r)}, ${roundChannel(g)}, ${roundChannel(b)})`;
+  return `rgb(${roundChannel(r)}, ${roundChannel(g)}, ${roundChannel(b)})`
 }
 function stringifyRgba(r, g, b, a) {
-  return `rgba(${roundChannel(r)}, ${roundChannel(g)}, ${roundChannel(b)}, ${normalizeAlpha$1(a)})`;
+  return `rgba(${roundChannel(r)}, ${roundChannel(g)}, ${roundChannel(b)}, ${normalizeAlpha$1(a)})`
 }
 function compositeChannel(v1, a1, v2, a2, a) {
-  return roundChannel((v1 * a1 * (1 - a2) + v2 * a2) / a);
+  return roundChannel((v1 * a1 * (1 - a2) + v2 * a2) / a)
 }
 function composite(background, overlay) {
-  if (!Array.isArray(background)) background = rgba(background);
-  if (!Array.isArray(overlay)) overlay = rgba(overlay);
-  const a1 = background[3];
-  const a2 = overlay[3];
-  const alpha = roundAlpha(a1 + a2 - a1 * a2);
-  return stringifyRgba(compositeChannel(background[0], a1, overlay[0], a2, alpha), compositeChannel(background[1], a1, overlay[1], a2, alpha), compositeChannel(background[2], a1, overlay[2], a2, alpha), alpha);
+  if (!Array.isArray(background))
+    background = rgba(background)
+  if (!Array.isArray(overlay))
+    overlay = rgba(overlay)
+  const a1 = background[3]
+  const a2 = overlay[3]
+  const alpha = roundAlpha(a1 + a2 - a1 * a2)
+  return stringifyRgba(compositeChannel(background[0], a1, overlay[0], a2, alpha), compositeChannel(background[1], a1, overlay[1], a2, alpha), compositeChannel(background[2], a1, overlay[2], a2, alpha), alpha)
 }
 function changeColor(base, options) {
-  const [r, g, b, a = 1] = Array.isArray(base) ? base : rgba(base);
+  const [r, g, b, a = 1] = Array.isArray(base) ? base : rgba(base)
   if (options.alpha) {
-    return stringifyRgba(r, g, b, options.alpha);
+    return stringifyRgba(r, g, b, options.alpha)
   }
-  return stringifyRgba(r, g, b, a);
+  return stringifyRgba(r, g, b, a)
 }
 function scaleColor(base, options) {
-  const [r, g, b, a = 1] = Array.isArray(base) ? base : rgba(base);
+  const [r, g, b, a = 1] = Array.isArray(base) ? base : rgba(base)
   const {
     lightness = 1,
-    alpha = 1
-  } = options;
-  return toRgbaString([r * lightness, g * lightness, b * lightness, a * alpha]);
+    alpha = 1,
+  } = options
+  return toRgbaString([r * lightness, g * lightness, b * lightness, a * alpha])
 }
 function roundAlpha(value) {
-  const v = Math.round(Number(value) * 100) / 100;
-  if (v > 1) return 1;
-  if (v < 0) return 0;
-  return v;
+  const v = Math.round(Number(value) * 100) / 100
+  if (v > 1)
+    return 1
+  if (v < 0)
+    return 0
+  return v
 }
 function roundDeg(value) {
-  const v = Math.round(Number(value));
-  if (v >= 360) return 0;
-  if (v < 0) return 0;
-  return v;
+  const v = Math.round(Number(value))
+  if (v >= 360)
+    return 0
+  if (v < 0)
+    return 0
+  return v
 }
 function roundChannel(value) {
-  const v = Math.round(Number(value));
-  if (v > 255) return 255;
-  if (v < 0) return 0;
-  return v;
+  const v = Math.round(Number(value))
+  if (v > 255)
+    return 255
+  if (v < 0)
+    return 0
+  return v
 }
 function roundPercent(value) {
-  const v = Math.round(Number(value));
-  if (v > 100) return 100;
-  if (v < 0) return 0;
-  return v;
+  const v = Math.round(Number(value))
+  if (v > 100)
+    return 100
+  if (v < 0)
+    return 0
+  return v
 }
 function toRgbString(base) {
-  const [r, g, b] = Array.isArray(base) ? base : rgba(base);
-  return stringifyRgb(r, g, b);
+  const [r, g, b] = Array.isArray(base) ? base : rgba(base)
+  return stringifyRgb(r, g, b)
 }
 function toRgbaString(base) {
-  const [r, g, b] = base;
+  const [r, g, b] = base
   if (3 in base) {
-    return `rgba(${roundChannel(r)}, ${roundChannel(g)}, ${roundChannel(b)}, ${roundAlpha(base[3])})`;
+    return `rgba(${roundChannel(r)}, ${roundChannel(g)}, ${roundChannel(b)}, ${roundAlpha(base[3])})`
   }
-  return `rgba(${roundChannel(r)}, ${roundChannel(g)}, ${roundChannel(b)}, 1)`;
+  return `rgba(${roundChannel(r)}, ${roundChannel(g)}, ${roundChannel(b)}, 1)`
 }
 function toHsvString(base) {
-  return `hsv(${roundDeg(base[0])}, ${roundPercent(base[1])}%, ${roundPercent(base[2])}%)`;
+  return `hsv(${roundDeg(base[0])}, ${roundPercent(base[1])}%, ${roundPercent(base[2])}%)`
 }
 function toHsvaString(base) {
-  const [h, s, v] = base;
+  const [h, s, v] = base
   if (3 in base) {
-    return `hsva(${roundDeg(h)}, ${roundPercent(s)}%, ${roundPercent(v)}%, ${roundAlpha(base[3])})`;
+    return `hsva(${roundDeg(h)}, ${roundPercent(s)}%, ${roundPercent(v)}%, ${roundAlpha(base[3])})`
   }
-  return `hsva(${roundDeg(h)}, ${roundPercent(s)}%, ${roundPercent(v)}%, 1)`;
+  return `hsva(${roundDeg(h)}, ${roundPercent(s)}%, ${roundPercent(v)}%, 1)`
 }
 function toHslString(base) {
-  return `hsl(${roundDeg(base[0])}, ${roundPercent(base[1])}%, ${roundPercent(base[2])}%)`;
+  return `hsl(${roundDeg(base[0])}, ${roundPercent(base[1])}%, ${roundPercent(base[2])}%)`
 }
 function toHslaString(base) {
-  const [h, s, l] = base;
+  const [h, s, l] = base
   if (3 in base) {
-    return `hsla(${roundDeg(h)}, ${roundPercent(s)}%, ${roundPercent(l)}%, ${roundAlpha(base[3])})`;
+    return `hsla(${roundDeg(h)}, ${roundPercent(s)}%, ${roundPercent(l)}%, ${roundAlpha(base[3])})`
   }
-  return `hsla(${roundDeg(h)}, ${roundPercent(s)}%, ${roundPercent(l)}%, 1)`;
+  return `hsla(${roundDeg(h)}, ${roundPercent(s)}%, ${roundPercent(l)}%, 1)`
 }
 /**
  *
@@ -453,21 +492,24 @@ function toHslaString(base) {
  */
 function toHexaString(base) {
   if (typeof base === 'string') {
-    let i;
+    let i
     if (i = hexRegex.exec(base)) {
-      return `${i[0]}FF`;
-    } else if (i = hexaRegex.exec(base)) {
-      return i[0];
-    } else if (i = sHexRegex.exec(base)) {
-      return `#${i[1]}${i[1]}${i[2]}${i[2]}${i[3]}${i[3]}FF`;
-    } else if (i = sHexaRegex.exec(base)) {
-      return `#${i[1]}${i[1]}${i[2]}${i[2]}${i[3]}${i[3]}${i[4]}${i[4]}`;
+      return `${i[0]}FF`
     }
-    throw new Error(`[seemly/toHexString]: Invalid hex value ${base}.`);
+    else if (i = hexaRegex.exec(base)) {
+      return i[0]
+    }
+    else if (i = sHexRegex.exec(base)) {
+      return `#${i[1]}${i[1]}${i[2]}${i[2]}${i[3]}${i[3]}FF`
+    }
+    else if (i = sHexaRegex.exec(base)) {
+      return `#${i[1]}${i[1]}${i[2]}${i[2]}${i[3]}${i[3]}${i[4]}${i[4]}`
+    }
+    throw new Error(`[seemly/toHexString]: Invalid hex value ${base}.`)
   }
-  const hex = `#${base.slice(0, 3).map(unit => roundChannel(unit).toString(16).toUpperCase().padStart(2, '0')).join('')}`;
-  const a = base.length === 3 ? 'FF' : roundChannel(base[3] * 255).toString(16).padStart(2, '0').toUpperCase();
-  return hex + a;
+  const hex = `#${base.slice(0, 3).map(unit => roundChannel(unit).toString(16).toUpperCase().padStart(2, '0')).join('')}`
+  const a = base.length === 3 ? 'FF' : roundChannel(base[3] * 255).toString(16).padStart(2, '0').toUpperCase()
+  return hex + a
 }
 /**
  *
@@ -476,293 +518,319 @@ function toHexaString(base) {
  */
 function toHexString(base) {
   if (typeof base === 'string') {
-    let i;
+    let i
     if (i = hexRegex.exec(base)) {
-      return i[0];
-    } else if (i = hexaRegex.exec(base)) {
-      return i[0].slice(0, 7);
-    } else if (i = sHexRegex.exec(base) || sHexaRegex.exec(base)) {
-      return `#${i[1]}${i[1]}${i[2]}${i[2]}${i[3]}${i[3]}`;
+      return i[0]
     }
-    throw new Error(`[seemly/toHexString]: Invalid hex value ${base}.`);
+    else if (i = hexaRegex.exec(base)) {
+      return i[0].slice(0, 7)
+    }
+    else if (i = sHexRegex.exec(base) || sHexaRegex.exec(base)) {
+      return `#${i[1]}${i[1]}${i[2]}${i[2]}${i[3]}${i[3]}`
+    }
+    throw new Error(`[seemly/toHexString]: Invalid hex value ${base}.`)
   }
-  return `#${base.slice(0, 3).map(unit => roundChannel(unit).toString(16).toUpperCase().padStart(2, '0')).join('')}`;
+  return `#${base.slice(0, 3).map(unit => roundChannel(unit).toString(16).toUpperCase().padStart(2, '0')).join('')}`
 }
 
 function createId(length = 8) {
-  return Math.random().toString(16).slice(2, 2 + length);
+  return Math.random().toString(16).slice(2, 2 + length)
 }
 function repeat(count, v) {
-  const ret = [];
+  const ret = []
   for (let i = 0; i < count; ++i) {
-    ret.push(v);
+    ret.push(v)
   }
-  return ret;
+  return ret
 }
 function indexMap(count, createValue) {
-  const ret = [];
+  const ret = []
   if (!createValue) {
     for (let i = 0; i < count; ++i) {
-      ret.push(i);
+      ret.push(i)
     }
-    return ret;
+    return ret
   }
   for (let i = 0; i < count; ++i) {
-    ret.push(createValue(i));
+    ret.push(createValue(i))
   }
-  return ret;
+  return ret
 }
 
-function getSlot$1(instance, slotName = "default", fallback = []) {
-  const slots = instance.$slots;
-  const slot = slots[slotName];
-  if (slot === void 0) return fallback;
-  return slot();
+function getSlot$1(instance, slotName = 'default', fallback = []) {
+  const slots = instance.$slots
+  const slot = slots[slotName]
+  if (slot === void 0)
+    return fallback
+  return slot()
 }
 
-function getVNodeChildren(vNode, slotName = "default", fallback = []) {
+function getVNodeChildren(vNode, slotName = 'default', fallback = []) {
   const {
-    children
-  } = vNode;
-  if (children !== null && typeof children === "object" && !Array.isArray(children)) {
-    const slot = children[slotName];
-    if (typeof slot === "function") {
-      return slot();
+    children,
+  } = vNode
+  if (children !== null && typeof children === 'object' && !Array.isArray(children)) {
+    const slot = children[slotName]
+    if (typeof slot === 'function') {
+      return slot()
     }
   }
-  return fallback;
+  return fallback
 }
 
 function keep(object, keys = [], rest) {
-  const keepedObject = {};
-  keys.forEach(key => {
-    keepedObject[key] = object[key];
-  });
-  return Object.assign(keepedObject, rest);
+  const keepedObject = {}
+  keys.forEach((key) => {
+    keepedObject[key] = object[key]
+  })
+  return Object.assign(keepedObject, rest)
 }
 
 function omit(object, keys = [], rest) {
-  const omitedObject = {};
-  const originalKeys = Object.getOwnPropertyNames(object);
-  originalKeys.forEach(originalKey => {
+  const omitedObject = {}
+  const originalKeys = Object.getOwnPropertyNames(object)
+  originalKeys.forEach((originalKey) => {
     if (!keys.includes(originalKey)) {
-      omitedObject[originalKey] = object[originalKey];
+      omitedObject[originalKey] = object[originalKey]
     }
-  });
-  return Object.assign(omitedObject, rest);
+  })
+  return Object.assign(omitedObject, rest)
 }
 
 function flatten$3(vNodes, filterCommentNode = true, result = []) {
-  vNodes.forEach(vNode => {
-    if (vNode === null) return;
-    if (typeof vNode !== "object") {
-      if (typeof vNode === "string" || typeof vNode === "number") {
-        result.push(createTextVNode(String(vNode)));
+  vNodes.forEach((vNode) => {
+    if (vNode === null)
+      return
+    if (typeof vNode !== 'object') {
+      if (typeof vNode === 'string' || typeof vNode === 'number') {
+        result.push(createTextVNode(String(vNode)))
       }
-      return;
+      return
     }
     if (Array.isArray(vNode)) {
-      flatten$3(vNode, filterCommentNode, result);
-      return;
+      flatten$3(vNode, filterCommentNode, result)
+      return
     }
     if (vNode.type === Fragment) {
-      if (vNode.children === null) return;
+      if (vNode.children === null)
+        return
       if (Array.isArray(vNode.children)) {
-        flatten$3(vNode.children, filterCommentNode, result);
+        flatten$3(vNode.children, filterCommentNode, result)
       }
-    } else {
-      if (vNode.type === Comment && filterCommentNode) return;
-      result.push(vNode);
     }
-  });
-  return result;
+    else {
+      if (vNode.type === Comment && filterCommentNode)
+        return
+      result.push(vNode)
+    }
+  })
+  return result
 }
 
 function call(funcs, ...args) {
   if (Array.isArray(funcs)) {
-    funcs.forEach(func => call(func, ...args));
-  } else return funcs(...args);
+    funcs.forEach(func => call(func, ...args))
+  }
+  else {
+    return funcs(...args)
+  }
 }
 
 function keysOf(obj) {
-  return Object.keys(obj);
+  return Object.keys(obj)
 }
 
-const render$1 = (r, ...args) => {
-  if (typeof r === "function") {
-    return r(...args);
-  } else if (typeof r === "string") {
-    return createTextVNode(r);
-  } else if (typeof r === "number") {
-    return createTextVNode(String(r));
-  } else {
-    return null;
+function render$1(r, ...args) {
+  if (typeof r === 'function') {
+    return r(...args)
   }
-};
+  else if (typeof r === 'string') {
+    return createTextVNode(r)
+  }
+  else if (typeof r === 'number') {
+    return createTextVNode(String(r))
+  }
+  else {
+    return null
+  }
+}
 
-const warnedMessages = /* @__PURE__ */new Set();
+const warnedMessages = /* @__PURE__ */new Set()
 function warnOnce(location, message) {
-  const mergedMessage = `[naive/${location}]: ${message}`;
-  if (warnedMessages.has(mergedMessage)) return;
-  warnedMessages.add(mergedMessage);
-  console.error(mergedMessage);
+  const mergedMessage = `[naive/${location}]: ${message}`
+  if (warnedMessages.has(mergedMessage))
+    return
+  warnedMessages.add(mergedMessage)
+  console.error(mergedMessage)
 }
 function warn$2(location, message) {
-  console.error(`[naive/${location}]: ${message}`);
+  console.error(`[naive/${location}]: ${message}`)
 }
 function throwError(location, message) {
-  throw new Error(`[naive/${location}]: ${message}`);
+  throw new Error(`[naive/${location}]: ${message}`)
 }
 
 function smallerSize(size) {
   switch (size) {
-    case "tiny":
-      return "mini";
-    case "small":
-      return "tiny";
-    case "medium":
-      return "small";
-    case "large":
-      return "medium";
-    case "huge":
-      return "large";
+    case 'tiny':
+      return 'mini'
+    case 'small':
+      return 'tiny'
+    case 'medium':
+      return 'small'
+    case 'large':
+      return 'medium'
+    case 'huge':
+      return 'large'
   }
-  throw Error(`${size} has no smaller size.`);
+  throw new Error(`${size} has no smaller size.`)
 }
 
 function getTitleAttribute(value) {
   switch (typeof value) {
-    case "string":
-      return value || void 0;
-    case "number":
-      return String(value);
+    case 'string':
+      return value || void 0
+    case 'number':
+      return String(value)
     default:
-      return void 0;
+      return void 0
   }
 }
 
-function getFirstSlotVNode(slots, slotName = "default", props = void 0) {
-  const slot = slots[slotName];
+function getFirstSlotVNode(slots, slotName = 'default', props = void 0) {
+  const slot = slots[slotName]
   if (!slot) {
-    warn$2("getFirstSlotVNode", `slot[${slotName}] is empty`);
-    return null;
+    warn$2('getFirstSlotVNode', `slot[${slotName}] is empty`)
+    return null
   }
-  const slotContent = flatten$3(slot(props));
+  const slotContent = flatten$3(slot(props))
   if (slotContent.length === 1) {
-    return slotContent[0];
-  } else {
-    warn$2("getFirstSlotVNode", `slot[${slotName}] should have exactly one child`);
-    return null;
+    return slotContent[0]
+  }
+  else {
+    warn$2('getFirstSlotVNode', `slot[${slotName}] should have exactly one child`)
+    return null
   }
 }
 
 function createDataKey(key) {
-  return typeof key === "string" ? `s-${key}` : `n-${key}`;
+  return typeof key === 'string' ? `s-${key}` : `n-${key}`
 }
 
 function createRefSetter(ref) {
-  return inst => {
+  return (inst) => {
     if (inst) {
-      ref.value = inst.$el;
-    } else {
-      ref.value = null;
+      ref.value = inst.$el
     }
-  };
+    else {
+      ref.value = null
+    }
+  }
 }
 
 function createInjectionKey(key) {
-  return key;
+  return key
 }
 
 function ensureValidVNode(vnodes) {
-  return vnodes.some(child => {
+  return vnodes.some((child) => {
     if (!isVNode(child)) {
-      return true;
+      return true
     }
     if (child.type === Comment) {
-      return false;
+      return false
     }
     if (child.type === Fragment && !ensureValidVNode(child.children)) {
-      return false;
+      return false
     }
-    return true;
-  }) ? vnodes : null;
+    return true
+  })
+    ? vnodes
+    : null
 }
 function resolveSlot(slot, fallback) {
-  return slot && ensureValidVNode(slot()) || fallback();
+  return slot && ensureValidVNode(slot()) || fallback()
 }
 function resolveSlotWithProps(slot, props, fallback) {
-  return slot && ensureValidVNode(slot(props)) || fallback(props);
+  return slot && ensureValidVNode(slot(props)) || fallback(props)
 }
 function resolveWrappedSlot(slot, wrapper) {
-  const children = slot && ensureValidVNode(slot());
-  return wrapper(children || null);
+  const children = slot && ensureValidVNode(slot())
+  return wrapper(children || null)
 }
 function resolveWrappedSlotWithProps(slot, props, wrapper) {
-  const children = slot && ensureValidVNode(slot(props));
-  return wrapper(children || null);
+  const children = slot && ensureValidVNode(slot(props))
+  return wrapper(children || null)
 }
 function isSlotEmpty(slot) {
-  return !(slot && ensureValidVNode(slot()));
+  return !(slot && ensureValidVNode(slot()))
 }
 
 function mergeEventHandlers(handlers) {
-  const filteredHandlers = handlers.filter(handler => handler !== void 0);
-  if (filteredHandlers.length === 0) return void 0;
-  if (filteredHandlers.length === 1) return filteredHandlers[0];
-  return e => {
-    handlers.forEach(handler => {
+  const filteredHandlers = handlers.filter(handler => handler !== void 0)
+  if (filteredHandlers.length === 0)
+    return void 0
+  if (filteredHandlers.length === 1)
+    return filteredHandlers[0]
+  return (e) => {
+    handlers.forEach((handler) => {
       if (handler) {
-        handler(e);
+        handler(e)
       }
-    });
-  };
+    })
+  }
 }
 
 function isNodeVShowFalse(vNode) {
   const showDir = vNode.dirs?.find(({
-    dir
-  }) => dir === vShow);
-  return !!(showDir && showDir.value === false);
+    dir,
+  }) => dir === vShow)
+  return !!(showDir && showDir.value === false)
 }
 
 const Wrapper = defineComponent({
   render() {
-    return this.$slots.default?.();
-  }
-});
+    return this.$slots.default?.()
+  },
+})
 
-const pureNumberRegex = /^(\d|\.)+$/;
-const numberRegex = /(\d|\.)+/;
+const pureNumberRegex = /^(\d|\.)+$/
+const numberRegex = /(\d|\.)+/
 function formatLength(length, {
   c = 1,
   offset = 0,
-  attachPx = true
+  attachPx = true,
 } = {}) {
-  if (typeof length === "number") {
-    const result = (length + offset) * c;
-    if (result === 0) return "0";
-    return `${result}px`;
-  } else if (typeof length === "string") {
+  if (typeof length === 'number') {
+    const result = (length + offset) * c
+    if (result === 0)
+      return '0'
+    return `${result}px`
+  }
+  else if (typeof length === 'string') {
     if (pureNumberRegex.test(length)) {
-      const result = (Number(length) + offset) * c;
+      const result = (Number(length) + offset) * c
       if (attachPx) {
-        if (result === 0) return "0";
-        return `${result}px`;
-      } else {
-        return `${result}`;
+        if (result === 0)
+          return '0'
+        return `${result}px`
       }
-    } else {
-      const result = numberRegex.exec(length);
-      if (!result) return length;
-      return length.replace(numberRegex, String((Number(result[0]) + offset) * c));
+      else {
+        return `${result}`
+      }
+    }
+    else {
+      const result = numberRegex.exec(length)
+      if (!result)
+        return length
+      return length.replace(numberRegex, String((Number(result[0]) + offset) * c))
     }
   }
-  return length;
+  return length
 }
 
 function color2Class(color) {
-  return color.replace(/#|\(|\)|,|\s|\./g, "_");
+  return color.replace(/[#(),\s.]/g, '_')
 }
 
 function rtlInset(inset) {
@@ -770,281 +838,309 @@ function rtlInset(inset) {
     left,
     right,
     top,
-    bottom
-  } = getMargin(inset);
-  return `${top} ${right} ${bottom} ${left}`;
+    bottom,
+  } = getMargin(inset)
+  return `${top} ${right} ${bottom} ${left}`
 }
 
 function ampCount(selector) {
-  let cnt = 0;
+  let cnt = 0
   for (let i = 0; i < selector.length; ++i) {
-    if (selector[i] === '&') ++cnt;
+    if (selector[i] === '&')
+      ++cnt
   }
-  return cnt;
+  return cnt
 }
 /**
  * Don't just use ',' to separate css selector. For example:
  * x:(a, b) {} will be split into 'x:(a' and 'b)', which is not expected.
  * Make sure comma doesn't exist inside parentheses.
  */
-const separatorRegex = /\s*,(?![^(]*\))\s*/g;
-const extraSpaceRegex = /\s+/g;
+const separatorRegex = /\s*,(?![^(]*\))\s*/g
+const extraSpaceRegex = /\s+/g
 /**
  * selector must includes '&'
  * selector is trimmed
  * every part of amp is trimmed
  */
 function resolveSelectorWithAmp(amp, selector) {
-  const nextAmp = [];
-  selector.split(separatorRegex).forEach(partialSelector => {
-    let round = ampCount(partialSelector);
+  const nextAmp = []
+  selector.split(separatorRegex).forEach((partialSelector) => {
+    let round = ampCount(partialSelector)
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!round) {
-      amp.forEach(partialAmp => {
+      amp.forEach((partialAmp) => {
         nextAmp.push(
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-        (partialAmp && partialAmp + ' ') + partialSelector);
-      });
-      return;
-    } else if (round === 1) {
-      amp.forEach(partialAmp => {
-        nextAmp.push(partialSelector.replace('&', partialAmp));
-      });
-      return;
+          (partialAmp && `${partialAmp} `) + partialSelector,
+        )
+      })
+      return
     }
-    let partialNextAmp = [partialSelector];
+    else if (round === 1) {
+      amp.forEach((partialAmp) => {
+        nextAmp.push(partialSelector.replace('&', partialAmp))
+      })
+      return
+    }
+    let partialNextAmp = [partialSelector]
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     while (round--) {
-      const nextPartialNextAmp = [];
-      partialNextAmp.forEach(selectorItr => {
-        amp.forEach(partialAmp => {
-          nextPartialNextAmp.push(selectorItr.replace('&', partialAmp));
-        });
-      });
-      partialNextAmp = nextPartialNextAmp;
+      const nextPartialNextAmp = []
+      partialNextAmp.forEach((selectorItr) => {
+        amp.forEach((partialAmp) => {
+          nextPartialNextAmp.push(selectorItr.replace('&', partialAmp))
+        })
+      })
+      partialNextAmp = nextPartialNextAmp
     }
-    partialNextAmp.forEach(part => nextAmp.push(part));
-  });
-  return nextAmp;
+    partialNextAmp.forEach(part => nextAmp.push(part))
+  })
+  return nextAmp
 }
 /**
  * selector mustn't includes '&'
  * selector is trimmed
  */
 function resolveSelector(amp, selector) {
-  const nextAmp = [];
-  selector.split(separatorRegex).forEach(partialSelector => {
-    amp.forEach(partialAmp => {
+  const nextAmp = []
+  selector.split(separatorRegex).forEach((partialSelector) => {
+    amp.forEach((partialAmp) => {
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-      nextAmp.push((partialAmp && partialAmp + ' ') + partialSelector);
-    });
-  });
-  return nextAmp;
+      nextAmp.push((partialAmp && `${partialAmp} `) + partialSelector)
+    })
+  })
+  return nextAmp
 }
 function parseSelectorPath(selectorPaths) {
-  let amp = [''];
-  selectorPaths.forEach(selector => {
+  let amp = ['']
+  selectorPaths.forEach((selector) => {
     // eslint-disable-next-line
     selector = selector && selector.trim();
     if (
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    !selector) {
+      !selector) {
       /**
        * if it's a empty selector, do nothing
        */
-      return;
+      return
     }
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (selector.includes('&')) {
-      amp = resolveSelectorWithAmp(amp, selector);
-    } else {
-      amp = resolveSelector(amp, selector);
+      amp = resolveSelectorWithAmp(amp, selector)
     }
-  });
-  return amp.join(', ').replace(extraSpaceRegex, ' ');
+    else {
+      amp = resolveSelector(amp, selector)
+    }
+  })
+  return amp.join(', ').replace(extraSpaceRegex, ' ')
 }
 
 function removeElement(el) {
   /* istanbul ignore if */
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (!el) return;
-  const parentElement = el.parentElement;
+  if (!el)
+    return
+  const parentElement = el.parentElement
   /* istanbul ignore else */
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (parentElement) parentElement.removeChild(el);
+  if (parentElement)
+    parentElement.removeChild(el)
 }
 function queryElement(id) {
-  return document.querySelector(`style[cssr-id="${id}"]`);
+  return document.querySelector(`style[cssr-id="${id}"]`)
 }
 function createElement(id) {
-  const el = document.createElement('style');
-  el.setAttribute('cssr-id', id);
-  return el;
+  const el = document.createElement('style')
+  el.setAttribute('cssr-id', id)
+  return el
 }
 function isMediaOrSupports(selector) {
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (!selector) return false;
-  return /^\s*@(s|m)/.test(selector);
+  if (!selector)
+    return false
+  return /^\s*@(s|m)/.test(selector)
 }
 
-const kebabRegex = /[A-Z]/g;
+const kebabRegex = /[A-Z]/g
 function kebabCase(pattern) {
-  return pattern.replace(kebabRegex, match => '-' + match.toLowerCase());
+  return pattern.replace(kebabRegex, match => `-${match.toLowerCase()}`)
 }
 /** TODO: refine it to solve nested object */
 function unwrapProperty(prop, indent = '  ') {
   if (typeof prop === 'object' && prop !== null) {
-    return ' {\n' + Object.entries(prop).map(v => {
-      return indent + `  ${kebabCase(v[0])}: ${v[1]};`;
-    }).join('\n') + '\n' + indent + '}';
+    return ` {\n${Object.entries(prop).map((v) => {
+      return `${indent}  ${kebabCase(v[0])}: ${v[1]};`
+    }).join('\n')}\n${indent}}`
   }
-  return `: ${prop};`;
+  return `: ${prop};`
 }
 /** unwrap properties */
 function unwrapProperties(props, instance, params) {
   if (typeof props === 'function') {
     return props({
       context: instance.context,
-      props: params
-    });
+      props: params,
+    })
   }
-  return props;
+  return props
 }
 function createStyle(selector, props, instance, params) {
-  if (!props) return '';
+  if (!props)
+    return ''
   // eslint-disable-next-line
   const unwrappedProps = unwrapProperties(props, instance, params);
-  if (!unwrappedProps) return '';
+  if (!unwrappedProps)
+    return ''
   if (typeof unwrappedProps === 'string') {
-    return `${selector} {\n${unwrappedProps}\n}`;
+    return `${selector} {\n${unwrappedProps}\n}`
   }
-  const propertyNames = Object.keys(unwrappedProps);
+  const propertyNames = Object.keys(unwrappedProps)
   if (propertyNames.length === 0) {
-    if (instance.config.keepEmptyBlock) return selector + ' {\n}';
-    return '';
+    if (instance.config.keepEmptyBlock)
+      return `${selector} {\n}`
+    return ''
   }
-  const statements = selector ? [selector + ' {'] : [];
-  propertyNames.forEach(propertyName => {
-    const property = unwrappedProps[propertyName];
+  const statements = selector ? [`${selector} {`] : []
+  propertyNames.forEach((propertyName) => {
+    const property = unwrappedProps[propertyName]
     if (propertyName === 'raw') {
-      statements.push('\n' + property + '\n');
-      return;
+      statements.push(`\n${property}\n`)
+      return
     }
-    propertyName = kebabCase(propertyName);
+    propertyName = kebabCase(propertyName)
     if (property !== null && property !== undefined) {
-      statements.push(`  ${propertyName}${unwrapProperty(property)}`);
+      statements.push(`  ${propertyName}${unwrapProperty(property)}`)
     }
-  });
+  })
   if (selector) {
-    statements.push('}');
+    statements.push('}')
   }
-  return statements.join('\n');
+  return statements.join('\n')
 }
 function loopCNodeListWithCallback(children, options, callback) {
   /* istanbul ignore if */
-  if (!children) return;
-  children.forEach(child => {
+  if (!children)
+    return
+  children.forEach((child) => {
     if (Array.isArray(child)) {
-      loopCNodeListWithCallback(child, options, callback);
-    } else if (typeof child === 'function') {
-      const grandChildren = child(options);
-      if (Array.isArray(grandChildren)) {
-        loopCNodeListWithCallback(grandChildren, options, callback);
-      } else if (grandChildren) {
-        callback(grandChildren);
-      }
-    } else if (child) {
-      callback(child);
+      loopCNodeListWithCallback(child, options, callback)
     }
-  });
+    else if (typeof child === 'function') {
+      const grandChildren = child(options)
+      if (Array.isArray(grandChildren)) {
+        loopCNodeListWithCallback(grandChildren, options, callback)
+      }
+      else if (grandChildren) {
+        callback(grandChildren)
+      }
+    }
+    else if (child) {
+      callback(child)
+    }
+  })
 }
 function traverseCNode(node, selectorPaths, styles, instance, params, styleSheet) {
-  const $ = node.$;
-  let blockSelector = '';
+  const $ = node.$
+  let blockSelector = ''
   if (!$ || typeof $ === 'string') {
     if (isMediaOrSupports($)) {
-      blockSelector = $;
-    } else {
-      // as a string selector
-      selectorPaths.push($);
+      blockSelector = $
     }
-  } else if (typeof $ === 'function') {
+    else {
+      // as a string selector
+      selectorPaths.push($)
+    }
+  }
+  else if (typeof $ === 'function') {
     const selector = $({
       context: instance.context,
-      props: params
-    });
+      props: params,
+    })
     if (isMediaOrSupports(selector)) {
-      blockSelector = selector;
-    } else {
-      // as a lazy selector
-      selectorPaths.push(selector);
+      blockSelector = selector
     }
-  } else {
+    else {
+      // as a lazy selector
+      selectorPaths.push(selector)
+    }
+  }
+  else {
     // as a option selector
-    if ($.before) $.before(instance.context);
+    if ($.before)
+      $.before(instance.context)
     if (!$.$ || typeof $.$ === 'string') {
       if (isMediaOrSupports($.$)) {
-        blockSelector = $.$;
-      } else {
+        blockSelector = $.$
+      }
+      else {
         // as a string selector
-        selectorPaths.push($.$);
+        selectorPaths.push($.$)
       }
-    } else /* istanbul ignore else */if ($.$) {
-        const selector = $.$({
-          context: instance.context,
-          props: params
-        });
-        if (isMediaOrSupports(selector)) {
-          blockSelector = selector;
-        } else {
-          // as a lazy selector
-          selectorPaths.push(selector);
-        }
+    }
+    else /* istanbul ignore else */if ($.$) {
+      const selector = $.$({
+        context: instance.context,
+        props: params,
+      })
+      if (isMediaOrSupports(selector)) {
+        blockSelector = selector
       }
+      else {
+        // as a lazy selector
+        selectorPaths.push(selector)
+      }
+    }
   }
-  const selector = parseSelectorPath(selectorPaths);
-  const style = createStyle(selector, node.props, instance, params);
+  const selector = parseSelectorPath(selectorPaths)
+  const style = createStyle(selector, node.props, instance, params)
   if (blockSelector) {
-    styles.push(`${blockSelector} {`);
+    styles.push(`${blockSelector} {`)
     if (styleSheet && style) {
-      styleSheet.insertRule(`${blockSelector} {\n${style}\n}\n`);
+      styleSheet.insertRule(`${blockSelector} {\n${style}\n}\n`)
     }
-  } else {
+  }
+  else {
     if (styleSheet && style) {
-      styleSheet.insertRule(style);
+      styleSheet.insertRule(style)
     }
-    if (!styleSheet && style.length) styles.push(style);
+    if (!styleSheet && style.length)
+      styles.push(style)
   }
   if (node.children) {
     loopCNodeListWithCallback(node.children, {
       context: instance.context,
-      props: params
-    }, childNode => {
+      props: params,
+    }, (childNode) => {
       if (typeof childNode === 'string') {
         const style = createStyle(selector, {
-          raw: childNode
-        }, instance, params);
+          raw: childNode,
+        }, instance, params)
         if (styleSheet) {
-          styleSheet.insertRule(style);
-        } else {
-          styles.push(style);
+          styleSheet.insertRule(style)
         }
-      } else {
-        traverseCNode(childNode, selectorPaths, styles, instance, params, styleSheet);
+        else {
+          styles.push(style)
+        }
       }
-    });
+      else {
+        traverseCNode(childNode, selectorPaths, styles, instance, params, styleSheet)
+      }
+    })
   }
-  selectorPaths.pop();
+  selectorPaths.pop()
   if (blockSelector) {
-    styles.push('}');
+    styles.push('}')
   }
-  if ($ && $.after) $.after(instance.context);
+  if ($ && $.after)
+    $.after(instance.context)
 }
 function render(node, instance, props, insertRule = false) {
-  const styles = [];
-  traverseCNode(node, [], styles, instance, props, insertRule ? node.instance.__styleSheet : undefined);
-  if (insertRule) return '';
-  return styles.join('\n\n');
+  const styles = []
+  traverseCNode(node, [], styles, instance, props, insertRule ? node.instance.__styleSheet : undefined)
+  if (insertRule)
+    return ''
+  return styles.join('\n\n')
 }
 
 /* eslint-disable */
@@ -1105,7 +1201,7 @@ function unmount(intance, node, id) {
     node.els = [];
   } else {
     const target = queryElement(id);
-    // eslint-disable-next-line
+     
     if (target && els.includes(target)) {
       removeElement(target);
       node.els = els.filter(el => el !== target);
@@ -4346,7 +4442,7 @@ function ensureWheelScale() {
   return wheelScale;
 }
 
-/* eslint-disable no-void */
+ 
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 const styles$1 = c('.v-vl', {
   maxHeight: 'inherit',
@@ -18682,9 +18778,9 @@ function toDate$2(argument) {
     return new Date(argument);
   } else {
     if ((typeof argument === 'string' || argStr === '[object String]') && typeof console !== 'undefined') {
-      // eslint-disable-next-line no-console
+       
       console.warn("Starting with v2.0.0-beta.1 date-fns doesn't accept strings as date arguments. Please use `parseISO` to parse strings. See: https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#string-arguments");
-      // eslint-disable-next-line no-console
+       
       console.warn(new Error().stack);
     }
     return new Date(NaN);
@@ -37068,7 +37164,7 @@ function flatten$1(treeNodes, expandedKeys) {
 
 function contains(parent, child) {
   const parentKey = parent.key;
-  // eslint-disable-next-line no-unmodified-loop-condition
+   
   while (child) {
     if (child.key === parentKey) return true;
     child = child.parent;
@@ -67773,9 +67869,9 @@ var toDate$1 = {exports: {}};
 	    return new Date(argument);
 	  } else {
 	    if ((typeof argument === 'string' || argStr === '[object String]') && typeof console !== 'undefined') {
-	      // eslint-disable-next-line no-console
+	       
 	      console.warn("Starting with v2.0.0-beta.1 date-fns doesn't accept strings as date arguments. Please use `parseISO` to parse strings. See: https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#string-arguments");
-	      // eslint-disable-next-line no-console
+	       
 	      console.warn(new Error().stack);
 	    }
 	    return new Date(NaN);

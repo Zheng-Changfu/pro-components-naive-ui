@@ -1,8 +1,8 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proColorPickerProps } from './props'
 import type { ProColorPickerSlots } from './slots'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldColorPicker from './fields/field-color-picker'
+import { proColorPickerProps } from './props'
 
 export default defineComponent({
   name: 'ProColorPicker',

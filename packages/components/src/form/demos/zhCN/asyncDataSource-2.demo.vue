@@ -5,8 +5,8 @@
 </markdown>
 
 <script lang="tsx">
+import { ProSelect, useInjectProFormInst } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
-import { ProSelect, useInjectProFormInst, useProFormInst } from 'pro-components-naive-ui'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))

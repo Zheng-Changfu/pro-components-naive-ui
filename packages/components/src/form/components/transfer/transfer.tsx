@@ -1,8 +1,8 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proTransferProps } from './props'
 import type { ProTransferSlots } from './slots'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldTransfer from './fields/field-transfer'
+import { proTransferProps } from './props'
 
 export default defineComponent({
   name: 'ProTransfer',

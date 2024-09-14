@@ -6,9 +6,9 @@
 </markdown>
 
 <script lang="tsx">
-import { defineComponent } from 'vue'
-import { useProDescriptions } from 'pro-components-naive-ui'
 import { NButton, useMessage } from 'naive-ui'
+import { useProDescriptions } from 'pro-components-naive-ui'
+import { defineComponent } from 'vue'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))

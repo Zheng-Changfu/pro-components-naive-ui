@@ -1,5 +1,5 @@
-import { createLocale, zhCN as nZhCN } from 'naive-ui'
 import type { FieldValueType } from '../form'
+import { createLocale, zhCN as nZhCN } from 'naive-ui'
 import { ValueTypeEnum } from '../form'
 
 export const zhCN = createLocale({

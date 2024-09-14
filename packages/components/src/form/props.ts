@@ -1,8 +1,8 @@
+import type { PopoverProps } from 'naive-ui'
+import type { ArrayField, BaseField, MaybeExpression } from 'pro-components-hooks'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { omit } from 'lodash-es'
-import type { PopoverProps } from 'naive-ui'
 import { formProps } from 'naive-ui'
-import type { ArrayField, BaseField, MaybeExpression } from 'pro-components-hooks'
 
 export interface ValidateError {
   message?: string

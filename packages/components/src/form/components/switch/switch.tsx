@@ -1,8 +1,8 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proSwitchProps } from './props'
 import type { ProSwitchSlots } from './slots'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldSwitch from './fields/field-switch'
+import { proSwitchProps } from './props'
 
 export default defineComponent({
   name: 'ProSwitch',

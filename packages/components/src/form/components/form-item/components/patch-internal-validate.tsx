@@ -1,11 +1,11 @@
-import { useInjectFieldContext } from 'pro-components-hooks'
-import type { PropType } from 'vue'
-import { inject, onUnmounted, provide } from 'vue'
 import type { FormItemRule } from 'naive-ui'
-import type { FieldExtraInfo } from '../../field'
-import { fieldExtraKey } from '../../field'
-import { useInjectProFormContext } from '../../../context'
+import type { PropType } from 'vue'
 import type { FormItemInternalValidateResult } from '../../../composables/useValidateResult'
+import type { FieldExtraInfo } from '../../field'
+import { useInjectFieldContext } from 'pro-components-hooks'
+import { inject, onUnmounted, provide } from 'vue'
+import { useInjectProFormContext } from '../../../context'
+import { fieldExtraKey } from '../../field'
 
 /**
  * 对表单项调用校验的方法打补丁，为了收集校验结果，实现错误信息自定义位置

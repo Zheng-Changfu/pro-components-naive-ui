@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proTimePickerProps } from './props'
 import type { ProTimePickerSlots } from './slots'
-import { useProTimePickerInst } from './inst'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldTimePicker from './fields/field-time-picker'
+import { useProTimePickerInst } from './inst'
+import { proTimePickerProps } from './props'
 
 export default defineComponent({
   name: 'ProTime',

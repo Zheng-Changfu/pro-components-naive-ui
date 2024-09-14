@@ -1,8 +1,8 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proSliderProps } from './props'
 import type { ProSliderSlots } from './slots'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldSlider from './fields/field-slider'
+import { proSliderProps } from './props'
 
 export default defineComponent({
   name: 'ProSlider',

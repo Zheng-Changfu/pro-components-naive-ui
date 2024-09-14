@@ -1,8 +1,8 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proDynamicTagsProps } from './props'
 import type { ProDynamicTagsSlots } from './slots'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldDynamicTags from './fields/field-dynamic-tags'
+import { proDynamicTagsProps } from './props'
 
 export default defineComponent({
   name: 'ProDynamicTags',

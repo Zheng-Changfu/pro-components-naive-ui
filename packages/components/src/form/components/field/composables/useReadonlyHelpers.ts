@@ -1,8 +1,8 @@
+import type { FieldExtraInfo } from '../keys'
 import { useInjectFieldContext } from 'pro-components-hooks'
 import { computed } from 'vue'
-import type { FieldExtraInfo } from '../keys'
-import { fieldExtraKey } from '../keys'
 import { useInjectGlobalConfig } from '../../../../config-provider'
+import { fieldExtraKey } from '../keys'
 import { isEmptyValue } from '../utils/valueUtil'
 
 export function useReadonlyHelpers() {

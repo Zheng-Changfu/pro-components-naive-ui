@@ -1,7 +1,7 @@
-import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { ProButton } from '../index'
+import { describe, expect, it, vi } from 'vitest'
 import { ProConfigProvider } from '../../config-provider'
+import { ProButton } from '../index'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))

@@ -1,6 +1,6 @@
 import type { CardSegmented } from 'naive-ui'
-import { cardProps, collapseTransitionProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
+import { cardProps, collapseTransitionProps } from 'naive-ui'
 
 export const proCardExtendProps = {
   /**

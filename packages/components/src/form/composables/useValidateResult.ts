@@ -1,6 +1,6 @@
-import { computed, ref } from 'vue'
-import { type Path, stringifyPath } from 'pro-components-hooks'
 import type { ValidateError } from '../props'
+import { type Path, stringifyPath } from 'pro-components-hooks'
+import { computed, ref } from 'vue'
 
 /**
  * 维护校验结果，方便自定义 ui 校验

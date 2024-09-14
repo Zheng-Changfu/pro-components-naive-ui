@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proInputProps } from './props'
 import type { ProInputSlots } from './slots'
-import { useProPasswordInst } from './inst'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldPassword from './fields/field-password'
+import { useProPasswordInst } from './inst'
+import { proInputProps } from './props'
 
 export default defineComponent({
   name: 'ProPassword',

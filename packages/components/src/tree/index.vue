@@ -1,16 +1,16 @@
 <script setup lang="tsx">
-import { computed, ref } from 'vue'
 import type { TreeInst, TreeProps } from 'naive-ui'
-import { NTree } from 'naive-ui'
-import { get } from 'lodash-es'
-import { proTreeProps } from './props'
-import type { ProTreeSlots } from './slots'
 import type { ProTreeInst } from './inst'
-import { levelKey, useTreeData } from './composables/useTreeData'
-import { useExpandKeys } from './composables/useExpandKeys'
-import { useSelectKeys } from './composables/useSelectKeys'
+import type { ProTreeSlots } from './slots'
+import { get } from 'lodash-es'
+import { NTree } from 'naive-ui'
+import { computed, ref } from 'vue'
 import { useCheckKeys } from './composables/useCheckKeys'
+import { useExpandKeys } from './composables/useExpandKeys'
 import { useIndeterminateKeys } from './composables/useIndeterminateKeys'
+import { useSelectKeys } from './composables/useSelectKeys'
+import { levelKey, useTreeData } from './composables/useTreeData'
+import { proTreeProps } from './props'
 
 defineOptions({
   name: 'ProTree',

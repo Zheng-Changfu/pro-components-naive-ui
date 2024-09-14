@@ -5,10 +5,10 @@
 </markdown>
 
 <script lang="tsx">
-import { repeat } from 'seemly'
 import type { TreeOption } from 'naive-ui'
-import { defineComponent } from 'vue'
 import { useProTreeInst } from 'pro-components-naive-ui'
+import { repeat } from 'seemly'
+import { defineComponent } from 'vue'
 
 function createData(level = 4, baseKey = ''): TreeOption[] | undefined {
   if (!level)

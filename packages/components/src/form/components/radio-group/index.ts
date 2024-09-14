@@ -1,3 +1,3 @@
 export * from './props'
-export * from './slots'
 export { default as ProRadioGroup } from './radio-group'
+export * from './slots'

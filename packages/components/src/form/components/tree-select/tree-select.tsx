@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proTreeSelectProps } from './props'
 import type { ProTreeSelectSlots } from './slots'
-import { useProTreeSelectInst } from './inst'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldTreeSelect from './fields/field-tree-select'
+import { useProTreeSelectInst } from './inst'
+import { proTreeSelectProps } from './props'
 
 export default defineComponent({
   name: 'ProTreeSelect',

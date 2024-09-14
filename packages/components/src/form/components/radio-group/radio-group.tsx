@@ -1,8 +1,8 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proRadioGroupProps } from './props'
 import type { ProRadioGroupSlots } from './slots'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldRadioGroup from './fields/field-radio-group'
+import { proRadioGroupProps } from './props'
 
 export default defineComponent({
   name: 'ProRadioGroup',

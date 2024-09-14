@@ -5,8 +5,8 @@
 </markdown>
 
 <script lang="tsx">
-import { defineComponent } from 'vue'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@vicons/antd'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: {

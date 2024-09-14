@@ -1,6 +1,6 @@
-import { buttonProps } from 'naive-ui'
 import type { ExtractPublicPropTypes } from 'naive-ui/es/_utils'
 import type { PropType } from 'vue'
+import { buttonProps } from 'naive-ui'
 
 export const proButtonExtendProps = {
   /**

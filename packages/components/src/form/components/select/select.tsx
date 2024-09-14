@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proSelectProps } from './props'
 import type { ProSelectSlots } from './slots'
-import { useProSelectInst } from './inst'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldSelect from './fields/field-select'
+import { useProSelectInst } from './inst'
+import { proSelectProps } from './props'
 
 export default defineComponent({
   name: 'ProSelect',

@@ -1,10 +1,10 @@
-import { NButton, NFlex, NIcon, NInput, inputProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
-import { ref } from 'vue'
-import { EyeInvisibleOutlined, EyeOutlined } from '@vicons/antd'
 import type { ProPasswordSlots } from '../slots'
-import { useProPasswordInst } from '../inst'
+import { EyeInvisibleOutlined, EyeOutlined } from '@vicons/antd'
+import { inputProps, NButton, NFlex, NIcon, NInput } from 'naive-ui'
+import { ref } from 'vue'
 import { useReadonlyHelpers } from '../../field'
+import { useProPasswordInst } from '../inst'
 
 export default defineComponent({
   name: 'ProFieldPassword',

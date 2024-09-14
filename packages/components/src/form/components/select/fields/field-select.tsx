@@ -1,10 +1,10 @@
-import { NEl, NFlex, NSelect, selectProps } from 'naive-ui'
-import { eachTree } from 'pro-components-hooks'
-import { get, isArray, isFunction, noop } from 'lodash-es'
 import type { SlotsType, VNodeChild } from 'vue'
 import type { ProSelectSlots } from '../slots'
-import { useProSelectInst } from '../inst'
+import { get, isArray, isFunction, noop } from 'lodash-es'
+import { NEl, NFlex, NSelect, selectProps } from 'naive-ui'
+import { eachTree } from 'pro-components-hooks'
 import { useReadonlyHelpers } from '../../field'
+import { useProSelectInst } from '../inst'
 
 export default defineComponent({
   name: 'ProFieldSelect',
