@@ -4,9 +4,9 @@ import type { ProButtonSlots } from './slots'
 import { NButton, NEl, NTooltip } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import { useOmitProps, useOverrideProps } from '../composables'
+import { useLoading } from './composables/useLoading'
+import { useTooltip } from './composables/useTooltip'
 import { proButtonExtendProps, proButtonProps } from './props'
-import { useLoading } from './useLoading'
-import { useTooltip } from './useTooltip'
 
 const name = 'ProButton'
 export default defineComponent({
@@ -73,28 +73,23 @@ export default defineComponent({
       <NTooltip
         {...tooltipProps}
         v-slots={{
-          trigger: () => {
-            return (
-              <NButton
-                {...$attrs}
-                {...nButtonProps}
-                v-slots={{
-                  ...$slots,
-                  default: () => {
-                    if ($props.content) {
-                      return $props.content
-                    }
-                    return $slots.default?.()
-                  },
-                }}
-              />
-            )
-          },
-          default: () => {
-            return tooltipTexts.map((t, i) => {
+          trigger: () => [
+            <NButton
+              {...$attrs}
+              {...nButtonProps}
+              v-slots={{
+                ...$slots,
+                default: () => [
+                  $props.content ?? $slots.default?.(),
+                ],
+              }}
+            />,
+          ],
+          default: () => [
+            tooltipTexts.map((t, i) => {
               return <NEl key={i}>{t}</NEl>
-            })
-          },
+            }),
+          ],
         }}
       />
     )

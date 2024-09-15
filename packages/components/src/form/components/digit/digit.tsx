@@ -1,13 +1,15 @@
 import type { SlotsType } from 'vue'
 import type { ProDigitSlots } from './slots'
 import { isString } from 'lodash-es'
+import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
 import ProFieldDigit from './fields/field-digit'
 import { useProDigitInst } from './inst'
 import { proDigitProps } from './props'
 
+const name = 'ProDigit'
 export default defineComponent({
-  name: 'ProDigit',
+  name,
   props: proDigitProps,
   slots: Object as SlotsType<ProDigitSlots>,
   setup(props, { expose }) {
@@ -16,9 +18,14 @@ export default defineComponent({
       methods,
     ] = useProDigitInst()
 
+    const overridedProps = useOverrideProps(
+      name,
+      props,
+    )
+
     function tryConvertStringToNumber(val: any) {
-      if (props.postState) {
-        return props.postState(val)
+      if (overridedProps.value.postState) {
+        return overridedProps.value.postState(val)
       }
       if (isString(val)) {
         if (val === '') {
@@ -33,22 +40,27 @@ export default defineComponent({
     expose(methods)
     return {
       instRef,
+      overridedProps,
       tryConvertStringToNumber,
     }
   },
   render() {
     return (
       <ProField
-        {...this.$props}
+        {...this.overridedProps}
         defaultValue={null}
         postState={this.tryConvertStringToNumber}
         valueType={ValueTypeEnum.DIGIT}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => {
-            return <ProFieldDigit ref="instRef" {...pureProps} v-slots={this.$slots} />
-          },
+          input: (pureProps: any) => [
+            <ProFieldDigit
+              ref="instRef"
+              {...pureProps}
+              v-slots={this.$slots}
+            />,
+          ],
         }}
       </ProField>
     )

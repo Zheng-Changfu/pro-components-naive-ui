@@ -1,4 +1,4 @@
-import type { ProButtonProps } from './props'
+import type { ProButtonProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
 import { isArray, isFunction } from 'lodash-es'
 import { nextTick } from 'vue'

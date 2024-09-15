@@ -1,37 +1,49 @@
 import type { SlotsType } from 'vue'
 import type { ProMentionSlots } from './slots'
+import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
 import ProFieldMention from './fields/field-mention'
 import { useMentionInst } from './inst'
 import { proMentionProps } from './props'
 
+const name = 'ProMention'
 export default defineComponent({
-  name: 'ProMention',
+  name,
   props: proMentionProps,
   slots: Object as SlotsType<ProMentionSlots>,
-  setup(_, { expose }) {
+  setup(props, { expose }) {
     const [
       instRef,
       methods,
     ] = useMentionInst()
 
+    const overridedProps = useOverrideProps(
+      name,
+      props,
+    )
+
     expose(methods)
     return {
       instRef,
+      overridedProps,
     }
   },
   render() {
     return (
       <ProField
-        {...this.$props}
+        {...this.overridedProps}
         defaultValue={null}
         valueType={ValueTypeEnum.MENTION}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => {
-            return <ProFieldMention ref="instRef" {...pureProps} v-slots={this.$slots} />
-          },
+          input: (pureProps: any) => [
+            <ProFieldMention
+              ref="instRef"
+              {...pureProps}
+              v-slots={this.$slots}
+            />,
+          ],
         }}
       </ProField>
     )

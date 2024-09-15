@@ -1,5 +1,5 @@
 import type { TooltipProps } from 'naive-ui'
-import type { ProButtonProps } from './props'
+import type { ProButtonProps } from '../props'
 import { isArray } from 'lodash-es'
 import { computed } from 'vue'
 

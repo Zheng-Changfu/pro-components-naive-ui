@@ -12,5 +12,4 @@ export { default as ProDateYearRange } from './date-year-range'
 export { useMergeFormat } from './fields/composables/useMergeFormat'
 export * from './inst'
 export * from './props'
-
 export * from './slots'

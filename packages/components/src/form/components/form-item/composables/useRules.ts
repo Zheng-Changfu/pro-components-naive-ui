@@ -2,9 +2,9 @@ import type { FormItemRule } from 'naive-ui'
 import type { ProFormItemProps } from '../props'
 import { isArray, toString } from 'lodash-es'
 import { useInjectFieldContext } from 'pro-components-hooks'
-import { computed } from 'vue'
-import { useInjectGlobalConfig } from '../../../../config-provider'
+import { computed, unref } from 'vue'
 import { useLocale } from '../../../../locales'
+import { useInjectProFormContext } from '../../../context'
 import { isEmptyValue } from '../../field/utils/valueUtil'
 
 export function useRules(props: ProFormItemProps) {
@@ -13,8 +13,8 @@ export function useRules(props: ProFormItemProps) {
   } = useLocale('ProForm')
 
   const {
-    validateTrigger,
-  } = useInjectGlobalConfig().proForm
+    validationTrigger,
+  } = useInjectProFormContext()
 
   const {
     stringPath,
@@ -58,7 +58,7 @@ export function useRules(props: ProFormItemProps) {
         /**
          * 统一设置表单校验时机
          */
-          trigger: validateTrigger,
+          trigger: unref(validationTrigger),
           /**
            * 统一设置必填的提示信息
            */

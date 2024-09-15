@@ -1,26 +1,40 @@
 import type { SlotsType } from 'vue'
 import type { ProRadioGroupSlots } from './slots'
+import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
 import ProFieldRadioGroup from './fields/field-radio-group'
 import { proRadioGroupProps } from './props'
 
+const name = 'ProRadioGroup'
 export default defineComponent({
-  name: 'ProRadioGroup',
+  name,
   props: proRadioGroupProps,
   slots: Object as SlotsType<ProRadioGroupSlots>,
-  setup() {},
+  setup(props) {
+    const overridedProps = useOverrideProps(
+      name,
+      props,
+    )
+
+    return {
+      overridedProps,
+    }
+  },
   render() {
     return (
       <ProField
-        {...this.$props}
+        {...this.overridedProps}
         defaultValue={null}
         valueType={ValueTypeEnum.RADIO_GROUP}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => {
-            return <ProFieldRadioGroup {...pureProps} v-slots={this.$slots} />
-          },
+          input: (pureProps: any) => [
+            <ProFieldRadioGroup
+              {...pureProps}
+              v-slots={this.$slots}
+            />,
+          ],
         }}
       </ProField>
     )

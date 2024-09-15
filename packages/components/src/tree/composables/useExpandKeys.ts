@@ -1,6 +1,7 @@
 import type { ComputedRef } from 'vue'
 import type { ProTreeProps } from '../props'
-import { computed, ref, watch } from 'vue'
+import { watchImmediate } from '@vueuse/core'
+import { computed, ref } from 'vue'
 
 export interface UseExpandKeysOptions {
   /**
@@ -8,21 +9,20 @@ export interface UseExpandKeysOptions {
    */
   keyToNodeMap: ComputedRef<Map<string | number, Record<string, any>>>
 }
-export function useExpandKeys(props: ProTreeProps, options: UseExpandKeysOptions) {
+export function useExpandKeys(props: ComputedRef<ProTreeProps>, options: UseExpandKeysOptions) {
   const { keyToNodeMap } = options
   const expandedKeys = ref<Array<string | number>>([])
 
-  watch(
-    computed(() => props.expandedKeys),
+  watchImmediate(
+    computed(() => props.value.expandedKeys),
     (keys) => { expandedKeys.value = keys ?? [] },
-    { immediate: true },
   )
 
   function doUpdateExpandedKeys(keys: Array<string | number>, ...args: any[]) {
     const {
       onUpdateExpandedKeys,
       'onUpdate:expandedKeys': _onUpdateExpandedKeys,
-    } = props
+    } = props.value
 
     expandedKeys.value = keys
     onUpdateExpandedKeys && (onUpdateExpandedKeys as any)(keys, ...args)

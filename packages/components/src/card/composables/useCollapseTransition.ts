@@ -1,13 +1,13 @@
 import type { CollapseTransitionProps } from 'naive-ui'
 import type { ProCardProps } from '../props'
+import { watchImmediate } from '@vueuse/core'
 
-export function useCollapseTransition(props: ProCardProps) {
+export function useCollapseTransition(props: ComputedRef<ProCardProps>) {
   const show = ref(true)
 
-  watch(
-    toRef(props, 'show'),
+  watchImmediate(
+    () => props.value.show,
     v => show.value = v ?? true,
-    { immediate: true },
   )
 
   function doUpdateShow(val: boolean) {
@@ -17,7 +17,7 @@ export function useCollapseTransition(props: ProCardProps) {
   const nCollapseTransitionProps = computed<CollapseTransitionProps>(() => {
     return {
       show: show.value,
-      appear: props.appear,
+      appear: props.value.appear,
     }
   })
 

@@ -180,9 +180,6 @@ export function siteSetup() {
       // [ValueTypeEnum.AUTO_COMPLETE]: ProFieldAutoComplete,
     },
     propOverrides: {
-      ProButton: {
-        autoLoading: false,
-      },
     },
   }
 }

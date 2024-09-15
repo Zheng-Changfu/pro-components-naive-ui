@@ -1,3 +1,3 @@
 export interface ProFormSlots {
-  default: any
+  default?: any
 }

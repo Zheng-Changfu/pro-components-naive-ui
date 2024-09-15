@@ -77,14 +77,25 @@ export default defineComponent({
         show={this.showPopover}
       >
         {{
-          trigger: () => {
-            return <ProFormItem ref="formItemInstRef" {...this.proFormItemProps} v-slots={this.$slots} />
-          },
-          default: () => {
-            return this.feedbacks.map((f) => {
-              return <NEl key={f.message} style={{ color: this.feedbackColor }}>{ f.message }</NEl>
-            })
-          },
+          trigger: () => [
+            <ProFormItem
+              ref="formItemInstRef"
+              {...this.proFormItemProps}
+              v-slots={this.$slots}
+            />,
+          ],
+          default: () => [
+            this.feedbacks.map((f) => {
+              return (
+                <NEl
+                  key={f.message}
+                  style={{ color: this.feedbackColor }}
+                >
+                  { f.message }
+                </NEl>
+              )
+            }),
+          ],
         }}
       </NPopover>
     )
