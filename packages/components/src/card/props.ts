@@ -26,7 +26,7 @@ export const proCardExtendProps = {
   /**
    * 是否显示展开收起，如果外界没有传递此参数，除了在 closable 为 true 的情况下不显示，其他情况都显示
    */
-  showSwitcher: {
+  showCollapse: {
     type: Boolean,
     default: undefined,
   },

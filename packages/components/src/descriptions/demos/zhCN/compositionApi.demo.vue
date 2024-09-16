@@ -124,7 +124,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-card title="远程请求数据" :show-switcher="false">
+  <pro-card title="远程请求数据" :show-collaspe="false">
     <pro-descriptions v-bind="proDescriptionsProps" />
     <template #header-extra>
       <pro-button type="primary" @click="reload">

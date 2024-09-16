@@ -101,7 +101,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-card title="搜索表单" :show-switcher="false">
+  <pro-card title="搜索表单" :show-collaspe="false">
     <pro-search-form
       :scope="{
         options,

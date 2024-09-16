@@ -7,4 +7,4 @@ interface DialogSlots {
   default?: any
   header?: any
 }
-export type ProModalSlots = Omit<ProCardSlots, 'switcher'> & DialogSlots
+export type ProModalSlots = Omit<ProCardSlots, 'collaspe'> & DialogSlots

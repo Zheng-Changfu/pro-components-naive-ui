@@ -24,11 +24,11 @@ switcher.vue
 | triggerAreas | `Array<'main'\|'arrow'>` | ['main','arrow'] | 触发展开的区域，如果不想让某些区域触发展开，可以使用此属性 | |
 | show | `boolean` | | 手动控制展开收起 | |
 | appear | `boolean` | | 首次是否出现动画 | |
-| showSwitcher | `boolean` | | 是否显示展开收起，如果外界没有传递此参数，除了在 closable 为 true 的情况下不显示，其他情况都显示 | |
+| showCollapse | `boolean` | | 是否显示展开收起，如果外界没有传递此参数，除了在 closable 为 true 的情况下不显示，其他情况都显示 | |
 | [...NCardProps](https://www.naiveui.com/zh-CN/os-theme/components/card#Card-Props) | | | | |
 
 ### ProCard 插槽
 | 名称 | 参数 | 说明 | 版本 |
 | - | - | - | - |
-| switcher | `(opts:{ expanded: boolean })` | 自定义展开收起 | |
+| collapse | `(opts:{ expanded: boolean })` | 自定义展开收起 | |
 | [...NCardSlots](https://www.naiveui.com/zh-CN/os-theme/components/card#Card-Slots) | | | |

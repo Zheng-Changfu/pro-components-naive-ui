@@ -18,7 +18,7 @@ export default defineComponent({
 <template>
   <pro-card title="卡片">
     卡片内容
-    <template #switcher="{ expanded }">
+    <template #collapse="{ expanded }">
       <div v-if="expanded" class="color-red">
         折叠
       </div>

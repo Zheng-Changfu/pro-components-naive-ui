@@ -8,5 +8,5 @@ export interface ProCardSlots {
   /**
    * 扩展的插槽，展开收起的渲染函数
    */
-  'switcher'?: (opts: { expanded: boolean }) => any
+  'collapse'?: (opts: { expanded: boolean }) => any
 }

@@ -63,10 +63,10 @@ export default defineComponent({
       }
     })
 
-    const showSwitchArea = computed(() => {
-      const { showSwitcher, closable } = overridedProps.value
-      if (showSwitcher !== undefined) {
-        return !!showSwitcher
+    const showCollapseArea = computed(() => {
+      const { showCollapse, closable } = overridedProps.value
+      if (showCollapse !== undefined) {
+        return !!showCollapse
       }
       return !closable
     })
@@ -114,7 +114,7 @@ export default defineComponent({
       resolvedTitle,
       triggerExpand,
       overridedProps,
-      showSwitchArea,
+      showCollapseArea,
       mergedContentClass,
       nCollapseTransitionProps,
     }
@@ -164,8 +164,8 @@ export default defineComponent({
           ],
           'header-extra': () => [
             this.$slots['header-extra']?.(),
-            this.showSwitchArea && resolveWrappedSlotWithProps(
-              this.$slots.switcher,
+            this.showCollapseArea && resolveWrappedSlotWithProps(
+              this.$slots.collapse,
               { expanded: this.show },
               (children) => {
                 children = children ?? (
