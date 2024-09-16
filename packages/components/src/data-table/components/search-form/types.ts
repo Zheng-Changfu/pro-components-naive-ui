@@ -23,4 +23,4 @@ export interface ProSearchFormColumn<DataSource = any> extends Pick<GridItemProp
   slots?: Record<string, AnyFn>
 }
 
-export type ProSearchFormColumns<DataSource = any> = ProSearchFormColumn<DataSource>[]
+export type ProSearchFormColumns<DataSource = any> = ProSearchFormColumn<DataSource>[] | (() => ProSearchFormColumn<DataSource>[])

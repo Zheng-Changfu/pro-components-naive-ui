@@ -5,7 +5,7 @@
 </markdown>
 
 <script lang="tsx">
-import type { ProSearchFormColumns } from 'pro-components-naive-ui'
+import { ProInput, type ProSearchFormColumns } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 interface Info {
@@ -24,7 +24,7 @@ interface Info {
 export default defineComponent({
   setup() {
     const options = ref<any[]>([])
-    const columns: ProSearchFormColumns<Info> = [
+    const columns: ProSearchFormColumns<Info> = () => [
       {
         title: '姓名',
         path: 'name',
@@ -34,6 +34,7 @@ export default defineComponent({
         path: 'age',
         initialValue: 18,
         valueType: 'digit',
+        hidden: '{{$vals.name === \'123\'}}',
       },
       {
         title: '状态',
@@ -52,7 +53,7 @@ export default defineComponent({
         path: 'city',
         valueType: 'select',
         fieldProps: {
-          options: '{{ options }}',
+          options: options.value,
         },
       },
       {
@@ -65,7 +66,7 @@ export default defineComponent({
         path: 'time',
         valueType: 'time',
         slots: {
-          'addon-after': () => <div class="color-red w-30px">slot</div>,
+          'addon-after': () => <div class="color-red min-w-40px">slot</div>,
         },
       },
       {
@@ -74,11 +75,26 @@ export default defineComponent({
         valueType: 'date-time',
       },
       {
+        render() {
+          return (
+            <ProInput
+              path="render"
+              title="自定义render"
+              fieldProps={{
+                style: {
+                  background: '{{ $self ? $self : $vals.color }}',
+                },
+              }}
+            />
+          )
+        },
+      },
+      {
         title: '颜色-联动',
         path: 'color',
         fieldProps: {
           style: {
-            background: '{{ $self }}',
+            background: '{{ $self ? $self : $vals.render }}',
           },
         },
       },
@@ -101,7 +117,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-card title="搜索表单" :show-collaspe="false">
+  <pro-card title="搜索表单" :show-collapse="false">
     <pro-search-form
       :scope="{
         options,

@@ -23,7 +23,7 @@ export const proSearchFormProps = {
   /**
    * 表单项集合
    */
-  columns: Array as PropType<ProSearchFormColumns>,
+  columns: [Array, Function] as PropType<ProSearchFormColumns>,
   /**
    * 重置按钮的属性，false 不显示
    */
