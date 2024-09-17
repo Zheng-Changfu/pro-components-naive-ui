@@ -4,10 +4,6 @@ import type { VNodeChild } from 'vue'
 import type { FieldValueType } from '../form'
 import type { AnyFn } from '../types'
 
-export type RefreshOnWindowFocus = boolean | {
-  intervalTime: number
-}
-
 type InternalDataSource = Record<string, unknown>
 
 export interface ProDescriptionColumn<T = InternalDataSource> extends Omit<DescriptionItemProps, 'label'> {

@@ -1,8 +1,8 @@
 import type { DescriptionsProps } from 'naive-ui'
+import type { UseFetchDataBaseOptions, UseFetchDataOptionsPassedTransform } from '../../composables/useFetchData'
 import type { AnyFn } from '../../types'
 import type { ProDescriptionsProps } from '../props'
 import type { ProDescriptionColumns } from '../types'
-import type { UseFetchDataBaseOptions, UseFetchDataOptionsPassedTransform } from './useFetchData'
 import { isFunction } from 'lodash-es'
 import { useProDescriptionsInst } from '../inst'
 

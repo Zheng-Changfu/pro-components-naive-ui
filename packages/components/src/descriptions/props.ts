@@ -1,6 +1,7 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { RefreshOnWindowFocus } from '../composables/useFetchData'
 import type { AnyFn } from '../types'
-import type { ProDescriptionColumns, RefreshOnWindowFocus } from './types'
+import type { ProDescriptionColumns } from './types'
 import { descriptionsProps } from 'naive-ui'
 
 export const proDescriptionsExtendProps = {
