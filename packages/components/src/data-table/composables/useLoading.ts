@@ -1,11 +1,11 @@
-import type { MaybeRef } from 'vue'
+import type { ProDataTableProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
 
-export function useLoading(loadingProp: MaybeRef<boolean>) {
+export function useLoading(props: ComputedRef<ProDataTableProps>) {
   const loading = ref(false)
 
   watchImmediate(
-    computed(() => unref(loadingProp)),
+    computed(() => props.value.loading),
     v => loading.value = v ?? false,
   )
 

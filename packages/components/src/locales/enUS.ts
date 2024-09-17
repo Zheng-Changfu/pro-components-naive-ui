@@ -55,4 +55,7 @@ export const enUS = createLocale({
     searchText: 'search',
     collapseText: (collapsed: boolean) => collapsed ? 'uncollapsed' : 'collapsed',
   },
+  ProDataTable: {
+    indexColumnText: 'Index',
+  },
 } as any, nEnUS)

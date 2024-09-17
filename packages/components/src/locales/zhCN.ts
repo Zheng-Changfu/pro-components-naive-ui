@@ -56,4 +56,7 @@ export const zhCN = createLocale({
     searchText: '查询',
     collapseText: (collapsed: boolean) => collapsed ? '展开' : '收起',
   },
+  ProDataTable: {
+    indexColumnText: '序号',
+  },
 } as any, nZhCN)
