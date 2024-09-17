@@ -6,7 +6,8 @@ import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
 import { useInjectFieldContext } from 'pro-components-hooks'
-import { computed, defineComponent, Fragment, nextTick } from 'vue'
+import { computed, defineComponent, nextTick } from 'vue'
+import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProButton, type ProButtonProps } from '../../button'
 import { useReadonlyHelpers } from '../../form/components'
 import { useInjectProFormInst } from '../../form/context'
@@ -263,19 +264,17 @@ export default defineComponent({
       />
     )
 
-    if ($slots.container) {
-      return $slots.container({
+    return resolveSlotWithProps(
+      $slots.container,
+      {
         listVNode,
         creatorButtonVNode,
-      })
-    }
-
-    return (
-      <Fragment>
-        {position === 'top' && creatorButtonVNode}
-        {listVNode}
-        {position === 'bottom' && creatorButtonVNode}
-      </Fragment>
+      },
+      () => [
+        position === 'top' && creatorButtonVNode,
+        listVNode,
+        position === 'bottom' && creatorButtonVNode,
+      ],
     )
   },
 })
