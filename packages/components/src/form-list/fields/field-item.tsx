@@ -7,6 +7,7 @@ import { omit } from 'lodash-es'
 import { NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { useInjectParentFieldContext } from 'pro-components-hooks'
 import { computed, defineComponent, Fragment, inject, provide, toRef } from 'vue'
+import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProButton } from '../../button'
 import { useReadonlyHelpers } from '../../form/components'
 import { useInjectProFormContext, useInjectProFormInst } from '../../form/context'
@@ -43,7 +44,7 @@ const Action = defineComponent({
     actionGuard: Object as PropType<Partial<ActionGuard>>,
   },
   setup(props) {
-    const form = useInjectProFormInst()
+    const form = useInjectProFormInst()!
     const action = useInjectProFormListInst()
     const { getMessage } = useLocale('ProFormList')
 
@@ -226,7 +227,7 @@ export default defineComponent({
     const nFormItem = inject<any>('n-form-item')
     const field = useInjectParentFieldContext()!
     const { validateBehavior } = useInjectProFormContext()
-    const { path } = useProvidePath(toRef(props, 'index')) // 处理嵌套路径
+    const { path } = useProvidePath(toRef(props, 'index'))
 
     const total = computed(() => {
       return field.value.value.length
@@ -302,26 +303,28 @@ export default defineComponent({
       />
     )
 
-    const resolvedActionVNode = $slots.action
-      ? $slots.action({
+    const resolvedActionVNode = resolveSlotWithProps(
+      $slots.action,
+      {
         total,
         index,
         action,
         actionVNode,
-      })
-      : (
-          <NFlex
-            style={{
-              height: actionHeight,
-              linHeight: actionHeight,
-              marginBlockEnd: $slots.item || validateBehavior === 'popover'
-                ? 0
-                : 'var(--n-feedback-height)',
-            }}
-          >
-            {actionVNode}
-          </NFlex>
-        )
+      },
+      () => [
+        <NFlex
+          style={{
+            height: actionHeight,
+            linHeight: actionHeight,
+            marginBlockEnd: $slots.item || validateBehavior === 'popover'
+              ? 0
+              : 'var(--n-feedback-height)',
+          }}
+        >
+          {actionVNode}
+        </NFlex>,
+      ],
+    )
 
     const itemVNode = (
       <Fragment>
@@ -332,26 +335,29 @@ export default defineComponent({
         })}
       </Fragment>
     )
-    return $slots.item
-      ? $slots.item({
+
+    return resolveSlotWithProps(
+      $slots.item,
+      {
         total,
         index,
         action,
         itemVNode,
         actionVNode: resolvedActionVNode,
-      })
-      : (
-          <NEl
-            style={{
-              display: 'flex',
-              gap: '0 16px',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-            }}
-          >
-            {itemVNode}
-            {resolvedActionVNode}
-          </NEl>
-        )
+      },
+      () => [
+        <NEl
+          style={{
+            display: 'flex',
+            gap: '0 16px',
+            flexWrap: 'wrap',
+            alignItems: 'flex-end',
+          }}
+        >
+          {itemVNode}
+          {resolvedActionVNode}
+        </NEl>,
+      ],
+    )
   },
 })

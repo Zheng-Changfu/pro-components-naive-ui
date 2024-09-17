@@ -153,7 +153,7 @@ export default defineComponent({
   },
   slots: Object as SlotsType<ProFormListSlots>,
   setup(props, { expose }) {
-    const form = useInjectProFormInst()
+    const form = useInjectProFormInst()!
 
     const {
       readonly,

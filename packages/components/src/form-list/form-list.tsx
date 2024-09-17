@@ -92,9 +92,9 @@ export default defineComponent({
         ref="instRef"
         class="n-pro-form-item"
         {...this.separateProps.proFieldProps}
-        is-list={true}
-        post-state={this.autoCreateRowId}
-        field-props={this.separateProps.fieldListProps}
+        isList={true}
+        postState={this.autoCreateRowId}
+        fieldProps={this.separateProps.fieldListProps}
         valueType={ValueTypeEnum.FORM_LIST}
       >
         {{
