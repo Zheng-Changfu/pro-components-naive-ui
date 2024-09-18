@@ -1,4 +1,4 @@
-import type { PaginationProps } from 'naive-ui'
+import type { DataTableColumn, PaginationProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
 import type { ProDataTableColumn, ProDataTableColumns } from '../types'
@@ -14,7 +14,7 @@ interface UseColumnsOptions {
 }
 export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseColumnsOptions) {
   const { pagination } = options
-  const columns = ref<ProDataTableColumns>([])
+  const columns = ref<DataTableColumn[]>([])
   const { getMessage } = useLocale('ProDataTable')
 
   watchImmediate(
@@ -38,7 +38,7 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
     return columns.value.some(column => column.fixed === 'left')
   })
 
-  function createIndexColumn(column: ProDataTableColumn | undefined): ProDataTableColumn {
+  function createIndexColumn(column: ProDataTableColumn | undefined): DataTableColumn {
     return {
       title: getMessage('indexColumnText'),
       key: indexColumnKey,
