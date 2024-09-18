@@ -1,7 +1,7 @@
-import { computed, toRef, useAttrs } from 'vue'
 import type { BaseField } from 'pro-components-hooks'
-import { useCompile } from 'pro-components-hooks'
 import type { ProFieldProps } from '../props'
+import { useCompile } from 'pro-components-hooks'
+import { computed, toRef, useAttrs } from 'vue'
 
 export function useParseProps({ scope }: BaseField, props: ProFieldProps) {
   const attrs = useAttrs()

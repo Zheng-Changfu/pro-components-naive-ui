@@ -1,4 +1,3 @@
-// eslint-disable-next-line ts/ban-ts-comment
 // @ts-nocheck
 
 import hljs from 'highlight.js'
@@ -13,9 +12,9 @@ export default function createRenderer(wrapCodeWithCard = true) {
       return (
         `<div class="md-table-wrapper"><n-table single-column class="md-table">\n`
         + `<thead>\n${
-        header
+          header
         }</thead>\n${
-        body
+          body
         }</n-table>\n`
         + `</div>`
       )

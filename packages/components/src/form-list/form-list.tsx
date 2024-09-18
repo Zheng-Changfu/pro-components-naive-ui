@@ -1,16 +1,18 @@
 import type { SlotsType } from 'vue'
-import { computed } from 'vue'
-import { uid } from 'pro-components-hooks'
-import { isArray } from 'lodash-es'
-import { ProField, ValueTypeEnum } from '../form/components'
-import { useMountStyle } from '../_internal/useMountStyle'
-import { proFormListProps } from './props'
 import type { ProFormListSlots } from './slots'
+import { isArray } from 'lodash-es'
+import { uid } from 'pro-components-hooks'
+import { computed } from 'vue'
+import { useMountStyle } from '../_internal/useMountStyle'
+import { useOverrideProps } from '../composables'
+import { ProField, ValueTypeEnum } from '../form/components'
 import { AUTO_CREATE_ID } from './context'
-import style from './styles/index.cssr'
-import { useProFormListInst } from './inst'
 import FieldList from './fields/field-list'
+import { useProFormListInst } from './inst'
+import { proFormListProps } from './props'
+import style from './styles/index.cssr'
 
+const name = 'ProFormList'
 export default defineComponent({
   name: 'ProFormList',
   props: proFormListProps,
@@ -20,6 +22,11 @@ export default defineComponent({
       instRef,
       methods,
     ] = useProFormListInst()
+
+    const overridedProps = useOverrideProps(
+      name,
+      props,
+    )
 
     const separateProps = computed(() => {
       const {
@@ -33,7 +40,7 @@ export default defineComponent({
         creatorInitialValue,
         onlyShowFirstItemLabel,
         ...proFieldProps
-      } = props
+      } = overridedProps.value
 
       return {
         proFieldProps,
@@ -58,7 +65,7 @@ export default defineComponent({
     )
 
     function autoCreateRowId(val: any) {
-      const { postState } = props
+      const { postState } = overridedProps.value
       if (!isArray(val)) {
         return postState ? postState(val) : []
       }
@@ -85,16 +92,16 @@ export default defineComponent({
         ref="instRef"
         class="n-pro-form-item"
         {...this.separateProps.proFieldProps}
-        is-list={true}
-        post-state={this.autoCreateRowId}
-        field-props={this.separateProps.fieldListProps}
+        isList={true}
+        postState={this.autoCreateRowId}
+        fieldProps={this.separateProps.fieldListProps}
         valueType={ValueTypeEnum.FORM_LIST}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => {
-            return <FieldList {...pureProps} v-slots={this.$slots}></FieldList>
-          },
+          input: (pureProps: any) => [
+            <FieldList {...pureProps} v-slots={this.$slots}></FieldList>,
+          ],
         }}
       </ProField>
     )

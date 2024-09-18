@@ -1,6 +1,6 @@
 <script lang="tsx">
-import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import { CodeOutline } from '@vicons/ionicons5'
+import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import { useDisplayMode } from '../store'
 import { i18n } from '../utils/composables'
 import CopyCodeButton from './CopyCodeButton.vue'

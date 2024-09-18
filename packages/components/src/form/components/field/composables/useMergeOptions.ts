@@ -1,13 +1,12 @@
-import type { ComputedRef } from 'vue'
-import { computed, inject, unref } from 'vue'
-import type { BaseField } from 'pro-components-hooks'
 import type { PopoverProps } from 'naive-ui'
-import { toString } from 'lodash-es'
-import { useInjectGlobalConfig } from '../../../../config-provider'
-import { useInjectProFormContext } from '../../../context'
-import { proFormListContextKey } from '../../../../form-list'
+import type { BaseField } from 'pro-components-hooks'
+import type { ComputedRef } from 'vue'
 import type { FieldValueType } from '../enums'
+import { toString } from 'lodash-es'
+import { computed, inject, unref } from 'vue'
+import { proFormListContextKey } from '../../../../form-list/context'
 import { useLocale } from '../../../../locales'
+import { useInjectProFormContext } from '../../../context'
 
 interface UseMergeOptions {
   field: BaseField
@@ -18,7 +17,6 @@ interface UseMergeOptions {
   valueType: ComputedRef<FieldValueType | undefined>
   behaviorProps: ComputedRef<PopoverProps | undefined>
   placeholder: ComputedRef<string | string[] | undefined>
-  fieldProps: ComputedRef<Record<string, any> | undefined>
   behavior: ComputedRef<'default' | 'popover' | undefined>
 }
 export function useMergeOptions(options: UseMergeOptions) {
@@ -28,7 +26,6 @@ export function useMergeOptions(options: UseMergeOptions) {
     label,
     readonly,
     valueType,
-    fieldProps,
     placeholder,
     behavior: propBehavior,
     showLabel: propShowLabel,
@@ -38,10 +35,6 @@ export function useMergeOptions(options: UseMergeOptions) {
   const {
     getMessage,
   } = useLocale('ProForm')
-
-  const {
-    presetFieldProps,
-  } = useInjectGlobalConfig()
 
   const {
     showLabel,
@@ -101,20 +94,11 @@ export function useMergeOptions(options: UseMergeOptions) {
     }
   })
 
-  const mergedFieldProps = computed(() => {
-    const type = valueType.value!
-    return {
-      ...(unref(presetFieldProps)[type] ?? {}),
-      ...(fieldProps.value ?? {}),
-    }
-  })
-
   return {
     mergedTitle,
     mergedReadonly,
     mergedBehavior,
     mergedShowLabel,
-    mergedFieldProps,
     mergedPlaceholder,
     mergedBehaviorProps,
   }

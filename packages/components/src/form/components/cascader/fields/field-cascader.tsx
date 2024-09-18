@@ -1,10 +1,10 @@
-import { NCascader, NEl, NFlex, cascaderProps } from 'naive-ui'
-import { get, isArray } from 'lodash-es'
-import { eachTree } from 'pro-components-hooks'
 import type { SlotsType, VNodeChild } from 'vue'
 import type { ProCascaderSlots } from '../slots'
-import { useProCascaderInst } from '../inst'
+import { get, isArray } from 'lodash-es'
+import { cascaderProps, NCascader, NEl, NFlex } from 'naive-ui'
+import { eachTree } from 'pro-components-hooks'
 import { useReadonlyHelpers } from '../../field'
+import { useProCascaderInst } from '../inst'
 
 export default defineComponent({
   name: 'ProFieldCascader',

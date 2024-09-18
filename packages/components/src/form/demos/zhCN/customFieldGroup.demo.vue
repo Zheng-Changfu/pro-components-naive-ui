@@ -5,8 +5,8 @@
 </markdown>
 
 <script lang="tsx">
-import { defineComponent } from 'vue'
 import { NInputGroup } from 'naive-ui'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { NInputGroup },

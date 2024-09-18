@@ -1,6 +1,6 @@
+export { default as ProInput } from './input'
 export * from './inst'
+export { default as ProPassword } from './password'
 export * from './props'
 export * from './slots'
-export { default as ProInput } from './input'
 export { default as ProTextarea } from './textarea'
-export { default as ProPassword } from './password'

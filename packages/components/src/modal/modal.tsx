@@ -1,25 +1,31 @@
-import type { SlotsType } from 'vue'
-import { computed, defineComponent, nextTick } from 'vue'
 import type { ModalProps } from 'naive-ui'
-import { NButton, NIcon, NModal } from 'naive-ui'
-import { createEventHook, useFullscreen, useVModel } from '@vueuse/core'
-import { FullscreenExitOutlined, FullscreenOutlined } from '@vicons/antd'
-import { isFunction } from 'lodash-es'
-import { useOmitProps } from '../composables'
-import { useMountStyle } from '../_internal/useMountStyle'
+import type { SlotsType } from 'vue'
 import type { ProModalInst } from './inst'
-import { proModalExtendProps, proModalProps } from './props'
 import type { ProModalSlots } from './slots'
-import { draggableClass } from './const'
+import { FullscreenExitOutlined, FullscreenOutlined } from '@vicons/antd'
+import { createEventHook, useFullscreen, useVModel } from '@vueuse/core'
+import { isFunction } from 'lodash-es'
+import { NButton, NIcon, NModal } from 'naive-ui'
+import { computed, defineComponent, nextTick } from 'vue'
+import { useMountStyle } from '../_internal/useMountStyle'
+import { useOmitProps, useOverrideProps } from '../composables'
 import { useDragModal } from './composables/useDragModal'
+import { draggableClass } from './const'
+import { proModalExtendProps, proModalProps } from './props'
 import style from './styles/index.cssr'
 
+const name = 'ProModal'
 export default defineComponent({
-  name: 'ProModal',
+  name,
   props: proModalProps,
   slots: Object as SlotsType<ProModalSlots>,
   setup(props, { expose }) {
     const modalElement = ref<HTMLElement>()
+
+    const overridedProps = useOverrideProps(
+      name,
+      props,
+    )
 
     const {
       on: onAfterEnterHook,
@@ -38,7 +44,7 @@ export default defineComponent({
     )
 
     const modalProps = useOmitProps(
-      props,
+      overridedProps,
       proModalExtendProps,
     )
 
@@ -59,14 +65,14 @@ export default defineComponent({
     const {
       canDraggable,
       bindingEvents: bindingDragEvents,
-    } = useDragModal(props)
+    } = useDragModal(overridedProps)
 
     const headerClassProps = computed<ModalProps>(() => {
       const {
         preset,
         titleClass,
         headerClass,
-      } = props
+      } = overridedProps.value
 
       if (preset === 'confirm' || preset === 'dialog') {
         return {
@@ -101,13 +107,13 @@ export default defineComponent({
 
     function onAfterEnter(modal: HTMLElement) {
       modalElement.value = modal
-      props.onAfterEnter && (props.onAfterEnter as any)(modal)
+      overridedProps.value.onAfterEnter && (overridedProps.value.onAfterEnter as any)(modal)
       triggerAfterEnter()
       canDraggable.value && bindingDragEvents(modal)
     }
 
     function onAfterLeave(modal: HTMLElement) {
-      props.onAfterLeave && (props.onAfterLeave as any)(modal)
+      overridedProps.value.onAfterLeave && (overridedProps.value.onAfterLeave as any)(modal)
       triggerAfterLeave()
     }
 

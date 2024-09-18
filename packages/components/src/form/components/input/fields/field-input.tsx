@@ -1,8 +1,8 @@
-import { NEl, NFlex, NInput, inputProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
-import { useProInputInst } from '../inst'
 import type { ProInputSlots } from '../slots'
+import { inputProps, NEl, NFlex, NInput } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
+import { useProInputInst } from '../inst'
 
 export default defineComponent({
   name: 'ProFieldInput',

@@ -1,23 +1,27 @@
 import type { PaginationProps } from 'naive-ui'
-import { watch } from 'vue'
+import type { ComputedRef } from 'vue'
+import type { ProDataTableProps } from '../props'
+import { computed, watch } from 'vue'
 
-export function usePagination(props) {
+export function usePagination(props: ComputedRef<ProDataTableProps>) {
   const pagination = ref<PaginationProps | false>({})
 
   watch(
-    toRef(props, 'pagination'),
+    computed(() => props.value.pagination ?? {}),
     v => pagination.value = v,
   )
 
-  const paginationInfo = computed<PaginationProps | false>(() => {
-    const { pagination: _pagination } = props
-    if (_pagination === false || pagination.value === false) {
+  const paginationInfo = computed(() => {
+    const { pagination: propPagination } = props.value
+
+    if (propPagination === false || pagination.value === false) {
       return false
     }
+
     return {
       page: 1,
       pageSize: 10,
-      ..._pagination,
+      ...(propPagination as any ?? {}),
       ...pagination.value,
     }
   })

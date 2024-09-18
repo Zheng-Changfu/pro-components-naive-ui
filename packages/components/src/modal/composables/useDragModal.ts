@@ -1,17 +1,18 @@
-import { useEventListener } from '@vueuse/core'
+import type { ComputedRef } from 'vue'
 import type { ProModalProps } from '../props'
-import { draggableClass } from '../const'
 import type { ProModalDraggableOptions } from '../types'
+import { useEventListener } from '@vueuse/core'
+import { draggableClass } from '../const'
 
-export function useDragModal(props: ProModalProps) {
+export function useDragModal(props: ComputedRef<ProModalProps>) {
   const cleanups: Array<() => void> = []
 
   const canDraggable = computed(() => {
-    return props.draggable !== false
+    return props.value.draggable !== false
   })
 
   const normalizedDraggable = computed<null | Required<ProModalDraggableOptions>>(() => {
-    const { draggable } = props
+    const { draggable } = props.value
     if (draggable === false) {
       return null
     }

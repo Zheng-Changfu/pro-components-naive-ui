@@ -1,10 +1,9 @@
-// eslint-disable-next-line ts/ban-ts-comment
 // @ts-nocheck
 
 import path from 'node:path'
 import fse from 'fs-extra'
-import { marked } from 'marked'
 import { camelCase } from 'lodash-es'
+import { marked } from 'marked'
 import createRenderer from './md-renderer'
 import projectPath from './project-path'
 

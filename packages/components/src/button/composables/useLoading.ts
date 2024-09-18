@@ -1,13 +1,15 @@
-import { useVModel } from '@vueuse/core'
+import type { ProButtonProps } from '../props'
+import { watchImmediate } from '@vueuse/core'
 import { isArray, isFunction } from 'lodash-es'
 import { nextTick } from 'vue'
-import type { ProButtonProps } from './props'
 
-export function useLoading(props: ProButtonProps) {
-  const loading = useVModel(props, 'loading', undefined, {
-    passive: true,
-    shouldEmit: () => false,
-  })
+export function useLoading(props: ComputedRef<ProButtonProps>) {
+  const loading = ref(false)
+
+  watchImmediate(
+    computed(() => props.value.loading),
+    v => loading.value = !!v,
+  )
 
   function setLoading(v: boolean) {
     loading.value = v as any
@@ -17,7 +19,7 @@ export function useLoading(props: ProButtonProps) {
     const {
       autoLoading,
       onClick: propOnClick,
-    } = props
+    } = props.value
 
     /**
      * vue 会进行事件合并

@@ -1,3 +1,3 @@
 export * from './props'
-export * from './slots'
 export { default as ProRate } from './rate'
+export * from './slots'

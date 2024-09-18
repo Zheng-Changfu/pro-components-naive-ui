@@ -1,8 +1,8 @@
-import { NMention, mentionProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProMentionSlots } from '../slots'
-import { useMentionInst } from '../inst'
+import { mentionProps, NMention } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
+import { useMentionInst } from '../inst'
 
 export default defineComponent({
   name: 'ProFieldMention',

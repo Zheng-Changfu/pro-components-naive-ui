@@ -1,12 +1,8 @@
-import type { VNodeChild } from 'vue'
 import type { DescriptionItemProps } from 'naive-ui'
 import type { ExtractObjectPath } from 'pro-components-hooks'
+import type { VNodeChild } from 'vue'
 import type { FieldValueType } from '../form'
 import type { AnyFn } from '../types'
-
-export type RefreshOnWindowFocus = boolean | {
-  intervalTime: number
-}
 
 type InternalDataSource = Record<string, unknown>
 

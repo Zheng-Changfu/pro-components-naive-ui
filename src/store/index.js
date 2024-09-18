@@ -1,5 +1,3 @@
-import { computed, ref } from 'vue'
-import { useMemo } from 'vooks'
 import {
   darkTheme,
   dateZhCN,
@@ -8,21 +6,25 @@ import {
 import {
   ProConfigProvider,
   ProDate,
+  ProDateRange,
   ProDateTime,
   ProDateTimeRange,
+  ProDigit,
   ProInput,
+  ProSelect,
   ProSwitch,
   ProTime,
-  ProSelect,
   ValueTypeEnum,
   zhCN,
 } from 'pro-components-naive-ui'
+import { useMemo } from 'vooks'
+import { computed, ref } from 'vue'
 import { i18n, useIsMobile } from '../utils/composables'
+import hljs from './hljs'
 import {
   createComponentMenuOptions,
   createDocumentationMenuOptions,
 } from './menu-options'
-import hljs from './hljs'
 
 let route = null
 let router = null
@@ -30,7 +32,7 @@ let router = null
 export function initRouter(_router, _route) {
   route = _route
   router = _router
-  // eslint-disable-next-line ts/no-use-before-define
+
   localeNameRef = useMemo({
     get() {
       return 'zh-CN'
@@ -39,18 +41,18 @@ export function initRouter(_router, _route) {
       router.push(changeLangInPath(route.fullPath, locale))
     },
   })
-  // eslint-disable-next-line ts/no-use-before-define
+
   dateLocaleRef = useMemo(() => {
     return dateZhCN
   })
-  // eslint-disable-next-line ts/no-use-before-define
+
   rawThemeNameRef = useMemo(() => route.params.theme)
-  // eslint-disable-next-line ts/no-use-before-define
+
   themeNameRef = useMemo({
     get() {
       switch (route.params.theme) {
         case 'os-theme':
-          // eslint-disable-next-line ts/no-use-before-define
+
           return osThemeRef.value
         case 'dark':
           return 'dark'
@@ -147,16 +149,16 @@ export function siteSetup() {
       [ValueTypeEnum.DATE]: ProDate,
       [ValueTypeEnum.TIME]: ProTime,
       [ValueTypeEnum.INPUT]: ProInput,
+      [ValueTypeEnum.DIGIT]: ProDigit,
       [ValueTypeEnum.SWITCH]: ProSwitch,
       [ValueTypeEnum.SELECT]: ProSelect,
       [ValueTypeEnum.DATE_TIME]: ProDateTime,
+      [ValueTypeEnum.DATE_RANGE]: ProDateRange,
       [ValueTypeEnum.DATE_TIME_RANGE]: ProDateTimeRange,
       // [ValueTypeEnum.TEXTAREA]: ProTextarea,
-      // [ValueTypeEnum.DIGIT]: ProFieldDigit,
       // [ValueTypeEnum.DATE_YEAR]: ProFieldDatePicker,
       // [ValueTypeEnum.DATE_WEEK]: ProFieldDatePicker,
       // [ValueTypeEnum.DATE_MONTH]: ProFieldDatePicker,
-      // [ValueTypeEnum.DATE_RANGE]: ProFieldDatePicker,
       // [ValueTypeEnum.DATE_QUARTER]: ProFieldDatePicker,
       // [ValueTypeEnum.DATE_YEAR_RANGE]: ProFieldDatePicker,
       // [ValueTypeEnum.DATE_MONTH_RANGE]: ProFieldDatePicker,
@@ -176,6 +178,8 @@ export function siteSetup() {
       // [ValueTypeEnum.COLOR_PICKER]: ProFieldColorPicker,
       // [ValueTypeEnum.DYNAMIC_TAGS]: ProFieldDynamicTags,
       // [ValueTypeEnum.AUTO_COMPLETE]: ProFieldAutoComplete,
+    },
+    propOverrides: {
     },
   }
 }

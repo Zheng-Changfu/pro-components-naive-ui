@@ -1,37 +1,49 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proSelectProps } from './props'
 import type { ProSelectSlots } from './slots'
-import { useProSelectInst } from './inst'
+import { useOverrideProps } from '../../../composables'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldSelect from './fields/field-select'
+import { useProSelectInst } from './inst'
+import { proSelectProps } from './props'
 
+const name = 'ProSelect'
 export default defineComponent({
-  name: 'ProSelect',
+  name,
   props: proSelectProps,
   slots: Object as SlotsType<ProSelectSlots>,
-  setup(_, { expose }) {
+  setup(props, { expose }) {
     const [
       instRef,
       methods,
     ] = useProSelectInst()
 
+    const overridedProps = useOverrideProps(
+      name,
+      props,
+    )
+
     expose(methods)
     return {
       instRef,
+      overridedProps,
     }
   },
   render() {
     return (
       <ProField
-        {...this.$props}
+        {...this.overridedProps}
         defaultValue={null}
         valueType={ValueTypeEnum.SELECT}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => {
-            return <ProFieldSelect ref="instRef" {...pureProps} v-slots={this.$slots} />
-          },
+          input: (pureProps: any) => [
+            <ProFieldSelect
+              ref="instRef"
+              {...pureProps}
+              v-slots={this.$slots}
+            />,
+          ],
         }}
       </ProField>
     )

@@ -1,17 +1,18 @@
-import type { PropType, SlotsType } from 'vue'
-import { Fragment, computed, defineComponent, nextTick } from 'vue'
 import type { ArrayField } from 'pro-components-hooks'
-import { useInjectFieldContext } from 'pro-components-hooks'
-import { NIcon } from 'naive-ui'
-import { PlusOutlined } from '@vicons/antd'
-import { ProButton, type ProButtonProps } from '../../button'
+import type { PropType, SlotsType } from 'vue'
+import type { ProFormListInst } from '../inst'
 import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
-import type { ProFormListInst } from '../inst'
-import { AUTO_CREATE_ID, provideProFormListInst, useInjectProFormListInst } from '../context'
-import { useInjectProFormInst } from '../../form/context'
+import { PlusOutlined } from '@vicons/antd'
+import { NIcon } from 'naive-ui'
+import { useInjectFieldContext } from 'pro-components-hooks'
+import { computed, defineComponent, nextTick } from 'vue'
+import { resolveSlotWithProps } from '../../_utils/resolve-slot'
+import { ProButton, type ProButtonProps } from '../../button'
 import { useReadonlyHelpers } from '../../form/components'
+import { useInjectProFormInst } from '../../form/context'
 import { useLocale } from '../../locales'
+import { AUTO_CREATE_ID, provideProFormListInst, useInjectProFormListInst } from '../context'
 import FieldItem from './field-item'
 
 const CreatorButton = defineComponent({
@@ -153,7 +154,7 @@ export default defineComponent({
   },
   slots: Object as SlotsType<ProFormListSlots>,
   setup(props, { expose }) {
-    const form = useInjectProFormInst()
+    const form = useInjectProFormInst()!
 
     const {
       readonly,
@@ -263,19 +264,17 @@ export default defineComponent({
       />
     )
 
-    if ($slots.container) {
-      return $slots.container({
+    return resolveSlotWithProps(
+      $slots.container,
+      {
         listVNode,
         creatorButtonVNode,
-      })
-    }
-
-    return (
-      <Fragment>
-        {position === 'top' && creatorButtonVNode}
-        {listVNode}
-        {position === 'bottom' && creatorButtonVNode}
-      </Fragment>
+      },
+      () => [
+        position === 'top' && creatorButtonVNode,
+        listVNode,
+        position === 'bottom' && creatorButtonVNode,
+      ],
     )
   },
 })

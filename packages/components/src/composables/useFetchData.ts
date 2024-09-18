@@ -1,9 +1,12 @@
 import type { EventHookOn } from '@vueuse/core'
+import type { AnyFn } from '../types'
 import { createEventHook, useDocumentVisibility } from '@vueuse/core'
 import { isBoolean } from 'lodash-es'
 import { useRoute } from 'vue-router'
-import type { RefreshOnWindowFocus } from '../types'
-import type { AnyFn } from '../../types'
+
+export type RefreshOnWindowFocus = boolean | {
+  intervalTime: number
+}
 
 export interface UseFetchDataBaseOptions<RequestFn extends AnyFn> {
   /**
@@ -65,9 +68,9 @@ export interface UseFetchDataReturned<RequestFn extends AnyFn = AnyFn> {
   reload: (params?: any) => Promise<void>
 }
 
-export function useFetchData<T extends AnyFn>(options: UseFetchDataBaseOptions<T>): UseFetchDataReturned<T>
-export function useFetchData<T extends AnyFn, R>(options: UseFetchDataOptionsPassedTransform<T, R>): UseFetchDataReturned<T>
-export function useFetchData<T extends AnyFn, R>(options: UseFetchDataBaseOptions<T> | UseFetchDataOptionsPassedTransform<T, R>): UseFetchDataReturned<T> {
+export function useFetchData<T extends AnyFn>(options: ComputedRef<UseFetchDataBaseOptions<T>>): UseFetchDataReturned<T>
+export function useFetchData<T extends AnyFn, R>(options: ComputedRef<UseFetchDataOptionsPassedTransform<T, R>>): UseFetchDataReturned<T>
+export function useFetchData<T extends AnyFn, R>(options: ComputedRef<UseFetchDataBaseOptions<T> | UseFetchDataOptionsPassedTransform<T, R>>): UseFetchDataReturned<T> {
   const {
     transform,
     onRequestError,
@@ -75,7 +78,7 @@ export function useFetchData<T extends AnyFn, R>(options: UseFetchDataBaseOption
     onRequestComplete,
     receiveRouteQueryParams = false,
     refreshOnWindowFocus = { intervalTime: 3000 },
-  } = options
+  } = options.value
 
   const route = useRoute()
   const loading = ref(false)
@@ -96,7 +99,7 @@ export function useFetchData<T extends AnyFn, R>(options: UseFetchDataBaseOption
   })
 
   async function fetchData(params: any = {}) {
-    if (!options.request || loading.value)
+    if (!options.value.request || loading.value)
       return
     try {
       loading.value = true
@@ -105,7 +108,7 @@ export function useFetchData<T extends AnyFn, R>(options: UseFetchDataBaseOption
         ...(routeParams ?? {}),
         ...(params ?? {}),
       }
-      let res = (await options.request(requestParams)) ?? {}
+      let res = (await options.value.request(requestParams)) ?? {}
       if (transform) {
         res = transform(res)
       }
@@ -144,7 +147,7 @@ export function useFetchData<T extends AnyFn, R>(options: UseFetchDataBaseOption
   )
 
   watch(
-    toRef(options, 'manual'),
+    computed(() => options.value.manual),
     (manual) => {
       if (manual) {
         return
@@ -161,7 +164,7 @@ export function useFetchData<T extends AnyFn, R>(options: UseFetchDataBaseOption
   }
 
   onMounted(() => {
-    if (options.manual) {
+    if (options.value.manual) {
       return
     }
     fetchData()

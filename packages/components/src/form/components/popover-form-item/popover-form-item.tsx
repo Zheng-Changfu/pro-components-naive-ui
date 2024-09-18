@@ -1,11 +1,11 @@
 import type { SlotsType } from 'vue'
-import { computed, ref, useAttrs } from 'vue'
-import { NEl, NPopover, useThemeVars } from 'naive-ui'
-import { onClickOutside, useEventListener } from '@vueuse/core'
-import { ProFormItem } from '../form-item'
-import { useFieldValidateStatus } from '../field'
-import { proPopoverFormItemProps } from './props'
 import type { ProPopoverFormItemSlots } from './slots'
+import { onClickOutside, useEventListener } from '@vueuse/core'
+import { NEl, NPopover, useThemeVars } from 'naive-ui'
+import { computed, ref, useAttrs } from 'vue'
+import { useFieldValidateStatus } from '../field'
+import { ProFormItem } from '../form-item'
+import { proPopoverFormItemProps } from './props'
 
 export default defineComponent({
   name: 'ProPopoverFormItem',
@@ -77,14 +77,25 @@ export default defineComponent({
         show={this.showPopover}
       >
         {{
-          trigger: () => {
-            return <ProFormItem ref="formItemInstRef" {...this.proFormItemProps} v-slots={this.$slots} />
-          },
-          default: () => {
-            return this.feedbacks.map((f) => {
-              return <NEl key={f.message} style={{ color: this.feedbackColor }}>{ f.message }</NEl>
-            })
-          },
+          trigger: () => [
+            <ProFormItem
+              ref="formItemInstRef"
+              {...this.proFormItemProps}
+              v-slots={this.$slots}
+            />,
+          ],
+          default: () => [
+            this.feedbacks.map((f) => {
+              return (
+                <NEl
+                  key={f.message}
+                  style={{ color: this.feedbackColor }}
+                >
+                  { f.message }
+                </NEl>
+              )
+            }),
+          ],
         }}
       </NPopover>
     )

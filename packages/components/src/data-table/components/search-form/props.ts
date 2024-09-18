@@ -1,8 +1,8 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { GridProps } from 'naive-ui'
-import { proFormProps } from '../../../form'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProButtonProps } from '../../../button'
 import type { ProSearchFormColumns } from './types'
+import { proFormProps } from '../../../form'
 
 export const proSearchFormProps = {
   ...proFormProps,
@@ -23,7 +23,7 @@ export const proSearchFormProps = {
   /**
    * 表单项集合
    */
-  columns: Array as PropType<ProSearchFormColumns>,
+  columns: [Array, Function] as PropType<ProSearchFormColumns>,
   /**
    * 重置按钮的属性，false 不显示
    */

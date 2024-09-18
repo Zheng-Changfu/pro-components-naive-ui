@@ -1,81 +1,78 @@
-import { Fragment, type SlotsType } from 'vue'
-import { NDescriptions, NDescriptionsItem, NEl, NIcon, NSpin, NTooltip } from 'naive-ui'
-import { isFunction, isString } from 'lodash-es'
-import { createForm, uid } from 'pro-components-hooks'
-import { InfoCircleOutlined } from '@vicons/antd'
-import { useInjectGlobalConfig } from '../config-provider'
-import { useOmitProps } from '../composables'
-import { proDescriptionsExtendProps, proDescriptionsProps } from './props'
-import type { ProDescriptionsSlots } from './slots'
-import { useFetchData } from './composables/useFetchData'
+import type { SlotsType } from 'vue'
 import type { ProDescriptionsInst } from './inst'
+import type { ProDescriptionsSlots } from './slots'
+import { InfoCircleOutlined } from '@vicons/antd'
+import { isFunction, isString } from 'lodash-es'
+import { NDescriptions, NDescriptionsItem, NEl, NIcon, NSpin, NTooltip } from 'naive-ui'
+import { uid } from 'pro-components-hooks'
+import { useOmitProps, useOverrideProps } from '../composables'
+import { useFetchData } from '../composables/useFetchData'
+import { useInjectGlobalConfig } from '../config-provider'
+import { useData } from './composables/useData'
+import { proDescriptionsExtendProps, proDescriptionsProps } from './props'
 
+const name = 'ProDescriptions'
 export default defineComponent({
-  name: 'ProDescriptions',
+  name,
   inheritAttrs: false,
   props: proDescriptionsProps,
   slots: Object as SlotsType<ProDescriptionsSlots>,
   setup(props, { expose }) {
+    const overridedProps = useOverrideProps(
+      name,
+      props,
+    )
+
     const {
-      getFieldsValue,
-      setFieldsValue,
-    } = createForm({
-      initialValues: props.data ?? {},
-    })
+      data,
+      setData,
+    } = useData(overridedProps)
 
     const {
       reload,
       loading,
       onRequestSuccess,
-    } = useFetchData(props)
+    } = useFetchData(overridedProps)
 
     const {
       valueTypeMap,
     } = useInjectGlobalConfig()
 
     const nDescriptionsProps = useOmitProps(
-      props,
+      overridedProps,
       proDescriptionsExtendProps,
     )
 
-    const data = computed(() => {
-      return getFieldsValue(true)
-    })
-
     const normalizedColumns = computed(() => {
-      return (props.columns ?? []).filter(Boolean).map((column) => {
-        const {
-          label,
-          title,
-          tooltip,
-          valueType = 'input',
-          ...rest
-        } = column
-        return {
-          ...rest,
-          uid: uid(),
-          valueType,
-          title: title ?? label,
-          tooltip: isString(tooltip) ? [tooltip] : [tooltip].filter(Boolean) as any as string[],
-        }
-      })
+      const columns = overridedProps.value.columns ?? []
+      return columns
+        .filter(Boolean)
+        .map((column) => {
+          const {
+            label,
+            title,
+            tooltip,
+            valueType = 'input',
+            ...rest
+          } = column
+
+          return {
+            ...rest,
+            uid: uid(),
+            valueType,
+            title: title ?? label,
+            tooltip: isString(tooltip) ? [tooltip] : [tooltip].filter(Boolean) as any as string[],
+          }
+        })
     })
 
     watch(
-      toRef(props, 'data'),
-      (value) => {
-        setFieldsValue(value ?? {}, 'overwrite')
-      },
-      { deep: true },
-    )
-
-    watch(
-      toRef(props, 'loading'),
+      computed(() => overridedProps.value.loading),
       v => loading.value = !!v,
     )
 
     onRequestSuccess((res) => {
-      setFieldsValue(res ?? {}, 'overwrite')
+      setData(res ?? {}, 'overwrite')
     })
 
     const exposed: ProDescriptionsInst = {
@@ -130,36 +127,32 @@ export default defineComponent({
                         if (!resolvedTitle) {
                           return null
                         }
-                        return (
-                          <Fragment>
-                            {resolvedTitle}
-                            {tooltip.length > 0 && (
-                              <NTooltip trigger="hover">
-                                {{
-                                  trigger: () => {
-                                    return (
-                                      <NIcon
-                                        size={16}
-                                        style={{
-                                          cursor: 'pointer',
-                                          verticalAlign: 'text-bottom',
-                                          marginInlineStart: '4px',
-                                        }}
-                                      >
-                                        <InfoCircleOutlined />
-                                      </NIcon>
-                                    )
-                                  },
-                                  default: () => {
-                                    return tooltip.map((t, i) => {
-                                      return <NEl key={i + t}>{t}</NEl>
-                                    })
-                                  },
-                                }}
-                              </NTooltip>
-                            )}
-                          </Fragment>
-                        )
+                        return [
+                          resolvedTitle,
+                          tooltip.length > 0 && (
+                            <NTooltip trigger="hover">
+                              {{
+                                trigger: () => [
+                                  <NIcon
+                                    size={16}
+                                    style={{
+                                      cursor: 'pointer',
+                                      verticalAlign: 'text-bottom',
+                                      marginInlineStart: '4px',
+                                    }}
+                                  >
+                                    <InfoCircleOutlined />
+                                  </NIcon>,
+                                ],
+                                default: () => [
+                                  tooltip.map((t, i) => {
+                                    return <NEl key={i + t}>{t}</NEl>
+                                  }),
+                                ],
+                              }}
+                            </NTooltip>
+                          ),
+                        ]
                       },
                       default: () => {
                         if (render) {

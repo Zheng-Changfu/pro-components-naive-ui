@@ -1,5 +1,5 @@
-import { formItemProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
+import { formItemProps } from 'naive-ui'
 
 export const proFormItemProps = {
   ...formItemProps,

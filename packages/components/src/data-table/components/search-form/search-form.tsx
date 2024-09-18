@@ -1,47 +1,49 @@
 import type { SlotsType } from 'vue'
-import { defineComponent } from 'vue'
-import { NFlex, NGi, NGrid, NIcon } from 'naive-ui'
-import { DownOutlined, UpOutlined } from '@vicons/antd'
-import { ProForm } from '../../../form'
-import { useInjectGlobalConfig } from '../../../config-provider'
-import { useLocale } from '../../../locales'
-import { ProButton, type ProButtonProps } from '../../../button'
-import { proSearchFormProps } from './props'
+import type { ProSearchFormInst } from './inst'
 import type { ProSearchFormSlots } from './slots'
-import type { ProSearchFormColumn } from './types'
+import { DownOutlined, UpOutlined } from '@vicons/antd'
+import { NFlex, NGi, NGrid, NIcon } from 'naive-ui'
+import { defineComponent } from 'vue'
+import { resolveSlotWithProps } from '../../../_utils/resolve-slot'
+import { ProButton, type ProButtonProps } from '../../../button'
+import { useOverrideProps } from '../../../composables'
+import { ProForm } from '../../../form'
+import { useLocale } from '../../../locales'
 import { useGridCollapsed } from './composables/useGridCollapsed'
 import { useGridForm } from './composables/useGridForm'
-import type { ProSearchFormInst } from './inst'
+import GridFieldItem from './grid-field-item'
+import { proSearchFormProps } from './props'
 
+const name = 'ProSearchForm'
 export default defineComponent({
-  name: 'ProSearchForm',
+  name,
   props: proSearchFormProps,
   slots: Object as SlotsType<ProSearchFormSlots>,
   setup(props, { expose }) {
+    const overridedProps = useOverrideProps(
+      name,
+      props,
+    )
+
     const {
       collapsed,
       nGridProps,
       toggleCollapsed,
-    } = useGridCollapsed(props)
+    } = useGridCollapsed(overridedProps)
 
     const {
       reset,
       search,
       formMethods,
       proFormProps,
-      getColumnVisible,
-    } = useGridForm(props)
+    } = useGridForm(overridedProps)
 
     const {
       getMessage,
     } = useLocale('ProSearchForm')
 
-    const {
-      valueTypeMap,
-    } = useInjectGlobalConfig()
-
     const resetButtonProps = computed<ProButtonProps | false>(() => {
-      const { resetButtonProps } = props
+      const { resetButtonProps } = overridedProps.value
       return resetButtonProps === false
         ? false
         : {
@@ -52,7 +54,7 @@ export default defineComponent({
     })
 
     const searchButtonProps = computed<ProButtonProps | false>(() => {
-      const { searchButtonProps } = props
+      const { searchButtonProps } = overridedProps.value
       return searchButtonProps === false
         ? false
         : {
@@ -64,7 +66,7 @@ export default defineComponent({
     })
 
     const collapseButtonProps = computed<ProButtonProps | false>(() => {
-      const { collapseButtonProps } = props
+      const { collapseButtonProps } = overridedProps.value
       return collapseButtonProps === false
         ? false
         : {
@@ -116,9 +118,7 @@ export default defineComponent({
       collapsed,
       nGridProps,
       proFormProps,
-      valueTypeMap,
       toggleCollapsed,
-      getColumnVisible,
       resetButtonProps,
       searchButtonProps,
       collapseButtonProps,
@@ -129,62 +129,42 @@ export default defineComponent({
     const {
       columns,
       nGridProps,
-      valueTypeMap,
       proFormProps,
-      getColumnVisible,
       showSuffixGridItem,
     } = this
 
-    function resolveColumn(column: ProSearchFormColumn) {
-      if (column.render) {
-        return column.render()
-      }
-
-      const {
-        slots,
-        render,
-        valueType = 'input',
-        ...restProps
-      } = column
-
-      const Comp = valueTypeMap[valueType]
-      return Comp ? h(Comp, restProps, slots) : null
-    }
+    const resolvedColumns = toValue(columns) ?? []
 
     return (
       <ProForm {...proFormProps}>
         <NGrid {...nGridProps}>
-          {
-          (columns ?? []).map((column) => {
-            const show = getColumnVisible(column)
-            const { span, offset, ...restProps } = column
-            return (
-              <NGi v-show={show} span={span} offset={offset}>
-                {resolveColumn(restProps)}
-              </NGi>
-            )
-          })
-          }
-          {showSuffixGridItem && (
-            <NGi suffix={true}>
-              {
-                this.$slots.suffix
-                  ? this.$slots.suffix({
-                    reset: this.reset,
-                    search: this.search,
-                    toggle: this.toggleCollapsed,
-                    collapsed: this.collapsed,
-                  })
-                  : (
-                    <NFlex justify="end">
-                      {this.searchButtonProps !== false && <ProButton {...this.searchButtonProps} />}
-                      {this.resetButtonProps !== false && <ProButton {...this.resetButtonProps} />}
-                      {this.collapseButtonProps !== false && <ProButton {...this.collapseButtonProps} />}
-                    </NFlex>
+          {{
+            default: () => [
+              resolvedColumns.map(column => <GridFieldItem column={column} />),
+              showSuffixGridItem && (
+                <NGi suffix={true}>
+                  {
+                    resolveSlotWithProps(
+                      this.$slots.suffix,
+                      {
+                        reset: this.reset,
+                        search: this.search,
+                        toggle: this.toggleCollapsed,
+                        collapsed: this.collapsed,
+                      },
+                      () => [
+                        <NFlex justify="end">
+                          {this.searchButtonProps !== false && <ProButton {...this.searchButtonProps} />}
+                          {this.resetButtonProps !== false && <ProButton {...this.resetButtonProps} />}
+                          {this.collapseButtonProps !== false && <ProButton {...this.collapseButtonProps} />}
+                        </NFlex>,
+                      ],
                     )
-              }
-            </NGi>
-          )}
+                  }
+                </NGi>
+              ),
+            ],
+          }}
         </NGrid>
       </ProForm>
     )

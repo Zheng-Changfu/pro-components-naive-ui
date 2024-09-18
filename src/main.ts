@@ -1,11 +1,11 @@
-import { createApp } from 'vue'
-import 'virtual:uno.css'
 import naive from 'naive-ui'
 import proComponents from 'pro-components-naive-ui'
-import SiteRoot from './SiteRoot.vue'
-import { installDemoComponents } from './setup'
-import { routes } from './routes/routes'
+import { createApp } from 'vue'
 import createDemoRouter from './routes/router'
+import { routes } from './routes/routes'
+import { installDemoComponents } from './setup'
+import SiteRoot from './SiteRoot.vue'
+import 'virtual:uno.css'
 
 const app = createApp(SiteRoot)
 const router = createDemoRouter(app, routes)

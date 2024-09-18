@@ -6,9 +6,9 @@
 </markdown>
 
 <script lang="tsx">
-import { defineComponent } from 'vue'
-import { useProDescriptions } from 'pro-components-naive-ui'
 import { NButton, useMessage } from 'naive-ui'
+import { useProDescriptions } from 'pro-components-naive-ui'
+import { defineComponent } from 'vue'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))
@@ -124,7 +124,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-card title="远程请求数据" :show-switcher="false">
+  <pro-card title="远程请求数据" :show-collaspe="false">
     <pro-descriptions v-bind="proDescriptionsProps" />
     <template #header-extra>
       <pro-button type="primary" @click="reload">

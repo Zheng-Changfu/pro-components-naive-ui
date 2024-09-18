@@ -1,6 +1,6 @@
-import { NSlider, sliderProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProSliderSlots } from '../slots'
+import { NSlider, sliderProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({

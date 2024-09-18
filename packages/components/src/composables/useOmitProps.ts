@@ -1,9 +1,10 @@
+import type { UnwrapRef } from 'vue'
 import { omit } from 'lodash-es'
-import { computed } from 'vue'
+import { computed, unref } from 'vue'
 
-export function useOmitProps<T extends object, K extends keyof T>(props: T, excludeProps: Record<K, any>) {
+export function useOmitProps<T extends object, K extends keyof UnwrapRef<T>>(props: T, excludeProps: Record<K, any>) {
   const excludePropKeys = Object.keys(excludeProps)
   return computed(() => {
-    return omit(props, excludePropKeys) as Partial<Omit<T, K>>
+    return omit(unref(props), excludePropKeys) as Partial<Omit<UnwrapRef<T>, K>>
   })
 }

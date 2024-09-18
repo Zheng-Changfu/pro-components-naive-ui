@@ -28,7 +28,7 @@
     "katex": "^0.16.10",
     "lodash-es": "^4.17.21",
     "marked": "^12.0.2",
-    "pro-components-hooks": "^0.1.10",
+    "pro-components-hooks": "^0.1.11",
     "seemly": "^0.3.8",
     "vfonts": "^0.0.3",
     "vooks": "0.2.12",
@@ -36,7 +36,7 @@
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.20.0",
+    "@antfu/eslint-config": "^3.6.0",
     "@changesets/changelog-git": "^0.2.0",
     "@changesets/cli": "^2.27.5",
     "@types/lodash-es": "^4.17.12",
@@ -44,7 +44,7 @@
     "@vitejs/plugin-vue": "^5.0.5",
     "@vitejs/plugin-vue-jsx": "^4.0.0",
     "@vueuse/core": "^10.10.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.10.0",
     "naive-ui": "^2.38.2",
     "typescript": "^5.5.4",
     "unocss": "^0.61.0",

@@ -1,17 +1,18 @@
 import type { PropType, SlotsType } from 'vue'
-import { Fragment, computed, defineComponent, inject, provide, toRef } from 'vue'
+import type { ProButtonProps } from '../../button'
+import type { ActionGuard } from '../props'
+import type { ProFormListSlots } from '../slots'
+import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
+import { omit } from 'lodash-es'
 import { NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { useInjectParentFieldContext } from 'pro-components-hooks'
-import { omit } from 'lodash-es'
-import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
-import type { ProFormListSlots } from '../slots'
-import type { ActionGuard } from '../props'
-import type { ProButtonProps } from '../../button'
+import { computed, defineComponent, Fragment, inject, provide, toRef } from 'vue'
+import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProButton } from '../../button'
-import { useInjectProFormContext, useInjectProFormInst } from '../../form/context'
-import { AUTO_CREATE_ID, proFormListContextKey, useInjectProFormListInst } from '../context'
 import { useReadonlyHelpers } from '../../form/components'
+import { useInjectProFormContext, useInjectProFormInst } from '../../form/context'
 import { useLocale } from '../../locales'
+import { AUTO_CREATE_ID, proFormListContextKey, useInjectProFormListInst } from '../context'
 import { useProvidePath } from './composables/useProvidePath'
 
 const Action = defineComponent({
@@ -43,7 +44,7 @@ const Action = defineComponent({
     actionGuard: Object as PropType<Partial<ActionGuard>>,
   },
   setup(props) {
-    const form = useInjectProFormInst()
+    const form = useInjectProFormInst()!
     const action = useInjectProFormListInst()
     const { getMessage } = useLocale('ProFormList')
 
@@ -170,19 +171,19 @@ const Action = defineComponent({
 
     const copyButtonVNode = showCopyButton
       ? (
-        <ProButton
-          {...copyButtonProps}
-          onClick={copy}
-        />
+          <ProButton
+            {...copyButtonProps}
+            onClick={copy}
+          />
         )
       : null
 
     const removeButtonVNode = showRemoveButton
       ? (
-        <ProButton
-          {...removeButtonProps}
-          onClick={remove}
-        />
+          <ProButton
+            {...removeButtonProps}
+            onClick={remove}
+          />
         )
       : null
 
@@ -226,7 +227,7 @@ export default defineComponent({
     const nFormItem = inject<any>('n-form-item')
     const field = useInjectParentFieldContext()!
     const { validateBehavior } = useInjectProFormContext()
-    const { path } = useProvidePath(toRef(props, 'index')) // 处理嵌套路径
+    const { path } = useProvidePath(toRef(props, 'index'))
 
     const total = computed(() => {
       return field.value.value.length
@@ -302,14 +303,15 @@ export default defineComponent({
       />
     )
 
-    const resolvedActionVNode = $slots.action
-      ? $slots.action({
+    const resolvedActionVNode = resolveSlotWithProps(
+      $slots.action,
+      {
         total,
         index,
         action,
         actionVNode,
-      })
-      : (
+      },
+      () => [
         <NFlex
           style={{
             height: actionHeight,
@@ -320,8 +322,9 @@ export default defineComponent({
           }}
         >
           {actionVNode}
-        </NFlex>
-        )
+        </NFlex>,
+      ],
+    )
 
     const itemVNode = (
       <Fragment>
@@ -332,15 +335,17 @@ export default defineComponent({
         })}
       </Fragment>
     )
-    return $slots.item
-      ? $slots.item({
+
+    return resolveSlotWithProps(
+      $slots.item,
+      {
         total,
         index,
         action,
         itemVNode,
         actionVNode: resolvedActionVNode,
-      })
-      : (
+      },
+      () => [
         <NEl
           style={{
             display: 'flex',
@@ -351,7 +356,8 @@ export default defineComponent({
         >
           {itemVNode}
           {resolvedActionVNode}
-        </NEl>
-        )
+        </NEl>,
+      ],
+    )
   },
 })

@@ -1,9 +1,9 @@
 import type { FlexProps, RadioGroupProps, RadioProps } from 'naive-ui'
-import { NFlex, NRadio, NRadioGroup, radioGroupProps } from 'naive-ui'
 import type { PropType, SlotsType } from 'vue'
-import { get, omit } from 'lodash-es'
-import { useReadonlyHelpers } from '../../field'
 import type { ProRadioGroupSlots } from '../slots'
+import { get, omit } from 'lodash-es'
+import { NFlex, NRadio, NRadioGroup, radioGroupProps } from 'naive-ui'
+import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
   name: 'ProFieldRadioGroup',

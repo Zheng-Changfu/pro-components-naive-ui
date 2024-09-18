@@ -1,39 +1,30 @@
-import { computed, unref } from 'vue'
 import type { ConfigProviderProps } from 'naive-ui'
-import { NConfigProvider } from 'naive-ui'
 import { merge, omit } from 'lodash-es'
-import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
+import { NConfigProvider } from 'naive-ui'
+import { computed, unref } from 'vue'
 import { provideGlobalConfig, useInjectGlobalConfig } from './context'
+import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 
 export default defineComponent({
   name: 'ProConfigProvider',
   props: proConfigProviderProps,
   setup(props) {
     const {
-      proForm = {},
-      proTable = {},
-      proButton = {},
-    } = props
-
-    const {
-      proForm: parentProForm,
-      proTable: parentProTable,
-      proButton: parentProButton,
-      valueTypeMap: parentValueTypeMap,
-      presetFieldProps: parentPresetFieldProps,
+      valueTypeMap: injectedValueTypeMap,
+      propOverrides: injectedPropOverrides,
     } = useInjectGlobalConfig()
 
     const valueTypeMap = computed(() => {
       return {
-        ...unref(parentValueTypeMap),
+        ...unref(injectedValueTypeMap),
         ...(unref(props.valueTypeMap) ?? {}),
       }
     })
 
-    const presetFieldPropsRecord = computed(() => {
+    const propOverrides = computed(() => {
       return {
-        ...unref(parentPresetFieldProps),
-        ...(unref(props.presetFieldProps) ?? {}),
+        ...unref(injectedPropOverrides),
+        ...(unref(props.propOverrides) ?? {}),
       }
     })
 
@@ -55,26 +46,8 @@ export default defineComponent({
     })
 
     provideGlobalConfig({
-      proForm: {
-        validateTrigger: 'input',
-        ...parentProForm,
-        ...proForm,
-      },
-      proTable: {
-        ...parentProTable,
-        ...proTable,
-      },
-      proButton: {
-        ...parentProButton,
-        ...proButton,
-        authData: computed(() => {
-          const propAuthData = props.proButton?.authData
-          const parentAuthData = parentProButton.authData?.value
-          return propAuthData ?? parentAuthData
-        }),
-      },
       valueTypeMap,
-      presetFieldProps: presetFieldPropsRecord,
+      propOverrides,
     })
 
     return {

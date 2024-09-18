@@ -1,5 +1,5 @@
-import { computed } from 'vue'
 import { useInjectFieldContext } from 'pro-components-hooks'
+import { computed } from 'vue'
 import { useInjectProFormInst } from '../../../context'
 
 export function useFieldValidateStatus() {

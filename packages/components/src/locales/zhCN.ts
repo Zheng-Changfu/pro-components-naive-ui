@@ -1,5 +1,5 @@
-import { createLocale, zhCN as nZhCN } from 'naive-ui'
 import type { FieldValueType } from '../form'
+import { createLocale, zhCN as nZhCN } from 'naive-ui'
 import { ValueTypeEnum } from '../form'
 
 export const zhCN = createLocale({
@@ -55,5 +55,8 @@ export const zhCN = createLocale({
     resetText: '重置',
     searchText: '查询',
     collapseText: (collapsed: boolean) => collapsed ? '展开' : '收起',
+  },
+  ProDataTable: {
+    indexColumnText: '序号',
   },
 } as any, nZhCN)

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { i18n, useIsMobile, useIsTablet } from '../../utils/composables'
 import { useThemeName } from '../../store'
+import { i18n, useIsMobile, useIsTablet } from '../../utils/composables'
 import LandingFooter from './Footer.vue'
 import leftImage from './Left.vue'
 import rightImage from './Right.vue'
@@ -61,7 +61,6 @@ export default defineComponent({
       this.hover = false
     },
     handleThemeChangeClick() {
-      // eslint-disable-next-line ts/ban-ts-comment
       // @ts-expect-error
       this.theme = this.themeOptions[this.theme].next
     },

@@ -1,8 +1,8 @@
-import { NCheckbox, checkboxProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProCheckboxSlots } from '../slots'
-import { useProCheckboxInst } from '../inst'
+import { checkboxProps, NCheckbox } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
+import { useProCheckboxInst } from '../inst'
 
 export default defineComponent({
   name: 'ProFieldCheckbox',

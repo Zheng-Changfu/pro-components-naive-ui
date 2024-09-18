@@ -1,40 +1,53 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proDatePickerProps } from './props'
 import type { ProDatePickerSlots } from './slots'
-import { useProDatePickerInst } from './inst'
+import { useOverrideProps } from '../../../composables'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldDatePicker from './fields/field-date-picker'
+import { useProDatePickerInst } from './inst'
+import { proDatePickerProps } from './props'
 
+const name = 'ProDate'
 export default defineComponent({
-  name: 'ProDate',
+  name,
   props: proDatePickerProps,
   slots: Object as SlotsType<ProDatePickerSlots>,
-  setup(_, { expose }) {
+  setup(props, { expose }) {
     const [
       instRef,
       methods,
     ] = useProDatePickerInst()
+
+    const overridedProps = useOverrideProps(
+      name,
+      props,
+    )
+
     expose(methods)
     return {
       instRef,
+      overridedProps,
     }
   },
   render() {
     return (
       <ProField
-        {...this.$props}
+        {...this.overridedProps}
         defaultValue={null}
         fieldProps={{
-          ...(this.$props.fieldProps ?? {}),
+          ...(this.overridedProps.fieldProps ?? {}),
           type: 'date',
         }}
         valueType={ValueTypeEnum.DATE}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => {
-            return <ProFieldDatePicker ref="instRef" {...pureProps} v-slots={this.$slots} />
-          },
+          input: (pureProps: any) => [
+            <ProFieldDatePicker
+              ref="instRef"
+              {...pureProps}
+              v-slots={this.$slots}
+            />,
+          ],
         }}
       </ProField>
     )

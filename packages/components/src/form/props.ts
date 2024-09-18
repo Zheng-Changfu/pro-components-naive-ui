@@ -1,8 +1,8 @@
+import type { PopoverProps } from 'naive-ui'
+import type { ArrayField, BaseField, MaybeExpression } from 'pro-components-hooks'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { omit } from 'lodash-es'
-import type { PopoverProps } from 'naive-ui'
 import { formProps } from 'naive-ui'
-import type { ArrayField, BaseField, MaybeExpression } from 'pro-components-hooks'
 
 export interface ValidateError {
   message?: string
@@ -11,6 +11,7 @@ export interface ValidateError {
 }
 
 export type ValidateBehavior = 'default' | 'popover'
+export type ValidationTrigger = 'input' | 'change' | 'blur' | 'focus' | ({} & string)
 
 export const proFormExtendProps = {
   /**
@@ -20,6 +21,20 @@ export const proFormExtendProps = {
   disabled: {
     type: [Boolean, String] as PropType<MaybeExpression<boolean>>,
     default: false,
+  },
+  /**
+   * 表单项只读模式下的文字
+   */
+  readonlyEmptyText: {
+    type: String,
+    default: '-',
+  },
+  /**
+   * 表单验证时机
+   */
+  validationTrigger: {
+    type: [String, Array] as PropType<ValidationTrigger | ValidationTrigger[]>,
+    default: 'input',
   },
   /**
    * 表单是否切换为只读状态，优先级低于 ProFormItem 的 readonly
@@ -33,6 +48,7 @@ export const proFormExtendProps = {
    * 表达式可以读取到的作用域，浅合并，优先级比全局高
    */
   scope: Object as PropType<Record<`$${string}`, any>>,
+
   /**
    * 表单初始值
    */

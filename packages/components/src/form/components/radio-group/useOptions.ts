@@ -1,8 +1,8 @@
-import { type ComputedRef, computed, ref, watch } from 'vue'
 import type { BaseField, ExcludeExpression } from 'pro-components-hooks'
-import { get, isArray } from 'lodash-es'
-import { useInternalRequest } from '../_internal/useInternalRequest'
 import type { ProRadioGroupProps } from './props'
+import { get, isArray } from 'lodash-es'
+import { computed, type ComputedRef, ref, watch } from 'vue'
+import { useInternalRequest } from '../_internal/useInternalRequest'
 
 export function useOptions(
   props: ProRadioGroupProps,

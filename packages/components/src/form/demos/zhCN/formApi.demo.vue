@@ -6,8 +6,8 @@
 </markdown>
 
 <script lang="tsx">
-import { defineComponent } from 'vue'
 import { useProFormInst } from 'pro-components-naive-ui'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {

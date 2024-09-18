@@ -1,37 +1,50 @@
 import type { SlotsType } from 'vue'
-import { ProField, ValueTypeEnum } from '../field'
-import { proCheckboxProps } from './props'
 import type { ProCheckboxSlots } from './slots'
-import { useProCheckboxInst } from './inst'
+import { useOverrideProps } from '../../../composables'
+import { ProField, ValueTypeEnum } from '../field'
 import ProFieldCheckbox from './fields/field-checkbox'
+import { useProCheckboxInst } from './inst'
+import { proCheckboxProps } from './props'
 
+const name = 'ProCheckbox'
 export default defineComponent({
-  name: 'ProCheckbox',
+  name,
   props: proCheckboxProps,
   slots: Object as SlotsType<ProCheckboxSlots>,
-  setup(_, { expose }) {
+  setup(props, { expose }) {
     const [
       instRef,
       methods,
     ] = useProCheckboxInst()
+
+    const overridedProps = useOverrideProps(
+      name,
+      props,
+    )
+
     expose(methods)
     return {
       instRef,
+      overridedProps,
     }
   },
   render() {
     return (
       <ProField
-        {...this.$props}
+        {...this.overridedProps}
         defaultValue={false}
         valueModelName="checked"
         valueType={ValueTypeEnum.CHECKBOX}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => {
-            return <ProFieldCheckbox ref="instRef" {...pureProps} v-slots={this.$slots} />
-          },
+          input: (pureProps: any) => [
+            <ProFieldCheckbox
+              ref="instRef"
+              {...pureProps}
+              v-slots={this.$slots}
+            />,
+          ],
         }}
       </ProField>
     )

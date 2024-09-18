@@ -21,7 +21,6 @@ ProInput 是 NFormItem + Input 的产物，可以简单理解成以下的代码
 item.vue
 date.vue
 upload.vue
-preset-field-props.vue
 ```
 
 ## API

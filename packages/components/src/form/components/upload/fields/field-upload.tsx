@@ -1,13 +1,13 @@
 import type { UploadFileInfo, UploadProps } from 'naive-ui'
-import { NButton, NUpload, uploadProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
-import { computed } from 'vue'
 import type { ProUploadSlots } from '../slots'
-import { useProUploadInst } from '../inst'
-import { useReadonlyHelpers } from '../../field'
-import { proUploadFieldProps } from '../props'
+import { NButton, NUpload, uploadProps } from 'naive-ui'
+import { computed } from 'vue'
 import { useOmitProps } from '../../../../composables'
 import { useLocale } from '../../../../locales'
+import { useReadonlyHelpers } from '../../field'
+import { useProUploadInst } from '../inst'
+import { proUploadFieldProps } from '../props'
 
 export default defineComponent({
   name: 'ProFieldUpload',

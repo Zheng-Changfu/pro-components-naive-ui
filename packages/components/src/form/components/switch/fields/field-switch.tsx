@@ -1,6 +1,6 @@
-import { NSwitch, switchProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProSwitchSlots } from '../slots'
+import { NSwitch, switchProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
