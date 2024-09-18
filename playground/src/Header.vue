@@ -114,7 +114,7 @@ function toggleDark() {
         <Reload />
       </button>
       <a
-        href="https://github.com/vuejs/core/tree/main/packages-private/sfc-playground" target="_blank"
+        href="https://github.com/Zheng-Changfu/pro-components-naive-ui/tree/master/playground" target="_blank"
         title="View on GitHub" class="github"
       >
         <GitHub />

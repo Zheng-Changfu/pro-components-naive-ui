@@ -4,6 +4,11 @@
   "version": "0.0.1",
   "private": true,
   "packageManager": "pnpm@9.10.0",
+  "keywords": [
+    "pro-component-naive-ui",
+    "playground",
+    "repl"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
