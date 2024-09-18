@@ -92,9 +92,7 @@ export default defineConfig({
 
 ```js
 import {
-  // create naive ui
   create,
-  // component
   NButton
 } from 'naive-ui'
 import { createApp } from 'vue'

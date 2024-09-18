@@ -58,7 +58,7 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
   }
 
   function findColumnIndex(key: string | number) {
-    // @ts-ignore
+    // @ts-expect-error
     return columns.value.findIndex(column => column.key === key || column.path === key)
   }
 

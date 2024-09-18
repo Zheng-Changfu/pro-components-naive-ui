@@ -141,7 +141,7 @@ export default defineComponent({
                   (this.overridedProps.triggerAreas ?? []).includes('main') && 'triggerable',
                 ]}
                 style={this.cssVars}
-                // @ts-ignore
+                // @ts-expect-error
                 onClick={() => this.triggerExpand('main')}
               >
                 {resolveSlot(this.$slots.header, () => [this.resolvedTitle])}
@@ -183,7 +183,7 @@ export default defineComponent({
                       'n-pro-card-header__extra',
                       (this.overridedProps.triggerAreas ?? []).includes('arrow') && 'triggerable',
                     ]}
-                    // @ts-ignore
+                    // @ts-expect-error
                     onClick={() => this.triggerExpand('arrow')}
                   >
                     {children}

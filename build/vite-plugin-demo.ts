@@ -1,4 +1,3 @@
-// eslint-disable-next-line ts/ban-ts-comment
 // @ts-nocheck
 
 import vue from '@vitejs/plugin-vue'

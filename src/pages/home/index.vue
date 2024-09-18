@@ -61,7 +61,6 @@ export default defineComponent({
       this.hover = false
     },
     handleThemeChangeClick() {
-      // eslint-disable-next-line ts/ban-ts-comment
       // @ts-expect-error
       this.theme = this.themeOptions[this.theme].next
     },

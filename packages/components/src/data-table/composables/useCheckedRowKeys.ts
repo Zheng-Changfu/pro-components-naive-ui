@@ -20,9 +20,9 @@ export function useCheckedRowKeys(props: ComputedRef<ProDataTableProps>) {
       'onUpdate:checkedRowKeys': _onUpdateCheckedRowKeys,
     } = props.value
 
-    // @ts-ignore
+    // @ts-expect-error
     onUpdateCheckedRowKeys && onUpdateCheckedRowKeys(keys)
-    // @ts-ignore
+    // @ts-expect-error
     _onUpdateCheckedRowKeys && _onUpdateCheckedRowKeys(keys)
   }
 
