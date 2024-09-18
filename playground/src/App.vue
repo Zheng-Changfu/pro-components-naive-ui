@@ -5,6 +5,28 @@ import Monaco from '@vue/repl/monaco-editor'
 import { computed, onMounted, ref, watchEffect } from 'vue'
 import Header from './Header.vue'
 
+const previewOptions = {
+  headHTML: `
+    <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"><\/script>
+    <script>
+      window.__unocss = {
+        rules: [],
+        presets: [],
+      }
+    <\/script>
+  `,
+  customCode: {
+    importCode: `import { initCustomFormatter } from 'vue'`,
+    useCode: `if (window.devtoolsFormatters) {
+    const index = window.devtoolsFormatters.findIndex((v) => v.__vue_custom_formatter)
+    window.devtoolsFormatters.splice(index, 1)
+    initCustomFormatter()
+  } else {
+    initCustomFormatter()
+  }`,
+  },
+}
+
 const customImportMap = ref({
   imports: {
     'naive-ui': 'https://naive-ui.pro-components.cn/naive-ui.mjs',
@@ -106,18 +128,7 @@ onMounted(() => {
     :auto-resize="true"
     :clear-console="false"
     :show-compile-output="true"
-    :preview-options="{
-      customCode: {
-        importCode: `import { initCustomFormatter } from 'vue'`,
-        useCode: `if (window.devtoolsFormatters) {
-    const index = window.devtoolsFormatters.findIndex((v) => v.__vue_custom_formatter)
-    window.devtoolsFormatters.splice(index, 1)
-    initCustomFormatter()
-  } else {
-    initCustomFormatter()
-  }`,
-      },
-    }"
+    :preview-options="previewOptions"
     @keydown.ctrl.s.prevent
     @keydown.meta.s.prevent
   />
