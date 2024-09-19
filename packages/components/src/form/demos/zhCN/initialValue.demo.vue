@@ -16,18 +16,18 @@
     @submit="console.log"
   >
     <pro-input
-      label="用户名"
+      title="用户名"
       path="username"
       required
     />
     <pro-input
-      label="邮箱"
+      title="邮箱"
       path="email"
       required
       value="zcf"
     />
     <pro-password
-      label="密码"
+      title="密码"
       path="password"
       required
       initial-value="zcf"

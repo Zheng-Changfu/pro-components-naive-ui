@@ -35,7 +35,7 @@ export default defineComponent({
     @submit="console.log"
   >
     <pro-select
-      label="城市"
+      title="城市"
       path="city"
       required
       :post-state="selectAllToClearOtherPostState"

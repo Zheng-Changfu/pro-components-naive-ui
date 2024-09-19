@@ -20,7 +20,7 @@ export default defineComponent({
   <pro-form>
     <n-card embedded>
       <pro-form-list
-        label="用户信息"
+        title="用户信息"
         path="userInfo"
         :copy-button-props="false"
         :creator-button-props="false"
@@ -34,11 +34,11 @@ export default defineComponent({
         <template #default="{ index, action }">
           <n-flex>
             <pro-input
-              label="姓名"
+              title="姓名"
               path="name"
             />
             <pro-digit
-              label="年龄"
+              title="年龄"
               path="age"
             />
             <n-flex align="flex-end" class="h-52px">

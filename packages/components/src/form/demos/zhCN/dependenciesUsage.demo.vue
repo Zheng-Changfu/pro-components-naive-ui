@@ -23,18 +23,18 @@ export default defineComponent({
 <template>
   <pro-form ref="proFormInst" label-placement="left" label-width="auto">
     <pro-input
-      label="输入看效果"
+      title="输入看效果"
       path="input"
       required
     />
     <pro-digit
-      label="字符串用法"
+      title="字符串用法"
       path="string"
       required
       dependencies="input"
     />
     <pro-input
-      label="对象用法"
+      title="对象用法"
       path="object"
       required
       :dependencies="{
@@ -42,7 +42,7 @@ export default defineComponent({
       }"
     />
     <pro-date
-      label="正则用法"
+      title="正则用法"
       path="regexp"
       required
       :dependencies="{
@@ -50,7 +50,7 @@ export default defineComponent({
       }"
     />
     <pro-digit
-      label="函数用法"
+      title="函数用法"
       path="function"
       required
       :dependencies="{
@@ -58,7 +58,7 @@ export default defineComponent({
       }"
     />
     <pro-input
-      label="混合用法"
+      title="混合用法"
       path="mixin"
       required
       :dependencies="[

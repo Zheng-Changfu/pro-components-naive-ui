@@ -16,7 +16,7 @@ const LinkageComp = defineComponent({
   render() {
     return (
       <ProSelect
-        label="联动选择框"
+        title="联动选择框"
         path="linkage"
         field-props={{
           options: [
@@ -33,7 +33,7 @@ const AsyncOptionsComp = defineComponent({
   setup() {
     const loading = ref(false)
     const options = ref<any[]>([])
-    const { getFieldValue, restoreFieldValue } = useInjectProFormInst()
+    const { getFieldValue, restoreFieldValue } = useInjectProFormInst()!
 
     async function reqAsyncOptions(val: number) {
       console.log(val)
@@ -61,7 +61,7 @@ const AsyncOptionsComp = defineComponent({
   render() {
     return (
       <ProSelect
-        label="异步选择框"
+        title="异步选择框"
         path="select"
         field-props={{
           loading: this.loading,
