@@ -2,7 +2,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { RefreshOnWindowFocus } from '../composables/useFetchData'
 import type { AnyFn } from '../types'
 import type { ProSearchFormProps } from './components/search-form'
-import type { ProDataTableColumn, ProDataTableColumns } from './types'
+import type { ProDataTableColumn, ProDataTableColumns, ProDataTableFieldSetting } from './types'
 import { dataTableProps } from 'naive-ui'
 
 export const proDataTableExtendProps = {
@@ -27,6 +27,10 @@ export const proDataTableExtendProps = {
     type: [Boolean, Object] as PropType<false | ProDataTableColumn>,
     default: undefined,
   },
+  /**
+   * 数据源分页相关字段配置
+   */
+  fieldSetting: Object as PropType<ProDataTableFieldSetting>,
   /**
    * 在页码发生变化时是否清除选中行
    */
@@ -71,6 +75,13 @@ export const proDataTableProps = {
    * 重写类型
    */
   columns: Array as PropType<ProDataTableColumns>,
+  /**
+   * 重写类型，支持字符串
+   */
+  rowKey: {
+    type: [String, Function] as PropType<string | ((row: any) => string | number)>,
+    required: true,
+  },
 } as const
 
 export type ProDataTableProps = ExtractPublicPropTypes<typeof proDataTableProps>

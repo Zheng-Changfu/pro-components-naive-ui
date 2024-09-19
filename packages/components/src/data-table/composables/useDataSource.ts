@@ -1,25 +1,41 @@
 import type { ComputedRef } from 'vue'
 import type { UseFetchDataBaseOptions } from '../../composables/useFetchData'
 import type { ProDataTableProps } from '../props'
-import { isArray } from 'lodash-es'
+import { watchImmediate } from '@vueuse/core'
+import { get, isArray, isFunction, isString, toString } from 'lodash-es'
+import { eachTree } from 'pro-components-hooks'
+import { toRaw } from 'vue'
 import { useFetchData } from '../../composables/useFetchData'
+import { useFieldSetting } from './useFieldSetting'
 
 interface UseDataSourceOptions {
   setLoading: (v: boolean) => void
 }
 export function useDataSource(props: ComputedRef<ProDataTableProps>, options: UseDataSourceOptions) {
-  const fetchDataConfig = computed<UseFetchDataBaseOptions<any>>(() => {
-    return {
+  const fields = useFieldSetting(props)
 
+  const fetchDataOptions = computed<UseFetchDataBaseOptions<any>>(() => {
+    return {
+      request() {
+
+      },
+      transform(res) {
+
+      },
+      onRequestSuccess(res) {
+
+      },
+      onRequestError(err) {
+
+      },
     }
   })
 
   const {
     reload,
-    onRequestSuccess,
     data: fetchedData,
     loading: fetchLoading,
-  } = useFetchData(fetchDataConfig)
+  } = useFetchData(fetchDataOptions)
 
   const {
     setLoading,
@@ -27,9 +43,9 @@ export function useDataSource(props: ComputedRef<ProDataTableProps>, options: Us
 
   const data = ref<Record<string, any>[]>([])
 
-  watch(
+  watchImmediate(
     computed(() => props.value.data ?? []),
-    v => data.value = v,
+    v => isArray(v) && (data.value = v),
   )
 
   watch(
@@ -42,7 +58,34 @@ export function useDataSource(props: ComputedRef<ProDataTableProps>, options: Us
     setLoading,
   )
 
+  const rowKeyToRowMap = computed(() => {
+    const result = new Map<string, Record<PropertyKey, any>>()
+
+    eachTree(
+      data.value,
+      (row) => {
+        const rowKey = toString(resolveRowKey(row))
+        result.set(rowKey, toRaw(row))
+      },
+      props.value.childrenKey ?? 'children',
+    )
+
+    return result
+  })
+
+  function resolveRowKey(row: any) {
+    const rowKey = props.value.rowKey
+    if (isString(rowKey)) {
+      return get(row, rowKey)
+    }
+    if (isFunction(rowKey)) {
+      return rowKey(row)
+    }
+  }
+
   return {
     data,
+    resolveRowKey,
+    rowKeyToRowMap,
   }
 }
