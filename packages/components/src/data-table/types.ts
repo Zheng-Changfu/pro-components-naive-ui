@@ -25,20 +25,20 @@ export interface ProDataTableFieldSetting {
    * 页码字段
    * @default 'page'
    */
-  pageField: string
+  pageField?: string
   /**
    * 分页大小字段
    * @default 'pageSize'
    */
-  sizeField: string
+  sizeField?: string
   /**
    * 数据字段
    * @default 'list'
    */
-  listField: string
+  listField?: string
   /**
    * 总数字段
    * @default 'total'
    */
-  totalField: string
+  totalField?: string
 }

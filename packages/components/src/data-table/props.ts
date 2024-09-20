@@ -1,4 +1,5 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { ProCardProps } from '../card'
 import type { RefreshOnWindowFocus } from '../composables/useFetchData'
 import type { AnyFn } from '../types'
 import type { ProSearchFormProps } from './components/search-form'
@@ -6,6 +7,14 @@ import type { ProDataTableColumn, ProDataTableColumns, ProDataTableFieldSetting 
 import { dataTableProps } from 'naive-ui'
 
 export const proDataTableExtendProps = {
+  /**
+   * 表格标题
+   */
+  title: String,
+  /**
+   * 提示文字，显示在标题的右边
+   */
+  titleTooltip: [String, Array] as PropType<string | string[]>,
   /**
    * 如果有单选、多选，是否可以点击行就选中
    */
@@ -20,6 +29,10 @@ export const proDataTableExtendProps = {
     type: [Boolean, Object] as PropType<false | ProSearchFormProps>,
     default: false,
   },
+  /**
+   * 查询区域卡片的 props
+   */
+  searchAreaCardProps: Object as PropType<ProCardProps>,
   /**
    * 序号列，false 不显示
    */
@@ -36,7 +49,7 @@ export const proDataTableExtendProps = {
    */
   clearSelectOnPageChange: Boolean,
   /**
-   * 是否手动调用 request，设置后不会调用 request
+   * 是否手动调用 request，设置为 true 后不会调用 request
    */
   manual: Boolean,
   /**
@@ -83,6 +96,14 @@ export const proDataTableProps = {
     required: true,
   },
 } as const
+
+/**
+ * bordered
+ * builtinThemeOverrides
+ */
+
+// proCardProps.tooltip
+// proDataTableProps.
 
 export type ProDataTableProps = ExtractPublicPropTypes<typeof proDataTableProps>
 export type ProDataTableExtendProps = ExtractPublicPropTypes<typeof proDataTableExtendProps>
