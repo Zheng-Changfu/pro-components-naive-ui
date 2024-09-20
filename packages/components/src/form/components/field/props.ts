@@ -125,7 +125,6 @@ export const proFieldProps = {
    * 手动更新值
    * @param fieldValue 表单值
    * @param inputValue 输入值
-   * @param args 其他参数
    */
   onInputValue: Function as PropType<(fieldValue: Ref<any>, inputValue: any, ...args: any[]) => void>,
   /**

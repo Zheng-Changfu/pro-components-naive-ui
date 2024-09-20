@@ -4,20 +4,21 @@
 </markdown>
 
 <script lang="tsx">
+import type { Ref } from 'vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    function toConfirm(value: Ref<string>, inputValue: string) {
+    function toConfirmUpdateValue(fieldValue: Ref<string>, inputValue: string) {
       // eslint-disable-next-line no-alert
-      const success = confirm(`should confirm input: ${inputValue} ?`)
+      const success = confirm(`是否确认输入: ${inputValue} ?`)
       if (success) {
-        value.value = inputValue
+        fieldValue.value = inputValue
       }
     }
 
     return {
-      toConfirm,
+      toConfirmUpdateValue,
     }
   },
 })
@@ -33,7 +34,7 @@ export default defineComponent({
       title="name"
       path="name"
       required
-      @input-value="toConfirm"
+      @input-value="toConfirmUpdateValue"
     />
     <n-button type="primary" attr-type="submit">
       提交

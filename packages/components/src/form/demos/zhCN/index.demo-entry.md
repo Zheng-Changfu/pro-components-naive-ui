@@ -36,7 +36,8 @@ asyncForm.vue
 | validateBehaviorProps | `PopoverProps` | | 验证不通过时传递的属性，只对 popover 生效 | |
 | onSubmit | `(values: Record<string, any>, warnings: ValidateError[][]) => void` | | 数据验证成功后回调事件 |  |
 | onSubmitFailed | `(errors: ValidateError[][]) => void` | | 数据验证失败后回调事件 |  |
-| onFieldValueChange | `(opt: { field: BaseField \| ArrayField, value:any }) => void` | | 字段值发生变化时触发的回调函数 |  |
+| onInputValue | `(opt: { fieldValue: Ref<any>, inputValue: any }) => void` | | 手动更新值的回调事件 |  |
+| onFieldValueChange | `(opt: { field: BaseField \| ArrayField, value: any }) => void` | | 字段值发生变化时触发的回调函数 |  |
 | onDependenciesValueChange | `(opt: { path: string[], dependPath: string[], value: any }) => void` | | 依赖项的值发生变化时触发的回调函数 |  |
 | [...NFormProps](https://www.naiveui.com/zh-CN/os-theme/components/form) |  | |  |  |
 
