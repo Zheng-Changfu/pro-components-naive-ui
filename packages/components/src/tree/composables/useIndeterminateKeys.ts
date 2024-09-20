@@ -2,6 +2,7 @@ import type { ComputedRef } from 'vue'
 import type { ProTreeProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
 import { computed, ref } from 'vue'
+import { call } from '../../_utils/call'
 
 export interface UseIndeterminateKeysOptions {
   /**
@@ -18,15 +19,15 @@ export function useIndeterminateKeys(props: ComputedRef<ProTreeProps>, options: 
     (keys) => { indeterminateKeys.value = keys ?? [] },
   )
 
-  function doUpdateIndeterminateKeys(keys: Array<string | number>, ...args: any[]) {
+  function doUpdateIndeterminateKeys(keys: Array<string & number>, option?: any) {
     const {
       onUpdateIndeterminateKeys,
       'onUpdate:indeterminateKeys': _onUpdateIndeterminateKeys,
     } = props.value
 
     indeterminateKeys.value = keys
-    onUpdateIndeterminateKeys && (onUpdateIndeterminateKeys as any)(keys, ...args)
-    _onUpdateIndeterminateKeys && (_onUpdateIndeterminateKeys as any)(keys, ...args)
+    onUpdateIndeterminateKeys && call(onUpdateIndeterminateKeys, keys, option)
+    _onUpdateIndeterminateKeys && call(_onUpdateIndeterminateKeys, keys, option)
   }
 
   function getIndeterminateKeys() {
