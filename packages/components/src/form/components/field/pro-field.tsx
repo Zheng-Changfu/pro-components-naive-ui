@@ -1,10 +1,10 @@
 import type { SlotsType } from 'vue'
-import type { ProFieldSlots } from './slots'
 import { pick } from 'lodash-es'
 import { NFlex } from 'naive-ui'
-import { computed, defineComponent, Fragment } from 'vue'
+import { Fragment, computed, defineComponent } from 'vue'
 import { ProFormItem } from '../form-item'
 import { ProPopoverFormItem } from '../popover-form-item'
+import type { ProFieldSlots } from './slots'
 import { createField } from './composables/createField'
 import { useMergeOptions } from './composables/useMergeOptions'
 import { useParseProps } from './composables/useParseProps'
@@ -99,7 +99,12 @@ export default defineComponent({
       const eventName = `onUpdate${name.slice(0, 1).toUpperCase()}${name.slice(1)}`
       return {
         [name]: value.value,
-        [eventName]: doUpdateValue,
+        [eventName]: (inputValue: any, ...args: any[]) => {
+          const { onInputValue } = props
+          return onInputValue
+            ? onInputValue(value, inputValue, ...args)
+            : doUpdateValue(inputValue)
+        },
       }
     })
 

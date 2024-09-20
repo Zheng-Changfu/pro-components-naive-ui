@@ -15,6 +15,7 @@
 basic.vue
 initialValue.vue
 transform.vue
+inputValue.vue
 postState.vue
 addon.vue
 customReadonly.vue
