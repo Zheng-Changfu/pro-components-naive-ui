@@ -59,7 +59,7 @@ export const proFieldProps = {
    * @param val 当前表单值
    * @returns 表单结果值
    */
-  postState: Function as PropType<(val: any) => any>,
+  postValue: Function as PropType<(val: any) => any>,
   /**
    * 表单值发生变化后触发的回调函数
    * @param val 当前表单值

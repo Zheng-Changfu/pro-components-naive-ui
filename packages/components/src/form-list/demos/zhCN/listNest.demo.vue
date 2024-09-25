@@ -27,12 +27,12 @@ export default defineComponent({
 <template>
   <pro-form ref="instRef" @submit="console.log">
     <pro-input
-      label="姓名"
+      title="姓名"
       path="name"
       required
     />
     <pro-form-list
-      label="用户信息"
+      title="用户信息"
       path="users"
       required
       :initial-value="[
@@ -53,16 +53,16 @@ export default defineComponent({
       </template>
       <n-flex>
         <pro-input
-          label="姓名"
+          title="姓名"
           name="name"
         />
         <pro-input
-          label="昵称"
+          title="昵称"
           name="nickName"
         />
       </n-flex>
       <pro-form-list
-        label="用户信息"
+        title="用户信息"
         path="labels"
         required
         :copy-button-props="{
@@ -74,11 +74,11 @@ export default defineComponent({
       >
         <n-flex>
           <pro-input
-            label="值"
+            title="值"
             path="value"
           />
           <pro-input
-            label="显示名称"
+            title="显示名称"
             path="label"
           />
         </n-flex>

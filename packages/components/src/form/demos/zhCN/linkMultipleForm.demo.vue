@@ -35,7 +35,7 @@ export default defineComponent({
     <pro-form ref="aInstRef" label-placement="left" label-width="auto" :scope="scope">
       <pro-input
         v-if="isMounted"
-        label="控制B表单input颜色"
+        title="控制B表单input颜色"
         path="color"
         :field-props="{
           style: {
@@ -49,7 +49,7 @@ export default defineComponent({
     <pro-form ref="bInstRef" label-placement="left" label-width="auto" :scope="scope">
       <pro-input
         v-if="isMounted"
-        label="控制A表单input颜色"
+        title="控制A表单input颜色"
         path="color"
         :field-props="{
           style: {

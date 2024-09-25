@@ -15,7 +15,7 @@ export default defineComponent({
 <template>
   <pro-form label-placement="left" label-width="auto">
     <pro-input
-      label="颜色"
+      title="颜色"
       path="color"
       :field-props="{
         style: {

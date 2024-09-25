@@ -11,7 +11,7 @@
     @submit="console.log"
   >
     <pro-upload
-      label="图片"
+      title="图片"
       path="image"
       :field-props="{
         onlyAcceptImage: true,
@@ -21,7 +21,7 @@
       }"
     />
     <pro-date-range
-      label="日期"
+      title="日期"
       path="date"
       required
       :transform="(val:any, _:any) => ({ start: val[0], end: val[1] })"

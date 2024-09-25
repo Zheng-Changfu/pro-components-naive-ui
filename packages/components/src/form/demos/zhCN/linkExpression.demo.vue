@@ -12,7 +12,7 @@
 <template>
   <pro-form label-placement="left" label-width="auto" @submit="console.log">
     <pro-input
-      label="颜色"
+      title="颜色"
       path="color"
       required
       initial-value="#ccc"
@@ -23,13 +23,13 @@
       }"
     />
     <pro-digit
-      label="#ccc显示"
+      title="#ccc显示"
       path="color#ccc"
       required
       visible="{{ $vals.color === '#ccc' }}"
     />
     <pro-digit
-      label="#eee隐藏"
+      title="#eee隐藏"
       path="color#eee"
       required
       hidden="{{ $vals.color === '#eee' }}"

@@ -311,7 +311,7 @@ export default defineComponent({
         action,
         actionVNode,
       },
-      () => [
+      () => (
         <NFlex
           style={{
             height: actionHeight,
@@ -322,8 +322,8 @@ export default defineComponent({
           }}
         >
           {actionVNode}
-        </NFlex>,
-      ],
+        </NFlex>
+      ),
     )
 
     const itemVNode = (
@@ -345,7 +345,7 @@ export default defineComponent({
         itemVNode,
         actionVNode: resolvedActionVNode,
       },
-      () => [
+      () => (
         <NEl
           style={{
             display: 'flex',
@@ -356,8 +356,8 @@ export default defineComponent({
         >
           {itemVNode}
           {resolvedActionVNode}
-        </NEl>,
-      ],
+        </NEl>
+      ),
     )
   },
 })

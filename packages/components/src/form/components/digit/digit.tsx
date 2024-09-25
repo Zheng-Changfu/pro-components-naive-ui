@@ -24,8 +24,8 @@ export default defineComponent({
     )
 
     function tryConvertStringToNumber(val: any) {
-      if (overridedProps.value.postState) {
-        return overridedProps.value.postState(val)
+      if (overridedProps.value.postValue) {
+        return overridedProps.value.postValue(val)
       }
       if (isString(val)) {
         if (val === '') {
@@ -49,7 +49,7 @@ export default defineComponent({
       <ProField
         {...this.overridedProps}
         defaultValue={null}
-        postState={this.tryConvertStringToNumber}
+        postValue={this.tryConvertStringToNumber}
         valueType={ValueTypeEnum.DIGIT}
       >
         {{

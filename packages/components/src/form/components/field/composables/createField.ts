@@ -8,7 +8,7 @@ export function createField(props: ProFieldProps) {
     isList,
     preserve,
     onChange,
-    postState,
+    postValue,
     transform,
     defaultValue,
     dependencies,
@@ -26,7 +26,7 @@ export function createField(props: ProFieldProps) {
     visible: toRef(props, 'visible'),
     onChange,
     transform,
-    postState,
+    postValue,
   }
 
   return isList ? createArrayField(options) : _createField(options)

@@ -47,7 +47,7 @@ export default defineComponent({
 <template>
   <pro-form>
     <pro-form-list
-      label="用户信息"
+      title="用户信息"
       path="userInfo"
       only-show-first-item-label
       :creator-button-props="{
@@ -64,11 +64,11 @@ export default defineComponent({
       }"
     >
       <pro-input
-        label="姓名"
+        title="姓名"
         path="name"
       />
       <pro-digit
-        label="年龄"
+        title="年龄"
         path="age"
       />
     </pro-form-list>

@@ -2,6 +2,7 @@ import type { ComputedRef } from 'vue'
 import type { ProTreeProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
 import { computed, ref } from 'vue'
+import { call } from '../../_utils/call'
 
 export interface UseExpandKeysOptions {
   /**
@@ -18,15 +19,15 @@ export function useExpandKeys(props: ComputedRef<ProTreeProps>, options: UseExpa
     (keys) => { expandedKeys.value = keys ?? [] },
   )
 
-  function doUpdateExpandedKeys(keys: Array<string | number>, ...args: any[]) {
+  function doUpdateExpandedKeys(keys: Array<string & number>, option?: any, meta?: any) {
     const {
       onUpdateExpandedKeys,
       'onUpdate:expandedKeys': _onUpdateExpandedKeys,
     } = props.value
 
     expandedKeys.value = keys
-    onUpdateExpandedKeys && (onUpdateExpandedKeys as any)(keys, ...args)
-    _onUpdateExpandedKeys && (_onUpdateExpandedKeys as any)(keys, ...args)
+    onUpdateExpandedKeys && call(onUpdateExpandedKeys, keys, option, meta)
+    _onUpdateExpandedKeys && call(_onUpdateExpandedKeys, keys, option, meta)
   }
 
   function getExpandedKeys() {

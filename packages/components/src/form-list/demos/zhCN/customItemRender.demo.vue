@@ -4,28 +4,20 @@
 使用 `item-render` 可以将行和操作区域放在任意位置
 </markdown>
 
-<script lang="tsx">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-
-})
-</script>
-
 <template>
   <pro-form>
     <pro-form-list
-      label="用户信息"
+      title="用户信息"
       path="userInfo"
       only-show-first-item-label
     >
       <n-flex>
         <pro-input
-          label="姓名"
+          title="姓名"
           path="name"
         />
         <pro-digit
-          label="年龄"
+          title="年龄"
           path="age"
         />
       </n-flex>

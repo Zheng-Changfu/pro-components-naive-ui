@@ -7,9 +7,9 @@ import { isEmptyValue } from '../../field/utils/valueUtil'
  * 自动生成 id
  * 支持文件 url 组成的 fileList 回显
  */
-export function convertValueToFile(val: any, postState?: (val: any) => any): UploadFileInfo[] {
+export function convertValueToFile(val: any, postValue?: (val: any) => any): UploadFileInfo[] {
   if (isEmptyValue(val)) {
-    return postState ? postState(val) : []
+    return postValue ? postValue(val) : []
   }
   if (!isArray(val)) {
     val = [val].filter(Boolean)
@@ -28,5 +28,5 @@ export function convertValueToFile(val: any, postState?: (val: any) => any): Upl
       ...file,
     }
   })
-  return postState ? postState(fileList) : fileList
+  return postValue ? postValue(fileList) : fileList
 }

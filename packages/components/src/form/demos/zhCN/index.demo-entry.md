@@ -16,7 +16,7 @@ basic.vue
 initialValue.vue
 transform.vue
 inputValue.vue
-postState.vue
+postValue.vue
 addon.vue
 customReadonly.vue
 customFieldGroup.vue
@@ -90,7 +90,7 @@ asyncForm.vue
     'path',
     'onChange',
     'preserve',
-    'postState',
+    'postValue',
     'transform',
     'dependencies',
     'initialValue',

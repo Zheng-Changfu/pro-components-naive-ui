@@ -3,6 +3,7 @@ import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
 import { computed } from 'vue'
+import { call } from '../../_utils/call'
 
 export function useCheckedRowKeys(props: ComputedRef<ProDataTableProps>) {
   const checkedRowKeys = ref<DataTableRowKey[]>([])
@@ -20,10 +21,8 @@ export function useCheckedRowKeys(props: ComputedRef<ProDataTableProps>) {
       'onUpdate:checkedRowKeys': _onUpdateCheckedRowKeys,
     } = props.value
 
-    // @ts-expect-error
-    onUpdateCheckedRowKeys && onUpdateCheckedRowKeys(keys)
-    // @ts-expect-error
-    _onUpdateCheckedRowKeys && _onUpdateCheckedRowKeys(keys)
+    onUpdateCheckedRowKeys && call(onUpdateCheckedRowKeys, keys)
+    _onUpdateCheckedRowKeys && call(_onUpdateCheckedRowKeys, keys)
   }
 
   function clearCheckedRowKeys() {
