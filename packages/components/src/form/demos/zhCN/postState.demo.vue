@@ -38,7 +38,7 @@ export default defineComponent({
       title="城市"
       path="city"
       required
-      :post-state="selectAllToClearOtherPostState"
+      :post-value="selectAllToClearOtherPostState"
       :field-props="{
         multiple: true,
         options: [

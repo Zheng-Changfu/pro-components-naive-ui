@@ -1948,7 +1948,7 @@ const Xe = 'x-field-extra-key'; const te = {
    * @param val 当前表单值
    * @returns 表单结果值
    */
-  postState: Function,
+  postValue: Function,
   /**
    * 表单值发生变化后触发的回调函数
    * @param val 当前表单值
@@ -3425,7 +3425,7 @@ function E0(e, t, r) {
   let n = !0; let o = Symbol('')
   const s = to(); const {
     onChange: i,
-    postState: a,
+    postValue: a,
   } = r; const l = y({
     get: u,
     set: c,
@@ -3503,7 +3503,7 @@ function Li(e = {}, t = {}) {
     preserve: u = !0,
     dependencies: c = [],
     onChange: p,
-    postState: f,
+    postValue: f,
     transform: m,
     ...d
   } = e; const {
@@ -3521,7 +3521,7 @@ function Li(e = {}, t = {}) {
       initialValue: l,
       dependencies: c,
       onChange: p,
-      postState: f,
+      postValue: f,
       transform: m,
       ...d,
     },
@@ -3531,7 +3531,7 @@ function Li(e = {}, t = {}) {
 function M0(e, t) {
   const {
     onChange: r,
-    postState: n,
+    postValue: n,
     transform: o,
     preserve: s,
     defaultValue: i,
@@ -3567,7 +3567,7 @@ function M0(e, t) {
   } = j0({ scope: q }); const {
     value: I,
     doUpdateValue: E,
-  } = E0(v, _, { postState: n, onChange: r }); const A = {
+  } = E0(v, _, { postValue: n, onChange: r }); const A = {
     id: v,
     show: B,
     path: _,
@@ -3586,7 +3586,7 @@ function M0(e, t) {
     updating: !1,
     meta: e,
     onChange: r,
-    postState: n,
+    postValue: n,
     transform: o,
     doUpdateValue: E,
     doUpdateFieldProps: N,
@@ -4431,7 +4431,7 @@ function tP(e) {
     isList: t,
     preserve: r,
     onChange: n,
-    postState: o,
+    postValue: o,
     transform: s,
     defaultValue: i,
     dependencies: a,
@@ -4447,7 +4447,7 @@ function tP(e) {
     visible: O(e, 'visible'),
     onChange: n,
     transform: s,
-    postState: o,
+    postValue: o,
   }
   return t ? z0(u) : Li(u)
 }
@@ -5172,7 +5172,7 @@ const uP = /* @__PURE__ */ $({
     wr('ProFormItem', 'pro-form-item', rP)
     function s(i) {
       const {
-        postState: a,
+        postValue: a,
       } = e
       if (!W(i))
         return a ? a(i) : []
@@ -5196,7 +5196,7 @@ const uP = /* @__PURE__ */ $({
       class: 'n-pro-form-item',
     }, this.separateProps.proFieldProps, {
       'is-list': !0,
-      'post-state': this.autoCreateRowId,
+      'post-value': this.autoCreateRowId,
       'field-props': this.separateProps.fieldListProps,
       'valueType': T.FORM_LIST,
     }), {
@@ -5768,8 +5768,8 @@ const xP = /* @__PURE__ */ $({
   }) {
     const [r, n] = fo()
     function o(s) {
-      if (e.postState)
-        return e.postState(s)
+      if (e.postValue)
+        return e.postValue(s)
       if (ye(s)) {
         if (s === '')
           return null
@@ -5786,7 +5786,7 @@ const xP = /* @__PURE__ */ $({
   render() {
     return h(k, P(this.$props, {
       defaultValue: null,
-      postState: this.tryConvertStringToNumber,
+      postValue: this.tryConvertStringToNumber,
       valueType: T.DIGIT,
     }), {
       ...this.$slots,
@@ -6034,11 +6034,11 @@ const AP = /* @__PURE__ */ $({
   }) {
     const [r, n] = po()
     function o(s) {
-      return jP(s, e.postState)
+      return jP(s, e.postValue)
     }
     return t(n), {
       instRef: r,
-      postState: o,
+      postValue: o,
     }
   },
   render() {
@@ -6046,7 +6046,7 @@ const AP = /* @__PURE__ */ $({
       defaultValue: [],
       valueModelName: 'fileList',
       valueType: T.UPLOAD,
-      postState: this.postState,
+      postValue: this.postValue,
     }), {
       ...this.$slots,
       input: e => h(AP, P({
