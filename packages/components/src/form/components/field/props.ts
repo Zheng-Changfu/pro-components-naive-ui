@@ -1,6 +1,6 @@
 import type { FormItemRule, PopoverProps } from 'naive-ui'
 import type { Dependencie, MaybeExpression } from 'pro-components-hooks'
-import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType } from 'vue'
+import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType, Ref } from 'vue'
 import type { ValidateBehavior } from '../../props'
 import type { FieldValueType } from './enums'
 
@@ -121,6 +121,12 @@ export const proFieldProps = {
    * 表单项后缀
    */
   addonAfter: String as PropType<MaybeExpression<string>>,
+  /**
+   * 手动更新值
+   * @param fieldValue 表单值
+   * @param inputValue 输入值
+   */
+  onInputValue: Function as PropType<(fieldValue: Ref<any>, inputValue: any, ...args: any[]) => void>,
   /**
    * --------NFormItem 的 props-----------
    */
