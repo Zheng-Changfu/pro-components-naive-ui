@@ -26,7 +26,7 @@ export default defineComponent({
 <template>
   <pro-form ref="instRef" @submit="console.log">
     <pro-form-list
-      label="用户信息"
+      title="用户信息"
       path="userInfo"
       only-show-first-item-label
       :initial-value="[
@@ -38,15 +38,15 @@ export default defineComponent({
     >
       <template #default="{ index, total }">
         <pro-input
-          label="{{ '姓名-' + $index + 1 }}"
+          title="{{ '姓名-' + $index + 1 }}"
           path="name"
         />
         <pro-digit
-          :label="`年龄-${index + 1}`"
+          :title="`年龄-${index + 1}`"
           path="age"
         />
         <pro-input
-          :label="`城市-${total}`"
+          :title="`城市-${total}`"
           path="city"
           required
           visible="{{ !!$row.name }}"

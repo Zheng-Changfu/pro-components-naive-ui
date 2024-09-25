@@ -2,18 +2,10 @@
 # 横向布局
 </markdown>
 
-<script lang="tsx">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-
-})
-</script>
-
 <template>
   <pro-form label-placement="left">
     <pro-form-list
-      label="规格信息"
+      title="规格信息"
       path="attributes"
       :min="1"
       :initial-value="[
@@ -50,11 +42,11 @@ export default defineComponent({
         </n-card>
       </template>
       <pro-input
-        label="规格名"
+        title="规格名"
         path="name"
       />
       <pro-form-list
-        label="规格值"
+        title="规格值"
         path="items"
         :min="1"
         :creator-button-props="{

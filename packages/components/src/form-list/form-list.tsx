@@ -65,17 +65,17 @@ export default defineComponent({
     )
 
     function autoCreateRowId(val: any) {
-      const { postState } = overridedProps.value
+      const { postValue } = overridedProps.value
       if (!isArray(val)) {
-        return postState ? postState(val) : []
+        return postValue ? postValue(val) : []
       }
       const normalizedVals = val.map((item) => {
         return item[AUTO_CREATE_ID]
           ? item
           : { ...item, [AUTO_CREATE_ID]: uid() }
       })
-      return postState
-        ? postState(normalizedVals)
+      return postValue
+        ? postValue(normalizedVals)
         : normalizedVals
     }
 
@@ -93,7 +93,7 @@ export default defineComponent({
         class="n-pro-form-item"
         {...this.separateProps.proFieldProps}
         isList={true}
-        postState={this.autoCreateRowId}
+        postValue={this.autoCreateRowId}
         fieldProps={this.separateProps.fieldListProps}
         valueType={ValueTypeEnum.FORM_LIST}
       >

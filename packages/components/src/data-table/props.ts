@@ -1,11 +1,20 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { ProCardProps } from '../card'
 import type { RefreshOnWindowFocus } from '../composables/useFetchData'
 import type { AnyFn } from '../types'
 import type { ProSearchFormProps } from './components/search-form'
-import type { ProDataTableColumn, ProDataTableColumns } from './types'
+import type { ProDataTableColumn, ProDataTableColumns, ProDataTableFieldSetting } from './types'
 import { dataTableProps } from 'naive-ui'
 
 export const proDataTableExtendProps = {
+  /**
+   * 表格标题
+   */
+  title: String,
+  /**
+   * 提示文字，显示在标题的右边
+   */
+  titleTooltip: [String, Array] as PropType<string | string[]>,
   /**
    * 如果有单选、多选，是否可以点击行就选中
    */
@@ -21,6 +30,10 @@ export const proDataTableExtendProps = {
     default: false,
   },
   /**
+   * 查询区域卡片的 props
+   */
+  searchAreaCardProps: Object as PropType<ProCardProps>,
+  /**
    * 序号列，false 不显示
    */
   indexColumn: {
@@ -28,11 +41,15 @@ export const proDataTableExtendProps = {
     default: undefined,
   },
   /**
+   * 数据源分页相关字段配置
+   */
+  fieldSetting: Object as PropType<ProDataTableFieldSetting>,
+  /**
    * 在页码发生变化时是否清除选中行
    */
   clearSelectOnPageChange: Boolean,
   /**
-   * 是否手动调用 request，设置后不会调用 request
+   * 是否手动调用 request，设置为 true 后不会调用 request
    */
   manual: Boolean,
   /**
@@ -71,7 +88,22 @@ export const proDataTableProps = {
    * 重写类型
    */
   columns: Array as PropType<ProDataTableColumns>,
+  /**
+   * 重写类型，支持字符串
+   */
+  rowKey: {
+    type: [String, Function] as PropType<string | ((row: any) => string | number)>,
+    required: true,
+  },
 } as const
+
+/**
+ * bordered
+ * builtinThemeOverrides
+ */
+
+// proCardProps.tooltip
+// proDataTableProps.
 
 export type ProDataTableProps = ExtractPublicPropTypes<typeof proDataTableProps>
 export type ProDataTableExtendProps = ExtractPublicPropTypes<typeof proDataTableExtendProps>

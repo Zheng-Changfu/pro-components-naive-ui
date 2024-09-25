@@ -26,7 +26,7 @@ export default defineComponent({
 <template>
   <pro-form ref="instRef" label-placement="left" label-width="auto">
     <pro-select
-      label="控制者"
+      title="控制者"
       path="select"
       initial-value="visible"
       :field-props="{
@@ -37,12 +37,12 @@ export default defineComponent({
       }"
     />
     <pro-input
-      label="受控者1"
+      title="受控者1"
       path="input1"
       visible="{{ $vals.select === 'visible' }}"
     />
     <pro-input
-      label="受控者2"
+      title="受控者2"
       path="input2"
       hidden="{{ $vals.select === 'hidden' }}"
     />

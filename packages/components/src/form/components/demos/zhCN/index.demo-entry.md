@@ -42,7 +42,7 @@ upload.vue
 | placeholder | `any` | | 会透传给支持 placeholder 的控件 |  |
 | fieldProps | `Record<string,any>` | `{}` | 控件的 props，比如 `ProInput` 控件，这里就支持 `NInput` 的所有 `props`，其他控件同理 |  |
 | dependencies | `Dependencie \| Dependencie[]` | | 字段的依赖项，当依赖项的值发生变化时，会触发当前字段校验 |  |
-| postState | `(val: any) => any` | | 后置状态钩子，可以二次修改数据，返回的值为表单的最终结果值，字段值变化后会触发该钩子 |  |
+| postValue | `(val: any) => any` | | 后置状态钩子，可以二次修改数据，返回的值为表单的最终结果值，字段值变化后会触发该钩子 |  |
 | onChange | `(val: any) => void` | | 字段值发生变化后触发的回调函数 |  |
 | transform | `(val: any, path: string) => any` | | 转换字段的值，如果返回的是一个对象，将和当前字段所在层级的对象进行深度合并 |  |
 | tooltip | `string \| string[]` | | 显示在 label 右边的提示 |  |

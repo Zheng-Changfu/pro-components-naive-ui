@@ -23,14 +23,14 @@ export default defineComponent({
       props,
     )
 
-    function postState(val: any) {
-      return convertValueToFile(val, overridedProps.value.postState)
+    function postValue(val: any) {
+      return convertValueToFile(val, overridedProps.value.postValue)
     }
 
     expose(methods)
     return {
       instRef,
-      postState,
+      postValue,
       overridedProps,
     }
   },
@@ -41,7 +41,7 @@ export default defineComponent({
         defaultValue={[]}
         valueModelName="fileList"
         valueType={ValueTypeEnum.UPLOAD}
-        postState={this.postState}
+        postValue={this.postValue}
       >
         {{
           ...this.$slots,

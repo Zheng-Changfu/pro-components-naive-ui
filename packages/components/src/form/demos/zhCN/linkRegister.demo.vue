@@ -23,12 +23,12 @@ export default defineComponent({
 <template>
   <pro-form ref="proFormInst" label-placement="left" label-width="auto" @submit="console.log">
     <pro-input
-      label="用户名"
+      title="用户名"
       path="username"
       required
     />
     <pro-password
-      label="密码"
+      title="密码"
       path="password"
       dependencies="confirmPassword"
       required
@@ -38,7 +38,7 @@ export default defineComponent({
       }"
     />
     <pro-password
-      label="确认密码"
+      title="确认密码"
       path="confirmPassword"
       dependencies="password"
       required

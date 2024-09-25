@@ -2,6 +2,7 @@ import type { ComputedRef } from 'vue'
 import type { ProTreeProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
 import { computed, ref } from 'vue'
+import { call } from '../../_utils/call'
 
 export interface UseSelectKeysOptions {
   /**
@@ -18,15 +19,15 @@ export function useSelectKeys(props: ComputedRef<ProTreeProps>, options: UseSele
     (keys) => { selectedKeys.value = keys ?? [] },
   )
 
-  function doUpdateSelectedKeys(keys: Array<string | number>, ...args: any[]) {
+  function doUpdateSelectedKeys(keys: Array<string & number>, option?: any, meta?: any) {
     const {
       onUpdateSelectedKeys,
       'onUpdate:selectedKeys': _onUpdateSelectedKeys,
     } = props.value
 
     selectedKeys.value = keys
-    onUpdateSelectedKeys && (onUpdateSelectedKeys as any)(keys, ...args)
-    _onUpdateSelectedKeys && (_onUpdateSelectedKeys as any)(keys, ...args)
+    onUpdateSelectedKeys && call(onUpdateSelectedKeys, keys, option, meta)
+    _onUpdateSelectedKeys && call(_onUpdateSelectedKeys, keys, option, meta)
   }
 
   function getSelectedKeys() {
