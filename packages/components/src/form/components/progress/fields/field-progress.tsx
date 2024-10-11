@@ -17,13 +17,12 @@ export default defineComponent({
       emptyText,
     } = useReadonlyHelpers()
 
-    // 兼容编辑模式下字符串为null，undefined情况的处理
     const inputValue = computed(() => {
-      if (!readonly && !isArray(value.value)) {
-        return isNumber(value) ? String(value) : value
+      const currentValue = value.value
+      if (!readonly.value && !isArray(currentValue)) {
+        return isNumber(currentValue) ? String(currentValue) : currentValue
       }
-
-      return value.value
+      return currentValue
     })
 
     return {
@@ -36,7 +35,6 @@ export default defineComponent({
   },
   render() {
     const { value } = this
-
     if (this.readonly) {
       const { empty, emptyText, $slots } = this
 
@@ -74,7 +72,6 @@ export default defineComponent({
         />
       )
     }
-
     return (
       <NInput
         {...this.$attrs}
