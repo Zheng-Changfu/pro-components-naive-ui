@@ -1,7 +1,7 @@
 import type { ComputedRef } from 'vue'
 import type { ProTreeProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { call } from '../../_utils/call'
 
 export interface UseCheckKeysOptions {
@@ -15,7 +15,7 @@ export function useCheckKeys(props: ComputedRef<ProTreeProps>, options: UseCheck
   const checkedKeys = ref<Array<string | number>>([])
 
   watchImmediate(
-    computed(() => props.value.checkedKeys),
+    () => props.value.checkedKeys,
     (keys) => { checkedKeys.value = keys ?? [] },
   )
 

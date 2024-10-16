@@ -1,7 +1,7 @@
 import type { ComputedRef } from 'vue'
 import type { ProTreeProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { call } from '../../_utils/call'
 
 export interface UseSelectKeysOptions {
@@ -15,7 +15,7 @@ export function useSelectKeys(props: ComputedRef<ProTreeProps>, options: UseSele
   const selectedKeys = ref<Array<string | number>>([])
 
   watchImmediate(
-    computed(() => props.value.selectedKeys),
+    () => props.value.selectedKeys,
     (keys) => { selectedKeys.value = keys ?? [] },
   )
 
