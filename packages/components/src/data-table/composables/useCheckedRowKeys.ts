@@ -9,11 +9,11 @@ export function useCheckedRowKeys(props: ComputedRef<ProDataTableProps>) {
   const checkedRowKeys = ref<DataTableRowKey[]>([])
 
   watchImmediate(
-    computed(() => props.value.checkedRowKeys ?? []),
+    () => props.value.checkedRowKeys ?? [],
     v => checkedRowKeys.value = v,
   )
 
-  function setCheckedRowKeys(keys: DataTableRowKey[]) {
+  function setCheckedRowKeys(keys: DataTableRowKey[], rows?: any, meta?: any) {
     checkedRowKeys.value = keys
 
     const {
@@ -21,8 +21,8 @@ export function useCheckedRowKeys(props: ComputedRef<ProDataTableProps>) {
       'onUpdate:checkedRowKeys': _onUpdateCheckedRowKeys,
     } = props.value
 
-    onUpdateCheckedRowKeys && call(onUpdateCheckedRowKeys, keys)
-    _onUpdateCheckedRowKeys && call(_onUpdateCheckedRowKeys, keys)
+    onUpdateCheckedRowKeys && call(onUpdateCheckedRowKeys, keys, rows, meta)
+    _onUpdateCheckedRowKeys && call(_onUpdateCheckedRowKeys, keys, rows, meta)
   }
 
   function clearCheckedRowKeys() {

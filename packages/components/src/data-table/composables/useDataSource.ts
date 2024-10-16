@@ -10,6 +10,7 @@ import { useFetchData } from '../../composables/useFetchData'
 import { useFieldSetting } from './useFieldSetting'
 
 interface UseDataSourceOptions {
+  clearCheckedRowKeys: () => void
   pagination: ComputedRef<PaginationProps | false>
   getFieldsTransformedValue: () => Record<string, any>
   setPagination: (v: PaginationProps | false) => void
@@ -21,21 +22,19 @@ export function useDataSource(props: ComputedRef<ProDataTableProps>, options: Us
   const {
     pagination,
     setPagination,
+    clearCheckedRowKeys,
     getFieldsTransformedValue,
   } = options
 
-  const useSearchForm = computed(() => {
+  const searchValues = computed(() => {
     const { searchForm } = props.value
-    return !!searchForm && (searchForm.columns ?? []).length > 0
-  })
-
-  const searchValuesOnRequest = computed(() => {
-    return useSearchForm.value
+    const shouldGetSearchValues = !!searchForm && (searchForm.columns ?? []).length > 0
+    return shouldGetSearchValues
       ? getFieldsTransformedValue()
       : {}
   })
 
-  const paginationInfoOnRequest = computed<PaginationProps>(() => {
+  const paginationInfo = computed<PaginationProps>(() => {
     const {
       pageField,
       sizeField,
@@ -50,23 +49,22 @@ export function useDataSource(props: ComputedRef<ProDataTableProps>, options: Us
   })
 
   const fetchDataOptions = computed<UseFetchDataBaseOptions<any>>(() => {
-    if (!props.value.request)
-      return {}
     let requestParams = {}
     return {
       ...props.value,
-      request(opts = {}) {
-        const params = {
-          ...searchValuesOnRequest.value,
-          ...paginationInfoOnRequest.value,
-          ...opts,
-        }
-        requestParams = opts
-        return props.value.request?.(params)
-      },
+      request: props.value.request
+        ? (opts = {}) => {
+            const params = {
+              ...searchValues.value,
+              ...paginationInfo.value,
+              ...opts,
+            }
+            requestParams = opts
+            return props.value.request?.(params)
+          }
+        : null,
       onRequestSuccess(res) {
         const { onRequestSuccess } = props.value
-
         const {
           pageField,
           listField,
@@ -93,6 +91,15 @@ export function useDataSource(props: ComputedRef<ProDataTableProps>, options: Us
         }
         props.value.onRequestError(err)
       },
+      onRequestComplete() {
+        const {
+          onRequestComplete,
+          clearSelectOnRequested,
+        } = props.value
+
+        onRequestComplete && onRequestComplete()
+        clearSelectOnRequested && clearCheckedRowKeys()
+      },
     }
   })
 
@@ -102,7 +109,7 @@ export function useDataSource(props: ComputedRef<ProDataTableProps>, options: Us
   } = useFetchData(fetchDataOptions)
 
   watchImmediate(
-    computed(() => props.value.data ?? []),
+    () => props.value.data ?? [],
     v => isArray(v) && (data.value = v),
   )
 
@@ -113,7 +120,7 @@ export function useDataSource(props: ComputedRef<ProDataTableProps>, options: Us
       data.value,
       (row) => {
         const rowKey = toString(resolveRowKey(row))
-        result.set(rowKey, toRaw(row))
+        rowKey !== '' && result.set(rowKey, toRaw(row))
       },
       props.value.childrenKey ?? 'children',
     )
@@ -131,9 +138,19 @@ export function useDataSource(props: ComputedRef<ProDataTableProps>, options: Us
     }
   }
 
+  function getTableData() {
+    return data.value
+  }
+
+  function setTableData(value: any[]) {
+    data.value = value
+  }
+
   return {
     data,
     reload,
+    getTableData,
+    setTableData,
     fetchLoading,
     resolveRowKey,
     rowKeyToRowMap,

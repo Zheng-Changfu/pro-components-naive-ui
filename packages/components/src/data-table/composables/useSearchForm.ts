@@ -12,7 +12,7 @@ export function useSearchForm(props: ComputedRef<ProDataTableProps>, options: Us
 
   const show = computed(() => {
     const { searchForm } = props.value
-    return searchForm === false
+    return searchForm !== false
   })
 
   const searchFormProps = computed(() => {
@@ -33,22 +33,15 @@ export function useSearchForm(props: ComputedRef<ProDataTableProps>, options: Us
       onSearch: (values) => {
         onSearch
           ? onSearch(values)
-          : reloadTableWithValues(values)
+          : reload({ [fieldSetting.value.pageField]: 1 })
       },
       onReset: () => {
         onReset
           ? onReset()
-          : reloadTableWithValues({})
+          : reload({ [fieldSetting.value.pageField]: 1 })
       },
     }
   })
-
-  function reloadTableWithValues(values: Record<string, any>) {
-    reload({
-      ...values,
-      [fieldSetting.value.pageField]: 1,
-    })
-  }
 
   return {
     show,

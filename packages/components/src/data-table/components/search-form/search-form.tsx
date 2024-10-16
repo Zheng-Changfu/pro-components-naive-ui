@@ -105,7 +105,7 @@ export default defineComponent({
       restoreValidation: formMethods.restoreValidation,
       restoreFieldValue: formMethods.restoreFieldValue,
       restoreFieldsValue: formMethods.restoreFieldsValue,
-      getFieldValidateResult: formMethods.getFieldValidateResult,
+      getFieldValidationResult: formMethods.getFieldValidationResult,
       pauseDependenciesTrigger: formMethods.pauseDependenciesTrigger,
       getFieldsTransformedValue: formMethods.getFieldsTransformedValue,
       resumeDependenciesTrigger: formMethods.resumeDependenciesTrigger,
