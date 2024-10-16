@@ -1,3 +1,4 @@
+import type { PaginationInfo } from 'naive-ui'
 import type { FieldValueType } from '../form'
 import { createLocale, zhCN as nZhCN } from 'naive-ui'
 import { ValueTypeEnum } from '../form'
@@ -58,5 +59,6 @@ export const zhCN = createLocale({
   },
   ProDataTable: {
     indexColumnText: '序号',
+    paginationPrefix: ({ itemCount }: PaginationInfo) => `共 ${itemCount} 条`,
   },
 } as any, nZhCN)

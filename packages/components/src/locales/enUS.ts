@@ -1,3 +1,4 @@
+import type { PaginationInfo } from 'naive-ui'
 import { createLocale, enUS as nEnUS } from 'naive-ui'
 import { type FieldValueType, ValueTypeEnum } from '../form'
 
@@ -57,5 +58,6 @@ export const enUS = createLocale({
   },
   ProDataTable: {
     indexColumnText: 'Index',
+    paginationPrefix: ({ itemCount }: PaginationInfo) => `Total is ${itemCount}.`,
   },
 } as any, nEnUS)
