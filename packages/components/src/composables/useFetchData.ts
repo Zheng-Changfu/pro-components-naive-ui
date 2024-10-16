@@ -2,6 +2,7 @@ import type { EventHookOn } from '@vueuse/core'
 import type { AnyFn } from '../types'
 import { createEventHook, useDocumentVisibility } from '@vueuse/core'
 import { isBoolean } from 'lodash-es'
+import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 export type RefreshOnWindowFocus = boolean | {
@@ -131,7 +132,7 @@ export function useFetchData<T extends AnyFn, R>(options: ComputedRef<UseFetchDa
   watch(
     visibility,
     (current, previous) => {
-      if (refreshOnWindowFocus && current === 'visible' && previous === 'hidden') {
+      if (refreshOnWindowFocus && current.value === 'visible' && previous.value === 'hidden') {
         const intervalTime = isBoolean(refreshOnWindowFocus) ? 0 : refreshOnWindowFocus.intervalTime
         if (intervalTime <= 0) {
           fetchData()
