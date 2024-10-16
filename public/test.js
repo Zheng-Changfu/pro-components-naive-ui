@@ -1888,9 +1888,9 @@ function Tr() {
     readonly: void 0,
     validateBehavior: R(void 0),
     validateBehaviorProps: R(void 0),
-    addValidateErrors: It,
-    clearValidateResults: It,
-    addValidateWarnings: It,
+    addValidationErrors: It,
+    clearValidationResults: It,
+    addValidationWarnings: It,
   })
 }
 const Xe = 'x-field-extra-key'; const te = {
@@ -4109,7 +4109,7 @@ function Wi() {
   const e = gt(); const t = xr(); const r = y(() => {
     const s = e == null ? void 0 : e.path.value
     if (s)
-      return t.getFieldValidateResult(s)
+      return t.getFieldValidationResult(s)
   }); const n = y(() => {
     let s
     return ((s = r.value) == null ? void 0 : s.errors) ?? []
@@ -4192,7 +4192,7 @@ const J0 = /* @__PURE__ */ $({
       if (!t)
         return
       const v = t.stringPath.value
-      e.rule.filter(g => Array.isArray(g.trigger) ? g.trigger.includes(p) : g.trigger === p).length && v && n && (n.clearValidateResults(v), n.addValidateErrors(v, m), n.addValidateWarnings(v, d))
+      e.rule.filter(g => Array.isArray(g.trigger) ? g.trigger.includes(p) : g.trigger === p).length && v && n && (n.clearValidationResults(v), n.addValidationErrors(v, m), n.addValidationWarnings(v, d))
     }
     function i() {
       let p;
@@ -4217,7 +4217,7 @@ const J0 = /* @__PURE__ */ $({
       handleContentFocus: l,
       handleContentInput: u,
     }), aa(() => {
-      n && t && n.clearValidateResults(t.stringPath.value)
+      n && t && n.clearValidationResults(t.stringPath.value)
     })
   },
   render() {
@@ -8985,10 +8985,10 @@ function Tw() {
   }
   return {
     validateResults: y(() => o()),
-    addValidateErrors: t,
-    addValidateWarnings: r,
-    clearValidateResults: n,
-    getFieldValidateResult: s,
+    addValidationErrors: t,
+    addValidationWarnings: r,
+    clearValidationResults: n,
+    getFieldValidationResult: s,
     validateResultsMap: e,
   }
 }
@@ -9002,10 +9002,10 @@ const Tl = /* @__PURE__ */ $({
     const r = e; const n = R(); const o = jt(r, Un); const {
       scope: s,
     } = Ne().proForm; const {
-      addValidateErrors: i,
-      addValidateWarnings: a,
-      clearValidateResults: l,
-      getFieldValidateResult: u,
+      addValidationErrors: i,
+      addValidationWarnings: a,
+      clearValidationResults: l,
+      getFieldValidationResult: u,
     } = Tw(); const {
       initialValues: c,
       scope: p,
@@ -9127,15 +9127,15 @@ const Tl = /* @__PURE__ */ $({
       restoreFieldValue: Nr,
       restoreFieldsValue: Ur,
       getScope: () => d,
-      getFieldValidateResult: u,
+      getFieldValidationResult: u,
       pauseDependenciesTrigger: L,
       getFieldsTransformedValue: re,
       resumeDependenciesTrigger: N,
     }
     return ri(Jt), _e(Kn, {
-      addValidateErrors: i,
-      addValidateWarnings: a,
-      clearValidateResults: l,
+      addValidationErrors: i,
+      addValidationWarnings: a,
+      clearValidationResults: l,
       readonly: I,
       validateBehavior: O(r, 'validateBehavior'),
       validateBehaviorProps: O(r, 'validateBehaviorProps'),
@@ -10460,7 +10460,7 @@ const Qw = /* @__PURE__ */ $({
       restoreValidation: a.restoreValidation,
       restoreFieldValue: a.restoreFieldValue,
       restoreFieldsValue: a.restoreFieldsValue,
-      getFieldValidateResult: a.getFieldValidateResult,
+      getFieldValidationResult: a.getFieldValidationResult,
       pauseDependenciesTrigger: a.pauseDependenciesTrigger,
       getFieldsTransformedValue: a.getFieldsTransformedValue,
       resumeDependenciesTrigger: a.resumeDependenciesTrigger,
