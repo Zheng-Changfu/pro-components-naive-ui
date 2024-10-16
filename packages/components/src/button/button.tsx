@@ -1,10 +1,8 @@
-import type { ButtonProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProButtonSlots } from './slots'
 import { NButton, NEl, NTooltip } from 'naive-ui'
-import { computed, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import { useOmitProps, useOverrideProps } from '../composables'
-import { useLoading } from './composables/useLoading'
 import { useTooltip } from './composables/useTooltip'
 import { proButtonExtendProps, proButtonProps } from './props'
 
@@ -20,35 +18,17 @@ export default defineComponent({
       props,
     )
 
-    const buttonProps = useOmitProps(
+    const nButtonProps = useOmitProps(
       overridedProps,
       proButtonExtendProps,
     )
-
-    const {
-      loading,
-      clickLoading,
-    } = useLoading(overridedProps)
 
     const {
       tooltipProps,
       tooltipTexts,
     } = useTooltip(overridedProps)
 
-    // const {
-    //   pass,
-    // } = useAuth(overridedProps)
-
-    const nButtonProps = computed<ButtonProps>(() => {
-      return {
-        ...buttonProps.value,
-        loading: loading.value,
-        onClick: clickLoading,
-      }
-    })
-
     return {
-      // pass,
       tooltipProps,
       tooltipTexts,
       nButtonProps,
@@ -56,7 +36,6 @@ export default defineComponent({
   },
   render() {
     const {
-      // pass,
       $props,
       $attrs,
       $slots,
@@ -64,10 +43,6 @@ export default defineComponent({
       tooltipProps,
       tooltipTexts,
     } = this
-
-    // if (!pass) {
-    //   return null
-    // }
 
     return (
       <NTooltip

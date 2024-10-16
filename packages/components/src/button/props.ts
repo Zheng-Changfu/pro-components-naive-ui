@@ -4,14 +4,6 @@ import { buttonProps } from 'naive-ui'
 
 export const proButtonExtendProps = {
   /**
-   * 是否自动检测异步函数开启 loading
-   * @default true
-   */
-  autoLoading: {
-    type: Boolean,
-    default: true,
-  },
-  /**
    * 提示文字
    * @example
    * ```vue
@@ -27,13 +19,6 @@ export const proButtonExtendProps = {
    */
   disabledTooltip: {
     type: [String, Array] as PropType<string | string[]>,
-  },
-  /**
-   * 权限编码，可以是任意数据，配合 ProConfigProvider 使用
-   */
-  auth: {
-    type: undefined as any as PropType<any>,
-    default: undefined,
   },
   /**
    * 按钮文本
