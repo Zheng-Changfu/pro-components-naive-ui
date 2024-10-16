@@ -13,9 +13,9 @@ export const proFormContextKey = Symbol('proForm') as InjectionKey<{
   validateBehavior: ToRef<ValidateBehavior | undefined>
   validateBehaviorProps: ToRef<PopoverProps | undefined>
   validationTrigger: MaybeRef<ValidationTrigger | ValidationTrigger[]>
-  clearValidateResults: (path?: string) => void
-  addValidateErrors: (path: string | undefined, errors: ValidateError[] | undefined) => void
-  addValidateWarnings: (path: string | undefined, errors: ValidateError[] | undefined) => void
+  clearValidationResults: (path?: string) => void
+  addValidationErrors: (path: string | undefined, errors: ValidateError[] | undefined) => void
+  addValidationWarnings: (path: string | undefined, errors: ValidateError[] | undefined) => void
 }>
 
 export function provideProFormInst(inst: ProFormInst) {
@@ -30,9 +30,9 @@ export function useInjectProFormContext() {
   return inject(proFormContextKey, {
     readonly: undefined,
     readonlyEmptyText: '-',
-    addValidateErrors: noop,
-    clearValidateResults: noop,
-    addValidateWarnings: noop,
+    addValidationErrors: noop,
+    clearValidationResults: noop,
+    addValidationWarnings: noop,
     validationTrigger: 'input',
     validateBehavior: ref(undefined),
     validateBehaviorProps: ref(undefined),

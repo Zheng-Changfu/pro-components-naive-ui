@@ -37,7 +37,7 @@ export type ProFormInst = Pick<
   /**
    * 获取字段值的校验结果
    */
-  getFieldValidateResult: (path: Path) => FormItemInternalValidateResult | null
+  getFieldValidationResult: (path: Path) => FormItemInternalValidateResult | null
   /**
    * 校验
    */
