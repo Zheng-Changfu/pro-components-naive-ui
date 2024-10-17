@@ -5,9 +5,6 @@ import SizeIcon from './size'
 
 export default defineComponent({
   name: 'DataTableSetting',
-  setup() {
-
-  },
   render() {
     return [
       <RefreshIcon />,

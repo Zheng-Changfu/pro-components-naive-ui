@@ -71,9 +71,10 @@ export default defineComponent({
 
     const {
       columns,
-      moveColumn,
       getColumns,
-      matchColumns,
+      setColumns,
+      getCacheColumns,
+      setCacheColumns,
     } = useColumns(overridedProps, { pagination })
 
     const {
@@ -179,18 +180,19 @@ export default defineComponent({
       filter,
       filters,
       scrollTo,
-      moveColumn,
       setLoading,
       getColumns,
+      setColumns,
       clearFilter,
       clearSorter,
       downloadCsv,
       clearFilters,
-      matchColumns,
       getTableData,
       setTableSize,
       setTableData,
       setPagination,
+      getCacheColumns,
+      setCacheColumns,
       getTableSize: () => size.value,
       getPagination: () => pagination.value,
       getRowKeyToRowMap: () => rowKeyToRowMap.value,

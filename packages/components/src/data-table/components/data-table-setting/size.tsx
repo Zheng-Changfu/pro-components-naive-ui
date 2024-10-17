@@ -4,6 +4,7 @@ import { ColumnHeightOutlined } from '@vicons/antd'
 import { NDropdown, NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { ProButton } from '../../../button'
+import { useLocale } from '../../../locales'
 import { useInjectProDataTableInst } from '../../context'
 
 export default defineComponent({
@@ -16,8 +17,13 @@ export default defineComponent({
       setTableSize,
     } = useInjectProDataTableInst()!
 
+    const {
+      getMessage,
+    } = useLocale('ProDataTable')
+
     return {
       themeVars,
+      getMessage,
       getTableSize,
       setTableSize,
       selectedColor: computed(() => themeVars.value.primaryColor),
@@ -37,23 +43,23 @@ export default defineComponent({
         placement="bottom-start"
         options={[
           {
-            label: '宽松',
             key: 'large',
+            label: this.getMessage('settingDensLarge'),
           },
           {
-            label: '中等',
             key: 'medium',
+            label: this.getMessage('settingDensMedium'),
           },
           {
-            label: '紧凑',
             key: 'small',
+            label: this.getMessage('settingDensSmall'),
           },
         ]}
         renderLabel={renderLabel}
         onSelect={this.setTableSize}
       >
         <NFlex>
-          <ProButton text={true} tooltip="密度">
+          <ProButton text={true} tooltip={this.getMessage('settingDens')}>
             <NIcon size={18}>
               <ColumnHeightOutlined />
             </NIcon>

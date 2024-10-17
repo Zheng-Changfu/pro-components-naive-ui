@@ -1,57 +1,63 @@
-import type { DataTableColumn } from 'naive-ui'
-import type { SortableEvent } from 'vue-draggable-plus'
 import { DragOutlined, SettingOutlined } from '@vicons/antd'
-import { cloneDeep } from 'lodash-es'
 import { NButton, NCheckbox, NCheckboxGroup, NFlex, NIcon, NPopover } from 'naive-ui'
 import { uid } from 'pro-components-hooks'
-import { defineComponent, ref, watchEffect } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { ProButton } from '../../../button'
-import { useInjectProDataTableInst } from '../../context'
+import { useLocale } from '../../../locales'
 import { useCheckedColumns } from './composables/useCheckedColumns'
+import { useColumnList } from './composables/useColumnList'
+import { useShowIndexColumn } from './composables/useShowIndexColumn'
 
 export default defineComponent({
   name: 'ColumnSetting',
   setup() {
     const draggableEl = ref<HTMLDivElement>()
-    const columns = ref<DataTableColumn[]>([])
     const uidClass = `draggable-handle-${uid()}`
 
     const {
-      getColumns,
-      moveColumn: moveTableColumn,
-    } = useInjectProDataTableInst()!
+      getMessage,
+    } = useLocale('ProDataTable')
 
     const {
-      checkedColumnKeys,
-      checkedAllColumnKeys,
-      visibleColumnsChecked,
-      visibleColumnsIndeterminate,
-    } = useCheckedColumns()
+      showIndexColumn,
+      restore: restoreShowIndexColumn,
+    } = useShowIndexColumn()
 
-    watchEffect(() => {
-      const tableColumns = getColumns().slice()
-      columns.value = cloneDeep(tableColumns)
-      checkedAllColumnKeys()
-    })
+    const {
+      list: columnList,
+      sortTableColumnsByList,
+      restoreList: restoreColumnList,
+    } = useColumnList()
+
+    const {
+      allChecked,
+      checkedKeys,
+      indeterminate,
+      restore: restoreCheckedKeys,
+    } = useCheckedColumns(columnList)
 
     function resetColumns() {
-      checkedAllColumnKeys()
+      restoreColumnList()
+      restoreCheckedKeys()
+      restoreShowIndexColumn()
     }
 
-    function dragEnd(event: SortableEvent) {
-      moveTableColumn(event.oldIndex!, event.newIndex!)
+    function dragEnd() {
+      sortTableColumnsByList()
     }
 
     return {
       dragEnd,
-      columns,
       uidClass,
+      columnList,
+      allChecked,
+      getMessage,
+      checkedKeys,
       draggableEl,
       resetColumns,
-      checkedColumnKeys,
-      visibleColumnsChecked,
-      visibleColumnsIndeterminate,
+      indeterminate,
+      showIndexColumn,
     }
   },
   render() {
@@ -60,7 +66,7 @@ export default defineComponent({
         {{
           trigger: () => (
             <NFlex>
-              <ProButton text={true} tooltip="列设置">
+              <ProButton text={true} tooltip={this.getMessage('settingColumn')}>
                 <NIcon size={18}>
                   <SettingOutlined />
                 </NIcon>
@@ -68,33 +74,30 @@ export default defineComponent({
             </NFlex>
           ),
           default: () => (
-            <NCheckboxGroup v-model:value={this.checkedColumnKeys}>
+            <NCheckboxGroup v-model:value={this.checkedKeys}>
               {/* @ts-ignore */}
               <VueDraggable
                 ref="draggableEl"
-                v-model={this.columns}
+                v-model={this.columnList}
                 animation={200}
                 handle={`.${this.uidClass}`}
                 onEnd={this.dragEnd}
               >
                 {
-                  this.columns.map((column: any) => {
-                    if (typeof column.title !== 'string' || typeof column.key !== 'string') {
-                      return null
-                    }
+                  this.columnList.map((item) => {
                     return (
                       <NFlex
-                        key={column.key}
+                        key={item.key}
                         justify="space-between"
                         style={{ padding: '4px 0 8px 0' }}
                       >
                         <NFlex align="center">
                           <NButton text={true} class={this.uidClass} style={{ cursor: 'move' }}>
-                            <NIcon size={18}>
+                            <NIcon size={16}>
                               <DragOutlined />
                             </NIcon>
                           </NButton>
-                          <NCheckbox label={column.title} value={column.key} />
+                          <NCheckbox value={item.key}>{item.title}</NCheckbox>
                         </NFlex>
                       </NFlex>
                     )
@@ -106,12 +109,13 @@ export default defineComponent({
           header: () => (
             <NFlex justify="space-between">
               <NCheckbox
-                v-model:checked={this.visibleColumnsChecked}
-                indeterminate={this.visibleColumnsIndeterminate}
+                v-model:checked={this.allChecked}
+                indeterminate={this.indeterminate}
               >
-                列展示
+                {this.getMessage('settingShowColumn')}
               </NCheckbox>
-              <NButton type="primary" text={true} onClick={this.resetColumns}>重置</NButton>
+              <NCheckbox v-model:checked={this.showIndexColumn}>{this.getMessage('settingShowIndexColumn')}</NCheckbox>
+              <NButton type="primary" text={true} onClick={this.resetColumns}>{this.getMessage('settingReset')}</NButton>
             </NFlex>
           ),
         }}

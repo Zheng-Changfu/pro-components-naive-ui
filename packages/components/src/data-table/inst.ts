@@ -1,5 +1,6 @@
 import type { DataTableColumn, DataTableInst, DataTableProps, PaginationProps } from 'naive-ui'
 import type { ProSearchFormInst } from './components/search-form'
+import type { ProDataTableColumn } from './types'
 
 export interface ProDataTableInst<RowData = any> extends DataTableInst {
   /**
@@ -23,18 +24,13 @@ export interface ProDataTableInst<RowData = any> extends DataTableInst {
    */
   setLoading: (loading: boolean) => void
   /**
-   * 匹配符合要求的列
-   * @param match 匹配列的回调
+   * 设置表格列
    */
-  matchColumns: (
-    match: (column: DataTableColumn, index: number) => boolean
-  ) => DataTableColumn[]
+  setColumns: (columns: ProDataTableColumn[] | DataTableColumn[]) => void
   /**
-   * 移动列
-   * @param from 当前索引
-   * @param toKey 目标索引
+   * 设置表格缓存列（内部使用）
    */
-  moveColumn: (from: number, to: number) => void
+  setCacheColumns: (columns: ProDataTableColumn[] | DataTableColumn[]) => void
   /**
    * 获取表格大小
    */
@@ -43,6 +39,10 @@ export interface ProDataTableInst<RowData = any> extends DataTableInst {
    * 获取表格的所有列
    */
   getColumns: () => DataTableColumn[]
+  /**
+   * 获取缓存的列（内部使用）
+   */
+  getCacheColumns: () => DataTableColumn[]
   /**
    * 获取 row-key 对应行信息的映射，可能有 bug，node.children = xxx
    */

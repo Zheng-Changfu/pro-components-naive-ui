@@ -47,7 +47,7 @@ export default defineComponent({
       return resetButtonProps === false
         ? false
         : {
-            content: getMessage('resetText'),
+            content: getMessage('reset'),
             ...(resetButtonProps ?? {}),
             onClick: reset,
           }
@@ -59,7 +59,7 @@ export default defineComponent({
         ? false
         : {
             type: 'primary',
-            content: getMessage('searchText'),
+            content: getMessage('search'),
             ...(searchButtonProps ?? {}),
             attrType: 'submit',
           }
@@ -73,7 +73,7 @@ export default defineComponent({
             text: true,
             type: 'primary',
             iconPlacement: 'right',
-            content: getMessage('collapseText')(collapsed.value),
+            content: getMessage('collapse')(collapsed.value),
             renderIcon: () => {
               return (
                 <NIcon size={14}>

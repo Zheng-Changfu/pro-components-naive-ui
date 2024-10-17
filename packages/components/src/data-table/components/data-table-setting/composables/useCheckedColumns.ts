@@ -1,38 +1,61 @@
+import type { Ref } from 'vue'
+import type { ColumnItem } from './useColumnList'
 import { computed, ref } from 'vue'
 import { useInjectProDataTableInst } from '../../../context'
 
-export function useCheckedColumns() {
-  const { getColumns } = useInjectProDataTableInst()!
-  const checkedColumnKeys = ref<Array<string | number>>([])
+export function useCheckedColumns(columnList: Ref<ColumnItem[]>) {
+  const checkedKeys = ref<Array<string | number>>([])
 
-  const visibleColumnsChecked = computed({
+  const {
+    setColumns,
+    getCacheColumns,
+  } = useInjectProDataTableInst()!
+
+  const allChecked = computed({
     get() {
-      return checkedColumnKeys.value.length === getColumns().length
+      const listLen = columnList.value.length
+      const checkedLen = checkedKeys.value.length
+      return listLen === checkedLen
     },
     set(value) {
-      value
-        ? checkedAllColumnKeys()
-        : clearAllColumnKeys()
+      value ? checkedAll() : clearAll()
     },
   })
 
-  const visibleColumnsIndeterminate = computed(() => {
-    return !visibleColumnsChecked.value && checkedColumnKeys.value.length !== 0
+  const indeterminate = computed(() => {
+    return !allChecked.value && checkedKeys.value.length !== 0
   })
 
-  function checkedAllColumnKeys() {
-    checkedColumnKeys.value = getColumns().map(column => column.key)
+  function checkedAll() {
+    checkedKeys.value = columnList.value.map(item => item.key)
   }
 
-  function clearAllColumnKeys() {
-    checkedColumnKeys.value = []
+  function clearAll() {
+    checkedKeys.value = []
   }
+
+  function restore() {
+    checkedAll()
+  }
+
+  onMounted(checkedAll)
+
+  watchEffect(() => {
+    const tableColumns = [...getCacheColumns()]
+    const shouldHiddenColumnKeys = columnList.value
+      .filter(column => !checkedKeys.value.includes(column.key))
+      .map(column => column.key)
+
+    const visibleColumns = tableColumns.filter(column => !shouldHiddenColumnKeys.includes((column as any).key))
+    setColumns(visibleColumns)
+  })
 
   return {
-    checkedColumnKeys,
-    clearAllColumnKeys,
-    checkedAllColumnKeys,
-    visibleColumnsChecked,
-    visibleColumnsIndeterminate,
+    restore,
+    clearAll,
+    checkedAll,
+    allChecked,
+    checkedKeys,
+    indeterminate,
   }
 }

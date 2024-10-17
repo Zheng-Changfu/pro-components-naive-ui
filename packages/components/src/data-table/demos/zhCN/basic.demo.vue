@@ -15,9 +15,6 @@ export default defineComponent({
         },
       },
       {
-        type: 'index',
-      },
-      {
         title: 'No',
         key: 'no',
       },

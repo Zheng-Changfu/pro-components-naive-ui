@@ -8,13 +8,14 @@ import { computed } from 'vue'
 import { useInjectGlobalConfig } from '../../config-provider'
 import { useLocale } from '../../locales'
 
-const indexColumnKey = '__INDEX_COLUMN__'
+export const indexColumnKey = '__INDEX_COLUMN__'
 
 interface UseColumnsOptions {
   pagination: ComputedRef<PaginationProps | false>
 }
 export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseColumnsOptions) {
   const { pagination } = options
+  let cacheColumns: DataTableColumn[] = []
   const columns = ref<DataTableColumn[]>([])
   const { getMessage } = useLocale('ProDataTable')
   const { valueTypeMap } = useInjectGlobalConfig()
@@ -25,17 +26,23 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
 
   watchImmediate(
     () => props.value.columns ?? [],
-    v => columns.value = resolveColumns(v),
+    (v) => {
+      columns.value = resolveColumns(v)
+      cacheColumns = columns.value
+    },
   )
 
   function createIndexColumn(column: ProDataTableColumn | undefined): DataTableColumn {
     return {
-      title: getMessage('indexColumnText'),
+      title: getMessage('indexColumn'),
       key: indexColumnKey,
       width: 60,
       align: 'center',
       fixed: hasFixedLeftColumn.value ? 'left' : undefined,
       render(_, rowIndex) {
+        /**
+         * TODO: render
+         */
         if (pagination.value === false) {
           return rowIndex + 1
         }
@@ -74,41 +81,23 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
     return columns.value
   }
 
-  function getCachedColumns() {
-    return []
+  function getCacheColumns() {
+    return cacheColumns
   }
 
-  function matchColumns(match: (column: DataTableColumn, index: number) => boolean) {
-    return columns.value.filter(match)
+  function setCacheColumns(values: ProDataTableColumn[] | DataTableColumn[]) {
+    cacheColumns = resolveColumns(values as ProDataTableColumn[])
   }
 
-  function moveColumn(from: number, to: number) {
-    if (
-      from >= 0
-      && to >= 0
-      && to < columns.value.length
-      && from !== to
-    ) {
-      if (from < to) {
-        const fromItem = columns.value[from]
-        for (let i = from; i < to; i++)
-          columns.value[i] = columns.value[i + 1]
-        columns.value[to] = fromItem
-      }
-      else {
-        const fromItem = columns.value[from]
-        for (let i = from; i > to; i--)
-          columns.value[i] = columns.value[i - 1]
-        columns.value[to] = fromItem
-      }
-    }
+  function setColumns(values: ProDataTableColumn[] | DataTableColumn[]) {
+    columns.value = resolveColumns(values as ProDataTableColumn[])
   }
 
   return {
-    moveColumn,
+    setColumns,
     getColumns,
-    matchColumns,
-    getCachedColumns,
+    getCacheColumns,
+    setCacheColumns,
     columns: computed(() => {
       console.log('update')
       return columns.value
