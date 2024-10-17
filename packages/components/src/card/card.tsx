@@ -72,7 +72,7 @@ export default defineComponent({
     })
 
     const collapseText = computed(() => {
-      return getMessage('collapseText')(!show.value)
+      return getMessage('collapse')(!show.value)
     })
 
     function triggerExpand(area: 'main' | 'arrow') {
