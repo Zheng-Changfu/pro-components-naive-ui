@@ -57,6 +57,7 @@ export const enUS = createLocale({
     collapse: (collapsed: boolean) => collapsed ? 'uncollapsed' : 'collapsed',
   },
   ProDataTable: {
+    sortColumn: 'sort',
     settingDens: 'dens',
     indexColumn: 'Index',
     settingReset: 'reset',

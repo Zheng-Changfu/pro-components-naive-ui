@@ -5,7 +5,7 @@ import type { ProDataTableProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
 import { get, isArray, isFunction, isString, toString } from 'lodash-es'
 import { eachTree } from 'pro-components-hooks'
-import { toRaw } from 'vue'
+import { ref, toRaw } from 'vue'
 import { useFetchData } from '../../composables/useFetchData'
 import { useFieldSetting } from './useFieldSetting'
 

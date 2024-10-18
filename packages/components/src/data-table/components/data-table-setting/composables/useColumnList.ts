@@ -2,7 +2,7 @@ import type { DataTableBaseColumn, DataTableColumn } from 'naive-ui'
 import type { VNodeChild } from 'vue'
 import { cloneDeep, isFunction } from 'lodash-es'
 import { onMounted, ref } from 'vue'
-import { indexColumnKey } from '../../../composables/useColumns'
+import { indexColumnKey, sortColumnKey } from '../../../composables/useColumnRenderer'
 import { useInjectProDataTableInst } from '../../../context'
 
 export interface ColumnItem {
@@ -43,6 +43,7 @@ export function useColumnList() {
     return !column.type
       && !!column.title
       && !!String(column.key)
+      && column.key !== sortColumnKey
       && column.key !== indexColumnKey
   }
 

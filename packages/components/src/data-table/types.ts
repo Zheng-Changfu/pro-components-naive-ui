@@ -4,7 +4,7 @@ import type { VNodeChild } from 'vue'
 import type { FieldValueType } from '../form'
 import type { AnyFn } from '../types'
 
-interface ProTableBaseColumn<RowData = any> extends Omit<TableBaseColumn<RowData>, 'key'> {
+export interface ProTableBaseColumn<RowData = any> extends Omit<TableBaseColumn<RowData>, 'key'> {
   /**
    * naive-ui 需要的 key，这里只做了类型的处理
    */
@@ -33,13 +33,13 @@ interface ProTableColumnGroup<RowData = any> extends Omit<TableColumnGroup<RowDa
   children: ProTableBaseColumn<RowData>[]
 }
 
-interface TableIndexColumn<RowData = any> extends Omit<ProTableBaseColumn<RowData>, 'path' | 'key' | 'render' | 'type'> {
+export interface TableIndexColumn<RowData = any> extends Omit<ProTableBaseColumn<RowData>, 'path' | 'key' | 'render' | 'type' | 'valueType' | 'fieldProps' | 'fieldSlots'> {
   /**
    * 序号列
    */
   type: 'index'
   /**
-   * @description 自定义序号内容
+   * 自定义序号内容
    * @param index 序号
    * @param rowData 行数据
    * @param rowIndex 行索引

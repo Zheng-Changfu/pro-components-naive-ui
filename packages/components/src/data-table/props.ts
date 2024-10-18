@@ -43,6 +43,21 @@ export const proDataTableExtendProps = {
     default: true,
   },
   /**
+   * 配置了这个参数，会在该 key 对应的行显示拖拽行的把手，允许拖拽排序
+   */
+  dragSortKey: String,
+  /**
+   * 拖拽排序完成回调
+   * @param data 排序后的数据源
+   * @param fromIndex 排序前的索引
+   * @param toIndex 排序后的索引
+   */
+  onDragSortEnd: Function as PropType<(
+    data: any[],
+    fromIndex: number,
+    toIndex: number,
+  ) => Promise<void>>,
+  /**
    * 是否手动调用 request，设置为 true 后不会调用 request
    */
   manual: Boolean,

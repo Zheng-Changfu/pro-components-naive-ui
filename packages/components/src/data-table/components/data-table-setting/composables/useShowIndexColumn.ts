@@ -1,6 +1,6 @@
 import type { DataTableColumn } from 'naive-ui'
 import { ref, watchEffect } from 'vue'
-import { indexColumnKey } from '../../../composables/useColumns'
+import { indexColumnKey } from '../../../composables/useColumnRenderer'
 import { useInjectProDataTableInst } from '../../../context'
 
 export function useShowIndexColumn() {

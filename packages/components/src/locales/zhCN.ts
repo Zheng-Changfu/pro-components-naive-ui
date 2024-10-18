@@ -58,6 +58,7 @@ export const zhCN = createLocale({
     collapse: (collapsed: boolean) => collapsed ? '展开' : '收起',
   },
   ProDataTable: {
+    sortColumn: '排序',
     indexColumn: '序号',
     settingDens: '密度',
     settingReset: '重置',

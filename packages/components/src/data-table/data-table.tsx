@@ -4,6 +4,7 @@ import type { ProCardProps } from '../card'
 import type { ProDataTableInst } from './inst'
 import type { ProDataTableSlots } from './slots'
 import { NDataTable, NFlex } from 'naive-ui'
+import { uid } from 'pro-components-hooks'
 import { defineComponent } from 'vue'
 import { resolveWrappedSlot } from '../_utils/resolve-slot'
 import { ProCard } from '../card'
@@ -14,6 +15,7 @@ import { useCheckedRowKeys } from './composables/useCheckedRowKeys'
 import { useColumns } from './composables/useColumns'
 import { useDataSource } from './composables/useDataSource'
 import { useDataTableSize } from './composables/useDataTableSize'
+import { useDraggableSort } from './composables/useDraggableSort'
 import { useLoading } from './composables/useLoading'
 import { useNDataTableInst } from './composables/useNDataTableInst'
 import { usePagination } from './composables/usePagination'
@@ -38,6 +40,8 @@ export default defineComponent({
       overridedProps,
       proDataTableExtendProps,
     )
+
+    const dragHandleId = `drag-handle-${uid()}`
 
     const {
       sort,
@@ -75,7 +79,7 @@ export default defineComponent({
       setColumns,
       getCacheColumns,
       setCacheColumns,
-    } = useColumns(overridedProps, { pagination })
+    } = useColumns(overridedProps, { pagination, dragHandleId })
 
     const {
       checkedRowKeys,
@@ -114,6 +118,14 @@ export default defineComponent({
       size,
       setSize: setTableSize,
     } = useDataTableSize(overridedProps)
+
+    useDraggableSort(
+      overridedProps,
+      {
+        data,
+        dragHandleId,
+      },
+    )
 
     const nDataTableProps = computed<DataTableProps>(() => {
       return {
@@ -214,45 +226,51 @@ export default defineComponent({
     }
   },
   render() {
-    return [
-      this.showSearchForm && (
-        <ProCard {...this.searchCardProps}>
-          <ProSearchForm
-            ref="searchFormInst"
-            {...this.proSearchFormProps}
-            v-slots={this.$slots}
-          />
-        </ProCard>
-      ),
-      <ProCard {...this.headerCardProps}>
-        {{
-          'header': this.$slots.title,
-          'header-extra': () => {
-            return (
-              <NFlex align="center">
-                {this.$slots.toolbar?.()}
-                <DataTableSetting />
-              </NFlex>
-            )
-          },
-          'default': () => [
-            resolveWrappedSlot(
-              this.$slots.extra,
-              (children) => {
-                if (!children) {
-                  return null
-                }
-                return <div style={{ marginBlockEnd: '16px' }}>{children}</div>
-              },
+    return (
+      <div>
+        {
+          [
+            this.showSearchForm && (
+              <ProCard {...this.searchCardProps}>
+                <ProSearchForm
+                  ref="searchFormInst"
+                  {...this.proSearchFormProps}
+                  v-slots={this.$slots}
+                />
+              </ProCard>
             ),
-            <NDataTable
-              ref="nDataTableInst"
-              {...this.nDataTableProps}
-              v-slots={this.$slots}
-            />,
-          ],
-        }}
-      </ProCard>,
-    ]
+            <ProCard {...this.headerCardProps}>
+              {{
+                'header': this.$slots.title,
+                'header-extra': () => {
+                  return (
+                    <NFlex align="center">
+                      {this.$slots.toolbar?.()}
+                      <DataTableSetting />
+                    </NFlex>
+                  )
+                },
+                'default': () => [
+                  resolveWrappedSlot(
+                    this.$slots.extra,
+                    (children) => {
+                      if (!children) {
+                        return null
+                      }
+                      return <div style={{ marginBlockEnd: '16px' }}>{children}</div>
+                    },
+                  ),
+                  <NDataTable
+                    ref="nDataTableInst"
+                    {...this.nDataTableProps}
+                    v-slots={this.$slots}
+                  />,
+                ],
+              }}
+            </ProCard>,
+          ]
+        }
+      </div>
+    )
   },
 })
