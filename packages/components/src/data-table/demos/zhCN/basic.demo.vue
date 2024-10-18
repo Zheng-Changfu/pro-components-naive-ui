@@ -15,6 +15,9 @@ export default defineComponent({
         },
       },
       {
+        key: 'sort',
+      },
+      {
         title: 'No',
         key: 'no',
       },
@@ -66,6 +69,7 @@ export default defineComponent({
     title="查询表格"
     tooltip="123"
     row-key="no"
+    drag-sort-key="sort"
     simple-pagination
     :request="request"
     :columns="columns"
