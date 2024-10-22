@@ -14,6 +14,10 @@ export interface ProTableBaseColumn<RowData = any> extends Omit<TableBaseColumn<
    */
   path: ExtractObjectPath<RowData> | ({} & string)
   /**
+   * 显示在列右边的提示
+   */
+  tooltip?: string | string[]
+  /**
    * 组件映射，需要通过 `ProConfigProvider` 的 `valueTypeMap` 映射
    */
   valueType?: FieldValueType

@@ -24,6 +24,7 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
     createIndexColumn,
     createDragSortColumn,
     createValueTypeColumn,
+    createTooltipTitleRender,
   } = useColumnRenderer({ columns, pagination, dragHandleId })
 
   function isDragSortColumn(column: ProTableBaseColumn) {
@@ -44,27 +45,30 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
     return mapTree(columns, (item) => {
       const {
         key,
-        type,
         path,
+        type,
+        title,
+        tooltip,
+        valueType,
         fieldProps,
         fieldSlots,
-        valueType,
         ...rest
       } = item as any
 
       if (type === 'index') {
-        return createIndexColumn(rest)
+        return createIndexColumn(item as any)
       }
       if (valueType) {
-        return createValueTypeColumn(rest)
+        return createValueTypeColumn(item as any)
       }
       if (isDragSortColumn(item as any)) {
-        return createDragSortColumn(rest)
+        return createDragSortColumn(item as any)
       }
       return {
         type,
         ...rest,
         key: path ?? key,
+        title: createTooltipTitleRender(title, tooltip),
       }
     }, (props.value.childrenKey ?? 'children') as any)
   }

@@ -1,7 +1,10 @@
+import type { DataTableBaseColumn, DataTableColumn, PaginationProps } from 'naive-ui'
+import type { VNodeChild } from 'vue'
 import type { ProDataTableColumn, ProTableBaseColumn } from '../types'
-import { DragOutlined } from '@vicons/antd'
+import { DragOutlined, InfoCircleOutlined } from '@vicons/antd'
 import { isFunction } from 'lodash-es'
-import { type DataTableColumn, NButton, NIcon, type PaginationProps } from 'naive-ui'
+import { NButton, NEl, NIcon } from 'naive-ui'
+import ProTooltip from '../../_internal/components/pro-tooltip'
 import { useInjectGlobalConfig } from '../../config-provider'
 import { useLocale } from '../../locales'
 
@@ -31,6 +34,45 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
   const hasFixedLeftColumn = computed(() => {
     return columns.value.some(column => column.fixed === 'left')
   })
+
+  function createTooltipTitleRender(
+    title?: string | ((column: DataTableBaseColumn) => VNodeChild),
+    tooltip?: string | string[],
+  ) {
+    if (title) {
+      return function (column: DataTableBaseColumn) {
+        const resolvedTitle = isFunction(title) ? title(column) : title
+        if (!tooltip) {
+          return resolvedTitle
+        }
+        return (
+          <ProTooltip
+            trigger="hover"
+            tooltip={tooltip}
+          >
+            {{
+              trigger: () => (
+                <NEl style={{ cursor: 'pointer' }}>
+                  {resolvedTitle}
+                  <NIcon
+                    size={18}
+                    style={{
+                      cursor: 'pointer',
+                      display: 'inline',
+                      verticalAlign: 'middle',
+                      marginInlineStart: '4px',
+                    }}
+                  >
+                    <InfoCircleOutlined />
+                  </NIcon>
+                </NEl>
+              ),
+            }}
+          </ProTooltip>
+        )
+      }
+    }
+  }
 
   function createIndexColumn(column: ProDataTableColumn | undefined): DataTableColumn {
     const {
@@ -108,7 +150,9 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     const {
       key,
       path,
+      title,
       render,
+      tooltip,
       valueType,
       fieldProps,
       fieldSlots,
@@ -118,6 +162,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     return {
       ...rest,
       key: path ?? key,
+      title: createTooltipTitleRender(title, tooltip),
       render(row, rowIndex) {
         if (render) {
           return render(row, rowIndex)
@@ -135,5 +180,6 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     createIndexColumn,
     createDragSortColumn,
     createValueTypeColumn,
+    createTooltipTitleRender,
   }
 }
