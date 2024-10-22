@@ -40,7 +40,7 @@ export default defineComponent({
     } = this.$props
 
     if (this.normalizeTootlip.length <= 0) {
-      return null
+      return this.$slots.trigger?.()
     }
 
     return (
@@ -49,11 +49,7 @@ export default defineComponent({
           ...this.$slots,
           default: () => {
             return resolveWrappedSlot(this.$slots.default, (children) => {
-              if (children) {
-                return children
-              }
-              return this.normalizeTootlip
-                .map(tip => <NEl key={tip}>{tip}</NEl>)
+              return children ?? this.normalizeTootlip.map(tip => <NEl key={tip}>{tip}</NEl>)
             })
           },
         }}
