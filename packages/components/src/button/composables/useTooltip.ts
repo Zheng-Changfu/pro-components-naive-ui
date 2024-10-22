@@ -24,6 +24,7 @@ export function useTooltip(props: ComputedRef<ProButtonProps>) {
       trigger: 'hover',
       disabled: disabled.value,
       tooltip: tooltipTexts.value,
+      emptyTooltipShowTrigger: true,
     }
   })
 
