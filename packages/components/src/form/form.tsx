@@ -11,7 +11,7 @@ import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
 import { computed, nextTick, provide, ref } from 'vue'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { fieldExtraKey } from './components'
-import { useValidateResults } from './composables/useValidateResult'
+import { useValidationResults } from './composables/useValidationResult'
 import { proFormContextKey, provideProFormInst } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 
@@ -34,11 +34,11 @@ export default defineComponent({
     )
 
     const {
-      addValidateErrors,
-      addValidateWarnings,
-      clearValidateResults,
-      getFieldValidateResult,
-    } = useValidateResults()
+      addValidationErrors,
+      addValidationWarnings,
+      clearValidationResults,
+      getFieldValidationResult,
+    } = useValidationResults()
 
     const {
       initialValues,
@@ -162,7 +162,7 @@ export default defineComponent({
     function restoreFieldValue(path: Path) {
       pauseDependenciesTrigger()
       resetFieldValue(path)
-      clearValidateResults(path)
+      clearValidationResults(path)
       restoreValidation(toPath(path))
       nextTick(resumeDependenciesTrigger)
     }
@@ -171,7 +171,7 @@ export default defineComponent({
       pauseDependenciesTrigger()
       resetFieldsValue()
       restoreValidation()
-      clearValidateResults()
+      clearValidationResults()
       nextTick(resumeDependenciesTrigger)
     }
 
@@ -183,16 +183,16 @@ export default defineComponent({
     ) {
       const es = errors ?? []
       const ws = extra.warnings ?? []
-      clearValidateResults()
+      clearValidationResults()
 
       es.forEach((e) => {
         const path = e[0].field
-        addValidateErrors(path, e)
+        addValidationErrors(path, e)
       })
 
       ws.forEach((e) => {
         const path = e[0].field
-        addValidateWarnings(path, e)
+        addValidationWarnings(path, e)
       })
     }
 
@@ -211,7 +211,7 @@ export default defineComponent({
       restoreValidation,
       restoreFieldValue,
       restoreFieldsValue,
-      getFieldValidateResult,
+      getFieldValidationResult,
       pauseDependenciesTrigger,
       getFieldsTransformedValue,
       resumeDependenciesTrigger,
@@ -220,9 +220,9 @@ export default defineComponent({
 
     provideProFormInst(exposed)
     provide(proFormContextKey, {
-      addValidateErrors,
-      addValidateWarnings,
-      clearValidateResults,
+      addValidationErrors,
+      addValidationWarnings,
+      clearValidationResults,
       readonly: parsedReadonly,
       validateBehavior: computed(() => overridedProps.value.validateBehavior),
       readonlyEmptyText: computed(() => overridedProps.value.readonlyEmptyText),

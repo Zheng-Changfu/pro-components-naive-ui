@@ -156,7 +156,7 @@ export default defineComponent({
     const proFormItemSlots = computed(() => {
       return pick(
         slots,
-        ['label', 'tooltip', 'feedback'],
+        ['label', 'feedback'],
       )
     })
 

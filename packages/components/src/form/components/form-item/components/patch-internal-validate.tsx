@@ -42,9 +42,9 @@ export default defineComponent({
       }
 
       if (path && formContext) {
-        formContext.clearValidateResults(path)
-        formContext.addValidateErrors(path, errors)
-        formContext.addValidateWarnings(path, warnings)
+        formContext.clearValidationResults(path)
+        formContext.addValidationErrors(path, errors)
+        formContext.addValidationWarnings(path, warnings)
       }
     }
 
@@ -82,7 +82,7 @@ export default defineComponent({
 
     onUnmounted(() => {
       if (formContext && field) {
-        formContext.clearValidateResults(field.stringPath.value)
+        formContext.clearValidationResults(field.stringPath.value)
       }
     })
   },

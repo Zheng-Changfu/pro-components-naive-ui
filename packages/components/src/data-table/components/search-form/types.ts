@@ -4,7 +4,7 @@ import type { VNodeChild } from 'vue'
 import type { FieldValueType, ProFieldProps } from '../../../form'
 import type { AnyFn } from '../../../types'
 
-export interface ProSearchFormColumn<DataSource = any> extends Pick<GridItemProps, 'span' | 'offset'>, Omit<ProFieldProps, 'path' | 'defaultValue' | 'isList' | 'valueType' | 'valueModelName' > {
+export interface ProSearchFormColumn<DataSource = any> extends Pick<GridItemProps, 'span' | 'offset'>, Omit<ProFieldProps, 'path' | 'defaultValue' | 'isList' | 'valueType' | 'valueModelName'> {
   /**
    * 字段路径
    */

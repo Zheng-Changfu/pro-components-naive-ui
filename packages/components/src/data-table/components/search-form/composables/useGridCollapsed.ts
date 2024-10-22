@@ -7,7 +7,7 @@ export function useGridCollapsed(props: ComputedRef<ProSearchFormProps>) {
   const collapsed = ref(true)
 
   watchImmediate(
-    computed(() => props.value.gridProps?.collapsed ?? true),
+    () => props.value.gridProps?.collapsed ?? true,
     v => collapsed.value = v,
   )
 

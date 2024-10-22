@@ -1,9 +1,10 @@
+import type { PaginationProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { RefreshOnWindowFocus } from '../composables/useFetchData'
 import type { AnyFn } from '../types'
 import type { ProSearchFormProps } from './components/search-form'
-import type { ProDataTableColumn, ProDataTableColumns, ProDataTableFieldSetting } from './types'
+import type { ProDataTableColumns, ProDataTableFieldSetting } from './types'
 import { dataTableProps } from 'naive-ui'
 
 export const proDataTableExtendProps = {
@@ -14,14 +15,11 @@ export const proDataTableExtendProps = {
   /**
    * 提示文字，显示在标题的右边
    */
-  titleTooltip: [String, Array] as PropType<string | string[]>,
+  tooltip: [String, Array] as PropType<string | string[]>,
   /**
    * 如果有单选、多选，是否可以点击行就选中
    */
-  clickRowToSelect: {
-    type: Boolean,
-    default: true,
-  },
+  clickRowToSelect: Boolean,
   /**
    * 查询表单配置，false 不显示
    */
@@ -30,24 +28,35 @@ export const proDataTableExtendProps = {
     default: false,
   },
   /**
-   * 查询区域卡片的 props
+   * 查询区域卡片的配置
    */
-  searchAreaCardProps: Object as PropType<ProCardProps>,
-  /**
-   * 序号列，false 不显示
-   */
-  indexColumn: {
-    type: [Boolean, Object] as PropType<false | ProDataTableColumn>,
-    default: undefined,
-  },
+  searchCardProps: Object as PropType<ProCardProps>,
   /**
    * 数据源分页相关字段配置
    */
   fieldSetting: Object as PropType<ProDataTableFieldSetting>,
   /**
-   * 在页码发生变化时是否清除选中行
+   * 在请求完成后是否清除选中行
    */
-  clearSelectOnPageChange: Boolean,
+  clearSelectOnRequested: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * 配置了这个参数，会在该 key 对应的行显示拖拽行的把手，允许拖拽排序
+   */
+  dragSortKey: String,
+  /**
+   * 拖拽排序完成回调
+   * @param data 排序后的数据源
+   * @param fromIndex 排序前的索引
+   * @param toIndex 排序后的索引
+   */
+  onDragSortEnd: Function as PropType<(
+    data: any[],
+    fromIndex: number,
+    toIndex: number,
+  ) => Promise<void>>,
   /**
    * 是否手动调用 request，设置为 true 后不会调用 request
    */
@@ -91,19 +100,15 @@ export const proDataTableProps = {
   /**
    * 重写类型，支持字符串
    */
-  rowKey: {
-    type: [String, Function] as PropType<string | ((row: any) => string | number)>,
-    required: true,
+  rowKey: [String, Function] as PropType<string | ((row: any) => string | number)>,
+  /**
+   * 重写类型
+   */
+  pagination: {
+    type: [Boolean, Object] as PropType<false | PaginationProps>,
+    default: undefined,
   },
 } as const
-
-/**
- * bordered
- * builtinThemeOverrides
- */
-
-// proCardProps.tooltip
-// proDataTableProps.
 
 export type ProDataTableProps = ExtractPublicPropTypes<typeof proDataTableProps>
 export type ProDataTableExtendProps = ExtractPublicPropTypes<typeof proDataTableExtendProps>

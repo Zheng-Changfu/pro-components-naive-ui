@@ -265,6 +265,12 @@ export function createComponentMenuOptions({ lang, theme }) {
       type: 'group',
       children: [
         {
+          en: 'ProDataTable',
+          zh: '数据表格',
+          enSuffix: true,
+          path: '/data-table',
+        },
+        {
           en: 'ProTree',
           zh: '树',
           enSuffix: true,

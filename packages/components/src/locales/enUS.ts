@@ -1,3 +1,4 @@
+import type { PaginationInfo } from 'naive-ui'
 import { createLocale, enUS as nEnUS } from 'naive-ui'
 import { type FieldValueType, ValueTypeEnum } from '../form'
 
@@ -48,14 +49,25 @@ export const enUS = createLocale({
     title: 'Upload',
   },
   ProCard: {
-    collapseText: (collapsed: boolean) => collapsed ? 'uncollapsed' : 'collapsed',
+    collapse: (collapsed: boolean) => collapsed ? 'uncollapsed' : 'collapsed',
   },
   ProSearchForm: {
-    resetText: 'reset',
-    searchText: 'search',
-    collapseText: (collapsed: boolean) => collapsed ? 'uncollapsed' : 'collapsed',
+    reset: 'reset',
+    search: 'search',
+    collapse: (collapsed: boolean) => collapsed ? 'uncollapsed' : 'collapsed',
   },
   ProDataTable: {
-    indexColumnText: 'Index',
+    sortColumn: 'sort',
+    settingDens: 'dens',
+    indexColumn: 'Index',
+    settingReset: 'reset',
+    settingReload: 'reload',
+    settingDensLarge: 'large',
+    settingDensSmall: 'small',
+    settingDensMedium: 'medium',
+    settingColumn: 'columnSetting',
+    settingShowColumn: 'showColumn',
+    settingShowIndexColumn: 'showIndexColumn',
+    paginationPrefix: ({ itemCount }: PaginationInfo) => `Total is ${itemCount}.`,
   },
 } as any, nEnUS)

@@ -5,7 +5,7 @@ export function useLoading(props: ComputedRef<ProDataTableProps>) {
   const loading = ref(false)
 
   watchImmediate(
-    computed(() => props.value.loading),
+    () => props.value.loading,
     v => loading.value = v ?? false,
   )
 

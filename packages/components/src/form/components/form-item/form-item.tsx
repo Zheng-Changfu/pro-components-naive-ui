@@ -2,10 +2,10 @@ import type { FormItemGiProps, FormItemInst, FormItemProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProFormItemSlots } from './slots'
 import { QuestionCircleOutlined } from '@vicons/antd'
-import { isArray } from 'lodash-es'
-import { NEl, NFormItem, NIcon, NTooltip } from 'naive-ui'
+import { NEl, NFormItem, NIcon } from 'naive-ui'
 import { useInjectFieldContext } from 'pro-components-hooks'
 import { computed, defineComponent, ref, useAttrs } from 'vue'
+import ProTooltip from '../../../_internal/components/pro-tooltip'
 import { fieldExtraKey } from '../field'
 import PatchInternalValidate from './components/patch-internal-validate'
 import { useRules } from './composables/useRules'
@@ -39,11 +39,6 @@ export default defineComponent({
       }
     })
 
-    const tooltips = computed(() => {
-      const { tooltip } = props
-      return (isArray(tooltip) ? tooltip : [tooltip]).filter(Boolean) as string[]
-    })
-
     if (field) {
       field[fieldExtraKey] = {
         ...field[fieldExtraKey],
@@ -53,7 +48,6 @@ export default defineComponent({
 
     return {
       rules,
-      tooltips,
       nFormItemProps,
     }
   },
@@ -67,7 +61,6 @@ export default defineComponent({
           label: showLabel
             ? () => {
                 const label = this.$slots.label?.() ?? this.title ?? this.label
-                const showTooltip = this.tooltips.length > 0 || !!this.$slots.tooltip
                 return (
                   <NEl
                     style={{
@@ -76,34 +69,27 @@ export default defineComponent({
                     }}
                   >
                     {label}
-                    {showTooltip && (
-                      <NTooltip trigger="hover">
-                        {{
-                          trigger: () => {
-                            return (
-                              <NIcon
-                                size={16}
-                                depth={3}
-                                style={{
-                                  cursor: 'help',
-                                  marginInlineStart: '4px',
-                                }}
-                              >
-                                <QuestionCircleOutlined />
-                              </NIcon>
-                            )
-                          },
-                          default: () => {
-                            if (this.$slots.tooltip) {
-                              return this.$slots.tooltip()
-                            }
-                            return this.tooltips.map((t, i) => {
-                              return <NEl key={i + t}>{t}</NEl>
-                            })
-                          },
-                        }}
-                      </NTooltip>
-                    )}
+                    <ProTooltip
+                      trigger="hover"
+                      tooltip={this.$props.tooltip}
+                    >
+                      {{
+                        trigger: () => {
+                          return (
+                            <NIcon
+                              size={16}
+                              depth={3}
+                              style={{
+                                cursor: 'help',
+                                marginInlineStart: '4px',
+                              }}
+                            >
+                              <QuestionCircleOutlined />
+                            </NIcon>
+                          )
+                        },
+                      }}
+                    </ProTooltip>
                   </NEl>
                 )
               }

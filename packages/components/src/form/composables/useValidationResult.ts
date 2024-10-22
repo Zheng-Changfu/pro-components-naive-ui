@@ -10,16 +10,16 @@ export interface FormItemInternalValidateResult {
   errors: ValidateError[]
   warnings: ValidateError[]
 }
-export function useValidateResults() {
-  const pathToValidateResultsMap = ref<Map<string, FormItemInternalValidateResult>>(new Map())
+export function useValidationResults() {
+  const pathToValidationResultsMap = ref<Map<string, FormItemInternalValidateResult>>(new Map())
 
-  function addValidateErrors(
+  function addValidationErrors(
     path: string | undefined,
     errors: ValidateError[] | undefined,
   ) {
     if (!path)
       return
-    const map = pathToValidateResultsMap.value
+    const map = pathToValidationResultsMap.value
     if (!map.has(path)) {
       map.set(path, {
         valid: false,
@@ -32,13 +32,13 @@ export function useValidateResults() {
     result.errors = errors ?? []
   }
 
-  function addValidateWarnings(
+  function addValidationWarnings(
     path: string | undefined,
     warnings: ValidateError[] | undefined,
   ) {
     if (!path)
       return
-    const map = pathToValidateResultsMap.value
+    const map = pathToValidationResultsMap.value
     if (!map.has(path)) {
       map.set(path, {
         valid: true,
@@ -51,16 +51,16 @@ export function useValidateResults() {
     result.warnings = warnings ?? []
   }
 
-  function clearValidateResults(path?: Path) {
+  function clearValidationResults(path?: Path) {
     if (!path) {
-      pathToValidateResultsMap.value.clear()
+      pathToValidationResultsMap.value.clear()
       return
     }
-    pathToValidateResultsMap.value.delete(stringifyPath(path))
+    pathToValidationResultsMap.value.delete(stringifyPath(path))
   }
 
   function toJson() {
-    const map = pathToValidateResultsMap.value
+    const map = pathToValidationResultsMap.value
     const res = {} as any
     map.forEach((value, key) => {
       res[key] = value
@@ -68,21 +68,21 @@ export function useValidateResults() {
     return res as Record<string, FormItemInternalValidateResult>
   }
 
-  function getFieldValidateResult(path: Path) {
+  function getFieldValidationResult(path: Path) {
     const p = stringifyPath(path)
-    return pathToValidateResultsMap.value.get(p) ?? null
+    return pathToValidationResultsMap.value.get(p) ?? null
   }
 
-  const validateResults = computed(() => {
+  const validationResults = computed(() => {
     return toJson()
   })
 
   return {
-    validateResults,
-    addValidateErrors,
-    addValidateWarnings,
-    clearValidateResults,
-    getFieldValidateResult,
-    validateResultsMap: pathToValidateResultsMap,
+    validationResults,
+    addValidationErrors,
+    addValidationWarnings,
+    clearValidationResults,
+    getFieldValidationResult,
+    validationResultsMap: pathToValidationResultsMap,
   }
 }

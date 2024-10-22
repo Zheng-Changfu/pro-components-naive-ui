@@ -1,89 +1,99 @@
 import type { DataTableColumn, PaginationProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
-import type { ProDataTableColumn, ProDataTableColumns } from '../types'
+import type { ProDataTableColumn, ProTableBaseColumn } from '../types'
 import { watchImmediate } from '@vueuse/core'
 import { mapTree } from 'pro-components-hooks'
 import { computed } from 'vue'
-import { useLocale } from '../../locales'
-
-const indexColumnKey = '__INDEX_COLUMN__'
+import { useColumnRenderer } from './useColumnRenderer'
 
 interface UseColumnsOptions {
+  dragHandleId: string
   pagination: ComputedRef<PaginationProps | false>
 }
 export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseColumnsOptions) {
-  const { pagination } = options
+  let cacheColumns: DataTableColumn[] = []
   const columns = ref<DataTableColumn[]>([])
-  const { getMessage } = useLocale('ProDataTable')
+
+  const {
+    pagination,
+    dragHandleId,
+  } = options
+
+  const {
+    createIndexColumn,
+    createDragSortColumn,
+    createValueTypeColumn,
+    createTooltipTitleRender,
+  } = useColumnRenderer({ columns, pagination, dragHandleId })
+
+  function isDragSortColumn(column: ProTableBaseColumn) {
+    const { dragSortKey } = props.value
+    const columnKey = column.path ?? column.key
+    return !!dragSortKey && dragSortKey === columnKey
+  }
 
   watchImmediate(
-    computed(() => props.value.columns ?? []),
-    v => columns.value = normalizeColumns(v),
-  )
-
-  watchImmediate(
-    computed(() => props.value.indexColumn),
+    () => props.value.columns ?? [],
     (v) => {
-      if (v === false) {
-        removeColumn(indexColumnKey)
-        return
-      }
-      const indexColumn = createIndexColumn(v)
-      columns.value.unshift(indexColumn)
+      columns.value = resolveColumns(v)
+      cacheColumns = columns.value
     },
   )
 
-  const hasFixedLeftColumn = computed(() => {
-    return columns.value.some(column => column.fixed === 'left')
-  })
+  function resolveColumns(columns: ProDataTableColumn[]) {
+    return mapTree(columns, (item) => {
+      const {
+        key,
+        path,
+        type,
+        title,
+        tooltip,
+        valueType,
+        fieldProps,
+        fieldSlots,
+        ...rest
+      } = item as any
 
-  function createIndexColumn(column: ProDataTableColumn | undefined): DataTableColumn {
-    return {
-      title: getMessage('indexColumnText'),
-      key: indexColumnKey,
-      width: 60,
-      align: 'center',
-      fixed: hasFixedLeftColumn.value ? 'left' : undefined,
-      render(_, rowIndex) {
-        if (pagination.value === false) {
-          return rowIndex + 1
-        }
-        const page = Math.max(1, pagination.value.page ?? 1)
-        const pageSize = Math.max(1, pagination.value.pageSize ?? 10)
-        return (page - 1) * pageSize + rowIndex + 1
-      },
-      ...(column as any ?? {}),
-    }
+      if (type === 'index') {
+        return createIndexColumn(item as any)
+      }
+      if (valueType) {
+        return createValueTypeColumn(item as any)
+      }
+      if (isDragSortColumn(item as any)) {
+        return createDragSortColumn(item as any)
+      }
+      return {
+        type,
+        ...rest,
+        key: path ?? key,
+        title: createTooltipTitleRender(title, tooltip),
+      }
+    }, (props.value.childrenKey ?? 'children') as any)
   }
 
-  function findColumnIndex(key: string | number) {
-    // @ts-expect-error
-    return columns.value.findIndex(column => column.key === key || column.path === key)
+  function getColumns() {
+    return columns.value
   }
 
-  function removeColumn(key: string | number) {
-    const index = findColumnIndex(key)
-    if (~index) {
-      columns.value.splice(index, 1)
-    }
+  function getCacheColumns() {
+    return cacheColumns
   }
 
-  function normalizeColumns(columns: ProDataTableColumns) {
-    return mapTree(
-      columns,
-      (item) => {
-        const { path, key, ...rest } = item as any
-        return {
-          ...rest,
-          key: path ?? key,
-        }
-      },
-      (props.value.childrenKey ?? 'children') as any,
-    )
+  function setCacheColumns(values: ProDataTableColumn[] | DataTableColumn[]) {
+    cacheColumns = resolveColumns(values as ProDataTableColumn[])
+  }
+
+  function setColumns(values: ProDataTableColumn[] | DataTableColumn[]) {
+    columns.value = resolveColumns(values as ProDataTableColumn[])
   }
 
   return {
+    setColumns,
+    getColumns,
+    getCacheColumns,
+    setCacheColumns,
     columns: computed(() => columns.value),
   }
 }

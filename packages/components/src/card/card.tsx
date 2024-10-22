@@ -1,10 +1,11 @@
 import type { SlotsType } from 'vue'
 import type { ProCardSlots } from './slots'
 import { DownOutlined, InfoCircleOutlined, UpOutlined } from '@vicons/antd'
-import { isArray, isFunction } from 'lodash-es'
-import { collapseTransitionProps, NCard, NEl, NFlex, NIcon, NTooltip, useThemeVars } from 'naive-ui'
-import { computed, defineComponent, Fragment } from 'vue'
+import { isFunction } from 'lodash-es'
+import { collapseTransitionProps, NCard, NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
+import { computed, defineComponent } from 'vue'
 import ProCollapseTransition from '../_internal/components/collapse-transition/index.vue'
+import ProTooltip from '../_internal/components/pro-tooltip'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { resolveSlot, resolveWrappedSlotWithProps } from '../_utils/resolve-slot'
 import { useOmitProps, useOverrideProps } from '../composables'
@@ -72,7 +73,7 @@ export default defineComponent({
     })
 
     const collapseText = computed(() => {
-      return getMessage('collapseText')(!show.value)
+      return getMessage('collapse')(!show.value)
     })
 
     function triggerExpand(area: 'main' | 'arrow') {
@@ -96,18 +97,14 @@ export default defineComponent({
       ].filter(Boolean).join(' ')
     })
 
-    const tooltips = computed(() => {
-      const { tooltip } = overridedProps.value
-      if (!tooltip) {
-        return []
-      }
-      return isArray(tooltip) ? tooltip : [tooltip]
+    const tooltip = computed(() => {
+      return overridedProps.value.tooltip
     })
 
     return {
       show,
+      tooltip,
       cssVars,
-      tooltips,
       nCardProps,
       showHeader,
       collapseText,
@@ -127,11 +124,11 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          'default': () => [
+          'default': () => (
             <ProCollapseTransition {...this.nCollapseTransitionProps}>
               {this.$slots.default?.()}
-            </ProCollapseTransition>,
-          ],
+            </ProCollapseTransition>
+          ),
           'header': () => [
             this.showHeader && (
               <NEl
@@ -145,52 +142,44 @@ export default defineComponent({
                 onClick={() => this.triggerExpand('main')}
               >
                 {resolveSlot(this.$slots.header, () => [this.resolvedTitle])}
-                {this.tooltips.length > 0 && (
-                  <NTooltip trigger="hover">
-                    {{
-                      trigger: () => [
-                        <NIcon size={18} class="n-pro-card-header__main__tooltip">
-                          <InfoCircleOutlined />
-                        </NIcon>,
-                      ],
-                      default: () => [
-                        this.tooltips.map((t, i) => <NEl key={i}>{t}</NEl>),
-                      ],
-                    }}
-                  </NTooltip>
-                )}
+                <ProTooltip
+                  trigger="hover"
+                  tooltip={this.tooltip}
+                >
+                  {{
+                    trigger: () => [
+                      <NIcon size={18} class="n-pro-card-header__main__tooltip">
+                        <InfoCircleOutlined />
+                      </NIcon>,
+                    ],
+                  }}
+                </ProTooltip>
               </NEl>
             ),
           ],
           'header-extra': () => [
             this.$slots['header-extra']?.(),
-            this.showCollapseArea && resolveWrappedSlotWithProps(
-              this.$slots.collapse,
-              { expanded: this.show },
-              (children) => {
-                children = children ?? (
-                  <Fragment>
-                    <NEl>{ this.collapseText }</NEl>
-                    <NIcon>{this.show ? <UpOutlined /> : <DownOutlined />}</NIcon>
-                  </Fragment>
-                ) as any
+            this.showCollapseArea && resolveWrappedSlotWithProps(this.$slots.collapse, { expanded: this.show }, (children) => {
+              children = children ?? [
+                <NEl>{ this.collapseText }</NEl>,
+                <NIcon>{this.show ? <UpOutlined /> : <DownOutlined />}</NIcon>,
+              ] as any
 
-                return (
-                  <NFlex
-                    size={[4, 0]}
-                    align="center"
-                    class={[
-                      'n-pro-card-header__extra',
-                      (this.overridedProps.triggerAreas ?? []).includes('arrow') && 'triggerable',
-                    ]}
-                    // @ts-expect-error
-                    onClick={() => this.triggerExpand('arrow')}
-                  >
-                    {children}
-                  </NFlex>
-                )
-              },
-            ),
+              return (
+                <NFlex
+                  size={[4, 0]}
+                  align="center"
+                  class={[
+                    'n-pro-card-header__extra',
+                    (this.overridedProps.triggerAreas ?? []).includes('arrow') && 'triggerable',
+                  ]}
+                  // @ts-expect-error
+                  onClick={() => this.triggerExpand('arrow')}
+                >
+                  {children}
+                </NFlex>
+              )
+            }),
           ],
         }}
       </NCard>

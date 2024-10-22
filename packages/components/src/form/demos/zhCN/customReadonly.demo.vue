@@ -5,7 +5,6 @@
 </markdown>
 
 <script lang="tsx">
-import { InputProps } from 'naive-ui'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
