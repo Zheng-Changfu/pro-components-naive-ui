@@ -1,15 +1,19 @@
-import type { PropType, SlotsType } from 'vue'
+import type { ExtractPublicPropTypes, PropType, SlotsType } from 'vue'
 import { isString } from 'lodash-es'
 import { NEl, NTooltip, tooltipProps } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { resolveWrappedSlot } from '../../_utils/resolve-slot'
 
+export const proTooltipProps = {
+  ...tooltipProps,
+  tooltip: [String, Array] as PropType<string | string[]>,
+} as const
+
+export type ProTooltipProps = ExtractPublicPropTypes<typeof proTooltipProps>
+
 export default defineComponent({
   name: 'ProTooltip',
-  props: {
-    ...tooltipProps,
-    tooltip: [String, Array] as PropType<string | string[]>,
-  },
+  props: proTooltipProps,
   slots: Object as SlotsType<{
     trigger: any
     footer: any
@@ -31,6 +35,7 @@ export default defineComponent({
   },
   render() {
     const { tooltip, ...nTooltipProps } = this.$props
+
     return (
       <NTooltip {...nTooltipProps}>
         {{
