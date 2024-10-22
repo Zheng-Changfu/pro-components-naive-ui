@@ -3,8 +3,9 @@ import type { ProDescriptionsInst } from './inst'
 import type { ProDescriptionsSlots } from './slots'
 import { InfoCircleOutlined } from '@vicons/antd'
 import { isFunction, isString } from 'lodash-es'
-import { NDescriptions, NDescriptionsItem, NEl, NIcon, NSpin, NTooltip } from 'naive-ui'
+import { NDescriptions, NDescriptionsItem, NEl, NIcon, NSpin } from 'naive-ui'
 import { uid } from 'pro-components-hooks'
+import ProTooltip from '../_internal/components/pro-tooltip'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { useFetchData } from '../composables/useFetchData'
 import { useInjectGlobalConfig } from '../config-provider'
@@ -129,29 +130,27 @@ export default defineComponent({
                         }
                         return [
                           resolvedTitle,
-                          tooltip.length > 0 && (
-                            <NTooltip trigger="hover">
-                              {{
-                                trigger: () => [
-                                  <NIcon
-                                    size={16}
-                                    style={{
-                                      cursor: 'pointer',
-                                      verticalAlign: 'text-bottom',
-                                      marginInlineStart: '4px',
-                                    }}
-                                  >
-                                    <InfoCircleOutlined />
-                                  </NIcon>,
-                                ],
-                                default: () => [
-                                  tooltip.map((t, i) => {
-                                    return <NEl key={i + t}>{t}</NEl>
-                                  }),
-                                ],
-                              }}
-                            </NTooltip>
-                          ),
+                          <ProTooltip trigger="hover">
+                            {{
+                              trigger: () => [
+                                <NIcon
+                                  size={16}
+                                  style={{
+                                    cursor: 'pointer',
+                                    verticalAlign: 'text-bottom',
+                                    marginInlineStart: '4px',
+                                  }}
+                                >
+                                  <InfoCircleOutlined />
+                                </NIcon>,
+                              ],
+                              default: () => [
+                                tooltip.map((t, i) => {
+                                  return <NEl key={i + t}>{t}</NEl>
+                                }),
+                              ],
+                            }}
+                          </ProTooltip>,
                         ]
                       },
                       default: () => {
