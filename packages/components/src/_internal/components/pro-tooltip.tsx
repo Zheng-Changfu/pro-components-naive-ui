@@ -34,7 +34,14 @@ export default defineComponent({
     }
   },
   render() {
-    const { tooltip, ...nTooltipProps } = this.$props
+    const {
+      tooltip,
+      ...nTooltipProps
+    } = this.$props
+
+    if (this.normalizeTootlip.length <= 0) {
+      return null
+    }
 
     return (
       <NTooltip {...nTooltipProps}>
