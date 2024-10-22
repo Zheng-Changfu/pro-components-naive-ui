@@ -2,7 +2,7 @@ import type { DataTableBaseColumn, DataTableColumn, PaginationProps } from 'naiv
 import type { VNodeChild } from 'vue'
 import type { ProDataTableColumn, ProTableBaseColumn } from '../types'
 import { DragOutlined, InfoCircleOutlined } from '@vicons/antd'
-import { isFunction } from 'lodash-es'
+import { get, isFunction } from 'lodash-es'
 import { NButton, NEl, NIcon } from 'naive-ui'
 import ProTooltip from '../../_internal/components/pro-tooltip'
 import { useInjectGlobalConfig } from '../../config-provider'
@@ -134,7 +134,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
               <NButton
                 text={true}
                 class={dragHandleId}
-                style={{ cursor: 'move' }}
+                style={{ cursor: 'move', verticalAlign: 'middle' }}
               >
                 <NIcon size={16}>
                   <DragOutlined />
@@ -159,18 +159,26 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       ...rest
     } = column ?? {}
 
+    const columnKey = path ?? key
     return {
       ...rest,
-      key: path ?? key,
+      key: columnKey,
       title: createTooltipTitleRender(title, tooltip),
       render(row, rowIndex) {
         if (render) {
           return render(row, rowIndex)
         }
+
         const Component = unref(valueTypeMap)[valueType!]
         const props = isFunction(fieldProps) ? fieldProps(row, rowIndex) : (fieldProps ?? {})
         return Component
-          ? h(Component, props, fieldSlots)
+          ? h(Component, {
+            simple: true,
+            readonly: true,
+            fieldProps: props,
+            path: `builtinPath.${rowIndex}.${columnKey}`,
+            value: columnKey ? get(row, columnKey) : undefined,
+          }, fieldSlots)
           : null
       },
     }

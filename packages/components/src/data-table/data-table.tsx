@@ -21,6 +21,7 @@ import { useNDataTableInst } from './composables/useNDataTableInst'
 import { usePagination } from './composables/usePagination'
 import { useRowProps } from './composables/useRowProps'
 import { useSearchForm } from './composables/useSearchForm'
+import { useValueTypeForm } from './composables/useValueTypeForm'
 import { provideProDataTableInst } from './context'
 import { proDataTableExtendProps, proDataTableProps } from './props'
 
@@ -126,6 +127,8 @@ export default defineComponent({
         dragHandleId,
       },
     )
+
+    useValueTypeForm()
 
     const nDataTableProps = computed<DataTableProps>(() => {
       return {

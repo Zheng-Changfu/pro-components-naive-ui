@@ -12,7 +12,7 @@ export interface ProDataTableSlots {
    */
   'title'?: any
   /**
-   * 表格额外区域，右边
+   * 表格额外区域
    */
   'extra'?: any
   /**
