@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProCardSlots } from './slots'
 import { DownOutlined, InfoCircleOutlined, UpOutlined } from '@vicons/antd'
-import { isArray, isFunction } from 'lodash-es'
+import { isFunction } from 'lodash-es'
 import { collapseTransitionProps, NCard, NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import ProCollapseTransition from '../_internal/components/collapse-transition/index.vue'
@@ -97,18 +97,14 @@ export default defineComponent({
       ].filter(Boolean).join(' ')
     })
 
-    const tooltips = computed(() => {
-      const { tooltip } = overridedProps.value
-      if (!tooltip) {
-        return []
-      }
-      return isArray(tooltip) ? tooltip : [tooltip]
+    const tooltip = computed(() => {
+      return overridedProps.value.tooltip
     })
 
     return {
       show,
+      tooltip,
       cssVars,
-      tooltips,
       nCardProps,
       showHeader,
       collapseText,
@@ -146,17 +142,18 @@ export default defineComponent({
                 onClick={() => this.triggerExpand('main')}
               >
                 {resolveSlot(this.$slots.header, () => [this.resolvedTitle])}
-                {this.tooltips.length > 0 && (
-                  <ProTooltip trigger="hover" tooltip={this.tooltips}>
-                    {{
-                      trigger: () => [
-                        <NIcon size={18} class="n-pro-card-header__main__tooltip">
-                          <InfoCircleOutlined />
-                        </NIcon>,
-                      ],
-                    }}
-                  </ProTooltip>
-                )}
+                <ProTooltip
+                  trigger="hover"
+                  tooltip={this.tooltip}
+                >
+                  {{
+                    trigger: () => [
+                      <NIcon size={18} class="n-pro-card-header__main__tooltip">
+                        <InfoCircleOutlined />
+                      </NIcon>,
+                    ],
+                  }}
+                </ProTooltip>
               </NEl>
             ),
           ],
