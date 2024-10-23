@@ -2,6 +2,7 @@ import type { PaginationProps } from 'naive-ui'
 import type { MaybeExpression } from 'pro-components-hooks'
 import type { ExtractPublicPropTypes } from 'vue'
 import type { ProButtonProps } from '../button'
+import type { ProEditDataTableColumns } from './types'
 import { omit } from 'lodash-es'
 import { proDataTableProps } from '../data-table'
 import { proFieldProps } from '../form'
@@ -13,6 +14,7 @@ export const proEditDataTableProps = {
   ...omit(proDataTableProps, [
     'data',
     'manual',
+    'rowKey',
     'request',
     'transform',
     'onRequestError',
