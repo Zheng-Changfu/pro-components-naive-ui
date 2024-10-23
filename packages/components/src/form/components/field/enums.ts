@@ -33,6 +33,7 @@ export enum ValueTypeEnum {
   DATE_QUARTER_RANGE = 'date-quarter-range',
 
   FORM_LIST = 'form-list',
+  EDIT_DATA_TABLE = 'edit-data-table',
 }
 
 /**
