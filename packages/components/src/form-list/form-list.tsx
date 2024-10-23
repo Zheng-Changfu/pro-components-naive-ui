@@ -28,7 +28,7 @@ export default defineComponent({
       props,
     )
 
-    const separateProps = computed(() => {
+    const splitProps = computed(() => {
       const {
         min,
         max,
@@ -82,7 +82,7 @@ export default defineComponent({
     expose(methods)
     return {
       instRef,
-      separateProps,
+      splitProps,
       autoCreateRowId,
     }
   },
@@ -91,11 +91,11 @@ export default defineComponent({
       <ProField
         ref="instRef"
         class="n-pro-form-item"
-        {...this.separateProps.proFieldProps}
+        {...this.splitProps.proFieldProps}
         isList={true}
         postValue={this.autoCreateRowId}
-        fieldProps={this.separateProps.fieldListProps}
         valueType={ValueTypeEnum.FORM_LIST}
+        fieldProps={this.splitProps.fieldListProps}
       >
         {{
           ...this.$slots,
