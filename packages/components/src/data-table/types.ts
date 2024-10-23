@@ -4,7 +4,7 @@ import type { VNodeChild } from 'vue'
 import type { FieldValueType } from '../form'
 import type { AnyFn } from '../types'
 
-export interface ProTableBaseColumn<RowData = any> extends Omit<TableBaseColumn<RowData>, 'key'> {
+export interface ProDataTableBaseColumn<RowData = any> extends Omit<TableBaseColumn<RowData>, 'key'> {
   /**
    * naive-ui 需要的 key，这里只做了类型的处理
    */
@@ -31,13 +31,13 @@ export interface ProTableBaseColumn<RowData = any> extends Omit<TableBaseColumn<
   fieldSlots?: Record<string, AnyFn>
 }
 
-interface ProTableColumnGroup<RowData = any> extends Omit<TableColumnGroup<RowData>, 'key' | 'children'> {
+export interface ProDataTableColumnGroup<RowData = any> extends Omit<TableColumnGroup<RowData>, 'key' | 'children'> {
   key?: ExtractObjectPath<RowData> | ({} & string)
   path: ExtractObjectPath<RowData> | ({} & string)
-  children: ProTableBaseColumn<RowData>[]
+  children: ProDataTableBaseColumn<RowData>[]
 }
 
-export interface TableIndexColumn<RowData = any> extends Omit<ProTableBaseColumn<RowData>, 'path' | 'key' | 'render' | 'type' | 'valueType' | 'fieldProps' | 'fieldSlots'> {
+export interface ProDataTableIndexColumn<RowData = any> extends Omit<ProDataTableBaseColumn<RowData>, 'path' | 'key' | 'render' | 'type' | 'valueType' | 'fieldProps' | 'fieldSlots'> {
   /**
    * 序号列
    */
@@ -52,10 +52,10 @@ export interface TableIndexColumn<RowData = any> extends Omit<ProTableBaseColumn
 }
 
 export type ProDataTableColumn<RowData = any> =
-  | TableIndexColumn<RowData>
+  | ProDataTableIndexColumn<RowData>
   | TableExpandColumn<RowData>
-  | ProTableBaseColumn<RowData>
-  | ProTableColumnGroup<RowData>
+  | ProDataTableBaseColumn<RowData>
+  | ProDataTableColumnGroup<RowData>
   | TableSelectionColumn<RowData>
 
 export type ProDataTableColumns<RowData = any> = ProDataTableColumn<RowData>[]

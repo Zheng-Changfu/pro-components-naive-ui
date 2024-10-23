@@ -1,6 +1,6 @@
 import type { DataTableBaseColumn, DataTableColumn, PaginationProps } from 'naive-ui'
 import type { VNodeChild } from 'vue'
-import type { ProDataTableColumn, ProTableBaseColumn } from '../types'
+import type { ProDataTableBaseColumn, ProDataTableColumn } from '../types'
 import { DragOutlined, InfoCircleOutlined } from '@vicons/antd'
 import { get, isFunction } from 'lodash-es'
 import { NButton, NEl, NIcon } from 'naive-ui'
@@ -146,7 +146,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     }
   }
 
-  function createValueTypeColumn(column: ProTableBaseColumn): DataTableColumn {
+  function createValueTypeColumn(column: ProDataTableBaseColumn): DataTableColumn {
     const {
       key,
       path,
