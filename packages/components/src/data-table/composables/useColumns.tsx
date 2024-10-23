@@ -1,10 +1,9 @@
 import type { DataTableColumn, PaginationProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
-import type { ProDataTableColumn, ProTableBaseColumn } from '../types'
-import { watchImmediate } from '@vueuse/core'
+import type { ProDataTableBaseColumn, ProDataTableColumn } from '../types'
 import { mapTree } from 'pro-components-hooks'
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
 import { useColumnRenderer } from './useColumnRenderer'
 
 interface UseColumnsOptions {
@@ -27,19 +26,11 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
     createTooltipTitleRender,
   } = useColumnRenderer({ columns, pagination, dragHandleId })
 
-  function isDragSortColumn(column: ProTableBaseColumn) {
+  function isDragSortColumn(column: ProDataTableBaseColumn) {
     const { dragSortKey } = props.value
     const columnKey = column.path ?? column.key
     return !!dragSortKey && dragSortKey === columnKey
   }
-
-  watchImmediate(
-    () => props.value.columns ?? [],
-    (v) => {
-      columns.value = resolveColumns(v)
-      cacheColumns = columns.value
-    },
-  )
 
   function resolveColumns(columns: ProDataTableColumn[]) {
     return mapTree(columns, (item) => {
@@ -88,6 +79,12 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
   function setColumns(values: ProDataTableColumn[] | DataTableColumn[]) {
     columns.value = resolveColumns(values as ProDataTableColumn[])
   }
+
+  watchEffect(() => {
+    const values = props.value.columns ?? []
+    columns.value = resolveColumns(values)
+    cacheColumns = columns.value
+  })
 
   return {
     setColumns,
