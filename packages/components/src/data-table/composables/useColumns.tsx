@@ -82,8 +82,7 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
 
   watchEffect(() => {
     const values = props.value.columns ?? []
-    columns.value = resolveColumns(values)
-    cacheColumns = columns.value
+    cacheColumns = columns.value = resolveColumns(values)
   })
 
   return {
