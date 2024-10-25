@@ -1,17 +1,11 @@
 import type { DataTableRowKey } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
-import { watchImmediate } from '@vueuse/core'
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
 import { call } from '../../_utils/call'
 
 export function useCheckedRowKeys(props: ComputedRef<ProDataTableProps>) {
   const checkedRowKeys = ref<DataTableRowKey[]>([])
-
-  watchImmediate(
-    () => props.value.checkedRowKeys ?? [],
-    v => checkedRowKeys.value = v,
-  )
 
   function setCheckedRowKeys(keys: DataTableRowKey[], rows?: any, meta?: any) {
     checkedRowKeys.value = keys
@@ -35,6 +29,11 @@ export function useCheckedRowKeys(props: ComputedRef<ProDataTableProps>) {
       setCheckedRowKeys(keys)
     }
   }
+
+  watchEffect(() => {
+    const values = props.value.checkedRowKeys
+    checkedRowKeys.value = values ?? []
+  })
 
   return {
     checkedRowKeys: computed(() => checkedRowKeys.value),

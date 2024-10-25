@@ -2,10 +2,9 @@ import type { PaginationProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { UseFetchDataBaseOptions } from '../../composables/useFetchData'
 import type { ProDataTableProps } from '../props'
-import { watchImmediate } from '@vueuse/core'
 import { get, isArray, isFunction, isString, toString } from 'lodash-es'
 import { eachTree } from 'pro-components-hooks'
-import { ref, toRaw } from 'vue'
+import { ref, toRaw, watchEffect } from 'vue'
 import { useFetchData } from '../../composables/useFetchData'
 import { useFieldSetting } from './useFieldSetting'
 
@@ -108,11 +107,6 @@ export function useDataSource(props: ComputedRef<ProDataTableProps>, options: Us
     loading: fetchLoading,
   } = useFetchData(fetchDataOptions)
 
-  watchImmediate(
-    () => props.value.data ?? [],
-    v => isArray(v) && (data.value = v),
-  )
-
   const rowKeyToRowMap = computed(() => {
     const result = new Map<string, Record<PropertyKey, any>>()
 
@@ -145,6 +139,13 @@ export function useDataSource(props: ComputedRef<ProDataTableProps>, options: Us
   function setTableData(value: any[]) {
     data.value = value
   }
+
+  watchEffect(() => {
+    const values = props.value.data
+    if (isArray(values)) {
+      data.value = values
+    }
+  })
 
   return {
     data,
