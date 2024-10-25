@@ -3,6 +3,7 @@ import type { SlotsType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProDataTableInst } from './inst'
 import type { ProDataTableSlots } from './slots'
+import { isBoolean } from 'lodash-es'
 import { NDataTable, NFlex } from 'naive-ui'
 import { uid } from 'pro-components-hooks'
 import { defineComponent } from 'vue'
@@ -152,6 +153,32 @@ export default defineComponent({
       }
     })
 
+    const toolbarSettingProps = computed(() => {
+      const toolbarSetting = overridedProps.value.toolbarSetting ?? true
+      const defaultSettings = {
+        reload: true,
+        density: true,
+        columnSetting: true,
+      }
+
+      if (isBoolean(toolbarSetting)) {
+        return {}
+      }
+
+      const settings = {
+        ...defaultSettings,
+        ...toolbarSetting,
+      }
+
+      Object.keys(settings).forEach((key) => {
+        const typedKey = key as keyof typeof settings
+        if (settings[typedKey] === true) {
+          settings[typedKey] = {}
+        }
+      })
+      return settings
+    })
+
     const searchCardProps = computed<ProCardProps>(() => {
       return {
         ...(overridedProps.value.searchCardProps ?? {}),
@@ -226,6 +253,7 @@ export default defineComponent({
       searchCardProps,
       headerCardProps,
       proSearchFormProps,
+      toolbarSettingProps,
     }
   },
   render() {
@@ -249,7 +277,13 @@ export default defineComponent({
                   return (
                     <NFlex align="center">
                       {this.$slots.toolbar?.()}
-                      <DataTableSetting />
+                      {this.$props.toolbarSetting
+                        ? (
+                            <DataTableSetting
+                              {...this.toolbarSettingProps}
+                            />
+                          )
+                        : null }
                     </NFlex>
                   )
                 },

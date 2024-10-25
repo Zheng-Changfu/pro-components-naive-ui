@@ -1,3 +1,4 @@
+import type { DataTableProps } from 'naive-ui'
 import type { TableBaseColumn, TableColumnGroup, TableExpandColumn, TableSelectionColumn } from 'naive-ui/es/data-table/src/interface'
 import type { ExtractObjectPath } from 'pro-components-hooks'
 import type { VNodeChild } from 'vue'
@@ -81,4 +82,30 @@ export interface ProDataTableFieldSetting {
    * @default 'total'
    */
   totalField?: string
+}
+
+export interface ProDataTableSettingDensity {
+  renderIcon?: () => VNodeChild
+  /**
+   * 默认值 'default'
+   */
+  default?: (DataTableProps['size'] & {})
+}
+
+export interface ProDataTableSettingReload {
+  renderIcon?: () => VNodeChild
+}
+
+export interface ProDataTableToolbarColumnSetting {
+  draggable?: boolean
+  checkable?: boolean
+  resetButton?: boolean
+  indexColummn?: boolean
+  renderIcon?: () => VNodeChild
+}
+
+export interface ProDataTableToolbarSetting {
+  density?: boolean | ProDataTableSettingDensity
+  reload?: boolean | ProDataTableSettingReload
+  columnSetting?: boolean | ProDataTableToolbarColumnSetting
 }
