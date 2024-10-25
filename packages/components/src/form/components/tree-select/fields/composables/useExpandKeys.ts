@@ -1,6 +1,6 @@
 import type { TreeSelectProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
-import { computed, ref, watch } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { call } from '../../../../../_utils/call'
 
 export interface UseExpandKeysOptions {
@@ -15,12 +15,6 @@ export function useExpandKeys(
 ) {
   const { keyToNodeMap } = options
   const expandedKeys = ref<Array<string | number>>([])
-
-  watch(
-    computed(() => props.expandedKeys ?? []),
-    keys => expandedKeys.value = keys ?? [],
-    { immediate: true },
-  )
 
   function doUpdateExpandedKeys(keys: Array<string & number>, option?: any, meta?: any) {
     const {
@@ -45,6 +39,11 @@ export function useExpandKeys(
     }
     expandedKeys.value = keys ?? allKeys
   }
+
+  watchEffect(() => {
+    const values = props.expandedKeys
+    expandedKeys.value = values ?? []
+  })
 
   return {
     expandedKeys,

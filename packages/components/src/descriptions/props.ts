@@ -25,10 +25,7 @@ export const proDescriptionsExtendProps = {
   /**
    * 是否手动调用 request，设置后不会调用 request
    */
-  manual: {
-    type: Boolean,
-    default: false,
-  },
+  manual: Boolean,
   /**
    * 屏幕聚焦刷新请求
    */

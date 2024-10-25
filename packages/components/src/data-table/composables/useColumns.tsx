@@ -21,9 +21,9 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
 
   const {
     createIndexColumn,
+    resolveTooltipTitle,
     createDragSortColumn,
     createValueTypeColumn,
-    createTooltipTitleRender,
   } = useColumnRenderer({ columns, pagination, dragHandleId })
 
   function isDragSortColumn(column: ProDataTableBaseColumn) {
@@ -59,7 +59,7 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
         type,
         ...rest,
         key: path ?? key,
-        title: createTooltipTitleRender(title, tooltip),
+        title: resolveTooltipTitle(title, tooltip),
       }
     }, (props.value.childrenKey ?? 'children') as any)
   }

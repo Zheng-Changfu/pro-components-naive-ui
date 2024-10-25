@@ -35,11 +35,14 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     return columns.value.some(column => column.fixed === 'left')
   })
 
-  function createTooltipTitleRender(
+  function resolveTooltipTitle(
     title?: string | ((column: DataTableBaseColumn) => VNodeChild),
     tooltip?: string | string[],
   ) {
     if (title) {
+      if (!tooltip) {
+        return title
+      }
       return function (column: DataTableBaseColumn) {
         const resolvedTitle = isFunction(title) ? title(column) : title
         if (!tooltip) {
@@ -163,7 +166,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     return {
       ...rest,
       key: columnKey,
-      title: createTooltipTitleRender(title, tooltip),
+      title: resolveTooltipTitle(title, tooltip),
       render(row, rowIndex) {
         if (render) {
           return render(row, rowIndex)
@@ -186,8 +189,8 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
 
   return {
     createIndexColumn,
+    resolveTooltipTitle,
     createDragSortColumn,
     createValueTypeColumn,
-    createTooltipTitleRender,
   }
 }

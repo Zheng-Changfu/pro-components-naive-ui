@@ -1,7 +1,6 @@
 import type { ComputedRef } from 'vue'
 import type { ProTreeProps } from '../props'
-import { watchImmediate } from '@vueuse/core'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { call } from '../../_utils/call'
 
 export interface UseSelectKeysOptions {
@@ -13,11 +12,6 @@ export interface UseSelectKeysOptions {
 export function useSelectKeys(props: ComputedRef<ProTreeProps>, options: UseSelectKeysOptions) {
   const { keyToNodeMap } = options
   const selectedKeys = ref<Array<string | number>>([])
-
-  watchImmediate(
-    () => props.value.selectedKeys,
-    (keys) => { selectedKeys.value = keys ?? [] },
-  )
 
   function doUpdateSelectedKeys(keys: Array<string & number>, option?: any, meta?: any) {
     const {
@@ -41,6 +35,11 @@ export function useSelectKeys(props: ComputedRef<ProTreeProps>, options: UseSele
     }
     selectedKeys.value = keys ?? [...map.keys()]
   }
+
+  watchEffect(() => {
+    const values = props.value.selectedKeys
+    selectedKeys.value = values ?? []
+  })
 
   return {
     selectedKeys,

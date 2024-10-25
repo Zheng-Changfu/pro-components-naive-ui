@@ -1,6 +1,6 @@
 import type { TreeSelectProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
-import { computed, ref, watch } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { call } from '../../../../../_utils/call'
 
 export interface UseIndeterminateKeysOptions {
@@ -15,12 +15,6 @@ export function useIndeterminateKeys(
 ) {
   const { keyToNodeMap } = options
   const indeterminateKeys = ref<Array<string | number>>([])
-
-  watch(
-    computed(() => props.indeterminateKeys ?? []),
-    keys => indeterminateKeys.value = keys ?? [],
-    { immediate: true },
-  )
 
   function doUpdateIndeterminateKeys(keys: Array<string & number>, option?: any) {
     const {
@@ -44,6 +38,11 @@ export function useIndeterminateKeys(
     }
     indeterminateKeys.value = keys
   }
+
+  watchEffect(() => {
+    const values = props.indeterminateKeys
+    indeterminateKeys.value = values ?? []
+  })
 
   return {
     indeterminateKeys,
