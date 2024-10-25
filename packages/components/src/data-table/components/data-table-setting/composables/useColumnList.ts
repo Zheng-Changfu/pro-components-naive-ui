@@ -1,6 +1,6 @@
 import type { DataTableBaseColumn, DataTableColumn } from 'naive-ui'
 import type { VNodeChild } from 'vue'
-import { cloneDeep, isFunction } from 'lodash-es'
+import { cloneDeep, isFunction, isString } from 'lodash-es'
 import { onMounted, ref } from 'vue'
 import { indexColumnKey, sortColumnKey } from '../../../composables/useColumnRenderer'
 import { useInjectProDataTableInst } from '../../../context'
@@ -40,16 +40,19 @@ export function useColumnList() {
   }
 
   function pattern(column: DataTableColumn) {
+    /**
+     * 不支持 tooltip title，不然 vueDraggablePlus 会报循环引用，相关 issue 也没解决，后续再看
+     */
     return !column.type
-      && !!column.title
       && !!String(column.key)
+      && isString(column.title)
       && column.key !== sortColumnKey
       && column.key !== indexColumnKey
   }
 
   function sortTableColumnsByList() {
     const tableColumns = [...getCacheColumns()]
-    let startIndex = tableColumns.filter(pattern).length - 1
+    let startIndex = tableColumns.filter(pattern).length
     list.value.forEach((item) => {
       const index = tableColumns.findIndex(column => !column.type && column.key === item.key)
       if (~index) {
@@ -58,7 +61,6 @@ export function useColumnList() {
         tableColumns.splice(startIndex++, 0, column)
       }
     })
-    console.log(tableColumns)
     setColumns(tableColumns)
     setCacheColumns(tableColumns)
   }
