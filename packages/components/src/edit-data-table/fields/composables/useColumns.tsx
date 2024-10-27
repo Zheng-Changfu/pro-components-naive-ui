@@ -1,4 +1,5 @@
 import type { ProDataTableColumn } from '../../../data-table'
+import type { ProEditDataTableColumns } from '../../types'
 import type { FieldDataTableProps } from '../field-data-table'
 import { mapTree } from 'pro-components-hooks'
 import { ref, watchEffect } from 'vue'
@@ -7,7 +8,7 @@ import FieldDataTableCell from '../field-data-table-cell'
 export function useColumns(props: FieldDataTableProps) {
   const columns = ref<ProDataTableColumn[]>([])
 
-  function resolveColumns(columns: ProDataTableColumn[]) {
+  function resolveColumns(columns: ProEditDataTableColumns) {
     return mapTree(columns, (column: any) => {
       const columnKey = column.path ?? column.key
       const indexColumn = column.type === 'index'
@@ -19,7 +20,7 @@ export function useColumns(props: FieldDataTableProps) {
             render: (row: any, rowIndex: number) => {
               return (
                 <FieldDataTableCell
-                  rowData={row}
+                  row={row}
                   column={column}
                   rowIndex={rowIndex}
                   columnKey={columnKey}
