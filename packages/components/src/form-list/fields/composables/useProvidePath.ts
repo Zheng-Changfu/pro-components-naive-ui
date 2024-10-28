@@ -4,6 +4,7 @@ import { computed } from 'vue'
 
 export function useProvidePath(index: ToRef<number>) {
   const parent = useInjectParentFieldContext()!
+
   const path = computed(() => {
     return [
       ...parent.path.value, // list path

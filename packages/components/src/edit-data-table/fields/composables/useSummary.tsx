@@ -31,7 +31,9 @@ export function useSummary(props: FieldDataTableProps) {
         ? summaryRows.push(...summaryRowData)
         : summaryRows.push(summaryRowData)
     }
-    if (position.value) {
+
+    const max = props.max ?? Number.POSITIVE_INFINITY
+    if (position.value && pageData.length < max) {
       summaryRows.push(renderCreatorButton())
     }
     return summaryRows

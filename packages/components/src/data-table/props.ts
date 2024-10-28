@@ -4,7 +4,7 @@ import type { ProCardProps } from '../card'
 import type { RefreshOnWindowFocus } from '../composables/useFetchData'
 import type { AnyFn } from '../types'
 import type { ProSearchFormProps } from './components/search-form'
-import type { ProDataTableColumns, ProDataTableFieldSetting } from './types'
+import type { ProDataTableColumns, ProDataTableFieldSetting, ProDataTableToolbarSetting } from './types'
 import { dataTableProps } from 'naive-ui'
 
 export const proDataTableExtendProps = {
@@ -35,6 +35,13 @@ export const proDataTableExtendProps = {
    * 数据源分页相关字段配置
    */
   fieldSetting: Object as PropType<ProDataTableFieldSetting>,
+  /**
+   * 工具栏配置
+   */
+  toolbarSetting: {
+    type: [Boolean, Object] as PropType<boolean | ProDataTableToolbarSetting>,
+    default: true,
+  },
   /**
    * 在请求完成后是否清除选中行
    */

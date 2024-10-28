@@ -9,8 +9,8 @@ import { defineComponent } from 'vue'
 import { resolveWrappedSlot } from '../_utils/resolve-slot'
 import { ProCard } from '../card'
 import { useOmitProps, useOverrideProps } from '../composables'
-import DataTableSetting from './components/data-table-setting/data-table-setting'
 import { ProSearchForm, useProSearchFormInst } from './components/search-form'
+import DataTableSetting from './components/toolbar-setting/toolbar-setting'
 import { useCheckedRowKeys } from './composables/useCheckedRowKeys'
 import { useColumns } from './composables/useColumns'
 import { useDataSource } from './composables/useDataSource'
@@ -22,7 +22,7 @@ import { usePagination } from './composables/usePagination'
 import { useRowProps } from './composables/useRowProps'
 import { useSearchForm } from './composables/useSearchForm'
 import { useValueTypeForm } from './composables/useValueTypeForm'
-import { provideProDataTableInst } from './context'
+import { provideProDataTableInst, provideProDataTableProps } from './context'
 import { proDataTableExtendProps, proDataTableProps } from './props'
 
 const name = 'ProDataTable'
@@ -216,6 +216,7 @@ export default defineComponent({
 
     expose(exposed)
     provideProDataTableInst(exposed)
+    provideProDataTableProps(overridedProps)
 
     return {
       pagination,

@@ -1,6 +1,8 @@
 import type { DataTableColumn, DataTableInst, DataTableProps, PaginationProps } from 'naive-ui'
+import type { PickFunction } from '../types'
 import type { ProSearchFormInst } from './components/search-form'
 import type { ProDataTableColumn } from './types'
+import { createProComponentInstanceFactory } from '../composables'
 
 export interface ProDataTableInst<RowData = any> extends DataTableInst {
   /**
@@ -60,3 +62,5 @@ export interface ProDataTableInst<RowData = any> extends DataTableInst {
    */
   getSearchFormInst: () => ProSearchFormInst
 }
+
+export const useProDataTableInst = createProComponentInstanceFactory<PickFunction<ProDataTableInst>>('ProDataTable')
