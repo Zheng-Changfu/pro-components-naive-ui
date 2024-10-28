@@ -32,7 +32,7 @@
     "seemly": "^0.3.8",
     "vfonts": "^0.0.3",
     "vooks": "0.2.12",
-    "vue": "3.4.2",
+    "vue": "3.4.35",
     "vue-draggable-plus": "^0.5.3",
     "vue-router": "^4.3.3"
   },

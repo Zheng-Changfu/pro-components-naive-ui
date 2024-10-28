@@ -3,6 +3,7 @@ import { NIcon } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { ProButton } from '../../../button'
 import { useLocale } from '../../../locales'
+import { useMergeToolbarSetting } from './composables/userMergeToolbarSetting'
 import { useInjectProDataTableInst } from '../../context'
 
 export default defineComponent({
@@ -10,22 +11,31 @@ export default defineComponent({
   setup() {
     const { reload } = useInjectProDataTableInst()!
     const { getMessage } = useLocale('ProDataTable')
+    const { mergedReload } = useMergeToolbarSetting()
 
     return {
       reload,
       getMessage,
+      mergedReload,
     }
   },
   render() {
+    const { mergedReload } = this
     return (
       <ProButton
         text={true}
         onClick={this.reload}
         tooltip={this.getMessage('settingReload')}
       >
-        <NIcon size={18}>
-          <ReloadOutlined />
-        </NIcon>
+        {
+          mergedReload !== false && mergedReload.renderIcon
+            ? mergedReload.renderIcon()
+            : (
+                <NIcon size={18}>
+                  <ReloadOutlined />
+                </NIcon>
+              )
+        }
       </ProButton>
     )
   },
