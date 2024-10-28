@@ -1,5 +1,5 @@
 import type { ProDataTableColumn } from '../../../data-table'
-import type { ProEditDataTableColumns } from '../../types'
+import type { ProEditDataTableColumn, ProEditDataTableColumns } from '../../types'
 import type { FieldDataTableProps } from '../field-data-table'
 import { mapTree } from 'pro-components-hooks'
 import { ref, watchEffect } from 'vue'
@@ -8,11 +8,14 @@ import FieldDataTableCell from '../field-data-table-cell'
 export function useColumns(props: FieldDataTableProps) {
   const columns = ref<ProDataTableColumn[]>([])
 
+  function isSpecialColumn(column: ProEditDataTableColumn) {
+    return ['index', 'expand', 'selection'].includes(column.type as string)
+  }
+
   function resolveColumns(columns: ProEditDataTableColumns) {
     return mapTree(columns, (column: any) => {
       const columnKey = column.path ?? column.key
-      const indexColumn = column.type === 'index'
-      return indexColumn
+      return isSpecialColumn(column)
         ? column
         : {
             ...column,

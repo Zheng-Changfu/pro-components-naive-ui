@@ -13,7 +13,7 @@ const CreatorButton = defineComponent({
 })
 
 export function useSummary(props: FieldDataTableProps) {
-  const position = ref<'top' | 'bottom' | undefined>()
+  const position = ref<'top' | 'bottom' | false>('bottom')
 
   function renderCreatorButton(): SummaryRowData {
     return {
@@ -40,11 +40,12 @@ export function useSummary(props: FieldDataTableProps) {
   }
 
   watchEffect(() => {
-    position.value = props.position ?? props.summaryPlacement
+    position.value = props.position ?? props.summaryPlacement ?? 'bottom'
   })
 
   return {
     position,
     summary: renderSummary,
+    summaryPlacement: computed(() => position.value === false ? undefined : position.value),
   }
 }

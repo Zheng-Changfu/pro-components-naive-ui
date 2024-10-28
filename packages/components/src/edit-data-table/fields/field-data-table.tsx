@@ -18,7 +18,10 @@ const fieldDataTableProps = {
     Object.keys(proFieldProps),
   ) as Omit<typeof proEditDataTableProps, keyof typeof proFieldProps>,
   max: Number,
-  position: String as PropType<'top' | 'bottom'>,
+  position: {
+    type: [String, Boolean] as PropType<'top' | 'bottom' | false>,
+    default: 'bottom',
+  },
   value: {
     type: Array as PropType<Array<Record<string, any>>>,
     required: true,
@@ -27,6 +30,7 @@ const fieldDataTableProps = {
     type: [Object, Boolean] as PropType<ProButtonProps | false>,
     default: undefined,
   },
+  onUpdateValue: Function,
 } as const
 
 export type FieldDataTableProps = ExtractPublicPropTypes<typeof fieldDataTableProps>
@@ -35,7 +39,7 @@ export default defineComponent({
   name: 'FieldDataTable',
   props: fieldDataTableProps,
   slots: Object as SlotsType<ProEditDataTableSlots>,
-  setup(props, { expose }) {
+  setup(props, { attrs, expose }) {
     const form = useInjectProFormInst()
 
     const {
@@ -44,7 +48,7 @@ export default defineComponent({
 
     const {
       summary,
-      position,
+      summaryPlacement,
     } = useSummary(props)
 
     const {
@@ -94,12 +98,23 @@ export default defineComponent({
     expose(exposed)
 
     const proDataTableProps = computed<ProDataTableProps>(() => {
+      const {
+        max,
+        position,
+        onUpdateValue,
+        creatorButtonProps,
+        creatorInitialValue,
+        ...rest
+      } = props
+
       return {
+        ...attrs,
+        ...rest,
         summary,
         data: props.value,
         rowKey: AUTO_CREATE_ID,
         columns: columns.value,
-        summaryPlacement: position.value,
+        summaryPlacement: summaryPlacement.value,
       }
     })
 
