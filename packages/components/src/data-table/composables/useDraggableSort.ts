@@ -1,6 +1,6 @@
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
-import { getCurrentInstance, onUnmounted, watchPostEffect } from 'vue'
+import { getCurrentInstance, watchPostEffect } from 'vue'
 import { useDraggable } from 'vue-draggable-plus'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 
@@ -23,7 +23,7 @@ export function useDraggableSort(props: ComputedRef<ProDataTableProps>, options:
     return dragSortKey && columns.some((item: any) => item.path === dragSortKey || item.key === dragSortKey)
   })
 
-  const { start, destroy } = useDraggable(
+  const { start, pause } = useDraggable(
     nDataTableTBody as any,
     sortedData as any,
     {
@@ -57,10 +57,9 @@ export function useDraggableSort(props: ComputedRef<ProDataTableProps>, options:
       ) {
         start()
       }
+      else {
+        pause()
+      }
     }
-  })
-
-  onUnmounted(() => {
-    destroy()
   })
 }
