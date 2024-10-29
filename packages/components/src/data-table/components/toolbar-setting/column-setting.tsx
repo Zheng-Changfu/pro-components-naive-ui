@@ -1,4 +1,4 @@
-import type { ToolbarColumnSetting } from '../../types'
+import type { MergedToolbarColumnSetting } from './composables/userMergeToolbarSetting'
 import { DragOutlined, SettingOutlined } from '@vicons/antd'
 import { NButton, NCheckbox, NCheckboxGroup, NFlex, NIcon, NPopover } from 'naive-ui'
 import { uid } from 'pro-components-hooks'
@@ -61,7 +61,7 @@ export default defineComponent({
     }
 
     const mergedColumnSetting = computed(() => {
-      return _mergedColumnSetting.value as Required<Omit<ToolbarColumnSetting, 'renderIcon'>> & Pick<ToolbarColumnSetting, 'renderIcon'>
+      return _mergedColumnSetting.value as Exclude<MergedToolbarColumnSetting, boolean>
     })
 
     const canDraggable = computed(() => {
@@ -131,16 +131,20 @@ export default defineComponent({
                         style={{ padding: '4px 0 8px 0' }}
                       >
                         <NFlex align="center">
-                          {draggable && (
-                            <NButton text={true} class={this.dragHandleId} style={{ cursor: 'move' }}>
-                              <NIcon size={16}>
-                                <DragOutlined />
-                              </NIcon>
-                            </NButton>
-                          )}
-                          {checkable
-                            ? <NCheckbox value={item.key}>{item.title}</NCheckbox>
-                            : item.title }
+                          {
+                            draggable && (
+                              <NButton text={true} class={this.dragHandleId} style={{ cursor: 'move' }}>
+                                <NIcon size={16}>
+                                  <DragOutlined />
+                                </NIcon>
+                              </NButton>
+                            )
+                          }
+                          {
+                            checkable
+                              ? <NCheckbox value={item.key}>{item.title}</NCheckbox>
+                              : item.title
+                          }
                         </NFlex>
                       </NFlex>
                     )
@@ -151,16 +155,18 @@ export default defineComponent({
           ),
           header: () => (
             <NFlex justify="space-between">
-              {checkable
-                ? (
-                    <NCheckbox
-                      v-model:checked={this.allChecked}
-                      indeterminate={this.indeterminate}
-                    >
-                      {this.getMessage('settingShowColumn')}
-                    </NCheckbox>
-                  )
-                : this.getMessage('settingShowColumn')}
+              {
+                checkable
+                  ? (
+                      <NCheckbox
+                        v-model:checked={this.allChecked}
+                        indeterminate={this.indeterminate}
+                      >
+                        {this.getMessage('settingShowColumn')}
+                      </NCheckbox>
+                    )
+                  : this.getMessage('settingShowColumn')
+              }
               {indexColummn && <NCheckbox v-model:checked={this.showIndexColumn}>{this.getMessage('settingShowIndexColumn')}</NCheckbox>}
               {resetButton && <NButton type="primary" text={true} onClick={this.resetColumns}>{this.getMessage('settingReset')}</NButton>}
             </NFlex>
