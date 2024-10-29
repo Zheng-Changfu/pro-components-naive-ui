@@ -61,7 +61,7 @@ export default defineComponent({
     }
 
     const mergedColumnSetting = computed(() => {
-      return _mergedColumnSetting.value as Required<ToolbarColumnSetting>
+      return _mergedColumnSetting.value as Required<Omit<ToolbarColumnSetting, 'renderIcon'>> & Pick<ToolbarColumnSetting, 'renderIcon'>
     })
 
     const canDraggable = computed(() => {

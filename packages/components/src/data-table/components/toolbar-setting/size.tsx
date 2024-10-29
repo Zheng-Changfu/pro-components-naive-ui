@@ -28,7 +28,7 @@ export default defineComponent({
     } = useMergeToolbarSetting()
 
     const mergedDensity = computed(() => {
-      return _mergedDensity.value as ToolbarDensitySetting
+      return _mergedDensity.value as Required<Omit<ToolbarDensitySetting, 'renderIcon'>> & Pick<ToolbarDensitySetting, 'renderIcon'>
     })
 
     watchEffect(() => {
