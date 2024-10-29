@@ -8,6 +8,7 @@ import { useInjectFieldContext } from 'pro-components-hooks'
 import { ProDataTable } from '../../data-table'
 import { proFieldProps, useInjectProFormInst } from '../../form'
 import { AUTO_CREATE_ID } from '../../form-list'
+import { useEditable } from '../composables/useEditable'
 import { proEditDataTableProps } from '../props'
 import { useColumns } from './composables/useColumns'
 import { useSummary } from './composables/useSummary'
@@ -52,6 +53,13 @@ export default defineComponent({
     } = useSummary(props)
 
     const {
+      getEditable,
+      startEditable,
+      cancelEditable,
+      cancelEditableWithRestore,
+    } = useEditable()
+
+    const {
       pop,
       push,
       move,
@@ -93,6 +101,10 @@ export default defineComponent({
       remove,
       unshift,
       moveDown,
+      getEditable,
+      startEditable,
+      cancelEditable,
+      cancelEditableWithRestore,
     }
 
     expose(exposed)

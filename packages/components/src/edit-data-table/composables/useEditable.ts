@@ -1,6 +1,7 @@
 import type { ArrayField } from 'pro-components-hooks'
 import { useInjectFieldContext } from 'pro-components-hooks'
-import { useInjectProFormInst } from '../../form'
+import { watchEffect } from 'vue'
+import { useInjectProFormInst, useReadonlyHelpers } from '../../form'
 import { AUTO_CREATE_ID } from '../../form-list'
 
 /**
@@ -8,68 +9,68 @@ import { AUTO_CREATE_ID } from '../../form-list'
  */
 export function useEditable() {
   const form = useInjectProFormInst()
-  const editableKeys = []
+  const editableKeys = ref<Set<string>>(new Set())
 
   const {
     stringPath,
     value: list,
   } = useInjectFieldContext() as ArrayField
 
-  function getRowId(index: number): string {
+  const {
+    readonly,
+  } = useReadonlyHelpers()
+
+  function getRowKey(index: number): string {
     if (form && stringPath.value) {
       return list.value[index][AUTO_CREATE_ID]
     }
     return ''
   }
 
-  function getEditable() {
-
+  function getEditable(index: number) {
+    const rowId = getRowKey(index)
+    return !!rowId && editableKeys.value.has(rowId)
   }
 
   function startEditable(index: number) {
-    const rowId = getRowId(index)
-    if (rowId) {
-
+    const rowId = getRowKey(index)
+    if (rowId && !editableKeys.value.has(rowId)) {
+      editableKeys.value.add(rowId)
+      const rowPath = `${stringPath.value}.${index}`
+      form!.setInitialValue(rowPath, form!.getFieldValue(rowPath))
     }
   }
 
-  function startEditableWithOmit(index: number, paths: string[]) {
-
-  }
-
-  function startEditableWithPick(index: number, paths: string[]) {
-
-  }
-
   function cancelEditable(index: number) {
-
-  }
-
-  function cancelEditableWithOmit(index: number, paths: string[]) {
-
-  }
-
-  function cancelEditableWithPick(index: number, paths: string[]) {
-
-  }
-
-  function cancelEditableWithSave(index: number) {
-
+    const rowId = getRowKey(index)
+    if (rowId && editableKeys.value.has(rowId)) {
+      editableKeys.value.delete(rowId)
+    }
   }
 
   function cancelEditableWithRestore(index: number) {
-
+    const rowId = getRowKey(index)
+    if (rowId && editableKeys.value.has(rowId)) {
+      editableKeys.value.delete(rowId)
+      const rowPath = `${stringPath.value}.${index}`
+      form!.resetFieldValue(rowPath)
+    }
   }
+
+  watchEffect(() => {
+    const keys: string[] = []
+    if (!readonly.value && form && stringPath.value) {
+      list.value.forEach((row) => {
+        keys.push(row[AUTO_CREATE_ID])
+      })
+    }
+    editableKeys.value = new Set(keys)
+  })
 
   return {
     getEditable,
     startEditable,
     cancelEditable,
-    startEditableWithOmit,
-    startEditableWithPick,
-    cancelEditableWithOmit,
-    cancelEditableWithPick,
-    cancelEditableWithSave,
     cancelEditableWithRestore,
   }
 }
