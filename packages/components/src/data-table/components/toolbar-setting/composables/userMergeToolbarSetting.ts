@@ -68,8 +68,8 @@ export function useMergeToolbarSetting() {
     mergedReload,
     mergedDensity,
     mergedColumnSetting,
-    showReload: computed(() => mergedReload.value === false),
-    showDensity: computed(() => mergedDensity.value === false),
-    showColumnSetting: computed(() => mergedColumnSetting.value === false),
+    showReload: computed(() => mergedReload.value !== false),
+    showDensity: computed(() => mergedDensity.value !== false),
+    showColumnSetting: computed(() => mergedColumnSetting.value !== false),
   }
 }
