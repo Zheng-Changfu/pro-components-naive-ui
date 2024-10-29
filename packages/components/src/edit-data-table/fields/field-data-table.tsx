@@ -2,15 +2,18 @@ import type { ArrayField } from 'pro-components-hooks'
 import type { ExtractPublicPropTypes, SlotsType } from 'vue'
 import type { ProButtonProps } from '../../button'
 import type { ProDataTableProps } from '../../data-table'
+import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
 import { omit } from 'lodash-es'
 import { useInjectFieldContext } from 'pro-components-hooks'
 import { ProDataTable } from '../../data-table'
 import { proFieldProps, useInjectProFormInst } from '../../form'
 import { AUTO_CREATE_ID } from '../../form-list'
-import { useEditable } from '../composables/useEditable'
+import { provideProEditDataTableInst } from '../context'
 import { proEditDataTableProps } from '../props'
 import { useColumns } from './composables/useColumns'
+import { useEditable } from './composables/useEditable'
+import { useProDataTableContext } from './composables/useProDataTableContext'
 import { useSummary } from './composables/useSummary'
 
 const fieldDataTableProps = {
@@ -42,6 +45,11 @@ export default defineComponent({
   slots: Object as SlotsType<ProEditDataTableSlots>,
   setup(props, { attrs, expose }) {
     const form = useInjectProFormInst()
+
+    const [
+      instRef,
+      methods,
+    ] = useProDataTableContext()
 
     const {
       columns,
@@ -91,7 +99,30 @@ export default defineComponent({
       }
     })
 
-    const exposed = {
+    const proDataTableProps = computed<ProDataTableProps>(() => {
+      const {
+        max,
+        position,
+        onUpdateValue,
+        creatorButtonProps,
+        creatorInitialValue,
+        ...rest
+      } = props
+
+      return {
+        ...attrs,
+        ...rest,
+        summary,
+        ref: instRef,
+        data: props.value,
+        rowKey: AUTO_CREATE_ID,
+        columns: columns.value,
+        summaryPlacement: summaryPlacement.value,
+      }
+    })
+
+    const exposed: ProEditDataTableInst = {
+      ...methods,
       pop,
       push,
       move,
@@ -108,28 +139,7 @@ export default defineComponent({
     }
 
     expose(exposed)
-
-    const proDataTableProps = computed<ProDataTableProps>(() => {
-      const {
-        max,
-        position,
-        onUpdateValue,
-        creatorButtonProps,
-        creatorInitialValue,
-        ...rest
-      } = props
-
-      return {
-        ...attrs,
-        ...rest,
-        summary,
-        data: props.value,
-        rowKey: AUTO_CREATE_ID,
-        columns: columns.value,
-        summaryPlacement: summaryPlacement.value,
-      }
-    })
-
+    provideProEditDataTableInst(exposed)
     return {
       proDataTableProps,
     }

@@ -26,6 +26,11 @@ export interface ProEditDataTableInst extends Pick<
    */
   cancelEditable: (index: number) => void
   /**
+   * 结束编辑并还原值
+   * @param index 行索引
+   */
+  cancelEditableWithRestore: (index: number) => void
+  /**
    * 获取行是否在编辑状态
    * @param index 行索引
    */
