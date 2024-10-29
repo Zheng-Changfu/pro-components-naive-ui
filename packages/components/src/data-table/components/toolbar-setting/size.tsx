@@ -1,12 +1,13 @@
 import type { DropdownOption } from 'naive-ui'
 import type { VNodeChild } from 'vue'
+import type { ToolbarDensitySetting } from '../../types'
 import { ColumnHeightOutlined } from '@vicons/antd'
 import { NDropdown, NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { defineComponent, watchEffect } from 'vue'
 import { ProButton } from '../../../button'
 import { useLocale } from '../../../locales'
-import { useMergeToolbarSetting } from './composables/userMergeToolbarSetting'
 import { useInjectProDataTableInst } from '../../context'
+import { useMergeToolbarSetting } from './composables/userMergeToolbarSetting'
 
 export default defineComponent({
   name: 'Size',
@@ -23,15 +24,17 @@ export default defineComponent({
     } = useLocale('ProDataTable')
 
     const {
-      mergedDensity,
+      mergedDensity: _mergedDensity,
     } = useMergeToolbarSetting()
 
+    const mergedDensity = computed(() => {
+      return _mergedDensity.value as Required<Omit<ToolbarDensitySetting, 'renderIcon'>> & Pick<ToolbarDensitySetting, 'renderIcon'>
+    })
+
     watchEffect(() => {
-      if (mergedDensity.value !== false) {
-        const defaultSize = mergedDensity.value.default
-        if (defaultSize) {
-          setTableSize(defaultSize)
-        }
+      const defaultSize = mergedDensity.value.default
+      if (defaultSize) {
+        setTableSize(defaultSize)
       }
     })
 
@@ -45,7 +48,7 @@ export default defineComponent({
     }
   },
   render() {
-    const { mergedDensity } = this
+    const { renderIcon } = this.mergedDensity
 
     const renderLabel = (option: DropdownOption) => {
       if (option.key === this.getTableSize()) {
@@ -78,8 +81,8 @@ export default defineComponent({
         <NFlex>
           <ProButton text={true} tooltip={this.getMessage('settingDens')}>
             {
-              mergedDensity !== false && mergedDensity.renderIcon
-                ? mergedDensity.renderIcon()
+              renderIcon
+                ? renderIcon()
                 : (
                     <NIcon size={18}>
                       <ColumnHeightOutlined />

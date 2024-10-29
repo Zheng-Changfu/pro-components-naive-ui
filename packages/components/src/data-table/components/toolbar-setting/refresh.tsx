@@ -1,17 +1,22 @@
+import type { ToolbarReloadSetting } from '../../types'
 import { ReloadOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { ProButton } from '../../../button'
 import { useLocale } from '../../../locales'
-import { useMergeToolbarSetting } from './composables/userMergeToolbarSetting'
 import { useInjectProDataTableInst } from '../../context'
+import { useMergeToolbarSetting } from './composables/userMergeToolbarSetting'
 
 export default defineComponent({
   name: 'Refresh',
   setup() {
     const { reload } = useInjectProDataTableInst()!
     const { getMessage } = useLocale('ProDataTable')
-    const { mergedReload } = useMergeToolbarSetting()
+    const { mergedReload: _mergedReload } = useMergeToolbarSetting()
+
+    const mergedReload = computed(() => {
+      return _mergedReload.value as ToolbarReloadSetting
+    })
 
     return {
       reload,
@@ -20,7 +25,7 @@ export default defineComponent({
     }
   },
   render() {
-    const { mergedReload } = this
+    const { renderIcon } = this.mergedReload
     return (
       <ProButton
         text={true}
@@ -28,8 +33,8 @@ export default defineComponent({
         tooltip={this.getMessage('settingReload')}
       >
         {
-          mergedReload !== false && mergedReload.renderIcon
-            ? mergedReload.renderIcon()
+          renderIcon
+            ? renderIcon()
             : (
                 <NIcon size={18}>
                   <ReloadOutlined />
