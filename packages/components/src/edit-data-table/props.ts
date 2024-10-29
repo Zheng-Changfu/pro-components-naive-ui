@@ -30,9 +30,11 @@ export const proEditDataTableProps = {
    * 添加一行按钮显示在顶部还是底部
    *  顶部：每次添加数据都添加在首行
    *  底部：每次添加数据都添加在尾行
-   * @default 'bottom'
    */
-  position: String as PropType<MaybeExpression<'top' | 'bottom'>>,
+  position: {
+    type: [String, Boolean] as PropType<MaybeExpression<'top' | 'bottom'> | false>,
+    default: 'bottom',
+  },
   /**
    * 最多行数，多于该数则无法继续新增
    */

@@ -29,9 +29,6 @@ export default defineComponent({
     const {
       path: rowPath,
     } = useProvidePath(toRef(props, 'rowIndex'))
-
-    
-
   },
 
   render() {

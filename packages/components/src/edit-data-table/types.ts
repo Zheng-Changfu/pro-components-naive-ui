@@ -1,8 +1,8 @@
 import type { TableExpandColumn, TableSelectionColumn } from 'naive-ui/es/data-table/src/interface'
-import type { ProDataTableBaseColumn, ProDataTableColumnGroup, ProDataTableIndexColumn } from '../data-table'
+import type { ProDataTableBaseColumn, ProDataTableColumnGroup, ProDataTableIndexColumn } from '../data-table/types'
 import type { ProFieldProps } from '../form'
 
-export interface ProEditDataTableBaseColumn<RowData> extends ProDataTableBaseColumn<RowData> {
+export interface ProEditDataTableBaseColumn<RowData = any> extends ProDataTableBaseColumn<RowData> {
   /**
    * 传递给 ProField 组件的 props，自定义渲染时无效
    */
