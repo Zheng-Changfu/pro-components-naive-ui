@@ -21,3 +21,8 @@ export function isGroupColumn(val: any, childrenKey = 'children'): val is ProDat
 export function isBaseColumn(val: any, childrenKey = 'children'): val is ProDataTableBaseColumn {
   return !isIndexColumn(val) && !isExpandColumn(val) && !isSelectionColumn(val) && !isGroupColumn(val, childrenKey)
 }
+
+export function isDragSortColumn(val: any, dragSortKey?: string): val is ProDataTableBaseColumn {
+  const columnKey = val.path ?? val.key
+  return !!dragSortKey && dragSortKey === columnKey
+}
