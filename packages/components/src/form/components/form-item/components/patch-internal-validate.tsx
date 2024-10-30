@@ -1,6 +1,6 @@
 import type { FormItemRule } from 'naive-ui'
 import type { PropType } from 'vue'
-import type { FormItemInternalValidateResult } from '../../../composables/useValidateResult'
+import type { FormItemInternalValidateResult } from '../../../composables/useValidationResult'
 import type { FieldExtraInfo } from '../../field'
 import { useInjectFieldContext } from 'pro-components-hooks'
 import { inject, onUnmounted, provide } from 'vue'

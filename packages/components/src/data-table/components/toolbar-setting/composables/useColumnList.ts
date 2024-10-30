@@ -22,7 +22,7 @@ export function useColumnList() {
   } = useInjectProDataTableInst()!
 
   function restoreList() {
-    list.value = cloneDeep(initialList)
+    list.value = cloneDeep(initialList) as any
     sortTableColumnsByList()
   }
 
@@ -69,7 +69,7 @@ export function useColumnList() {
     const tableColumns = [...getCacheColumns()]
     const matchedColumns = tableColumns.filter(pattern) as DataTableBaseColumn[]
     initialList = matchedColumns.map(convertTableColumnToColumnItem)
-    list.value = cloneDeep(initialList)
+    list.value = cloneDeep(initialList) as any
   })
 
   return {

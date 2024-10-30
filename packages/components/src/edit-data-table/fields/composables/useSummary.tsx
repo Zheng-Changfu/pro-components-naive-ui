@@ -1,16 +1,16 @@
 import type { SummaryRowData } from 'naive-ui/es/data-table/src/interface'
 import type { FieldDataTableProps } from '../field-data-table'
 import { isArray } from 'lodash-es'
-import { defineComponent, ref, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 
-const CreatorButton = defineComponent({
-  name: 'CreatorButton',
-  props: {},
-  setup() {},
-  render() {
-    return 'button'
-  },
-})
+// const CreatorButton = defineComponent({
+//   name: 'CreatorButton',
+//   props: {},
+//   setup() {},
+//   render() {
+//     return 'button'
+//   },
+// })
 
 export function useSummary(props: FieldDataTableProps) {
   const position = ref<'top' | 'bottom' | false>('bottom')
@@ -18,7 +18,7 @@ export function useSummary(props: FieldDataTableProps) {
   function renderCreatorButton(): SummaryRowData {
     return {
       x: {
-        value: <CreatorButton {...props} />,
+        // value: <CreatorButton {...props} />,
       },
     }
   }

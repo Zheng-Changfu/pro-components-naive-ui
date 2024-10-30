@@ -38,7 +38,7 @@ export default defineComponent({
 
     const nUploadProps = computed<UploadProps>(() => {
       return {
-        ...pureProps.value,
+        ...pureProps.value as UploadProps,
         onBeforeUpload,
       }
     })
