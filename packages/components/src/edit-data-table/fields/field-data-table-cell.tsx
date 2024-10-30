@@ -54,16 +54,19 @@ export default defineComponent({
       return isFunction(fieldProps) ? fieldProps(row, rowIndex) : (fieldProps ?? {})
     })
 
+    const rowEditable = computed(() => {
+      return getEditable(props.rowIndex)
+    })
+
     const readonly = computed(() => {
-      const { rowIndex } = props
-      const rowEditable = getEditable(rowIndex)
-      const editable = rowEditable && compile(proFieldProps.value.readonly, scope) !== true
+      const editable = rowEditable.value && compile(proFieldProps.value.readonly, scope) !== true
       return !editable
     })
 
     return {
       readonly,
       fieldProps,
+      rowEditable,
       valueTypeMap,
       proFieldProps,
     }
@@ -78,7 +81,9 @@ export default defineComponent({
     } = this.$props
 
     if (column.render) {
-      return column.render(row, rowIndex)
+      return column.render(row, rowIndex, {
+        editable: this.rowEditable,
+      })
     }
 
     const Component = this.valueTypeMap[column.valueType!]
