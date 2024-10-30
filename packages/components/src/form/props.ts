@@ -48,7 +48,6 @@ export const proFormExtendProps = {
    * 表达式可以读取到的作用域，浅合并，优先级比全局高
    */
   scope: Object as PropType<Record<`$${string}`, any>>,
-
   /**
    * 表单初始值
    */
