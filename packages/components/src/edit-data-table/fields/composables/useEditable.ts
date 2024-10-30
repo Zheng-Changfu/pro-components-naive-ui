@@ -1,5 +1,4 @@
-import type { ArrayField } from 'pro-components-hooks'
-import { useInjectFieldContext } from 'pro-components-hooks'
+import { useInjectListFieldContext } from 'pro-components-hooks'
 import { watchEffect } from 'vue'
 import { useInjectProFormInst, useReadonlyHelpers } from '../../../form'
 import { AUTO_CREATE_ID } from '../../../form-list'
@@ -14,7 +13,7 @@ export function useEditable() {
   const {
     value: list,
     stringPath: tablePath,
-  } = useInjectFieldContext() as ArrayField
+  } = useInjectListFieldContext()!
 
   const {
     readonly,

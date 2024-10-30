@@ -1,11 +1,10 @@
-import type { ArrayField } from 'pro-components-hooks'
 import type { ExtractPublicPropTypes, SlotsType } from 'vue'
 import type { ProButtonProps } from '../../button'
 import type { ProDataTableProps } from '../../data-table'
 import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
 import { omit } from 'lodash-es'
-import { useInjectFieldContext } from 'pro-components-hooks'
+import { useInjectListFieldContext } from 'pro-components-hooks'
 import { ProDataTable } from '../../data-table'
 import { proFieldProps, useInjectProFormInst } from '../../form'
 import { AUTO_CREATE_ID } from '../../form-list'
@@ -79,7 +78,7 @@ export default defineComponent({
       moveDown,
       onActionChange,
       stringPath,
-    } = useInjectFieldContext()! as ArrayField
+    } = useInjectListFieldContext()!
 
     onActionChange((action) => {
       /**

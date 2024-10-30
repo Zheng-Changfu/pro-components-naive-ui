@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import type { ProDataTableInst } from '../../../data-table'
-import { useInjectFieldContext } from 'pro-components-hooks'
+import { useInjectListFieldContext } from 'pro-components-hooks'
 import { useProDataTableInst } from '../../../data-table'
 import { useInjectProFormInst } from '../../../form'
 
@@ -33,7 +33,7 @@ export function useProDataTableContext(): UseProDataTableReturn {
 
   const {
     stringPath: tablePath,
-  } = useInjectFieldContext()!
+  } = useInjectListFieldContext()!
 
   function setTableData(data: any[]) {
     if (form && tablePath.value) {
