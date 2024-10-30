@@ -44,8 +44,8 @@ export default defineComponent({
     } = useCheckedColumns(columnList)
 
     const { start, pause } = useDraggable(
-      draggableEl as any,
-      columnList as any,
+      draggableEl,
+      columnList,
       {
         immediate: false,
         animation: 200,

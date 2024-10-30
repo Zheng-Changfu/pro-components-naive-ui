@@ -15,7 +15,7 @@ export function useDraggableSort(props: ComputedRef<ProDataTableProps>, options:
 
   const nDataTableTBody = computed(() => {
     const root = (currentInstance as any)?.ctx?.$el as HTMLElement
-    return root?.querySelector(`.${clsPrefix.value}-data-table-tbody`)
+    return root?.querySelector(`.${clsPrefix.value}-data-table-tbody`) as HTMLElement
   })
 
   const exitDragSortColumn = computed(() => {
@@ -24,8 +24,8 @@ export function useDraggableSort(props: ComputedRef<ProDataTableProps>, options:
   })
 
   const { start, pause } = useDraggable(
-    nDataTableTBody as any,
-    sortedData as any,
+    nDataTableTBody,
+    sortedData,
     {
       immediate: false,
       animation: 200,
