@@ -161,16 +161,16 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
           return render(row, rowIndex)
         }
         const Component = unref(valueTypeMap)[valueType!]
-        const resolvedFieldProps = isFunction(fieldProps) ? fieldProps(row, rowIndex) : (fieldProps ?? {})
+        const value = columnKey ? get(row, columnKey) : undefined
         return Component
           ? h(Component, {
+            value,
             simple: true,
             readonly: true,
-            fieldProps: resolvedFieldProps,
             path: `builtinPath.${rowIndex}.${columnKey}`,
-            value: columnKey ? get(row, columnKey) : undefined,
+            fieldProps: isFunction(fieldProps) ? fieldProps(row, rowIndex) : (fieldProps ?? {}),
           }, fieldSlots)
-          : null
+          : value as any
       },
       ...rest,
     }
