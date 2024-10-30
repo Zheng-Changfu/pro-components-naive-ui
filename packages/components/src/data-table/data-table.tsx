@@ -231,7 +231,7 @@ export default defineComponent({
   },
   render() {
     return (
-      <div>
+      <div style={{ width: '100%' }}>
         {
           [
             this.showSearchForm && (
