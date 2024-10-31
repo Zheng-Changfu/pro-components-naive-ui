@@ -6,7 +6,7 @@ import { defineComponent } from 'vue'
 import { useOverrideProps } from '../composables'
 import { proFieldProps as _proFieldProps, ProField, ValueTypeEnum } from '../form'
 import { AUTO_CREATE_ID } from '../form-list'
-import FieldDataTable from './fields/field-data-table'
+import EditDataTable from './fields/edit-data-table'
 import { proEditDataTableProps } from './props'
 
 const name = 'ProEditDataTable'
@@ -68,7 +68,7 @@ export default defineComponent({
       >
         {{
           input: (pureProps: any) => {
-            return <FieldDataTable {...pureProps} v-slots={this.$slots} />
+            return <EditDataTable {...pureProps} v-slots={this.$slots} />
           },
         }}
       </ProField>

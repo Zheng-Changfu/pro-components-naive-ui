@@ -1,13 +1,13 @@
 import type { ProDataTableColumn } from '../../../data-table'
 import type { ProEditDataTableColumns } from '../../types'
-import type { FieldDataTableProps } from '../field-data-table'
+import type { EditDataTableProps } from '../edit-data-table'
 import { mapTree } from 'pro-components-hooks'
 import { ref, watchEffect } from 'vue'
 import { isDragSortColumn } from '../../../data-table/utils/column'
-import FieldDataTableCell from '../field-data-table-cell'
+import EditDataTableCell from '../edit-data-table-cell'
 import { isProEditDataTableBaseColumn } from '../utils/column'
 
-export function useColumns(props: FieldDataTableProps) {
+export function useColumns(props: EditDataTableProps) {
   const columns = ref<ProDataTableColumn[]>([])
 
   function convertProEditColumnsToProColumns(columns: ProEditDataTableColumns): ProDataTableColumn[] {
@@ -25,7 +25,7 @@ export function useColumns(props: FieldDataTableProps) {
         path: column.path ?? column.key,
         render: (row: any, rowIndex: number) => {
           return (
-            <FieldDataTableCell
+            <EditDataTableCell
               row={row}
               column={column}
               rowIndex={rowIndex}
