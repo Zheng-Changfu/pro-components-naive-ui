@@ -1,9 +1,11 @@
+import type { VNodeChild } from 'vue'
 import type { ProDataTableToolbarSetting } from '../../../types'
 import { useInjectProDataTableProps } from '../../../context'
 
-type MergedToolbarReload = (Exclude<ProDataTableToolbarSetting['reload'], boolean | undefined>) | false
-type MergedToolbarDensity = (Exclude<ProDataTableToolbarSetting['density'], boolean | undefined>) | false
-type MergedToolbarColumnSetting = (Exclude<ProDataTableToolbarSetting['columnSetting'], boolean | undefined>) | false
+type RenderIcon = () => VNodeChild
+export type MergedToolbarReload = (Exclude<ProDataTableToolbarSetting['reload'], boolean | undefined>) | false
+export type MergedToolbarDensity = ((Required<Omit<Exclude<ProDataTableToolbarSetting['density'], boolean | undefined>, 'renderIcon'>>) & { renderIcon?: RenderIcon }) | false
+export type MergedToolbarColumnSetting = (Required<Omit<Exclude<ProDataTableToolbarSetting['columnSetting'], boolean | undefined>, 'renderIcon'>> & { renderIcon: RenderIcon }) | false
 
 export function useMergeToolbarSetting() {
   const proDataTableProps = useInjectProDataTableProps()!
@@ -46,7 +48,7 @@ export function useMergeToolbarSetting() {
     }
     return {
       default: 'medium',
-      ...setting.density,
+      ...setting.density as any,
     }
   })
 
@@ -60,7 +62,7 @@ export function useMergeToolbarSetting() {
       checkable: true,
       resetButton: true,
       indexColummn: true,
-      ...setting.columnSetting,
+      ...setting.columnSetting as any,
     }
   })
 

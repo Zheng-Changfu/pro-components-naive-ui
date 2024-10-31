@@ -132,7 +132,7 @@ export function useFetchData<T extends AnyFn, R>(options: ComputedRef<UseFetchDa
   watch(
     visibility,
     (current, previous) => {
-      if (refreshOnWindowFocus && current.value === 'visible' && previous.value === 'hidden') {
+      if (refreshOnWindowFocus && current === 'visible' && previous === 'hidden') {
         const intervalTime = isBoolean(refreshOnWindowFocus) ? 0 : refreshOnWindowFocus.intervalTime
         if (intervalTime <= 0) {
           fetchData()

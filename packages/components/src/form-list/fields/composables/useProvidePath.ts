@@ -1,9 +1,9 @@
 import type { ToRef } from 'vue'
-import { providePathContext, providePathIndexContext, useInjectParentFieldContext } from 'pro-components-hooks'
+import { providePathContext, providePathIndexContext, useInjectListFieldContext } from 'pro-components-hooks'
 import { computed } from 'vue'
 
 export function useProvidePath(index: ToRef<number>) {
-  const parent = useInjectParentFieldContext()!
+  const parent = useInjectListFieldContext()!
 
   const path = computed(() => {
     return [

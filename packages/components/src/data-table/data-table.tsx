@@ -6,7 +6,7 @@ import type { ProDataTableSlots } from './slots'
 import { NDataTable, NFlex } from 'naive-ui'
 import { uid } from 'pro-components-hooks'
 import { defineComponent } from 'vue'
-import { resolveWrappedSlot } from '../_utils/resolve-slot'
+import { resolveSlotWithProps, resolveWrappedSlot } from '../_utils/resolve-slot'
 import { ProCard } from '../card'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { ProSearchForm, useProSearchFormInst } from './components/search-form'
@@ -29,7 +29,6 @@ const name = 'ProDataTable'
 export default defineComponent({
   name,
   props: proDataTableProps,
-  inheritAttrs: false,
   slots: Object as SlotsType<ProDataTableSlots>,
   setup(props, { expose }) {
     const overridedProps = useOverrideProps(
@@ -254,22 +253,23 @@ export default defineComponent({
                     </NFlex>
                   )
                 },
-                'default': () => [
-                  resolveWrappedSlot(
-                    this.$slots.extra,
-                    (children) => {
-                      if (!children) {
-                        return null
-                      }
-                      return <div style={{ marginBlockEnd: '16px' }}>{children}</div>
-                    },
-                  ),
-                  <NDataTable
-                    ref="nDataTableInst"
-                    {...this.nDataTableProps}
-                    v-slots={this.$slots}
-                  />,
-                ],
+                'default': () => {
+                  const tableDom = (
+                    <NDataTable
+                      ref="nDataTableInst"
+                      {...this.nDataTableProps}
+                      v-slots={this.$slots}
+                    />
+                  )
+                  return [
+                    resolveWrappedSlot(this.$slots.extra, (children) => {
+                      return children
+                        ? <div style={{ marginBlockEnd: '16px' }}>{children}</div>
+                        : null
+                    }),
+                    resolveSlotWithProps(this.$slots.table, { tableDom }, () => tableDom),
+                  ]
+                },
               }}
             </ProCard>,
           ]

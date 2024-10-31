@@ -10,7 +10,7 @@ export function usePagination(props: ComputedRef<ProDataTableProps>) {
   const { getMessage } = useLocale('ProDataTable')
 
   watch(
-    computed(() => props.value.pagination ?? {}),
+    () => props.value.pagination ?? {},
     v => pagination.value = v,
   )
 

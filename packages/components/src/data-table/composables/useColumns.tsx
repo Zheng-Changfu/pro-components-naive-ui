@@ -1,9 +1,10 @@
 import type { DataTableColumn, PaginationProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
-import type { ProDataTableBaseColumn, ProDataTableColumn } from '../types'
+import type { ProDataTableColumn } from '../types'
 import { mapTree } from 'pro-components-hooks'
 import { computed, watchEffect } from 'vue'
+import { isDragSortColumn, isExpandColumn, isGroupColumn, isIndexColumn, isSelectionColumn } from '../utils/column'
 import { useColumnRenderer } from './useColumnRenderer'
 
 interface UseColumnsOptions {
@@ -21,47 +22,41 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
 
   const {
     createIndexColumn,
-    resolveTooltipTitle,
+    renderTooltipTitle,
     createDragSortColumn,
     createValueTypeColumn,
   } = useColumnRenderer({ columns, pagination, dragHandleId })
 
-  function isDragSortColumn(column: ProDataTableBaseColumn) {
-    const { dragSortKey } = props.value
-    const columnKey = column.path ?? column.key
-    return !!dragSortKey && dragSortKey === columnKey
-  }
-
-  function resolveColumns(columns: ProDataTableColumn[]) {
-    return mapTree(columns, (item) => {
-      const {
-        key,
-        path,
-        type,
-        title,
-        tooltip,
-        valueType,
-        fieldProps,
-        fieldSlots,
-        ...rest
-      } = item as any
-
-      if (type === 'index') {
-        return createIndexColumn(item as any)
+  function convertProColumnsToColumns(columns: ProDataTableColumn[]): DataTableColumn[] {
+    const dragSortKey = props.value.dragSortKey
+    const childrenKey = props.value.childrenKey ?? 'children'
+    return mapTree(columns, (column) => {
+      if (isIndexColumn(column)) {
+        return createIndexColumn(column)
       }
-      if (valueType) {
-        return createValueTypeColumn(item as any)
+      if (isSelectionColumn(column)) {
+        return column
       }
-      if (isDragSortColumn(item as any)) {
-        return createDragSortColumn(item as any)
+      if (isExpandColumn(column)) {
+        const { title, tooltip, ...rest } = column
+        return {
+          ...rest,
+          title: renderTooltipTitle(title, tooltip),
+        }
       }
-      return {
-        type,
-        ...rest,
-        key: path ?? key,
-        title: resolveTooltipTitle(title, tooltip),
+      if (isGroupColumn(column)) {
+        const { title, tooltip, path, key, ...rest } = column
+        return {
+          ...rest,
+          key: path ?? key ?? '',
+          title: renderTooltipTitle(title, tooltip),
+        }
       }
-    }, (props.value.childrenKey ?? 'children') as any)
+      if (isDragSortColumn(column, dragSortKey)) {
+        return createDragSortColumn(column)
+      }
+      return createValueTypeColumn(column)
+    }, childrenKey as any)
   }
 
   function getColumns() {
@@ -73,16 +68,16 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
   }
 
   function setCacheColumns(values: ProDataTableColumn[] | DataTableColumn[]) {
-    cacheColumns = resolveColumns(values as ProDataTableColumn[])
+    cacheColumns = convertProColumnsToColumns(values as ProDataTableColumn[])
   }
 
   function setColumns(values: ProDataTableColumn[] | DataTableColumn[]) {
-    columns.value = resolveColumns(values as ProDataTableColumn[])
+    columns.value = convertProColumnsToColumns(values as ProDataTableColumn[])
   }
 
   watchEffect(() => {
     const values = props.value.columns ?? []
-    cacheColumns = columns.value = resolveColumns(values)
+    cacheColumns = columns.value = convertProColumnsToColumns(values)
   })
 
   return {

@@ -13,7 +13,7 @@ export interface ProDataTableBaseColumn<RowData = any> extends Omit<TableBaseCol
   /**
    * 同 key，工程化统一
    */
-  path: ExtractObjectPath<RowData> | ({} & string)
+  path?: ExtractObjectPath<RowData> | ({} & string)
   /**
    * 显示在列右边的提示
    */
@@ -33,9 +33,10 @@ export interface ProDataTableBaseColumn<RowData = any> extends Omit<TableBaseCol
 }
 
 export interface ProDataTableColumnGroup<RowData = any> extends Omit<TableColumnGroup<RowData>, 'key' | 'children'> {
+  tooltip?: string | string[]
   key?: ExtractObjectPath<RowData> | ({} & string)
-  path: ExtractObjectPath<RowData> | ({} & string)
-  children: ProDataTableBaseColumn<RowData>[]
+  path?: ExtractObjectPath<RowData> | ({} & string)
+  children: (ProDataTableBaseColumn<RowData> & { children?: ProDataTableColumnGroup<RowData>['children'] })[]
 }
 
 export interface ProDataTableIndexColumn<RowData = any> extends Omit<ProDataTableBaseColumn<RowData>, 'path' | 'key' | 'render' | 'type' | 'valueType' | 'fieldProps' | 'fieldSlots'> {
@@ -52,12 +53,16 @@ export interface ProDataTableIndexColumn<RowData = any> extends Omit<ProDataTabl
   render?: (index: number, rowData: RowData, rowIndex: number) => VNodeChild
 }
 
+export interface ProDataTableExpandColumn<RowData = any> extends TableExpandColumn<RowData> {
+  tooltip?: string | string[]
+}
+
 export type ProDataTableColumn<RowData = any> =
-  | ProDataTableIndexColumn<RowData>
-  | TableExpandColumn<RowData>
-  | ProDataTableBaseColumn<RowData>
-  | ProDataTableColumnGroup<RowData>
   | TableSelectionColumn<RowData>
+  | ProDataTableBaseColumn<RowData>
+  | ProDataTableIndexColumn<RowData>
+  | ProDataTableColumnGroup<RowData>
+  | ProDataTableExpandColumn<RowData>
 
 export type ProDataTableColumns<RowData = any> = ProDataTableColumn<RowData>[]
 

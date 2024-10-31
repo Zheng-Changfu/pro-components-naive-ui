@@ -5,7 +5,7 @@ import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
 import { omit } from 'lodash-es'
 import { NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
-import { useInjectParentFieldContext } from 'pro-components-hooks'
+import { useInjectListFieldContext } from 'pro-components-hooks'
 import { computed, defineComponent, Fragment, inject, provide, toRef } from 'vue'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProButton } from '../../button'
@@ -225,7 +225,7 @@ export default defineComponent({
     const action = useInjectProFormListInst()
     const { readonly } = useReadonlyHelpers()
     const nFormItem = inject<any>('n-form-item')
-    const field = useInjectParentFieldContext()!
+    const field = useInjectListFieldContext()!
     const { validateBehavior } = useInjectProFormContext()
     const { path } = useProvidePath(toRef(props, 'index'))
 

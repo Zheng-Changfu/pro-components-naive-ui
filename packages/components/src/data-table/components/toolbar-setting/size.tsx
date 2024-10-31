@@ -1,6 +1,5 @@
 import type { DropdownOption } from 'naive-ui'
-import type { VNodeChild } from 'vue'
-import type { ToolbarDensitySetting } from '../../types'
+import type { MergedToolbarDensity } from './composables/userMergeToolbarSetting'
 import { ColumnHeightOutlined } from '@vicons/antd'
 import { NDropdown, NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { defineComponent, watchEffect } from 'vue'
@@ -28,7 +27,7 @@ export default defineComponent({
     } = useMergeToolbarSetting()
 
     const mergedDensity = computed(() => {
-      return _mergedDensity.value as Required<Omit<ToolbarDensitySetting, 'renderIcon'>> & Pick<ToolbarDensitySetting, 'renderIcon'>
+      return _mergedDensity.value as Exclude<MergedToolbarDensity, boolean>
     })
 
     watchEffect(() => {
@@ -54,7 +53,7 @@ export default defineComponent({
       if (option.key === this.getTableSize()) {
         return <NEl style={{ color: this.selectedColor }}>{option.label}</NEl>
       }
-      return option.label as VNodeChild
+      return option.label
     }
 
     return (
@@ -75,8 +74,8 @@ export default defineComponent({
             label: this.getMessage('settingDensSmall'),
           },
         ]}
-        renderLabel={renderLabel}
         onSelect={this.setTableSize}
+        renderLabel={renderLabel as any}
       >
         <NFlex>
           <ProButton text={true} tooltip={this.getMessage('settingDens')}>

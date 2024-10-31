@@ -10,7 +10,7 @@ export function useFieldValidateStatus() {
     const path = field?.path.value
     if (!path)
       return
-    return formInst.getFieldValidationResult(path)
+    return formInst?.getFieldValidationResult(path)
   })
 
   const errors = computed(() => {

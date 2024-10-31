@@ -1,19 +1,22 @@
-import type { ArrayField } from 'pro-components-hooks'
-import type { ExtractPublicPropTypes, SlotsType } from 'vue'
+import type { ExtractPublicPropTypes, SlotsType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../../button'
 import type { ProDataTableProps } from '../../data-table'
+import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
 import { omit } from 'lodash-es'
-import { useInjectFieldContext } from 'pro-components-hooks'
-import { ProDataTable } from '../../data-table'
+import { useInjectListFieldContext } from 'pro-components-hooks'
+import { resolveSlotWithProps } from '../../_utils/resolve-slot'
+import { ProDataTable, proDataTableProps } from '../../data-table'
 import { proFieldProps, useInjectProFormInst } from '../../form'
 import { AUTO_CREATE_ID } from '../../form-list'
-import { useEditable } from '../composables/useEditable'
+import { provideProEditDataTableInst } from '../context'
 import { proEditDataTableProps } from '../props'
 import { useColumns } from './composables/useColumns'
-import { useSummary } from './composables/useSummary'
+import { useEditable } from './composables/useEditable'
+import { useProDataTableContext } from './composables/useProDataTableContext'
+import CreatorButton from './creator-button'
 
-const fieldDataTableProps = {
+const editDataTableProps = {
   ...omit(
     proEditDataTableProps,
     Object.keys(proFieldProps),
@@ -32,25 +35,37 @@ const fieldDataTableProps = {
     default: undefined,
   },
   onUpdateValue: Function,
+  /**
+   * -----有冲突的几个属性-------
+   */
+  size: {
+    type: proDataTableProps.size.type,
+    default: 'small',
+  },
+  title: proDataTableProps.title,
+  tooltip: proDataTableProps.tooltip,
+  /**
+   * ------------
+   */
 } as const
 
-export type FieldDataTableProps = ExtractPublicPropTypes<typeof fieldDataTableProps>
+export type EditDataTableProps = ExtractPublicPropTypes<typeof editDataTableProps>
 
 export default defineComponent({
-  name: 'FieldDataTable',
-  props: fieldDataTableProps,
+  name: 'EditDataTable',
+  props: editDataTableProps,
   slots: Object as SlotsType<ProEditDataTableSlots>,
-  setup(props, { attrs, expose }) {
+  setup(props, { expose }) {
     const form = useInjectProFormInst()
+
+    const [
+      instRef,
+      methods,
+    ] = useProDataTableContext()
 
     const {
       columns,
     } = useColumns(props)
-
-    const {
-      summary,
-      summaryPlacement,
-    } = useSummary(props)
 
     const {
       getEditable,
@@ -71,7 +86,7 @@ export default defineComponent({
       moveDown,
       onActionChange,
       stringPath,
-    } = useInjectFieldContext()! as ArrayField
+    } = useInjectListFieldContext()!
 
     onActionChange((action) => {
       /**
@@ -91,7 +106,28 @@ export default defineComponent({
       }
     })
 
-    const exposed = {
+    const proDataTableProps = computed<ProDataTableProps>(() => {
+      const {
+        max,
+        value,
+        position,
+        onUpdateValue,
+        creatorButtonProps,
+        creatorInitialValue,
+        ...rest
+      } = props
+
+      return {
+        ...rest,
+        ref: instRef,
+        data: props.value,
+        rowKey: AUTO_CREATE_ID,
+        columns: columns.value,
+      }
+    })
+
+    const exposed: ProEditDataTableInst = {
+      ...methods,
       pop,
       push,
       move,
@@ -108,33 +144,32 @@ export default defineComponent({
     }
 
     expose(exposed)
-
-    const proDataTableProps = computed<ProDataTableProps>(() => {
-      const {
-        max,
-        position,
-        onUpdateValue,
-        creatorButtonProps,
-        creatorInitialValue,
-        ...rest
-      } = props
-
-      return {
-        ...attrs,
-        ...rest,
-        summary,
-        data: props.value,
-        rowKey: AUTO_CREATE_ID,
-        columns: columns.value,
-        summaryPlacement: summaryPlacement.value,
-      }
-    })
-
+    provideProEditDataTableInst(exposed)
     return {
       proDataTableProps,
     }
   },
   render() {
-    return <ProDataTable {...this.proDataTableProps} v-slots={this.$slots} />
+    return (
+      <ProDataTable
+        {...this.$attrs}
+        {...this.proDataTableProps}
+      >
+        {{
+          ...this.$slots,
+          table: (params: { tableDom: VNodeChild }) => {
+            const editTableDom = [
+              params.tableDom,
+              <CreatorButton
+                max={this.$props.max}
+                creatorButtonProps={this.$props.creatorButtonProps}
+                creatorInitialValue={this.$props.creatorInitialValue}
+              />,
+            ]
+            return resolveSlotWithProps(this.$slots.table, { tableDom: editTableDom }, () => editTableDom)
+          },
+        }}
+      </ProDataTable>
+    )
   },
 })

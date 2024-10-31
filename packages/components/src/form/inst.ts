@@ -1,6 +1,6 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseForm, Path } from 'pro-components-hooks'
-import type { FormItemInternalValidateResult } from './composables/useValidateResult'
+import type { FormItemInternalValidateResult } from './composables/useValidationResult'
 import { createProComponentInstanceFactory } from '../composables'
 
 export type ProFormInst = Pick<

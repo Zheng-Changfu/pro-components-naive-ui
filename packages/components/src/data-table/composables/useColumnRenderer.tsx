@@ -1,6 +1,6 @@
-import type { DataTableBaseColumn, DataTableColumn, PaginationProps } from 'naive-ui'
-import type { VNodeChild } from 'vue'
-import type { ProDataTableBaseColumn, ProDataTableColumn } from '../types'
+import type { DataTableColumn, PaginationProps } from 'naive-ui'
+import type { TableColumnGroupTitle, TableColumnTitle, TableExpandColumnTitle } from 'naive-ui/es/data-table/src/interface'
+import type { ProDataTableBaseColumn, ProDataTableIndexColumn } from '../types'
 import { DragOutlined, InfoCircleOutlined } from '@vicons/antd'
 import { get, isFunction } from 'lodash-es'
 import { NButton, NEl, NIcon } from 'naive-ui'
@@ -35,58 +35,52 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     return columns.value.some(column => column.fixed === 'left')
   })
 
-  function resolveTooltipTitle(
-    title?: string | ((column: DataTableBaseColumn) => VNodeChild),
+  function renderTooltipTitle(
+    title?: TableColumnTitle | TableExpandColumnTitle | TableColumnGroupTitle | undefined,
     tooltip?: string | string[],
-  ) {
-    if (title) {
+  ): any {
+    if (!title || !tooltip) {
+      return title
+    }
+    return function (column: any) {
+      const resolvedTitle = isFunction(title) ? title(column) : title
       if (!tooltip) {
-        return title
+        return resolvedTitle
       }
-      return function (column: DataTableBaseColumn) {
-        const resolvedTitle = isFunction(title) ? title(column) : title
-        if (!tooltip) {
-          return resolvedTitle
-        }
-        return (
-          <ProTooltip
-            trigger="hover"
-            tooltip={tooltip}
-          >
-            {{
-              trigger: () => (
-                <NEl style={{ cursor: 'pointer' }}>
-                  {resolvedTitle}
-                  <NIcon
-                    size={18}
-                    style={{
-                      cursor: 'pointer',
-                      display: 'inline',
-                      verticalAlign: 'middle',
-                      marginInlineStart: '4px',
-                    }}
-                  >
-                    <InfoCircleOutlined />
-                  </NIcon>
-                </NEl>
-              ),
-            }}
-          </ProTooltip>
-        )
-      }
+      return (
+        <ProTooltip
+          trigger="hover"
+          tooltip={tooltip}
+        >
+          {{
+            trigger: () => (
+              <NEl style={{ cursor: 'pointer' }}>
+                {resolvedTitle}
+                <NIcon
+                  size={18}
+                  style={{
+                    cursor: 'pointer',
+                    display: 'inline',
+                    verticalAlign: 'middle',
+                    marginInlineStart: '4px',
+                  }}
+                >
+                  <InfoCircleOutlined />
+                </NIcon>
+              </NEl>
+            ),
+          }}
+        </ProTooltip>
+      )
     }
   }
 
-  function createIndexColumn(column: ProDataTableColumn | undefined): DataTableColumn {
+  function createIndexColumn(column: ProDataTableIndexColumn): DataTableColumn {
     const {
-      key,
-      path,
+      type,
       render,
-      valueType,
-      fieldProps,
-      fieldSlots,
       ...rest
-    } = column as any ?? {}
+    } = column
 
     return {
       width: 60,
@@ -101,7 +95,6 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
             ? render(index, row, rowIndex)
             : index
         }
-
         const page = Math.max(1, pagination.value.page ?? 1)
         const pageSize = Math.max(1, pagination.value.pageSize ?? 10)
         const index = (page - 1) * pageSize + rowIndex + 1
@@ -113,16 +106,13 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     }
   }
 
-  function createDragSortColumn(column: ProDataTableColumn | undefined): DataTableColumn {
+  function createDragSortColumn(column: ProDataTableBaseColumn): DataTableColumn {
     const {
       key,
       path,
       render,
-      valueType,
-      fieldProps,
-      fieldSlots,
       ...rest
-    } = column as any ?? {}
+    } = column
 
     return {
       width: 60,
@@ -162,34 +152,33 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       ...rest
     } = column ?? {}
 
-    const columnKey = path ?? key
+    const columnKey = path ?? key ?? ''
     return {
-      ...rest,
       key: columnKey,
-      title: resolveTooltipTitle(title, tooltip),
+      title: renderTooltipTitle(title, tooltip),
       render(row, rowIndex) {
         if (render) {
           return render(row, rowIndex)
         }
-
         const Component = unref(valueTypeMap)[valueType!]
-        const props = isFunction(fieldProps) ? fieldProps(row, rowIndex) : (fieldProps ?? {})
+        const value = columnKey ? get(row, columnKey) : undefined
         return Component
           ? h(Component, {
+            value,
             simple: true,
             readonly: true,
-            fieldProps: props,
             path: `builtinPath.${rowIndex}.${columnKey}`,
-            value: columnKey ? get(row, columnKey) : undefined,
+            fieldProps: isFunction(fieldProps) ? fieldProps(row, rowIndex) : (fieldProps ?? {}),
           }, fieldSlots)
-          : null
+          : value as any
       },
+      ...rest,
     }
   }
 
   return {
     createIndexColumn,
-    resolveTooltipTitle,
+    renderTooltipTitle,
     createDragSortColumn,
     createValueTypeColumn,
   }

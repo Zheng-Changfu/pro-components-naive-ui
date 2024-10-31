@@ -1,4 +1,4 @@
-import type { ToolbarReloadSetting } from '../../types'
+import type { MergedToolbarReload } from './composables/userMergeToolbarSetting'
 import { ReloadOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
 import { defineComponent } from 'vue'
@@ -15,7 +15,7 @@ export default defineComponent({
     const { mergedReload: _mergedReload } = useMergeToolbarSetting()
 
     const mergedReload = computed(() => {
-      return _mergedReload.value as ToolbarReloadSetting
+      return _mergedReload.value as Exclude<MergedToolbarReload, boolean>
     })
 
     return {
