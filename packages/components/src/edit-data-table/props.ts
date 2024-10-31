@@ -1,7 +1,9 @@
 import type { PaginationProps } from 'naive-ui'
 import type { MaybeExpression } from 'pro-components-hooks'
-import type { ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProButtonProps } from '../button'
+import type { ProDataTableProps } from '../data-table'
+import type { ExtendAttrsStyleProps } from '../types'
 import type { ProEditDataTableColumns } from './types'
 import { omit } from 'lodash-es'
 import { proDataTableProps } from '../data-table'
@@ -61,6 +63,26 @@ export const proEditDataTableProps = {
    * 重写类型
    */
   columns: Array as PropType<ProEditDataTableColumns>,
+  /**
+   * 这些属性有冲突
+   * @example
+   * ```vue
+   * <pro-edit-data-table
+   *   :title="formItem 标题"
+   *   :field-props="{
+   *      title:"表格标题"
+   *   }"
+   *  />
+   * ```
+   */
+  fieldProps: {
+    type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<Partial<{
+      size: ProDataTableProps['size'] & {}
+      title: ProDataTableProps['title'] & {}
+      tooltip: ProDataTableProps['tooltip'] & {}
+    }>>>>,
+    default: () => ({}),
+  },
 } as const
 
 export type ProEditDataTableProps = ExtractPublicPropTypes<typeof proEditDataTableProps>

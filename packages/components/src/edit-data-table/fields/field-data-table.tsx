@@ -5,7 +5,7 @@ import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
 import { omit } from 'lodash-es'
 import { useInjectListFieldContext } from 'pro-components-hooks'
-import { ProDataTable } from '../../data-table'
+import { ProDataTable, proDataTableProps } from '../../data-table'
 import { proFieldProps, useInjectProFormInst } from '../../form'
 import { AUTO_CREATE_ID } from '../../form-list'
 import { provideProEditDataTableInst } from '../context'
@@ -34,6 +34,18 @@ const fieldDataTableProps = {
     default: undefined,
   },
   onUpdateValue: Function,
+  /**
+   * -----有冲突的几个属性-------
+   */
+  size: {
+    type: proDataTableProps.size.type,
+    default: 'small',
+  },
+  title: proDataTableProps.title,
+  tooltip: proDataTableProps.tooltip,
+  /**
+   * ------------
+   */
 } as const
 
 export type FieldDataTableProps = ExtractPublicPropTypes<typeof fieldDataTableProps>
@@ -42,7 +54,7 @@ export default defineComponent({
   name: 'FieldDataTable',
   props: fieldDataTableProps,
   slots: Object as SlotsType<ProEditDataTableSlots>,
-  setup(props, { attrs, expose }) {
+  setup(props, { expose }) {
     const form = useInjectProFormInst()
 
     const [
@@ -101,6 +113,7 @@ export default defineComponent({
     const proDataTableProps = computed<ProDataTableProps>(() => {
       const {
         max,
+        value,
         position,
         onUpdateValue,
         creatorButtonProps,
@@ -109,7 +122,6 @@ export default defineComponent({
       } = props
 
       return {
-        ...attrs,
         ...rest,
         summary,
         ref: instRef,
@@ -144,6 +156,12 @@ export default defineComponent({
     }
   },
   render() {
-    return <ProDataTable {...this.proDataTableProps} v-slots={this.$slots} />
+    return (
+      <ProDataTable
+        {...this.$attrs}
+        {...this.proDataTableProps}
+        v-slots={this.$slots}
+      />
+    )
   },
 })

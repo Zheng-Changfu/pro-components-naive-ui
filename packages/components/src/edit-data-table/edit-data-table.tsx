@@ -25,7 +25,10 @@ export default defineComponent({
     })
 
     const fieldDataTableProps = computed(() => {
-      return omit(overridedProps.value, Object.keys(_proFieldProps))
+      return {
+        ...omit(overridedProps.value, Object.keys(_proFieldProps)),
+        ...overridedProps.value.fieldProps,
+      }
     })
 
     function addRowIdToRow(val: any) {
