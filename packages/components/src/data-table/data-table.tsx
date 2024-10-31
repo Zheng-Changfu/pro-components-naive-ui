@@ -29,7 +29,6 @@ const name = 'ProDataTable'
 export default defineComponent({
   name,
   props: proDataTableProps,
-  inheritAttrs: false,
   slots: Object as SlotsType<ProDataTableSlots>,
   setup(props, { expose }) {
     const overridedProps = useOverrideProps(
@@ -231,7 +230,7 @@ export default defineComponent({
   },
   render() {
     return (
-      <div style={{ width: '100%' }}>
+      <div>
         {
           [
             this.showSearchForm && (
