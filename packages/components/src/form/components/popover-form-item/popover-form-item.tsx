@@ -65,6 +65,7 @@ export default defineComponent({
       feedbacks,
       showPopover,
       feedbackColor,
+      formItemInstRef,
       proFormItemProps,
     }
   },
