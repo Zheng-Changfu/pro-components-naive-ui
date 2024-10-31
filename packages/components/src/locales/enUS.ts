@@ -70,4 +70,7 @@ export const enUS = createLocale({
     settingShowIndexColumn: 'showIndexColumn',
     paginationPrefix: ({ itemCount }: PaginationInfo) => `Total is ${itemCount}.`,
   },
+  ProEditDataTable: {
+    add: 'add',
+  },
 } as any, nEnUS)

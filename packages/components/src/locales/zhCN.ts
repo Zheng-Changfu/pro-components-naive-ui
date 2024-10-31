@@ -71,4 +71,7 @@ export const zhCN = createLocale({
     settingShowIndexColumn: '序号列',
     paginationPrefix: ({ itemCount }: PaginationInfo) => `共 ${itemCount} 条`,
   },
+  ProEditDataTable: {
+    add: '添加一行数据',
+  },
 } as any, nZhCN)
