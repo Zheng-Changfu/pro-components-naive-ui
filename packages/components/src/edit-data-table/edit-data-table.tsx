@@ -25,9 +25,14 @@ export default defineComponent({
     })
 
     const fieldDataTableProps = computed(() => {
+      const fieldProps = overridedProps.value.fieldProps
       return {
         ...omit(overridedProps.value, Object.keys(_proFieldProps)),
-        ...overridedProps.value.fieldProps,
+        ...fieldProps,
+        style: {
+          width: '100%',
+          ...((fieldProps.style as any) ?? {}),
+        },
       }
     })
 
