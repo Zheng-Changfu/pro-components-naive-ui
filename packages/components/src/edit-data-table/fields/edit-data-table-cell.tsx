@@ -8,7 +8,7 @@ import { useInjectProEditDataTableInst } from '../context'
 import { useProvidePath } from './composables/useProvidePath'
 
 export default defineComponent({
-  name: 'FieldDataTableCell',
+  name: 'EditDataTableCell',
   props: {
     row: {
       type: Object,

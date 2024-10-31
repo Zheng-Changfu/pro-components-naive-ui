@@ -1,10 +1,11 @@
-import type { ExtractPublicPropTypes, SlotsType } from 'vue'
+import type { ExtractPublicPropTypes, SlotsType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../../button'
 import type { ProDataTableProps } from '../../data-table'
 import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
 import { omit } from 'lodash-es'
 import { useInjectListFieldContext } from 'pro-components-hooks'
+import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProDataTable, proDataTableProps } from '../../data-table'
 import { proFieldProps, useInjectProFormInst } from '../../form'
 import { AUTO_CREATE_ID } from '../../form-list'
@@ -13,9 +14,9 @@ import { proEditDataTableProps } from '../props'
 import { useColumns } from './composables/useColumns'
 import { useEditable } from './composables/useEditable'
 import { useProDataTableContext } from './composables/useProDataTableContext'
-import { useSummary } from './composables/useSummary'
+import CreatorButton from './creator-button'
 
-const fieldDataTableProps = {
+const editDataTableProps = {
   ...omit(
     proEditDataTableProps,
     Object.keys(proFieldProps),
@@ -48,11 +49,11 @@ const fieldDataTableProps = {
    */
 } as const
 
-export type FieldDataTableProps = ExtractPublicPropTypes<typeof fieldDataTableProps>
+export type EditDataTableProps = ExtractPublicPropTypes<typeof editDataTableProps>
 
 export default defineComponent({
-  name: 'FieldDataTable',
-  props: fieldDataTableProps,
+  name: 'EditDataTable',
+  props: editDataTableProps,
   slots: Object as SlotsType<ProEditDataTableSlots>,
   setup(props, { expose }) {
     const form = useInjectProFormInst()
@@ -65,11 +66,6 @@ export default defineComponent({
     const {
       columns,
     } = useColumns(props)
-
-    const {
-      summary,
-      summaryPlacement,
-    } = useSummary(props)
 
     const {
       getEditable,
@@ -123,12 +119,10 @@ export default defineComponent({
 
       return {
         ...rest,
-        summary,
         ref: instRef,
         data: props.value,
         rowKey: AUTO_CREATE_ID,
         columns: columns.value,
-        summaryPlacement: summaryPlacement.value,
       }
     })
 
@@ -160,8 +154,22 @@ export default defineComponent({
       <ProDataTable
         {...this.$attrs}
         {...this.proDataTableProps}
-        v-slots={this.$slots}
-      />
+      >
+        {{
+          ...this.$slots,
+          table: (params: { tableDom: VNodeChild }) => {
+            const editTableDom = [
+              params.tableDom,
+              <CreatorButton
+                max={this.$props.max}
+                creatorButtonProps={this.$props.creatorButtonProps}
+                creatorInitialValue={this.$props.creatorInitialValue}
+              />,
+            ]
+            return resolveSlotWithProps(this.$slots.table, { tableDom: editTableDom }, () => editTableDom)
+          },
+        }}
+      </ProDataTable>
     )
   },
 })
