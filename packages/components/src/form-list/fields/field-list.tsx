@@ -43,7 +43,7 @@ const CreatorButton = defineComponent({
 
     const [
       loading,
-      seLoading,
+      setLoading,
     ] = useToggle()
 
     const showButton = computed(() => {
@@ -77,7 +77,7 @@ const CreatorButton = defineComponent({
       const insertIndex = position === 'top' ? 0 : list.value.length
 
       if (beforeAddRow) {
-        seLoading(true)
+        setLoading(true)
         const success = await beforeAddRow({ total: list.value.length, index: -1, insertIndex })
         if (success) {
           insert(insertIndex, creatorInitialValue?.() ?? {})
@@ -85,7 +85,7 @@ const CreatorButton = defineComponent({
             afterAddRow({ total: list.value.length, index: -1, insertIndex })
           }
         }
-        seLoading(false)
+        setLoading(false)
       }
       else {
         insert(insertIndex, creatorInitialValue?.() ?? {})
