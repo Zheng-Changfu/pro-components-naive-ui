@@ -17,6 +17,10 @@ export const proDataTableExtendProps = {
    */
   tooltip: [String, Array] as PropType<string | string[]>,
   /**
+   * 包裹表格卡片的配置
+   */
+  tableCardProps: Object as PropType<ProCardProps>,
+  /**
    * 如果有单选、多选，是否可以点击行就选中
    */
   clickRowToSelect: Boolean,

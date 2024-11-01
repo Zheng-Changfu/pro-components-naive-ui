@@ -161,6 +161,7 @@ export default defineComponent({
       const {
         title,
         tooltip,
+        tableCardProps,
       } = overridedProps.value
 
       return {
@@ -169,6 +170,7 @@ export default defineComponent({
         triggerAreas: [],
         segmented: false,
         showCollapse: false,
+        ...(tableCardProps ?? {}),
       }
     })
 
