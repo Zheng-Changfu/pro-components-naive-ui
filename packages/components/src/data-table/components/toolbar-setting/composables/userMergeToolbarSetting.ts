@@ -3,9 +3,9 @@ import type { ProDataTableToolbarSetting } from '../../../types'
 import { useInjectProDataTableProps } from '../../../context'
 
 type RenderIcon = () => VNodeChild
-export type MergedToolbarReload = (Exclude<ProDataTableToolbarSetting['reload'], boolean | undefined>) | false
-export type MergedToolbarDensity = ((Required<Omit<Exclude<ProDataTableToolbarSetting['density'], boolean | undefined>, 'renderIcon'>>) & { renderIcon?: RenderIcon }) | false
-export type MergedToolbarColumnSetting = (Required<Omit<Exclude<ProDataTableToolbarSetting['columnSetting'], boolean | undefined>, 'renderIcon'>> & { renderIcon: RenderIcon }) | false
+export type MergedToolbarReload = (ProDataTableToolbarSetting['reload'] & {}) | false
+export type MergedToolbarDensity = ((Required<Omit<ProDataTableToolbarSetting['density'] & {}, 'renderIcon'>>) & { renderIcon?: RenderIcon }) | false
+export type MergedToolbarColumnSetting = (Required<Omit<ProDataTableToolbarSetting['columnSetting'] & {}, 'renderIcon'>> & { renderIcon: RenderIcon }) | false
 
 export function useMergeToolbarSetting() {
   const proDataTableProps = useInjectProDataTableProps()!
@@ -15,7 +15,7 @@ export function useMergeToolbarSetting() {
       if (val === false) {
         return false
       }
-      if (val === true || val === undefined) {
+      if (val === undefined) {
         return {}
       }
       return val
