@@ -89,6 +89,7 @@ export default defineComponent({
     const Component = this.valueTypeMap[column.valueType ?? 'input']
     return Component
       ? h(Component, {
+        validateBehavior: 'popover',
         ...this.proFieldProps,
         readonly: this.readonly,
         fieldProps: this.fieldProps,
