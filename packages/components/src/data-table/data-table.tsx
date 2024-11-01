@@ -30,7 +30,7 @@ export default defineComponent({
   name,
   props: proDataTableProps,
   slots: Object as SlotsType<ProDataTableSlots>,
-  setup(props, { expose }) {
+  setup(props, { slots, expose }) {
     const overridedProps = useOverrideProps(
       name,
       props,
@@ -157,11 +157,30 @@ export default defineComponent({
       }
     })
 
+    /**
+     * 包裹表格的卡片如果没有头部区域，则取消 padding
+     */
+    const unTableCardPadding = computed(() => {
+      const {
+        title,
+        tooltip,
+        tableCardProps = {},
+      } = overridedProps.value
+
+      return !title
+        && !slots.title
+        && !slots.toolbar
+        && !(tableCardProps ?? {}).title
+        && (!tooltip || tooltip.length <= 0)
+        && (!tableCardProps.tooltip || tableCardProps.tooltip.length <= 0)
+        && !tableCardProps.headerExtra
+    })
+
     const headerCardProps = computed<ProCardProps>(() => {
       const {
         title,
         tooltip,
-        tableCardProps,
+        tableCardProps = {},
       } = overridedProps.value
 
       return {
@@ -170,7 +189,12 @@ export default defineComponent({
         triggerAreas: [],
         segmented: false,
         showCollapse: false,
-        ...(tableCardProps ?? {}),
+        ...tableCardProps,
+        contentStyle: {
+          ...(unTableCardPadding.value ? { padding: 0 } : {}),
+          // @ts-ignore
+          ...(tableCardProps.contentStyle ?? {}),
+        },
       }
     })
 
