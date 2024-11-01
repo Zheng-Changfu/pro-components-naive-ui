@@ -23,7 +23,6 @@ const editDataTableProps = {
     Object.keys(proFieldProps),
   ) as Omit<typeof proEditDataTableProps, keyof typeof proFieldProps>,
   max: Number,
-  showItemLabel: Boolean,
   position: {
     type: [String, Boolean] as PropType<'top' | 'bottom' | false>,
     default: 'bottom',
@@ -148,7 +147,7 @@ export default defineComponent({
     expose(exposed)
     provideProEditDataTableInst(exposed)
     provide(proFormListContextKey, {
-      showLabel: toRef(props, 'showItemLabel'),
+      showLabel: false,
     })
     return {
       proDataTableProps,
