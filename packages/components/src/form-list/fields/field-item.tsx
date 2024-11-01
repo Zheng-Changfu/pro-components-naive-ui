@@ -3,6 +3,7 @@ import type { ProButtonProps } from '../../button'
 import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
+import { useToggle } from '@vueuse/core'
 import { omit } from 'lodash-es'
 import { NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { useInjectListFieldContext } from 'pro-components-hooks'
@@ -46,6 +47,16 @@ const Action = defineComponent({
       readonly,
     } = useReadonlyHelpers()
 
+    const [
+      removeLoading,
+      setRemoveLoading,
+    ] = useToggle()
+
+    const [
+      copyLoading,
+      setCopyLoading,
+    ] = useToggle()
+
     const {
       insert,
       remove: _remove,
@@ -69,6 +80,7 @@ const Action = defineComponent({
     const getCopyButtonProps = computed<ProButtonProps>(() => {
       return {
         text: true,
+        loading: copyLoading.value,
         tooltip: getMessage('copyThisLine'),
         renderIcon: () => {
           return (
@@ -84,6 +96,7 @@ const Action = defineComponent({
     const getRemoveButtonProps = computed<ProButtonProps>(() => {
       return {
         text: true,
+        loading: removeLoading.value,
         tooltip: getMessage('removeThisLine'),
         renderIcon: () => {
           return (
@@ -104,6 +117,7 @@ const Action = defineComponent({
       const row = form.getFieldValue(path!) ?? {}
 
       if (beforeAddRow) {
+        setCopyLoading(true)
         const success = await beforeAddRow({ index, insertIndex, total: list.value.length })
         if (success) {
           insert(insertIndex, omit(row, AUTO_CREATE_ID))
@@ -111,6 +125,7 @@ const Action = defineComponent({
             afterAddRow({ index, insertIndex, total: list.value.length })
           }
         }
+        setCopyLoading(false)
       }
       else {
         insert(insertIndex, omit(row, AUTO_CREATE_ID))
@@ -125,6 +140,7 @@ const Action = defineComponent({
       const { beforeRemoveRow, afterRemoveRow } = actionGuard ?? {}
 
       if (beforeRemoveRow) {
+        setRemoveLoading(true)
         const success = await beforeRemoveRow({ index, total: list.value.length })
         if (success) {
           _remove(index)
@@ -132,6 +148,7 @@ const Action = defineComponent({
             afterRemoveRow({ index, total: list.value.length })
           }
         }
+        setRemoveLoading(false)
       }
       else {
         _remove(index)

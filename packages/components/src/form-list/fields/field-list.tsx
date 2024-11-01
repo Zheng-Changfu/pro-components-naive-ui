@@ -3,6 +3,7 @@ import type { ProFormListInst } from '../inst'
 import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
+import { useToggle } from '@vueuse/core'
 import { NIcon } from 'naive-ui'
 import { useInjectListFieldContext } from 'pro-components-hooks'
 import { computed, defineComponent, nextTick } from 'vue'
@@ -40,6 +41,11 @@ const CreatorButton = defineComponent({
       readonly,
     } = useReadonlyHelpers()
 
+    const [
+      loading,
+      seLoading,
+    ] = useToggle()
+
     const showButton = computed(() => {
       const { max, creatorButtonProps } = props
       return !readonly.value
@@ -53,6 +59,7 @@ const CreatorButton = defineComponent({
         block: true,
         dashed: true,
         content: getMessage('add'),
+        loading: loading.value,
         renderIcon: () => {
           return (
             <NIcon>
@@ -70,6 +77,7 @@ const CreatorButton = defineComponent({
       const insertIndex = position === 'top' ? 0 : list.value.length
 
       if (beforeAddRow) {
+        seLoading(true)
         const success = await beforeAddRow({ total: list.value.length, index: -1, insertIndex })
         if (success) {
           insert(insertIndex, creatorInitialValue?.() ?? {})
@@ -77,6 +85,7 @@ const CreatorButton = defineComponent({
             afterAddRow({ total: list.value.length, index: -1, insertIndex })
           }
         }
+        seLoading(false)
       }
       else {
         insert(insertIndex, creatorInitialValue?.() ?? {})
