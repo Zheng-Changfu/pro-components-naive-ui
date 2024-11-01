@@ -215,14 +215,26 @@ export default defineComponent({
   setup(props) {
     const themeVars = useThemeVars()
     const action = useInjectProFormListInst()
-    const { readonly } = useReadonlyHelpers()
     const nFormItem = inject<any>('n-form-item')
-    const field = useInjectListFieldContext()!
-    const { validateBehavior } = useInjectProFormContext()
-    const { path } = useProvidePath(toRef(props, 'index'))
+
+    const {
+      readonly,
+    } = useReadonlyHelpers()
+
+    const {
+      path,
+    } = useProvidePath(toRef(props, 'index'))
+
+    const {
+      validateBehavior,
+    } = useInjectProFormContext()
+
+    const {
+      value: list,
+    } = useInjectListFieldContext()!
 
     const total = computed(() => {
-      return field.value.value.length
+      return list.value.length
     })
 
     const showItemLabel = computed(() => {
@@ -287,7 +299,6 @@ export default defineComponent({
         max={max}
         path={path}
         index={index}
-        total={total}
         readonly={readonly}
         actionGuard={actionGuard}
         copyButtonProps={copyButtonProps}
@@ -295,28 +306,24 @@ export default defineComponent({
       />
     )
 
-    const resolvedActionVNode = resolveSlotWithProps(
-      $slots.action,
-      {
-        total,
-        index,
-        action,
-        actionVNode,
-      },
-      () => (
-        <NFlex
-          style={{
-            height: actionHeight,
-            linHeight: actionHeight,
-            marginBlockEnd: $slots.item || validateBehavior === 'popover'
-              ? 0
-              : 'var(--n-feedback-height)',
-          }}
-        >
-          {actionVNode}
-        </NFlex>
-      ),
-    )
+    const resolvedActionVNode = resolveSlotWithProps($slots.action, {
+      total,
+      index,
+      action,
+      actionVNode,
+    }, () => (
+      <NFlex
+        style={{
+          height: actionHeight,
+          linHeight: actionHeight,
+          marginBlockEnd: $slots.item || validateBehavior === 'popover'
+            ? 0
+            : 'var(--n-feedback-height)',
+        }}
+      >
+        {actionVNode}
+      </NFlex>
+    ))
 
     const itemVNode = (
       <Fragment>
@@ -328,28 +335,24 @@ export default defineComponent({
       </Fragment>
     )
 
-    return resolveSlotWithProps(
-      $slots.item,
-      {
-        total,
-        index,
-        action,
-        itemVNode,
-        actionVNode: resolvedActionVNode,
-      },
-      () => (
-        <NEl
-          style={{
-            display: 'flex',
-            gap: '0 16px',
-            flexWrap: 'wrap',
-            alignItems: 'flex-end',
-          }}
-        >
-          {itemVNode}
-          {resolvedActionVNode}
-        </NEl>
-      ),
-    )
+    return resolveSlotWithProps($slots.item, {
+      total,
+      index,
+      action,
+      itemVNode,
+      actionVNode: resolvedActionVNode,
+    }, () => (
+      <NEl
+        style={{
+          display: 'flex',
+          gap: '0 16px',
+          flexWrap: 'wrap',
+          alignItems: 'flex-end',
+        }}
+      >
+        {itemVNode}
+        {resolvedActionVNode}
+      </NEl>
+    ))
   },
 })
