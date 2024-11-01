@@ -7,6 +7,7 @@ import { useOverrideProps } from '../composables'
 import { proFieldProps as _proFieldProps, ProField, ValueTypeEnum } from '../form'
 import { AUTO_CREATE_ID } from '../form-list'
 import EditDataTable from './fields/edit-data-table'
+import { useProEditDataTableInst } from './inst'
 import { proEditDataTableProps } from './props'
 
 const name = 'ProEditDataTable'
@@ -14,7 +15,12 @@ export default defineComponent({
   name,
   props: proEditDataTableProps,
   slots: Object as SlotsType<ProEditDataTableSlots>,
-  setup(props) {
+  setup(props, { expose }) {
+    const [
+      instRef,
+      methods,
+    ] = useProEditDataTableInst()
+
     const overridedProps = useOverrideProps(
       name,
       props,
@@ -51,7 +57,9 @@ export default defineComponent({
         : normalizedVals
     }
 
+    expose(methods)
     return {
+      instRef,
       addRowIdToRow,
       proFieldProps,
       fieldDataTableProps,
@@ -68,7 +76,7 @@ export default defineComponent({
       >
         {{
           input: (pureProps: any) => {
-            return <EditDataTable {...pureProps} v-slots={this.$slots} />
+            return <EditDataTable ref="instRef" {...pureProps} v-slots={this.$slots} />
           },
         }}
       </ProField>
