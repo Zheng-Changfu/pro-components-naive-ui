@@ -5,7 +5,6 @@ import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
 import { omit } from 'lodash-es'
 import { useInjectListFieldContext } from 'pro-components-hooks'
-import { toRef } from 'vue'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProDataTable, proDataTableProps } from '../../data-table'
 import { proFieldProps, useInjectProFormInst } from '../../form'
@@ -112,6 +111,7 @@ export default defineComponent({
         max,
         value,
         position,
+        bordered,
         onUpdateValue,
         creatorButtonProps,
         creatorInitialValue,
@@ -124,6 +124,7 @@ export default defineComponent({
         data: props.value,
         rowKey: AUTO_CREATE_ID,
         columns: columns.value,
+        bordered: bordered ?? false,
       }
     })
 
