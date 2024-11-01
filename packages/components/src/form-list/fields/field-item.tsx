@@ -24,10 +24,6 @@ const Action = defineComponent({
       type: Number,
       required: true,
     },
-    total: {
-      type: Number,
-      required: true,
-    },
     readonly: {
       type: Boolean,
       required: true,
@@ -48,33 +44,27 @@ const Action = defineComponent({
     const action = useInjectProFormListInst()
     const { getMessage } = useLocale('ProFormList')
 
+    const {
+      value: list,
+    } = useInjectListFieldContext()!
+
     const showCopyButton = computed(() => {
-      const {
-        max,
-        total,
-        readonly,
-        copyButtonProps,
-      } = props
+      const { max, readonly, copyButtonProps } = props
 
       return !(
         readonly
         || copyButtonProps === false
-        || (max !== undefined && total >= max)
+        || (max !== undefined && list.value.length >= max)
       )
     })
 
     const showRemoveButton = computed(() => {
-      const {
-        min,
-        total,
-        readonly,
-        removeButtonProps,
-      } = props
+      const { min, readonly, removeButtonProps } = props
 
       return !(
         readonly
         || removeButtonProps === false
-        || (min !== undefined && total <= min)
+        || (min !== undefined && list.value.length <= min)
       )
     })
 
@@ -109,45 +99,47 @@ const Action = defineComponent({
     })
 
     async function copy() {
-      const {
-        path,
-        index,
-        total,
-        actionGuard,
-      } = props
+      const { path, index, actionGuard } = props
+      const { beforeAddRow, afterAddRow } = actionGuard ?? {}
 
       const insertIndex = index + 1
       const row = form.getFieldValue(path!) ?? {}
 
-      if (actionGuard?.beforeAddRow) {
-        const success = await actionGuard.beforeAddRow({
-          index,
-          total,
-          insertIndex,
-        })
-        success && action.insert(insertIndex, omit(row, AUTO_CREATE_ID))
+      if (beforeAddRow) {
+        const success = await beforeAddRow({ index, insertIndex, total: list.value.length })
+        if (success) {
+          action.insert(insertIndex, omit(row, AUTO_CREATE_ID))
+          if (afterAddRow) {
+            afterAddRow({ index, insertIndex, total: list.value.length })
+          }
+        }
       }
       else {
         action.insert(insertIndex, omit(row, AUTO_CREATE_ID))
+        if (afterAddRow) {
+          afterAddRow({ index, insertIndex, total: list.value.length })
+        }
       }
     }
 
     async function remove() {
-      const {
-        index,
-        total,
-        actionGuard,
-      } = props
+      const { index, actionGuard } = props
+      const { beforeRemoveRow, afterRemoveRow } = actionGuard ?? {}
 
-      if (actionGuard?.beforeRemoveRow) {
-        const success = await actionGuard.beforeRemoveRow({
-          index,
-          total,
-        })
-        success && action.remove(index)
+      if (beforeRemoveRow) {
+        const success = await beforeRemoveRow({ index, total: list.value.length })
+        if (success) {
+          action.remove(index)
+          if (afterRemoveRow) {
+            afterRemoveRow({ index, total: list.value.length })
+          }
+        }
       }
       else {
         action.remove(index)
+        if (afterRemoveRow) {
+          afterRemoveRow({ index, total: list.value.length })
+        }
       }
     }
     return {
