@@ -53,9 +53,9 @@ listNest.vue
 | 名称 | 参数 | 说明 | 版本 |
 | --- | --- | --- | --- |
 | default | `(opt:{index: number, total: number, action: ProFormListInstance})` | | |
-| item | `(opt:{index: number, total: number, itemVNode: VNodeChild, actionVNode: VNodeChild, action: ProFormListInst})` | 自定义渲染每一行的结构，主要就是将 action 放在别的地方 | |
-| action | `(opt:{index: number, total: number, actionVNode: VNodeChild, action: ProFormListInst})` | 自定义渲染操作按钮 | |
-| container | `(opt:{listVNode: VNodeChild, creatorButtonVNode: VNodeChild})` | 自定义渲染列表容器 | |
+| item | `(opt:{index: number, total: number, itemDom: VNodeChild, actionDom: VNodeChild, action: ProFormListInst})` | 自定义渲染每一行的结构，主要就是将 action 放在别的地方 | |
+| action | `(opt:{index: number, total: number, actionDom: VNodeChild, action: ProFormListInst})` | 自定义渲染操作按钮 | |
+| container | `(opt:{listDom: VNodeChild, creatorButtonDom: VNodeChild})` | 自定义渲染列表容器 | |
 
 ### ActionGuard
 ```ts

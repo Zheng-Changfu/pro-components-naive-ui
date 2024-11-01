@@ -39,15 +39,15 @@ export default defineComponent({
         { name: 'zcf' },
       ]"
     >
-      <template #item="{ index, itemVNode, actionVNode }">
+      <template #item="{ index, itemDom, actionDom }">
         <n-card
           embedded
           :title="`标题${index + 1}`"
           class="mb-8px"
         >
-          <component :is="itemVNode" />
+          <component :is="itemDom" />
           <template #header-extra>
-            <component :is="actionVNode" />
+            <component :is="actionDom" />
           </template>
         </n-card>
       </template>

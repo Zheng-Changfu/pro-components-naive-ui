@@ -59,7 +59,7 @@ export default defineComponent({
             </n-flex>
           </n-flex>
         </template>
-        <template #container="{ listVNode, creatorButtonVNode }">
+        <template #container="{ listDom, creatorButtonDom }">
           <n-flex vertical>
             <transition-group
               tag="div"
@@ -70,13 +70,13 @@ export default defineComponent({
               enter-from-class="opacity-0 scale-y-1 translate-x-30px"
               leave-to-class="opacity-0 scale-y-1 translate-x-30px"
             >
-              <template v-for="comp in listVNode" :key="comp.key">
+              <template v-for="comp in listDom" :key="comp.key">
                 <div>
                   <component :is="comp" />
                 </div>
               </template>
             </transition-group>
-            <component :is="creatorButtonVNode" />
+            <component :is="creatorButtonDom" />
           </n-flex>
         </template>
       </pro-form-list>
