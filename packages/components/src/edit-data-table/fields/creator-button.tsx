@@ -5,7 +5,6 @@ import { useToggle } from '@vueuse/core'
 import { NIcon } from 'naive-ui'
 import { useInjectListFieldContext } from 'pro-components-hooks'
 import { ProButton, type ProButtonProps } from '../../button'
-import { useReadonlyHelpers } from '../../form'
 import { useLocale } from '../../locales'
 
 export default defineComponent({
@@ -17,10 +16,6 @@ export default defineComponent({
     creatorButtonProps: [Object, Boolean] as PropType<ProButtonProps | false>,
   },
   setup(props) {
-    const {
-      readonly,
-    } = useReadonlyHelpers()
-
     const {
       getMessage,
     } = useLocale('ProEditDataTable')
@@ -36,10 +31,11 @@ export default defineComponent({
     ] = useToggle()
 
     const showButton = computed(() => {
+      /**
+       * 这里按钮不被 readonly 控制
+       */
       const { max, creatorButtonProps } = props
-      return !readonly.value
-        && creatorButtonProps !== false
-        && list.value.length < (max ?? Number.POSITIVE_INFINITY)
+      return creatorButtonProps !== false && list.value.length < (max ?? Number.POSITIVE_INFINITY)
     })
 
     const proButtonProps = computed<ProButtonProps>(() => {
