@@ -99,15 +99,27 @@ export interface ToolbarReloadSetting {
 }
 
 export interface ToolbarColumnSetting {
+  /**
+   * 是否可以拖拽
+   */
   draggable?: boolean
+  /**
+   * 是否显示 checkbox
+   */
   checkable?: boolean
+  /**
+   * 是否显示重置按钮
+   */
   resetButton?: boolean
+  /**
+   * 是否显示序号列
+   */
   indexColummn?: boolean
   renderIcon?: () => VNodeChild
 }
 
 export interface ProDataTableToolbarSetting {
-  reload?: boolean | ToolbarReloadSetting
-  density?: boolean | ToolbarDensitySetting
-  columnSetting?: boolean | ToolbarColumnSetting
+  reload?: false | ToolbarReloadSetting
+  density?: false | ToolbarDensitySetting
+  columnSetting?: false | ToolbarColumnSetting
 }

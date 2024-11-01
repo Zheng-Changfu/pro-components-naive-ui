@@ -29,16 +29,16 @@
         content: '添加规格项',
       }"
     >
-      <template #item="{ index, itemVNode, actionVNode }">
+      <template #item="{ index, itemDom, actionDom }">
         <n-card
           embedded
           :title="`规格${index + 1}`"
           class="mb-8px"
         >
           <template #header-extra>
-            <component :is="actionVNode" />
+            <component :is="actionDom" />
           </template>
-          <component :is="itemVNode" />
+          <component :is="itemDom" />
         </n-card>
       </template>
       <pro-input
@@ -63,11 +63,11 @@
           tooltip: '删除',
         }"
       >
-        <template #item="{ itemVNode, actionVNode }">
+        <template #item="{ itemDom, actionDom }">
           <div class="inline-flex me-25px">
-            <component :is="itemVNode" />
+            <component :is="itemDom" />
             <div class="ml-8px">
-              <component :is="actionVNode" />
+              <component :is="actionDom" />
             </div>
           </div>
         </template>

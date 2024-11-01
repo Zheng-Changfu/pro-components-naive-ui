@@ -3,6 +3,7 @@ import type { ProButtonProps } from '../../button'
 import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
+import { useToggle } from '@vueuse/core'
 import { omit } from 'lodash-es'
 import { NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { useInjectListFieldContext } from 'pro-components-hooks'
@@ -24,14 +25,6 @@ const Action = defineComponent({
       type: Number,
       required: true,
     },
-    total: {
-      type: Number,
-      required: true,
-    },
-    readonly: {
-      type: Boolean,
-      required: true,
-    },
     copyButtonProps: {
       type: [Object, Boolean] as PropType<ProButtonProps | false>,
       default: undefined,
@@ -45,42 +38,49 @@ const Action = defineComponent({
   },
   setup(props) {
     const form = useInjectProFormInst()!
-    const action = useInjectProFormListInst()
-    const { getMessage } = useLocale('ProFormList')
+
+    const {
+      getMessage,
+    } = useLocale('ProFormList')
+
+    const {
+      readonly,
+    } = useReadonlyHelpers()
+
+    const [
+      removeLoading,
+      setRemoveLoading,
+    ] = useToggle()
+
+    const [
+      copyLoading,
+      setCopyLoading,
+    ] = useToggle()
+
+    const {
+      insert,
+      remove: _remove,
+      value: list,
+    } = useInjectListFieldContext()!
 
     const showCopyButton = computed(() => {
-      const {
-        max,
-        total,
-        readonly,
-        copyButtonProps,
-      } = props
-
-      return !(
-        readonly
-        || copyButtonProps === false
-        || (max !== undefined && total >= max)
-      )
+      const { max, copyButtonProps } = props
+      return !readonly.value
+        && copyButtonProps !== false
+        && list.value.length < (max ?? Number.POSITIVE_INFINITY)
     })
 
     const showRemoveButton = computed(() => {
-      const {
-        min,
-        total,
-        readonly,
-        removeButtonProps,
-      } = props
-
-      return !(
-        readonly
-        || removeButtonProps === false
-        || (min !== undefined && total <= min)
-      )
+      const { min, removeButtonProps } = props
+      return !readonly.value
+        && removeButtonProps !== false
+        && list.value.length > (min ?? Number.NEGATIVE_INFINITY)
     })
 
     const getCopyButtonProps = computed<ProButtonProps>(() => {
       return {
         text: true,
+        loading: copyLoading.value,
         tooltip: getMessage('copyThisLine'),
         renderIcon: () => {
           return (
@@ -96,6 +96,7 @@ const Action = defineComponent({
     const getRemoveButtonProps = computed<ProButtonProps>(() => {
       return {
         text: true,
+        loading: removeLoading.value,
         tooltip: getMessage('removeThisLine'),
         renderIcon: () => {
           return (
@@ -109,45 +110,51 @@ const Action = defineComponent({
     })
 
     async function copy() {
-      const {
-        path,
-        index,
-        total,
-        actionGuard,
-      } = props
+      const { path, index, actionGuard } = props
+      const { beforeAddRow, afterAddRow } = actionGuard ?? {}
 
       const insertIndex = index + 1
       const row = form.getFieldValue(path!) ?? {}
 
-      if (actionGuard?.beforeAddRow) {
-        const success = await actionGuard.beforeAddRow({
-          index,
-          total,
-          insertIndex,
-        })
-        success && action.insert(insertIndex, omit(row, AUTO_CREATE_ID))
+      if (beforeAddRow) {
+        setCopyLoading(true)
+        const success = await beforeAddRow({ index, insertIndex, total: list.value.length })
+        if (success) {
+          insert(insertIndex, omit(row, AUTO_CREATE_ID))
+          if (afterAddRow) {
+            afterAddRow({ index, insertIndex, total: list.value.length })
+          }
+        }
+        setCopyLoading(false)
       }
       else {
-        action.insert(insertIndex, omit(row, AUTO_CREATE_ID))
+        insert(insertIndex, omit(row, AUTO_CREATE_ID))
+        if (afterAddRow) {
+          afterAddRow({ index, insertIndex, total: list.value.length })
+        }
       }
     }
 
     async function remove() {
-      const {
-        index,
-        total,
-        actionGuard,
-      } = props
+      const { index, actionGuard } = props
+      const { beforeRemoveRow, afterRemoveRow } = actionGuard ?? {}
 
-      if (actionGuard?.beforeRemoveRow) {
-        const success = await actionGuard.beforeRemoveRow({
-          index,
-          total,
-        })
-        success && action.remove(index)
+      if (beforeRemoveRow) {
+        setRemoveLoading(true)
+        const success = await beforeRemoveRow({ index, total: list.value.length })
+        if (success) {
+          _remove(index)
+          if (afterRemoveRow) {
+            afterRemoveRow({ index, total: list.value.length })
+          }
+        }
+        setRemoveLoading(false)
       }
       else {
-        action.remove(index)
+        _remove(index)
+        if (afterRemoveRow) {
+          afterRemoveRow({ index, total: list.value.length })
+        }
       }
     }
     return {
@@ -160,37 +167,28 @@ const Action = defineComponent({
     }
   },
   render() {
-    const {
-      copy,
-      remove,
-      showCopyButton,
-      copyButtonProps,
-      showRemoveButton,
-      removeButtonProps,
-    } = this
-
-    const copyButtonVNode = showCopyButton
+    const copyButtonDom = this.showCopyButton
       ? (
           <ProButton
-            {...copyButtonProps}
-            onClick={copy}
+            {...this.copyButtonProps}
+            onClick={this.copy}
           />
         )
       : null
 
-    const removeButtonVNode = showRemoveButton
+    const removeButtonDom = this.showRemoveButton
       ? (
           <ProButton
-            {...removeButtonProps}
-            onClick={remove}
+            {...this.removeButtonProps}
+            onClick={this.remove}
           />
         )
       : null
 
     return (
       <Fragment>
-        {copyButtonVNode}
-        {removeButtonVNode}
+        {copyButtonDom}
+        {removeButtonDom}
       </Fragment>
     )
   },
@@ -223,14 +221,22 @@ export default defineComponent({
   setup(props) {
     const themeVars = useThemeVars()
     const action = useInjectProFormListInst()
-    const { readonly } = useReadonlyHelpers()
     const nFormItem = inject<any>('n-form-item')
-    const field = useInjectListFieldContext()!
-    const { validateBehavior } = useInjectProFormContext()
-    const { path } = useProvidePath(toRef(props, 'index'))
+
+    const {
+      path,
+    } = useProvidePath(toRef(props, 'index'))
+
+    const {
+      validateBehavior,
+    } = useInjectProFormContext()
+
+    const {
+      value: list,
+    } = useInjectListFieldContext()!
 
     const total = computed(() => {
-      return field.value.value.length
+      return list.value.length
     })
 
     const showItemLabel = computed(() => {
@@ -263,7 +269,6 @@ export default defineComponent({
       path,
       total,
       action,
-      readonly,
       actionHeight,
       validateBehavior,
     }
@@ -277,7 +282,6 @@ export default defineComponent({
       $props,
       $slots,
       action,
-      readonly,
       actionHeight,
       validateBehavior,
     } = this
@@ -289,44 +293,38 @@ export default defineComponent({
       removeButtonProps,
     } = $props
 
-    const actionVNode = (
+    const actionDom = (
       <Action
         min={min}
         max={max}
         path={path}
         index={index}
-        total={total}
-        readonly={readonly}
         actionGuard={actionGuard}
         copyButtonProps={copyButtonProps}
         removeButtonProps={removeButtonProps}
       />
     )
 
-    const resolvedActionVNode = resolveSlotWithProps(
-      $slots.action,
-      {
-        total,
-        index,
-        action,
-        actionVNode,
-      },
-      () => (
-        <NFlex
-          style={{
-            height: actionHeight,
-            linHeight: actionHeight,
-            marginBlockEnd: $slots.item || validateBehavior === 'popover'
-              ? 0
-              : 'var(--n-feedback-height)',
-          }}
-        >
-          {actionVNode}
-        </NFlex>
-      ),
-    )
+    const resolvedActionDom = resolveSlotWithProps($slots.action, {
+      total,
+      index,
+      action,
+      actionDom,
+    }, () => (
+      <NFlex
+        style={{
+          height: actionHeight,
+          linHeight: actionHeight,
+          marginBlockEnd: $slots.item || validateBehavior === 'popover'
+            ? 0
+            : 'var(--n-feedback-height)',
+        }}
+      >
+        {actionDom}
+      </NFlex>
+    ))
 
-    const itemVNode = (
+    const itemDom = (
       <Fragment>
         {$slots.default?.({
           total,
@@ -336,28 +334,24 @@ export default defineComponent({
       </Fragment>
     )
 
-    return resolveSlotWithProps(
-      $slots.item,
-      {
-        total,
-        index,
-        action,
-        itemVNode,
-        actionVNode: resolvedActionVNode,
-      },
-      () => (
-        <NEl
-          style={{
-            display: 'flex',
-            gap: '0 16px',
-            flexWrap: 'wrap',
-            alignItems: 'flex-end',
-          }}
-        >
-          {itemVNode}
-          {resolvedActionVNode}
-        </NEl>
-      ),
-    )
+    return resolveSlotWithProps($slots.item, {
+      total,
+      index,
+      action,
+      itemDom,
+      actionDom: resolvedActionDom,
+    }, () => (
+      <NEl
+        style={{
+          display: 'flex',
+          gap: '0 16px',
+          flexWrap: 'wrap',
+          alignItems: 'flex-end',
+        }}
+      >
+        {itemDom}
+        {resolvedActionDom}
+      </NEl>
+    ))
   },
 })

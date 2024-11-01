@@ -21,15 +21,15 @@
           path="age"
         />
       </n-flex>
-      <template #item="{ itemVNode, actionVNode }">
+      <template #item="{ itemDom, actionDom }">
         <n-card
           title="卡片"
           embedded
           class="mb-8px"
         >
-          <component :is="itemVNode" />
+          <component :is="itemDom" />
           <template #header-extra>
-            <component :is="actionVNode" />
+            <component :is="actionDom" />
           </template>
         </n-card>
       </template>

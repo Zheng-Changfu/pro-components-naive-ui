@@ -6,38 +6,51 @@ import { proFieldProps } from '../form'
 
 export interface ActionGuard {
   /**
-   * 添加行的拦截器
+   * 添加行之前触发的回调，可以阻止添加
    * @param index 当前行索引
    * @param insertIndex 要插入的索引
    * @param total 当前列表总行数
    */
   beforeAddRow: (opt: { index: number, insertIndex: number, total: number }) => boolean | Promise<boolean>
   /**
-   * 删除行的拦截器
+   * 添加行之后触发的回调
+   * @param index 当前行索引
+   * @param insertIndex 要插入的索引
+   * @param total 当前列表总行数
+   */
+  afterAddRow: (opt: { index: number, insertIndex: number, total: number }) => void
+  /**
+   * 删除行之前触发的回调，可以阻止删除
    * @param index 当前行索引
    * @param total 当前列表总行数
    */
   beforeRemoveRow: (opt: { index: number, total: number }) => boolean | Promise<boolean>
+  /**
+   * 删除行之后触发的回调
+   * @param index 当前行索引
+   * @param total 当前列表总行数
+   */
+  afterRemoveRow: (opt: { index: number, total: number }) => void
 }
 
 export type ActionRender = (opt: {
   index: number
   total: number
-  actionVNode: VNodeChild
+  actionDom: VNodeChild
   action: ProFormListInst
 }) => VNodeChild
 
 export type ItemRender = (opt: {
   index: number
   total: number
-  itemVNode: VNodeChild
-  actionVNode: VNodeChild
+  itemDom: VNodeChild
+  actionDom: VNodeChild
   action: ProFormListInst
 }) => VNodeChild
 
 export type ContainerRender = (opt: {
-  listVNode: VNodeChild
-  creatorButtonVNode: VNodeChild
+  listDom: VNodeChild
+  creatorButtonDom: VNodeChild
 }) => VNodeChild
 
 export const proFormListProps = {

@@ -31,7 +31,7 @@ export default defineComponent({
         title="年龄"
         path="age"
       />
-      <template #action="{ index, action, actionVNode }">
+      <template #action="{ index, action, actionDom }">
         <n-flex class="h-34px leading-34px mb-24px">
           <n-button text @click="action.moveUp(index)">
             <template #icon>
@@ -47,7 +47,7 @@ export default defineComponent({
               </n-icon>
             </template>
           </n-button>
-          <component :is="actionVNode" />
+          <component :is="actionDom" />
         </n-flex>
       </template>
     </pro-form-list>

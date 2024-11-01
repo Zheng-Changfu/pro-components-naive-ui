@@ -8,7 +8,7 @@ import { useInjectListFieldContext } from 'pro-components-hooks'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProDataTable, proDataTableProps } from '../../data-table'
 import { proFieldProps, useInjectProFormInst } from '../../form'
-import { AUTO_CREATE_ID } from '../../form-list'
+import { AUTO_CREATE_ID, proFormListContextKey } from '../../form-list'
 import { provideProEditDataTableInst } from '../context'
 import { proEditDataTableProps } from '../props'
 import { useColumns } from './composables/useColumns'
@@ -22,10 +22,6 @@ const editDataTableProps = {
     Object.keys(proFieldProps),
   ) as Omit<typeof proEditDataTableProps, keyof typeof proFieldProps>,
   max: Number,
-  position: {
-    type: [String, Boolean] as PropType<'top' | 'bottom' | false>,
-    default: 'bottom',
-  },
   value: {
     type: Array as PropType<Array<Record<string, any>>>,
     required: true,
@@ -110,7 +106,8 @@ export default defineComponent({
       const {
         max,
         value,
-        position,
+        bordered,
+        actionGuard,
         onUpdateValue,
         creatorButtonProps,
         creatorInitialValue,
@@ -123,6 +120,7 @@ export default defineComponent({
         data: props.value,
         rowKey: AUTO_CREATE_ID,
         columns: columns.value,
+        bordered: bordered ?? false,
       }
     })
 
@@ -145,6 +143,9 @@ export default defineComponent({
 
     expose(exposed)
     provideProEditDataTableInst(exposed)
+    provide(proFormListContextKey, {
+      showLabel: false,
+    })
     return {
       proDataTableProps,
     }
@@ -162,6 +163,7 @@ export default defineComponent({
               params.tableDom,
               <CreatorButton
                 max={this.$props.max}
+                actionGuard={this.$props.actionGuard}
                 creatorButtonProps={this.$props.creatorButtonProps}
                 creatorInitialValue={this.$props.creatorInitialValue}
               />,
