@@ -89,8 +89,8 @@ export function useMergeOptions(options: UseMergeOptions) {
     if (propShowLabel.value !== undefined) {
       return propShowLabel.value
     }
-    if (showLabel?.value !== undefined) {
-      return showLabel.value
+    if (unref(showLabel) !== undefined) {
+      return unref(showLabel)
     }
   })
 

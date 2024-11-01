@@ -1,10 +1,10 @@
-import type { InjectionKey, Ref } from 'vue'
+import type { InjectionKey, MaybeRef } from 'vue'
 import type { ProFormListInst } from './inst'
 import { inject, provide } from 'vue'
 
 export const proFormListInstContextKey = Symbol('proFormListInst') as InjectionKey<ProFormListInst>
 export const proFormListContextKey = Symbol('proFormListContext') as InjectionKey<{
-  showLabel: Ref<boolean | undefined>
+  showLabel: MaybeRef<boolean | undefined>
 }>
 
 export function provideProFormListInst(inst: ProFormListInst) {
