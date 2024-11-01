@@ -36,21 +36,21 @@ export interface ActionGuard {
 export type ActionRender = (opt: {
   index: number
   total: number
-  actionVNode: VNodeChild
+  actionDom: VNodeChild
   action: ProFormListInst
 }) => VNodeChild
 
 export type ItemRender = (opt: {
   index: number
   total: number
-  itemVNode: VNodeChild
-  actionVNode: VNodeChild
+  itemDom: VNodeChild
+  actionDom: VNodeChild
   action: ProFormListInst
 }) => VNodeChild
 
 export type ContainerRender = (opt: {
-  listVNode: VNodeChild
-  creatorButtonVNode: VNodeChild
+  listDom: VNodeChild
+  creatorButtonDom: VNodeChild
 }) => VNodeChild
 
 export const proFormListProps = {

@@ -1,28 +1,23 @@
-import type { ArrayField } from 'pro-components-hooks'
 import type { PropType, SlotsType } from 'vue'
 import type { ProFormListInst } from '../inst'
 import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
-import { useInjectFieldContext, useInjectListFieldContext } from 'pro-components-hooks'
+import { useInjectListFieldContext } from 'pro-components-hooks'
 import { computed, defineComponent, nextTick } from 'vue'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProButton, type ProButtonProps } from '../../button'
 import { useReadonlyHelpers } from '../../form/components'
 import { useInjectProFormInst } from '../../form/context'
 import { useLocale } from '../../locales'
-import { AUTO_CREATE_ID, provideProFormListInst, useInjectProFormListInst } from '../context'
+import { AUTO_CREATE_ID, provideProFormListInst } from '../context'
 import FieldItem from './field-item'
 
 const CreatorButton = defineComponent({
   name: 'ProFieldListCreatorButton',
   props: {
     max: Number,
-    readonly: {
-      type: Boolean,
-      required: true,
-    },
     creatorButtonProps: {
       type: [Object, Boolean] as PropType<ProButtonProps | false>,
       default: undefined,
@@ -32,24 +27,24 @@ const CreatorButton = defineComponent({
     creatorInitialValue: Function as PropType<() => Record<string, any>>,
   },
   setup(props) {
-    const action = useInjectProFormListInst()
-
     const {
       getMessage,
     } = useLocale('ProFormList')
 
     const {
+      insert,
       value: list,
     } = useInjectListFieldContext()!
 
-    const showButton = computed(() => {
-      const { max, readonly, creatorButtonProps } = props
+    const {
+      readonly,
+    } = useReadonlyHelpers()
 
-      return !(
-        readonly
-        || creatorButtonProps === false
-        || (max !== undefined && list.value.length >= max)
-      )
+    const showButton = computed(() => {
+      const { max, creatorButtonProps } = props
+      return !readonly.value
+        && creatorButtonProps !== false
+        && list.value.length < (max ?? Number.POSITIVE_INFINITY)
     })
 
     const proButtonProps = computed<ProButtonProps>(() => {
@@ -77,14 +72,14 @@ const CreatorButton = defineComponent({
       if (beforeAddRow) {
         const success = await beforeAddRow({ total: list.value.length, index: -1, insertIndex })
         if (success) {
-          action.insert(insertIndex, creatorInitialValue?.() ?? {})
+          insert(insertIndex, creatorInitialValue?.() ?? {})
           if (afterAddRow) {
             afterAddRow({ total: list.value.length, index: -1, insertIndex })
           }
         }
       }
       else {
-        action.insert(insertIndex, creatorInitialValue?.() ?? {})
+        insert(insertIndex, creatorInitialValue?.() ?? {})
         if (afterAddRow) {
           afterAddRow({ total: list.value.length, index: -1, insertIndex })
         }
@@ -142,12 +137,8 @@ export default defineComponent({
     },
   },
   slots: Object as SlotsType<ProFormListSlots>,
-  setup(props, { expose }) {
+  setup(_, { expose }) {
     const form = useInjectProFormInst()!
-
-    const {
-      readonly,
-    } = useReadonlyHelpers()
 
     const {
       pop,
@@ -161,11 +152,7 @@ export default defineComponent({
       moveDown,
       onActionChange,
       stringPath,
-    } = useInjectFieldContext()! as ArrayField
-
-    const total = computed(() => {
-      return props.value.length
-    })
+    } = useInjectListFieldContext()!
 
     onActionChange((action) => {
       /**
@@ -199,16 +186,11 @@ export default defineComponent({
 
     expose(exposed)
     provideProFormListInst(exposed)
-    return {
-      total,
-      readonly,
-    }
   },
   render() {
     const {
       $props,
       $slots,
-      readonly,
       value: list,
     } = this
 
@@ -224,7 +206,7 @@ export default defineComponent({
       onlyShowFirstItemLabel,
     } = $props
 
-    const listVNode = list.map((item, index) => {
+    const listDom = list.map((item, index) => {
       return (
         <FieldItem
           key={item[AUTO_CREATE_ID]}
@@ -240,10 +222,9 @@ export default defineComponent({
       )
     })
 
-    const creatorButtonVNode = (
+    const creatorButtonDom = (
       <CreatorButton
         max={max}
-        readonly={readonly}
         position={position}
         actionGuard={actionGuard}
         creatorButtonProps={creatorButtonProps}
@@ -251,17 +232,13 @@ export default defineComponent({
       />
     )
 
-    return resolveSlotWithProps(
-      $slots.container,
-      {
-        listVNode,
-        creatorButtonVNode,
-      },
-      () => [
-        position === 'top' && creatorButtonVNode,
-        listVNode,
-        position === 'bottom' && creatorButtonVNode,
-      ],
-    )
+    return resolveSlotWithProps($slots.container, {
+      listDom,
+      creatorButtonDom,
+    }, () => [
+      position === 'top' && creatorButtonDom,
+      listDom,
+      position === 'bottom' && creatorButtonDom,
+    ])
   },
 })
