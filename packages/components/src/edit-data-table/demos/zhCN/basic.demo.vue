@@ -3,16 +3,33 @@
 </markdown>
 
 <script lang="tsx">
+import { NButton, NFlex } from 'naive-ui'
+import { useProEditDataTableInst } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
+    const [
+      instRef,
+      {
+        remove,
+        startEditable,
+        cancelEditable,
+        cancelEditableWithRestore,
+      },
+    ] = useProEditDataTableInst()
+
     const columns = [
       {
         title: 'No',
         key: 'no',
         tooltip: ['123', '123'],
         width: 200,
+        fieldProps: {
+          style: {
+            background: '{{ $row.title }}',
+          },
+        },
         proFieldProps: {
           required: true,
         },
@@ -32,6 +49,24 @@ export default defineComponent({
         title: 'Length',
         key: 'length',
         width: 200,
+      },
+      {
+        title: '操作',
+        width: 120,
+        align: 'center',
+        fixed: 'right',
+        render(_, index, { editable }) {
+          const buttonDoms = editable
+            ? [
+                <NButton text={true} type="primary" onClick={() => cancelEditable(index)}>保存</NButton>,
+                <NButton text={true} type="primary" onClick={() => cancelEditableWithRestore(index)}>取消</NButton>,
+              ]
+            : [
+                <NButton text={true} type="primary" onClick={() => startEditable(index)}>编辑</NButton>,
+                <NButton text={true} type="error" onClick={() => remove(index)}>删除</NButton>,
+              ]
+          return <NFlex justify="center">{buttonDoms}</NFlex>
+        },
       },
     ]
 
@@ -61,6 +96,7 @@ export default defineComponent({
 
     return {
       data,
+      instRef,
       request,
       columns,
     }
@@ -73,11 +109,19 @@ export default defineComponent({
     :initial-values="{
       list: data,
     }"
-    validate-behavior="popover"
     @submit="console.log"
   >
-    <pro-input title="名称" path="name" />
+    <pro-input
+      title="名称" path="name" :field-props="{
+        style: {
+          background: '{{ $vals.list && $vals.list[0].no }}',
+        },
+      }"
+    />
     <pro-edit-data-table
+      ref="instRef"
+      hidden="{{ $vals.name === '123' }}"
+      readonly
       title="爱好"
       path="list"
       :scroll-x="200"
