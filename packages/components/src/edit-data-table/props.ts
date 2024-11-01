@@ -29,6 +29,10 @@ export const proEditDataTableProps = {
    */
   ...proFieldProps,
   /**
+   * 是否显示表格内的 label，默认不显示
+   */
+  showItemLabel: [String, Boolean] as PropType<MaybeExpression<boolean>>,
+  /**
    * 最多行数，多于该数则无法继续新增
    */
   max: [String, Number] as PropType<MaybeExpression<number>>,

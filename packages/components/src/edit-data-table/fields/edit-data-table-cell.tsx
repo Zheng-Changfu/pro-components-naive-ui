@@ -89,7 +89,6 @@ export default defineComponent({
     const Component = this.valueTypeMap[column.valueType ?? 'input']
     return Component
       ? h(Component, {
-        showLabel: false,
         ...this.proFieldProps,
         readonly: this.readonly,
         fieldProps: this.fieldProps,

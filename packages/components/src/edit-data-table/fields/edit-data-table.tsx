@@ -5,10 +5,11 @@ import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
 import { omit } from 'lodash-es'
 import { useInjectListFieldContext } from 'pro-components-hooks'
+import { toRef } from 'vue'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProDataTable, proDataTableProps } from '../../data-table'
 import { proFieldProps, useInjectProFormInst } from '../../form'
-import { AUTO_CREATE_ID } from '../../form-list'
+import { AUTO_CREATE_ID, proFormListContextKey } from '../../form-list'
 import { provideProEditDataTableInst } from '../context'
 import { proEditDataTableProps } from '../props'
 import { useColumns } from './composables/useColumns'
@@ -22,6 +23,7 @@ const editDataTableProps = {
     Object.keys(proFieldProps),
   ) as Omit<typeof proEditDataTableProps, keyof typeof proFieldProps>,
   max: Number,
+  showItemLabel: Boolean,
   position: {
     type: [String, Boolean] as PropType<'top' | 'bottom' | false>,
     default: 'bottom',
@@ -145,6 +147,9 @@ export default defineComponent({
 
     expose(exposed)
     provideProEditDataTableInst(exposed)
+    provide(proFormListContextKey, {
+      showLabel: toRef(props, 'showItemLabel'),
+    })
     return {
       proDataTableProps,
     }
