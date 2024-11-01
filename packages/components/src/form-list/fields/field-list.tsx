@@ -5,7 +5,7 @@ import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
-import { useInjectFieldContext } from 'pro-components-hooks'
+import { useInjectFieldContext, useInjectListFieldContext } from 'pro-components-hooks'
 import { computed, defineComponent, nextTick } from 'vue'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProButton, type ProButtonProps } from '../../button'
@@ -23,10 +23,6 @@ const CreatorButton = defineComponent({
       type: Boolean,
       required: true,
     },
-    total: {
-      type: Number,
-      required: true,
-    },
     creatorButtonProps: {
       type: [Object, Boolean] as PropType<ProButtonProps | false>,
       default: undefined,
@@ -37,24 +33,26 @@ const CreatorButton = defineComponent({
   },
   setup(props) {
     const action = useInjectProFormListInst()
-    const { getMessage } = useLocale('ProFormList')
+
+    const {
+      getMessage,
+    } = useLocale('ProFormList')
+
+    const {
+      value: list,
+    } = useInjectListFieldContext()!
 
     const showButton = computed(() => {
-      const {
-        max,
-        total,
-        readonly,
-        creatorButtonProps,
-      } = props
+      const { max, readonly, creatorButtonProps } = props
 
       return !(
         readonly
         || creatorButtonProps === false
-        || (max !== undefined && total >= max)
+        || (max !== undefined && list.value.length >= max)
       )
     })
 
-    const buttonProps = computed<ProButtonProps>(() => {
+    const proButtonProps = computed<ProButtonProps>(() => {
       const { creatorButtonProps } = props
       return {
         block: true,
@@ -72,54 +70,45 @@ const CreatorButton = defineComponent({
     })
 
     async function add() {
-      const {
-        total,
-        position,
-        actionGuard,
-        creatorInitialValue,
-      } = props
+      const { position, actionGuard, creatorInitialValue } = props
+      const { beforeAddRow, afterAddRow } = actionGuard ?? {}
+      const insertIndex = position === 'top' ? 0 : list.value.length
 
-      const insertIndex = position === 'top' ? 0 : total
-
-      if (actionGuard?.beforeAddRow) {
-        const success = await actionGuard.beforeAddRow({
-          total,
-          index: -1,
-          insertIndex,
-        })
-        success && action.insert(insertIndex, creatorInitialValue?.() ?? {})
+      if (beforeAddRow) {
+        const success = await beforeAddRow({ total: list.value.length, index: -1, insertIndex })
+        if (success) {
+          action.insert(insertIndex, creatorInitialValue?.() ?? {})
+          if (afterAddRow) {
+            afterAddRow({ total: list.value.length, index: -1, insertIndex })
+          }
+        }
       }
       else {
         action.insert(insertIndex, creatorInitialValue?.() ?? {})
+        if (afterAddRow) {
+          afterAddRow({ total: list.value.length, index: -1, insertIndex })
+        }
       }
     }
 
     return {
       add,
       showButton,
-      buttonProps,
+      proButtonProps,
     }
   },
   render() {
-    const {
-      add,
-      $props,
-      showButton,
-      buttonProps,
-    } = this
-
-    if (!showButton) {
-      return null
-    }
-    return (
-      <ProButton
-        {...buttonProps}
-        style={{
-          marginBlockEnd: $props.position === 'top' ? '24px' : 0,
-        }}
-        onClick={add}
-      />
-    )
+    return this.showButton
+      ? (
+          <ProButton
+            {...this.proButtonProps}
+            style={{
+              marginBlockEnd: this.$props.position === 'top' ? '24px' : 0,
+            }}
+            onClick={this.add}
+          />
+        )
+      : null
   },
 })
 
@@ -217,7 +206,6 @@ export default defineComponent({
   },
   render() {
     const {
-      total,
       $props,
       $slots,
       readonly,
@@ -255,7 +243,6 @@ export default defineComponent({
     const creatorButtonVNode = (
       <CreatorButton
         max={max}
-        total={total}
         readonly={readonly}
         position={position}
         actionGuard={actionGuard}
