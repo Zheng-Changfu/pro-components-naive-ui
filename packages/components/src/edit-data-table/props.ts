@@ -4,7 +4,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProButtonProps } from '../button'
 import type { ProDataTableProps } from '../data-table'
 import type { ExtendAttrsStyleProps } from '../types'
-import type { ProEditDataTableColumns } from './types'
+import type { ActionGuard, ProEditDataTableColumns } from './types'
 import { omit } from 'lodash-es'
 import { proDataTableProps } from '../data-table'
 import { proFieldProps } from '../form'
@@ -43,6 +43,10 @@ export const proEditDataTableProps = {
     type: [Object, Boolean] as PropType<MaybeExpression<ProButtonProps | false>>,
     default: undefined,
   },
+  /**
+   * 操作拦截器
+   */
+  actionGuard: Object as PropType<ActionGuard>,
   /**
    * 重写类型
    */

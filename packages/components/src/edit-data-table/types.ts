@@ -29,3 +29,20 @@ export type ProEditDataTableColumn<RowData = any> =
   | ProEditDataTableBaseColumn<RowData>
 
 export type ProEditDataTableColumns<RowData = any> = ProEditDataTableColumn<RowData>[]
+
+export interface ActionGuard {
+  /**
+   * 添加行之前触发的回调，可以阻止添加
+   * @param index 当前行索引
+   * @param insertIndex 要插入的索引
+   * @param total 当前列表总行数
+   */
+  beforeAddRow: (opt: { index: number, insertIndex: number, total: number }) => boolean | Promise<boolean>
+  /**
+   * 添加行之后触发的回调
+   * @param index 当前行索引
+   * @param insertIndex 要插入的索引
+   * @param total 当前列表总行数
+   */
+  afterAddRow: (opt: { index: number, insertIndex: number, total: number }) => void
+}

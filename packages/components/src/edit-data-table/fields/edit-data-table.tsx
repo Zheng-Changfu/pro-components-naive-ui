@@ -22,10 +22,6 @@ const editDataTableProps = {
     Object.keys(proFieldProps),
   ) as Omit<typeof proEditDataTableProps, keyof typeof proFieldProps>,
   max: Number,
-  position: {
-    type: [String, Boolean] as PropType<'top' | 'bottom' | false>,
-    default: 'bottom',
-  },
   value: {
     type: Array as PropType<Array<Record<string, any>>>,
     required: true,
@@ -110,8 +106,8 @@ export default defineComponent({
       const {
         max,
         value,
-        position,
         bordered,
+        actionGuard,
         onUpdateValue,
         creatorButtonProps,
         creatorInitialValue,
@@ -167,6 +163,7 @@ export default defineComponent({
               params.tableDom,
               <CreatorButton
                 max={this.$props.max}
+                actionGuard={this.$props.actionGuard}
                 creatorButtonProps={this.$props.creatorButtonProps}
                 creatorInitialValue={this.$props.creatorInitialValue}
               />,
