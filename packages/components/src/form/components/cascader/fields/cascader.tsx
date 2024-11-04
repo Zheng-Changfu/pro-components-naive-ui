@@ -4,7 +4,7 @@ import { get, isArray } from 'lodash-es'
 import { cascaderProps, NCascader, NEl, NFlex } from 'naive-ui'
 import { eachTree } from 'pro-components-hooks'
 import { useReadonlyHelpers } from '../../field'
-import { useProCascaderInst } from '../inst'
+import { useInjectCascaderInstStore } from '../inst'
 
 export default defineComponent({
   name: 'Cascader',
@@ -15,7 +15,7 @@ export default defineComponent({
     const {
       instRef,
       registerInst,
-    } = useProCascaderInst()
+    } = useInjectCascaderInstStore()!
 
     const {
       empty,

@@ -3,7 +3,7 @@ import type { ProCascaderSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
 import Cascader from './fields/cascader'
-import { useProCascaderInst } from './inst'
+import { provideCascaderInstStore } from './inst'
 import { proCascaderProps } from './props'
 
 const name = 'ProCascader'
@@ -14,7 +14,7 @@ export default defineComponent({
   setup(props, { expose }) {
     const {
       exposed,
-    } = useProCascaderInst()
+    } = provideCascaderInstStore()
 
     const overridedProps = useOverrideProps(
       name,
