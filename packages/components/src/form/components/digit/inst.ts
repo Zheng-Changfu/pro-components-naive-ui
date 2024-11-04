@@ -1,5 +1,15 @@
 import type { InputNumberInst } from 'naive-ui'
+import { createInjectionState } from '@vueuse/core'
 import { useComponentInst } from '../../../composables'
 
 export type ProDigitInst = InputNumberInst
-export const useProDigitInst = createSharedComposable(useComponentInst<ProDigitInst>)
+
+const [
+  provideDigitInstStore,
+  useInjectDigitInstStore,
+] = createInjectionState(useComponentInst<ProDigitInst>)
+
+export {
+  provideDigitInstStore,
+  useInjectDigitInstStore,
+}

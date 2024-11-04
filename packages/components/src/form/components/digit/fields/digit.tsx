@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProDigitSlots } from '../slots'
 import { inputNumberProps, NEl, NFlex, NInputNumber } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
-import { useProDigitInst } from '../inst'
+import { useInjectDigitInstStore } from '../inst'
 
 export default defineComponent({
   name: 'Digit',
@@ -13,7 +13,7 @@ export default defineComponent({
     const {
       instRef,
       registerInst,
-    } = useProDigitInst()
+    } = useInjectDigitInstStore()!
 
     const {
       empty,

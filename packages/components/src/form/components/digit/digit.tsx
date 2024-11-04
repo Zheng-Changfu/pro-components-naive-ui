@@ -4,7 +4,7 @@ import { isString } from 'lodash-es'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
 import Digit from './fields/digit'
-import { useProDigitInst } from './inst'
+import { provideDigitInstStore } from './inst'
 import { proDigitProps } from './props'
 
 const name = 'ProDigit'
@@ -15,7 +15,7 @@ export default defineComponent({
   setup(props, { expose }) {
     const {
       exposed,
-    } = useProDigitInst()
+    } = provideDigitInstStore()
 
     const overridedProps = useOverrideProps(
       name,
