@@ -1,11 +1,11 @@
 import type { TreeSelectInst, TreeSelectProps } from 'naive-ui'
 import type { SlotsType, VNodeChild } from 'vue'
-import type { ProTreeSelectInst } from '../inst'
 import type { ProTreeSelectSlots } from '../slots'
 import { get, isArray, isUndefined, noop } from 'lodash-es'
 import { NEl, NFlex, NTreeSelect, treeSelectProps } from 'naive-ui'
 import { eachTree, useInjectFieldContext } from 'pro-components-hooks'
 import { useReadonlyHelpers } from '../../field'
+import { useInjectTreeSelectInstStore } from '../inst'
 import { useExpandKeys } from './composables/useExpandKeys'
 import { useIndeterminateKeys } from './composables/useIndeterminateKeys'
 import { levelKey, useOptions } from './composables/useOptions'
@@ -15,9 +15,13 @@ export default defineComponent({
   props: treeSelectProps,
   slots: Object as SlotsType<ProTreeSelectSlots>,
   inheritAttrs: false,
-  setup(props, { expose }) {
+  setup(props) {
     const instRef = ref<TreeSelectInst>()
     const field = useInjectFieldContext()!
+
+    const {
+      registerInst,
+    } = useInjectTreeSelectInstStore()!
 
     const {
       empty,
@@ -141,7 +145,7 @@ export default defineComponent({
       }
     }
 
-    const exposed: ProTreeSelectInst = {
+    registerInst({
       getFullKeys,
       getLevelKeys,
       getEnabledKeys,
@@ -157,9 +161,8 @@ export default defineComponent({
       focusInput: () => instRef.value?.focusInput(),
       getCheckedData: () => instRef.value!.getCheckedData(),
       getIndeterminateData: () => instRef.value!.getIndeterminateData(),
-    }
+    })
 
-    expose(exposed)
     return {
       empty,
       instRef,
