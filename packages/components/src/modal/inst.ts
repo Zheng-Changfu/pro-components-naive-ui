@@ -1,6 +1,4 @@
 import type { EventHookOn } from '@vueuse/core'
-import type { PickFunction } from '../types'
-import { createProComponentInstanceFactory } from '../composables'
 
 type NextTickCallback = () => void
 
@@ -34,4 +32,3 @@ export interface ProModalInst {
    */
   toggleFullscreen: () => Promise<void>
 }
-export const useProModalInst = createProComponentInstanceFactory<PickFunction<ProModalInst>>('ProModal')
