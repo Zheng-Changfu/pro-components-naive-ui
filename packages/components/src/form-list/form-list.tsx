@@ -8,7 +8,7 @@ import { useOverrideProps } from '../composables'
 import { ProField, ValueTypeEnum } from '../form/components'
 import { AUTO_CREATE_ID } from './context'
 import FieldList from './fields/field-list'
-import { useProFormListInst } from './inst'
+import { provideFormListInstStore } from './inst'
 import { proFormListProps } from './props'
 import style from './styles/index.cssr'
 
@@ -18,10 +18,9 @@ export default defineComponent({
   props: proFormListProps,
   slots: Object as SlotsType<ProFormListSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProFormListInst()
+    const {
+      exposed,
+    } = provideFormListInstStore()
 
     const overridedProps = useOverrideProps(
       name,
@@ -79,9 +78,8 @@ export default defineComponent({
         : normalizedVals
     }
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       splitProps,
       autoCreateRowId,
     }
@@ -89,7 +87,6 @@ export default defineComponent({
   render() {
     return (
       <ProField
-        ref="instRef"
         class="n-pro-form-item"
         {...this.splitProps.proFieldProps}
         isList={true}
@@ -99,9 +96,9 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
-            <FieldList {...pureProps} v-slots={this.$slots}></FieldList>,
-          ],
+          input: (pureProps: any) => {
+            return <FieldList {...pureProps} v-slots={this.$slots}></FieldList>
+          },
         }}
       </ProField>
     )

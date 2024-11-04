@@ -1,6 +1,6 @@
 export * from './context'
 export { default as ProFormList } from './form-list'
-export * from './inst'
+export type { ProFormListInst } from './inst'
 export { proFormListProps } from './props'
 export type {
   ActionGuard as ProFormListActionGuard,
