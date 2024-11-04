@@ -12,19 +12,17 @@ export default defineComponent({
   props: proAutoCompleteProps,
   slots: Object as SlotsType<ProAutoCompleteSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProAutoCompleteInst()
+    const {
+      exposed,
+    } = useProAutoCompleteInst()
 
     const overridedProps = useOverrideProps(
       name,
       props,
     )
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
     }
   },
@@ -39,7 +37,6 @@ export default defineComponent({
           ...this.$slots,
           input: (pureProps: any) => [
             <AutoComplete
-              ref="instRef"
               {...pureProps}
               v-slots={this.$slots}
             />,
