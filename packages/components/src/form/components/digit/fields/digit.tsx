@@ -9,11 +9,11 @@ export default defineComponent({
   props: inputNumberProps,
   slots: Object as SlotsType<ProDigitSlots>,
   inheritAttrs: false,
-  setup(_, { expose }) {
-    const [
+  setup() {
+    const {
       instRef,
-      methods,
-    ] = useProDigitInst()
+      registerInst,
+    } = useProDigitInst()
 
     const {
       empty,
@@ -22,7 +22,12 @@ export default defineComponent({
       emptyText,
     } = useReadonlyHelpers()
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+      select: () => instRef.value?.select(),
+    })
+
     return {
       empty,
       value,

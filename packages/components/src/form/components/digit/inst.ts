@@ -1,6 +1,5 @@
 import type { InputNumberInst } from 'naive-ui'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
+import { useComponentInst } from '../../../composables'
 
-export type ProDigitInst = PickFunction<InputNumberInst>
-export const useProDigitInst = createProComponentInstanceFactory<ProDigitInst>('ProDigit')
+export type ProDigitInst = InputNumberInst
+export const useProDigitInst = createSharedComposable(useComponentInst<ProDigitInst>)

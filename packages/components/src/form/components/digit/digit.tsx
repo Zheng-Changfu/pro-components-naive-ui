@@ -13,10 +13,9 @@ export default defineComponent({
   props: proDigitProps,
   slots: Object as SlotsType<ProDigitSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProDigitInst()
+    const {
+      exposed,
+    } = useProDigitInst()
 
     const overridedProps = useOverrideProps(
       name,
@@ -37,9 +36,8 @@ export default defineComponent({
       return val
     }
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
       tryConvertStringToNumber,
     }
@@ -54,13 +52,12 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
+          input: (pureProps: any) => (
             <Digit
-              ref="instRef"
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )
