@@ -4,7 +4,7 @@ import type { ProAutoCompleteSlots } from '../slots'
 import { isFunction } from 'lodash-es'
 import { autoCompleteProps, NAutoComplete, NEl, NFlex } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
-import { useProAutoCompleteInst } from '../inst'
+import { useInjectAutoCompleteInstStore } from '../inst'
 
 export default defineComponent({
   name: 'AutoComplete',
@@ -24,7 +24,7 @@ export default defineComponent({
     const {
       instRef,
       registerInst,
-    } = useProAutoCompleteInst()
+    } = useInjectAutoCompleteInstStore()!
 
     const {
       value,

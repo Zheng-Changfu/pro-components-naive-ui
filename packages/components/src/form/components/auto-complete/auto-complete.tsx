@@ -3,7 +3,7 @@ import type { ProAutoCompleteSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
 import AutoComplete from './fields/auto-complete'
-import { useProAutoCompleteInst } from './inst'
+import { provideAutoCompleteInstStore } from './inst'
 import { proAutoCompleteProps } from './props'
 
 const name = 'ProAutoComplete'
@@ -14,7 +14,7 @@ export default defineComponent({
   setup(props, { expose }) {
     const {
       exposed,
-    } = useProAutoCompleteInst()
+    } = provideAutoCompleteInstStore()
 
     const overridedProps = useOverrideProps(
       name,
