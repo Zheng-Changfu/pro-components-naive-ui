@@ -1,6 +1,4 @@
 import type { ProFormInst } from '../../../form'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
 
 export interface ProSearchFormInst<DataSource = any> extends ProFormInst {
   /**
@@ -16,5 +14,3 @@ export interface ProSearchFormInst<DataSource = any> extends ProFormInst {
    */
   toggleCollapsed: () => void
 }
-
-export const useProSearchFormInst = createProComponentInstanceFactory<PickFunction<ProSearchFormInst>>('ProSeachForm')

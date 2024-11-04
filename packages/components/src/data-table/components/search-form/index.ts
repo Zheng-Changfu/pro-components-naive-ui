@@ -1,5 +1,5 @@
-export * from './inst'
+export type { ProSearchFormInst } from './inst'
 export * from './props'
 export { default as ProSearchForm } from './search-form'
 export * from './slots'
-export * from './types'
+export type { ProSearchFormColumn, ProSearchFormColumns } from './types'
