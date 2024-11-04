@@ -5,7 +5,7 @@ import { useReadonlyHelpers } from '../../field'
 import { useMentionInst } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldMention',
+  name: 'Mention',
   props: mentionProps,
   slots: Object as SlotsType<ProMentionSlots>,
   inheritAttrs: false,

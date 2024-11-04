@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProMentionSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldMention from './fields/field-mention'
+import Mention from './fields/mention'
 import { useMentionInst } from './inst'
 import { proMentionProps } from './props'
 
@@ -38,7 +38,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldMention
+            <Mention
               ref="instRef"
               {...pureProps}
               v-slots={this.$slots}
