@@ -1,6 +1,6 @@
 import type { CheckboxInst } from 'naive-ui'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
+import { createSharedComposable } from '@vueuse/core'
+import { useComponentInst } from '../../../composables'
 
-export type ProCheckboxInst = PickFunction<CheckboxInst>
-export const useProCheckboxInst = createProComponentInstanceFactory<ProCheckboxInst>('ProCheckbox')
+export type ProCheckboxInst = CheckboxInst
+export const useProCheckboxInst = createSharedComposable(useComponentInst<ProCheckboxInst>)

@@ -9,17 +9,21 @@ export default defineComponent({
   inheritAttrs: false,
   props: checkboxProps,
   slots: Object as SlotsType<ProCheckboxSlots>,
-  setup(_, { expose }) {
-    const [
+  setup() {
+    const {
       instRef,
-      methods,
-    ] = useProCheckboxInst()
+      registerInst,
+    } = useProCheckboxInst()
 
     const {
       readonly,
     } = useReadonlyHelpers()
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+    })
+
     return {
       instRef,
       readonly,

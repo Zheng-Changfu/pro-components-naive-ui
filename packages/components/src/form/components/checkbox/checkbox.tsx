@@ -12,19 +12,17 @@ export default defineComponent({
   props: proCheckboxProps,
   slots: Object as SlotsType<ProCheckboxSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProCheckboxInst()
+    const {
+      exposed,
+    } = useProCheckboxInst()
 
     const overridedProps = useOverrideProps(
       name,
       props,
     )
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
     }
   },
@@ -40,7 +38,6 @@ export default defineComponent({
           ...this.$slots,
           input: (pureProps: any) => (
             <Checkbox
-              ref="instRef"
               {...pureProps}
               v-slots={this.$slots}
             />
