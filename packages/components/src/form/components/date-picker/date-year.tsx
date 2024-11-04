@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProDatePickerSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldDatePicker from './fields/field-date-picker'
+import DatePicker from './fields/date-picker'
 import { useProDatePickerInst } from './inst'
 import { proDatePickerProps } from './props'
 
@@ -42,7 +42,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldDatePicker
+            <DatePicker
               ref="instRef"
               {...pureProps}
               v-slots={this.$slots}

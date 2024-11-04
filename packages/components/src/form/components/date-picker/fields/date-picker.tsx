@@ -10,7 +10,7 @@ import { useMergeFormat } from './composables/useMergeFormat'
 import { toDisplayDate } from './utils/toDisplayDate'
 
 export default defineComponent({
-  name: 'ProFieldDatePicker',
+  name: 'DatePicker',
   inheritAttrs: false,
   /**
    * 支持 value 传递字符串
