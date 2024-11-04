@@ -4,20 +4,20 @@ import { EyeInvisibleOutlined, EyeOutlined } from '@vicons/antd'
 import { inputProps, NButton, NFlex, NIcon, NInput } from 'naive-ui'
 import { ref } from 'vue'
 import { useReadonlyHelpers } from '../../field'
-import { useProPasswordInst } from '../inst'
+import { useInjectTextInstStore } from '../inst'
 
 export default defineComponent({
   name: 'Password',
   props: inputProps,
   slots: Object as SlotsType<ProPasswordSlots>,
   inheritAttrs: false,
-  setup(_, { expose }) {
+  setup() {
     const open = ref(false)
 
-    const [
+    const {
       instRef,
-      methods,
-    ] = useProPasswordInst()
+      registerInst,
+    } = useInjectTextInstStore()!
 
     const {
       empty,
@@ -30,7 +30,20 @@ export default defineComponent({
       open.value = v
     }
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      clear: () => instRef.value?.clear(),
+      focus: () => instRef.value?.focus(),
+      select: () => instRef.value?.select(),
+      activate: () => instRef.value?.activate(),
+      deactivate: () => instRef.value?.deactivate(),
+      inputElRef: computed(() => instRef.value?.inputElRef) as any,
+      wrapperElRef: computed(() => instRef.value?.wrapperElRef) as any,
+      textareaElRef: computed(() => instRef.value?.textareaElRef) as any,
+      isCompositing: computed(() => instRef.value?.isCompositing) as any,
+      scrollTo: (options: ScrollToOptions) => instRef.value?.scrollTo(options),
+    })
+
     return {
       open,
       empty,

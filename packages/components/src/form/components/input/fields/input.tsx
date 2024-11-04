@@ -2,18 +2,18 @@ import type { SlotsType } from 'vue'
 import type { ProInputSlots } from '../slots'
 import { inputProps, NEl, NFlex, NInput } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
-import { useProInputInst } from '../inst'
+import { useInjectTextInstStore } from '../inst'
 
 export default defineComponent({
   name: 'Input',
   props: inputProps,
   slots: Object as SlotsType<ProInputSlots>,
   inheritAttrs: false,
-  setup(_, { expose }) {
-    const [
+  setup() {
+    const {
       instRef,
-      methods,
-    ] = useProInputInst()
+      registerInst,
+    } = useInjectTextInstStore()!
 
     const {
       empty,
@@ -22,7 +22,20 @@ export default defineComponent({
       emptyText,
     } = useReadonlyHelpers()
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      clear: () => instRef.value?.clear(),
+      focus: () => instRef.value?.focus(),
+      select: () => instRef.value?.select(),
+      activate: () => instRef.value?.activate(),
+      deactivate: () => instRef.value?.deactivate(),
+      inputElRef: computed(() => instRef.value?.inputElRef) as any,
+      wrapperElRef: computed(() => instRef.value?.wrapperElRef) as any,
+      textareaElRef: computed(() => instRef.value?.textareaElRef) as any,
+      isCompositing: computed(() => instRef.value?.isCompositing) as any,
+      scrollTo: (options: ScrollToOptions) => instRef.value?.scrollTo(options),
+    })
+
     return {
       empty,
       value,
