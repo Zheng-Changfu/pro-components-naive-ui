@@ -1,7 +1,7 @@
 import type { ArrayField } from 'pro-components-hooks'
 import type { ProDataTableInst } from '../data-table/inst'
-import type { PickFunction } from '../types'
-import { createProComponentInstanceFactory } from '../composables'
+import { createInjectionState } from '@vueuse/core'
+import { useComponentInst } from '../composables'
 
 export interface ProEditDataTableInst extends Pick<
   ArrayField,
@@ -37,4 +37,12 @@ export interface ProEditDataTableInst extends Pick<
   getEditable: (index: number) => boolean
 }
 
-export const useProEditDataTableInst = createProComponentInstanceFactory<PickFunction<ProEditDataTableInst>>('ProEditDataTable')
+const [
+  provideEditDataTableInstStore,
+  useInjectEditDataTableInstStore,
+] = createInjectionState(useComponentInst<ProEditDataTableInst>)
+
+export {
+  provideEditDataTableInstStore,
+  useInjectEditDataTableInstStore,
+}
