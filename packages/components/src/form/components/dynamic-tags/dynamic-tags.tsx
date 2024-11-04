@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProDynamicTagsSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldDynamicTags from './fields/field-dynamic-tags'
+import DynamicTags from './fields/dynamic-tags'
 import { proDynamicTagsProps } from './props'
 
 const name = 'ProDynamicTags'
@@ -30,7 +30,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldDynamicTags
+            <DynamicTags
               {...pureProps}
               v-slots={this.$slots}
             />,

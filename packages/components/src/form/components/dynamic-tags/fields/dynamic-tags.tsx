@@ -4,7 +4,7 @@ import { dynamicTagsProps, NDynamicTags } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
-  name: 'ProFieldDynamicTags',
+  name: 'DynamicTags',
   props: dynamicTagsProps,
   slots: Object as SlotsType<ProDynamicTagsSlots>,
   inheritAttrs: false,
