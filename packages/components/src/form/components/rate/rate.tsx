@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProRateSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldRate from './fields/field-rate'
+import Rate from './fields/rate'
 import { proRateProps } from './props'
 
 const name = 'ProRate'
@@ -30,7 +30,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldRate
+            <Rate
               {...pureProps}
               v-slots={this.$slots}
             />,

@@ -4,7 +4,7 @@ import { NRate, rateProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
-  name: 'ProFieldRate',
+  name: 'Rate',
   props: rateProps,
   slots: Object as SlotsType<ProRateSlots>,
   inheritAttrs: false,
