@@ -6,7 +6,7 @@ import { checkboxGroupProps, NCheckbox, NCheckboxGroup, NFlex } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
-  name: 'ProFieldCheckboxGroup',
+  name: 'CheckboxGroup',
   inheritAttrs: false,
   props: {
     labelField: String,
