@@ -5,7 +5,7 @@ type Inst = any
 type SetComponentInst<Inst> = (methods: Inst) => void
 type UseComponentInstReturn<Inst> = [
   Partial<Inst>,
-  ShallowRef<Inst>,
+  ShallowRef<Inst | undefined>,
   SetComponentInst<Inst>,
 ]
 export function useComponentInst<T = Inst>() {
