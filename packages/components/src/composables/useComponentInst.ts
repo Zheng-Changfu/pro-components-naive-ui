@@ -3,17 +3,19 @@ import { onScopeDispose } from 'vue'
 
 type Inst = any
 type SetComponentInst<Inst> = (methods: Inst) => void
-type UseComponentInstReturn<Inst> = [
-  Partial<Inst>,
-  ShallowRef<Inst | undefined>,
-  SetComponentInst<Inst>,
-]
-export function useComponentInst<T = Inst>() {
+
+interface UseComponentInstReturn<Inst> {
+  exposed: Partial<Inst>
+  registerInst: SetComponentInst<Inst>
+  instRef: ShallowRef<Inst | undefined>
+}
+
+export function useComponentInst<T = Inst>(): UseComponentInstReturn<T> {
   const exposed = {}
   let registed = false
   const instRef = shallowRef<T>()
 
-  function registerComponentInst(methods: T) {
+  function registerInst(methods: T) {
     if (!registed) {
       Object.assign(exposed, methods)
       registed = true
@@ -24,9 +26,9 @@ export function useComponentInst<T = Inst>() {
     registed = false
   })
 
-  return [
-    exposed,
+  return {
     instRef,
-    registerComponentInst,
-  ] as UseComponentInstReturn<T>
+    exposed,
+    registerInst,
+  }
 }
