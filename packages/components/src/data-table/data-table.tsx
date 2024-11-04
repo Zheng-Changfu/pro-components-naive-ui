@@ -1,6 +1,7 @@
 import type { DataTableProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProCardProps } from '../card'
+import type { ProSearchFormInst } from './components/search-form'
 import type { ProDataTableInst } from './inst'
 import type { ProDataTableSlots } from './slots'
 import { NDataTable, NFlex } from 'naive-ui'
@@ -9,7 +10,7 @@ import { defineComponent } from 'vue'
 import { resolveSlotWithProps, resolveWrappedSlot } from '../_utils/resolve-slot'
 import { ProCard } from '../card'
 import { useOmitProps, useOverrideProps } from '../composables'
-import { ProSearchForm, useProSearchFormInst } from './components/search-form'
+import { ProSearchForm } from './components/search-form'
 import DataTableSetting from './components/toolbar-setting/toolbar-setting'
 import { useCheckedRowKeys } from './composables/useCheckedRowKeys'
 import { useColumns } from './composables/useColumns'
@@ -31,6 +32,8 @@ export default defineComponent({
   props: proDataTableProps,
   slots: Object as SlotsType<ProDataTableSlots>,
   setup(props, { slots, expose }) {
+    const searchFormInst = ref<ProSearchFormInst>()
+
     const overridedProps = useOverrideProps(
       name,
       props,
@@ -55,11 +58,6 @@ export default defineComponent({
       clearFilters,
       nDataTableInst,
     } = useNDataTableInst()
-
-    const [
-      searchFormInst,
-      { getFieldsTransformedValue },
-    ] = useProSearchFormInst()
 
     const {
       loading,
@@ -99,7 +97,7 @@ export default defineComponent({
       pagination,
       setPagination,
       clearCheckedRowKeys,
-      getFieldsTransformedValue,
+      getFieldsTransformedValue: getSearchFormTransformedValues,
     })
 
     const { rowProps } = useRowProps(overridedProps, {
@@ -206,6 +204,10 @@ export default defineComponent({
     function updatePageSizeAndReloadTable(pageSize: number) {
       onUpdatePageSize(pageSize)
       reload()
+    }
+
+    function getSearchFormTransformedValues() {
+      return searchFormInst.value?.getFieldsTransformedValue() ?? {}
     }
 
     watch(
