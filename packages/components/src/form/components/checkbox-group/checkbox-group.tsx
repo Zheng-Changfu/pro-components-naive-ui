@@ -28,12 +28,12 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
+          input: (pureProps: any) => (
             <CheckboxGroup
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )

@@ -29,12 +29,12 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
+          input: (pureProps: any) => (
             <ColorPicker
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )
