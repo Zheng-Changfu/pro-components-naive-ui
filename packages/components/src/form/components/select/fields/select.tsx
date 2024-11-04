@@ -7,7 +7,7 @@ import { useReadonlyHelpers } from '../../field'
 import { useProSelectInst } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldSelect',
+  name: 'Select',
   props: selectProps,
   slots: Object as SlotsType<ProSelectSlots>,
   inheritAttrs: false,
