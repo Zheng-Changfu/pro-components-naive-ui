@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProAutoCompleteSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldAutoComplete from './fields/field-auto-complete'
+import AutoComplete from './fields/auto-complete'
 import { useProAutoCompleteInst } from './inst'
 import { proAutoCompleteProps } from './props'
 
@@ -38,7 +38,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldAutoComplete
+            <AutoComplete
               ref="instRef"
               {...pureProps}
               v-slots={this.$slots}
