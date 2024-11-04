@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProRadioGroupSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldRadioGroup from './fields/field-radio-group'
+import RadioGroup from './fields/radio-group'
 import { proRadioGroupProps } from './props'
 
 const name = 'ProRadioGroup'
@@ -30,7 +30,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldRadioGroup
+            <RadioGroup
               {...pureProps}
               v-slots={this.$slots}
             />,

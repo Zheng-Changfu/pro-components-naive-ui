@@ -6,7 +6,7 @@ import { NFlex, NRadio, NRadioGroup, radioGroupProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
-  name: 'ProFieldRadioGroup',
+  name: 'RadioGroup',
   inheritAttrs: false,
   props: {
     labelField: String,
