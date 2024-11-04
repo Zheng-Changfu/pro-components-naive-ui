@@ -7,24 +7,8 @@
 3. $total：当前列表的总数
 </markdown>
 
-<script lang="tsx">
-import { useProFormInst } from 'pro-components-naive-ui'
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  setup() {
-    const [instRef, { submit }] = useProFormInst()
-
-    return {
-      instRef,
-      submit,
-    }
-  },
-})
-</script>
-
 <template>
-  <pro-form ref="instRef" @submit="console.log">
+  <pro-form @submit="console.log">
     <pro-form-list
       title="用户信息"
       path="userInfo"
@@ -53,7 +37,7 @@ export default defineComponent({
         />
       </template>
     </pro-form-list>
-    <n-button type="primary" @click="submit">
+    <n-button type="primary" attr-type="submit">
       提交
     </n-button>
   </pro-form>

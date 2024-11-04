@@ -5,20 +5,15 @@
 </markdown>
 
 <script lang="tsx">
-import { useProFormInst } from 'pro-components-naive-ui'
-import { defineComponent } from 'vue'
+import type { ProFormInst } from 'pro-components-naive-ui'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
-    const [instRef, {
-      submit,
-      restoreFieldsValue,
-    }] = useProFormInst()
+    const instRef = ref<ProFormInst>()
 
     return {
       instRef,
-      submit,
-      restoreFieldsValue,
     }
   },
 })
@@ -85,10 +80,10 @@ export default defineComponent({
       </pro-form-list>
     </pro-form-list>
     <n-flex>
-      <n-button type="primary" @click="restoreFieldsValue">
+      <n-button type="primary" @click="instRef?.restoreFieldsValue">
         重置
       </n-button>
-      <n-button type="primary" @click="submit">
+      <n-button type="primary" attr-type="submit">
         提交
       </n-button>
     </n-flex>

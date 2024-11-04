@@ -6,9 +6,9 @@
 
 <script lang="tsx">
 import type { TreeOption } from 'naive-ui'
-import { useProTreeInst } from 'pro-components-naive-ui'
+import type { ProTreeInst } from 'pro-components-naive-ui'
 import { repeat } from 'seemly'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 function createData(level = 4, baseKey = ''): TreeOption[] | undefined {
   if (!level)
@@ -39,23 +39,11 @@ function createLabel(level: number): string {
 export default defineComponent({
   setup() {
     const data = ref(createData())
-    const [
-      treeInstRef,
-      {
-        getLevelKeys,
-        getEnabledKeys,
-        setCheckedKeys,
-        setExpandedKeys,
-      },
-    ] = useProTreeInst()
+    const instRef = ref<ProTreeInst>()
 
     return {
       data,
-      treeInstRef,
-      getLevelKeys,
-      setCheckedKeys,
-      getEnabledKeys,
-      setExpandedKeys,
+      instRef,
     }
   },
 })
@@ -64,28 +52,28 @@ export default defineComponent({
 <template>
   <NFlex vertical>
     <NFlex>
-      <NButton @click="setExpandedKeys(getLevelKeys(2))">
+      <NButton @click="instRef?.setExpandedKeys(instRef?.getLevelKeys(2))">
         展开2级
       </NButton>
-      <NButton @click="setExpandedKeys(getLevelKeys(3))">
+      <NButton @click="instRef?.setExpandedKeys(instRef?.getLevelKeys(3))">
         展开3级
       </NButton>
-      <NButton @click="setExpandedKeys()">
+      <NButton @click="instRef?.setExpandedKeys()">
         全部展开
       </NButton>
-      <NButton @click="setExpandedKeys([])">
+      <NButton @click="instRef?.setExpandedKeys([])">
         全部收起
       </NButton>
-      <NButton @click="setCheckedKeys(getLevelKeys(2, false))">
+      <NButton @click="instRef?.setCheckedKeys(instRef?.getLevelKeys(2, false))">
         勾选所有二级节点
       </NButton>
-      <NButton @click="setCheckedKeys(getEnabledKeys())">
+      <NButton @click="instRef?.setCheckedKeys(instRef?.getEnabledKeys())">
         勾选全部节点（不包括禁用）
       </NButton>
-      <NButton @click="setCheckedKeys()">
+      <NButton @click="instRef?.setCheckedKeys()">
         勾选全部节点（包括禁用）
       </NButton>
     </NFlex>
-    <ProTree ref="treeInstRef" checkable :data="data" />
+    <ProTree ref="instRef" checkable :data="data" />
   </NFlex>
 </template>

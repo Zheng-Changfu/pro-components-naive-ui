@@ -5,23 +5,22 @@
 </markdown>
 
 <script lang="tsx">
-import { useProFormInst } from 'pro-components-naive-ui'
-import { defineComponent } from 'vue'
+import type { ProFormInst } from 'pro-components-naive-ui'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
-    const [proFormInst, { restoreFieldsValue }] = useProFormInst()
+    const instRef = ref<ProFormInst>()
 
     return {
-      proFormInst,
-      restoreFieldsValue,
+      instRef,
     }
   },
 })
 </script>
 
 <template>
-  <pro-form ref="proFormInst" label-placement="left" label-width="auto">
+  <pro-form ref="instRef" label-placement="left" label-width="auto">
     <pro-input
       title="输入看效果"
       path="input"
@@ -68,7 +67,7 @@ export default defineComponent({
         { pattern: (path:string, _:string[]) => path === 'function' },
       ]"
     />
-    <n-button type="primary" @click="restoreFieldsValue">
+    <n-button type="primary" @click="instRef?.restoreFieldsValue">
       重置
     </n-button>
   </pro-form>

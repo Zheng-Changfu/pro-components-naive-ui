@@ -3,21 +3,20 @@
 </markdown>
 
 <script lang="tsx">
-import { useProFormInst } from 'pro-components-naive-ui'
-import { defineComponent } from 'vue'
+import type { ProFormInst } from 'pro-components-naive-ui'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
-    const [instRef, { getFieldsValue }] = useProFormInst()
+    const instRef = ref<ProFormInst>()
 
     function log() {
-      console.log(getFieldsValue())
+      console.log(instRef.value!.getFieldsValue())
     }
 
     return {
       log,
       instRef,
-      getFieldsValue,
     }
   },
 })

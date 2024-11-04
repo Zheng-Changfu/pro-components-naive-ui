@@ -5,7 +5,7 @@
 </markdown>
 
 <script lang="tsx">
-import { useProFormInst } from 'pro-components-naive-ui'
+import type { ProFormInst } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 function delay(time: number) {
@@ -16,7 +16,7 @@ export default defineComponent({
   setup() {
     const loading = ref(false)
     const options = ref<any[]>([])
-    const [instRef, { restoreFieldValue }] = useProFormInst()
+    const instRef = ref<ProFormInst>()
 
     async function reqAsyncOptions(val: number) {
       console.log(val)
@@ -27,7 +27,7 @@ export default defineComponent({
         { label: '上海', value: 1 },
       ]
       // 防止没有匹配上对应的 value
-      restoreFieldValue('select')
+      instRef.value!.restoreFieldValue('select')
       loading.value = false
     }
 
