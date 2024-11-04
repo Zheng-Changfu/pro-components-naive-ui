@@ -8,11 +8,12 @@ import type { ProFormSlots } from './slots'
 import { isString, toPath } from 'lodash-es'
 import { NForm } from 'naive-ui'
 import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
-import { computed, nextTick, provide, ref } from 'vue'
+import { computed, nextTick, provide } from 'vue'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { fieldExtraKey } from './components'
 import { useValidationResults } from './composables/useValidationResult'
 import { proFormContextKey, provideProFormInst } from './context'
+import { useProFormInst } from './inst'
 import { proFormExtendProps, proFormProps } from './props'
 
 const name = 'ProForm'
@@ -21,12 +22,15 @@ export default defineComponent({
   props: proFormProps,
   slots: Object as SlotsType<ProFormSlots>,
   setup(props, { expose }) {
-    const formInstRef = ref<FormInst>()
-
     const overridedProps = useOverrideProps(
       name,
       props,
     )
+
+    const [
+      ,
+      formInstRef,
+    ] = useProFormInst<FormInst>()
 
     const formProps = useOmitProps(
       overridedProps,
@@ -121,7 +125,6 @@ export default defineComponent({
         onSubmit,
         onSubmitFailed,
       } = overridedProps.value
-
       return validate()
         .then(({ warnings }) => {
           const values = getFieldsTransformedValue()
@@ -137,10 +140,7 @@ export default defineComponent({
         return formInstRef.value!.validate(addValidateResults)
       }
       paths = (isString(paths) ? [paths] : paths).map(stringifyPath)
-      return formInstRef.value!.validate(
-        addValidateResults,
-        rule => paths.includes(rule.key!),
-      )
+      return formInstRef.value!.validate(addValidateResults, rule => paths.includes(rule.key!))
     }
 
     function restoreValidation(paths?: string | string[]) {
