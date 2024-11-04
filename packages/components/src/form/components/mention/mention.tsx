@@ -3,7 +3,7 @@ import type { ProMentionSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
 import Mention from './fields/mention'
-import { useMentionInst } from './inst'
+import { provideMentionInstStore } from './inst'
 import { proMentionProps } from './props'
 
 const name = 'ProMention'
@@ -12,19 +12,17 @@ export default defineComponent({
   props: proMentionProps,
   slots: Object as SlotsType<ProMentionSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useMentionInst()
+    const {
+      exposed,
+    } = provideMentionInstStore()
 
     const overridedProps = useOverrideProps(
       name,
       props,
     )
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
     }
   },
@@ -37,13 +35,12 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
+          input: (pureProps: any) => (
             <Mention
-              ref="instRef"
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )

@@ -1,6 +1,15 @@
 import type { MentionInst } from 'naive-ui'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
+import { createInjectionState } from '@vueuse/core'
+import { useComponentInst } from '../../../composables'
 
-export type ProMentionInst = PickFunction<MentionInst>
-export const useMentionInst = createProComponentInstanceFactory<ProMentionInst>('ProMention')
+export type ProMentionInst = MentionInst
+
+const [
+  provideMentionInstStore,
+  useInjectMentionInstStore,
+] = createInjectionState(useComponentInst<ProMentionInst>)
+
+export {
+  provideMentionInstStore,
+  useInjectMentionInstStore,
+}

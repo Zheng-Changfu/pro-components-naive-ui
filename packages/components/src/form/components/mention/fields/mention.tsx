@@ -2,25 +2,29 @@ import type { SlotsType } from 'vue'
 import type { ProMentionSlots } from '../slots'
 import { mentionProps, NMention } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
-import { useMentionInst } from '../inst'
+import { useInjectMentionInstStore } from '../inst'
 
 export default defineComponent({
   name: 'Mention',
   props: mentionProps,
   slots: Object as SlotsType<ProMentionSlots>,
   inheritAttrs: false,
-  setup(_, { expose }) {
-    const [
+  setup() {
+    const {
       instRef,
-      methods,
-    ] = useMentionInst()
+      registerInst,
+    } = useInjectMentionInstStore()!
 
     const {
       readonly,
       readonlyText,
     } = useReadonlyHelpers()
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+    })
+
     return {
       instRef,
       readonly,
