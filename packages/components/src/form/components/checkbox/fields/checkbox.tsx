@@ -5,7 +5,7 @@ import { useReadonlyHelpers } from '../../field'
 import { useProCheckboxInst } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldCheckbox',
+  name: 'Checkbox',
   inheritAttrs: false,
   props: checkboxProps,
   slots: Object as SlotsType<ProCheckboxSlots>,
