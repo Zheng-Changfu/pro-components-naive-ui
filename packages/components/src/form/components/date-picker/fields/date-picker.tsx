@@ -5,7 +5,7 @@ import { isArray, isString } from 'lodash-es'
 import { datePickerProps, NDatePicker, NEl, NFlex } from 'naive-ui'
 import { computed } from 'vue'
 import { useReadonlyHelpers } from '../../field'
-import { useProDatePickerInst } from '../inst'
+import { useInjectDatePickerInstStore } from '../inst'
 import { useMergeFormat } from './composables/useMergeFormat'
 import { toDisplayDate } from './utils/toDisplayDate'
 
@@ -26,7 +26,7 @@ export default defineComponent({
     const {
       instRef,
       registerInst,
-    } = useProDatePickerInst()
+    } = useInjectDatePickerInstStore()!
 
     const {
       empty,

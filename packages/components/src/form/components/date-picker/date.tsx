@@ -3,7 +3,7 @@ import type { ProDatePickerSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
 import DatePicker from './fields/date-picker'
-import { useProDatePickerInst } from './inst'
+import { provideDatePickerInstStore } from './inst'
 import { proDatePickerProps } from './props'
 
 const name = 'ProDate'
@@ -14,7 +14,7 @@ export default defineComponent({
   setup(props, { expose }) {
     const {
       exposed,
-    } = useProDatePickerInst()
+    } = provideDatePickerInstStore()
 
     const overridedProps = useOverrideProps(
       name,
