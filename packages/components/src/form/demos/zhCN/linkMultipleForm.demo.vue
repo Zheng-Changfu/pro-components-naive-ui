@@ -35,7 +35,7 @@ export default defineComponent({
         path="color"
         :field-props="{
           style: {
-            background: '{{ $bForm.$vals.color }}',
+            background: '{{ $bForm?.$vals.color }}',
           },
         }"
       />
@@ -48,7 +48,7 @@ export default defineComponent({
         path="color"
         :field-props="{
           style: {
-            background: '{{ $aForm.$vals.color }}',
+            background: '{{ $aForm?.$vals.color }}',
           },
         }"
       />
