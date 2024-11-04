@@ -4,18 +4,18 @@ import { get, isArray, isFunction, noop } from 'lodash-es'
 import { NEl, NFlex, NSelect, selectProps } from 'naive-ui'
 import { eachTree } from 'pro-components-hooks'
 import { useReadonlyHelpers } from '../../field'
-import { useProSelectInst } from '../inst'
+import { useInjectSelectInstStore } from '../inst'
 
 export default defineComponent({
   name: 'Select',
   props: selectProps,
   slots: Object as SlotsType<ProSelectSlots>,
   inheritAttrs: false,
-  setup(props, { expose }) {
-    const [
+  setup(props) {
+    const {
       instRef,
-      methods,
-    ] = useProSelectInst()
+      registerInst,
+    } = useInjectSelectInstStore()!
 
     const {
       empty,
@@ -61,7 +61,13 @@ export default defineComponent({
       return labels
     })
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+      blurInput: () => instRef.value?.blurInput(),
+      focusInput: () => instRef.value?.focusInput(),
+    })
+
     return {
       empty,
       instRef,

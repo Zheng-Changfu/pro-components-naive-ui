@@ -1,6 +1,14 @@
 import type { SelectInst } from 'naive-ui'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
+import { useComponentInst } from '../../../composables'
 
-export type ProSelectInst = PickFunction<SelectInst>
-export const useProSelectInst = createProComponentInstanceFactory<ProSelectInst>('ProSelect')
+export type ProSelectInst = SelectInst
+
+const [
+  provideSelectInstStore,
+  useInjectSelectInstStore,
+] = createInjectionState(useComponentInst<ProSelectInst>)
+
+export {
+  provideSelectInstStore,
+  useInjectSelectInstStore,
+}
