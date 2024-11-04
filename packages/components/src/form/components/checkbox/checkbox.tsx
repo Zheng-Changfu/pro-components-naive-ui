@@ -3,7 +3,7 @@ import type { ProCheckboxSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
 import Checkbox from './fields/checkbox'
-import { useProCheckboxInst } from './inst'
+import { provideCheckboxInstStore } from './inst'
 import { proCheckboxProps } from './props'
 
 const name = 'ProCheckbox'
@@ -14,7 +14,7 @@ export default defineComponent({
   setup(props, { expose }) {
     const {
       exposed,
-    } = useProCheckboxInst()
+    } = provideCheckboxInstStore()
 
     const overridedProps = useOverrideProps(
       name,

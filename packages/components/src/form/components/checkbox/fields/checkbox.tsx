@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProCheckboxSlots } from '../slots'
 import { checkboxProps, NCheckbox } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
-import { useProCheckboxInst } from '../inst'
+import { useInjectCheckboxInstStore } from '../inst'
 
 export default defineComponent({
   name: 'Checkbox',
@@ -13,7 +13,7 @@ export default defineComponent({
     const {
       instRef,
       registerInst,
-    } = useProCheckboxInst()
+    } = useInjectCheckboxInstStore()!
 
     const {
       readonly,
