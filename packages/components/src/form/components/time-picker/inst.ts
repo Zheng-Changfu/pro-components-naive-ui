@@ -1,6 +1,14 @@
 import type { TimePickerInst } from 'naive-ui'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
+import { useComponentInst } from '../../../composables'
 
-export type ProTimePickerInst = PickFunction<TimePickerInst>
-export const useProTimePickerInst = createProComponentInstanceFactory<ProTimePickerInst>('ProTime')
+export type ProTimePickerInst = TimePickerInst
+
+const [
+  provideTimePickerInstStore,
+  useInjectTimePickerInstStore,
+] = createInjectionState(useComponentInst<ProTimePickerInst>)
+
+export {
+  provideTimePickerInstStore,
+  useInjectTimePickerInstStore,
+}

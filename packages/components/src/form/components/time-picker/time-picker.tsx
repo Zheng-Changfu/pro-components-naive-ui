@@ -3,7 +3,7 @@ import type { ProTimePickerSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
 import TimePicker from './fields/time-picker'
-import { useProTimePickerInst } from './inst'
+import { provideTimePickerInstStore } from './inst'
 import { proTimePickerProps } from './props'
 
 const name = 'ProTime'
@@ -12,19 +12,17 @@ export default defineComponent({
   props: proTimePickerProps,
   slots: Object as SlotsType<ProTimePickerSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProTimePickerInst()
+    const {
+      exposed,
+    } = provideTimePickerInstStore()
 
     const overridedProps = useOverrideProps(
       name,
       props,
     )
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
     }
   },
@@ -37,13 +35,13 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
+          input: (pureProps: any) => (
             <TimePicker
               ref="instRef"
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )
