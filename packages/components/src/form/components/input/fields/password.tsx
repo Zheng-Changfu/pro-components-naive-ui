@@ -7,7 +7,7 @@ import { useReadonlyHelpers } from '../../field'
 import { useProPasswordInst } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldPassword',
+  name: 'Password',
   props: inputProps,
   slots: Object as SlotsType<ProPasswordSlots>,
   inheritAttrs: false,
