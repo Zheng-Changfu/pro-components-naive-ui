@@ -7,7 +7,7 @@ import { useMountStyle } from '../_internal/useMountStyle'
 import { useOverrideProps } from '../composables'
 import { ProField, ValueTypeEnum } from '../form/components'
 import { AUTO_CREATE_ID } from './context'
-import FieldList from './fields/field-list'
+import FormList from './fields/form-list'
 import { provideFormListInstStore } from './inst'
 import { proFormListProps } from './props'
 import style from './styles/index.cssr'
@@ -97,7 +97,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return <FieldList {...pureProps} v-slots={this.$slots}></FieldList>
+            return <FormList {...pureProps} v-slots={this.$slots} />
           },
         }}
       </ProField>

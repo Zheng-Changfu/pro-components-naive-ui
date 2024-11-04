@@ -13,10 +13,10 @@ import { useInjectProFormInst } from '../../form/context'
 import { useLocale } from '../../locales'
 import { AUTO_CREATE_ID, provideProFormListInst } from '../context'
 import { type ProFormListInst, useInjectFormListInstStore } from '../inst'
-import FieldItem from './field-item'
+import FormListItem from './form-list-item'
 
 const CreatorButton = defineComponent({
-  name: 'ProFieldListCreatorButton',
+  name: 'CreatorButton',
   props: {
     max: Number,
     creatorButtonProps: {
@@ -117,7 +117,7 @@ const CreatorButton = defineComponent({
 })
 
 export default defineComponent({
-  name: 'ProFieldList',
+  name: 'FormList',
   props: {
     min: Number,
     max: Number,
@@ -221,7 +221,7 @@ export default defineComponent({
 
     const listDom = list.map((item, index) => {
       return (
-        <FieldItem
+        <FormListItem
           key={item[AUTO_CREATE_ID]}
           min={min}
           max={max}
