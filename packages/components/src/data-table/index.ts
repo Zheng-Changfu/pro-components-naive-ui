@@ -1,6 +1,6 @@
 export { useInjectProDataTableInst } from './context'
 export { default as ProDataTable } from './data-table'
-export * from './inst'
+export type { ProDataTableInst } from './inst'
 export * from './props'
 export * from './slots'
 

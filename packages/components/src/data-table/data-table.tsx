@@ -242,7 +242,6 @@ export default defineComponent({
     expose(exposed)
     provideProDataTableInst(exposed)
     provideProDataTableProps(overridedProps)
-
     return {
       pagination,
       nDataTableInst,
