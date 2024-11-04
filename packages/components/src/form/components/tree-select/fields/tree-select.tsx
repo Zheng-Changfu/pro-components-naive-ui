@@ -11,7 +11,7 @@ import { useIndeterminateKeys } from './composables/useIndeterminateKeys'
 import { levelKey, useOptions } from './composables/useOptions'
 
 export default defineComponent({
-  name: 'ProFieldTreeSelect',
+  name: 'TreeSelect',
   props: treeSelectProps,
   slots: Object as SlotsType<ProTreeSelectSlots>,
   inheritAttrs: false,

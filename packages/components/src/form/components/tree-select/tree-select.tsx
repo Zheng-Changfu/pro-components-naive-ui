@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProTreeSelectSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldTreeSelect from './fields/field-tree-select'
+import TreeSelect from './fields/tree-select'
 import { useProTreeSelectInst } from './inst'
 import { proTreeSelectProps } from './props'
 
@@ -38,7 +38,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldTreeSelect
+            <TreeSelect
               ref="instRef"
               {...pureProps}
               v-slots={this.$slots}
