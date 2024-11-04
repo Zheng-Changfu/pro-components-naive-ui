@@ -7,7 +7,7 @@ import { useReadonlyHelpers } from '../../field'
 import { useProAutoCompleteInst } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldAutoComplete',
+  name: 'AutoComplete',
   inheritAttrs: false,
   props: {
     ...autoCompleteProps,
