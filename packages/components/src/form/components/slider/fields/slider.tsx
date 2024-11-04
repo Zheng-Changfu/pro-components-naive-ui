@@ -4,7 +4,7 @@ import { NSlider, sliderProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
-  name: 'ProFieldSlider',
+  name: 'Slider',
   props: sliderProps,
   slots: Object as SlotsType<ProSliderSlots>,
   inheritAttrs: false,
