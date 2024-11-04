@@ -13,7 +13,6 @@ import { useOmitProps, useOverrideProps } from '../composables'
 import { fieldExtraKey } from './components'
 import { useValidationResults } from './composables/useValidationResult'
 import { proFormContextKey, provideProFormInst } from './context'
-import { useProFormInst } from './inst'
 import { proFormExtendProps, proFormProps } from './props'
 
 const name = 'ProForm'
@@ -22,15 +21,12 @@ export default defineComponent({
   props: proFormProps,
   slots: Object as SlotsType<ProFormSlots>,
   setup(props, { expose }) {
+    const formInstRef = ref<FormInst>()
+
     const overridedProps = useOverrideProps(
       name,
       props,
     )
-
-    const [
-      ,
-      formInstRef,
-    ] = useProFormInst<FormInst>()
 
     const formProps = useOmitProps(
       overridedProps,

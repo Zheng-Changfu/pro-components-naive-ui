@@ -1,8 +1,6 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseForm, Path } from 'pro-components-hooks'
 import type { FormItemInternalValidateResult } from './composables/useValidationResult'
-import { createSharedComposable } from '@vueuse/core'
-import { useComponentInst } from '../composables'
 
 export type ProFormInst = Pick<
   BaseForm,
@@ -48,5 +46,3 @@ export type ProFormInst = Pick<
    */
   restoreValidation: (paths?: string | string[]) => ReturnType<FormInst['restoreValidation']>
 }
-
-export const useProFormInst = createSharedComposable(useComponentInst)
