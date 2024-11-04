@@ -3,7 +3,7 @@ import type { ProDigitSlots } from './slots'
 import { isString } from 'lodash-es'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldDigit from './fields/field-digit'
+import Digit from './fields/digit'
 import { useProDigitInst } from './inst'
 import { proDigitProps } from './props'
 
@@ -55,7 +55,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldDigit
+            <Digit
               ref="instRef"
               {...pureProps}
               v-slots={this.$slots}

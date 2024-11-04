@@ -5,7 +5,7 @@ import { useReadonlyHelpers } from '../../field'
 import { useProDigitInst } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldDigit',
+  name: 'Digit',
   props: inputNumberProps,
   slots: Object as SlotsType<ProDigitSlots>,
   inheritAttrs: false,
