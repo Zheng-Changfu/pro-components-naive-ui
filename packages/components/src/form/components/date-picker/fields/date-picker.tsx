@@ -22,11 +22,11 @@ export default defineComponent({
     formattedValue: [String, Number] as PropType<string | number | Array<string | number> | null>,
   },
   slots: Object as SlotsType<ProDatePickerSlots>,
-  setup(props, { expose }) {
-    const [
+  setup(props) {
+    const {
       instRef,
-      methods,
-    ] = useProDatePickerInst()
+      registerInst,
+    } = useProDatePickerInst()
 
     const {
       empty,
@@ -92,7 +92,11 @@ export default defineComponent({
       return isArray(displayDateText.value)
     })
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+    })
+
     return {
       empty,
       instRef,

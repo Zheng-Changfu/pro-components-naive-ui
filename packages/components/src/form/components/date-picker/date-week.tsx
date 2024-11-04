@@ -12,19 +12,17 @@ export default defineComponent({
   props: proDatePickerProps,
   slots: Object as SlotsType<ProDatePickerSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProDatePickerInst()
+    const {
+      exposed,
+    } = useProDatePickerInst()
 
     const overridedProps = useOverrideProps(
       name,
       props,
     )
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
     }
   },
@@ -42,13 +40,12 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
+          input: (pureProps: any) => (
             <DatePicker
-              ref="instRef"
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )
