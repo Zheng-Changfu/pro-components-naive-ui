@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProTimePickerSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldTimePicker from './fields/field-time-picker'
+import TimePicker from './fields/time-picker'
 import { useProTimePickerInst } from './inst'
 import { proTimePickerProps } from './props'
 
@@ -38,7 +38,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldTimePicker
+            <TimePicker
               ref="instRef"
               {...pureProps}
               v-slots={this.$slots}

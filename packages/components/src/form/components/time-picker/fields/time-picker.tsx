@@ -10,7 +10,7 @@ import { useProTimePickerInst } from '../inst'
 import { useMergeFormat } from './composables/useMergeFormat'
 
 export default defineComponent({
-  name: 'ProFieldTimePicker',
+  name: 'TimePicker',
   inheritAttrs: false,
   /**
    * 支持 value 传递字符串
