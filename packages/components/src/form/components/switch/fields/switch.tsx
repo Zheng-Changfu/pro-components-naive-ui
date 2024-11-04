@@ -4,7 +4,7 @@ import { NSwitch, switchProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
-  name: 'ProFieldSwitch',
+  name: 'Switch',
   props: switchProps,
   slots: Object as SlotsType<ProSwitchSlots>,
   inheritAttrs: false,
