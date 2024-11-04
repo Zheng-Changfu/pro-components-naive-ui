@@ -10,7 +10,7 @@ import { useProUploadInst } from '../inst'
 import { proUploadFieldProps } from '../props'
 
 export default defineComponent({
-  name: 'ProFieldUpload',
+  name: 'Upload',
   props: {
     ...uploadProps,
     ...proUploadFieldProps,

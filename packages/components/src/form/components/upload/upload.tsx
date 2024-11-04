@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProUploadSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldUpload from './fields/field-upload'
+import Upload from './fields/upload'
 import { useProUploadInst } from './inst'
 import { proUploadProps } from './props'
 import { convertValueToFile } from './utils/file'
@@ -46,7 +46,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldUpload
+            <Upload
               ref="instRef"
               {...pureProps}
               v-slots={this.$slots}
