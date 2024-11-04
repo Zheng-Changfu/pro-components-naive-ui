@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProInputSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldInput from './fields/field-input'
+import Input from './fields/input'
 import { useProInputInst } from './inst'
 import { proInputProps } from './props'
 
@@ -42,7 +42,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldInput
+            <Input
               ref="instRef"
               {...pureProps}
               v-slots={this.$slots}

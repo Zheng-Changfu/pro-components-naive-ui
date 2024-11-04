@@ -5,7 +5,7 @@ import { useReadonlyHelpers } from '../../field'
 import { useProInputInst } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldInput',
+  name: 'Input',
   props: inputProps,
   slots: Object as SlotsType<ProInputSlots>,
   inheritAttrs: false,
