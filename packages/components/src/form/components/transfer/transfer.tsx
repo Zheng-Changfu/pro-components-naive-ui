@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProTransferSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldTransfer from './fields/field-transfer'
+import Transfer from './fields/transfer'
 import { proTransferProps } from './props'
 
 const name = 'ProTransfer'
@@ -30,7 +30,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => [
-            <ProFieldTransfer
+            <Transfer
               {...pureProps}
               v-slots={this.$slots}
             />,
