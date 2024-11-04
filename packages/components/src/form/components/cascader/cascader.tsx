@@ -12,19 +12,17 @@ export default defineComponent({
   props: proCascaderProps,
   slots: Object as SlotsType<ProCascaderSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProCascaderInst()
+    const {
+      exposed,
+    } = useProCascaderInst()
 
     const overridedProps = useOverrideProps(
       name,
       props,
     )
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
     }
   },
@@ -39,7 +37,6 @@ export default defineComponent({
           ...this.$slots,
           input: (pureProps: any) => (
             <Cascader
-              ref="instRef"
               {...pureProps}
               v-slots={this.$slots}
             />

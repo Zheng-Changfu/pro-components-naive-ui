@@ -1,6 +1,6 @@
 import type { CascaderInst } from 'naive-ui'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
+import { createSharedComposable } from '@vueuse/core'
+import { useComponentInst } from '../../../composables'
 
-export type ProCascaderInst = PickFunction<CascaderInst>
-export const useProCascaderInst = createProComponentInstanceFactory<ProCascaderInst>('ProCascader')
+export type ProCascaderInst = CascaderInst
+export const useProCascaderInst = createSharedComposable(useComponentInst<ProCascaderInst>)

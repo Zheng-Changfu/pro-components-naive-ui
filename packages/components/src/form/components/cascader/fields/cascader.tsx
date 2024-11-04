@@ -7,15 +7,15 @@ import { useReadonlyHelpers } from '../../field'
 import { useProCascaderInst } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldCascader',
+  name: 'Cascader',
   inheritAttrs: false,
   props: cascaderProps,
   slots: Object as SlotsType<ProCascaderSlots>,
-  setup(props, { expose }) {
-    const [
+  setup(props) {
+    const {
       instRef,
-      methods,
-    ] = useProCascaderInst()
+      registerInst,
+    } = useProCascaderInst()
 
     const {
       empty,
@@ -54,7 +54,13 @@ export default defineComponent({
       return labels
     })
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+      getCheckedData: () => instRef.value?.getCheckedData() as any,
+      getIndeterminateData: () => instRef.value?.getIndeterminateData() as any,
+    })
+
     return {
       empty,
       value,
