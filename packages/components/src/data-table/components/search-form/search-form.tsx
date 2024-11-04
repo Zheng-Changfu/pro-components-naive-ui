@@ -87,28 +87,10 @@ export default defineComponent({
     })
 
     const exposed: ProSearchFormInst = {
+      ...formMethods,
       reset,
       search,
       toggleCollapsed,
-      submit: formMethods.submit,
-      getScope: formMethods.getScope,
-      validate: formMethods.validate,
-      matchPath: formMethods.matchPath,
-      getFieldValue: formMethods.getFieldValue,
-      setFieldValue: formMethods.setFieldValue,
-      getFieldsValue: formMethods.getFieldsValue,
-      setFieldsValue: formMethods.setFieldsValue,
-      resetFieldValue: formMethods.resetFieldValue,
-      setInitialValue: formMethods.setInitialValue,
-      setInitialValues: formMethods.setInitialValues,
-      resetFieldsValue: formMethods.resetFieldsValue,
-      restoreValidation: formMethods.restoreValidation,
-      restoreFieldValue: formMethods.restoreFieldValue,
-      restoreFieldsValue: formMethods.restoreFieldsValue,
-      getFieldValidationResult: formMethods.getFieldValidationResult,
-      pauseDependenciesTrigger: formMethods.pauseDependenciesTrigger,
-      getFieldsTransformedValue: formMethods.getFieldsTransformedValue,
-      resumeDependenciesTrigger: formMethods.resumeDependenciesTrigger,
     }
 
     expose(exposed)
