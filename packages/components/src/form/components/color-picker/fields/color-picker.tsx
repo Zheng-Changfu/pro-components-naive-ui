@@ -5,7 +5,7 @@ import { colorPickerProps, NColorPicker } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
-  name: 'ProFieldColorPicker',
+  name: 'ColorPicker',
   inheritAttrs: false,
   props: colorPickerProps,
   slots: Object as SlotsType<ProColorPickerSlots>,
