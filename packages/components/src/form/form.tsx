@@ -92,6 +92,13 @@ export default defineComponent({
           e.preventDefault()
           submit()
         },
+        /**
+         * 支持 button `attr-type = reset` 重置表单
+         */
+        onReset: (e: Event) => {
+          e.preventDefault()
+          restoreFieldsValue()
+        },
       }
     })
 
