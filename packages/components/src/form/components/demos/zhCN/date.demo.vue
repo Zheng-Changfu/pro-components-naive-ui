@@ -5,16 +5,13 @@
 </markdown>
 
 <script lang="tsx">
-import type { ProFormInst } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
     const readonly = ref(false)
-    const instRef = ref<ProFormInst>()
 
     return {
-      instRef,
       readonly,
     }
   },
@@ -31,7 +28,6 @@ export default defineComponent({
     </template>
   </n-switch>
   <pro-form
-    ref="instRef"
     :readonly="readonly"
     label-width="auto"
     validate-behavior="popover"
@@ -119,7 +115,7 @@ export default defineComponent({
       />
     </n-flex>
     <n-flex class="mt-16px">
-      <n-button @click="instRef?.restoreFieldsValue">
+      <n-button attr-type="reset">
         重置
       </n-button>
       <n-button type="primary" attr-type="submit">
