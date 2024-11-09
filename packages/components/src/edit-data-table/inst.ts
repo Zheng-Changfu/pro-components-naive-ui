@@ -3,8 +3,8 @@ import type { ProDataTableInst } from '../data-table/inst'
 import { createInjectionState } from '@vueuse/core'
 import { useComponentInst } from '../composables'
 
-export interface ProEditDataTableInst extends Pick<
-  ArrayField,
+export interface ProEditDataTableInst<RowData = any> extends Pick<
+  ArrayField<RowData>,
   | 'insert'
   | 'move'
   | 'moveDown'
@@ -14,7 +14,7 @@ export interface ProEditDataTableInst extends Pick<
   | 'remove'
   | 'shift'
   | 'unshift'
->, Omit<ProDataTableInst, 'reload'> {
+>, Omit<ProDataTableInst<RowData>, 'reload'> {
   /**
    * 开始编辑
    * @param index 行索引

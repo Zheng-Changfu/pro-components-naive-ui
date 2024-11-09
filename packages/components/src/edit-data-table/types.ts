@@ -2,8 +2,9 @@ import type { TableSelectionColumn } from 'naive-ui/es/data-table/src/interface'
 import type { VNodeChild } from 'vue'
 import type { ProDataTableBaseColumn, ProDataTableColumnGroup, ProDataTableExpandColumn, ProDataTableIndexColumn } from '../data-table/types'
 import type { ProFieldProps } from '../form'
+import type { ProEditDataTableInst } from './inst'
 
-interface BaseColumnRenderHelpers {
+interface BaseColumnRenderAction<RowData = any> extends ProEditDataTableInst<RowData> {
   /**
    * 当前行是否在编辑状态
    */
@@ -18,7 +19,7 @@ export interface ProEditDataTableBaseColumn<RowData = any> extends Omit<ProDataT
   /**
    * 重写 render 函数
    */
-  render?: (rowData: RowData, rowIndex: number, helpers: BaseColumnRenderHelpers) => VNodeChild
+  render?: (rowData: RowData, rowIndex: number, action: BaseColumnRenderAction<RowData>) => VNodeChild
 }
 
 export type ProEditDataTableColumn<RowData = any> =
