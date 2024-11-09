@@ -110,9 +110,9 @@ export default defineComponent({
       const {
         max,
         value,
-        bordered,
         actionGuard,
         onUpdateValue,
+        tableCardProps,
         creatorButtonProps,
         creatorInitialValue,
         ...rest
@@ -124,7 +124,10 @@ export default defineComponent({
         rowKey: AUTO_CREATE_ID,
         columns: columns.value,
         ref: proDataTableInstRef,
-        bordered: bordered ?? false,
+        tableCardProps: {
+          bordered: false,
+          ...(tableCardProps ?? {}),
+        },
       }
     })
 
