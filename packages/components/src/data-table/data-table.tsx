@@ -174,7 +174,7 @@ export default defineComponent({
         && !tableCardProps.headerExtra
     })
 
-    const headerCardProps = computed<ProCardProps>(() => {
+    const nTableCardProps = computed<ProCardProps>(() => {
       const {
         title,
         tooltip,
@@ -251,7 +251,7 @@ export default defineComponent({
       showSearchForm,
       nDataTableProps,
       searchCardProps,
-      headerCardProps,
+      nTableCardProps,
       proSearchFormProps,
     }
   },
@@ -269,7 +269,7 @@ export default defineComponent({
                 />
               </ProCard>
             ),
-            <ProCard {...this.headerCardProps}>
+            <ProCard {...this.nTableCardProps}>
               {{
                 'header': this.$slots.title,
                 'header-extra': () => {
