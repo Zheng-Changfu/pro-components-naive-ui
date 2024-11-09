@@ -51,7 +51,7 @@ export default defineComponent({
           const buttonDoms = editable
             ? [
                 <NButton text={true} type="primary" onClick={() => instRef.value!.cancelEditable(index)}>保存</NButton>,
-                <NButton text={true} type="primary" onClick={() => instRef.value!.cancelEditableWithRestore(index)}>取消</NButton>,
+                <NButton text={true} type="primary" onClick={() => instRef.value!.cancelEditableAndRestore(index)}>取消</NButton>,
               ]
             : [
                 <NButton text={true} type="primary" onClick={() => instRef.value!.startEditable(index)}>编辑</NButton>,

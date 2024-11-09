@@ -71,7 +71,7 @@ export default defineComponent({
       getEditable,
       startEditable,
       cancelEditable,
-      cancelEditableWithRestore,
+      cancelEditableAndRestore,
     } = useEditable()
 
     const {
@@ -145,7 +145,7 @@ export default defineComponent({
       getEditable,
       startEditable,
       cancelEditable,
-      cancelEditableWithRestore,
+      cancelEditableAndRestore,
     }
 
     registerInst(exposed)
