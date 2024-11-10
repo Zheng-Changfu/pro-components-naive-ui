@@ -22,6 +22,10 @@ export const proModalExtendProps = {
 export const proModalProps = {
   ...modalProps,
   ...proModalExtendProps,
+  /**
+   * 重写默认值
+   */
+  autoFocus: Boolean,
 } as const
 
 export type ProModalProps = ExtractPublicPropTypes<typeof proModalProps>
