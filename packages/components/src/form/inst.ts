@@ -1,7 +1,6 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseForm, Path } from 'pro-components-hooks'
 import type { FormItemInternalValidateResult } from './composables/useValidationResult'
-import { createProComponentInstanceFactory } from '../composables'
 
 export type ProFormInst = Pick<
   BaseForm,
@@ -47,4 +46,3 @@ export type ProFormInst = Pick<
    */
   restoreValidation: (paths?: string | string[]) => ReturnType<FormInst['restoreValidation']>
 }
-export const useProFormInst = createProComponentInstanceFactory<ProFormInst>('ProForm')

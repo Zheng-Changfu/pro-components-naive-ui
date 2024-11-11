@@ -1,38 +1,37 @@
 import type { SlotsType } from 'vue'
-import type { ProRateSlots } from '../slots'
-import { NRate, rateProps } from 'naive-ui'
+import type { ProSwitchSlots } from '../slots'
+import { NSwitch, switchProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
-  name: 'ProFieldRate',
-  props: rateProps,
-  slots: Object as SlotsType<ProRateSlots>,
+  name: 'Switch',
+  props: switchProps,
+  slots: Object as SlotsType<ProSwitchSlots>,
   inheritAttrs: false,
   setup() {
     const {
+      value,
       readonly,
     } = useReadonlyHelpers()
 
     return {
+      value,
       readonly,
     }
   },
   render() {
     if (this.readonly) {
+      const { value } = this
       if (this.$slots.readonly) {
         return this.$slots.readonly(this.$props)
       }
-      return (
-        <NRate
-          {...this.$props}
-          {...this.$attrs}
-          readonly={true}
-          v-slots={this.$slots}
-        />
-      )
+      if (value) {
+        return this.$slots.checked?.() ?? '打开'
+      }
+      return this.$slots.unchecked?.() ?? '关闭'
     }
     return (
-      <NRate
+      <NSwitch
         {...this.$props}
         {...this.$attrs}
         v-slots={this.$slots}

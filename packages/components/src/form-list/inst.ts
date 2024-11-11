@@ -1,5 +1,6 @@
 import type { ArrayField } from 'pro-components-hooks'
-import { createProComponentInstanceFactory } from '../composables'
+import { createInjectionState } from '@vueuse/core'
+import { useComponentInst } from '../composables'
 
 export type ProFormListInst = Pick<
   ArrayField,
@@ -13,4 +14,13 @@ export type ProFormListInst = Pick<
   | 'shift'
   | 'unshift'
 >
-export const useProFormListInst = createProComponentInstanceFactory<ProFormListInst>('ProFormList')
+
+const [
+  provideFormListInstStore,
+  useInjectFormListInstStore,
+] = createInjectionState(useComponentInst<ProFormListInst>)
+
+export {
+  provideFormListInstStore,
+  useInjectFormListInstStore,
+}

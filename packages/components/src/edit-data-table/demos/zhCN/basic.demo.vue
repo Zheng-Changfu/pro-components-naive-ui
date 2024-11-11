@@ -3,21 +3,13 @@
 </markdown>
 
 <script lang="tsx">
+import type { ProEditDataTableInst } from 'pro-components-naive-ui'
 import { NButton, NFlex } from 'naive-ui'
-import { useProEditDataTableInst } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const [
-      instRef,
-      {
-        remove,
-        startEditable,
-        cancelEditable,
-        cancelEditableWithRestore,
-      },
-    ] = useProEditDataTableInst()
+    const instRef = ref<ProEditDataTableInst>()
 
     const columns = [
       {
@@ -58,12 +50,12 @@ export default defineComponent({
         render(_, index, { editable }) {
           const buttonDoms = editable
             ? [
-                <NButton text={true} type="primary" onClick={() => cancelEditable(index)}>保存</NButton>,
-                <NButton text={true} type="primary" onClick={() => cancelEditableWithRestore(index)}>取消</NButton>,
+                <NButton text={true} type="primary" onClick={() => instRef.value!.cancelEditable(index)}>保存</NButton>,
+                <NButton text={true} type="primary" onClick={() => instRef.value!.cancelEditableAndRestore(index)}>取消</NButton>,
               ]
             : [
-                <NButton text={true} type="primary" onClick={() => startEditable(index)}>编辑</NButton>,
-                <NButton text={true} type="error" onClick={() => remove(index)}>删除</NButton>,
+                <NButton text={true} type="primary" onClick={() => instRef.value!.startEditable(index)}>编辑</NButton>,
+                <NButton text={true} type="error" onClick={() => instRef.value!.remove(index)}>删除</NButton>,
               ]
           return <NFlex justify="center">{buttonDoms}</NFlex>
         },

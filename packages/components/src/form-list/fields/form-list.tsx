@@ -1,5 +1,4 @@
 import type { PropType, SlotsType } from 'vue'
-import type { ProFormListInst } from '../inst'
 import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
@@ -13,10 +12,11 @@ import { useReadonlyHelpers } from '../../form/components'
 import { useInjectProFormInst } from '../../form/context'
 import { useLocale } from '../../locales'
 import { AUTO_CREATE_ID, provideProFormListInst } from '../context'
-import FieldItem from './field-item'
+import { type ProFormListInst, useInjectFormListInstStore } from '../inst'
+import FormListItem from './form-list-item'
 
 const CreatorButton = defineComponent({
-  name: 'ProFieldListCreatorButton',
+  name: 'CreatorButton',
   props: {
     max: Number,
     creatorButtonProps: {
@@ -117,7 +117,7 @@ const CreatorButton = defineComponent({
 })
 
 export default defineComponent({
-  name: 'ProFieldList',
+  name: 'FormList',
   props: {
     min: Number,
     max: Number,
@@ -146,8 +146,12 @@ export default defineComponent({
     },
   },
   slots: Object as SlotsType<ProFormListSlots>,
-  setup(_, { expose }) {
+  setup() {
     const form = useInjectProFormInst()!
+
+    const {
+      registerInst,
+    } = useInjectFormListInstStore()!
 
     const {
       pop,
@@ -193,7 +197,7 @@ export default defineComponent({
       moveDown,
     }
 
-    expose(exposed)
+    registerInst(exposed)
     provideProFormListInst(exposed)
   },
   render() {
@@ -217,7 +221,7 @@ export default defineComponent({
 
     const listDom = list.map((item, index) => {
       return (
-        <FieldItem
+        <FormListItem
           key={item[AUTO_CREATE_ID]}
           min={min}
           max={max}

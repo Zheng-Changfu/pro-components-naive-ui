@@ -2,8 +2,8 @@ import type { SlotsType } from 'vue'
 import type { ProSelectSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldSelect from './fields/field-select'
-import { useProSelectInst } from './inst'
+import Select from './fields/select'
+import { provideSelectInstStore } from './inst'
 import { proSelectProps } from './props'
 
 const name = 'ProSelect'
@@ -12,19 +12,17 @@ export default defineComponent({
   props: proSelectProps,
   slots: Object as SlotsType<ProSelectSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProSelectInst()
+    const {
+      exposed,
+    } = provideSelectInstStore()
 
     const overridedProps = useOverrideProps(
       name,
       props,
     )
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
     }
   },
@@ -37,13 +35,12 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
-            <ProFieldSelect
-              ref="instRef"
+          input: (pureProps: any) => (
+            <Select
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )

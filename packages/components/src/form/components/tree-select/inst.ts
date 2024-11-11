@@ -1,8 +1,8 @@
 import type { TreeSelectInst } from 'naive-ui'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
+import { createInjectionState } from '@vueuse/core'
+import { useComponentInst } from '../../../composables'
 
-export type ProTreeSelectInst = PickFunction<TreeSelectInst & {
+export type ProTreeSelectInst = TreeSelectInst & {
   /**
    * 获取全部节点的 keys
    */
@@ -44,5 +44,14 @@ export type ProTreeSelectInst = PickFunction<TreeSelectInst & {
    * @param keys 需要部分选中的 keys
    */
   setIndeterminateKeys: (keys: Array<string | number>) => void
-}>
-export const useProTreeSelectInst = createProComponentInstanceFactory<ProTreeSelectInst>('ProTreeSelect')
+}
+
+const [
+  provideTreeSelectInstStore,
+  useInjectTreeSelectInstStore,
+] = createInjectionState(useComponentInst<ProTreeSelectInst>)
+
+export {
+  provideTreeSelectInstStore,
+  useInjectTreeSelectInstStore,
+}

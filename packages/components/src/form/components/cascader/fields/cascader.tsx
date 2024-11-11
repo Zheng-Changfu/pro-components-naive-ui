@@ -4,18 +4,18 @@ import { get, isArray } from 'lodash-es'
 import { cascaderProps, NCascader, NEl, NFlex } from 'naive-ui'
 import { eachTree } from 'pro-components-hooks'
 import { useReadonlyHelpers } from '../../field'
-import { useProCascaderInst } from '../inst'
+import { useInjectCascaderInstStore } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldCascader',
+  name: 'Cascader',
   inheritAttrs: false,
   props: cascaderProps,
   slots: Object as SlotsType<ProCascaderSlots>,
-  setup(props, { expose }) {
-    const [
+  setup(props) {
+    const {
       instRef,
-      methods,
-    ] = useProCascaderInst()
+      registerInst,
+    } = useInjectCascaderInstStore()!
 
     const {
       empty,
@@ -54,7 +54,13 @@ export default defineComponent({
       return labels
     })
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+      getCheckedData: () => instRef.value?.getCheckedData() as any,
+      getIndeterminateData: () => instRef.value?.getIndeterminateData() as any,
+    })
+
     return {
       empty,
       value,

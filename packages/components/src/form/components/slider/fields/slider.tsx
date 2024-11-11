@@ -1,37 +1,35 @@
 import type { SlotsType } from 'vue'
-import type { ProSwitchSlots } from '../slots'
-import { NSwitch, switchProps } from 'naive-ui'
+import type { ProSliderSlots } from '../slots'
+import { NSlider, sliderProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
-  name: 'ProFieldSwitch',
-  props: switchProps,
-  slots: Object as SlotsType<ProSwitchSlots>,
+  name: 'Slider',
+  props: sliderProps,
+  slots: Object as SlotsType<ProSliderSlots>,
   inheritAttrs: false,
   setup() {
     const {
-      value,
       readonly,
+      readonlyText,
     } = useReadonlyHelpers()
 
     return {
-      value,
       readonly,
+      readonlyText,
     }
   },
   render() {
     if (this.readonly) {
-      const { value } = this
+      const { readonlyText } = this
+
       if (this.$slots.readonly) {
         return this.$slots.readonly(this.$props)
       }
-      if (value) {
-        return this.$slots.checked?.() ?? '打开'
-      }
-      return this.$slots.unchecked?.() ?? '关闭'
+      return readonlyText
     }
     return (
-      <NSwitch
+      <NSlider
         {...this.$props}
         {...this.$attrs}
         v-slots={this.$slots}

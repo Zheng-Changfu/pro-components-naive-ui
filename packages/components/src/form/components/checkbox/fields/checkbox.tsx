@@ -1,48 +1,51 @@
 import type { SlotsType } from 'vue'
-import type { ProDynamicTagsSlots } from '../slots'
-import { dynamicTagsProps, NDynamicTags } from 'naive-ui'
+import type { ProCheckboxSlots } from '../slots'
+import { checkboxProps, NCheckbox } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
+import { useInjectCheckboxInstStore } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldDynamicTags',
-  props: dynamicTagsProps,
-  slots: Object as SlotsType<ProDynamicTagsSlots>,
+  name: 'Checkbox',
   inheritAttrs: false,
+  props: checkboxProps,
+  slots: Object as SlotsType<ProCheckboxSlots>,
   setup() {
     const {
-      empty,
+      instRef,
+      registerInst,
+    } = useInjectCheckboxInstStore()!
+
+    const {
       readonly,
-      emptyText,
     } = useReadonlyHelpers()
 
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+    })
+
     return {
-      empty,
+      instRef,
       readonly,
-      emptyText,
     }
   },
   render() {
     if (this.readonly) {
-      const { empty, emptyText } = this
-
       if (this.$slots.readonly) {
         return this.$slots.readonly(this.$props)
       }
-      if (empty) {
-        return emptyText
-      }
       return (
-        <NDynamicTags
+        <NCheckbox
           {...this.$props}
           {...this.$attrs}
-          closable={false}
           disabled={true}
           v-slots={this.$slots}
         />
       )
     }
     return (
-      <NDynamicTags
+      <NCheckbox
+        ref="instRef"
         {...this.$props}
         {...this.$attrs}
         v-slots={this.$slots}

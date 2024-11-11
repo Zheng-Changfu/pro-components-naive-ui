@@ -1,10 +1,10 @@
 import type { ArrayField } from 'pro-components-hooks'
 import type { ProDataTableInst } from '../data-table/inst'
-import type { PickFunction } from '../types'
-import { createProComponentInstanceFactory } from '../composables'
+import { createInjectionState } from '@vueuse/core'
+import { useComponentInst } from '../composables'
 
-export interface ProEditDataTableInst extends Pick<
-  ArrayField,
+export interface ProEditDataTableInst<RowData = any> extends Pick<
+  ArrayField<RowData>,
   | 'insert'
   | 'move'
   | 'moveDown'
@@ -14,7 +14,7 @@ export interface ProEditDataTableInst extends Pick<
   | 'remove'
   | 'shift'
   | 'unshift'
->, Omit<ProDataTableInst, 'reload'> {
+>, Omit<ProDataTableInst<RowData>, 'reload'> {
   /**
    * 开始编辑
    * @param index 行索引
@@ -29,7 +29,7 @@ export interface ProEditDataTableInst extends Pick<
    * 结束编辑并还原值
    * @param index 行索引
    */
-  cancelEditableWithRestore: (index: number) => void
+  cancelEditableAndRestore: (index: number) => void
   /**
    * 获取行是否在编辑状态
    * @param index 行索引
@@ -37,4 +37,12 @@ export interface ProEditDataTableInst extends Pick<
   getEditable: (index: number) => boolean
 }
 
-export const useProEditDataTableInst = createProComponentInstanceFactory<PickFunction<ProEditDataTableInst>>('ProEditDataTable')
+const [
+  provideEditDataTableInstStore,
+  useInjectEditDataTableInstStore,
+] = createInjectionState(useComponentInst<ProEditDataTableInst>)
+
+export {
+  provideEditDataTableInstStore,
+  useInjectEditDataTableInstStore,
+}

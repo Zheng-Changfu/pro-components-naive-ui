@@ -1,8 +1,6 @@
 import type { TreeInst } from 'naive-ui'
-import type { PickFunction } from '../types'
-import { createProComponentInstanceFactory } from '../composables'
 
-export type ProTreeInst<Data = any> = PickFunction<TreeInst & {
+export interface ProTreeInst<Data = any> extends TreeInst {
   /**
    * 获取数据
    */
@@ -61,6 +59,4 @@ export type ProTreeInst<Data = any> = PickFunction<TreeInst & {
    * @param keys 需要部分选中的 keys
    */
   setIndeterminateKeys: (keys: Array<string | number>) => void
-}>
-
-export const useProTreeInst = createProComponentInstanceFactory<ProTreeInst>('ProTree')
+}

@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProSwitchSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldSwitch from './fields/field-switch'
+import Switch from './fields/switch'
 import { proSwitchProps } from './props'
 
 const name = 'ProSwitch'
@@ -29,12 +29,12 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
-            <ProFieldSwitch
+          input: (pureProps: any) => (
+            <Switch
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )

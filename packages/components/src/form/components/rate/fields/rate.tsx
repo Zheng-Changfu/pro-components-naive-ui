@@ -1,27 +1,19 @@
 import type { SlotsType } from 'vue'
-import type { ProCheckboxSlots } from '../slots'
-import { checkboxProps, NCheckbox } from 'naive-ui'
+import type { ProRateSlots } from '../slots'
+import { NRate, rateProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
-import { useProCheckboxInst } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldCheckbox',
+  name: 'Rate',
+  props: rateProps,
+  slots: Object as SlotsType<ProRateSlots>,
   inheritAttrs: false,
-  props: checkboxProps,
-  slots: Object as SlotsType<ProCheckboxSlots>,
-  setup(_, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProCheckboxInst()
-
+  setup() {
     const {
       readonly,
     } = useReadonlyHelpers()
 
-    expose(methods)
     return {
-      instRef,
       readonly,
     }
   },
@@ -31,17 +23,16 @@ export default defineComponent({
         return this.$slots.readonly(this.$props)
       }
       return (
-        <NCheckbox
+        <NRate
           {...this.$props}
           {...this.$attrs}
-          disabled={true}
+          readonly={true}
           v-slots={this.$slots}
         />
       )
     }
     return (
-      <NCheckbox
-        ref="instRef"
+      <NRate
         {...this.$props}
         {...this.$attrs}
         v-slots={this.$slots}

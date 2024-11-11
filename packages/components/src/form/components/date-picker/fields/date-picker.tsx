@@ -5,12 +5,12 @@ import { isArray, isString } from 'lodash-es'
 import { datePickerProps, NDatePicker, NEl, NFlex } from 'naive-ui'
 import { computed } from 'vue'
 import { useReadonlyHelpers } from '../../field'
-import { useProDatePickerInst } from '../inst'
+import { useInjectDatePickerInstStore } from '../inst'
 import { useMergeFormat } from './composables/useMergeFormat'
 import { toDisplayDate } from './utils/toDisplayDate'
 
 export default defineComponent({
-  name: 'ProFieldDatePicker',
+  name: 'DatePicker',
   inheritAttrs: false,
   /**
    * 支持 value 传递字符串
@@ -22,11 +22,11 @@ export default defineComponent({
     formattedValue: [String, Number] as PropType<string | number | Array<string | number> | null>,
   },
   slots: Object as SlotsType<ProDatePickerSlots>,
-  setup(props, { expose }) {
-    const [
+  setup(props) {
+    const {
       instRef,
-      methods,
-    ] = useProDatePickerInst()
+      registerInst,
+    } = useInjectDatePickerInstStore()!
 
     const {
       empty,
@@ -92,7 +92,11 @@ export default defineComponent({
       return isArray(displayDateText.value)
     })
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+    })
+
     return {
       empty,
       instRef,

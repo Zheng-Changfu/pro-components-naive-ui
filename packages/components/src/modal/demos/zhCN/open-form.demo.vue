@@ -5,8 +5,9 @@
 </markdown>
 
 <script lang="tsx">
+import type { ProFormInst, ProModalInst } from 'pro-components-naive-ui'
 import { useMessage } from 'naive-ui'
-import { uid, useProFormInst, useProModalInst } from 'pro-components-naive-ui'
+import { uid } from 'pro-components-naive-ui'
 
 interface Row {
   id: string
@@ -20,23 +21,23 @@ export default defineComponent({
   setup() {
     const title = ref('')
     const message = useMessage()
-    const [instRef, { open, close }] = useProModalInst()
-    const [formInstRef, { submit, getFieldValue, setFieldsValue }] = useProFormInst()
+    const instRef = ref<ProModalInst>()
+    const formInstRef = ref<ProFormInst>()
 
     function add() {
       title.value = '新增'
-      open()
+      instRef.value!.open()
     }
 
     function edit(row: Row) {
       title.value = '编辑'
-      open(() => {
-        setFieldsValue(row)
+      instRef.value!.open(() => {
+        formInstRef.value!.setFieldsValue(row)
       })
     }
 
     async function onSubmit(values: Omit<Row, 'id'>) {
-      const id = getFieldValue('id')
+      const id = formInstRef.value!.getFieldValue('id')
       console.log('id：', id)
       console.log('form：', values)
       await new Promise((resolve) => {
@@ -53,8 +54,6 @@ export default defineComponent({
       add,
       edit,
       uid,
-      close,
-      submit,
       onSubmit,
     }
   },
@@ -100,10 +99,10 @@ export default defineComponent({
     </pro-form>
     <template #footer>
       <n-flex justify="end">
-        <n-button @click="close">
+        <n-button @click="instRef?.close">
           关闭
         </n-button>
-        <pro-button type="primary" @click="submit">
+        <pro-button type="primary" @click="formInstRef?.submit">
           提交
         </pro-button>
       </n-flex>

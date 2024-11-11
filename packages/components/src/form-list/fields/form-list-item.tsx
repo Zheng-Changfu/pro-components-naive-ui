@@ -17,7 +17,7 @@ import { AUTO_CREATE_ID, proFormListContextKey, useInjectProFormListInst } from 
 import { useProvidePath } from './composables/useProvidePath'
 
 const Action = defineComponent({
-  name: 'ProFieldItemAction',
+  name: 'Action',
   props: {
     min: Number,
     max: Number,
@@ -195,7 +195,7 @@ const Action = defineComponent({
 })
 
 export default defineComponent({
-  name: 'FieldItem',
+  name: 'FormListItem',
   props: {
     min: Number,
     max: Number,

@@ -1,6 +1,15 @@
 import type { InputNumberInst } from 'naive-ui'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
+import { createInjectionState } from '@vueuse/core'
+import { useComponentInst } from '../../../composables'
 
-export type ProDigitInst = PickFunction<InputNumberInst>
-export const useProDigitInst = createProComponentInstanceFactory<ProDigitInst>('ProDigit')
+export type ProDigitInst = InputNumberInst
+
+const [
+  provideDigitInstStore,
+  useInjectDigitInstStore,
+] = createInjectionState(useComponentInst<ProDigitInst>)
+
+export {
+  provideDigitInstStore,
+  useInjectDigitInstStore,
+}

@@ -1,19 +1,19 @@
 import type { SlotsType } from 'vue'
-import type { ProInputSlots } from '../slots'
-import { inputProps, NEl, NFlex, NInput } from 'naive-ui'
+import type { ProDigitSlots } from '../slots'
+import { inputNumberProps, NEl, NFlex, NInputNumber } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
-import { useProInputInst } from '../inst'
+import { useInjectDigitInstStore } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldInput',
-  props: inputProps,
-  slots: Object as SlotsType<ProInputSlots>,
+  name: 'Digit',
+  props: inputNumberProps,
+  slots: Object as SlotsType<ProDigitSlots>,
   inheritAttrs: false,
-  setup(_, { expose }) {
-    const [
+  setup() {
+    const {
       instRef,
-      methods,
-    ] = useProInputInst()
+      registerInst,
+    } = useInjectDigitInstStore()!
 
     const {
       empty,
@@ -22,7 +22,12 @@ export default defineComponent({
       emptyText,
     } = useReadonlyHelpers()
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+      select: () => instRef.value?.select(),
+    })
+
     return {
       empty,
       value,
@@ -50,7 +55,7 @@ export default defineComponent({
       )
     }
     return (
-      <NInput
+      <NInputNumber
         ref="instRef"
         {...this.$props}
         {...this.$attrs}

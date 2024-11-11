@@ -13,14 +13,12 @@
 import type { UploadFileInfo } from 'naive-ui'
 import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
 import { useMessage } from 'naive-ui'
-import { useProFormInst } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { ArchiveIcon },
   setup() {
     const message = useMessage()
-    const [proFormInst, { submit, restoreFieldsValue }] = useProFormInst()
 
     function onUnAcceptType(data: {
       file: UploadFileInfo
@@ -31,10 +29,7 @@ export default defineComponent({
     }
 
     return {
-      submit,
-      proFormInst,
       onUnAcceptType,
-      restoreFieldsValue,
     }
   },
 })
@@ -42,7 +37,6 @@ export default defineComponent({
 
 <template>
   <pro-form
-    ref="proFormInst"
     label-width="auto"
     :initial-values="{
       'upload': 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg',
@@ -111,10 +105,10 @@ export default defineComponent({
       </pro-upload>
     </n-card>
     <n-flex class="mt-16px">
-      <n-button @click="restoreFieldsValue">
+      <n-button attr-type="reset">
         重置
       </n-button>
-      <n-button type="primary" @click="submit">
+      <n-button type="primary" attr-type="submit">
         提交
       </n-button>
     </n-flex>

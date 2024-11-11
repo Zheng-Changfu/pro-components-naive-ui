@@ -1,6 +1,15 @@
 import type { UploadInst } from 'naive-ui'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
+import { createInjectionState } from '@vueuse/core'
+import { useComponentInst } from '../../../composables'
 
-export type ProUploadInst = PickFunction<UploadInst>
-export const useProUploadInst = createProComponentInstanceFactory<ProUploadInst>('ProUpload')
+export type ProUploadInst = UploadInst
+
+const [
+  provideUploadInstStore,
+  useInjectUploadInstStore,
+] = createInjectionState(useComponentInst<ProUploadInst>)
+
+export {
+  provideUploadInstStore,
+  useInjectUploadInstStore,
+}

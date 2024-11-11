@@ -4,10 +4,10 @@ import type { ProAutoCompleteSlots } from '../slots'
 import { isFunction } from 'lodash-es'
 import { autoCompleteProps, NAutoComplete, NEl, NFlex } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
-import { useProAutoCompleteInst } from '../inst'
+import { useInjectAutoCompleteInstStore } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldAutoComplete',
+  name: 'AutoComplete',
   inheritAttrs: false,
   props: {
     ...autoCompleteProps,
@@ -20,11 +20,11 @@ export default defineComponent({
     },
   },
   slots: Object as SlotsType<ProAutoCompleteSlots>,
-  setup(props, { expose }) {
-    const [
+  setup(props) {
+    const {
       instRef,
-      methods,
-    ] = useProAutoCompleteInst()
+      registerInst,
+    } = useInjectAutoCompleteInstStore()!
 
     const {
       value,
@@ -45,7 +45,11 @@ export default defineComponent({
       }
     })
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.blur(),
+    })
+
     return {
       empty,
       value,
@@ -76,8 +80,8 @@ export default defineComponent({
     return (
       <NAutoComplete
         ref="instRef"
-        {...this.nAutoCompleteProps}
         {...this.$attrs}
+        {...this.nAutoCompleteProps}
         v-slots={this.$slots}
       />
     )

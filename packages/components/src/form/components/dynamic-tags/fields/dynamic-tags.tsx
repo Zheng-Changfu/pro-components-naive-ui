@@ -1,14 +1,13 @@
 import type { SlotsType } from 'vue'
-import type { ProColorPickerSlots } from '../slots'
-import { omit } from 'lodash-es'
-import { colorPickerProps, NColorPicker } from 'naive-ui'
+import type { ProDynamicTagsSlots } from '../slots'
+import { dynamicTagsProps, NDynamicTags } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
-  name: 'ProFieldColorPicker',
+  name: 'DynamicTags',
+  props: dynamicTagsProps,
+  slots: Object as SlotsType<ProDynamicTagsSlots>,
   inheritAttrs: false,
-  props: colorPickerProps,
-  slots: Object as SlotsType<ProColorPickerSlots>,
   setup() {
     const {
       empty,
@@ -23,11 +22,6 @@ export default defineComponent({
     }
   },
   render() {
-    const slots = {
-      ...omit(this.$slots, 'title'),
-      label: this.$slots.title,
-    }
-
     if (this.readonly) {
       const { empty, emptyText } = this
 
@@ -38,19 +32,20 @@ export default defineComponent({
         return emptyText
       }
       return (
-        <NColorPicker
+        <NDynamicTags
           {...this.$props}
           {...this.$attrs}
-          disabled
-          v-slots={slots}
+          closable={false}
+          disabled={true}
+          v-slots={this.$slots}
         />
       )
     }
     return (
-      <NColorPicker
+      <NDynamicTags
         {...this.$props}
         {...this.$attrs}
-        v-slots={slots}
+        v-slots={this.$slots}
       />
     )
   },

@@ -2,8 +2,8 @@ import type { SlotsType } from 'vue'
 import type { ProDatePickerSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldDatePicker from './fields/field-date-picker'
-import { useProDatePickerInst } from './inst'
+import DatePicker from './fields/date-picker'
+import { provideDatePickerInstStore } from './inst'
 import { proDatePickerProps } from './props'
 
 const name = 'ProDateTimeRange'
@@ -12,19 +12,17 @@ export default defineComponent({
   props: proDatePickerProps,
   slots: Object as SlotsType<ProDatePickerSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProDatePickerInst()
+    const {
+      exposed,
+    } = provideDatePickerInstStore()
 
     const overridedProps = useOverrideProps(
       name,
       props,
     )
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
     }
   },
@@ -41,13 +39,12 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
-            <ProFieldDatePicker
-              ref="instRef"
+          input: (pureProps: any) => (
+            <DatePicker
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )

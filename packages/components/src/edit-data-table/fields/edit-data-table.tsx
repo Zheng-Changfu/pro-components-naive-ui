@@ -1,7 +1,6 @@
 import type { ExtractPublicPropTypes, SlotsType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../../button'
 import type { ProDataTableProps } from '../../data-table'
-import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
 import { omit } from 'lodash-es'
 import { useInjectListFieldContext } from 'pro-components-hooks'
@@ -10,6 +9,7 @@ import { ProDataTable, proDataTableProps } from '../../data-table'
 import { proFieldProps, useInjectProFormInst } from '../../form'
 import { AUTO_CREATE_ID, proFormListContextKey } from '../../form-list'
 import { provideProEditDataTableInst } from '../context'
+import { type ProEditDataTableInst, useInjectEditDataTableInstStore } from '../inst'
 import { proEditDataTableProps } from '../props'
 import { useColumns } from './composables/useColumns'
 import { useEditable } from './composables/useEditable'
@@ -51,13 +51,17 @@ export default defineComponent({
   name: 'EditDataTable',
   props: editDataTableProps,
   slots: Object as SlotsType<ProEditDataTableSlots>,
-  setup(props, { expose }) {
+  setup(props) {
     const form = useInjectProFormInst()
 
-    const [
-      instRef,
+    const {
+      registerInst,
+    } = useInjectEditDataTableInstStore()!
+
+    const {
       methods,
-    ] = useProDataTableContext()
+      instRef: proDataTableInstRef,
+    } = useProDataTableContext()
 
     const {
       columns,
@@ -67,7 +71,7 @@ export default defineComponent({
       getEditable,
       startEditable,
       cancelEditable,
-      cancelEditableWithRestore,
+      cancelEditableAndRestore,
     } = useEditable()
 
     const {
@@ -106,9 +110,9 @@ export default defineComponent({
       const {
         max,
         value,
-        bordered,
         actionGuard,
         onUpdateValue,
+        tableCardProps,
         creatorButtonProps,
         creatorInitialValue,
         ...rest
@@ -116,11 +120,14 @@ export default defineComponent({
 
       return {
         ...rest,
-        ref: instRef,
         data: props.value,
         rowKey: AUTO_CREATE_ID,
         columns: columns.value,
-        bordered: bordered ?? false,
+        ref: proDataTableInstRef,
+        tableCardProps: {
+          bordered: false,
+          ...(tableCardProps ?? {}),
+        },
       }
     })
 
@@ -138,10 +145,10 @@ export default defineComponent({
       getEditable,
       startEditable,
       cancelEditable,
-      cancelEditableWithRestore,
+      cancelEditableAndRestore,
     }
 
-    expose(exposed)
+    registerInst(exposed)
     provideProEditDataTableInst(exposed)
     provide(proFormListContextKey, {
       showLabel: false,

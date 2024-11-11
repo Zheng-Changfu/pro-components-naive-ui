@@ -6,22 +6,22 @@ import { computed } from 'vue'
 import { useOmitProps } from '../../../../composables'
 import { useLocale } from '../../../../locales'
 import { useReadonlyHelpers } from '../../field'
-import { useProUploadInst } from '../inst'
+import { useInjectUploadInstStore } from '../inst'
 import { proUploadFieldProps } from '../props'
 
 export default defineComponent({
-  name: 'ProFieldUpload',
+  name: 'Upload',
   props: {
     ...uploadProps,
     ...proUploadFieldProps,
   },
   slots: Object as SlotsType<ProUploadSlots>,
   inheritAttrs: false,
-  setup(props, { expose }) {
-    const [
+  setup(props) {
+    const {
       instRef,
-      methods,
-    ] = useProUploadInst()
+      registerInst,
+    } = useInjectUploadInstStore()!
 
     const {
       empty,
@@ -98,7 +98,12 @@ export default defineComponent({
       }
     }
 
-    expose(methods)
+    registerInst({
+      clear: () => instRef.value?.clear(),
+      submit: (fileId?: string) => instRef.value?.submit(fileId),
+      openOpenFileDialog: () => instRef.value?.openOpenFileDialog(),
+    })
+
     return {
       empty,
       instRef,

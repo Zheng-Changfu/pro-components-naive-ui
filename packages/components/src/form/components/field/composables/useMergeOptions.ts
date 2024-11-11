@@ -2,11 +2,13 @@ import type { PopoverProps } from 'naive-ui'
 import type { BaseField } from 'pro-components-hooks'
 import type { ComputedRef } from 'vue'
 import type { FieldValueType } from '../enums'
+import type { FieldExtraInfo } from '../keys'
 import { toString } from 'lodash-es'
 import { computed, inject, unref } from 'vue'
 import { proFormListContextKey } from '../../../../form-list/context'
 import { useLocale } from '../../../../locales'
 import { useInjectProFormContext } from '../../../context'
+import { fieldExtraKey } from '../keys'
 
 interface UseMergeOptions {
   field: BaseField
@@ -67,7 +69,10 @@ export function useMergeOptions(options: UseMergeOptions) {
     if (propReadonly !== undefined) {
       return !!propReadonly
     }
-
+    if (field.parent) {
+      const extraInfo = field.parent[fieldExtraKey] as FieldExtraInfo
+      return extraInfo.readonly.value
+    }
     if (formReadonly !== undefined) {
       return !!formReadonly
     }

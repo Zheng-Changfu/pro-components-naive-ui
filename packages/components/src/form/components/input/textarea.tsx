@@ -2,8 +2,8 @@ import type { SlotsType } from 'vue'
 import type { ProInputSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldInput from './fields/field-input'
-import { useProInputInst } from './inst'
+import Input from './fields/input'
+import { provideTextInstStore } from './inst'
 import { proInputProps } from './props'
 
 const name = 'ProTextarea'
@@ -12,19 +12,17 @@ export default defineComponent({
   props: proInputProps,
   slots: Object as SlotsType<ProInputSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProInputInst()
+    const {
+      exposed,
+    } = provideTextInstStore()
 
     const overridedProps = useOverrideProps(
       name,
       props,
     )
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
     }
   },
@@ -41,13 +39,12 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
-            <ProFieldInput
-              ref="instRef"
+          input: (pureProps: any) => (
+            <Input
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )

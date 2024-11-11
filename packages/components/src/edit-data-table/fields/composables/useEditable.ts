@@ -47,7 +47,7 @@ export function useEditable() {
     }
   }
 
-  function cancelEditableWithRestore(index: number) {
+  function cancelEditableAndRestore(index: number) {
     const rowId = getRowKey(index)
     if (rowId && editableKeys.value.has(rowId)) {
       editableKeys.value.delete(rowId)
@@ -70,6 +70,6 @@ export function useEditable() {
     getEditable,
     startEditable,
     cancelEditable,
-    cancelEditableWithRestore,
+    cancelEditableAndRestore,
   }
 }

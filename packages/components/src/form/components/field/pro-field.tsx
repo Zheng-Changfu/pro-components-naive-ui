@@ -1,6 +1,5 @@
 import type { SlotsType } from 'vue'
 import type { ProFieldSlots } from './slots'
-import { pick } from 'lodash-es'
 import { NFlex } from 'naive-ui'
 import { computed, defineComponent, Fragment } from 'vue'
 import { ProFormItem } from '../form-item'
@@ -8,6 +7,7 @@ import { ProPopoverFormItem } from '../popover-form-item'
 import { createField } from './composables/createField'
 import { useMergeOptions } from './composables/useMergeOptions'
 import { useParseProps } from './composables/useParseProps'
+import { useValidationStatus } from './composables/useValidationStatus'
 import { fieldExtraKey } from './keys'
 import { proFieldProps } from './props'
 
@@ -16,7 +16,7 @@ export default defineComponent({
   inheritAttrs: false,
   props: proFieldProps,
   slots: Object as SlotsType<ProFieldSlots>,
-  setup(props, { slots }) {
+  setup(props) {
     const field = createField(props)
 
     const {
@@ -153,13 +153,6 @@ export default defineComponent({
       }
     })
 
-    const proFormItemSlots = computed(() => {
-      return pick(
-        slots,
-        ['label', 'feedback'],
-      )
-    })
-
     field[fieldExtraKey] = {
       valueType,
       readonly: mergedReadonly,
@@ -172,20 +165,24 @@ export default defineComponent({
       addonBefore,
       fieldBindProps,
       mergedBehavior,
-      proFormItemSlots,
       mergedBehaviorProps,
       proFormItemBindProps,
+      validationStatus: useValidationStatus(field),
     }
   },
   render() {
-    const {
-      $slots,
-      addonAfter,
-      addonBefore,
-      fieldBindProps,
-    } = this
+    if (!this.show) {
+      return null
+    }
 
     const renderFieldGroup = () => {
+      const {
+        $slots,
+        addonAfter,
+        addonBefore,
+        fieldBindProps,
+      } = this
+
       const groupRender = $slots.group
       const FieldComp = $slots.input?.(fieldBindProps)
       const addonAfterRender = $slots['addon-after'] ?? (() => addonAfter)
@@ -224,10 +221,6 @@ export default defineComponent({
       )
     }
 
-    if (!this.show) {
-      return null
-    }
-
     if (this.simple) {
       // 简单模式下不包裹 ProFormItem
       return renderFieldGroup()
@@ -239,13 +232,46 @@ export default defineComponent({
       proFormItemBindProps,
     } = this
 
+    const proFormItemSlots = {
+      label: this.$slots.label,
+      feedback: this.$slots.feedback,
+    }
+
+    if (this.$slots.validation) {
+      const formItemDom = (
+        <ProFormItem
+          {...proFormItemBindProps}
+          showFeedback={false}
+          v-slots={{
+            ...proFormItemSlots,
+            default: renderFieldGroup,
+          }}
+        />
+      )
+
+      const {
+        errors,
+        warnings,
+        feedbacks,
+        feedbackColor,
+      } = this.validationStatus
+
+      return this.$slots.validation({
+        formItemDom,
+        errors: errors.value,
+        warnings: warnings.value,
+        feedbacks: feedbacks.value,
+        feedbackColor: feedbackColor.value,
+      })
+    }
+
     if (mergedBehavior === 'popover') {
       return (
         <ProPopoverFormItem
           {...proFormItemBindProps}
           popoverProps={mergedBehaviorProps}
           v-slots={{
-            ...this.proFormItemSlots,
+            ...proFormItemSlots,
             default: renderFieldGroup,
           }}
         />
@@ -256,7 +282,7 @@ export default defineComponent({
       <ProFormItem
         {...proFormItemBindProps}
         v-slots={{
-          ...this.proFormItemSlots,
+          ...proFormItemSlots,
           default: renderFieldGroup,
         }}
       />

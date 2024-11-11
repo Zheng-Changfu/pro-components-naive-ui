@@ -1,4 +1,4 @@
-export * from './inst'
+export type { ProMentionInst } from './inst'
 export { default as ProMention } from './mention'
 export * from './props'
 export * from './slots'

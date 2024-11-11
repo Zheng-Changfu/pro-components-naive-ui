@@ -8,6 +8,7 @@ import { resolveSlotWithProps } from '../../../_utils/resolve-slot'
 import { ProButton, type ProButtonProps } from '../../../button'
 import { useOverrideProps } from '../../../composables'
 import { ProForm } from '../../../form'
+import { ProFormClearableProvider } from '../../../form/components/clearable-provider'
 import { useLocale } from '../../../locales'
 import { useGridCollapsed } from './composables/useGridCollapsed'
 import { useGridForm } from './composables/useGridForm'
@@ -87,28 +88,10 @@ export default defineComponent({
     })
 
     const exposed: ProSearchFormInst = {
+      ...formMethods,
       reset,
       search,
       toggleCollapsed,
-      submit: formMethods.submit,
-      getScope: formMethods.getScope,
-      validate: formMethods.validate,
-      matchPath: formMethods.matchPath,
-      getFieldValue: formMethods.getFieldValue,
-      setFieldValue: formMethods.setFieldValue,
-      getFieldsValue: formMethods.getFieldsValue,
-      setFieldsValue: formMethods.setFieldsValue,
-      resetFieldValue: formMethods.resetFieldValue,
-      setInitialValue: formMethods.setInitialValue,
-      setInitialValues: formMethods.setInitialValues,
-      resetFieldsValue: formMethods.resetFieldsValue,
-      restoreValidation: formMethods.restoreValidation,
-      restoreFieldValue: formMethods.restoreFieldValue,
-      restoreFieldsValue: formMethods.restoreFieldsValue,
-      getFieldValidationResult: formMethods.getFieldValidationResult,
-      pauseDependenciesTrigger: formMethods.pauseDependenciesTrigger,
-      getFieldsTransformedValue: formMethods.getFieldsTransformedValue,
-      resumeDependenciesTrigger: formMethods.resumeDependenciesTrigger,
     }
 
     expose(exposed)
@@ -136,37 +119,35 @@ export default defineComponent({
     const resolvedColumns = toValue(columns) ?? []
 
     return (
-      <ProForm {...proFormProps}>
-        <NGrid {...nGridProps}>
-          {{
-            default: () => [
-              resolvedColumns.map(column => <GridFieldItem column={column} />),
-              showSuffixGridItem && (
-                <NGi suffix={true}>
-                  {
-                    resolveSlotWithProps(
-                      this.$slots.suffix,
-                      {
+      <ProFormClearableProvider>
+        <ProForm {...proFormProps}>
+          <NGrid {...nGridProps}>
+            {{
+              default: () => [
+                resolvedColumns.map(column => <GridFieldItem column={column} />),
+                showSuffixGridItem && (
+                  <NGi suffix={true}>
+                    {
+                      resolveSlotWithProps(this.$slots.suffix, {
                         reset: this.reset,
                         search: this.search,
                         toggle: this.toggleCollapsed,
                         collapsed: this.collapsed,
-                      },
-                      () => [
+                      }, () => [
                         <NFlex justify="end">
                           {this.searchButtonProps !== false && <ProButton {...this.searchButtonProps} />}
                           {this.resetButtonProps !== false && <ProButton {...this.resetButtonProps} />}
                           {this.collapseButtonProps !== false && <ProButton {...this.collapseButtonProps} />}
                         </NFlex>,
-                      ],
-                    )
-                  }
-                </NGi>
-              ),
-            ],
-          }}
-        </NGrid>
-      </ProForm>
+                      ])
+                    }
+                  </NGi>
+                ),
+              ],
+            }}
+          </NGrid>
+        </ProForm>
+      </ProFormClearableProvider>
     )
   },
 })

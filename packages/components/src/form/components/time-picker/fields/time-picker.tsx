@@ -6,11 +6,11 @@ import { NTimePicker, timePickerProps } from 'naive-ui'
 import { computed } from 'vue'
 import { toDisplayDate } from '../../date-picker/fields/utils/toDisplayDate'
 import { useReadonlyHelpers } from '../../field'
-import { useProTimePickerInst } from '../inst'
+import { useInjectTimePickerInstStore } from '../inst'
 import { useMergeFormat } from './composables/useMergeFormat'
 
 export default defineComponent({
-  name: 'ProFieldTimePicker',
+  name: 'TimePicker',
   inheritAttrs: false,
   /**
    * 支持 value 传递字符串
@@ -21,11 +21,11 @@ export default defineComponent({
     formattedValue: [String, Number] as PropType<string | number | null>,
   },
   slots: Object as SlotsType<ProTimePickerSlots>,
-  setup(props, { expose }) {
-    const [
+  setup(props) {
+    const {
       instRef,
-      methods,
-    ] = useProTimePickerInst()
+      registerInst,
+    } = useInjectTimePickerInstStore()!
 
     const {
       value,
@@ -75,7 +75,11 @@ export default defineComponent({
       )
     })
 
-    expose(methods)
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+    })
+
     return {
       empty,
       instRef,

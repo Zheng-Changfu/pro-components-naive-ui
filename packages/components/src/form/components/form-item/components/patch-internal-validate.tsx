@@ -5,7 +5,7 @@ import type { FieldExtraInfo } from '../../field'
 import { useInjectFieldContext } from 'pro-components-hooks'
 import { inject, onUnmounted, provide } from 'vue'
 import { useInjectProFormContext } from '../../../context'
-import { fieldExtraKey } from '../../field'
+import { fieldExtraKey, useReadonlyHelpers } from '../../field'
 
 /**
  * 对表单项调用校验的方法打补丁，为了收集校验结果，实现错误信息自定义位置
@@ -18,10 +18,11 @@ export default defineComponent({
   setup(props) {
     const field = useInjectFieldContext()!
     const nFormItem = inject('n-form-item')!
+    const { readonly } = useReadonlyHelpers()
     const formContext = useInjectProFormContext()
     const formItemInstRef = (field?.[fieldExtraKey] as FieldExtraInfo)?.proFormItemInst
 
-    function collectValidateResult(trigger: string, res: Partial<FormItemInternalValidateResult>) {
+    function collectValidationResult(trigger: string, res: Partial<FormItemInternalValidateResult>) {
       const { errors, warnings } = res
       if (!field)
         return
@@ -40,7 +41,6 @@ export default defineComponent({
       if (!activeRules.length) {
         return
       }
-
       if (path && formContext) {
         formContext.clearValidationResults(path)
         formContext.addValidationErrors(path, errors)
@@ -51,39 +51,52 @@ export default defineComponent({
     function handleContentBlur(): void {
       formItemInstRef?.value
         ?.internalValidate('blur')
-        .then(res => collectValidateResult('blur', res))
+        .then(res => collectValidationResult('blur', res))
     }
 
     function handleContentChange(): void {
       formItemInstRef?.value
         ?.internalValidate('change')
-        .then(res => collectValidateResult('change', res))
+        .then(res => collectValidationResult('change', res))
     }
 
     function handleContentFocus(): void {
       formItemInstRef?.value
         ?.internalValidate('focus')
-        .then(res => collectValidateResult('focus', res))
+        .then(res => collectValidationResult('focus', res))
     }
 
     function handleContentInput(): void {
       formItemInstRef?.value
         ?.internalValidate('input')
-        .then(res => collectValidateResult('input', res))
+        .then(res => collectValidationResult('input', res))
     }
-
-    provide('n-form-item', {
-      ...nFormItem,
-      handleContentBlur,
-      handleContentChange,
-      handleContentFocus,
-      handleContentInput,
-    })
 
     onUnmounted(() => {
       if (formContext && field) {
         formContext.clearValidationResults(field.stringPath.value)
       }
+    })
+
+    /**
+     * 切换只读时，清空校验结果
+     */
+    watch(
+      readonly,
+      () => {
+        if (formContext && field) {
+          formContext.clearValidationResults(field.stringPath.value)
+          formItemInstRef?.value.restoreValidation()
+        }
+      },
+    )
+
+    provide('n-form-item', {
+      ...nFormItem,
+      handleContentBlur,
+      handleContentFocus,
+      handleContentInput,
+      handleContentChange,
     })
   },
   render() {

@@ -5,14 +5,13 @@
 </markdown>
 
 <script lang="tsx">
-import { useProModalInst } from 'pro-components-naive-ui'
+import type { ProModalInst } from 'pro-components-naive-ui'
 
 export default defineComponent({
   setup() {
-    const [instRef, { open }] = useProModalInst()
+    const instRef = ref<ProModalInst>()
     return {
       instRef,
-      open,
     }
   },
 })
@@ -20,7 +19,7 @@ export default defineComponent({
 
 <template>
   <n-flex>
-    <n-button @click="open">
+    <n-button @click="instRef?.open">
       打开看看
     </n-button>
   </n-flex>

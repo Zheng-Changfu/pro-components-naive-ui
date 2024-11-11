@@ -1,6 +1,15 @@
 import type { DatePickerInst } from 'naive-ui'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
+import { createInjectionState } from '@vueuse/core'
+import { useComponentInst } from '../../../composables'
 
-export type ProDatePickerInst = PickFunction<DatePickerInst>
-export const useProDatePickerInst = createProComponentInstanceFactory('ProDatePicker')
+export type ProDatePickerInst = DatePickerInst
+
+const [
+  provideDatePickerInstStore,
+  useInjectDatePickerInstStore,
+] = createInjectionState(useComponentInst<ProDatePickerInst>)
+
+export {
+  provideDatePickerInstStore,
+  useInjectDatePickerInstStore,
+}

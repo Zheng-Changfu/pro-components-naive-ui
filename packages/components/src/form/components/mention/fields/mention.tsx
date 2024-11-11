@@ -1,20 +1,32 @@
 import type { SlotsType } from 'vue'
-import type { ProSliderSlots } from '../slots'
-import { NSlider, sliderProps } from 'naive-ui'
+import type { ProMentionSlots } from '../slots'
+import { mentionProps, NMention } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
+import { useInjectMentionInstStore } from '../inst'
 
 export default defineComponent({
-  name: 'ProFieldSlider',
-  props: sliderProps,
-  slots: Object as SlotsType<ProSliderSlots>,
+  name: 'Mention',
+  props: mentionProps,
+  slots: Object as SlotsType<ProMentionSlots>,
   inheritAttrs: false,
   setup() {
+    const {
+      instRef,
+      registerInst,
+    } = useInjectMentionInstStore()!
+
     const {
       readonly,
       readonlyText,
     } = useReadonlyHelpers()
 
+    registerInst({
+      blur: () => instRef.value?.blur(),
+      focus: () => instRef.value?.focus(),
+    })
+
     return {
+      instRef,
       readonly,
       readonlyText,
     }
@@ -29,7 +41,8 @@ export default defineComponent({
       return readonlyText
     }
     return (
-      <NSlider
+      <NMention
+        ref="instRef"
         {...this.$props}
         {...this.$attrs}
         v-slots={this.$slots}

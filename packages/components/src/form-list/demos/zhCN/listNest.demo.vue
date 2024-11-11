@@ -4,28 +4,8 @@
 内部会自动处理路径，可以很方便的实现嵌套及联动
 </markdown>
 
-<script lang="tsx">
-import { useProFormInst } from 'pro-components-naive-ui'
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  setup() {
-    const [instRef, {
-      submit,
-      restoreFieldsValue,
-    }] = useProFormInst()
-
-    return {
-      instRef,
-      submit,
-      restoreFieldsValue,
-    }
-  },
-})
-</script>
-
 <template>
-  <pro-form ref="instRef" @submit="console.log">
+  <pro-form @submit="console.log">
     <pro-input
       title="姓名"
       path="name"
@@ -85,10 +65,10 @@ export default defineComponent({
       </pro-form-list>
     </pro-form-list>
     <n-flex>
-      <n-button type="primary" @click="restoreFieldsValue">
+      <n-button attr-type="reset">
         重置
       </n-button>
-      <n-button type="primary" @click="submit">
+      <n-button type="primary" attr-type="submit">
         提交
       </n-button>
     </n-flex>

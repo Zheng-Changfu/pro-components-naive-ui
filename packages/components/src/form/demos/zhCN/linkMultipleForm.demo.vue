@@ -5,26 +5,23 @@
 </markdown>
 
 <script lang="tsx">
-import { useMounted } from '@vueuse/core'
-import { useProFormInst } from 'pro-components-naive-ui'
-import { computed, defineComponent } from 'vue'
+import type { ProFormInst } from 'pro-components-naive-ui'
+import { computed, defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
-    const isMounted = useMounted()
-    const [aInstRef, { getScope: getAFormScope }] = useProFormInst()
-    const [bInstRef, { getScope: getBFormScope }] = useProFormInst()
+    const aInstRef = ref<ProFormInst>()
+    const bInstRef = ref<ProFormInst>()
 
     const scope = {
-      $aForm: computed(() => getAFormScope()),
-      $bForm: computed(() => getBFormScope()),
+      $aForm: computed(() => aInstRef.value?.getScope()),
+      $bForm: computed(() => bInstRef.value?.getScope()),
     }
 
     return {
       scope,
       aInstRef,
       bInstRef,
-      isMounted,
     }
   },
 })
@@ -34,12 +31,11 @@ export default defineComponent({
   <n-card :bordered="false" title="A表单">
     <pro-form ref="aInstRef" label-placement="left" label-width="auto" :scope="scope">
       <pro-input
-        v-if="isMounted"
         title="控制B表单input颜色"
         path="color"
         :field-props="{
           style: {
-            background: '{{ $bForm.$vals.color }}',
+            background: '{{ $bForm?.$vals.color }}',
           },
         }"
       />
@@ -48,12 +44,11 @@ export default defineComponent({
   <n-card :bordered="false" title="B表单">
     <pro-form ref="bInstRef" label-placement="left" label-width="auto" :scope="scope">
       <pro-input
-        v-if="isMounted"
         title="控制A表单input颜色"
         path="color"
         :field-props="{
           style: {
-            background: '{{ $aForm.$vals.color }}',
+            background: '{{ $aForm?.$vals.color }}',
           },
         }"
       />

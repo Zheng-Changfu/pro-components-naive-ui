@@ -8,7 +8,7 @@ import type { ProFormSlots } from './slots'
 import { isString, toPath } from 'lodash-es'
 import { NForm } from 'naive-ui'
 import { createForm, stringifyPath, useCompile } from 'pro-components-hooks'
-import { computed, nextTick, provide, ref } from 'vue'
+import { computed, nextTick, provide } from 'vue'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { fieldExtraKey } from './components'
 import { useValidationResults } from './composables/useValidationResult'
@@ -92,6 +92,13 @@ export default defineComponent({
           e.preventDefault()
           submit()
         },
+        /**
+         * 支持 button `attr-type = reset` 重置表单
+         */
+        onReset: (e: Event) => {
+          e.preventDefault()
+          restoreFieldsValue()
+        },
       }
     })
 
@@ -121,7 +128,6 @@ export default defineComponent({
         onSubmit,
         onSubmitFailed,
       } = overridedProps.value
-
       return validate()
         .then(({ warnings }) => {
           const values = getFieldsTransformedValue()
@@ -137,10 +143,7 @@ export default defineComponent({
         return formInstRef.value!.validate(addValidateResults)
       }
       paths = (isString(paths) ? [paths] : paths).map(stringifyPath)
-      return formInstRef.value!.validate(
-        addValidateResults,
-        rule => paths.includes(rule.key!),
-      )
+      return formInstRef.value!.validate(addValidateResults, rule => paths.includes(rule.key!))
     }
 
     function restoreValidation(paths?: string | string[]) {

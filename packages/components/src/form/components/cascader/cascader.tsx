@@ -2,8 +2,8 @@ import type { SlotsType } from 'vue'
 import type { ProCascaderSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldCascader from './fields/field-cascader'
-import { useProCascaderInst } from './inst'
+import Cascader from './fields/cascader'
+import { provideCascaderInstStore } from './inst'
 import { proCascaderProps } from './props'
 
 const name = 'ProCascader'
@@ -12,19 +12,17 @@ export default defineComponent({
   props: proCascaderProps,
   slots: Object as SlotsType<ProCascaderSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProCascaderInst()
+    const {
+      exposed,
+    } = provideCascaderInstStore()
 
     const overridedProps = useOverrideProps(
       name,
       props,
     )
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
     }
   },
@@ -37,13 +35,12 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
-            <ProFieldCascader
-              ref="instRef"
+          input: (pureProps: any) => (
+            <Cascader
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )

@@ -1,6 +1,15 @@
 import type { CascaderInst } from 'naive-ui'
-import type { PickFunction } from '../../../types'
-import { createProComponentInstanceFactory } from '../../../composables'
+import { createInjectionState } from '@vueuse/core'
+import { useComponentInst } from '../../../composables'
 
-export type ProCascaderInst = PickFunction<CascaderInst>
-export const useProCascaderInst = createProComponentInstanceFactory<ProCascaderInst>('ProCascader')
+export type ProCascaderInst = CascaderInst
+
+const [
+  provideCascaderInstStore,
+  useInjectCascaderInstStore,
+] = createInjectionState(useComponentInst<ProCascaderInst>)
+
+export {
+  provideCascaderInstStore,
+  useInjectCascaderInstStore,
+}

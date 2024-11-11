@@ -4,7 +4,7 @@ import { NTransfer, transferProps } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
-  name: 'ProFieldTransfer',
+  name: 'Transfer',
   inheritAttrs: false,
   props: {
     ...transferProps,

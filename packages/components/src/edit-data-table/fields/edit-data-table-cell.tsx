@@ -34,9 +34,7 @@ export default defineComponent({
       valueTypeMap,
     } = useInjectGlobalConfig()
 
-    const {
-      getEditable,
-    } = useInjectProEditDataTableInst()!
+    const action = useInjectProEditDataTableInst()!
 
     const {
       scope,
@@ -55,7 +53,7 @@ export default defineComponent({
     })
 
     const rowEditable = computed(() => {
-      return getEditable(props.rowIndex)
+      return action.getEditable(props.rowIndex)
     })
 
     const readonly = computed(() => {
@@ -64,6 +62,7 @@ export default defineComponent({
     })
 
     return {
+      action,
       readonly,
       fieldProps,
       rowEditable,
@@ -82,6 +81,7 @@ export default defineComponent({
 
     if (column.render) {
       return column.render(row, rowIndex, {
+        ...this.action,
         editable: this.rowEditable,
       })
     }

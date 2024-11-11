@@ -47,6 +47,7 @@
     "@vueuse/core": "^10.10.0",
     "eslint": "^9.10.0",
     "naive-ui": "^2.38.2",
+    "type-fest": "^4.26.1",
     "typescript": "^5.5.4",
     "unocss": "^0.61.0",
     "unplugin-auto-import": "^0.17.6",

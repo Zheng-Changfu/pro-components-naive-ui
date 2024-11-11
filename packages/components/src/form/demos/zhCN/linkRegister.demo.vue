@@ -5,23 +5,22 @@
 </markdown>
 
 <script lang="tsx">
-import { useProFormInst } from 'pro-components-naive-ui'
+import type { ProFormInst } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const [proFormInst, { getFieldValue }] = useProFormInst()
+    const instRef = ref<ProFormInst>()
 
     return {
-      proFormInst,
-      getFieldValue,
+      instRef,
     }
   },
 })
 </script>
 
 <template>
-  <pro-form ref="proFormInst" label-placement="left" label-width="auto" @submit="console.log">
+  <pro-form ref="instRef" label-placement="left" label-width="auto" @submit="console.log">
     <pro-input
       title="用户名"
       path="username"
@@ -34,7 +33,7 @@ export default defineComponent({
       required
       :rule="{
         message: '两次输入密码不一致',
-        validator: (_:any, value:any) => !value || value === getFieldValue('confirmPassword'),
+        validator: (_:any, value:any) => !value || value === instRef?.getFieldValue('confirmPassword'),
       }"
     />
     <pro-password
@@ -44,7 +43,7 @@ export default defineComponent({
       required
       :rule="{
         message: '两次输入密码不一致',
-        validator: (_:any, value:any) => !value || value === getFieldValue('password'),
+        validator: (_:any, value:any) => !value || value === instRef?.getFieldValue('password'),
       }"
     />
     <n-button type="primary" attr-type="submit">

@@ -3,8 +3,8 @@ import type { ProDigitSlots } from './slots'
 import { isString } from 'lodash-es'
 import { useOverrideProps } from '../../../composables'
 import { ProField, ValueTypeEnum } from '../field'
-import ProFieldDigit from './fields/field-digit'
-import { useProDigitInst } from './inst'
+import Digit from './fields/digit'
+import { provideDigitInstStore } from './inst'
 import { proDigitProps } from './props'
 
 const name = 'ProDigit'
@@ -13,10 +13,9 @@ export default defineComponent({
   props: proDigitProps,
   slots: Object as SlotsType<ProDigitSlots>,
   setup(props, { expose }) {
-    const [
-      instRef,
-      methods,
-    ] = useProDigitInst()
+    const {
+      exposed,
+    } = provideDigitInstStore()
 
     const overridedProps = useOverrideProps(
       name,
@@ -37,9 +36,8 @@ export default defineComponent({
       return val
     }
 
-    expose(methods)
+    expose(exposed)
     return {
-      instRef,
       overridedProps,
       tryConvertStringToNumber,
     }
@@ -54,13 +52,12 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => [
-            <ProFieldDigit
-              ref="instRef"
+          input: (pureProps: any) => (
+            <Digit
               {...pureProps}
               v-slots={this.$slots}
-            />,
-          ],
+            />
+          ),
         }}
       </ProField>
     )
