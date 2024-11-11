@@ -7,6 +7,7 @@ import { createEventHook, useFullscreen, useVModel } from '@vueuse/core'
 import { isFunction } from 'lodash-es'
 import { NButton, NIcon, NModal } from 'naive-ui'
 import { computed, defineComponent, nextTick } from 'vue'
+import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { useDragModal } from './composables/useDragModal'
@@ -21,6 +22,7 @@ export default defineComponent({
   slots: Object as SlotsType<ProModalSlots>,
   setup(props, { expose }) {
     const modalElement = ref<HTMLElement>()
+    const mergedClsPrefix = useNaiveClsPrefix()
 
     const overridedProps = useOverrideProps(
       name,
@@ -95,7 +97,6 @@ export default defineComponent({
 
     const nModalProps = computed<ModalProps>(() => {
       return {
-        'class': 'n-pro-modal',
         ...modalProps.value,
         ...headerClassProps.value,
         'show': show.value,
@@ -145,6 +146,7 @@ export default defineComponent({
     return {
       nModalProps,
       isFullscreen,
+      mergedClsPrefix,
       toggleFullscreen,
     }
   },
@@ -155,6 +157,7 @@ export default defineComponent({
       fullscreen,
       nModalProps,
       isFullscreen,
+      mergedClsPrefix,
       toggleFullscreen,
     } = this
 
@@ -181,7 +184,12 @@ export default defineComponent({
       : $slots
 
     return (
-      <NModal {...nModalProps}>{slots}</NModal>
+      <NModal
+        {...nModalProps}
+        class={[`${mergedClsPrefix}-pro-modal`]}
+      >
+        {slots}
+      </NModal>
     )
   },
 })
