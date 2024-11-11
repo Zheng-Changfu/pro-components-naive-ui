@@ -4,6 +4,7 @@ import { NConfigProvider } from 'naive-ui'
 import { computed, unref } from 'vue'
 import { provideGlobalConfig, useInjectGlobalConfig } from './context'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
+import { shallowMergePropOverrides } from './utils'
 
 export default defineComponent({
   name: 'ProConfigProvider',
@@ -22,10 +23,10 @@ export default defineComponent({
     })
 
     const propOverrides = computed(() => {
-      return {
-        ...unref(injectedPropOverrides),
-        ...(unref(props.propOverrides) ?? {}),
-      }
+      return shallowMergePropOverrides(
+        unref(injectedPropOverrides),
+        (unref(props.propOverrides) ?? {}),
+      )
     })
 
     const nConfigProviderProps = computed<ConfigProviderProps>(() => {
@@ -49,7 +50,6 @@ export default defineComponent({
       valueTypeMap,
       propOverrides,
     })
-
     return {
       nConfigProviderProps,
     }
