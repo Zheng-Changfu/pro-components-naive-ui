@@ -3,6 +3,7 @@ import type { ProFormListSlots } from './slots'
 import { isArray } from 'lodash-es'
 import { uid } from 'pro-components-hooks'
 import { computed } from 'vue'
+import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { useOverrideProps } from '../composables'
 import { ProField, ValueTypeEnum } from '../form/components'
@@ -21,6 +22,8 @@ export default defineComponent({
     const {
       exposed,
     } = provideFormListInstStore()
+
+    const mergedClsPrefix = useNaiveClsPrefix()
 
     const overridedProps = useOverrideProps(
       name,
@@ -58,8 +61,8 @@ export default defineComponent({
     })
 
     useMountStyle(
-      'ProFormItem',
-      'pro-form-item',
+      name,
+      'pro-form-list',
       style,
     )
 
@@ -81,17 +84,20 @@ export default defineComponent({
     expose(exposed)
     return {
       splitProps,
+      mergedClsPrefix,
       autoCreateRowId,
     }
   },
   render() {
+    const { mergedClsPrefix } = this
+
     return (
       <ProField
-        class="n-pro-form-item"
         {...this.splitProps.proFieldProps}
         isList={true}
         postValue={this.autoCreateRowId}
         valueType={ValueTypeEnum.FORM_LIST}
+        class={[`${mergedClsPrefix}-pro-form-list`]}
         fieldProps={this.splitProps.fieldListProps}
       >
         {{
