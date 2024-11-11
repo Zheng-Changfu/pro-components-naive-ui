@@ -21,4 +21,12 @@ export interface ProFieldSlots {
    * 表单项只读模式下的内容
    */
   'readonly'?: Record<string, any>
+  /**
+   * form-item label 插槽
+   */
+  'label'?: any
+  /**
+   * form-item feedback 插槽
+   */
+  'feedback'?: any
 }

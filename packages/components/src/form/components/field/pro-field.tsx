@@ -1,6 +1,5 @@
 import type { SlotsType } from 'vue'
 import type { ProFieldSlots } from './slots'
-import { pick } from 'lodash-es'
 import { NFlex } from 'naive-ui'
 import { computed, defineComponent, Fragment } from 'vue'
 import { ProFormItem } from '../form-item'
@@ -16,7 +15,7 @@ export default defineComponent({
   inheritAttrs: false,
   props: proFieldProps,
   slots: Object as SlotsType<ProFieldSlots>,
-  setup(props, { slots }) {
+  setup(props) {
     const field = createField(props)
 
     const {
@@ -153,13 +152,6 @@ export default defineComponent({
       }
     })
 
-    const proFormItemSlots = computed(() => {
-      return pick(
-        slots,
-        ['label', 'feedback'],
-      )
-    })
-
     field[fieldExtraKey] = {
       valueType,
       readonly: mergedReadonly,
@@ -172,20 +164,23 @@ export default defineComponent({
       addonBefore,
       fieldBindProps,
       mergedBehavior,
-      proFormItemSlots,
       mergedBehaviorProps,
       proFormItemBindProps,
     }
   },
   render() {
-    const {
-      $slots,
-      addonAfter,
-      addonBefore,
-      fieldBindProps,
-    } = this
+    if (!this.show) {
+      return null
+    }
 
     const renderFieldGroup = () => {
+      const {
+        $slots,
+        addonAfter,
+        addonBefore,
+        fieldBindProps,
+      } = this
+
       const groupRender = $slots.group
       const FieldComp = $slots.input?.(fieldBindProps)
       const addonAfterRender = $slots['addon-after'] ?? (() => addonAfter)
@@ -224,10 +219,6 @@ export default defineComponent({
       )
     }
 
-    if (!this.show) {
-      return null
-    }
-
     if (this.simple) {
       // 简单模式下不包裹 ProFormItem
       return renderFieldGroup()
@@ -239,13 +230,18 @@ export default defineComponent({
       proFormItemBindProps,
     } = this
 
+    const proFormItemSlots = {
+      label: this.$slots.label,
+      feedback: this.$slots.feedback,
+    }
+
     if (mergedBehavior === 'popover') {
       return (
         <ProPopoverFormItem
           {...proFormItemBindProps}
           popoverProps={mergedBehaviorProps}
           v-slots={{
-            ...this.proFormItemSlots,
+            ...proFormItemSlots,
             default: renderFieldGroup,
           }}
         />
@@ -256,7 +252,7 @@ export default defineComponent({
       <ProFormItem
         {...proFormItemBindProps}
         v-slots={{
-          ...this.proFormItemSlots,
+          ...proFormItemSlots,
           default: renderFieldGroup,
         }}
       />
