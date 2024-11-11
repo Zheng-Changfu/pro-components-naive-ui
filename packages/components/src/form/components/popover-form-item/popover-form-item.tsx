@@ -45,21 +45,13 @@ export default defineComponent({
       }
     })
 
-    onClickOutside(
-      formItemEl,
-      () => {
-        clickInside.value = false
-      },
-    )
+    useEventListener(formItemEl, 'click', () => {
+      clickInside.value = true
+    }, { capture: true })
 
-    useEventListener(
-      formItemEl,
-      'click',
-      () => {
-        clickInside.value = true
-      },
-      { capture: true },
-    )
+    onClickOutside(formItemEl, () => {
+      clickInside.value = false
+    })
 
     return {
       feedbacks,
