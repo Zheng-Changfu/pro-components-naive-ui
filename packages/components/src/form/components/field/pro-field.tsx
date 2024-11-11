@@ -178,12 +178,16 @@ export default defineComponent({
     }
   },
   render() {
-    const {
-      $slots,
-      addonAfter,
-      addonBefore,
-      fieldBindProps,
-    } = this
+    // const {
+    //   $slots,
+    //   addonAfter,
+    //   addonBefore,
+    //   fieldBindProps,
+    // } = this
+
+    return this.show
+      ? this.$slots.input?.(this.fieldBindProps)
+      : null
 
     const renderFieldGroup = () => {
       const groupRender = $slots.group

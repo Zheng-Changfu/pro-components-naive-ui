@@ -19,6 +19,14 @@ export function useEditable() {
     readonly,
   } = useReadonlyHelpers()
 
+  watch(
+    editableKeys,
+    () => {
+      console.log('watch')
+    },
+    { deep: true },
+  )
+
   function getRowKey(index: number): string {
     if (form && tablePath.value) {
       return list.value[index][AUTO_CREATE_ID]
@@ -38,6 +46,7 @@ export function useEditable() {
       const rowPath = `${tablePath.value}.${index}`
       form!.setInitialValue(rowPath, form!.getFieldValue(rowPath))
     }
+    console.log(editableKeys.value, '@@@@')
   }
 
   function cancelEditable(index: number) {
@@ -56,15 +65,15 @@ export function useEditable() {
     }
   }
 
-  watchEffect(() => {
-    const keys: string[] = []
-    if (!readonly.value && form && tablePath.value) {
-      list.value.forEach((row) => {
-        keys.push(row[AUTO_CREATE_ID])
-      })
-    }
-    editableKeys.value = new Set(keys)
-  })
+  // watchEffect(() => {
+  //   const keys: string[] = []
+  //   if (!readonly.value && form && tablePath.value) {
+  //     list.value.forEach((row) => {
+  //       keys.push(row[AUTO_CREATE_ID])
+  //     })
+  //   }
+  //   editableKeys.value = new Set(keys)
+  // })
 
   return {
     getEditable,
