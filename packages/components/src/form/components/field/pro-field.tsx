@@ -7,6 +7,7 @@ import { ProPopoverFormItem } from '../popover-form-item'
 import { createField } from './composables/createField'
 import { useMergeOptions } from './composables/useMergeOptions'
 import { useParseProps } from './composables/useParseProps'
+import { useValidationStatus } from './composables/useValidationStatus'
 import { fieldExtraKey } from './keys'
 import { proFieldProps } from './props'
 
@@ -166,6 +167,7 @@ export default defineComponent({
       mergedBehavior,
       mergedBehaviorProps,
       proFormItemBindProps,
+      validationStatus: useValidationStatus(field),
     }
   },
   render() {
@@ -233,6 +235,34 @@ export default defineComponent({
     const proFormItemSlots = {
       label: this.$slots.label,
       feedback: this.$slots.feedback,
+    }
+
+    if (this.$slots.validation) {
+      const formItemDom = (
+        <ProFormItem
+          {...proFormItemBindProps}
+          showFeedback={false}
+          v-slots={{
+            ...proFormItemSlots,
+            default: renderFieldGroup,
+          }}
+        />
+      )
+
+      const {
+        errors,
+        warnings,
+        feedbacks,
+        feedbackColor,
+      } = this.validationStatus
+
+      return this.$slots.validation({
+        formItemDom,
+        errors: errors.value,
+        warnings: warnings.value,
+        feedbacks: feedbacks.value,
+        feedbackColor: feedbackColor.value,
+      })
     }
 
     if (mergedBehavior === 'popover') {

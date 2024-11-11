@@ -1,4 +1,5 @@
 import type { VNodeChild } from 'vue'
+import type { ValidateError } from '../../props'
 
 export interface ProFieldSlots {
   /**
@@ -29,4 +30,14 @@ export interface ProFieldSlots {
    * form-item feedback 插槽
    */
   'feedback'?: any
+  /**
+   * 自定义校验 ui 插槽
+   */
+  'validation'?: {
+    feedbackColor: string
+    formItemDom: VNodeChild
+    errors: ValidateError[]
+    warnings: ValidateError[]
+    feedbacks: ValidateError[]
+  }
 }

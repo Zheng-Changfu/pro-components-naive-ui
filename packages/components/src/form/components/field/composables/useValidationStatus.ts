@@ -1,12 +1,13 @@
+import type { BaseField } from 'pro-components-hooks'
 import { useThemeVars } from 'naive-ui'
 import { useInjectFieldContext } from 'pro-components-hooks'
 import { computed } from 'vue'
 import { useInjectProFormInst } from '../../../context'
 
-export function useValidationStatus() {
+export function useValidationStatus(baseField?: BaseField) {
   const themeVars = useThemeVars()
-  const field = useInjectFieldContext()
   const formInst = useInjectProFormInst()
+  const field = baseField ?? useInjectFieldContext()
 
   const fieldValidateResult = computed(() => {
     const path = field?.path.value
