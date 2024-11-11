@@ -7,6 +7,8 @@ import type { ProDataTableSlots } from './slots'
 import { NDataTable, NFlex } from 'naive-ui'
 import { uid } from 'pro-components-hooks'
 import { defineComponent } from 'vue'
+import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
+import { useMountStyle } from '../_internal/useMountStyle'
 import { resolveSlotWithProps, resolveWrappedSlot } from '../_utils/resolve-slot'
 import { ProCard } from '../card'
 import { useOmitProps, useOverrideProps } from '../composables'
@@ -25,6 +27,7 @@ import { useSearchForm } from './composables/useSearchForm'
 import { useValueTypeForm } from './composables/useValueTypeForm'
 import { provideProDataTableInst, provideProDataTableProps } from './context'
 import { proDataTableExtendProps, proDataTableProps } from './props'
+import style from './styles/index.cssr'
 
 const name = 'ProDataTable'
 export default defineComponent({
@@ -32,7 +35,14 @@ export default defineComponent({
   props: proDataTableProps,
   slots: Object as SlotsType<ProDataTableSlots>,
   setup(props, { slots, expose }) {
+    const mergedClsPrefix = useNaiveClsPrefix()
     const searchFormInst = ref<ProSearchFormInst>()
+
+    useMountStyle(
+      name,
+      'pro-data-table',
+      style,
+    )
 
     const overridedProps = useOverrideProps(
       name,
@@ -252,12 +262,20 @@ export default defineComponent({
       nDataTableProps,
       searchCardProps,
       nTableCardProps,
+      mergedClsPrefix,
       proSearchFormProps,
     }
   },
   render() {
+    const { mergedClsPrefix } = this
     return (
-      <div>
+      <div class={[
+        `${mergedClsPrefix}-pro-data-table`,
+        {
+          [`${mergedClsPrefix}-pro-data-table--flex-height`]: this.flexHeight,
+        },
+      ]}
+      >
         {
           [
             this.showSearchForm && (
