@@ -3,7 +3,7 @@ import type { ProPopoverFormItemSlots } from './slots'
 import { onClickOutside, useEventListener } from '@vueuse/core'
 import { NEl, NPopover, useThemeVars } from 'naive-ui'
 import { computed, ref, useAttrs } from 'vue'
-import { useFieldValidateStatus } from '../field'
+import { useValidationStatus } from '../field'
 import { ProFormItem } from '../form-item'
 import { proPopoverFormItemProps } from './props'
 
@@ -17,7 +17,7 @@ export default defineComponent({
     const clickInside = ref(true)
     const formItemInstRef = ref()
     const themeVars = useThemeVars()
-    const { errors, warnings } = useFieldValidateStatus()
+    const { errors, warnings } = useValidationStatus()
     const formItemEl = computed(() => formItemInstRef.value?.$el as HTMLElement)
 
     const showPopover = computed(() => {

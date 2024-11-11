@@ -1,5 +1,5 @@
-export * from './composables/useFieldValidateStatus'
 export * from './composables/useReadonlyHelpers'
+export * from './composables/useValidationStatus'
 export * from './enums'
 export * from './keys'
 export { default as ProField } from './pro-field'

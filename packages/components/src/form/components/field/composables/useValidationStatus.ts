@@ -2,7 +2,7 @@ import { useInjectFieldContext } from 'pro-components-hooks'
 import { computed } from 'vue'
 import { useInjectProFormInst } from '../../../context'
 
-export function useFieldValidateStatus() {
+export function useValidationStatus() {
   const field = useInjectFieldContext()
   const formInst = useInjectProFormInst()
 
