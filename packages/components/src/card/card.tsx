@@ -7,6 +7,8 @@ import { computed, defineComponent } from 'vue'
 import ProCollapseTransition from '../_internal/components/collapse-transition/index.vue'
 import ProTooltip from '../_internal/components/pro-tooltip'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
+import { useThemeClass } from '../_internal/useCssVarsClass'
+import { useInlineThemeDisabled } from '../_internal/useInlineThemeDisabled'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { resolveSlot, resolveWrappedSlotWithProps } from '../_utils/resolve-slot'
 import { useOmitProps, useOverrideProps } from '../composables'
@@ -23,6 +25,7 @@ export default defineComponent({
   setup(props, { slots }) {
     const themeVars = useThemeVars()
     const mergedClsPrefix = useNaiveClsPrefix()
+    const inlineThemeDisabled = useInlineThemeDisabled()
 
     const theme = useMountStyle(
       name,
@@ -105,10 +108,20 @@ export default defineComponent({
       return overridedProps.value.tooltip
     })
 
+    const themeClassHandle = inlineThemeDisabled
+      ? useThemeClass(
+        'pro-card',
+        computed(() => {
+          return props.size[0]
+        }),
+        cssVars,
+        props,
+      )
+      : undefined
+
     return {
       show,
       tooltip,
-      cssVars,
       nCardProps,
       showHeader,
       collapseText,
@@ -119,15 +132,22 @@ export default defineComponent({
       showCollapseArea,
       mergedContentClass,
       nCollapseTransitionProps,
+      onRender: themeClassHandle?.onRender,
+      themeClass: themeClassHandle?.themeClass,
+      cssVars: inlineThemeDisabled ? undefined : cssVars,
     }
   },
   render() {
     const { mergedClsPrefix } = this
+    this.onRender?.()
 
     return (
       <NCard
         {...this.nCardProps}
-        class={[`${mergedClsPrefix}-pro-card`]}
+        class={[
+          this.themeClass,
+          `${mergedClsPrefix}-pro-card`,
+        ]}
         contentClass={this.mergedContentClass}
       >
         {{

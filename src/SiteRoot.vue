@@ -22,6 +22,7 @@ export default defineComponent({
     class="demo"
     namespace="naive-ui-doc"
     preflight-style-disabled
+    inline-theme-disabled
     :theme-name="themeName"
     :theme="theme"
     :locale="locale"
