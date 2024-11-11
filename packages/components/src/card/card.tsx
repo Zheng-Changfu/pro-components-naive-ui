@@ -6,6 +6,7 @@ import { collapseTransitionProps, NCard, NEl, NFlex, NIcon, useThemeVars } from 
 import { computed, defineComponent } from 'vue'
 import ProCollapseTransition from '../_internal/components/collapse-transition/index.vue'
 import ProTooltip from '../_internal/components/pro-tooltip'
+import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { resolveSlot, resolveWrappedSlotWithProps } from '../_utils/resolve-slot'
 import { useOmitProps, useOverrideProps } from '../composables'
@@ -20,14 +21,18 @@ export default defineComponent({
   props: proCardProps,
   slots: Object as SlotsType<ProCardSlots>,
   setup(props, { slots }) {
+    const themeVars = useThemeVars()
+    const mergedClsPrefix = useNaiveClsPrefix()
+
     const theme = useMountStyle(
       name,
       'pro-card',
       style,
     )
 
-    const themeVars = useThemeVars()
-    const { getMessage } = useLocale('ProCard')
+    const {
+      getMessage,
+    } = useLocale('ProCard')
 
     const overridedProps = useOverrideProps(
       name,
@@ -91,9 +96,8 @@ export default defineComponent({
 
     const mergedContentClass = computed(() => {
       return [
-        'n-pro-card-content',
         overridedProps.value.contentClass ?? '',
-        !show.value && 'n-pro-card-content__hidden',
+        !show.value && `${mergedClsPrefix.value}-card__content--hidden`,
       ].filter(Boolean).join(' ')
     })
 
@@ -111,31 +115,41 @@ export default defineComponent({
       resolvedTitle,
       triggerExpand,
       overridedProps,
+      mergedClsPrefix,
       showCollapseArea,
       mergedContentClass,
       nCollapseTransitionProps,
     }
   },
   render() {
+    const { mergedClsPrefix } = this
+
     return (
       <NCard
         {...this.nCardProps}
+        class={[`${mergedClsPrefix}-pro-card`]}
         contentClass={this.mergedContentClass}
       >
         {{
           ...this.$slots,
-          'default': () => (
-            <ProCollapseTransition {...this.nCollapseTransitionProps}>
-              {this.$slots.default?.()}
-            </ProCollapseTransition>
-          ),
-          'header': () => [
-            this.showHeader && (
+          'default': () => {
+            return (
+              <ProCollapseTransition {...this.nCollapseTransitionProps}>
+                {this.$slots.default?.()}
+              </ProCollapseTransition>
+            )
+          },
+          'header': () => {
+            if (!this.showHeader) {
+              return null
+            }
+            return (
               <NEl
                 class={[
-                  'n-pro-card-header__main',
-                  this.overridedProps.prefix && 'prefix',
-                  (this.overridedProps.triggerAreas ?? []).includes('main') && 'triggerable',
+                  {
+                    [`${mergedClsPrefix}-card-header__main--prefix`]: this.overridedProps.prefix,
+                    [`${mergedClsPrefix}-card-header__main--trigger`]: (this.overridedProps.triggerAreas ?? []).includes('main'),
+                  },
                 ]}
                 style={this.cssVars}
                 // @ts-expect-error
@@ -148,39 +162,45 @@ export default defineComponent({
                 >
                   {{
                     trigger: () => [
-                      <NIcon size={18} class="n-pro-card-header__main__tooltip">
+                      <NIcon
+                        size={18}
+                        class={`${mergedClsPrefix}-icon--tooltip`}
+                      >
                         <InfoCircleOutlined />
                       </NIcon>,
                     ],
                   }}
                 </ProTooltip>
               </NEl>
-            ),
-          ],
-          'header-extra': () => [
-            this.$slots['header-extra']?.(),
-            this.showCollapseArea && resolveWrappedSlotWithProps(this.$slots.collapse, { expanded: this.show }, (children) => {
-              children = children ?? [
-                <NEl>{ this.collapseText }</NEl>,
-                <NIcon>{this.show ? <UpOutlined /> : <DownOutlined />}</NIcon>,
-              ] as any
+            )
+          },
+          'header-extra': () => {
+            return [
+              this.$slots['header-extra']?.(),
+              this.showCollapseArea && resolveWrappedSlotWithProps(this.$slots.collapse, { expanded: this.show }, (children) => {
+                children = children ?? [
+                  <NEl>{this.collapseText}</NEl>,
+                  <NIcon>{this.show ? <UpOutlined /> : <DownOutlined />}</NIcon>,
+                ] as any
 
-              return (
-                <NFlex
-                  size={[4, 0]}
-                  align="center"
-                  class={[
-                    'n-pro-card-header__extra',
-                    (this.overridedProps.triggerAreas ?? []).includes('arrow') && 'triggerable',
-                  ]}
-                  // @ts-expect-error
-                  onClick={() => this.triggerExpand('arrow')}
-                >
-                  {children}
-                </NFlex>
-              )
-            }),
-          ],
+                return (
+                  <NFlex
+                    size={[4, 0]}
+                    align="center"
+                    class={[
+                      {
+                        [`${mergedClsPrefix}-card-header__extra--trigger`]: (this.overridedProps.triggerAreas ?? []).includes('arrow'),
+                      },
+                    ]}
+                    // @ts-expect-error
+                    onClick={() => this.triggerExpand('arrow')}
+                  >
+                    {children}
+                  </NFlex>
+                )
+              }),
+            ]
+          },
         }}
       </NCard>
     )
