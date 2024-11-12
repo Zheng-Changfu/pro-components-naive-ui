@@ -1,8 +1,9 @@
 import type { DropdownOption } from 'naive-ui'
 import type { MergedToolbarDensity } from './composables/userMergeToolbarSetting'
 import { ColumnHeightOutlined } from '@vicons/antd'
+import { watchImmediate } from '@vueuse/core'
 import { NDropdown, NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
-import { defineComponent, watchEffect } from 'vue'
+import { defineComponent } from 'vue'
 import { ProButton } from '../../../button'
 import { useLocale } from '../../../locales'
 import { useInjectProDataTableInst } from '../../context'
@@ -30,12 +31,14 @@ export default defineComponent({
       return _mergedDensity.value as Exclude<MergedToolbarDensity, boolean>
     })
 
-    watchEffect(() => {
-      const defaultSize = mergedDensity.value.default
-      if (defaultSize) {
-        setTableSize(defaultSize)
-      }
-    })
+    watchImmediate(
+      () => mergedDensity.value.default,
+      (value) => {
+        if (value) {
+          setTableSize(value)
+        }
+      },
+    )
 
     return {
       themeVars,
