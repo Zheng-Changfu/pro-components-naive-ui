@@ -1,5 +1,5 @@
 import type { FormInst } from 'naive-ui'
-import type { BaseForm, Path } from 'pro-components-hooks'
+import type { BaseForm, InternalPath } from 'pro-components-hooks'
 import type { FormItemInternalValidateResult } from './composables/useValidationResult'
 
 export type ProFormInst = Pick<
@@ -24,7 +24,7 @@ export type ProFormInst = Pick<
   /**
    * 还原指定字段值并清空校验
    */
-  restoreFieldValue: (path: Path) => void
+  restoreFieldValue: (path: InternalPath) => void
   /**
    * 还原所有字段值并清空校验
    */
@@ -36,7 +36,7 @@ export type ProFormInst = Pick<
   /**
    * 获取字段值的校验结果
    */
-  getFieldValidationResult: (path: Path) => FormItemInternalValidateResult | null
+  getFieldValidationResult: (path: InternalPath) => FormItemInternalValidateResult | null
   /**
    * 校验
    */

@@ -1,5 +1,5 @@
 import type { FormInst, FormProps } from 'naive-ui'
-import type { BaseField, Path } from 'pro-components-hooks'
+import type { BaseField, InternalPath } from 'pro-components-hooks'
 import type { SlotsType } from 'vue'
 import type { FieldExtraInfo } from './components'
 import type { ProFormInst } from './inst'
@@ -162,7 +162,7 @@ export default defineComponent({
       })
     }
 
-    function restoreFieldValue(path: Path) {
+    function restoreFieldValue(path: InternalPath) {
       pauseDependenciesTrigger()
       resetFieldValue(path)
       clearValidationResults(path)

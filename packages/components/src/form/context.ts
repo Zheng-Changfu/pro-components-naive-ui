@@ -1,5 +1,5 @@
 import type { PopoverProps } from 'naive-ui'
-import type { Path } from 'pro-components-hooks'
+import type { InternalPath } from 'pro-components-hooks'
 import type { InjectionKey, MaybeRef, ToRef } from 'vue'
 import type { ProFormInst } from './inst'
 import type { ValidateBehavior, ValidateError, ValidationTrigger } from './props'
@@ -14,7 +14,7 @@ export const proFormContextKey = Symbol('proForm') as InjectionKey<{
   validateBehavior: ToRef<ValidateBehavior | undefined>
   validateBehaviorProps: ToRef<PopoverProps | undefined>
   validationTrigger: MaybeRef<ValidationTrigger | ValidationTrigger[]>
-  clearValidationResults: (path?: Path) => void
+  clearValidationResults: (path?: InternalPath) => void
   addValidationErrors: (path: string | undefined, errors: ValidateError[] | undefined) => void
   addValidationWarnings: (path: string | undefined, errors: ValidateError[] | undefined) => void
 }>
