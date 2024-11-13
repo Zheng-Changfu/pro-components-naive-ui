@@ -10,6 +10,7 @@ export function createField(props: ProFieldProps) {
     onChange,
     postValue,
     transform,
+    onInputValue,
     defaultValue,
     dependencies,
     initialValue,
@@ -27,6 +28,7 @@ export function createField(props: ProFieldProps) {
     onChange,
     transform,
     postValue,
+    onInputValue,
   }
 
   return isList ? createArrayField(options) : _createField(options)

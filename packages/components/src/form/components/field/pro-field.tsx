@@ -99,15 +99,7 @@ export default defineComponent({
       const eventName = `onUpdate${name.slice(0, 1).toUpperCase()}${name.slice(1)}`
       return {
         [name]: value.value,
-        [eventName]: (inputValue: any, ...args: any[]) => {
-          if (Object.is(inputValue, value.value)) {
-            return
-          }
-          const { onInputValue } = props
-          onInputValue
-            ? onInputValue(value, inputValue, ...args)
-            : doUpdateValue(inputValue)
-        },
+        [eventName]: doUpdateValue,
       }
     })
 
