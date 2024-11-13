@@ -1,6 +1,6 @@
 import type { ProFormInst } from '../../../form'
 
-export interface ProSearchFormInst<DataSource = any> extends ProFormInst {
+export interface ProSearchFormInst<DataSource = any> extends ProFormInst<DataSource> {
   /**
    * 重置表单
    */
