@@ -8,7 +8,7 @@ export function useProvidePath(index: ToRef<number>) {
   const path = computed(() => {
     return [
       ...parent.path.value, // list path
-      index.value,
+      String(index.value),
     ]
   })
 

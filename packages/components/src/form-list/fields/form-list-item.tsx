@@ -33,7 +33,7 @@ const Action = defineComponent({
       type: [Object, Boolean] as PropType<ProButtonProps | false>,
       default: undefined,
     },
-    path: Array as PropType<Array<string | number>>,
+    path: Array as PropType<Array<string>>,
     actionGuard: Object as PropType<Partial<ActionGuard>>,
   },
   setup(props) {
