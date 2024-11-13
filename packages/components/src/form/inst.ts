@@ -1,9 +1,10 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseForm, InternalPath } from 'pro-components-hooks'
+import type { Simplify } from 'type-fest'
 import type { FormItemInternalValidateResult } from './composables/useValidationResult'
 
-export type ProFormInst = Pick<
-  BaseForm,
+export type ProFormInst<Values = any> = Simplify<Pick<
+  BaseForm<Values>,
   | 'matchPath'
   | 'getFieldValue'
   | 'getFieldsValue'
@@ -17,9 +18,9 @@ export type ProFormInst = Pick<
   | 'resumeDependenciesTrigger'
   | 'getFieldsTransformedValue'
 > & {
-  /**
-   * 提交表单
-   */
+/**
+ * 提交表单
+ */
   submit: () => void
   /**
    * 还原指定字段值并清空校验
@@ -32,7 +33,7 @@ export type ProFormInst = Pick<
   /**
    * 获取表达式作用域内容
    */
-  getScope: () => Record<`$${string}`, any>
+  getScope: () => Record<string, any>
   /**
    * 获取字段值的校验结果
    */
@@ -40,9 +41,9 @@ export type ProFormInst = Pick<
   /**
    * 校验
    */
-  validate: (paths?: string | string[]) => ReturnType<FormInst['validate']>
+  validate: (paths?: InternalPath) => ReturnType<FormInst['validate']>
   /**
    * 清空校验
    */
-  restoreValidation: (paths?: string | string[]) => ReturnType<FormInst['restoreValidation']>
-}
+  restoreValidation: (paths?: InternalPath) => ReturnType<FormInst['restoreValidation']>
+}>
