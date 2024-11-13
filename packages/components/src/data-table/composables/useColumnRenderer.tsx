@@ -2,11 +2,11 @@ import type { DataTableColumn, PaginationProps } from 'naive-ui'
 import type { TableColumnGroupTitle, TableColumnTitle, TableExpandColumnTitle } from 'naive-ui/es/data-table/src/interface'
 import type { ProDataTableBaseColumn, ProDataTableIndexColumn } from '../types'
 import { DragOutlined, InfoCircleOutlined } from '@vicons/antd'
-import { get, isFunction } from 'lodash-es'
+import { isFunction } from 'lodash-es'
 import { NButton, NEl, NIcon } from 'naive-ui'
 import ProTooltip from '../../_internal/components/pro-tooltip'
-import { useInjectGlobalConfig } from '../../config-provider'
 import { useLocale } from '../../locales'
+import DataTableCell from '../data-table-cell'
 
 export const sortColumnKey = '__SORT_COLUMN__'
 export const indexColumnKey = '__INDEX_COLUMN__'
@@ -26,10 +26,6 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
   const {
     getMessage,
   } = useLocale('ProDataTable')
-
-  const {
-    valueTypeMap,
-  } = useInjectGlobalConfig()
 
   const hasFixedLeftColumn = computed(() => {
     return columns.value.some(column => column.fixed === 'left')
@@ -120,9 +116,18 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       key: sortColumnKey,
       title: getMessage('sortColumn'),
       fixed: hasFixedLeftColumn.value ? 'left' : undefined,
-      render(row, index) {
+      render(row, rowIndex) {
         return render
-          ? <div class={dragHandleId}>{render(row, index)}</div>
+          ? (
+              <div class={dragHandleId}>
+                <DataTableCell
+                  row={row}
+                  column={column}
+                  rowIndex={rowIndex}
+                  columnKey={sortColumnKey}
+                />
+              </div>
+            )
           : (
               <NButton
                 text={true}
@@ -157,20 +162,14 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       key: columnKey,
       title: renderTooltipTitle(title, tooltip),
       render(row, rowIndex) {
-        if (render) {
-          return render(row, rowIndex)
-        }
-        const Component = unref(valueTypeMap)[valueType!]
-        const value = columnKey ? get(row, columnKey) : undefined
-        return Component
-          ? h(Component, {
-            value,
-            simple: true,
-            readonly: true,
-            path: `builtinPath.${rowIndex}.${columnKey}`,
-            fieldProps: isFunction(fieldProps) ? fieldProps(row, rowIndex) : (fieldProps ?? {}),
-          }, fieldSlots)
-          : value as any
+        return (
+          <DataTableCell
+            row={row}
+            column={column}
+            rowIndex={rowIndex}
+            columnKey={columnKey}
+          />
+        )
       },
       ...rest,
     }
