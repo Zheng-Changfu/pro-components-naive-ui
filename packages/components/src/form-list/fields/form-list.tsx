@@ -1,4 +1,5 @@
 import type { PropType, SlotsType } from 'vue'
+import type { ProFormListInst } from '../inst'
 import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
@@ -12,7 +13,7 @@ import { useReadonlyHelpers } from '../../form/components'
 import { useInjectProFormInst } from '../../form/context'
 import { useLocale } from '../../locales'
 import { AUTO_CREATE_ID, provideProFormListInst } from '../context'
-import { type ProFormListInst, useInjectFormListInstStore } from '../inst'
+import { useInjectFormListInstStore } from '../inst'
 import FormListItem from './form-list-item'
 
 const CreatorButton = defineComponent({
