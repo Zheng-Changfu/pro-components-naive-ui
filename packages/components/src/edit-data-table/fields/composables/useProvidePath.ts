@@ -7,7 +7,7 @@ export function useProvidePath(rowIndex: ToRef<number>) {
   const path = computed(() => {
     return [
       ...parent.path.value, // list path
-      rowIndex.value,
+      String(rowIndex.value),
     ]
   })
 
