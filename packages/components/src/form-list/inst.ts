@@ -1,19 +1,8 @@
-import type { ArrayField } from 'pro-components-hooks'
+import type { ArrayFieldAction } from 'pro-components-hooks'
 import { createInjectionState } from '@vueuse/core'
 import { useComponentInst } from '../composables'
 
-export type ProFormListInst = Pick<
-  ArrayField,
-  | 'insert'
-  | 'move'
-  | 'moveDown'
-  | 'moveUp'
-  | 'pop'
-  | 'push'
-  | 'remove'
-  | 'shift'
-  | 'unshift'
->
+export type ProFormListInst = ArrayFieldAction
 
 const [
   provideFormListInstStore,
