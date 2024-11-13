@@ -3,7 +3,7 @@
  */
 
 import type { CNode } from 'css-render'
-import { c } from '../../_utils/cssr'
+import { c } from 'naive-ui'
 
 const cubicBezierEaseIn = 'cubic-bezier(.4, 0, 1, 1)'
 const cubicBezierEaseOut = 'cubic-bezier(0, 0, .2, 1)'
