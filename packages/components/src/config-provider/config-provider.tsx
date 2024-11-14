@@ -1,7 +1,8 @@
 import type { ConfigProviderProps } from 'naive-ui'
-import { merge, omit } from 'lodash-es'
+import { omit } from 'lodash-es'
 import { NConfigProvider } from 'naive-ui'
 import { computed, unref } from 'vue'
+import { useThemeOverrides } from './composables/useThemeOverrides'
 import { provideGlobalConfig, useInjectGlobalConfig } from './context'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 import { shallowMergePropOverrides } from './utils'
@@ -14,6 +15,10 @@ export default defineComponent({
       valueTypeMap: injectedValueTypeMap,
       propOverrides: injectedPropOverrides,
     } = useInjectGlobalConfig()
+
+    const {
+      themeOverrides,
+    } = useThemeOverrides(props)
 
     const valueTypeMap = computed(() => {
       return {
@@ -33,14 +38,7 @@ export default defineComponent({
       return omit(
         {
           ...props,
-          themeOverrides: merge(
-            {
-              Card: {
-                borderRadius: '8px',
-              },
-            },
-            props.themeOverrides ?? {},
-          ),
+          themeOverrides: themeOverrides.value,
         },
         Object.keys(proConfigProviderExtendProps),
       )
