@@ -8,7 +8,7 @@ import type { ProColorPickerProps, ProColorPickerSlots } from './color-picker'
 import type { ProDatePickerProps, ProDatePickerSlots } from './date-picker'
 import type { ProDigitProps, ProDigitSlots } from './digit'
 import type { ProDynamicTagsProps, ProDynamicTagsSlots } from './dynamic-tags'
-import type { ProFieldProps, ValueTypeEnum } from './field'
+import type { ValueTypeEnum } from './field'
 import type { ProInputProps, ProInputSlots } from './input'
 import type { ProMentionProps, ProMentionSlots } from './mention'
 import type { ProRadioGroupProps, ProRadioGroupSlots } from './radio-group'
@@ -19,6 +19,7 @@ import type { ProSwitchProps, ProSwitchSlots } from './switch'
 import type { ProTimePickerProps, ProTimePickerSlots } from './time-picker'
 import type { ProTransferProps, ProTransferSlots } from './transfer'
 import type { ProTreeSelectProps, ProTreeSelectSlots } from './tree-select'
+import type { InternalProFieldProps } from './type-utils'
 import type { ProUploadProps, ProUploadSlots } from './upload'
 
 type UnwrapSlots<T> = {
@@ -26,16 +27,6 @@ type UnwrapSlots<T> = {
 }
 
 type MaybeFunction<T, Parameters extends any[]> = T | ((...args: Parameters) => T)
-
-export type InternalProFieldProps = Omit<
-  ProFieldProps,
-  | 'path'
-  | 'isList'
-  | 'valueType'
-  | 'fieldProps'
-  | 'defaultValue'
-  | 'valueModelName'
->
 
 interface ProBaseFieldColumn<Values = any, ProFieldPropsParameters extends any[] = any[]> {
   /**
