@@ -8,7 +8,7 @@ import type { ProColorPickerProps, ProColorPickerSlots } from './color-picker'
 import type { ProDatePickerProps, ProDatePickerSlots } from './date-picker'
 import type { ProDigitProps, ProDigitSlots } from './digit'
 import type { ProDynamicTagsProps, ProDynamicTagsSlots } from './dynamic-tags'
-import type { ValueTypeEnum } from './field'
+import type { ProFieldProps, ValueTypeEnum } from './field'
 import type { ProInputProps, ProInputSlots } from './input'
 import type { ProMentionProps, ProMentionSlots } from './mention'
 import type { ProRadioGroupProps, ProRadioGroupSlots } from './radio-group'
@@ -21,22 +21,32 @@ import type { ProTransferProps, ProTransferSlots } from './transfer'
 import type { ProTreeSelectProps, ProTreeSelectSlots } from './tree-select'
 import type { ProUploadProps, ProUploadSlots } from './upload'
 
+type UnwrapSlots<T> = {
+  [K in keyof T]: IfAny<T[K]> extends true ? () => VNodeChild : (params: NonNullable<T[K]>) => VNodeChild
+}
+
+type MaybeFunction<T, Parameters extends any[]> = T | ((...args: Parameters) => T)
+
+export type InternalProFieldProps = Omit<
+  ProFieldProps,
+  | 'path'
+  | 'isList'
+  | 'valueType'
+  | 'fieldProps'
+  | 'defaultValue'
+  | 'valueModelName'
+>
+
 interface ProBaseFieldColumn<Values = any, ProFieldPropsParameters extends any[] = any[]> {
   /**
    * 字段路径
    */
   path?: Paths<Values>
   /**
-   * ProField 组件的 props
+   * 透传给 ProField 组件的 props
    */
-  proFieldProps?: MaybeFunction<NonNullable<ProAutoCompleteProps['fieldProps']>, ProFieldPropsParameters>
+  proFieldProps?: MaybeFunction<InternalProFieldProps, ProFieldPropsParameters>
 }
-
-type UnwrapSlots<T> = {
-  [K in keyof T]: IfAny<T[K]> extends true ? () => VNodeChild : (params: NonNullable<T[K]>) => VNodeChild
-}
-
-type MaybeFunction<T, Parameters extends any[]> = T | ((...args: Parameters) => T)
 
 interface AutoCompleteColumn<
   Values = any,
@@ -239,6 +249,13 @@ interface TreeSelectColumn<
   fieldProps?: MaybeFunction<NonNullable<ProTreeSelectProps['fieldProps']>, FieldPropsParameters>
 }
 
+/**
+ * 通用字段解释
+ *  valueType: 要根据哪个组件类型渲染值
+ *  fieldProps: 透传给 valueType 组件的 props
+ *  fieldSlots: 透传给 valueType 组件的 slots
+ *  proFieldProps: 透传给 ProField 组件的 props (ProField 是一个中间层组件，管理值以及控制渲染，处理完后下发给 FormItem 以及表单项组件)
+ */
 export type ProFieldColumn<
   Values = any,
   ExtraProps extends object = object,
