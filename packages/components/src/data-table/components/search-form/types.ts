@@ -1,26 +1,42 @@
 import type { GridItemProps } from 'naive-ui'
-import type { ExtractObjectPath } from 'pro-components-hooks'
 import type { VNodeChild } from 'vue'
-import type { FieldValueType, ProFieldProps } from '../../../form'
-import type { AnyFn } from '../../../types'
+import type { InternalProFieldProps, ProFieldColumn } from '../../../form'
+import type { ProSearchFormInst } from './inst'
 
-export interface ProSearchFormColumn<DataSource = any> extends Pick<GridItemProps, 'span' | 'offset'>, Omit<ProFieldProps, 'path' | 'defaultValue' | 'isList' | 'valueType' | 'valueModelName'> {
-  /**
-   * 字段路径
-   */
-  path?: ExtractObjectPath<DataSource>
-  /**
-   * 组件映射，需要通过 `ProConfigProvider` 的 `valueTypeMap` 映射
-   */
-  valueType?: FieldValueType
+interface ProSearchFormColumnProps<Values = any> extends InternalProFieldProps, Pick<
+  GridItemProps,
+  | 'span' | 'offset'
+> {
   /**
    * 当 valueType 不满足需求时，可以自定义渲染
    */
-  render?: () => VNodeChild
-  /**
-   * 组件的 slots，自定义渲染时无效
-   */
-  slots?: Record<string, AnyFn>
+  render?: (action: ProSearchFormInst<Values>) => VNodeChild
 }
 
-export type ProSearchFormColumns<DataSource = any> = ProSearchFormColumn<DataSource>[] | (() => ProSearchFormColumn<DataSource>[])
+export type ProSearchFormColumn<Values = any> = ProFieldColumn<
+  Values,
+  ProSearchFormColumnProps<Values>,
+  [ProSearchFormInst<Values>],
+  [ProSearchFormInst<Values>]
+>
+
+export type ProSearchFormColumns<Values = any> = ProSearchFormColumn<Values>[]
+// TODO: getFieldValue 无类型提示
+// const c: ProSearchFormColumns<{ a: 1, b: 2 }> = [
+//   {
+//     valueType: 'digit',
+//     fieldProps(a) {
+//       a.getFieldValue()
+//     },
+//     proFieldProps: (a: ProSearchFormInst<{
+//       a: 1
+//       b: 2
+//     }>) => {
+//       a.getFieldValue()
+//       const r = a.getFieldValue('')
+//       return {
+//         required: '{{ 123 }}',
+//       }
+//     },
+//   },
+// ]
