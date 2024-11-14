@@ -1,6 +1,6 @@
 import type { ProFormInst } from '../../../form'
 
-export interface ProSearchFormInst<DataSource = any> extends ProFormInst<DataSource> {
+export interface ProSearchFormInst<Values = any> extends ProFormInst<Values> {
   /**
    * 重置表单
    */
@@ -8,7 +8,7 @@ export interface ProSearchFormInst<DataSource = any> extends ProFormInst<DataSou
   /**
    * 搜索表单
    */
-  search: (values: DataSource) => void
+  search: (values: Values) => void
   /**
    * 切换收起
    */
