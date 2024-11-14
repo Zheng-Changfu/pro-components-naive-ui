@@ -1,15 +1,12 @@
 import type { SlotsType } from 'vue'
 import type { ProDescriptionsInst } from './inst'
 import type { ProDescriptionsSlots } from './slots'
-import { InfoCircleOutlined } from '@vicons/antd'
-import { isFunction, isString } from 'lodash-es'
-import { NDescriptions, NDescriptionsItem, NEl, NIcon, NSpin } from 'naive-ui'
-import { uid } from 'pro-components-hooks'
-import ProTooltip from '../_internal/components/pro-tooltip'
+import { NDescriptions, NSpin } from 'naive-ui'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { useFetchData } from '../composables/useFetchData'
 import { useInjectGlobalConfig } from '../config-provider'
-import { useData } from './composables/useData'
+import { useDataSource } from './composables/useDataSource'
+import { convertProColumnToDescriptionsItem } from './descriptions-item'
 import { proDescriptionsExtendProps, proDescriptionsProps } from './props'
 
 const name = 'ProDescriptions'
@@ -27,7 +24,7 @@ export default defineComponent({
     const {
       data,
       setData,
-    } = useData(overridedProps)
+    } = useDataSource(overridedProps)
 
     const {
       reload,
@@ -44,32 +41,9 @@ export default defineComponent({
       proDescriptionsExtendProps,
     )
 
-    const normalizedColumns = computed(() => {
-      const columns = overridedProps.value.columns ?? []
-      return columns
-        .filter(Boolean)
-        .map((column) => {
-          const {
-            label,
-            title,
-            tooltip,
-            valueType = 'input',
-            ...rest
-          } = column
-
-          return {
-            ...rest,
-            uid: uid(),
-            valueType,
-            title: title ?? label,
-            tooltip: isString(tooltip) ? [tooltip] : [tooltip].filter(Boolean) as any as string[],
-          }
-        })
-    })
-
     watch(
-      computed(() => overridedProps.value.loading),
-      v => loading.value = !!v,
+      () => overridedProps.value.loading,
+      value => loading.value = !!value,
     )
 
     onRequestSuccess((res) => {
@@ -85,17 +59,17 @@ export default defineComponent({
       data,
       loading,
       valueTypeMap,
-      normalizedColumns,
       nDescriptionsProps,
+      columns: computed(() => overridedProps.value.columns ?? []),
     }
   },
   render() {
     const {
       data,
+      $slots,
       $attrs,
       loading,
       valueTypeMap,
-      normalizedColumns,
       nDescriptionsProps,
     } = this
 
@@ -105,74 +79,13 @@ export default defineComponent({
           {{
             ...this.$slots,
             default: () => {
-              return normalizedColumns.map((column) => {
-                const {
-                  uid,
-                  key,
-                  path,
-                  slots,
-                  title,
-                  render,
-                  tooltip,
-                  valueType,
-                  fieldProps,
-                  addonAfter,
-                  addonBefore,
-                  ...nDescriptionsItemProps
-                } = column
-                return (
-                  <NDescriptionsItem key={key ?? uid} {...nDescriptionsItemProps}>
-                    {{
-                      label: () => {
-                        const resolvedTitle = isFunction(title) ? title() : title
-                        if (!resolvedTitle) {
-                          return null
-                        }
-                        return [
-                          resolvedTitle,
-                          <ProTooltip trigger="hover">
-                            {{
-                              trigger: () => [
-                                <NIcon
-                                  size={16}
-                                  style={{
-                                    cursor: 'pointer',
-                                    verticalAlign: 'text-bottom',
-                                    marginInlineStart: '4px',
-                                  }}
-                                >
-                                  <InfoCircleOutlined />
-                                </NIcon>,
-                              ],
-                              default: () => [
-                                tooltip.map((t, i) => {
-                                  return <NEl key={i + t}>{t}</NEl>
-                                }),
-                              ],
-                            }}
-                          </ProTooltip>,
-                        ]
-                      },
-                      default: () => {
-                        if (render) {
-                          return render(data)
-                        }
-                        const Comp = valueTypeMap[valueType]
-                        if (!Comp) {
-                          return null
-                        }
-                        return h(Comp, {
-                          path,
-                          fieldProps,
-                          simple: true,
-                          readonly: true,
-                          addonAfter,
-                          addonBefore,
-                        }, slots)
-                      },
-                    }}
-                  </NDescriptionsItem>
-                )
+              return this.columns.map((column) => {
+                return convertProColumnToDescriptionsItem({
+                  $slots,
+                  column,
+                  valueTypeMap,
+                  dataSource: data,
+                })
               })
             },
           }}

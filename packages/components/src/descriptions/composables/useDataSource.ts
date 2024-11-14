@@ -3,7 +3,7 @@ import type { ProDescriptionsProps } from '../props'
 import { watchDeep } from '@vueuse/core'
 import { createForm } from 'pro-components-hooks'
 
-export function useData(props: ComputedRef<ProDescriptionsProps>) {
+export function useDataSource(props: ComputedRef<ProDescriptionsProps>) {
   const {
     getFieldsValue,
     setFieldsValue,
@@ -12,7 +12,7 @@ export function useData(props: ComputedRef<ProDescriptionsProps>) {
   })
 
   watchDeep(
-    computed(() => props.value.data),
+    () => props.value.data,
     (value) => {
       setFieldsValue(value ?? {}, 'overwrite')
     },

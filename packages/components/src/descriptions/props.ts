@@ -34,13 +34,6 @@ export const proDescriptionsExtendProps = {
     default: undefined,
   },
   /**
-   * 是否接收路由的 query 和 params 参数作为请求参数
-   */
-  receiveRouteQueryParams: {
-    type: Boolean,
-    default: undefined,
-  },
-  /**
    * 请求成功后可以转化数据，返回值为最终的结果值
    */
   transform: Function as AnyFn,
