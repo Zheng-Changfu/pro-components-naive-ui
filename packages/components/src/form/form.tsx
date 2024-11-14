@@ -96,8 +96,10 @@ export default defineComponent({
          * 支持 button `attr-type = reset` 重置表单
          */
         onReset: (e: Event) => {
+          const { onReset } = overridedProps.value
           e.preventDefault()
           restoreFieldsValue()
+          onReset && onReset()
         },
       }
     })

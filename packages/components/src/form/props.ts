@@ -61,9 +61,13 @@ export const proFormExtendProps = {
    */
   validateBehaviorProps: Object as PropType<PopoverProps>,
   /**
-   * 数据验证成功后回调事件
+   * 数据验证成功后的回调事件
    */
   onSubmit: Function as PropType<(values: Record<string, any>, warnings: ValidateError[][]) => void>,
+  /**
+   * 数据重置后的回调事件
+   */
+  onReset: Function as PropType<() => void>,
   /**
    * 数据验证失败后回调事件
    */
