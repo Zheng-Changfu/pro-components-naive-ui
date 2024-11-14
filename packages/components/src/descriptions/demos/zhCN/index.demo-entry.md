@@ -52,7 +52,7 @@ interface ProDescriptionColumn<T = any> extends Omit<DescriptionItemProps, 'labe
   /**
    * 组件映射，需要通过 `ProConfigProvider` 的 `valueTypeMap` 映射
    */
-  valueType?: FieldValueType
+  valueType?: InternalFieldValueType
   /**
    * 组件的 props，自定义渲染时无效
    */

@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProCheckboxSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { ProField, InternalValueTypeEnum } from '../field'
 import Checkbox from './fields/checkbox'
 import { provideCheckboxInstStore } from './inst'
 import { proCheckboxProps } from './props'
@@ -32,7 +32,7 @@ export default defineComponent({
         {...this.overridedProps}
         defaultValue={false}
         valueModelName="checked"
-        valueType={ValueTypeEnum.CHECKBOX}
+        valueType={InternalValueTypeEnum.CHECKBOX}
       >
         {{
           ...this.$slots,

@@ -6,7 +6,7 @@ import { computed } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { useOverrideProps } from '../composables'
-import { ProField, ValueTypeEnum } from '../form/components'
+import { ProField, InternalValueTypeEnum } from '../form/components'
 import { AUTO_CREATE_ID } from './context'
 import FormList from './fields/form-list'
 import { provideFormListInstStore } from './inst'
@@ -96,7 +96,7 @@ export default defineComponent({
         {...this.splitProps.proFieldProps}
         isList={true}
         postValue={this.autoCreateRowId}
-        valueType={ValueTypeEnum.FORM_LIST}
+        valueType={InternalValueTypeEnum.FORM_LIST}
         class={[`${mergedClsPrefix}-pro-form-list`]}
         fieldProps={this.splitProps.fieldListProps}
       >

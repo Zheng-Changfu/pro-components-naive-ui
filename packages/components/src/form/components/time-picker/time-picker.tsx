@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProTimePickerSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { ProField, InternalValueTypeEnum } from '../field'
 import TimePicker from './fields/time-picker'
 import { provideTimePickerInstStore } from './inst'
 import { proTimePickerProps } from './props'
@@ -31,7 +31,7 @@ export default defineComponent({
       <ProField
         {...this.overridedProps}
         defaultValue={null}
-        valueType={ValueTypeEnum.TIME}
+        valueType={InternalValueTypeEnum.TIME}
       >
         {{
           ...this.$slots,

@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProDynamicTagsSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { ProField, InternalValueTypeEnum } from '../field'
 import DynamicTags from './fields/dynamic-tags'
 import { proDynamicTagsProps } from './props'
 
@@ -25,7 +25,7 @@ export default defineComponent({
       <ProField
         {...this.overridedProps}
         defaultValue={[]}
-        valueType={ValueTypeEnum.DYNAMIC_TAGS}
+        valueType={InternalValueTypeEnum.DYNAMIC_TAGS}
       >
         {{
           ...this.$slots,

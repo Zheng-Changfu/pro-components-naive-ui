@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProUploadSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { ProField, InternalValueTypeEnum } from '../field'
 import Upload from './fields/upload'
 import { provideUploadInstStore } from './inst'
 import { proUploadProps } from './props'
@@ -38,7 +38,7 @@ export default defineComponent({
         {...this.overridedProps}
         defaultValue={[]}
         valueModelName="fileList"
-        valueType={ValueTypeEnum.UPLOAD}
+        valueType={InternalValueTypeEnum.UPLOAD}
         postValue={this.postValue}
       >
         {{

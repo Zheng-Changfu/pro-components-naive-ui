@@ -1,7 +1,7 @@
 import type { PopoverProps } from 'naive-ui'
 import type { BaseField } from 'pro-components-hooks'
 import type { ComputedRef } from 'vue'
-import type { FieldValueType } from '../enums'
+import type { InternalFieldValueType } from '../enums'
 import type { FieldExtraInfo } from '../keys'
 import { toString } from 'lodash-es'
 import { computed, inject, unref } from 'vue'
@@ -16,7 +16,7 @@ interface UseMergeOptions {
   title: ComputedRef<string | undefined>
   readonly: ComputedRef<boolean | undefined>
   showLabel: ComputedRef<boolean | undefined>
-  valueType: ComputedRef<FieldValueType | undefined>
+  valueType: ComputedRef<InternalFieldValueType | undefined>
   behaviorProps: ComputedRef<PopoverProps | undefined>
   placeholder: ComputedRef<string | string[] | undefined>
   behavior: ComputedRef<'default' | 'popover' | undefined>

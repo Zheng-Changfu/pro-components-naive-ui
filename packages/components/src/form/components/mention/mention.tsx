@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProMentionSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { ProField, InternalValueTypeEnum } from '../field'
 import Mention from './fields/mention'
 import { provideMentionInstStore } from './inst'
 import { proMentionProps } from './props'
@@ -31,7 +31,7 @@ export default defineComponent({
       <ProField
         {...this.overridedProps}
         defaultValue={null}
-        valueType={ValueTypeEnum.MENTION}
+        valueType={InternalValueTypeEnum.MENTION}
       >
         {{
           ...this.$slots,

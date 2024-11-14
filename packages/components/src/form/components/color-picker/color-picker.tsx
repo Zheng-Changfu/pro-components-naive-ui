@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProColorPickerSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { ProField, InternalValueTypeEnum } from '../field'
 import ColorPicker from './fields/color-picker'
 import { proColorPickerProps } from './props'
 
@@ -25,7 +25,7 @@ export default defineComponent({
       <ProField
         {...this.overridedProps}
         defaultValue={null}
-        valueType={ValueTypeEnum.COLOR_PICKER}
+        valueType={InternalValueTypeEnum.COLOR_PICKER}
       >
         {{
           ...this.$slots,

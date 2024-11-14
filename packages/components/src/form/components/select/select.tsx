@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProSelectSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { ProField, InternalValueTypeEnum } from '../field'
 import Select from './fields/select'
 import { provideSelectInstStore } from './inst'
 import { proSelectProps } from './props'
@@ -31,7 +31,7 @@ export default defineComponent({
       <ProField
         {...this.overridedProps}
         defaultValue={null}
-        valueType={ValueTypeEnum.SELECT}
+        valueType={InternalValueTypeEnum.SELECT}
       >
         {{
           ...this.$slots,

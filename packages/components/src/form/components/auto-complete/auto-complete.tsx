@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProAutoCompleteSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { ProField, InternalValueTypeEnum } from '../field'
 import AutoComplete from './fields/auto-complete'
 import { provideAutoCompleteInstStore } from './inst'
 import { proAutoCompleteProps } from './props'
@@ -31,7 +31,7 @@ export default defineComponent({
       <ProField
         {...this.overridedProps}
         defaultValue={null}
-        valueType={ValueTypeEnum.AUTO_COMPLETE}
+        valueType={InternalValueTypeEnum.AUTO_COMPLETE}
       >
         {{
           ...this.$slots,

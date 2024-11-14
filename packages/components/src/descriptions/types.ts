@@ -1,7 +1,7 @@
 import type { DescriptionItemProps } from 'naive-ui'
 import type { ExtractObjectPath } from 'pro-components-hooks'
 import type { VNodeChild } from 'vue'
-import type { FieldValueType } from '../form'
+import type { InternalFieldValueType } from '../form'
 import type { AnyFn } from '../types'
 
 type InternalDataSource = Record<string, unknown>
@@ -22,7 +22,7 @@ export interface ProDescriptionColumn<T = InternalDataSource> extends Omit<Descr
   /**
    * 组件映射，需要通过 `ProConfigProvider` 的 `valueTypeMap` 映射
    */
-  valueType?: FieldValueType
+  valueType?: InternalFieldValueType
   /**
    * 组件的 props，自定义渲染时无效
    */
