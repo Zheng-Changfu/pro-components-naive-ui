@@ -24,7 +24,7 @@ interface Info {
 export default defineComponent({
   setup() {
     const options = ref<any[]>([])
-    const columns: ProSearchFormColumns<Info> = () => [
+    const columns: ProSearchFormColumns<Info> = [
       {
         title: '姓名',
         path: 'name',
@@ -52,8 +52,10 @@ export default defineComponent({
         title: '城市-异步',
         path: 'city',
         valueType: 'select',
-        fieldProps: {
-          options: options.value,
+        fieldProps() {
+          return {
+            options: options.value,
+          }
         },
       },
       {
@@ -65,7 +67,7 @@ export default defineComponent({
         title: '时间',
         path: 'time',
         valueType: 'time',
-        slots: {
+        fieldSlots: {
           'addon-after': () => <div class="color-red min-w-40px">slot</div>,
         },
       },
@@ -105,7 +107,6 @@ export default defineComponent({
         { label: '全国', value: 0 },
         { label: '北京', value: 1 },
       ]
-      console.log('d')
     }, 3000)
 
     return {
@@ -128,7 +129,7 @@ export default defineComponent({
       }"
       @search="console.log"
       @collapse="console.log"
-      @reset="() => console.log('reset')"
+      @reset="console.log('reset')"
     />
   </pro-card>
 </template>

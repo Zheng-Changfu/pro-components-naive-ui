@@ -10,6 +10,7 @@ export default defineComponent({
     const position = ref<'top' | 'bottom'>('bottom')
     return {
       position,
+      readonly: ref(false),
     }
   },
 })
@@ -22,10 +23,15 @@ export default defineComponent({
       <n-radio label="底部" value="bottom" />
     </n-flex>
   </n-radio-group>
+  <div>
+    <span>只读：</span>
+    <n-switch v-model:value="readonly" />
+  </div>
   <pro-form>
     <pro-form-list
       title="用户信息"
       path="userInfo"
+      :readonly="readonly"
       :position="position"
       only-show-first-item-label
     >
