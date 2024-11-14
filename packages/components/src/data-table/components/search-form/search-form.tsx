@@ -100,6 +100,8 @@ export default defineComponent({
       resetButtonProps,
       searchButtonProps,
       collapseButtonProps,
+      columns: computed(() => overridedProps.value.columns ?? []),
+      showSuffixGridItem: computed(() => overridedProps.value.showSuffixGridItem),
     }
   },
 
