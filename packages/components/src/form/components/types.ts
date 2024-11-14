@@ -272,3 +272,9 @@ export type ProFieldColumn<
   | Merge<DynamicTagsColumn<Values, FunctionalFieldPropsParameters, FunctionalProFieldPropsParameters>, ExtraProps>
   | Merge<AutoCompleteColumn<Values, FunctionalFieldPropsParameters, FunctionalProFieldPropsParameters>, ExtraProps>
   | Merge<CheckboxGroupColumn<Values, FunctionalFieldPropsParameters, FunctionalProFieldPropsParameters>, ExtraProps>
+
+export type ProFieldColumnValueType = ProFieldColumn extends infer X
+  ? X extends { valueType?: infer ValueType }
+    ? ValueType
+    : never
+  : never
