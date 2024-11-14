@@ -57,10 +57,6 @@ export const proSearchFormProps = {
     default: true,
   },
   /**
-   * 重置后触发的事件
-   */
-  onReset: Function as PropType<() => void>,
-  /**
    * 搜索后触发的事件
    */
   onSearch: Function as PropType<(values: any) => void>,

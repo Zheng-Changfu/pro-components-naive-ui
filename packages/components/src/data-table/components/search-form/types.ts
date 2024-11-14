@@ -1,7 +1,7 @@
 import type { GridItemProps } from 'naive-ui'
 import type { VNodeChild } from 'vue'
-import type { InternalProFieldProps, ProFieldColumn } from '../../../form'
-import type { ProSearchFormInst } from './inst'
+import type { ProFieldColumn, ProFormInst } from '../../../form'
+import type { InternalProFieldProps } from '../../../form/components/type-utils'
 
 interface ProSearchFormColumnProps<Values = any> extends InternalProFieldProps, Pick<
   GridItemProps,
@@ -10,14 +10,14 @@ interface ProSearchFormColumnProps<Values = any> extends InternalProFieldProps, 
   /**
    * 当 valueType 不满足需求时，可以自定义渲染
    */
-  render?: (action: ProSearchFormInst<Values>) => VNodeChild
+  render?: (action: ProFormInst<Values>) => VNodeChild
 }
 
 export type ProSearchFormColumn<Values = any> = ProFieldColumn<
   Values,
   ProSearchFormColumnProps<Values>,
-  [ProSearchFormInst<Values>],
-  [ProSearchFormInst<Values>]
+  [ProFormInst<Values>],
+  [ProFormInst<Values>]
 >
 
 export type ProSearchFormColumns<Values = any> = ProSearchFormColumn<Values>[]
@@ -28,7 +28,7 @@ export type ProSearchFormColumns<Values = any> = ProSearchFormColumn<Values>[]
 //     fieldProps(a) {
 //       a.getFieldValue()
 //     },
-//     proFieldProps: (a: ProSearchFormInst<{
+//     proFieldProps: (a: ProFormInst<{
 //       a: 1
 //       b: 2
 //     }>) => {

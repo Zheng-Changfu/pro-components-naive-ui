@@ -16,28 +16,10 @@ export function useGridForm(props: ComputedRef<ProSearchFormProps>) {
     }
   })
 
-  function reset() {
-    const form = instRef.value
-    if (!form)
-      return
-
-    const { onReset } = props.value
-    form.restoreFieldsValue()
-    onReset && onReset()
-  }
-
   function onSubmit(values: any, warnings: any) {
     const { onSubmit, onSearch } = props.value
     onSearch && onSearch(values)
     onSubmit && onSubmit(values, warnings)
-  }
-
-  function search() {
-    const form = instRef.value
-    if (!form)
-      return
-
-    form.submit()
   }
 
   const methods: ProFormInst = {
@@ -63,8 +45,6 @@ export function useGridForm(props: ComputedRef<ProSearchFormProps>) {
   }
 
   return {
-    reset,
-    search,
     proFormProps,
     formInstRef: instRef,
     formMethods: methods,
