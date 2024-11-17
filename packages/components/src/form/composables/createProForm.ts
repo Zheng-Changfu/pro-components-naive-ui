@@ -80,6 +80,11 @@ interface CreateFormOptions<Values = any> extends FormOptions<Values> {
    * 数据验证失败后回调事件
    */
   onSubmitFailed?: (errors: ValidateError[][]) => void
+  /**
+   * 依赖项的值发生变化后是否进行校验
+   * @default true
+   */
+  validateOnDependenciesValueChange?: boolean
 }
 
 export function createProForm<Values = any>(options: Simplify<CreateFormOptions<Values>> = {}): CreateProFormReturn<Values> {
@@ -89,6 +94,7 @@ export function createProForm<Values = any>(options: Simplify<CreateFormOptions<
     initialValues,
     onSubmitFailed,
     onFieldValueChange,
+    validateOnDependenciesValueChange = true,
   } = options
 
   const {
@@ -132,22 +138,23 @@ export function createProForm<Values = any>(options: Simplify<CreateFormOptions<
     field: BaseField
     dependPath: string[]
   }) {
-    const {
-      field,
-      path,
-      value,
-      dependPath,
-    } = opt
-
-    if (field.show.value) {
-      validate(stringifyPath(opt.dependPath))
-      if (options.onDependenciesValueChange) {
-        options.onDependenciesValueChange({
-          path,
-          value,
-          field,
-          dependPath,
-        })
+    if (validateOnDependenciesValueChange) {
+      const {
+        field,
+        path,
+        value,
+        dependPath,
+      } = opt
+      if (field.show.value) {
+        validate(stringifyPath(opt.dependPath))
+        if (options.onDependenciesValueChange) {
+          options.onDependenciesValueChange({
+            path,
+            value,
+            field,
+            dependPath,
+          })
+        }
       }
     }
   }
