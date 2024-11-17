@@ -1,6 +1,6 @@
-import type { BaseField } from 'pro-components-hooks'
+import type { BaseField } from 'pro-composables'
 import { useThemeVars } from 'naive-ui'
-import { useInjectFieldContext } from 'pro-components-hooks'
+import { useInjectFieldContext } from 'pro-composables'
 import { computed } from 'vue'
 import { useInjectProFormInst } from '../../../context'
 

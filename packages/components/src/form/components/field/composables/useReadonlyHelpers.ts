@@ -1,5 +1,5 @@
 import type { FieldExtraInfo } from '../keys'
-import { useInjectFieldContext } from 'pro-components-hooks'
+import { useInjectFieldContext } from 'pro-composables'
 import { computed, unref } from 'vue'
 import { useInjectProFormContext } from '../../../context'
 import { fieldExtraKey } from '../keys'

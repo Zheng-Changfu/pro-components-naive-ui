@@ -1,5 +1,5 @@
 import type { PopoverProps } from 'naive-ui'
-import type { InternalPath } from 'pro-components-hooks'
+import type { InternalPath } from 'pro-composables'
 import type { InjectionKey, MaybeRef, ToRef } from 'vue'
 import type { FormItemInternalValidateResult } from './composables/useValidationResult'
 import type { ValidateBehavior, ValidateError, ValidationTrigger } from './props'

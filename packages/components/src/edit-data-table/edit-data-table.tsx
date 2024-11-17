@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProEditDataTableSlots } from './slots'
 import { isArray, omit, pick } from 'lodash-es'
-import { uid } from 'pro-components-hooks'
+import { uid } from 'pro-composables'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../composables'
 import { proFieldProps as _proFieldProps, InternalValueTypeEnum, ProField } from '../form'

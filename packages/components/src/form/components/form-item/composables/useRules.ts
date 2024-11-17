@@ -1,7 +1,7 @@
 import type { FormItemRule } from 'naive-ui'
 import type { ProFormItemProps } from '../props'
 import { isArray, toString } from 'lodash-es'
-import { useInjectFieldContext } from 'pro-components-hooks'
+import { useInjectFieldContext } from 'pro-composables'
 import { computed, unref } from 'vue'
 import { useLocale } from '../../../../locales'
 import { useInjectProFormContext } from '../../../context'

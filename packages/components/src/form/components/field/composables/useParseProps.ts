@@ -1,6 +1,6 @@
-import type { BaseField } from 'pro-components-hooks'
+import type { BaseField } from 'pro-composables'
 import type { ProFieldProps } from '../props'
-import { useCompile } from 'pro-components-hooks'
+import { useCompile } from 'pro-composables'
 import { computed, toRef, useAttrs } from 'vue'
 
 export function useParseProps({ scope }: BaseField, props: ProFieldProps) {

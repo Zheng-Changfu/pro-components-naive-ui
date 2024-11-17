@@ -1,5 +1,5 @@
 import type { FormItemRule, PopoverProps } from 'naive-ui'
-import type { Dependencie, MaybeExpression } from 'pro-components-hooks'
+import type { Dependencie, MaybeExpression } from 'pro-composables'
 import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType, Ref } from 'vue'
 import type { ValidateBehavior } from '../../props'
 import type { InternalFieldValueType } from './enums'

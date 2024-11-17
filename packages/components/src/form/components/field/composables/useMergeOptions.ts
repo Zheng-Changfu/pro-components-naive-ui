@@ -1,5 +1,5 @@
 import type { PopoverProps } from 'naive-ui'
-import type { BaseField } from 'pro-components-hooks'
+import type { BaseField } from 'pro-composables'
 import type { ComputedRef } from 'vue'
 import type { InternalFieldValueType } from '../enums'
 import type { FieldExtraInfo } from '../keys'

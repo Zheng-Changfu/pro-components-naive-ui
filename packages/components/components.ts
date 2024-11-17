@@ -9,7 +9,7 @@ export * from './src/form'
 export * from './src/form-list'
 export * from './src/modal'
 export * from './src/tree'
-export { uid } from 'pro-components-hooks'
+export { uid } from 'pro-composables'
 
 // export * from './src/tags'
 // export * from './src/image'

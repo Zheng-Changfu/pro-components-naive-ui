@@ -2,7 +2,7 @@ import type { SlotsType, VNodeChild } from 'vue'
 import type { ProSelectSlots } from '../slots'
 import { get, isArray, isFunction, noop } from 'lodash-es'
 import { NEl, NFlex, NSelect, selectProps } from 'naive-ui'
-import { eachTree } from 'pro-components-hooks'
+import { eachTree } from 'pro-composables'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectSelectInstStore } from '../inst'
 

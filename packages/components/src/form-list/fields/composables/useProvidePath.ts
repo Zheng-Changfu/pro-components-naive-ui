@@ -1,5 +1,5 @@
 import type { ToRef } from 'vue'
-import { providePathContext, providePathIndexContext, useInjectListFieldContext } from 'pro-components-hooks'
+import { providePathContext, providePathIndexContext, useInjectListFieldContext } from 'pro-composables'
 import { computed } from 'vue'
 
 export function useProvidePath(index: ToRef<number>) {

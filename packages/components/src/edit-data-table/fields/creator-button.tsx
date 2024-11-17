@@ -3,7 +3,7 @@ import type { ActionGuard } from '../types'
 import { PlusOutlined } from '@vicons/antd'
 import { useToggle } from '@vueuse/core'
 import { NIcon } from 'naive-ui'
-import { useInjectListFieldContext } from 'pro-components-hooks'
+import { useInjectListFieldContext } from 'pro-composables'
 import { ProButton, type ProButtonProps } from '../../button'
 import { useLocale } from '../../locales'
 

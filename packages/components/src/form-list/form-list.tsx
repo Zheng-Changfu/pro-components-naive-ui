@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProFormListSlots } from './slots'
 import { isArray } from 'lodash-es'
-import { uid } from 'pro-components-hooks'
+import { uid } from 'pro-composables'
 import { computed } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'

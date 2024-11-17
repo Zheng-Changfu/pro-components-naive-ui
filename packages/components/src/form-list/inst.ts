@@ -1,4 +1,4 @@
-import type { ArrayFieldAction } from 'pro-components-hooks'
+import type { ArrayFieldAction } from 'pro-composables'
 import { createInjectionState } from '@vueuse/core'
 import { useComponentInst } from '../composables'
 

@@ -1,7 +1,7 @@
 import type { ComputedRef } from 'vue'
 import type { ProDescriptionsProps } from '../props'
 import { watchDeep } from '@vueuse/core'
-import { createForm } from 'pro-components-hooks'
+import { createForm } from 'pro-composables'
 
 export function useDataSource(props: ComputedRef<ProDescriptionsProps>) {
   const {

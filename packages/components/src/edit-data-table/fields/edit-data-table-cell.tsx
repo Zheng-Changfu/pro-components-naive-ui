@@ -1,7 +1,7 @@
 import type { PropType } from 'vue'
 import type { ProEditDataTableBaseColumn } from '../types'
 import { isFunction } from 'lodash-es'
-import { compile, useInjectFieldContext } from 'pro-components-hooks'
+import { compile, useInjectFieldContext } from 'pro-composables'
 import { computed, defineComponent } from 'vue'
 import { useInjectGlobalConfig } from '../../config-provider'
 import { useInjectProEditDataTableInst } from '../context'

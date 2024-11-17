@@ -2,7 +2,7 @@ import type { SlotsType, VNodeChild } from 'vue'
 import type { ProCascaderSlots } from '../slots'
 import { get, isArray } from 'lodash-es'
 import { cascaderProps, NCascader, NEl, NFlex } from 'naive-ui'
-import { eachTree } from 'pro-components-hooks'
+import { eachTree } from 'pro-composables'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectCascaderInstStore } from '../inst'
 

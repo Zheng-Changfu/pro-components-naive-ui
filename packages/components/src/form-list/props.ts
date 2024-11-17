@@ -1,4 +1,4 @@
-import type { MaybeExpression } from 'pro-components-hooks'
+import type { MaybeExpression } from 'pro-composables'
 import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../button'
 import type { ProFormListInst } from './inst'

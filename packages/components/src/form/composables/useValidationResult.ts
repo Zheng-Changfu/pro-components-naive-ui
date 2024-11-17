@@ -1,6 +1,6 @@
-import type { InternalPath } from 'pro-components-hooks'
+import type { InternalPath } from 'pro-composables'
 import type { ValidateError } from '../props'
-import { stringifyPath } from 'pro-components-hooks'
+import { stringifyPath } from 'pro-composables'
 import { computed, ref } from 'vue'
 
 /**

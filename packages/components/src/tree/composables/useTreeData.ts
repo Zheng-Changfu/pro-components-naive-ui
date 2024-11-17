@@ -2,7 +2,7 @@ import type { TreeOption } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProTreeProps } from '../props'
 import { get, has, isNumber, isString, set } from 'lodash-es'
-import { eachTree, mapTree } from 'pro-components-hooks'
+import { eachTree, mapTree } from 'pro-composables'
 import { computed, ref, watch } from 'vue'
 
 export const levelKey = '__level__'

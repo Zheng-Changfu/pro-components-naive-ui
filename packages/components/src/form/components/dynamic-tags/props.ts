@@ -1,5 +1,5 @@
 import type { DynamicTagsProps } from 'naive-ui'
-import type { MaybeExpression } from 'pro-components-hooks'
+import type { MaybeExpression } from 'pro-composables'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ExtendAttrsStyleProps } from '../../../types'
 import { proFieldProps } from '../field'

@@ -1,4 +1,4 @@
-import { createForm, useInjectFormContext } from 'pro-components-hooks'
+import { createForm, useInjectFormContext } from 'pro-composables'
 
 export function useValueTypeForm() {
   /**
