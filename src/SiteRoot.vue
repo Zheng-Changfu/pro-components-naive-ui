@@ -28,7 +28,6 @@ export default defineComponent({
     :locale="locale"
     :date-locale="dateLocale"
     :theme-overrides="themeOverrides"
-    :value-type-map="valueTypeMap"
     :hljs="hljs"
     :prop-overrides="propOverrides"
   >
