@@ -1,6 +1,6 @@
 import type { PopoverProps } from 'naive-ui'
-import type { ArrayField, BaseField, MaybeExpression } from 'pro-components-hooks'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { CreateProFormReturn } from './composables/createProForm'
 import { omit } from 'lodash-es'
 import { formProps } from 'naive-ui'
 
@@ -15,12 +15,11 @@ export type ValidationTrigger = 'input' | 'change' | 'blur' | 'focus' | ({} & st
 
 export const proFormExtendProps = {
   /**
-   * 表单是否切换为禁用状态
-   * 支持表达式
+   * 表单控制器
    */
-  disabled: {
-    type: [Boolean, String] as PropType<MaybeExpression<boolean>>,
-    default: false,
+  form: {
+    type: Object as PropType<CreateProFormReturn>,
+    required: true,
   },
   /**
    * 表单项只读模式下的文字
@@ -37,21 +36,12 @@ export const proFormExtendProps = {
     default: 'input',
   },
   /**
-   * 表单是否切换为只读状态，优先级低于 ProFormItem 的 readonly
-   * 支持表达式
+   * 是否为只读状态，优先级低于 ProField 的 readonly
    */
   readonly: {
-    type: [Boolean, String] as PropType<MaybeExpression<boolean>>,
+    type: Boolean,
     default: undefined,
   },
-  /**
-   * 表达式可以读取到的作用域，浅合并，优先级比全局高
-   */
-  scope: Object as PropType<Record<`$${string}`, any>>,
-  /**
-   * 表单初始值
-   */
-  initialValues: Object,
   /**
    * 校验行为，为 popover 时验证不通过会通过 popover 进行提示
    */
@@ -60,47 +50,15 @@ export const proFormExtendProps = {
    * 验证不通过时传递的属性，只对 popover 生效
    */
   validateBehaviorProps: Object as PropType<PopoverProps>,
-  /**
-   * 数据验证成功后的回调事件
-   */
-  onSubmit: Function as PropType<(values: Record<string, any>, warnings: ValidateError[][]) => void>,
-  /**
-   * 数据重置后的回调事件
-   */
-  onReset: Function as PropType<() => void>,
-  /**
-   * 数据验证失败后回调事件
-   */
-  onSubmitFailed: Function as PropType<(errors: ValidateError[][]) => void>,
-  /**
-   * 字段值发生变化时触发的回调函数
-   */
-  onFieldValueChange: {
-    type: Function as PropType<(opt: {
-      field: BaseField | ArrayField
-      value: any
-    }) => void>,
-  },
-  /**
-   * 依赖项的值发生变化时触发的回调函数
-   */
-  onDependenciesValueChange: {
-    type: Function as PropType<(opt: {
-      path: string[]
-      dependPath: string[]
-      value: any
-    }) => void>,
-  },
 } as const
 
 export const proFormProps = {
   /**
    * 继承原来的属性
    * 剔除 model, 表单值内部管理
-   * 剔除 rules, 校验规则内部自动生成或在 pro-form-item 上书写
-   * 剔除 disabled，重写属性，支持表达式
+   * 剔除 rules, 校验规则内部自动生成或在 ProField 上书写
    */
-  ...omit(formProps, ['model', 'disabled', 'rules']),
+  ...omit(formProps, ['model', 'rules']),
   ...proFormExtendProps,
 } as const
 
