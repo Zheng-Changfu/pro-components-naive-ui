@@ -11,7 +11,6 @@ export default defineComponent({
   props: proConfigProviderProps,
   setup(props) {
     const {
-      valueTypeMap: injectedValueTypeMap,
       propOverrides: injectedPropOverrides,
     } = useInjectGlobalConfig()
 
@@ -19,13 +18,6 @@ export default defineComponent({
       props,
       proConfigProviderExtendProps,
     )
-
-    const valueTypeMap = computed(() => {
-      return {
-        ...unref(injectedValueTypeMap),
-        ...(unref(props.valueTypeMap) ?? {}),
-      }
-    })
 
     const propOverrides = computed(() => {
       return shallowMergePropOverrides(
@@ -35,7 +27,6 @@ export default defineComponent({
     })
 
     provideGlobalConfig({
-      valueTypeMap,
       propOverrides,
     })
     return {

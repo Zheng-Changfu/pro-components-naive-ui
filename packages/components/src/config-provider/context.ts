@@ -11,7 +11,6 @@ export function provideGlobalConfig(config: ProConfigProviderExtendProps) {
 export function useInjectGlobalConfig() {
   return inject(globalConfigContextKey, () => {
     return {
-      valueTypeMap: ref({}),
       propOverrides: ref({}),
     }
   }) as any as Required<ProConfigProviderExtendProps>

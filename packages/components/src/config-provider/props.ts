@@ -1,5 +1,4 @@
-import type { Component, ExtractPublicPropTypes, MaybeRef, PropType } from 'vue'
-import type { ProFieldColumnValueType } from '../form'
+import type { ExtractPublicPropTypes, MaybeRef, PropType } from 'vue'
 import { configProviderProps } from 'naive-ui'
 
 export const proConfigProviderExtendProps = {
@@ -7,10 +6,6 @@ export const proConfigProviderExtendProps = {
    * 覆盖组件 props
    */
   propOverrides: Object as PropType<MaybeRef<Record<string, object>>>,
-  /**
-   * valueType 映射的组件
-   */
-  valueTypeMap: Object as PropType<MaybeRef<Partial<Record<ProFieldColumnValueType, Component>>>>,
 } as const
 
 export const proConfigProviderProps = {
