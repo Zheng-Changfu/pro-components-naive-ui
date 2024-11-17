@@ -11,12 +11,6 @@ export const proConfigProviderExtendProps = {
    * valueType 映射的组件
    */
   valueTypeMap: Object as PropType<MaybeRef<Partial<Record<ProFieldColumnValueType, Component>>>>,
-  /**
-   * 主题颜色
-   */
-  primaryColor: {
-    type: String as PropType<`#${string}`>,
-  },
 } as const
 
 export const proConfigProviderProps = {
