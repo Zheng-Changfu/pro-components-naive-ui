@@ -18,7 +18,7 @@ export interface ValidateError {
 const proFormContextKey = Symbol('proForm')
 export const proFormInternalKey = Symbol('proFormInternalKey')
 
-type CreateProFormReturn<Values = any> = Simplify<Pick<
+export type CreateProFormReturn<Values = any> = Simplify<Pick<
   BaseForm<Values>,
   | 'matchPath'
   | 'getFieldValue'
@@ -63,7 +63,10 @@ type CreateProFormReturn<Values = any> = Simplify<Pick<
   [proFormInternalKey]: {
     model: Ref<Record<string, any>>
     registerNFormInst: (nForm: FormInst) => void
+    clearValidationResults: (path?: InternalPath) => void
     getFieldValidationResult: (path: InternalPath) => FormItemInternalValidateResult | null
+    addValidationErrors: (path: string | undefined, errors: ValidateError[] | undefined) => void
+    addValidationWarnings: (path: string | undefined, errors: ValidateError[] | undefined) => void
   }
 }>
 
@@ -262,6 +265,9 @@ export function createProForm<Values = any>(options: Simplify<CreateFormOptions<
     resumeDependenciesTrigger,
     [proFormInternalKey]: {
       registerNFormInst,
+      addValidationErrors,
+      addValidationWarnings,
+      clearValidationResults,
       getFieldValidationResult,
       model: valueStore.values,
     },
