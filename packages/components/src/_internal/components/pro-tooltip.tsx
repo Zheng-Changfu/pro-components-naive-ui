@@ -1,6 +1,6 @@
 import type { ExtractPublicPropTypes, PropType, SlotsType, VNodeChild } from 'vue'
 import { isString } from 'lodash-es'
-import { NEl, NTooltip, tooltipProps } from 'naive-ui'
+import { NTooltip, tooltipProps } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { resolveWrappedSlot } from '../../_utils/resolve-slot'
 
@@ -48,7 +48,7 @@ export default defineComponent({
       if (!children && this.normalizeTootlip.length <= 0) {
         return null
       }
-      return children ?? this.normalizeTootlip.map(tip => <NEl key={tip}>{tip}</NEl>)
+      return children ?? this.normalizeTootlip.map(tip => <div key={tip}>{tip}</div>)
     }) as VNodeChild | null
 
     if (!tooltipsVnode) {

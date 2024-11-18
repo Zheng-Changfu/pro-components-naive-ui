@@ -3,7 +3,7 @@ import type { TableColumnGroupTitle, TableColumnTitle, TableExpandColumnTitle } 
 import type { ProDataTableBaseColumn, ProDataTableIndexColumn } from '../types'
 import { DragOutlined, InfoCircleOutlined } from '@vicons/antd'
 import { isFunction } from 'lodash-es'
-import { NButton, NEl, NIcon } from 'naive-ui'
+import { NButton, NIcon } from 'naive-ui'
 import ProTooltip from '../../_internal/components/pro-tooltip'
 import { useLocale } from '../../locales'
 import DataTableCell from '../data-table-cell'
@@ -50,7 +50,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
         >
           {{
             trigger: () => (
-              <NEl style={{ cursor: 'pointer' }}>
+              <div style={{ cursor: 'pointer' }}>
                 {resolvedTitle}
                 <NIcon
                   size={18}
@@ -63,7 +63,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
                 >
                   <InfoCircleOutlined />
                 </NIcon>
-              </NEl>
+              </div>
             ),
           }}
         </ProTooltip>

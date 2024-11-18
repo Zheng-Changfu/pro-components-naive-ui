@@ -2,7 +2,7 @@ import type { FormItemInst, FormItemProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProFormItemSlots } from './slots'
 import { QuestionCircleOutlined } from '@vicons/antd'
-import { NEl, NFormItem, NIcon } from 'naive-ui'
+import { NFormItem, NIcon } from 'naive-ui'
 import { useInjectField } from 'pro-composables'
 import { computed, defineComponent, ref, useAttrs } from 'vue'
 import ProTooltip from '../../../_internal/components/pro-tooltip'
@@ -63,7 +63,7 @@ export default defineComponent({
           label: labelDom
             ? () => {
                 return (
-                  <NEl
+                  <div
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -91,7 +91,7 @@ export default defineComponent({
                         },
                       }}
                     </ProTooltip>
-                  </NEl>
+                  </div>
                 )
               }
             : undefined,

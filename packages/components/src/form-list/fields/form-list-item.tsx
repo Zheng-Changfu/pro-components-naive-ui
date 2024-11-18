@@ -4,7 +4,7 @@ import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
 import { omit } from 'lodash-es'
-import { NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
+import { NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { useInjectListField } from 'pro-composables'
 import { computed, defineComponent, Fragment, inject, provide, toRef } from 'vue'
 import { useInjectProForm } from '../../../components'
@@ -336,7 +336,7 @@ export default defineComponent({
       itemDom,
       actionDom: resolvedActionDom,
     }, () => (
-      <NEl
+      <div
         style={{
           display: 'flex',
           gap: '0 16px',
@@ -346,7 +346,7 @@ export default defineComponent({
       >
         {itemDom}
         {resolvedActionDom}
-      </NEl>
+      </div>
     ))
   },
 })

@@ -2,7 +2,7 @@ import type { AutoCompleteProps } from 'naive-ui'
 import type { PropType, SlotsType } from 'vue'
 import type { ProAutoCompleteSlots } from '../slots'
 import { isFunction } from 'lodash-es'
-import { autoCompleteProps, NAutoComplete, NEl, NFlex } from 'naive-ui'
+import { autoCompleteProps, NAutoComplete, NFlex } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectAutoCompleteInstStore } from '../inst'
 
@@ -70,9 +70,9 @@ export default defineComponent({
       }
       return (
         <NFlex size={[8, 0]}>
-          {$slots.prefix && <NEl>{this.$slots.prefix()}</NEl>}
-          <NEl>{value}</NEl>
-          {$slots.suffix && <NEl>{this.$slots.suffix()}</NEl>}
+          {$slots.prefix && <span>{this.$slots.prefix()}</span>}
+          <span>{value}</span>
+          {$slots.suffix && <span>{this.$slots.suffix()}</span>}
         </NFlex>
       )
     }

@@ -2,7 +2,7 @@ import type { TreeSelectInst, TreeSelectProps } from 'naive-ui'
 import type { SlotsType, VNodeChild } from 'vue'
 import type { ProTreeSelectSlots } from '../slots'
 import { get, isArray, isUndefined, noop } from 'lodash-es'
-import { NEl, NFlex, NTreeSelect, treeSelectProps } from 'naive-ui'
+import { NFlex, NTreeSelect, treeSelectProps } from 'naive-ui'
 import { eachTree, useInjectField } from 'pro-composables'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectTreeSelectInstStore } from '../inst'
@@ -85,7 +85,7 @@ export default defineComponent({
               label = renderLabel({ option: item, checked: true, selected: true })
             }
             if (label) {
-              labels.push(<NEl>{label}</NEl>)
+              labels.push(<span>{label}</span>)
             }
           }
         },

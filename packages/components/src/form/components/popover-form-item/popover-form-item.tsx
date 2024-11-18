@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProPopoverFormItemSlots } from './slots'
 import { onClickOutside, useEventListener } from '@vueuse/core'
-import { NEl, NPopover } from 'naive-ui'
+import { NPopover } from 'naive-ui'
 import { computed, ref, useAttrs } from 'vue'
 import { useValidationStatus } from '../field'
 import { ProFormItem } from '../form-item'
@@ -70,12 +70,12 @@ export default defineComponent({
           default: () => {
             return this.feedbacks.map((f) => {
               return (
-                <NEl
+                <div
                   key={f.message}
                   style={{ color: this.feedbackColor }}
                 >
                   { f.message }
-                </NEl>
+                </div>
               )
             })
           },

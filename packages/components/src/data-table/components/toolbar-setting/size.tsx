@@ -2,7 +2,7 @@ import type { DropdownOption } from 'naive-ui'
 import type { MergedToolbarDensity } from './composables/userMergeToolbarSetting'
 import { ColumnHeightOutlined } from '@vicons/antd'
 import { watchImmediate } from '@vueuse/core'
-import { NDropdown, NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
+import { NDropdown, NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { ProButton } from '../../../button'
 import { useLocale } from '../../../locales'
@@ -54,7 +54,7 @@ export default defineComponent({
 
     const renderLabel = (option: DropdownOption) => {
       if (option.key === this.getTableSize()) {
-        return <NEl style={{ color: this.selectedColor }}>{option.label}</NEl>
+        return <div style={{ color: this.selectedColor }}>{option.label}</div>
       }
       return option.label
     }

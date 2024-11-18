@@ -1,6 +1,6 @@
 import type { SlotsType } from 'vue'
 import type { ProDigitSlots } from '../slots'
-import { inputNumberProps, NEl, NFlex, NInputNumber } from 'naive-ui'
+import { inputNumberProps,  NFlex, NInputNumber } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectDigitInstStore } from '../inst'
 
@@ -47,9 +47,9 @@ export default defineComponent({
       }
       return (
         <NFlex size={[8, 0]}>
-          {$slots.prefix && <NEl>{this.$slots.prefix()}</NEl>}
-          <NEl>{value}</NEl>
-          {$slots.suffix && <NEl>{this.$slots.suffix()}</NEl>}
+          {$slots.prefix && <span>{this.$slots.prefix()}</span>}
+          <span>{value}</span>
+          {$slots.suffix && <span>{this.$slots.suffix()}</span>}
         </NFlex>
       )
     }

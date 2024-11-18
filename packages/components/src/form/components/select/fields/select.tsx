@@ -1,7 +1,7 @@
 import type { SlotsType, VNodeChild } from 'vue'
 import type { ProSelectSlots } from '../slots'
 import { get, isArray, isFunction, noop } from 'lodash-es'
-import { NEl, NFlex, NSelect, selectProps } from 'naive-ui'
+import { NFlex, NSelect, selectProps } from 'naive-ui'
 import { eachTree } from 'pro-composables'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectSelectInstStore } from '../inst'
@@ -52,7 +52,7 @@ export default defineComponent({
               label = label(item, true)
             }
             if (label) {
-              labels.push(<NEl>{label}</NEl>)
+              labels.push(<span>{label}</span>)
             }
           }
         },
