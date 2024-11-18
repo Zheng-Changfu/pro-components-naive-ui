@@ -34,15 +34,16 @@ export function useRules(props: ProFormItemProps) {
      */
     if (required) {
       normalizedRule.push({
+        required: true,
         validator: requiredValidator,
       })
     }
     normalizedRule = normalizedRule.map((rule) => {
-      const { required, ...restRule } = rule
+      const { required } = rule
       if (required) {
         return {
+          ...rule,
           validator: requiredValidator,
-          ...restRule,
         }
       }
       return rule
