@@ -1,6 +1,7 @@
 import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../button'
 import type { ProFormListInst } from './inst'
+import { omit } from 'lodash-es'
 import { proFieldProps } from '../form'
 
 export interface ActionGuard {
@@ -54,9 +55,9 @@ export type ContainerRender = (opt: {
 
 export const proFormListProps = {
   /**
-   * 额外的字段属性
+   * 额外的字段属性，不支持 fieldProps
    */
-  ...proFieldProps,
+  ...omit(proFieldProps, ['fieldProps']),
   /**
    * 添加一行按钮显示在顶部还是底部
    *  顶部：每次添加数据都添加在首行
