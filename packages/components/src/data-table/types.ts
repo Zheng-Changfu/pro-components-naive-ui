@@ -47,7 +47,14 @@ export interface ProDataTableColumnGroup<RowData = any> extends Omit<
 
 export interface ProDataTableIndexColumn<RowData = any> extends Omit<
   ProDataTableBaseColumn<RowData>,
-  | 'path' | 'key' | 'render' | 'type' | 'valueType' | 'fieldProps' | 'fieldSlots' | 'proFieldProps'
+  | 'key'
+  | 'path'
+  | 'type'
+  | 'render'
+  | 'valueType'
+  | 'fieldProps'
+  | 'fieldSlots'
+  | 'proFieldProps'
 > {
   /**
    * 序号列
