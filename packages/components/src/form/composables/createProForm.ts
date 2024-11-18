@@ -1,6 +1,6 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseField, BaseForm, FormOptions, InternalPath } from 'pro-composables'
-import type { Simplify } from 'type-fest'
+import type { Paths, Simplify, SimplifyDeep } from 'type-fest'
 import type { ComputedRef } from 'vue'
 import type { FieldExtraInfo } from '../components'
 import type { FormItemInternalValidateResult } from './useValidationResult'
@@ -17,6 +17,8 @@ export interface ValidateError {
 
 const proFormContextKey = Symbol('proForm')
 export const proFormInternalKey = Symbol('proFormInternalKey')
+
+type StringKeyof<Values = any> = Exclude<Paths<Values>, symbol | number>
 
 export type CreateProFormReturn<Values = any> = Simplify<Pick<
   BaseForm<Values>,
@@ -44,15 +46,15 @@ export type CreateProFormReturn<Values = any> = Simplify<Pick<
   /**
    * 还原指定字段值并清空校验
    */
-  restoreFieldValue: (path: InternalPath) => void
+  restoreFieldValue: <T extends InternalPath = StringKeyof<Values>>(path: T) => void
   /**
    * 清空校验
    */
-  restoreValidation: (paths?: InternalPath) => void
+  restoreValidation: <T extends InternalPath = StringKeyof<Values>>(paths?: T) => void
   /**
    * 校验
    */
-  validate: (paths?: InternalPath) => ReturnType<FormInst['validate']> | undefined
+  validate: <T extends InternalPath = StringKeyof<Values>>(paths?: T) => ReturnType<FormInst['validate']> | undefined
   /**
    * 是否正在提交，需要提供 onSubmit 函数才会生效
    */
@@ -79,7 +81,7 @@ interface CreateFormOptions<Values = any> extends FormOptions<Values> {
   /**
    * 数据验证成功后的回调事件,如果返回了 Promise, submiting 将等待这个 Promise 完成
    */
-  onSubmit?: (values: Values, warnings: ValidateError[][]) => void | Promise<void>
+  onSubmit?: (values: SimplifyDeep<Values>, warnings: ValidateError[][]) => void | Promise<void>
   /**
    * 数据验证失败后回调事件
    */
@@ -277,7 +279,7 @@ export function createProForm<Values = any>(options: Simplify<CreateFormOptions<
     },
     submiting: computed(() => submiting.value),
   }
-  return returned
+  return Object.freeze(returned)
 }
 
 export function provideProForm(form: CreateProFormReturn) {
