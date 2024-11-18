@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProFormItemProps } from '../form-item'
 import type { ProFieldSlots } from './slots'
 import { NFlex } from 'naive-ui'
 import { computed, defineComponent, Fragment } from 'vue'
@@ -6,8 +7,8 @@ import { ProFormItem } from '../form-item'
 import { ProPopoverFormItem } from '../popover-form-item'
 import { createField } from './composables/createField'
 import { useMergeOptions } from './composables/useMergeOptions'
-import { useParseProps } from './composables/useParseProps'
 import { useValidationStatus } from './composables/useValidationStatus'
+import { useVModelProps } from './composables/useVModelProps'
 import { fieldExtraKey } from './keys'
 import { proFieldProps } from './props'
 
@@ -16,149 +17,81 @@ export default defineComponent({
   inheritAttrs: false,
   props: proFieldProps,
   slots: Object as SlotsType<ProFieldSlots>,
-  setup(props) {
+  setup(props, { attrs }) {
     const field = createField(props)
 
-    const {
-      show,
-      value,
-      isList,
-      stringPath,
-      doUpdateValue,
-    } = field
-
-    const {
-      size,
-      rule,
-      label,
-      title,
-      first,
-      simple,
-      tooltip,
-      rulePath,
-      feedback,
-      required,
-      valueType,
-      labelWidth,
-      labelAlign,
-      labelProps,
-      labelStyle,
-      fieldProps,
-      addonAfter,
-      addonBefore,
-      feedbackClass,
-      feedbackStyle,
-      valueModelName,
-      labelPlacement,
-      showRequireMark,
-      ignorePathChange,
-      validationStatus,
-      attrs: parsedAttrs,
-      requireMarkPlacement,
-      readonly: parsedReadonly,
-      showLabel: parsedShowLabel,
-      placeholder: parsedPlaceholder,
-      showFeedback: parsedShowFeedback,
-      validateBehavior: parsedValidateBehavior,
-      validateBehaviorProps: parsedValidateBehaviorProps,
-    } = useParseProps(field, props)
+    const vModelProps = useVModelProps(
+      props,
+      { field },
+    )
 
     const {
       mergedTitle,
       mergedReadonly,
-      mergedBehavior,
       mergedShowLabel,
       mergedPlaceholder,
-      mergedBehaviorProps,
-    } = useMergeOptions({
-      title,
-      label,
-      field,
-      valueType,
-      readonly: parsedReadonly,
-      showLabel: parsedShowLabel,
-      placeholder: parsedPlaceholder,
-      behavior: parsedValidateBehavior,
-      behaviorProps: parsedValidateBehaviorProps as any,
-    })
-
-    const showFeedback = computed(() => {
-      return parsedShowFeedback.value ?? mergedBehavior.value !== 'popover'
-    })
-
-    const fieldVModelProps = computed(() => {
-      const name = valueModelName.value
-      if (!name) {
-        return {}
-      }
-      if (isList) {
-        return {
-          [name]: value.value,
-        }
-      }
-      const eventName = `onUpdate${name.slice(0, 1).toUpperCase()}${name.slice(1)}`
-      return {
-        [name]: value.value,
-        [eventName]: doUpdateValue,
-      }
-    })
+      mergedShowFeedback,
+      mergedValidateBehavior,
+      mergedValidateBehaviorProps,
+    } = useMergeOptions(props, { field })
 
     const fieldBindProps = computed(() => {
+      const fieldProps = props.fieldProps ?? {}
       if (mergedPlaceholder.value === undefined) {
         return {
-          ...(fieldProps.value ?? {}),
-          ...fieldVModelProps.value,
+          ...fieldProps,
+          ...vModelProps.value,
         }
       }
       return {
-        ...(fieldProps.value ?? {}),
-        ...fieldVModelProps.value,
+        ...fieldProps,
+        ...vModelProps.value,
         placeholder: mergedPlaceholder.value,
       }
     })
 
-    const proFormItemBindProps = computed(() => {
+    const proFormItemBindProps = computed<ProFormItemProps>(() => {
       return {
-        ...parsedAttrs.value,
-        size: size.value,
-        rule: rule.value,
-        first: first.value,
-        tooltip: tooltip.value,
-        path: stringPath.value,
-        rulePath: rulePath.value,
-        feedback: feedback.value,
+        ...attrs,
+        size: props.size,
+        rule: props.rule,
+        path: props.path,
+        first: props.first,
+        theme: props.theme,
+        tooltip: props.tooltip,
+        rulePath: props.rulePath,
+        feedback: props.feedback,
+        required: props.required,
         title: mergedTitle.value,
-        required: required.value,
-        labelWidth: labelWidth.value,
-        labelAlign: labelAlign.value,
-        labelProps: labelProps.value,
-        labelStyle: labelStyle.value,
+        labelWidth: props.labelWidth,
+        labelAlign: props.labelAlign,
+        labelProps: props.labelProps,
+        labelStyle: props.labelStyle,
         showLabel: mergedShowLabel.value,
-        showFeedback: showFeedback.value,
-        feedbackClass: feedbackClass.value,
-        feedbackStyle: feedbackStyle.value,
-        labelPlacement: labelPlacement.value,
-        showRequireMark: showRequireMark.value,
-        ignorePathChange: ignorePathChange.value,
-        validationStatus: validationStatus.value,
-        requireMarkPlacement: requireMarkPlacement.value,
+        feedbackClass: props.feedbackClass,
+        feedbackStyle: props.feedbackStyle,
+        labelPlacement: props.labelPlacement,
+        themeOverrides: props.themeOverrides,
+        showFeedback: mergedShowFeedback.value,
+        showRequireMark: props.showRequireMark,
+        ignorePathChange: props.ignorePathChange,
+        validationStatus: props.validationStatus,
+        requireMarkPlacement: props.requireMarkPlacement,
+        builtinThemeOverrides: props.builtinThemeOverrides,
       }
     })
 
     field[fieldExtraKey] = {
-      valueType,
       readonly: mergedReadonly,
+      valueType: props.valueType,
     }
 
     return {
-      show,
-      simple,
-      addonAfter,
-      addonBefore,
       fieldBindProps,
-      mergedBehavior,
-      mergedBehaviorProps,
+      show: field.show,
       proFormItemBindProps,
+      mergedValidateBehavior,
+      mergedValidateBehaviorProps,
       validationStatus: useValidationStatus(field),
     }
   },
@@ -219,9 +152,9 @@ export default defineComponent({
     }
 
     const {
-      mergedBehavior,
-      mergedBehaviorProps,
       proFormItemBindProps,
+      mergedValidateBehavior,
+      mergedValidateBehaviorProps,
     } = this
 
     const proFormItemSlots = {
@@ -257,11 +190,11 @@ export default defineComponent({
       })
     }
 
-    if (mergedBehavior === 'popover') {
+    if (mergedValidateBehavior === 'popover') {
       return (
         <ProPopoverFormItem
           {...proFormItemBindProps}
-          popoverProps={mergedBehaviorProps}
+          popoverProps={mergedValidateBehaviorProps}
           v-slots={{
             ...proFormItemSlots,
             default: renderFieldGroup,

@@ -1,14 +1,12 @@
-import type { FormItemRule, PopoverProps } from 'naive-ui'
-import type { Dependencie, MaybeExpression } from 'pro-composables'
-import type { CSSProperties, ExtractPublicPropTypes, LabelHTMLAttributes, PropType, Ref } from 'vue'
+import type { PopoverProps } from 'naive-ui'
+import type { Dependencie } from 'pro-composables'
+import type { ExtractPublicPropTypes, PropType, Ref } from 'vue'
 import type { ValidateBehavior } from '../../props'
 import type { InternalFieldValueType } from './enums'
+import { proFormItemProps } from '../form-item'
 
 export const proFieldProps = {
-  /**
-   * 字段路径
-   */
-  path: String,
+  ...proFormItemProps,
   /**
    * 默认值，优先级最低，用来兜底
    */
@@ -20,7 +18,7 @@ export const proFieldProps = {
   /**
    * 透传给表单控件的 placeholder
    */
-  placeholder: [String, Array] as PropType<MaybeExpression<string | [string, string]>>,
+  placeholder: [String, Array] as PropType<string | [string, string]>,
   /**
    * 传递给表单控件的 props
    */
@@ -33,21 +31,21 @@ export const proFieldProps = {
     default: true,
   },
   /**
-   * 表单值，优先级大于 initialValue，支持表达式
+   * 表单值，优先级大于 initialValue
    */
   value: undefined as any as PropType<any>,
   /**
-   * 是否显示，支持表达式
+   * 是否显示
    */
   visible: {
-    type: [Boolean, String] as PropType<MaybeExpression<boolean | undefined>>,
+    type: Boolean,
     default: undefined,
   },
   /**
-   * 是否隐藏，支持表达式
+   * 是否隐藏
    */
   hidden: {
-    type: [Boolean, String] as PropType<MaybeExpression<boolean | undefined>>,
+    type: Boolean,
     default: undefined,
   },
   /**
@@ -70,10 +68,6 @@ export const proFieldProps = {
    */
   transform: Function as PropType<(val: any, path: string) => any>,
   /**
-   * 显示在 label 右边的提示
-   */
-  tooltip: [String, Array] as PropType<MaybeExpression<string | string[]>>,
-  /**
    * 是否为列表，会根据此字段判断使用 createField 还是 createArrayField
    */
   isList: {
@@ -83,86 +77,47 @@ export const proFieldProps = {
   /**
    * 用于表示值的类型是属于哪个组件的
    */
-  valueType: String as PropType<MaybeExpression<InternalFieldValueType>>,
+  valueType: String as PropType<InternalFieldValueType>,
   /**
    * 用于 v-model:xxx 的名称，默认为 'value'，用于支持 'v-model:value'
    */
   valueModelName: {
-    type: String as PropType<MaybeExpression<string>>,
+    type: String,
     default: 'value',
   },
   /**
    * 校验行为，为 popover 时验证不通过会通过 popover 进行提示
    */
-  validateBehavior: String as PropType<MaybeExpression<ValidateBehavior>>,
+  validateBehavior: String as PropType<ValidateBehavior>,
   /**
    * 验证不通过时传递的属性，只对 popover 生效
    */
-  validateBehaviorProps: Object as PropType<MaybeExpression<PopoverProps>>,
+  validateBehaviorProps: Object as PropType<PopoverProps>,
   /**
    * 精简模式，不包装 formItem
    */
-  simple: {
-    type: [Boolean, String] as PropType<MaybeExpression<boolean>>,
-    default: false,
-  },
+  simple: Boolean,
   /**
    * 是否只读
    */
   readonly: {
-    type: [Boolean, String] as PropType<MaybeExpression<boolean>>,
+    type: Boolean,
     default: undefined,
   },
   /**
    * 表单项前缀
    */
-  addonBefore: String as PropType<MaybeExpression<string>>,
+  addonBefore: String,
   /**
    * 表单项后缀
    */
-  addonAfter: String as PropType<MaybeExpression<string>>,
+  addonAfter: String,
   /**
    * 手动更新值
    * @param fieldValue 表单值
    * @param inputValue 输入值
    */
   onInputValue: Function as PropType<(fieldValue: Ref<any>, inputValue: any, ...args: any[]) => void>,
-  /**
-   * --------NFormItem 的 props-----------
-   */
-  label: String as PropType<MaybeExpression<string>>,
-  title: String as PropType<MaybeExpression<string>>, // 同 label，为了工程化统一
-  rulePath: String as PropType<MaybeExpression<string>>,
-  feedback: String as PropType<MaybeExpression<string>>,
-  feedbackClass: String as PropType<MaybeExpression<string>>,
-  first: [Boolean, String] as PropType<MaybeExpression<boolean>>,
-  required: [Boolean, String] as PropType<MaybeExpression<boolean>>,
-  labelPlacement: String as PropType<MaybeExpression<'left' | 'top'>>,
-  labelProps: [Object] as PropType<MaybeExpression<LabelHTMLAttributes>>,
-  size: String as PropType<MaybeExpression<'small' | 'medium' | 'large'>>,
-  ignorePathChange: [Boolean, String] as PropType<MaybeExpression<boolean>>,
-  labelWidth: [Number, String] as PropType<MaybeExpression<string | number>>,
-  labelAlign: String as PropType<MaybeExpression<'left' | 'center' | 'right'>>,
-  rule: [Object, Array] as PropType<MaybeExpression<FormItemRule | FormItemRule[]>>,
-  labelStyle: [String, Object] as PropType<MaybeExpression<CSSProperties | string>>,
-  feedbackStyle: [String, Object] as PropType<MaybeExpression<CSSProperties | string>>,
-  validationStatus: String as PropType<MaybeExpression<'error' | 'warning' | 'success'>>,
-  requireMarkPlacement: String as PropType<MaybeExpression<'left' | 'right' | 'right-hanging'>>,
-  showRequireMark: {
-    type: [Boolean, String] as PropType<MaybeExpression<boolean | undefined>>,
-    default: undefined,
-  },
-  showFeedback: {
-    type: [Boolean, String] as PropType<MaybeExpression<boolean | undefined>>,
-    default: undefined,
-  },
-  showLabel: {
-    type: [Boolean, String] as PropType<MaybeExpression<boolean | undefined>>,
-    default: undefined,
-  },
-  /**
-   * --------NFormItem 的 props-----------
-   */
 } as const
 
 export type ProFieldProps = ExtractPublicPropTypes<typeof proFieldProps>

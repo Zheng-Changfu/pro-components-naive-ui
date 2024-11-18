@@ -1,17 +1,17 @@
 import type { FieldExtraInfo } from '../keys'
-import { useInjectFieldContext } from 'pro-composables'
+import { useInjectField } from 'pro-composables'
 import { computed, unref } from 'vue'
-import { useInjectProFormContext } from '../../../context'
+import { useInjectProFormConfig } from '../../../context'
 import { fieldExtraKey } from '../keys'
 import { isEmptyValue } from '../utils/valueUtil'
 
 export function useReadonlyHelpers() {
-  const field = useInjectFieldContext()!
+  const field = useInjectField()!
   const fieldExtraInfo = field[fieldExtraKey] as FieldExtraInfo
 
   const {
     readonlyEmptyText,
-  } = useInjectProFormContext()
+  } = useInjectProFormConfig()
 
   const {
     readonly,

@@ -1,19 +1,19 @@
 import type { BaseField } from 'pro-composables'
 import { useThemeVars } from 'naive-ui'
-import { useInjectFieldContext } from 'pro-composables'
+import { useInjectField } from 'pro-composables'
 import { computed } from 'vue'
-import { useInjectProFormInst } from '../../../context'
+import { proFormInternalKey, useInjectProForm } from '../../../composables/createProForm'
 
 export function useValidationStatus(baseField?: BaseField) {
   const themeVars = useThemeVars()
-  const formInst = useInjectProFormInst()
-  const field = baseField ?? useInjectFieldContext()
+  const proForm = useInjectProForm()
+  const field = baseField ?? useInjectField()
 
   const fieldValidateResult = computed(() => {
     const path = field?.path.value
-    if (!path)
-      return
-    return formInst?.getFieldValidationResult(path)
+    if (path) {
+      return proForm?.[proFormInternalKey].getFieldValidationResult(path)
+    }
   })
 
   const errors = computed(() => {
