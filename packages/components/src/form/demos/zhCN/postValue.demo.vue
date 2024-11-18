@@ -5,6 +5,7 @@
 </markdown>
 
 <script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -23,6 +24,9 @@ export default defineComponent({
 
     return {
       selectAllToClearOtherPostState,
+      form: createProForm({
+        onSubmit: console.log,
+      }),
     }
   },
 })
@@ -30,9 +34,9 @@ export default defineComponent({
 
 <template>
   <pro-form
-    label-placement="left"
+    :form="form"
     label-width="auto"
-    @submit="console.log"
+    label-placement="left"
   >
     <pro-select
       title="城市"

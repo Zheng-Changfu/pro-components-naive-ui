@@ -4,9 +4,21 @@
 你可以使用 `addon-before` 和 `addon-after` 属性来定义前缀和后缀，也可以使用插槽来定义，属性定义时只支持字符串格式
 </markdown>
 
+<script lang="ts">
+import { createProForm } from 'pro-components-naive-ui'
+
+export default defineComponent({
+  setup() {
+    return {
+      form: createProForm(),
+    }
+  },
+})
+</script>
+
 <template>
   <n-flex vertical>
-    <pro-form label-width="auto" label-placement="left">
+    <pro-form :form="form" label-width="auto" label-placement="left">
       <pro-input title="用户名" path="username">
         <template #addon-after>
           <n-button type="primary">

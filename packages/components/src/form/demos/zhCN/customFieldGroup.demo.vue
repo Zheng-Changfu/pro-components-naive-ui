@@ -6,18 +6,26 @@
 
 <script lang="tsx">
 import { NInputGroup } from 'naive-ui'
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { NInputGroup },
+  setup() {
+    return {
+      form: createProForm({
+        onSubmit: console.log,
+      }),
+    }
+  },
 })
 </script>
 
 <template>
   <pro-form
-    label-placement="left"
+    :form="form"
     label-width="auto"
-    @submit="console.log"
+    label-placement="left"
   >
     <pro-input
       title="用户名"

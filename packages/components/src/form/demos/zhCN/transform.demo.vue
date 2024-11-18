@@ -4,11 +4,25 @@
 将和当前字段所在层级的对象进行深度合并
 </markdown>
 
+<script lang="ts">
+import { createProForm } from 'pro-components-naive-ui'
+
+export default defineComponent({
+  setup() {
+    return {
+      form: createProForm({
+        onSubmit: console.log,
+      }),
+    }
+  },
+})
+</script>
+
 <template>
   <pro-form
-    label-placement="left"
+    :form="form"
     label-width="auto"
-    @submit="console.log"
+    label-placement="left"
   >
     <pro-upload
       title="图片"
