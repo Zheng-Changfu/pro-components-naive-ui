@@ -5,6 +5,7 @@
 </markdown>
 
 <script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
@@ -13,6 +14,24 @@ export default defineComponent({
 
     return {
       readonly,
+      form: createProForm({
+        initialValues: {
+          'date': Date.now(),
+          'time': '14:20:21',
+          'week': Date.now(),
+          'month': Date.now(),
+          'quarter': Date.now(),
+          'date-range': [
+            '2024/07/28',
+            '2024/07/29',
+          ],
+          'date-time-range': [
+            Date.now() - 1000 * 60 * 60 * 24,
+            Date.now(),
+          ],
+        },
+        onSubmit: console.log,
+      }),
     }
   },
 })
@@ -28,25 +47,10 @@ export default defineComponent({
     </template>
   </n-switch>
   <pro-form
+    :form="form"
     :readonly="readonly"
     label-width="auto"
     validate-behavior="popover"
-    :initial-values="{
-      'date': Date.now(),
-      'time': '14:20:21',
-      'week': Date.now(),
-      'month': Date.now(),
-      'quarter': Date.now(),
-      'date-range': [
-        '2024/07/28',
-        '2024/07/29',
-      ],
-      'date-time-range': [
-        Date.now() - 1000 * 60 * 60 * 24,
-        Date.now(),
-      ],
-    }"
-    @submit="console.log"
   >
     <n-flex :style="{ width: '100%' }">
       <pro-date
