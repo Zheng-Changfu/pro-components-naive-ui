@@ -54,6 +54,10 @@ export const zhCN = createLocale({
   ProCard: {
     collapse: (collapsed: boolean) => collapsed ? '展开' : '收起',
   },
+  ProSwitch: {
+    checked: '打开',
+    unchecked: '关闭',
+  },
   ProSearchForm: {
     reset: '重置',
     search: '查询',

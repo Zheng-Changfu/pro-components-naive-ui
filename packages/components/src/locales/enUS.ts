@@ -53,6 +53,10 @@ export const enUS = createLocale({
   ProCard: {
     collapse: (collapsed: boolean) => collapsed ? 'uncollapsed' : 'collapsed',
   },
+  ProSwitch: {
+    checked: 'open',
+    unchecked: 'close',
+  },
   ProSearchForm: {
     reset: 'reset',
     search: 'search',
