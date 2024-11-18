@@ -1,17 +1,9 @@
 import type { PopoverProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import { formItemProps } from 'naive-ui'
+import { proFormItemProps } from '../form-item'
 
 export const proPopoverFormItemProps = {
-  ...formItemProps,
-  /**
-   * 同 label
-   */
-  title: String,
-  /**
-   * 显示在 label 右边
-   */
-  tooltip: [String, Array] as PropType<string | string[]>,
+  ...proFormItemProps,
   /**
    * 传递给 popover 的 props
    */
