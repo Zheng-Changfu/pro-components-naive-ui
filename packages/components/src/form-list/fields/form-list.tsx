@@ -3,14 +3,13 @@ import type { ProFormListInst } from '../inst'
 import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
-import { useToggle } from '@vueuse/core'
 import { NIcon } from 'naive-ui'
-import { useInjectListFieldContext } from 'pro-composables'
+import { useInjectListField } from 'pro-composables'
 import { computed, defineComponent, nextTick } from 'vue'
+import { useInjectProForm } from '../../../components'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProButton, type ProButtonProps } from '../../button'
 import { useReadonlyHelpers } from '../../form/components'
-import { useInjectProFormInst } from '../../form/context'
 import { useLocale } from '../../locales'
 import { AUTO_CREATE_ID, provideProFormListInst } from '../context'
 import { useInjectFormListInstStore } from '../inst'
@@ -36,16 +35,13 @@ const CreatorButton = defineComponent({
     const {
       insert,
       value: list,
-    } = useInjectListFieldContext()!
+    } = useInjectListField()!
 
     const {
       readonly,
     } = useReadonlyHelpers()
 
-    const [
-      loading,
-      setLoading,
-    ] = useToggle()
+    const addRowLoading = ref(false)
 
     const showButton = computed(() => {
       const { max, creatorButtonProps } = props
@@ -60,7 +56,7 @@ const CreatorButton = defineComponent({
         block: true,
         dashed: true,
         content: getMessage('add'),
-        loading: loading.value,
+        loading: addRowLoading.value,
         renderIcon: () => {
           return (
             <NIcon>
@@ -78,7 +74,7 @@ const CreatorButton = defineComponent({
       const insertIndex = position === 'top' ? 0 : list.value.length
 
       if (beforeAddRow) {
-        setLoading(true)
+        addRowLoading.value = true
         const success = await beforeAddRow({ total: list.value.length, index: -1, insertIndex })
         if (success) {
           insert(insertIndex, creatorInitialValue?.() ?? {})
@@ -86,7 +82,7 @@ const CreatorButton = defineComponent({
             afterAddRow({ total: list.value.length, index: -1, insertIndex })
           }
         }
-        setLoading(false)
+        addRowLoading.value = false
       }
       else {
         insert(insertIndex, creatorInitialValue?.() ?? {})
@@ -123,10 +119,6 @@ export default defineComponent({
     min: Number,
     max: Number,
     position: String as PropType<'top' | 'bottom'>,
-    value: {
-      type: Array as PropType<Array<Record<string, any>>>,
-      required: true,
-    },
     actionGuard: Object as PropType<Partial<ActionGuard>>,
     creatorInitialValue: Function as PropType<() => Record<string, any>>,
     onlyShowFirstItemLabel: {
@@ -148,13 +140,15 @@ export default defineComponent({
   },
   slots: Object as SlotsType<ProFormListSlots>,
   setup() {
-    const form = useInjectProFormInst()!
+    const form = useInjectProForm()
 
     const {
       registerInst,
     } = useInjectFormListInstStore()!
 
     const {
+      get,
+      set,
       pop,
       push,
       move,
@@ -165,8 +159,9 @@ export default defineComponent({
       unshift,
       moveDown,
       onActionChange,
+      value: list,
       stringPath,
-    } = useInjectListFieldContext()!
+    } = useInjectListField()!
 
     onActionChange((action) => {
       /**
@@ -181,12 +176,14 @@ export default defineComponent({
         'unshift',
       ].includes(action)) {
         nextTick(() => {
-          form.validate(stringPath.value)
+          form?.validate(stringPath.value)
         })
       }
     })
 
     const exposed: ProFormListInst = {
+      get,
+      set,
       pop,
       push,
       move,
@@ -200,12 +197,15 @@ export default defineComponent({
 
     registerInst(exposed)
     provideProFormListInst(exposed)
+    return {
+      list,
+    }
   },
   render() {
     const {
+      list,
       $props,
       $slots,
-      value: list,
     } = this
 
     const {

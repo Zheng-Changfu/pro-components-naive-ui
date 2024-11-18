@@ -1,4 +1,3 @@
-import type { MaybeExpression } from 'pro-composables'
 import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../button'
 import type { ProFormListInst } from './inst'
@@ -64,20 +63,20 @@ export const proFormListProps = {
    *  底部：每次添加数据都添加在尾行
    * @default 'bottom'
    */
-  position: String as PropType<MaybeExpression<'top' | 'bottom'>>,
+  position: String as PropType<'top' | 'bottom'>,
   /**
    * 最少行数，删除时如果少于该数则无法删除
    */
-  min: Number as PropType<MaybeExpression<number>>,
+  min: Number,
   /**
    * 最多行数，新增或复制时多于该数则无法新增或复制
    */
-  max: [Number] as PropType<MaybeExpression<number>>,
+  max: Number,
   /**
    * 只显示第一行的 label
    */
   onlyShowFirstItemLabel: {
-    type: [String, Boolean] as PropType<MaybeExpression<boolean>>,
+    type: Boolean,
     default: undefined,
   },
   /**
@@ -88,21 +87,21 @@ export const proFormListProps = {
    * 新增一行按钮的属性，false 不显示
    */
   creatorButtonProps: {
-    type: [Object, Boolean] as PropType<MaybeExpression<ProButtonProps | false>>,
+    type: [Object, Boolean] as PropType<ProButtonProps | false>,
     default: undefined,
   },
   /**
    * 复制按钮的属性，false 不显示
    */
   copyButtonProps: {
-    type: [Object, Boolean] as PropType<MaybeExpression<ProButtonProps | false>>,
+    type: [Object, Boolean] as PropType<ProButtonProps | false>,
     default: undefined,
   },
   /**
    * 删除按钮的属性，false 不显示
    */
   removeButtonProps: {
-    type: [Object, Boolean] as PropType<MaybeExpression<ProButtonProps | false>>,
+    type: [Object, Boolean] as PropType<ProButtonProps | false>,
     default: undefined,
   },
   /**
