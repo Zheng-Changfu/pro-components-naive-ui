@@ -14,14 +14,58 @@ export default defineComponent({
       total: number
     }>()
 
+    const {
+      getFieldValue: get,
+      setFieldValue: set,
+    } = form
+
     function isEmpty(val: any) {
       return [null, undefined].includes(val)
+    }
+
+    function infinityTo0(val: number) {
+      return val === Infinity ? 0 : val
+    }
+
+    function totalChange() {
+      const value = infinityTo0(get('total') / get('count'))
+      if (value <= 0) {
+        set('price', 0)
+        set('count', 0)
+      }
+      else {
+        set('price', value)
+      }
+    }
+
+    function priceChange() {
+      const value = infinityTo0(get('count') * get('price'))
+      if (value <= 0) {
+        set('total', 0)
+        set('count', 0)
+      }
+      else {
+        set('total', value)
+      }
+    }
+
+    function countChange() {
+      const value = infinityTo0(get('total') / get('count'))
+      if (value <= 0) {
+        set('price', 0)
+        set('total', 0)
+      }
+      else {
+        set('price', value)
+      }
     }
 
     return {
       form,
       isEmpty,
-      get: form.getFieldValue,
+      totalChange,
+      priceChange,
+      countChange,
     }
   },
 })
@@ -36,17 +80,17 @@ export default defineComponent({
     <pro-digit
       title="总价"
       path="total"
-      :value="!isEmpty(get('count')) && !isEmpty(get('price')) ? get('count') * get('price') : get('total')"
+      @change="totalChange"
     />
     <pro-digit
       title="数量"
       path="count"
-      :value="get('price') > 0 ? get('total') / get('price') : get('count')"
+      @change="countChange"
     />
     <pro-digit
       title="单价"
       path="price"
-      :value="get('count') > 0 ? get('total') / get('count') : get('price')"
+      @change="priceChange"
     />
   </pro-form>
 </template>

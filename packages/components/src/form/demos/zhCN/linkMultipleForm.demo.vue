@@ -10,13 +10,13 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const aForm = createProForm<{ color: string }>()
-    const bForm = createProForm<{ color: string }>()
+    const form1 = createProForm<{ color: string }>()
+    const form2 = createProForm<{ color: string }>()
     return {
-      aForm,
-      bForm,
-      aGet: aForm.getFieldValue,
-      bGet: bForm.getFieldValue,
+      form1,
+      form2,
+      get1: form1.getFieldValue,
+      get2: form2.getFieldValue,
     }
   },
 })
@@ -24,26 +24,26 @@ export default defineComponent({
 
 <template>
   <n-card :bordered="false" title="A表单">
-    <pro-form :form="aForm" label-placement="left" label-width="auto">
+    <pro-form :form="form1" label-placement="left" label-width="auto">
       <pro-input
         title="控制B表单input颜色"
         path="color"
         :field-props="{
           style: {
-            background: bGet('color'),
+            background: get2('color'),
           },
         }"
       />
     </pro-form>
   </n-card>
   <n-card :bordered="false" title="B表单">
-    <pro-form :form="bForm" label-placement="left" label-width="auto">
+    <pro-form :form="form2" label-placement="left" label-width="auto">
       <pro-input
         title="控制A表单input颜色"
         path="color"
         :field-props="{
           style: {
-            background: aGet('color'),
+            background: get1('color'),
           },
         }"
       />
