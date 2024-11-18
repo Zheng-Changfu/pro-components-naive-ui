@@ -3,6 +3,7 @@
 </markdown>
 
 <script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
@@ -11,6 +12,7 @@ export default defineComponent({
     return {
       position,
       readonly: ref(false),
+      form: createProForm(),
     }
   },
 })
@@ -27,7 +29,7 @@ export default defineComponent({
     <span>只读：</span>
     <n-switch v-model:value="readonly" />
   </div>
-  <pro-form>
+  <pro-form :form="form">
     <pro-form-list
       title="用户信息"
       path="userInfo"

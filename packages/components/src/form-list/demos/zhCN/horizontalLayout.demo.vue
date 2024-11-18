@@ -2,8 +2,20 @@
 # 横向布局
 </markdown>
 
+<script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
+
+export default defineComponent({
+  setup() {
+    return {
+      form: createProForm(),
+    }
+  },
+})
+</script>
+
 <template>
-  <pro-form label-placement="left">
+  <pro-form :form="form" label-placement="left">
     <pro-form-list
       title="规格信息"
       path="attributes"

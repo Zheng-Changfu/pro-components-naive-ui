@@ -4,8 +4,22 @@
 内部会自动处理路径，可以很方便的实现嵌套及联动
 </markdown>
 
+<script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
+
+export default defineComponent({
+  setup() {
+    return {
+      form: createProForm({
+        onSubmit: console.log,
+      }),
+    }
+  },
+})
+</script>
+
 <template>
-  <pro-form @submit="console.log">
+  <pro-form :form="form">
     <pro-input
       title="姓名"
       path="name"

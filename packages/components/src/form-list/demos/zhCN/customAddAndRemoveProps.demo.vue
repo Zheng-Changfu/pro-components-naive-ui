@@ -7,6 +7,7 @@
 <script lang="tsx">
 import { CloseCircleOutlined, PlusCircleTwotone, SmileOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -39,13 +40,14 @@ export default defineComponent({
       renderCopyIcon,
       renderRemoveIcon,
       renderCreatorIcon,
+      form: createProForm(),
     }
   },
 })
 </script>
 
 <template>
-  <pro-form>
+  <pro-form :form="form">
     <pro-form-list
       title="用户信息"
       path="userInfo"

@@ -7,8 +7,22 @@
 3. $total：当前列表的总数
 </markdown>
 
+<script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
+
+export default defineComponent({
+  setup() {
+    return {
+      form: createProForm({
+        onSubmit: console.log,
+      }),
+    }
+  },
+})
+</script>
+
 <template>
-  <pro-form @submit="console.log">
+  <pro-form :form="form">
     <pro-form-list
       title="用户信息"
       path="userInfo"
@@ -20,9 +34,9 @@
       ]"
       :creator-initial-value="() => ({ name: 'Name', age: 0 })"
     >
-      <template #default="{ index, total }">
+      <template #default="{ index, total, action }">
         <pro-input
-          title="{{ '姓名-' + $index + 1 }}"
+          :title="`姓名-${index + 1}`"
           path="name"
         />
         <pro-digit
@@ -33,7 +47,7 @@
           :title="`城市-${total}`"
           path="city"
           required
-          visible="{{ !!$row.name }}"
+          :visible="!!action.get(index, 'name')"
         />
       </template>
     </pro-form-list>

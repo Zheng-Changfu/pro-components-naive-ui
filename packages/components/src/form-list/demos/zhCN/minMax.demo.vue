@@ -2,8 +2,22 @@
 # 增删限制
 </markdown>
 
+<script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
+
+export default defineComponent({
+  setup() {
+    return {
+      form: createProForm({
+        onSubmit: console.log,
+      }),
+    }
+  },
+})
+</script>
+
 <template>
-  <pro-form>
+  <pro-form :form="form">
     <pro-form-list
       title="用户信息"
       path="userInfo"
