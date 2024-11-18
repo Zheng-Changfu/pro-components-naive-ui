@@ -95,6 +95,7 @@ export default defineComponent({
       <ProField
         {...this.splitProps.proFieldProps}
         isList={true}
+        valueModelName=""
         postValue={this.autoCreateRowId}
         class={[`${mergedClsPrefix}-pro-form-list`]}
         fieldProps={this.splitProps.fieldListProps}
