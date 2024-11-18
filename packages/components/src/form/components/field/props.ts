@@ -51,7 +51,7 @@ export const proFieldProps = {
   /**
    * 字段的依赖项，当依赖项的值发生变化时，会触发校验
    */
-  dependencies: [String, Object, Array] as PropType<Dependencie | Dependencie[]>,
+  dependencies: [String, Function, RegExp, Array] as PropType<Dependencie | Dependencie[]>,
   /**
    * 后置状态钩子，可以二次修改数据，返回的值为表单的最终结果值
    * @param val 当前表单值

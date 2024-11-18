@@ -3,9 +3,10 @@ import type { SlotsType } from 'vue'
 import type { CreateProFormReturn } from './composables/createProForm'
 import type { ProFormSlots } from './slots'
 import { NForm } from 'naive-ui'
+import { provideInternalForm } from 'pro-composables'
 import { computed, onMounted, provide } from 'vue'
 import { useOmitProps, useOverrideProps } from '../composables'
-import { createProForm, proFormInternalKey } from './composables/createProForm'
+import { createProForm, proFormInternalKey, provideProForm } from './composables/createProForm'
 import { proFormConfigKey } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 
@@ -43,6 +44,7 @@ export default defineComponent({
         onSubmit: (e) => {
           e.preventDefault()
           form.submit()
+          props.onSubmit && props.onSubmit(e)
         },
         /**
          * 支持 button `attr-type = reset` 重置表单
@@ -55,6 +57,7 @@ export default defineComponent({
     })
 
     const {
+      internalForm,
       registerNFormInst,
       addValidationErrors,
       addValidationWarnings,
@@ -77,6 +80,8 @@ export default defineComponent({
       validationTrigger: computed(() => overridedProps.value.validationTrigger),
       validateBehaviorProps: computed(() => overridedProps.value.validateBehaviorProps),
     })
+    provideProForm(form)
+    provideInternalForm(internalForm)
     return {
       nFormProps,
     }

@@ -61,6 +61,7 @@ export type CreateProFormReturn<Values = any> = Simplify<Pick<
    * 内部使用
    */
   [proFormInternalKey]: {
+    internalForm: BaseForm
     model: Ref<Record<string, any>>
     registerNFormInst: (nForm: FormInst) => void
     clearValidationResults: (path?: InternalPath) => void
@@ -100,6 +101,19 @@ export function createProForm<Values = any>(options: Simplify<CreateFormOptions<
     validateOnDependenciesValueChange = true,
   } = options
 
+  const internalForm = createForm({
+    initialValues,
+    onFieldValueChange,
+    onDependenciesValueChange,
+  })
+
+  const {
+    addValidationErrors,
+    addValidationWarnings,
+    clearValidationResults,
+    getFieldValidationResult,
+  } = useValidationResults()
+
   const {
     matchPath,
     fieldStore,
@@ -115,18 +129,7 @@ export function createProForm<Values = any>(options: Simplify<CreateFormOptions<
     pauseDependenciesTrigger,
     resumeDependenciesTrigger,
     getFieldsTransformedValue,
-  } = createForm({
-    initialValues,
-    onFieldValueChange,
-    onDependenciesValueChange,
-  })
-
-  const {
-    addValidationErrors,
-    addValidationWarnings,
-    clearValidationResults,
-    getFieldValidationResult,
-  } = useValidationResults()
+  } = internalForm
 
   const submiting = ref(false)
   const nFormInst = ref<FormInst>()
@@ -264,6 +267,7 @@ export function createProForm<Values = any>(options: Simplify<CreateFormOptions<
     getFieldsTransformedValue,
     resumeDependenciesTrigger,
     [proFormInternalKey]: {
+      internalForm,
       registerNFormInst,
       addValidationErrors,
       addValidationWarnings,
@@ -273,8 +277,11 @@ export function createProForm<Values = any>(options: Simplify<CreateFormOptions<
     },
     submiting: computed(() => submiting.value),
   }
-  provide(proFormContextKey, returned)
   return returned
+}
+
+export function provideProForm(form: CreateProFormReturn) {
+  provide(proFormContextKey, form)
 }
 
 export function useInjectProForm<Values = any>(): CreateProFormReturn<Values> | undefined {
