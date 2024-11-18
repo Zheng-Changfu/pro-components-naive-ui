@@ -31,9 +31,6 @@ export enum InternalValueTypeEnum {
   DATE_YEAR_RANGE = 'date-year-range',
   DATE_MONTH_RANGE = 'date-month-range',
   DATE_QUARTER_RANGE = 'date-quarter-range',
-
-  FORM_LIST = 'form-list',
-  EDIT_DATA_TABLE = 'edit-data-table',
 }
 
 export type InternalFieldValueType = `${InternalValueTypeEnum}`
