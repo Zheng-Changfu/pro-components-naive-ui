@@ -1,7 +1,6 @@
 import type { FlexProps, RadioGroupProps, RadioProps } from 'naive-ui'
-import type { MaybeExpression } from 'pro-composables'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { ExtendAttrsStyleProps } from '../../../types'
+import type { BaseFieldProps } from '../../../types'
 import { proFieldProps } from '../field'
 
 interface ProRadioGroupFieldProps extends RadioGroupProps {
@@ -27,10 +26,7 @@ interface ProRadioGroupFieldProps extends RadioGroupProps {
 
 export const proRadioGroupProps = {
   ...proFieldProps,
-  fieldProps: {
-    type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<ProRadioGroupFieldProps>>>,
-    default: () => ({}),
-  },
+  fieldProps: Object as PropType<BaseFieldProps<ProRadioGroupFieldProps>>,
 } as const
 
 export type ProRadioGroupProps = ExtractPublicPropTypes<typeof proRadioGroupProps>

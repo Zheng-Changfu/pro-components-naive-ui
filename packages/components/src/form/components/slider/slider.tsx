@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProSliderSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, InternalValueTypeEnum } from '../field'
+import { InternalValueTypeEnum, ProField } from '../field'
 import Slider from './fields/slider'
 import { proSliderProps } from './props'
 
@@ -29,12 +29,14 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => (
-            <Slider
-              {...pureProps}
-              v-slots={this.$slots}
-            />
-          ),
+          input: (pureProps: any) => {
+            return (
+              <Slider
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
+          },
         }}
       </ProField>
     )

@@ -1,15 +1,11 @@
 import type { SliderProps } from 'naive-ui'
-import type { MaybeExpression } from 'pro-composables'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { ExtendAttrsStyleProps } from '../../../types'
+import type { BaseFieldProps } from '../../../types'
 import { proFieldProps } from '../field'
 
 export const proSliderProps = {
   ...proFieldProps,
-  fieldProps: {
-    type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<SliderProps>>>,
-    default: () => ({}),
-  },
+  fieldProps: Object as PropType<BaseFieldProps<SliderProps>>,
 } as const
 
 export type ProSliderProps = ExtractPublicPropTypes<typeof proSliderProps>

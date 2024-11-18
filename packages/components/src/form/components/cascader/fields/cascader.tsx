@@ -60,7 +60,6 @@ export default defineComponent({
       getCheckedData: () => instRef.value?.getCheckedData() as any,
       getIndeterminateData: () => instRef.value?.getIndeterminateData() as any,
     })
-
     return {
       empty,
       value,

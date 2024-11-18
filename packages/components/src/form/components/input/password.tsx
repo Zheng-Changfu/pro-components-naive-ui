@@ -39,12 +39,14 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => (
-            <Password
-              {...pureProps}
-              v-slots={this.$slots}
-            />
-          ),
+          input: (pureProps: any) => {
+            return (
+              <Password
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
+          },
         }}
       </ProField>
     )

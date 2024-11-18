@@ -67,7 +67,6 @@ export default defineComponent({
       blurInput: () => instRef.value?.blurInput(),
       focusInput: () => instRef.value?.focusInput(),
     })
-
     return {
       empty,
       instRef,

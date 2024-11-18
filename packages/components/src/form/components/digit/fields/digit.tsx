@@ -27,7 +27,6 @@ export default defineComponent({
       focus: () => instRef.value?.focus(),
       select: () => instRef.value?.select(),
     })
-
     return {
       empty,
       value,

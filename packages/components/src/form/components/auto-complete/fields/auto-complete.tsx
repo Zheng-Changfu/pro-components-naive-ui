@@ -49,7 +49,6 @@ export default defineComponent({
       blur: () => instRef.value?.blur(),
       focus: () => instRef.value?.blur(),
     })
-
     return {
       empty,
       value,

@@ -35,7 +35,6 @@ export default defineComponent({
       isCompositing: computed(() => instRef.value?.isCompositing) as any,
       scrollTo: (options: ScrollToOptions) => instRef.value?.scrollTo(options),
     })
-
     return {
       empty,
       value,

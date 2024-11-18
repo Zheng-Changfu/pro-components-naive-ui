@@ -1,8 +1,9 @@
 import type { TreeSelectInst } from 'naive-ui'
+import type { Merge } from 'type-fest'
 import { createInjectionState } from '@vueuse/core'
 import { useComponentInst } from '../../../composables'
 
-export type ProTreeSelectInst = TreeSelectInst & {
+export type ProTreeSelectInst = Merge<TreeSelectInst, {
   /**
    * 获取全部节点的 keys
    */
@@ -44,7 +45,7 @@ export type ProTreeSelectInst = TreeSelectInst & {
    * @param keys 需要部分选中的 keys
    */
   setIndeterminateKeys: (keys: Array<string | number>) => void
-}
+}>
 
 const [
   provideTreeSelectInstStore,

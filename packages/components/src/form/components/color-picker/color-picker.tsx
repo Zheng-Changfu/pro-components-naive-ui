@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProColorPickerSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, InternalValueTypeEnum } from '../field'
+import { InternalValueTypeEnum, ProField } from '../field'
 import ColorPicker from './fields/color-picker'
 import { proColorPickerProps } from './props'
 
@@ -29,12 +29,14 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => (
-            <ColorPicker
-              {...pureProps}
-              v-slots={this.$slots}
-            />
-          ),
+          input: (pureProps: any) => {
+            return (
+              <ColorPicker
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
+          },
         }}
       </ProField>
     )

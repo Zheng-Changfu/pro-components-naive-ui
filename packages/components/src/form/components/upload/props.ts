@@ -1,7 +1,6 @@
 import type { UploadFileInfo, UploadProps } from 'naive-ui'
-import type { MaybeExpression } from 'pro-composables'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { ExtendAttrsStyleProps } from '../../../types'
+import type { BaseFieldProps } from '../../../types'
 import { proFieldProps } from '../field'
 
 export interface ProUploadFieldProps extends UploadProps {
@@ -68,10 +67,7 @@ export const proUploadFieldProps = {
 
 export const proUploadProps = {
   ...proFieldProps,
-  fieldProps: {
-    type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<ProUploadFieldProps>>>,
-    default: () => ({}),
-  },
+  fieldProps: Object as PropType<BaseFieldProps<ProUploadFieldProps>>,
 } as const
 
 export type ProUploadProps = ExtractPublicPropTypes<typeof proUploadProps>

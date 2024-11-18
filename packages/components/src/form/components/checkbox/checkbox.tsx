@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProCheckboxSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, InternalValueTypeEnum } from '../field'
+import { InternalValueTypeEnum, ProField } from '../field'
 import Checkbox from './fields/checkbox'
 import { provideCheckboxInstStore } from './inst'
 import { proCheckboxProps } from './props'
@@ -36,12 +36,14 @@ export default defineComponent({
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => (
-            <Checkbox
-              {...pureProps}
-              v-slots={this.$slots}
-            />
-          ),
+          input: (pureProps: any) => {
+            return (
+              <Checkbox
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
+          },
         }}
       </ProField>
     )
