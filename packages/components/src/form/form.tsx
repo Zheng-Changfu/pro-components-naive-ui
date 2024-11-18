@@ -1,11 +1,11 @@
 import type { FormInst, FormProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
+import type { CreateProFormReturn } from './composables/createProForm'
 import type { ProFormSlots } from './slots'
 import { NForm } from 'naive-ui'
-import { createForm } from 'pro-composables'
 import { computed, onMounted, provide } from 'vue'
 import { useOmitProps, useOverrideProps } from '../composables'
-import { proFormInternalKey } from './composables/createProForm'
+import { createProForm, proFormInternalKey } from './composables/createProForm'
 import { proFormConfigKey } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 
@@ -15,13 +15,11 @@ export default defineComponent({
   props: proFormProps,
   slots: Object as SlotsType<ProFormSlots>,
   setup(props) {
-    if (!props.form) {
-      if (__DEV__) {
-        Object.assign(props.form, createForm())
-      }
-    }
-
     const nFormInst = ref<FormInst>()
+
+    const form = props.form
+      ? props.form
+      : (__DEV__ && createProForm()) as any as CreateProFormReturn
 
     const overridedProps = useOverrideProps(
       name,
@@ -34,7 +32,6 @@ export default defineComponent({
     )
 
     const nFormProps = computed<FormProps>(() => {
-      const { form } = props
       return {
         ...formProps.value,
         rules: undefined,
@@ -63,7 +60,7 @@ export default defineComponent({
       addValidationWarnings,
       clearValidationResults,
       getFieldValidationResult,
-    } = props.form[proFormInternalKey]
+    } = form[proFormInternalKey]
 
     onMounted(() => {
       registerNFormInst(nFormInst.value!)
