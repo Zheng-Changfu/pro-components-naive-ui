@@ -283,6 +283,13 @@ export function useInjectProForm<Values = any>(): Simplify<CreateProFormReturn<V
   return inject(proFormContextKey)
 }
 
+export type ExtendProForm<V = any, PM extends object = object, PO extends object = object> = Merge<
+  Merge<Omit<CreateProFormReturn<V>, typeof proFormInternalKey>, PM>,
+  {
+    [proFormInternalKey]: Merge<CreateProFormReturn<V>[typeof proFormInternalKey], PO>
+  }
+>
+
 export function extendProForm<
   Values = any,
   PublicMethods extends object = object,
@@ -291,12 +298,7 @@ export function extendProForm<
   options: Simplify<CreateProFormOptions<Values>>,
   publicMethods: PublicMethods,
   privateOptions: PrivateOptions,
-): Merge<
-    Merge<Omit<CreateProFormReturn<Values>, typeof proFormInternalKey>, PublicMethods>,
-    {
-      [proFormInternalKey]: Merge<CreateProFormReturn<Values>[typeof proFormInternalKey], PrivateOptions>
-    }
-  > {
+): ExtendProForm<Values, PublicMethods, PrivateOptions> {
   let returned = createProForm(options) as any
 
   if (publicMethods) {
@@ -318,5 +320,3 @@ export function extendProForm<
 
   return Object.freeze(returned)
 }
-
-export type ExtendProForm<V, PM extends object = object, PO extends object = object> = typeof extendProForm<V, PM, PO>
