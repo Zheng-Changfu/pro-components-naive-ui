@@ -73,7 +73,7 @@ export type CreateProFormReturn<Values = any> = Simplify<Pick<
   }
 }>
 
-interface CreateFormOptions<Values = any> extends FormOptions<Values> {
+export interface CreateProFormOptions<Values = any> extends FormOptions<Values> {
   /**
    * 数据重置后的回调事件
    */
@@ -93,7 +93,7 @@ interface CreateFormOptions<Values = any> extends FormOptions<Values> {
   validateOnDependenciesValueChange?: boolean
 }
 
-export function createProForm<Values = any>(options: Simplify<CreateFormOptions<Values>> = {}): CreateProFormReturn<Values> {
+export function createProForm<Values = any>(options: Simplify<CreateProFormOptions<Values>> = {}): CreateProFormReturn<Values> {
   const {
     onReset,
     onSubmit,
