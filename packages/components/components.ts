@@ -8,6 +8,7 @@ export * from './src/config-provider'
 export * from './src/form'
 export * from './src/form-list'
 export * from './src/modal'
+export * from './src/modal-form'
 export * from './src/tree'
 export { uid } from 'pro-composables'
 
