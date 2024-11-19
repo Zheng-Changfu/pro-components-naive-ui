@@ -1,6 +1,6 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseField, BaseForm, FormOptions, InternalPath } from 'pro-composables'
-import type { Paths, Simplify, SimplifyDeep } from 'type-fest'
+import type { Merge, Paths, Simplify, SimplifyDeep } from 'type-fest'
 import type { ComputedRef } from 'vue'
 import type { FieldExtraInfo } from '../components'
 import { isString, toPath } from 'lodash-es'
@@ -279,6 +279,44 @@ export function provideProForm(form: CreateProFormReturn) {
   provide(proFormContextKey, form)
 }
 
-export function useInjectProForm<Values = any>(): CreateProFormReturn<Values> | undefined {
+export function useInjectProForm<Values = any>(): Simplify<CreateProFormReturn<Values>> | undefined {
   return inject(proFormContextKey)
 }
+
+export function extendProForm<
+  Values = any,
+  PublicMethods extends object = object,
+  PrivateOptions extends object = object,
+>(
+  options: Simplify<CreateProFormOptions<Values>>,
+  publicMethods: PublicMethods,
+  privateOptions: PrivateOptions,
+): Merge<
+    Merge<Omit<CreateProFormReturn<Values>, typeof proFormInternalKey>, PublicMethods>,
+    {
+      [proFormInternalKey]: Merge<CreateProFormReturn<Values>[typeof proFormInternalKey], PrivateOptions>
+    }
+  > {
+  let returned = createProForm(options) as any
+
+  if (publicMethods) {
+    returned = {
+      ...returned,
+      ...publicMethods,
+    }
+  }
+
+  if (privateOptions) {
+    returned = {
+      ...returned,
+      [proFormInternalKey]: {
+        ...returned[proFormInternalKey],
+        ...privateOptions,
+      },
+    }
+  }
+
+  return Object.freeze(returned)
+}
+
+export type ExtendProForm<V, PM extends object = object, PO extends object = object> = typeof extendProForm<V, PM, PO>
