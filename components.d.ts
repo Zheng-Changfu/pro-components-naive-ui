@@ -36,6 +36,7 @@ declare module 'vue' {
     NOl: typeof import('naive-ui')['NOl']
     NP: typeof import('naive-ui')['NP']
     NPopover: typeof import('naive-ui')['NPopover']
+    NProCard: typeof import('naive-ui')['NProCard']
     NRadio: typeof import('naive-ui')['NRadio']
     NRadioButton: typeof import('naive-ui')['NRadioButton']
     NRadioGroup: typeof import('naive-ui')['NRadioGroup']
