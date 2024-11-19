@@ -8,7 +8,7 @@ interface DialogSlots {
   action?: any
 }
 export type ProModalSlots = Simplify<
-  & Omit<ProCardSlots, 'collaspe' | 'default'>
+  & Omit<ProCardSlots, 'collapse' | 'default'>
   & DialogSlots
   & {
     default?: { draggableClass: string }
