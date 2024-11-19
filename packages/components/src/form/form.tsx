@@ -58,8 +58,8 @@ export default defineComponent({
 
     const {
       internalForm,
-      registerNFormInst,
       validationResults,
+      registerNFormInst,
     } = form[proFormInternalKey]
 
     onMounted(() => {
