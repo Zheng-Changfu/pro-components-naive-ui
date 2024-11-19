@@ -1,50 +1,35 @@
-import type { Simplify } from 'type-fest'
 import type { Ref } from 'vue'
-import type { CreateProFormOptions, CreateProFormReturn } from '../../form/composables/createProForm'
-import { createProForm } from '../../form/composables/createProForm'
+import type { CreateProFormOptions, ExtendProForm } from '../../form/composables/createProForm'
+import { extendProForm, useInjectProForm } from '../../form/composables/createProForm'
 
-const proModalFormContextKey = Symbol('proModalForm')
-export const proModalFormInternalKey = Symbol('proModalFormInternalKey')
-
-export type CreateProModalFormReturn<Values = any> = Simplify<
-  CreateProFormReturn<Values> & {
+export type CreateProModalFormReturn<Values = any> = ExtendProForm<
+  Values,
+  {
     /**
      * 打开弹窗
      */
-    open?: () => void
+    open: () => void
     /**
      * 关闭弹窗
      */
-    close?: () => void
-    /**
-     * 内部使用
-     */
-    [proModalFormInternalKey]: {
-      show: Ref<boolean>
-    }
+    close: () => void
+  },
+  {
+    show: Ref<boolean>
   }
 >
-
-type CreateProModalFormOptions<Values = any> = CreateProFormOptions<Values>
-export function createProModalForm<Values = any>(options: CreateProModalFormOptions<Values> = {}): CreateProModalFormReturn<Values> {
+export function createProModalForm<Values = any>(options: CreateProFormOptions<Values> = {}): CreateProModalFormReturn<Values> {
   const show = ref(false)
-  const form = createProForm(options)
-
-  const returned: CreateProModalFormReturn = {
-    ...form,
-    open: () => show.value = true,
-    close: () => show.value = false,
-    [proModalFormInternalKey]: {
-      show,
+  return extendProForm(options, {
+    open: () => {
+      show.value = true
     },
-  }
-  return Object.freeze(returned)
+    close: () => {
+      show.value = false
+    },
+  }, { show })
 }
 
-export function provideProModalForm(modalForm: CreateProModalFormReturn) {
-  provide(proModalFormContextKey, modalForm)
-}
-
-export function useInjectProModalForm<Values = any>(): CreateProModalFormReturn<Values> | undefined {
-  return inject(proModalFormContextKey)
+export function useInjectProModalForm<Values = any>() {
+  return useInjectProForm() as any as CreateProModalFormReturn<Values> | undefined
 }

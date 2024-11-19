@@ -1,25 +1,14 @@
+import type { Simplify } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../button'
+import type { ProModalProps } from '../modal/props'
 import type { CreateProModalFormReturn } from './composables/createProModalForm'
-import { omit, pick } from 'lodash-es'
+import { omit } from 'lodash-es'
 import { proFormProps } from '../form'
 import { proModalProps } from '../modal/props'
 
-console.log(
-  '冲突的属性',
-  pick(proFormProps, Object.keys(proModalProps)),
-  pick(proModalProps, Object.keys(proFormProps)),
-)
-
 export type FooterRender = (opt: {
-  /**
-   * 取消按钮
-   */
-  resetButtonDom: VNodeChild
-  /**
-   * 确认按钮
-   */
-  submitButtonDom: VNodeChild
+  footerDom: VNodeChild
 }) => VNodeChild
 
 export const proModalFormExtendProps = {
@@ -31,7 +20,7 @@ export const proModalFormExtendProps = {
     required: true,
   },
   /**
-   * 当 display-directive 为 show 时，关闭弹窗后是否重置表单
+   * 关闭弹窗后是否重置表单
    */
   restoreValuesOnClosed: {
     type: Boolean,
@@ -51,16 +40,27 @@ export const proModalFormExtendProps = {
     type: [Boolean, Object] as PropType<false | ProButtonProps>,
     default: undefined,
   },
+  /**
+   * 透传给 modal 的属性，某些属性有冲突时可能有用
+   */
+  proModalProps: {
+    type: Object as PropType<Simplify<Omit<
+      ProModalProps,
+      | 'show'
+      | 'onUpdateShow'
+      | 'onUpdate:show'
+    >>>,
+  },
 } as const
 
 export const proModalFormProps = {
-  ...omit(proFormProps, 'form'),
   ...omit(proModalProps, [
     'show',
     'onUpdateShow',
     'onUpdate:show',
   ]),
   ...proModalFormExtendProps,
+  ...omit(proFormProps, 'form'),
   /**
    * 调整默认值为 false
    */
@@ -70,11 +70,15 @@ export const proModalFormProps = {
    */
   maskClosable: Boolean,
   /**
+   * 调整默认值为 false
+   */
+  autoFocus: Boolean,
+  /**
    * 不支持 dialog 和 confirm 预设
    */
   preset: String as PropType<'card'>,
   /**
-   * 重写类型，为 false 不显示 footer
+   * 重写类型，为 false 不显示 action
    */
   footer: {
     type: [Function, Boolean] as PropType<false | FooterRender>,
