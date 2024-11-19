@@ -35,7 +35,7 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
         mousedownEvent = event
         prevY = +modal.style.top.slice(0, -2)
         prevX = +modal.style.left.slice(0, -2)
-      }, { capture: true }),
+      }),
     )
 
     cleanups.push(
@@ -64,13 +64,13 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
 
         modal.style.top = `${y}px`
         modal.style.left = `${x}px`
-      }, { capture: true }),
+      }),
     )
 
     cleanups.push(
       useEventListener(window, 'mouseup', () => {
         mousedownEvent = undefined
-      }, { capture: true }),
+      }),
     )
   }
 
