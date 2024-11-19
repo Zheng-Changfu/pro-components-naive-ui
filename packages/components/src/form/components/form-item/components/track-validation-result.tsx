@@ -42,9 +42,9 @@ export default defineComponent({
         return
       }
       if (path && formConfig) {
-        formConfig.clearValidationResults(path)
-        formConfig.addValidationErrors(path, errors)
-        formConfig.addValidationWarnings(path, warnings)
+        formConfig.validationResults.clearValidationResults(path)
+        formConfig.validationResults.addValidationErrors(path, errors)
+        formConfig.validationResults.addValidationWarnings(path, warnings)
       }
     }
 
@@ -74,7 +74,7 @@ export default defineComponent({
 
     onUnmounted(() => {
       if (formConfig && field) {
-        formConfig.clearValidationResults(field.stringPath.value)
+        formConfig.validationResults.clearValidationResults(field.stringPath.value)
       }
     })
 
@@ -85,8 +85,8 @@ export default defineComponent({
       readonly,
       () => {
         if (formConfig && field) {
-          formConfig.clearValidationResults(field.stringPath.value)
           formItemInstRef?.value.restoreValidation()
+          formConfig.validationResults.clearValidationResults(field.stringPath.value)
         }
       },
     )

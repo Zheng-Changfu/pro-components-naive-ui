@@ -59,10 +59,7 @@ export default defineComponent({
     const {
       internalForm,
       registerNFormInst,
-      addValidationErrors,
-      addValidationWarnings,
-      clearValidationResults,
-      getFieldValidationResult,
+      validationResults,
     } = form[proFormInternalKey]
 
     onMounted(() => {
@@ -70,10 +67,7 @@ export default defineComponent({
     })
 
     provide(proFormConfigKey, {
-      addValidationErrors,
-      addValidationWarnings,
-      clearValidationResults,
-      getFieldValidationResult,
+      validationResults,
       readonly: computed(() => overridedProps.value.readonly),
       validateBehavior: computed(() => overridedProps.value.validateBehavior),
       readonlyEmptyText: computed(() => overridedProps.value.readonlyEmptyText),

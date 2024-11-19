@@ -3,7 +3,6 @@ import type { BaseField, BaseForm, FormOptions, InternalPath } from 'pro-composa
 import type { Paths, Simplify, SimplifyDeep } from 'type-fest'
 import type { ComputedRef } from 'vue'
 import type { FieldExtraInfo } from '../components'
-import type { FormItemInternalValidateResult } from './useValidationResult'
 import { isString, toPath } from 'lodash-es'
 import { createForm, stringifyPath } from 'pro-composables'
 import { fieldExtraKey } from '../components'
@@ -35,9 +34,9 @@ export type CreateProFormReturn<Values = any> = Simplify<Pick<
   | 'resumeDependenciesTrigger'
   | 'getFieldsTransformedValue'
 > & {
-/**
- * 提交表单
- */
+  /**
+   * 提交表单
+   */
   submit: () => void
   /**
    * 还原所有字段值并清空校验
@@ -66,10 +65,7 @@ export type CreateProFormReturn<Values = any> = Simplify<Pick<
     internalForm: BaseForm
     model: Ref<Record<string, any>>
     registerNFormInst: (nForm: FormInst) => void
-    clearValidationResults: (path?: InternalPath) => void
-    getFieldValidationResult: (path: InternalPath) => FormItemInternalValidateResult | null
-    addValidationErrors: (path: string | undefined, errors: ValidateError[] | undefined) => void
-    addValidationWarnings: (path: string | undefined, errors: ValidateError[] | undefined) => void
+    validationResults: ReturnType<typeof useValidationResults>
   }
 }>
 
@@ -110,13 +106,6 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
   })
 
   const {
-    addValidationErrors,
-    addValidationWarnings,
-    clearValidationResults,
-    getFieldValidationResult,
-  } = useValidationResults()
-
-  const {
     matchPath,
     fieldStore,
     valueStore,
@@ -135,6 +124,13 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
 
   const submiting = ref(false)
   const nFormInst = ref<FormInst>()
+  const validationResults = useValidationResults()
+
+  const {
+    addValidationErrors,
+    addValidationWarnings,
+    clearValidationResults,
+  } = validationResults
 
   function registerNFormInst(nForm: FormInst) {
     nFormInst.value = nForm
@@ -271,10 +267,7 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     [proFormInternalKey]: {
       internalForm,
       registerNFormInst,
-      addValidationErrors,
-      addValidationWarnings,
-      clearValidationResults,
-      getFieldValidationResult,
+      validationResults,
       model: valueStore.values,
     },
     submiting: computed(() => submiting.value),

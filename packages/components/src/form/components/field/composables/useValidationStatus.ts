@@ -12,7 +12,9 @@ export function useValidationStatus(baseField?: BaseField) {
   const fieldValidateResult = computed(() => {
     const path = field?.path.value
     if (path) {
-      return proForm?.[proFormInternalKey].getFieldValidationResult(path)
+      return proForm?.[proFormInternalKey]
+        .validationResults
+        .getFieldValidationResult(path)
     }
   })
 
