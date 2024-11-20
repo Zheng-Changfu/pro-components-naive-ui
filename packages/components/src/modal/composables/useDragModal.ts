@@ -45,14 +45,12 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
         maxMoveX = window.innerWidth - right
         maxMoveY = window.innerHeight - bottom
 
-        const transform = modal.style.transform
-        const [
-          ,
-          translateX = '',
-          translateY = '',
-        ] = transform.match(/\((.*?)px,(.*)px/) ?? []
-        prevMoveY = +translateY.trim()
-        prevMoveX = +translateX.trim()
+        /**
+         * naive-ui modal 使用 transform 会导致关闭动画异常
+         */
+        const { left, top } = modal.style
+        prevMoveY = +top.slice(0, -2)
+        prevMoveX = +left.slice(0, -2)
       }),
     )
 
@@ -85,7 +83,8 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
         }
         const x = moveX + prevMoveX
         const y = moveY + prevMoveY
-        modal.style.transform = `translate(${x}px, ${y}px)`
+        modal.style.top = `${y}px`
+        modal.style.left = `${x}px`
       }),
     )
 
