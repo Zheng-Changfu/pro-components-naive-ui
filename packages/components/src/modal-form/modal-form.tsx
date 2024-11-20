@@ -13,6 +13,7 @@ import { proFormProps as _proFormProps, ProForm } from '../form'
 import { proFormInternalKey } from '../form/composables/createProForm'
 import { ProModal } from '../modal'
 import { proModalProps as _proModalProps } from '../modal/props'
+import { createProModalForm } from './composables/createProModalForm'
 import Footer from './modal-form-footer'
 import { proModalFormProps } from './props'
 import style from './styles/index.cssr'
@@ -23,6 +24,11 @@ export default defineComponent({
   props: proModalFormProps,
   slots: Object as SlotsType<ProModalFormSlots>,
   setup(props) {
+    let form = props.form
+    if (!form && __DEV__) {
+      form = createProModalForm()
+    }
+
     const overridedProps = useOverrideProps(
       name,
       props,
@@ -33,7 +39,7 @@ export default defineComponent({
     const proFormProps = computed<ProFormProps>(() => {
       return {
         ...pick(overridedProps.value, Object.keys(_proFormProps)),
-        form: props.form,
+        form,
       }
     })
 
@@ -55,7 +61,7 @@ export default defineComponent({
         'onUpdate:show': undefined,
         'preset': preset ? 'card' : undefined,
         'onAfterLeave': restoreValuesOnClosed,
-        'show': props.form?.[proFormInternalKey].show.value,
+        'show': form[proFormInternalKey].show.value,
       }
     })
 
@@ -65,7 +71,7 @@ export default defineComponent({
       } = overridedProps.value
 
       if (restoreValuesOnClosed) {
-        props.form.restoreFieldsValue()
+        form.restoreFieldsValue()
       }
     }
 
@@ -76,7 +82,7 @@ export default defineComponent({
 
       onClose
         ? onClose()
-        : !props.form.submiting.value && props.form.close()
+        : !form.submiting.value && form.close()
     }
 
     useMountStyle(
@@ -87,6 +93,7 @@ export default defineComponent({
     )
 
     return {
+      form,
       proFormProps,
       proModalProps,
       mergedClsPrefix,
@@ -111,7 +118,6 @@ export default defineComponent({
             }
 
             const {
-              form,
               footer,
               resetButtonProps,
               submitButtonProps,
@@ -119,7 +125,7 @@ export default defineComponent({
 
             const footerDom = (
               <Footer
-                form={form}
+                form={this.form}
                 resetButtonProps={resetButtonProps}
                 submitButtonProps={submitButtonProps}
               />
