@@ -1,6 +1,7 @@
 export * from './src/button'
 export * from './src/card'
 export * from './src/config-provider'
+export * from './src/drawer-form'
 // export * from './src/data-table'
 // export * from './src/data-table/components/search-form'
 // export * from './src/descriptions'

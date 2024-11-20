@@ -47,6 +47,10 @@ export const zhComponentRoutes = [
     component: () => import('../../packages/components/src/modal-form/demos/zhCN/index.demo-entry.md'),
   },
   {
+    path: 'drawer-form',
+    component: () => import('../../packages/components/src/drawer-form/demos/zhCN/index.demo-entry.md'),
+  },
+  {
     path: 'search-form',
     component: () => import('../../packages/components/src/data-table/components/search-form/demos/zhCN/index.demo-entry.md'),
   },
