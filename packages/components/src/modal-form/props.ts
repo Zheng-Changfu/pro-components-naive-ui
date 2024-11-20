@@ -13,6 +13,16 @@ export type FooterRender = (opt: {
 
 export const proModalFormExtendProps = {
   /**
+   * 弹窗宽度(css 值)
+   * @default '600px'
+   */
+  width: String,
+  /**
+   * 弹窗最大高度，超过后内容区域出现滚动条（css 值）
+   * @default '80%'
+   */
+  maxHeight: String,
+  /**
    * 关闭弹窗后是否重置表单
    */
   restoreValuesOnClosed: {

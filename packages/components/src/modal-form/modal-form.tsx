@@ -7,7 +7,7 @@ import { NFlex } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
-import { resolveSlotWithProps } from '../_utils/resolve-slot'
+import { resolveSlotWithProps, resolveWrappedSlotWithProps } from '../_utils/resolve-slot'
 import { useOverrideProps } from '../composables'
 import { proFormProps as _proFormProps, ProForm } from '../form'
 import { proFormInternalKey } from '../form/composables/createProForm'
@@ -105,12 +105,22 @@ export default defineComponent({
         class={[
           `${this.mergedClsPrefix}-pro-modal-form`,
         ]}
+        style={{
+          width: this.width ?? '600px',
+          maxHeight: this.maxHeight ?? '80%',
+        }}
         {...this.proModalProps}
       >
         {{
           ...this.$slots,
           default: (options: { draggableClass: string }) => {
-            return <ProForm {...this.proFormProps}>{this.$slots.default?.(options)}</ProForm>
+            return resolveWrappedSlotWithProps(this.$slots.default, { options }, (children) => {
+              return (
+                <ProForm {...this.proFormProps}>
+                  {children}
+                </ProForm>
+              )
+            })
           },
           footer: () => {
             if (this.$props.footer === false) {
@@ -131,9 +141,7 @@ export default defineComponent({
               />
             )
 
-            return resolveSlotWithProps(this.$slots.footer, {
-              footerDom,
-            }, () => {
+            return resolveSlotWithProps(this.$slots.footer, { footerDom }, () => {
               return footer
                 ? footer({ footerDom })
                 : <NFlex justify="flex-end" size={[8, 8]}>{footerDom}</NFlex>

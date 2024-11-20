@@ -1,10 +1,12 @@
-import { cB } from 'naive-ui'
-import { as } from '../../_utils/bem'
+import { c, cB, cE } from 'naive-ui'
 
-export default cB('pro-modal-form', `
-  width: 600px;  
-`, [
-  as('card', {
-    width: '600px',
-  }),
+export default c([
+  cB('card', [
+    cE('content', `
+      overflow: auto; 
+    `),
+  ]),
+  cB('modal-scroll-content', `
+     height: 100%;
+  `),
 ])
