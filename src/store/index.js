@@ -1,3 +1,4 @@
+import { generate } from '@ant-design/colors'
 import {
   darkTheme,
   dateZhCN,
@@ -124,17 +125,34 @@ const flattenedDocOptionsRef = computed(() => {
 export function siteSetup() {
   i18n.provide(computed(() => localeNameRef.value))
   const isMobileRef = useIsMobile()
+
+  const themeOverrides = computed(() => {
+    const pirmaryColor = '#1677FF'
+    const colors = generate(pirmaryColor, {
+      theme: themeRef.value ? 'dark' : 'default',
+    })
+    return {
+      common: {
+        borderRadius: '6px',
+        primaryColor: colors[5],
+        primaryColorHover: colors[4],
+        primaryColorPressed: colors[4],
+        primaryColorSuppl: colors[6],
+      },
+    }
+  })
+
   return {
     themeEditorStyle: computed(() => {
       return isMobileRef.value ? 'right: 18px; bottom: 24px;' : undefined
     }),
     configProvider: configProviderRef,
     hljs,
+    themeOverrides,
     themeName: themeNameRef,
     theme: themeRef,
     locale: localeRef,
     dateLocale: dateLocaleRef,
-    themeOverrides: {},
     propOverrides: {
     },
   }
