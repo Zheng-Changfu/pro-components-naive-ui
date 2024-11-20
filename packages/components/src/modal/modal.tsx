@@ -37,6 +37,7 @@ export default defineComponent({
     )
 
     const {
+      stopDrag,
       startDrag,
       canDraggable,
     } = useDragModal(overridedProps)
@@ -78,6 +79,7 @@ export default defineComponent({
       return {
         ...modalProps.value,
         ...draggableClassProps.value,
+        onAfterLeave: onAfterLeave as any,
         onAfterEnter: onAfterEnter as any,
       }
     })
@@ -86,6 +88,11 @@ export default defineComponent({
       modalElement.value = modal
       canDraggable.value && startDrag(modal)
       overridedProps.value.onAfterEnter && (overridedProps.value.onAfterEnter as any)(modal)
+    }
+
+    function onAfterLeave(modal: HTMLElement) {
+      stopDrag()
+      overridedProps.value.onAfterLeave && (overridedProps.value.onAfterLeave as any)(modal)
     }
 
     return {
