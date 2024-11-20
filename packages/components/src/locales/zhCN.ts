@@ -58,6 +58,10 @@ export const zhCN = createLocale({
     checked: '打开',
     unchecked: '关闭',
   },
+  ProModalForm: {
+    reset: '取 消',
+    submit: '确 认',
+  },
   ProSearchForm: {
     reset: '重置',
     search: '查询',

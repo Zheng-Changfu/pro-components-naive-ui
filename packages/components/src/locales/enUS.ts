@@ -57,6 +57,10 @@ export const enUS = createLocale({
     checked: 'open',
     unchecked: 'close',
   },
+  ProModalForm: {
+    reset: 'reset',
+    submit: 'submit',
+  },
   ProSearchForm: {
     reset: 'reset',
     search: 'search',
