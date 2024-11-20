@@ -6,6 +6,7 @@
 
 <script lang="tsx">
 import { ArrowDownOutlined, ArrowUpOutlined } from '@vicons/antd'
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -13,11 +14,16 @@ export default defineComponent({
     ArrowDownOutlined,
     ArrowUpOutlined,
   },
+  setup() {
+    return {
+      form: createProForm(),
+    }
+  },
 })
 </script>
 
 <template>
-  <pro-form>
+  <pro-form :form="form">
     <n-card embedded>
       <pro-form-list
         title="用户信息"

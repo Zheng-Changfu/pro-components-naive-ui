@@ -3,7 +3,7 @@
  */
 
 import type { CNode } from 'css-render'
-import { c } from '../../_utils/cssr'
+import { c } from 'naive-ui'
 
 interface FadeInWidthExpandTransition {
   duration?: string

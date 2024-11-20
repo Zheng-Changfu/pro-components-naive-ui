@@ -1,8 +1,7 @@
 <markdown>
 # 拖拽
 
-默认支持弹窗拖拽，如果没有预设时不生效，可设置 `draggable` 为 `false` 关闭，设置 `draggable.sticky` 为 `false`,
-可以让拖拽范围超出可视区
+这玩意有时候还是需要的
 </markdown>
 
 <script lang="tsx">
@@ -11,8 +10,10 @@ import { ref } from 'vue'
 export default defineComponent({
   setup() {
     return {
-      showPresetCardModal: ref(false),
-      showPresetDialogModal: ref(false),
+      show1: ref(false),
+      show2: ref(false),
+      show3: ref(false),
+      show4: ref(false),
     }
   },
 })
@@ -20,27 +21,67 @@ export default defineComponent({
 
 <template>
   <n-flex>
-    <n-button @click="showPresetCardModal = true">
+    <n-button @click="show1 = true">
       card 预设
     </n-button>
-    <n-button @click="showPresetDialogModal = true">
+    <n-button @click="show2 = true">
       dialog 预设
+    </n-button>
+    <n-button @click="show3 = true">
+      无预设(使用 pro-card 组件)
+    </n-button>
+    <n-button @click="show4 = true">
+      无预设(自定义 header)
     </n-button>
   </n-flex>
   <pro-modal
-    v-model:show="showPresetCardModal"
-    title="Card 预设"
-    preset="card"
+    v-model:show="show1"
     class="w-600px"
-    :fullscreen="false"
+    preset="card"
+    title="card"
   >
-    <div>card 预设</div>
+    <div>这是一段内容...</div>
+    <div>这是一段内容...</div>
+    <div>这是一段内容...</div>
   </pro-modal>
   <pro-modal
-    v-model:show="showPresetDialogModal"
+    v-model:show="show2"
     preset="dialog"
     title="Dialog 预设"
   >
-    <div>dialog 预设</div>
+    <div>这是一段内容...</div>
+    <div>这是一段内容...</div>
+    <div>这是一段内容...</div>
+  </pro-modal>
+  <pro-modal
+    v-model:show="show3"
+  >
+    <template #default="{ draggableClass }">
+      <pro-card
+        closable
+        class="w-600px"
+        title="无预设(使用 pro-card 组件)"
+        :trigger-areas="[]"
+        :show-collapse="false"
+        :header-class="draggableClass"
+        @close="show3 = false"
+      >
+        <div>这是一段内容...</div>
+        <div>这是一段内容...</div>
+        <div>这是一段内容...</div>
+      </pro-card>
+    </template>
+  </pro-modal>
+  <pro-modal v-model:show="show4">
+    <template #default="{ draggableClass }">
+      <div aria-hidden="true" class="bg-#fff w-600px px-24px py-12px rounded">
+        <div class="font-bold text-18px mb-24px" :class="draggableClass">
+          无预设(自定义 header)
+        </div>
+        <div>这是一段内容...</div>
+        <div>这是一段内容...</div>
+        <div>这是一段内容...</div>
+      </div>
+    </template>
   </pro-modal>
 </template>

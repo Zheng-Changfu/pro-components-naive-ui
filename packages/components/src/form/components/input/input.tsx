@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProInputSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { InternalValueTypeEnum, ProField } from '../field'
 import Input from './fields/input'
 import { provideTextInstStore } from './inst'
 import { proInputProps } from './props'
@@ -35,16 +35,18 @@ export default defineComponent({
           ...this.overridedProps.fieldProps,
           type: 'text',
         }}
-        valueType={ValueTypeEnum.INPUT}
+        valueType={InternalValueTypeEnum.INPUT}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => (
-            <Input
-              {...pureProps}
-              v-slots={this.$slots}
-            />
-          ),
+          input: (pureProps: any) => {
+            return (
+              <Input
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
+          },
         }}
       </ProField>
     )

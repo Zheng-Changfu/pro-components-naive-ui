@@ -23,8 +23,9 @@ customFieldGroup.vue
 formLayout.vue
 formApi.vue
 asyncForm.vue
+login.vue
 ```
-
+<!--
 ## API
 ### ProForm 属性
 | 名称 | 类型 | 默认值 | 说明 | 版本 |
@@ -55,14 +56,14 @@ asyncForm.vue
 | --- | --- | --- | --- |
 | matchPath | `(pathMatch: PathMatch) => string[]` | 匹配字段，返回匹配到的字段数组 |  |
 | getFieldValue | `() => void` | 获取指定路径字段的值 |  |
-| getFieldsValue | `(paths?: Array<Path> \| true) => Record<string,any>` | 参数如果为 `true`,获取完整的值(包含被删除或者设置进去的非表单值)，如果为空，获取的是表单值，传入路径，则为路径值 |  |
-| setFieldValue | `(path: Path, value: any) => void` | 设置指定路径字段的值 |  |
+| getFieldsValue | `(paths?: Array<string \| string[]> \| true) => Record<string,any>` | 参数如果为 `true`,获取完整的值(包含被删除或者设置进去的非表单值)，如果为空，获取的是表单值，传入路径，则为路径值 |  |
+| setFieldValue | `(path: string \| string[], value: any) => void` | 设置指定路径字段的值 |  |
 | setFieldsValue | `(values: Record<string,any>,strategy:ValueMergeStrategy = 'merge') => void` | 设置多个路径字段的值,`strategy` 有3种合并值的策略，`merge` 代表深度和表单值合并，`shallowMerge` 代表和表单值浅合并，`overwrite` 代表重写表单值，默认为 `merge` |  |
-| resetFieldValue | `(path: Path) => void` | 重置指定路径字段的值 |  |
-| restoreFieldValue | `(path: Path) => void` | 重置指定路径字段的值并清空校验 |  |
+| resetFieldValue | `(path: string \| string[]) => void` | 重置指定路径字段的值 |  |
+| restoreFieldValue | `(path: string \| string[]) => void` | 重置指定路径字段的值并清空校验 |  |
 | resetFieldsValue | `() => void` | 重置所有字段的值 |  |
 | restoreFieldsValue | `() => void` | 重置所有字段的值并清空校验 |  |
-| setInitialValue | `(path: Path, value: any) => void` | 设置指定路径字段的初始值，重置字段值时会重置会设置的初始值或者本身的初始值  |  |
+| setInitialValue | `(path: string \| string[], value: any) => void` | 设置指定路径字段的初始值，重置字段值时会重置会设置的初始值或者本身的初始值  |  |
 | setInitialValues | `(values: Record<string,any>,strategy:ValueMergeStrategy = 'merge') => void` | 设置多个字段初始值，重置字段值时会重置会设置的初始值或者本身的初始值，`strategy` 有3种合并值的策略，`merge` 代表深度和表单值合并，`shallowMerge` 代表和表单值浅合并，`overwrite` 代表重写表单值，默认为 `merge` |  |
 | getFieldsTransformedValue | `() => Record<string,any>` | 获取表单值，不包含被隐藏的和设置过的（但是被 transform 处理过的） |  |
 | validate | `(paths?: string \| string[]) => ReturnType<FormInst['validate']>` | 校验单个字段、多个字段或表单 |  |
@@ -95,4 +96,4 @@ asyncForm.vue
     'dependencies',
     'initialValue',
   ] as const
-  ```
+  ``` -->

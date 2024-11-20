@@ -13,6 +13,7 @@
 import type { UploadFileInfo } from 'naive-ui'
 import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
 import { useMessage } from 'naive-ui'
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -30,6 +31,35 @@ export default defineComponent({
 
     return {
       onUnAcceptType,
+      form: createProForm({
+        initialValues: {
+          'upload': 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg',
+          'upload-image': [
+            'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg',
+            'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg',
+          ],
+          'drag-upload': [
+            {
+              id: 'a',
+              name: '我错了，但我可以改.png',
+              status: 'error',
+            },
+            {
+              id: 'd',
+              name: '现在还不行呢.doc',
+              status: 'uploading',
+              percentage: 50,
+            },
+            {
+              id: 'c',
+              name: '现在就可下载哟.png',
+              status: 'finished',
+              url: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
+            },
+          ],
+        },
+        onSubmit: console.log,
+      }),
     }
   },
 })
@@ -37,34 +67,8 @@ export default defineComponent({
 
 <template>
   <pro-form
+    :form="form"
     label-width="auto"
-    :initial-values="{
-      'upload': 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg',
-      'upload-image': [
-        'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg',
-        'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg',
-      ],
-      'drag-upload': [
-        {
-          id: 'a',
-          name: '我错了，但我可以改.png',
-          status: 'error',
-        },
-        {
-          id: 'd',
-          name: '现在还不行呢.doc',
-          status: 'uploading',
-          percentage: 50,
-        },
-        {
-          id: 'c',
-          name: '现在就可下载哟.png',
-          status: 'finished',
-          url: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-        },
-      ],
-    }"
-    @submit="console.log"
   >
     <n-card title="上传表单" embedded>
       <pro-upload

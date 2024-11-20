@@ -23,7 +23,7 @@ export const proSearchFormProps = {
   /**
    * 表单项集合
    */
-  columns: [Array, Function] as PropType<ProSearchFormColumns>,
+  columns: Array as PropType<ProSearchFormColumns>,
   /**
    * 重置按钮的属性，false 不显示
    */
@@ -57,15 +57,11 @@ export const proSearchFormProps = {
     default: true,
   },
   /**
-   * 重置后触发的事件
-   */
-  onReset: Function as PropType<() => void>,
-  /**
    * 搜索后触发的事件
    */
   onSearch: Function as PropType<(values: any) => void>,
   /**
-   * 收起后触发的事件
+   * 展开收起触发的事件(点击才会触发)
    */
   onCollapse: Function as PropType<(collapsed: boolean) => void>,
 } as const

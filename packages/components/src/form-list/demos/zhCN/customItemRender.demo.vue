@@ -4,8 +4,20 @@
 使用 `item-render` 可以将行和操作区域放在任意位置
 </markdown>
 
+<script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
+
+export default defineComponent({
+  setup() {
+    return {
+      form: createProForm(),
+    }
+  },
+})
+</script>
+
 <template>
-  <pro-form>
+  <pro-form :form="form">
     <pro-form-list
       title="用户信息"
       path="userInfo"

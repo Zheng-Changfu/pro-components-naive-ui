@@ -1,20 +1,9 @@
-import type { ArrayField } from 'pro-components-hooks'
+import type { ArrayFieldAction } from 'pro-composables'
 import type { ProDataTableInst } from '../data-table/inst'
 import { createInjectionState } from '@vueuse/core'
 import { useComponentInst } from '../composables'
 
-export interface ProEditDataTableInst<RowData = any> extends Pick<
-  ArrayField<RowData>,
-  | 'insert'
-  | 'move'
-  | 'moveDown'
-  | 'moveUp'
-  | 'pop'
-  | 'push'
-  | 'remove'
-  | 'shift'
-  | 'unshift'
->, Omit<ProDataTableInst<RowData>, 'reload'> {
+export interface ProEditDataTableInst<RowData = any> extends ArrayFieldAction<RowData>, Omit<ProDataTableInst<RowData>, 'reload'> {
   /**
    * 开始编辑
    * @param index 行索引

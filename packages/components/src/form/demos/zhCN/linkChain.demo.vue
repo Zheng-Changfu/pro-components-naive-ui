@@ -3,27 +3,25 @@
 </markdown>
 
 <script lang="tsx">
-import type { ProFormInst } from 'pro-components-naive-ui'
-import { defineComponent, ref } from 'vue'
+import { createProForm } from 'pro-components-naive-ui'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const instRef = ref<ProFormInst>()
-
-    function log() {
-      console.log(instRef.value!.getFieldsValue(true))
-    }
+    const form = createProForm<{ select: number, input1: number }>({
+      onSubmit: console.log,
+    })
 
     return {
-      log,
-      instRef,
+      form,
+      get: form.getFieldValue,
     }
   },
 })
 </script>
 
 <template>
-  <pro-form ref="instRef" label-placement="left" label-width="auto">
+  <pro-form :form="form" label-placement="left" label-width="auto">
     <pro-select
       title="控制者"
       path="select"
@@ -39,7 +37,7 @@ export default defineComponent({
       title="控制者"
       path="input1"
       :initial-value="1"
-      visible="{{ !!$vals.select }}"
+      :visible="!!get('select')"
       :field-props="{
         options: [
           { label: '显示', value: 1 },
@@ -50,10 +48,10 @@ export default defineComponent({
     <pro-input
       title="受控者"
       path="input2"
-      visible="{{ !!$vals.select && !!$vals.input1 }}"
+      :visible="!!get('select') && !!get('input1')"
     />
-    <n-button @click="log">
-      控制台查看
+    <n-button attr-type="submit">
+      提交
     </n-button>
   </pro-form>
 </template>

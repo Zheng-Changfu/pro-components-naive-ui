@@ -1,3 +1,4 @@
+import { generate } from '@ant-design/colors'
 import {
   darkTheme,
   dateZhCN,
@@ -5,16 +6,6 @@ import {
 } from 'naive-ui'
 import {
   ProConfigProvider,
-  ProDate,
-  ProDateRange,
-  ProDateTime,
-  ProDateTimeRange,
-  ProDigit,
-  ProInput,
-  ProSelect,
-  ProSwitch,
-  ProTime,
-  ValueTypeEnum,
   zhCN,
 } from 'pro-components-naive-ui'
 import { useMemo } from 'vooks'
@@ -134,51 +125,34 @@ const flattenedDocOptionsRef = computed(() => {
 export function siteSetup() {
   i18n.provide(computed(() => localeNameRef.value))
   const isMobileRef = useIsMobile()
+
+  const themeOverrides = computed(() => {
+    const pirmaryColor = '#1677FF'
+    const colors = generate(pirmaryColor, {
+      theme: themeRef.value ? 'dark' : 'default',
+    })
+    return {
+      common: {
+        borderRadius: '6px',
+        primaryColor: colors[5],
+        primaryColorHover: colors[4],
+        primaryColorPressed: colors[4],
+        primaryColorSuppl: colors[6],
+      },
+    }
+  })
+
   return {
     themeEditorStyle: computed(() => {
       return isMobileRef.value ? 'right: 18px; bottom: 24px;' : undefined
     }),
     configProvider: configProviderRef,
     hljs,
+    themeOverrides,
     themeName: themeNameRef,
     theme: themeRef,
     locale: localeRef,
     dateLocale: dateLocaleRef,
-    themeOverrides: {},
-    valueTypeMap: {
-      [ValueTypeEnum.DATE]: ProDate,
-      [ValueTypeEnum.TIME]: ProTime,
-      [ValueTypeEnum.INPUT]: ProInput,
-      [ValueTypeEnum.DIGIT]: ProDigit,
-      [ValueTypeEnum.SWITCH]: ProSwitch,
-      [ValueTypeEnum.SELECT]: ProSelect,
-      [ValueTypeEnum.DATE_TIME]: ProDateTime,
-      [ValueTypeEnum.DATE_RANGE]: ProDateRange,
-      [ValueTypeEnum.DATE_TIME_RANGE]: ProDateTimeRange,
-      // [ValueTypeEnum.TEXTAREA]: ProTextarea,
-      // [ValueTypeEnum.DATE_YEAR]: ProFieldDatePicker,
-      // [ValueTypeEnum.DATE_WEEK]: ProFieldDatePicker,
-      // [ValueTypeEnum.DATE_MONTH]: ProFieldDatePicker,
-      // [ValueTypeEnum.DATE_QUARTER]: ProFieldDatePicker,
-      // [ValueTypeEnum.DATE_YEAR_RANGE]: ProFieldDatePicker,
-      // [ValueTypeEnum.DATE_MONTH_RANGE]: ProFieldDatePicker,
-      // [ValueTypeEnum.DATE_QUARTER_RANGE]: ProFieldDatePicker,
-      // [ValueTypeEnum.PASSWORD]: ProPassword,
-      // [ValueTypeEnum.FORM_LIST]: ProFieldFormList,
-      // [ValueTypeEnum.CHECKBOX]: ProFieldCheckbox,
-      // [ValueTypeEnum.CHECKBOX_GROUP]: ProFieldCheckboxGroup,
-      // [ValueTypeEnum.TRANSFER]: ProFieldTransfer,
-      // [ValueTypeEnum.RADIO_GROUP]: ProFieldRadioGroup,
-      // [ValueTypeEnum.TREE_SELECT]: ProFieldTreeSelect,
-      // [ValueTypeEnum.SLIDER]: ProFieldSlider,
-      // [ValueTypeEnum.RATE]: ProFieldRate,
-      // [ValueTypeEnum.MENTION]: ProFieldMention,
-      // [ValueTypeEnum.CASCADER]: ProFieldCascader,
-      // [ValueTypeEnum.UPLOAD]: ProFieldUpload,
-      // [ValueTypeEnum.COLOR_PICKER]: ProFieldColorPicker,
-      // [ValueTypeEnum.DYNAMIC_TAGS]: ProFieldDynamicTags,
-      // [ValueTypeEnum.AUTO_COMPLETE]: ProFieldAutoComplete,
-    },
     propOverrides: {
     },
   }

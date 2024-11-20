@@ -1,6 +1,6 @@
 import type { TreeSelectOption, TreeSelectProps } from 'naive-ui'
 import { get, has, isNumber, isString, set } from 'lodash-es'
-import { eachTree, mapTree } from 'pro-components-hooks'
+import { eachTree, mapTree } from 'pro-composables'
 
 export const levelKey = '__level__'
 export function useOptions(props: TreeSelectProps) {

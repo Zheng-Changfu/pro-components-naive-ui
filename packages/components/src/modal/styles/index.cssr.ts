@@ -1,8 +1,9 @@
 import { c, cB } from 'naive-ui'
-import { draggableClass } from '../const'
+import { DRAGGABLE_CLASS } from '../composables/useDragModal'
 
 export default cB('pro-modal', [
-  c(`.${draggableClass}`, `
+  c(`.${DRAGGABLE_CLASS}`, `
       cursor: move;
+      user-select: none;
   `),
 ])

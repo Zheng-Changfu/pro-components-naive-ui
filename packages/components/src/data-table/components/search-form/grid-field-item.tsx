@@ -1,15 +1,18 @@
+import type { GridItemProps } from 'naive-ui'
 import type { PropType } from 'vue'
 import type { ProSearchFormColumn } from './types'
+import { isFunction } from 'lodash-es'
 import { NGi } from 'naive-ui'
-import { compile } from 'pro-components-hooks'
+import { compile } from 'pro-composables'
 import { defineComponent } from 'vue'
 import { useInjectGlobalConfig } from '../../../config-provider'
 import { useInjectProFormInst } from '../../../form'
+import { pickInternalProFieldProps } from '../../../form/components/type-utils'
 
 export default defineComponent({
   name: 'GridFieldItem',
   /**
-   * support n-grid
+   * 支持 n-grid
    */
   __GRID_ITEM__: true,
   props: {
@@ -23,13 +26,10 @@ export default defineComponent({
       valueTypeMap,
     } = useInjectGlobalConfig()
 
-    const {
-      getScope,
-      getFieldValue,
-    } = useInjectProFormInst()!
+    const action = useInjectProFormInst()!
 
     const columnScope = computed(() => {
-      const selfValue = getFieldValue(props.column.path ?? '')
+      const selfValue = action.getFieldValue(props.column.path ?? '')
       const builtinScope = {
         $row: {},
         $total: 0,
@@ -39,7 +39,7 @@ export default defineComponent({
         $self: selfValue,
       }
       return {
-        ...getScope(),
+        ...action.getScope(),
         ...builtinScope,
       }
     })
@@ -62,40 +62,63 @@ export default defineComponent({
         : !compile(hidden, columnScope.value)
     })
 
+    const proFieldProps = computed(() => {
+      const { column } = props
+      const internalProFieldProps = pickInternalProFieldProps(column)
+      const resolvedInternalProFieldProps = isFunction(column.proFieldProps) ? column.proFieldProps(action) : (column.proFieldProps ?? {})
+      return {
+        ...internalProFieldProps,
+        ...resolvedInternalProFieldProps,
+      }
+    })
+
+    const fieldProps = computed(() => {
+      const { fieldProps } = props.column
+      return isFunction(fieldProps) ? fieldProps(action) : (fieldProps ?? {})
+    })
+
+    const nGiProps = computed<GridItemProps>(() => {
+      const { span, offset } = props.column
+      return {
+        span,
+        offset,
+      }
+    })
+
     return {
+      action,
+      nGiProps,
+      fieldProps,
       valueTypeMap,
       columnVisible,
+      proFieldProps,
     }
   },
   render() {
-    const { column } = this.$props
-
     if (!this.columnVisible) {
       return null
     }
 
     const {
-      slots,
-      render,
-      span,
-      offset,
-      valueType = 'input',
-      ...fieldProps
-    } = column
-
-    const Field = this.valueTypeMap[valueType]
+      column,
+    } = this.$props
 
     return (
-      <NGi
-        span={span}
-        offset={offset}
-      >
+      <NGi {...this.nGiProps}>
         {{
-          default: () => [
-            render
-              ? render()
-              : Field && h(Field, fieldProps, slots),
-          ],
+          default: () => {
+            if (column.render) {
+              return column.render(this.action)
+            }
+            const Component = this.valueTypeMap[column.valueType ?? 'input']
+            return Component
+              ? h(Component, {
+                ...this.proFieldProps,
+                path: column.path,
+                fieldProps: this.fieldProps,
+              }, column.fieldSlots)
+              : null
+          },
         }}
       </NGi>
     )

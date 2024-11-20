@@ -1,5 +1,5 @@
 import type { ProDataTableProps } from '../props'
-import { watchEffect } from 'vue'
+import { watchImmediate } from '@vueuse/core'
 
 export function useLoading(props: ComputedRef<ProDataTableProps>) {
   const loading = ref(false)
@@ -8,10 +8,12 @@ export function useLoading(props: ComputedRef<ProDataTableProps>) {
     loading.value = v
   }
 
-  watchEffect(() => {
-    const value = props.value.loading
-    loading.value = value ?? false
-  })
+  watchImmediate(
+    () => props.value.loading,
+    (value) => {
+      loading.value = value ?? false
+    },
+  )
 
   return {
     setLoading,

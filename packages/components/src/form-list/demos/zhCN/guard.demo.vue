@@ -3,6 +3,7 @@
 </markdown>
 
 <script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
 
 function delay(time: number) {
@@ -26,13 +27,14 @@ export default defineComponent({
     return {
       beforeAddRow,
       beforeRemoveRow,
+      form: createProForm(),
     }
   },
 })
 </script>
 
 <template>
-  <pro-form>
+  <pro-form :form="form">
     <pro-form-list
       title="用户信息"
       path="userInfo"

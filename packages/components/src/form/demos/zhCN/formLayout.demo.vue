@@ -5,6 +5,7 @@
 </markdown>
 
 <script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
@@ -21,6 +22,7 @@ export default defineComponent({
     return {
       cols,
       marks,
+      form: createProForm(),
     }
   },
 })
@@ -34,7 +36,7 @@ export default defineComponent({
     :marks="marks"
     step="mark"
   />
-  <pro-form label-placement="left">
+  <pro-form :form="form" label-placement="left">
     <n-flex vertical>
       <n-card title="表单1" embedded>
         <n-grid :cols="cols" x-gap="16">

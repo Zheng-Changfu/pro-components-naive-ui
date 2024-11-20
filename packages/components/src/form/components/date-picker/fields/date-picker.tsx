@@ -2,7 +2,7 @@ import type { DatePickerProps, TimePickerProps } from 'naive-ui'
 import type { PropType, SlotsType } from 'vue'
 import type { ProDatePickerSlots } from '../slots'
 import { isArray, isString } from 'lodash-es'
-import { datePickerProps, NDatePicker, NEl, NFlex } from 'naive-ui'
+import { datePickerProps, NDatePicker, NFlex } from 'naive-ui'
 import { computed } from 'vue'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectDatePickerInstStore } from '../inst'
@@ -96,7 +96,6 @@ export default defineComponent({
       blur: () => instRef.value?.blur(),
       focus: () => instRef.value?.focus(),
     })
-
     return {
       empty,
       instRef,
@@ -121,9 +120,9 @@ export default defineComponent({
         const separator = this.$slots.separator?.() ?? this.$props.separator
         return (
           <NFlex size={[8, 0]}>
-            <NEl>{(displayDateText as [string, string])[0]}</NEl>
-            {separator && <NEl>{separator}</NEl>}
-            <NEl>{(displayDateText as [string, string])[1]}</NEl>
+            <span>{(displayDateText as [string, string])[0]}</span>
+            {separator && <span>{separator}</span>}
+            <span>{(displayDateText as [string, string])[1]}</span>
           </NFlex>
         )
       }

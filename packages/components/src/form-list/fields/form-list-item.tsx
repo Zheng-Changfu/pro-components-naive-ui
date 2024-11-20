@@ -3,15 +3,15 @@ import type { ProButtonProps } from '../../button'
 import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
-import { useToggle } from '@vueuse/core'
 import { omit } from 'lodash-es'
-import { NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
-import { useInjectListFieldContext } from 'pro-components-hooks'
+import { NFlex, NIcon, useThemeVars } from 'naive-ui'
+import { useInjectListField } from 'pro-composables'
 import { computed, defineComponent, Fragment, inject, provide, toRef } from 'vue'
+import { useInjectProForm } from '../../../components'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProButton } from '../../button'
 import { useReadonlyHelpers } from '../../form/components'
-import { useInjectProFormContext, useInjectProFormInst } from '../../form/context'
+import { useInjectProFormConfig } from '../../form/context'
 import { useLocale } from '../../locales'
 import { AUTO_CREATE_ID, proFormListContextKey, useInjectProFormListInst } from '../context'
 import { useProvidePath } from './composables/useProvidePath'
@@ -33,11 +33,11 @@ const Action = defineComponent({
       type: [Object, Boolean] as PropType<ProButtonProps | false>,
       default: undefined,
     },
-    path: Array as PropType<Array<string | number>>,
+    path: Array as PropType<Array<string>>,
     actionGuard: Object as PropType<Partial<ActionGuard>>,
   },
   setup(props) {
-    const form = useInjectProFormInst()!
+    const form = useInjectProForm()
 
     const {
       getMessage,
@@ -47,21 +47,14 @@ const Action = defineComponent({
       readonly,
     } = useReadonlyHelpers()
 
-    const [
-      removeLoading,
-      setRemoveLoading,
-    ] = useToggle()
-
-    const [
-      copyLoading,
-      setCopyLoading,
-    ] = useToggle()
+    const copyLoading = ref(false)
+    const removeLoading = ref(false)
 
     const {
       insert,
       remove: _remove,
       value: list,
-    } = useInjectListFieldContext()!
+    } = useInjectListField()!
 
     const showCopyButton = computed(() => {
       const { max, copyButtonProps } = props
@@ -110,6 +103,8 @@ const Action = defineComponent({
     })
 
     async function copy() {
+      if (!form)
+        return
       const { path, index, actionGuard } = props
       const { beforeAddRow, afterAddRow } = actionGuard ?? {}
 
@@ -117,7 +112,7 @@ const Action = defineComponent({
       const row = form.getFieldValue(path!) ?? {}
 
       if (beforeAddRow) {
-        setCopyLoading(true)
+        copyLoading.value = true
         const success = await beforeAddRow({ index, insertIndex, total: list.value.length })
         if (success) {
           insert(insertIndex, omit(row, AUTO_CREATE_ID))
@@ -125,7 +120,7 @@ const Action = defineComponent({
             afterAddRow({ index, insertIndex, total: list.value.length })
           }
         }
-        setCopyLoading(false)
+        copyLoading.value = false
       }
       else {
         insert(insertIndex, omit(row, AUTO_CREATE_ID))
@@ -140,7 +135,7 @@ const Action = defineComponent({
       const { beforeRemoveRow, afterRemoveRow } = actionGuard ?? {}
 
       if (beforeRemoveRow) {
-        setRemoveLoading(true)
+        removeLoading.value = true
         const success = await beforeRemoveRow({ index, total: list.value.length })
         if (success) {
           _remove(index)
@@ -148,7 +143,7 @@ const Action = defineComponent({
             afterRemoveRow({ index, total: list.value.length })
           }
         }
-        setRemoveLoading(false)
+        removeLoading.value = false
       }
       else {
         _remove(index)
@@ -229,11 +224,11 @@ export default defineComponent({
 
     const {
       validateBehavior,
-    } = useInjectProFormContext()
+    } = useInjectProFormConfig()
 
     const {
       value: list,
-    } = useInjectListFieldContext()!
+    } = useInjectListField()!
 
     const total = computed(() => {
       return list.value.length
@@ -341,7 +336,7 @@ export default defineComponent({
       itemDom,
       actionDom: resolvedActionDom,
     }, () => (
-      <NEl
+      <div
         style={{
           display: 'flex',
           gap: '0 16px',
@@ -351,7 +346,7 @@ export default defineComponent({
       >
         {itemDom}
         {resolvedActionDom}
-      </NEl>
+      </div>
     ))
   },
 })

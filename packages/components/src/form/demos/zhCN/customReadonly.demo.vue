@@ -6,12 +6,14 @@
 
 <script lang="tsx">
 import { InputProps } from 'naive-ui'
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
     return {
       readonly: ref(false),
+      form: createProForm(),
     }
   },
 })
@@ -23,6 +25,7 @@ export default defineComponent({
       <div>只读：<n-switch v-model:value="readonly" /></div>
     </n-flex>
     <pro-form
+      :form="form"
       label-width="auto"
       label-placement="left"
       :readonly="readonly"

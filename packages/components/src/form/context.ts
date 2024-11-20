@@ -1,41 +1,27 @@
 import type { PopoverProps } from 'naive-ui'
-import type { Path } from 'pro-components-hooks'
 import type { InjectionKey, MaybeRef, ToRef } from 'vue'
-import type { ProFormInst } from './inst'
-import type { ValidateBehavior, ValidateError, ValidationTrigger } from './props'
-import { noop } from 'lodash-es'
-import { inject, provide } from 'vue'
+import type { ValidateBehavior, ValidationTrigger } from './props'
+import { inject, shallowRef } from 'vue'
+import { useValidationResults } from './composables/useValidationResult'
 
-export const proFormInstContextKey = Symbol('proFormInst') as InjectionKey<ProFormInst>
-
-export const proFormContextKey = Symbol('proForm') as InjectionKey<{
+export const proFormConfigKey = Symbol('proFormConfig') as InjectionKey<{
   readonly: MaybeRef<boolean | undefined>
   readonlyEmptyText: MaybeRef<string | undefined>
   validateBehavior: ToRef<ValidateBehavior | undefined>
   validateBehaviorProps: ToRef<PopoverProps | undefined>
+  validationResults: ReturnType<typeof useValidationResults>
   validationTrigger: MaybeRef<ValidationTrigger | ValidationTrigger[]>
-  clearValidationResults: (path?: Path) => void
-  addValidationErrors: (path: string | undefined, errors: ValidateError[] | undefined) => void
-  addValidationWarnings: (path: string | undefined, errors: ValidateError[] | undefined) => void
 }>
 
-export function provideProFormInst(inst: ProFormInst) {
-  provide(proFormInstContextKey, inst)
-}
-
-export function useInjectProFormInst() {
-  return inject(proFormInstContextKey)
-}
-
-export function useInjectProFormContext() {
-  return inject(proFormContextKey, {
-    readonly: undefined,
-    readonlyEmptyText: '-',
-    addValidationErrors: noop,
-    clearValidationResults: noop,
-    addValidationWarnings: noop,
-    validationTrigger: 'input',
-    validateBehavior: ref(undefined),
-    validateBehaviorProps: ref(undefined),
-  })!
+export function useInjectProFormConfig() {
+  return inject(proFormConfigKey, () => {
+    return {
+      readonly: undefined,
+      readonlyEmptyText: '-',
+      validationTrigger: 'input',
+      validateBehavior: shallowRef(undefined),
+      validationResults: useValidationResults(),
+      validateBehaviorProps: shallowRef(undefined),
+    }
+  }, true)
 }

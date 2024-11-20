@@ -1,12 +1,12 @@
 import type { SlotsType } from 'vue'
 import type { ProFormListSlots } from './slots'
 import { isArray } from 'lodash-es'
-import { uid } from 'pro-components-hooks'
+import { uid } from 'pro-composables'
 import { computed } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { useOverrideProps } from '../composables'
-import { ProField, ValueTypeEnum } from '../form/components'
+import { ProField } from '../form/components'
 import { AUTO_CREATE_ID } from './context'
 import FormList from './fields/form-list'
 import { provideFormListInstStore } from './inst'
@@ -95,19 +95,21 @@ export default defineComponent({
       <ProField
         {...this.splitProps.proFieldProps}
         isList={true}
+        valueModelName=""
         postValue={this.autoCreateRowId}
-        valueType={ValueTypeEnum.FORM_LIST}
         class={[`${mergedClsPrefix}-pro-form-list`]}
         fieldProps={this.splitProps.fieldListProps}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => (
-            <FormList
-              {...pureProps}
-              v-slots={this.$slots}
-            />
-          ),
+          input: (pureProps: any) => {
+            return (
+              <FormList
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
+          },
         }}
       </ProField>
     )

@@ -1,45 +1,61 @@
 import type { DataTableProps } from 'naive-ui'
 import type { TableBaseColumn, TableColumnGroup, TableExpandColumn, TableSelectionColumn } from 'naive-ui/es/data-table/src/interface'
-import type { ExtractObjectPath } from 'pro-components-hooks'
+import type { Paths } from 'type-fest'
 import type { VNodeChild } from 'vue'
-import type { FieldValueType } from '../form'
-import type { AnyFn } from '../types'
+import type { ProFieldColumn } from '../form'
+import type { ProDataTableInst } from './inst'
 
-export interface ProDataTableBaseColumn<RowData = any> extends Omit<TableBaseColumn<RowData>, 'key'> {
+interface ProDataTableBaseColumnProps<RowData = any> extends Omit<
+  TableBaseColumn<RowData>,
+  | 'key' | 'render'
+> {
   /**
    * naive-ui 需要的 key，这里只做了类型的处理
    */
-  key?: ExtractObjectPath<RowData> | ({} & string)
-  /**
-   * 同 key，工程化统一
-   */
-  path?: ExtractObjectPath<RowData> | ({} & string)
+  key?: Paths<RowData>
   /**
    * 显示在列右边的提示
    */
   tooltip?: string | string[]
   /**
-   * 组件映射，需要通过 `ProConfigProvider` 的 `valueTypeMap` 映射
+   * 自定义渲染
+   * @param rowData 行数据
+   * @param rowIndex 行索引
+   * @param action 表格实例的一些方法
    */
-  valueType?: FieldValueType
-  /**
-   * 组件的 props，自定义渲染时无效
-   */
-  fieldProps?: Record<string, any> | ((rowData: RowData, rowIndex: number) => Record<string, any>)
-  /**
-   * 组件的 slots，自定义渲染时无效
-   */
-  fieldSlots?: Record<string, AnyFn>
+  render?: (rowData: RowData, rowIndex: number, action: ProDataTableInst<RowData>) => VNodeChild
 }
 
-export interface ProDataTableColumnGroup<RowData = any> extends Omit<TableColumnGroup<RowData>, 'key' | 'children'> {
+type RowIndex = number
+
+export type ProDataTableBaseColumn<RowData = any> = ProFieldColumn<
+  RowData,
+  ProDataTableBaseColumnProps,
+  [RowData, RowIndex],
+  [RowData, RowIndex]
+>
+
+export interface ProDataTableColumnGroup<RowData = any> extends Omit<
+  TableColumnGroup<RowData>,
+  | 'key' | 'children'
+> {
+  key?: Paths<RowData>
+  path?: Paths<RowData>
   tooltip?: string | string[]
-  key?: ExtractObjectPath<RowData> | ({} & string)
-  path?: ExtractObjectPath<RowData> | ({} & string)
   children: (ProDataTableBaseColumn<RowData> & { children?: ProDataTableColumnGroup<RowData>['children'] })[]
 }
 
-export interface ProDataTableIndexColumn<RowData = any> extends Omit<ProDataTableBaseColumn<RowData>, 'path' | 'key' | 'render' | 'type' | 'valueType' | 'fieldProps' | 'fieldSlots'> {
+export interface ProDataTableIndexColumn<RowData = any> extends Omit<
+  ProDataTableBaseColumn<RowData>,
+  | 'key'
+  | 'path'
+  | 'type'
+  | 'render'
+  | 'valueType'
+  | 'fieldProps'
+  | 'fieldSlots'
+  | 'proFieldProps'
+> {
   /**
    * 序号列
    */

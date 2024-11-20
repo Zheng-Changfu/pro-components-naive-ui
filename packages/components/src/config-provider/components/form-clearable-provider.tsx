@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { ProConfigProvider } from '../../../config-provider'
+import ProConfigProvider from '../config-provider'
 
 const name = 'ProFormClearableProvider'
 export default defineComponent({

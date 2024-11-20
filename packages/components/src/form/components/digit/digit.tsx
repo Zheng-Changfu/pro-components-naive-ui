@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProDigitSlots } from './slots'
 import { isString } from 'lodash-es'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { InternalValueTypeEnum, ProField } from '../field'
 import Digit from './fields/digit'
 import { provideDigitInstStore } from './inst'
 import { proDigitProps } from './props'
@@ -48,16 +48,18 @@ export default defineComponent({
         {...this.overridedProps}
         defaultValue={null}
         postValue={this.tryConvertStringToNumber}
-        valueType={ValueTypeEnum.DIGIT}
+        valueType={InternalValueTypeEnum.DIGIT}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => (
-            <Digit
-              {...pureProps}
-              v-slots={this.$slots}
-            />
-          ),
+          input: (pureProps: any) => {
+            return (
+              <Digit
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
+          },
         }}
       </ProField>
     )

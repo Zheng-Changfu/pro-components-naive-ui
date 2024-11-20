@@ -1,6 +1,6 @@
 import type { UploadFileInfo } from 'naive-ui'
 import { isArray, isString } from 'lodash-es'
-import { uid } from 'pro-components-hooks'
+import { uid } from 'pro-composables'
 import { isEmptyValue } from '../../field/utils/valueUtil'
 
 /**

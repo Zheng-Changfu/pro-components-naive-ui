@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProTransferSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { InternalValueTypeEnum, ProField } from '../field'
 import Transfer from './fields/transfer'
 import { proTransferProps } from './props'
 
@@ -25,16 +25,18 @@ export default defineComponent({
       <ProField
         {...this.overridedProps}
         defaultValue={[]}
-        valueType={ValueTypeEnum.TRANSFER}
+        valueType={InternalValueTypeEnum.TRANSFER}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => (
-            <Transfer
-              {...pureProps}
-              v-slots={this.$slots}
-            />
-          ),
+          input: (pureProps: any) => {
+            return (
+              <Transfer
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
+          },
         }}
       </ProField>
     )

@@ -1,5 +1,6 @@
+import type { InternalPath } from 'pro-composables'
 import type { ValidateError } from '../props'
-import { type Path, stringifyPath } from 'pro-components-hooks'
+import { stringifyPath } from 'pro-composables'
 import { computed, ref } from 'vue'
 
 /**
@@ -51,7 +52,7 @@ export function useValidationResults() {
     result.warnings = warnings ?? []
   }
 
-  function clearValidationResults(path?: Path) {
+  function clearValidationResults(path?: InternalPath) {
     if (!path) {
       pathToValidationResultsMap.value.clear()
       return
@@ -68,7 +69,7 @@ export function useValidationResults() {
     return res as Record<string, FormItemInternalValidateResult>
   }
 
-  function getFieldValidationResult(path: Path) {
+  function getFieldValidationResult(path: InternalPath) {
     const p = stringifyPath(path)
     return pathToValidationResultsMap.value.get(p) ?? null
   }

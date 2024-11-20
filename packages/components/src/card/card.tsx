@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProCardSlots } from './slots'
 import { DownOutlined, InfoCircleOutlined, UpOutlined } from '@vicons/antd'
 import { isFunction } from 'lodash-es'
-import { collapseTransitionProps, NCard, NEl, NFlex, NIcon, useThemeVars } from 'naive-ui'
+import { collapseTransitionProps, NCard, NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import ProCollapseTransition from '../_internal/components/collapse-transition/index.vue'
 import ProTooltip from '../_internal/components/pro-tooltip'
@@ -164,7 +164,7 @@ export default defineComponent({
               return null
             }
             return (
-              <NEl
+              <div
                 class={[
                   {
                     [`${mergedClsPrefix}-card-header__main--prefix`]: this.overridedProps.prefix,
@@ -172,7 +172,6 @@ export default defineComponent({
                   },
                 ]}
                 style={this.cssVars}
-                // @ts-expect-error
                 onClick={() => this.triggerExpand('main')}
               >
                 {resolveSlot(this.$slots.header, () => [this.resolvedTitle])}
@@ -191,7 +190,7 @@ export default defineComponent({
                     ],
                   }}
                 </ProTooltip>
-              </NEl>
+              </div>
             )
           },
           'header-extra': () => {
@@ -199,7 +198,7 @@ export default defineComponent({
               this.$slots['header-extra']?.(),
               this.showCollapseArea && resolveWrappedSlotWithProps(this.$slots.collapse, { expanded: this.show }, (children) => {
                 children = children ?? [
-                  <NEl>{this.collapseText}</NEl>,
+                  <div>{this.collapseText}</div>,
                   <NIcon>{this.show ? <UpOutlined /> : <DownOutlined />}</NIcon>,
                 ] as any
 

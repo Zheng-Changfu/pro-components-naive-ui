@@ -1,7 +1,6 @@
 import type { AutoCompleteProps } from 'naive-ui'
-import type { MaybeExpression } from 'pro-components-hooks'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { ExtendAttrsStyleProps } from '../../../types'
+import type { BaseFieldProps } from '../../../types'
 import { proFieldProps } from '../field'
 
 interface ProAutoCompleteFieldProps extends Omit<AutoCompleteProps, 'options'> {
@@ -13,10 +12,7 @@ interface ProAutoCompleteFieldProps extends Omit<AutoCompleteProps, 'options'> {
 
 export const proAutoCompleteProps = {
   ...proFieldProps,
-  fieldProps: {
-    type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<ProAutoCompleteFieldProps>>>,
-    default: () => ({}),
-  },
+  fieldProps: Object as PropType<BaseFieldProps<ProAutoCompleteFieldProps>>,
 } as const
 
 export type ProAutoCompleteProps = ExtractPublicPropTypes<typeof proAutoCompleteProps>

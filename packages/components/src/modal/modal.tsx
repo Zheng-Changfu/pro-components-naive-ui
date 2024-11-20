@@ -1,17 +1,13 @@
 import type { ModalProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
-import type { ProModalInst } from './inst'
 import type { ProModalSlots } from './slots'
-import { FullscreenExitOutlined, FullscreenOutlined } from '@vicons/antd'
-import { createEventHook, useFullscreen, useVModel } from '@vueuse/core'
-import { isFunction } from 'lodash-es'
-import { NButton, NIcon, NModal } from 'naive-ui'
-import { computed, defineComponent, nextTick } from 'vue'
+import { NModal } from 'naive-ui'
+import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
+import { mergeClass } from '../_utils/mergeClass'
 import { useOmitProps, useOverrideProps } from '../composables'
-import { useDragModal } from './composables/useDragModal'
-import { draggableClass } from './const'
+import { DRAGGABLE_CLASS, useDragModal } from './composables/useDragModal'
 import { proModalExtendProps, proModalProps } from './props'
 import style from './styles/index.cssr'
 
@@ -20,7 +16,7 @@ export default defineComponent({
   name,
   props: proModalProps,
   slots: Object as SlotsType<ProModalSlots>,
-  setup(props, { expose }) {
+  setup(props) {
     const modalElement = ref<HTMLElement>()
     const mergedClsPrefix = useNaiveClsPrefix()
 
@@ -28,16 +24,6 @@ export default defineComponent({
       name,
       props,
     )
-
-    const {
-      on: onAfterEnterHook,
-      trigger: triggerAfterEnter,
-    } = createEventHook()
-
-    const {
-      on: onAfterLeaveHook,
-      trigger: triggerAfterLeave,
-    } = createEventHook()
 
     useMountStyle(
       'ProModal',
@@ -50,26 +36,19 @@ export default defineComponent({
       proModalExtendProps,
     )
 
-    const show = useVModel(
-      props,
-      'show',
-      undefined,
-      { passive: true },
-    )
-
     const {
-      isFullscreen,
-      exit: exitFullscreen,
-      enter: enterFullscreen,
-      toggle: toggleFullscreen,
-    } = useFullscreen(modalElement)
-
-    const {
+      stopDrag,
+      startDrag,
       canDraggable,
-      bindingEvents: bindingDragEvents,
     } = useDragModal(overridedProps)
 
-    const headerClassProps = computed<ModalProps>(() => {
+    const draggableClass = computed(() => {
+      return canDraggable.value
+        ? DRAGGABLE_CLASS
+        : ''
+    })
+
+    const draggableClassProps = computed<ModalProps>(() => {
       const {
         preset,
         titleClass,
@@ -78,18 +57,19 @@ export default defineComponent({
 
       if (preset === 'confirm' || preset === 'dialog') {
         return {
-          titleClass: [
+          titleClass: mergeClass(
             titleClass,
-            canDraggable.value && draggableClass,
-          ].filter(Boolean).join(' '),
+            draggableClass.value,
+          ),
         }
       }
+
       if (preset === 'card') {
         return {
-          headerClass: [
+          headerClass: mergeClass(
             headerClass,
-            canDraggable.value && draggableClass,
-          ].filter(Boolean).join(' '),
+            draggableClass.value,
+          ),
         }
       }
       return {}
@@ -98,97 +78,42 @@ export default defineComponent({
     const nModalProps = computed<ModalProps>(() => {
       return {
         ...modalProps.value,
-        ...headerClassProps.value,
-        'show': show.value,
-        'onUpdate:show': v => show.value = v,
-        'onAfterEnter': onAfterEnter as any,
-        'onAfterLeave': onAfterLeave as any,
+        ...draggableClassProps.value,
+        onAfterLeave: onAfterLeave as any,
+        onAfterEnter: onAfterEnter as any,
       }
     })
 
     function onAfterEnter(modal: HTMLElement) {
       modalElement.value = modal
+      canDraggable.value && startDrag(modal)
       overridedProps.value.onAfterEnter && (overridedProps.value.onAfterEnter as any)(modal)
-      triggerAfterEnter()
-      canDraggable.value && bindingDragEvents(modal)
     }
 
     function onAfterLeave(modal: HTMLElement) {
+      stopDrag()
       overridedProps.value.onAfterLeave && (overridedProps.value.onAfterLeave as any)(modal)
-      triggerAfterLeave()
     }
 
-    function open(fn?: () => void) {
-      show.value = true
-      if (isFunction(fn)) {
-        nextTick(fn)
-      }
-    }
-
-    function close(fn?: () => void) {
-      show.value = false
-      if (isFunction(fn)) {
-        nextTick(fn)
-      }
-    }
-
-    const exposed: ProModalInst = {
-      open,
-      close,
-      exitFullscreen,
-      enterFullscreen,
-      toggleFullscreen,
-      onAfterEnter: onAfterEnterHook,
-      onAfterLeave: onAfterLeaveHook,
-    }
-
-    expose(exposed)
     return {
       nModalProps,
-      isFullscreen,
+      draggableClass,
       mergedClsPrefix,
-      toggleFullscreen,
+      preset: computed(() => overridedProps.value.preset),
     }
   },
   render() {
-    const {
-      $slots,
-      preset,
-      fullscreen,
-      nModalProps,
-      isFullscreen,
-      mergedClsPrefix,
-      toggleFullscreen,
-    } = this
-
-    function renderFullscreenIcon() {
-      return (
-        <NButton text={true} onClick={toggleFullscreen}>
-          <NIcon size="var(--n-title-font-size)">
-            {isFullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
-          </NIcon>
-        </NButton>
-      )
-    }
-
-    const slots = fullscreen && preset === 'card'
-      ? {
-          ...$slots,
-          'header-extra': () => {
-            return [
-              $slots['header-extra']?.(),
-              renderFullscreenIcon(),
-            ]
-          },
-        }
-      : $slots
-
     return (
       <NModal
-        {...nModalProps}
-        class={[`${mergedClsPrefix}-pro-modal`]}
+        {...this.nModalProps}
+        class={[`${this.mergedClsPrefix}-pro-modal`]}
       >
-        {slots}
+        {{
+          ...this.$slots,
+          default: () => {
+            return this.$slots.default?.({ draggableClass: this.draggableClass })
+          },
+        }}
       </NModal>
     )
   },

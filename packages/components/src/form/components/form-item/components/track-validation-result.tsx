@@ -2,24 +2,24 @@ import type { FormItemRule } from 'naive-ui'
 import type { PropType } from 'vue'
 import type { FormItemInternalValidateResult } from '../../../composables/useValidationResult'
 import type { FieldExtraInfo } from '../../field'
-import { useInjectFieldContext } from 'pro-components-hooks'
+import { useInjectField } from 'pro-composables'
 import { inject, onUnmounted, provide } from 'vue'
-import { useInjectProFormContext } from '../../../context'
+import { useInjectProFormConfig } from '../../../context'
 import { fieldExtraKey, useReadonlyHelpers } from '../../field'
 
 /**
  * 对表单项调用校验的方法打补丁，为了收集校验结果，实现错误信息自定义位置
  */
 export default defineComponent({
-  name: 'PatchInternalValidate',
+  name: 'TrackValidationResult',
   props: {
     rule: Array as PropType<FormItemRule[]>,
   },
   setup(props) {
-    const field = useInjectFieldContext()!
+    const field = useInjectField()
     const nFormItem = inject('n-form-item')!
     const { readonly } = useReadonlyHelpers()
-    const formContext = useInjectProFormContext()
+    const formConfig = useInjectProFormConfig()
     const formItemInstRef = (field?.[fieldExtraKey] as FieldExtraInfo)?.proFormItemInst
 
     function collectValidationResult(trigger: string, res: Partial<FormItemInternalValidateResult>) {
@@ -41,10 +41,10 @@ export default defineComponent({
       if (!activeRules.length) {
         return
       }
-      if (path && formContext) {
-        formContext.clearValidationResults(path)
-        formContext.addValidationErrors(path, errors)
-        formContext.addValidationWarnings(path, warnings)
+      if (path && formConfig) {
+        formConfig.validationResults.clearValidationResults(path)
+        formConfig.validationResults.addValidationErrors(path, errors)
+        formConfig.validationResults.addValidationWarnings(path, warnings)
       }
     }
 
@@ -73,8 +73,8 @@ export default defineComponent({
     }
 
     onUnmounted(() => {
-      if (formContext && field) {
-        formContext.clearValidationResults(field.stringPath.value)
+      if (formConfig && field) {
+        formConfig.validationResults.clearValidationResults(field.stringPath.value)
       }
     })
 
@@ -84,9 +84,9 @@ export default defineComponent({
     watch(
       readonly,
       () => {
-        if (formContext && field) {
-          formContext.clearValidationResults(field.stringPath.value)
+        if (formConfig && field) {
           formItemInstRef?.value.restoreValidation()
+          formConfig.validationResults.clearValidationResults(field.stringPath.value)
         }
       },
     )

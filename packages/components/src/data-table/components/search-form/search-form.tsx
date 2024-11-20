@@ -7,8 +7,8 @@ import { defineComponent } from 'vue'
 import { resolveSlotWithProps } from '../../../_utils/resolve-slot'
 import { ProButton, type ProButtonProps } from '../../../button'
 import { useOverrideProps } from '../../../composables'
+import { ProFormClearableProvider } from '../../../config-provider'
 import { ProForm } from '../../../form'
-import { ProFormClearableProvider } from '../../../form/components/clearable-provider'
 import { useLocale } from '../../../locales'
 import { useGridCollapsed } from './composables/useGridCollapsed'
 import { useGridForm } from './composables/useGridForm'
@@ -33,8 +33,6 @@ export default defineComponent({
     } = useGridCollapsed(overridedProps)
 
     const {
-      reset,
-      search,
       formMethods,
       proFormProps,
     } = useGridForm(overridedProps)
@@ -50,7 +48,7 @@ export default defineComponent({
         : {
             content: getMessage('reset'),
             ...(resetButtonProps ?? {}),
-            onClick: reset,
+            attrType: 'reset',
           }
     })
 
@@ -89,15 +87,12 @@ export default defineComponent({
 
     const exposed: ProSearchFormInst = {
       ...formMethods,
-      reset,
-      search,
       toggleCollapsed,
     }
 
     expose(exposed)
     return {
-      reset,
-      search,
+      exposed,
       collapsed,
       nGridProps,
       proFormProps,
@@ -105,6 +100,8 @@ export default defineComponent({
       resetButtonProps,
       searchButtonProps,
       collapseButtonProps,
+      columns: computed(() => overridedProps.value.columns ?? []),
+      showSuffixGridItem: computed(() => overridedProps.value.showSuffixGridItem),
     }
   },
 
@@ -116,23 +113,20 @@ export default defineComponent({
       showSuffixGridItem,
     } = this
 
-    const resolvedColumns = toValue(columns) ?? []
-
     return (
       <ProFormClearableProvider>
         <ProForm {...proFormProps}>
           <NGrid {...nGridProps}>
             {{
               default: () => [
-                resolvedColumns.map(column => <GridFieldItem column={column} />),
+                (columns ?? []).map(column => <GridFieldItem column={column} />),
                 showSuffixGridItem && (
                   <NGi suffix={true}>
                     {
                       resolveSlotWithProps(this.$slots.suffix, {
-                        reset: this.reset,
-                        search: this.search,
-                        toggle: this.toggleCollapsed,
+                        ...this.exposed,
                         collapsed: this.collapsed,
+                        toggleCollapsed: this.toggleCollapsed,
                       }, () => [
                         <NFlex justify="end">
                           {this.searchButtonProps !== false && <ProButton {...this.searchButtonProps} />}

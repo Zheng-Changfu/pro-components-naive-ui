@@ -1,6 +1,6 @@
-import type { FieldOptions } from 'pro-components-hooks'
+import type { FieldOptions } from 'pro-composables'
 import type { ProFieldProps } from '../props'
-import { createField as _createField, createArrayField } from 'pro-components-hooks'
+import { createField as _createField, createArrayField } from 'pro-composables'
 import { toRef } from 'vue'
 
 export function createField(props: ProFieldProps) {
@@ -10,6 +10,7 @@ export function createField(props: ProFieldProps) {
     onChange,
     postValue,
     transform,
+    onInputValue,
     defaultValue,
     dependencies,
     initialValue,
@@ -27,6 +28,7 @@ export function createField(props: ProFieldProps) {
     onChange,
     transform,
     postValue,
+    onInputValue,
   }
 
   return isList ? createArrayField(options) : _createField(options)

@@ -3,7 +3,6 @@ import type { AnyFn } from '../types'
 import { createEventHook, useDocumentVisibility } from '@vueuse/core'
 import { isBoolean } from 'lodash-es'
 import { watch } from 'vue'
-import { useRoute } from 'vue-router'
 
 export type RefreshOnWindowFocus = boolean | {
   intervalTime: number
@@ -20,11 +19,6 @@ export interface UseFetchDataBaseOptions<RequestFn extends AnyFn> {
    * @default true
    */
   refreshOnWindowFocus?: RefreshOnWindowFocus
-  /**
-   * 是否接收路由的 query 和 params 参数作为请求参数
-   * @default false
-   */
-  receiveRouteQueryParams?: boolean
   /**
    * 请求函数
    */
@@ -77,11 +71,9 @@ export function useFetchData<T extends AnyFn, R>(options: ComputedRef<UseFetchDa
     onRequestError,
     onRequestSuccess,
     onRequestComplete,
-    receiveRouteQueryParams = false,
-    refreshOnWindowFocus = { intervalTime: 3000 },
+    refreshOnWindowFocus = { intervalTime: 15000 },
   } = options.value
 
-  const route = useRoute()
   const loading = ref(false)
   const data = ref({} as any)
   let prevNow = performance.now()
@@ -92,21 +84,12 @@ export function useFetchData<T extends AnyFn, R>(options: ComputedRef<UseFetchDa
     trigger: triggerSuccess,
   } = createEventHook()
 
-  const routeQueryParams = computed(() => {
-    return {
-      ...route.query as Record<string, any>,
-      ...route.params as Record<string, any>,
-    }
-  })
-
   async function fetchData(params: any = {}) {
     if (!options.value.request || loading.value)
       return
     try {
       loading.value = true
-      const routeParams = receiveRouteQueryParams ? routeQueryParams.value : undefined
       const requestParams = {
-        ...(routeParams ?? {}),
         ...(params ?? {}),
       }
       let res = (await options.value.request(requestParams)) ?? {}

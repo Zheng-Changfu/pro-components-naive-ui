@@ -76,7 +76,6 @@ export default defineComponent({
     tooltip="123"
     row-key="no"
     drag-sort-key="sort"
-    simple-pagination
     :request="request"
     :columns="columns"
     click-row-to-select

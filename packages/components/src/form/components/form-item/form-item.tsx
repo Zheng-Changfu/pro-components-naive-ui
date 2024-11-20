@@ -1,13 +1,13 @@
-import type { FormItemGiProps, FormItemInst, FormItemProps } from 'naive-ui'
+import type { FormItemInst, FormItemProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProFormItemSlots } from './slots'
 import { QuestionCircleOutlined } from '@vicons/antd'
-import { NEl, NFormItem, NIcon } from 'naive-ui'
-import { useInjectFieldContext } from 'pro-components-hooks'
+import { NFormItem, NIcon } from 'naive-ui'
+import { useInjectField } from 'pro-composables'
 import { computed, defineComponent, ref, useAttrs } from 'vue'
 import ProTooltip from '../../../_internal/components/pro-tooltip'
 import { fieldExtraKey } from '../field'
-import PatchInternalValidate from './components/patch-internal-validate'
+import TrackValidationResult from './components/track-validation-result'
 import { useRules } from './composables/useRules'
 import { proFormItemProps } from './props'
 
@@ -19,10 +19,10 @@ export default defineComponent({
   setup(props) {
     const attrs = useAttrs()
     const rules = useRules(props)
-    const field = useInjectFieldContext()
+    const field = useInjectField()
     const nFormItemInst = ref<FormItemInst>()
 
-    const nFormItemProps = computed<FormItemProps | FormItemGiProps> (() => {
+    const nFormItemProps = computed<FormItemProps> (() => {
       const {
         label,
         title,
@@ -52,26 +52,27 @@ export default defineComponent({
     }
   },
   render() {
-    const showLabel = !!(this.$slots.label?.() ?? this.title ?? this.label)
-
+    const labelDom = this.$slots.label?.()
+      ?? this.title
+      ?? this.label
+    /** TODO: style -> class */
     return (
       <NFormItem {...this.nFormItemProps}>
         {{
           feedback: this.$slots.feedback,
-          label: showLabel
+          label: labelDom
             ? () => {
-                const label = this.$slots.label?.() ?? this.title ?? this.label
                 return (
-                  <NEl
+                  <div
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                     }}
                   >
-                    {label}
+                    {labelDom}
                     <ProTooltip
                       trigger="hover"
-                      tooltip={this.$props.tooltip}
+                      tooltip={this.tooltip}
                     >
                       {{
                         trigger: () => {
@@ -90,15 +91,15 @@ export default defineComponent({
                         },
                       }}
                     </ProTooltip>
-                  </NEl>
+                  </div>
                 )
               }
             : undefined,
           default: () => {
             return (
-              <PatchInternalValidate rule={this.rules}>
+              <TrackValidationResult rule={this.rules}>
                 {this.$slots.default?.()}
-              </PatchInternalValidate>
+              </TrackValidationResult>
             )
           },
         }}

@@ -2,8 +2,9 @@ import type { DataTableColumn, PaginationProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
 import type { ProDataTableColumn } from '../types'
-import { mapTree } from 'pro-components-hooks'
-import { computed, watchEffect } from 'vue'
+import { watchImmediate } from '@vueuse/core'
+import { mapTree } from 'pro-composables'
+import { computed } from 'vue'
 import { isDragSortColumn, isExpandColumn, isGroupColumn, isIndexColumn, isSelectionColumn } from '../utils/column'
 import { useColumnRenderer } from './useColumnRenderer'
 
@@ -75,10 +76,12 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
     columns.value = convertProColumnsToColumns(values as ProDataTableColumn[])
   }
 
-  watchEffect(() => {
-    const values = props.value.columns ?? []
-    cacheColumns = columns.value = convertProColumnsToColumns(values)
-  })
+  watchImmediate(
+    () => props.value.columns,
+    (values) => {
+      cacheColumns = columns.value = convertProColumnsToColumns(values ?? [])
+    },
+  )
 
   return {
     setColumns,

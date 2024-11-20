@@ -4,12 +4,16 @@ import { isArray, isNumber, isString } from 'lodash-es'
 export function toDisplayDate(value: any, pattern: string): string | string[] | null {
   if (isString(value)) {
     if (/^\d+$/.test(value)) {
-      return format(Number(value), pattern)
+      return format(Number(value), pattern, {
+        useAdditionalWeekYearTokens: true,
+      })
     }
     return value
   }
   if (isDate(value) || isNumber(value)) {
-    return format(value, pattern)
+    return format(value, pattern, {
+      useAdditionalWeekYearTokens: true,
+    })
   }
   if (isArray(value)) {
     const [s, e] = value

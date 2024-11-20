@@ -5,7 +5,7 @@
 </markdown>
 
 <script lang="tsx">
-import { ProSelect, useInjectProFormInst } from 'pro-components-naive-ui'
+import { createProForm, ProSelect, useInjectProForm } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 function delay(time: number) {
@@ -33,7 +33,13 @@ const AsyncOptionsComp = defineComponent({
   setup() {
     const loading = ref(false)
     const options = ref<any[]>([])
-    const { getFieldValue, restoreFieldValue } = useInjectProFormInst()!
+
+    /**
+     * 当上层使用了 createProForm 时，在子组件中可以使用 useInjectProForm 注入
+     */
+    const {
+      getFieldValue: get,
+    } = useInjectProForm<{ linkage: number }>()!
 
     async function reqAsyncOptions(val: number) {
       console.log(val)
@@ -43,13 +49,11 @@ const AsyncOptionsComp = defineComponent({
         { label: '北京', value: 0 },
         { label: '上海', value: 1 },
       ]
-      // 防止没有匹配上对应的 value
-      restoreFieldValue('select')
       loading.value = false
     }
 
     watch(
-      () => getFieldValue('linkage'),
+      () => get('linkage'),
       reqAsyncOptions,
     )
 
@@ -77,14 +81,21 @@ export default defineComponent({
     LinkageComp,
     AsyncOptionsComp,
   },
+  setup() {
+    return {
+      form: createProForm({
+        onSubmit: console.log,
+      }),
+    }
+  },
 })
 </script>
 
 <template>
   <pro-form
-    label-placement="left"
+    :form="form"
     label-width="auto"
-    @submit="console.log"
+    label-placement="left"
   >
     <LinkageComp />
     <AsyncOptionsComp />

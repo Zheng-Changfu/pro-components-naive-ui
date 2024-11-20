@@ -5,11 +5,12 @@
 
 <script lang="tsx">
 import type { Ref } from 'vue'
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    function toConfirmUpdateValue(fieldValue: Ref<string>, inputValue: string) {
+    function confirmUpdateValue(fieldValue: Ref<string>, inputValue: string) {
       // eslint-disable-next-line no-alert
       const success = confirm(`是否确认输入: ${inputValue} ?`)
       if (success) {
@@ -18,7 +19,10 @@ export default defineComponent({
     }
 
     return {
-      toConfirmUpdateValue,
+      confirmUpdateValue,
+      form: createProForm({
+        onSubmit: console.log,
+      }),
     }
   },
 })
@@ -26,15 +30,15 @@ export default defineComponent({
 
 <template>
   <pro-form
-    label-placement="left"
+    :form="form"
     label-width="auto"
-    @submit="console.log"
+    label-placement="left"
   >
     <pro-input
       title="name"
       path="name"
       required
-      @input-value="toConfirmUpdateValue"
+      @input-value="confirmUpdateValue"
     />
     <n-button type="primary" attr-type="submit">
       提交

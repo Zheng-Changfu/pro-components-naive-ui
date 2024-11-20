@@ -1,7 +1,6 @@
 import type { CheckboxGroupProps, CheckboxProps, FlexProps } from 'naive-ui'
-import type { MaybeExpression } from 'pro-components-hooks'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { ExtendAttrsStyleProps } from '../../../types'
+import type { BaseFieldProps } from '../../../types'
 import { proFieldProps } from '../field'
 
 interface ProCheckboxGroupFieldProps extends CheckboxGroupProps {
@@ -27,10 +26,7 @@ interface ProCheckboxGroupFieldProps extends CheckboxGroupProps {
 
 export const proCheckboxGroupProps = {
   ...proFieldProps,
-  fieldProps: {
-    type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<ProCheckboxGroupFieldProps>>>,
-    default: () => ({}),
-  },
+  fieldProps: Object as PropType<BaseFieldProps<ProCheckboxGroupFieldProps>>,
 } as const
 
 export type ProCheckboxGroupProps = ExtractPublicPropTypes<typeof proCheckboxGroupProps>

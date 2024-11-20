@@ -1,8 +1,9 @@
 import type { ProDataTableColumn } from '../../../data-table'
 import type { ProEditDataTableColumns } from '../../types'
 import type { EditDataTableProps } from '../edit-data-table'
-import { mapTree } from 'pro-components-hooks'
-import { ref, watchEffect } from 'vue'
+import { watchImmediate } from '@vueuse/core'
+import { mapTree } from 'pro-composables'
+import { ref } from 'vue'
 import { isDragSortColumn } from '../../../data-table/utils/column'
 import EditDataTableCell from '../edit-data-table-cell'
 import { isProEditDataTableBaseColumn } from '../utils/column'
@@ -37,10 +38,12 @@ export function useColumns(props: EditDataTableProps) {
     }, (props.childrenKey ?? 'children') as any)
   }
 
-  watchEffect(() => {
-    const values = props.columns ?? []
-    columns.value = convertProEditColumnsToProColumns(values)
-  })
+  watchImmediate(
+    () => props.columns,
+    (values) => {
+      columns.value = convertProEditColumnsToProColumns(values ?? [])
+    },
+  )
 
   return {
     columns,

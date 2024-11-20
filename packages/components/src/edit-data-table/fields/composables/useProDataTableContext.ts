@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import type { ProDataTableInst } from '../../../data-table'
-import { useInjectListFieldContext } from 'pro-components-hooks'
+import { useInjectListFieldContext } from 'pro-composables'
 import { useInjectProFormInst } from '../../../form'
 
 interface UseProDataTableReturn {

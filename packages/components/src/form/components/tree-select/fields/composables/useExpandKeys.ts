@@ -1,6 +1,7 @@
 import type { TreeSelectProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
-import { ref, watchEffect } from 'vue'
+import { watchImmediate } from '@vueuse/core'
+import { ref } from 'vue'
 import { call } from '../../../../../_utils/call'
 
 export interface UseExpandKeysOptions {
@@ -40,10 +41,12 @@ export function useExpandKeys(
     expandedKeys.value = keys ?? allKeys
   }
 
-  watchEffect(() => {
-    const values = props.expandedKeys
-    expandedKeys.value = values ?? []
-  })
+  watchImmediate(
+    () => props.expandedKeys,
+    (values) => {
+      expandedKeys.value = values ?? []
+    },
+  )
 
   return {
     expandedKeys,

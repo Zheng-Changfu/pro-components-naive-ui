@@ -2,7 +2,7 @@ import type { DataTableColumn, DataTableInst, DataTableProps, PaginationProps } 
 import type { ProSearchFormInst } from './components/search-form'
 import type { ProDataTableColumn } from './types'
 
-export interface ProDataTableInst<RowData = any> extends DataTableInst {
+export interface ProDataTableInst<RowData = any, SearchValues = any> extends DataTableInst {
   /**
    * 重新加载表格
    */
@@ -58,5 +58,5 @@ export interface ProDataTableInst<RowData = any> extends DataTableInst {
   /**
    * 获取查询表单实例
    */
-  getSearchFormInst: () => ProSearchFormInst
+  getSearchFormInst: () => ProSearchFormInst<SearchValues>
 }

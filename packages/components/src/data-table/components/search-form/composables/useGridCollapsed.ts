@@ -1,7 +1,7 @@
 import type { GridProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProSearchFormProps } from '../props'
-import { watchEffect } from 'vue'
+import { watchImmediate } from '@vueuse/core'
 
 export function useGridCollapsed(props: ComputedRef<ProSearchFormProps>) {
   const collapsed = ref(true)
@@ -25,10 +25,12 @@ export function useGridCollapsed(props: ComputedRef<ProSearchFormProps>) {
     onCollapse && onCollapse(collapsed.value)
   }
 
-  watchEffect(() => {
-    const value = props.value.gridProps?.collapsed
-    collapsed.value = value ?? true
-  })
+  watchImmediate(
+    () => props.value.gridProps?.collapsed,
+    (value) => {
+      collapsed.value = value ?? true
+    },
+  )
 
   return {
     nGridProps,

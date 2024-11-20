@@ -3,6 +3,7 @@
 </markdown>
 
 <script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
@@ -10,6 +11,8 @@ export default defineComponent({
     const position = ref<'top' | 'bottom'>('bottom')
     return {
       position,
+      readonly: ref(false),
+      form: createProForm(),
     }
   },
 })
@@ -22,10 +25,15 @@ export default defineComponent({
       <n-radio label="底部" value="bottom" />
     </n-flex>
   </n-radio-group>
-  <pro-form>
+  <div>
+    <span>只读：</span>
+    <n-switch v-model:value="readonly" />
+  </div>
+  <pro-form :form="form">
     <pro-form-list
       title="用户信息"
       path="userInfo"
+      :readonly="readonly"
       :position="position"
       only-show-first-item-label
     >

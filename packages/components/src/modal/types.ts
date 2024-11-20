@@ -10,5 +10,3 @@ export interface ProModalDraggableOptions {
    */
   // resetPositionOnNextOpen?: boolean
 }
-
-export type ProModalDraggable = boolean | ProModalDraggableOptions

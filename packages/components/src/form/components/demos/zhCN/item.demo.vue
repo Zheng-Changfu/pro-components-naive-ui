@@ -4,6 +4,7 @@
 
 <script lang="tsx">
 import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
@@ -13,6 +14,27 @@ export default defineComponent({
 
     return {
       readonly,
+      form: createProForm({
+        initialValues: {
+          'name': 'zcf',
+          'password': 'zcf',
+          'select': 0,
+          'select-multiple': [0, 2],
+          'tree-select': 'Wait',
+          'radio-group': 0,
+          'radio-group-vertical': 1,
+          'radio-button': 2,
+          'checkbox-group': [0, 1, 2],
+          'checkbox-group-vertical': [1, 2, 3],
+          'checkbox-group-grid': [1, 2],
+          'input-number': 3,
+          'switch': true,
+          'slider': 37,
+          'rate': 3,
+          'upload': 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg',
+        },
+        onSubmit: console.log,
+      }),
     }
   },
 })
@@ -28,27 +50,9 @@ export default defineComponent({
     </template>
   </n-switch>
   <pro-form
+    :form="form"
     :readonly="readonly"
     label-width="auto"
-    :initial-values="{
-      'name': 'zcf',
-      'password': 'zcf',
-      'select': 0,
-      'select-multiple': [0, 2],
-      'tree-select': 'Wait',
-      'radio-group': 0,
-      'radio-group-vertical': 1,
-      'radio-button': 2,
-      'checkbox-group': [0, 1, 2],
-      'checkbox-group-vertical': [1, 2, 3],
-      'checkbox-group-grid': [1, 2],
-      'input-number': 3,
-      'switch': true,
-      'slider': 37,
-      'rate': 3,
-      'upload': 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg',
-    }"
-    @submit="console.log"
   >
     <n-card title="文本类" embedded>
       <n-flex>

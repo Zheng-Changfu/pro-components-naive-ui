@@ -1,5 +1,4 @@
 import type { ShallowRef } from 'vue'
-import { onScopeDispose } from 'vue'
 
 type Inst = any
 type SetComponentInst<Inst> = (methods: Inst) => void
@@ -12,19 +11,11 @@ interface UseComponentInstReturn<Inst> {
 
 export function useComponentInst<T = Inst>(): UseComponentInstReturn<T> {
   const exposed = {}
-  let registed = false
   const instRef = shallowRef<T>()
 
   function registerInst(methods: T) {
-    if (!registed) {
-      Object.assign(exposed, methods)
-      registed = true
-    }
+    Object.assign(exposed, methods)
   }
-
-  onScopeDispose(() => {
-    registed = false
-  })
 
   return {
     instRef,

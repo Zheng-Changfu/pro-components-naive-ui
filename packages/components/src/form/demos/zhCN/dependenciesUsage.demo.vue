@@ -4,8 +4,23 @@
 字段的依赖项，当依赖项的值发生变化时，会触发当前字段校验，在一些复杂的表单场景中做联动校验可能会用到
 </markdown>
 
+<script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  setup() {
+    const form = createProForm()
+
+    return {
+      form,
+    }
+  },
+})
+</script>
+
 <template>
-  <pro-form label-placement="left" label-width="auto">
+  <pro-form :form="form" label-placement="left" label-width="auto">
     <pro-input
       title="输入看效果"
       path="input"
@@ -17,29 +32,17 @@
       required
       dependencies="input"
     />
-    <pro-input
-      title="对象用法"
-      path="object"
-      required
-      :dependencies="{
-        pattern: 'input',
-      }"
-    />
     <pro-date
       title="正则用法"
       path="regexp"
       required
-      :dependencies="{
-        pattern: /.*/,
-      }"
+      :dependencies="/.*/"
     />
     <pro-digit
       title="函数用法"
       path="function"
       required
-      :dependencies="{
-        pattern: (path:string, _:string[]) => path === 'input',
-      }"
+      :dependencies="(path:string, _:string[]) => path === 'input'"
     />
     <pro-input
       title="混合用法"
@@ -47,9 +50,8 @@
       required
       :dependencies="[
         'input',
-        { pattern: 'object' },
-        { pattern: /regexp/ },
-        { pattern: (path:string, _:string[]) => path === 'function' },
+        /regexp/,
+        (path:string, _:string[]) => path === 'function',
       ]"
     />
     <n-button type="primary" attr-type="reset">

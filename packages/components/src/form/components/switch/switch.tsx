@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProSwitchSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { InternalValueTypeEnum, ProField } from '../field'
 import Switch from './fields/switch'
 import { proSwitchProps } from './props'
 
@@ -25,16 +25,18 @@ export default defineComponent({
       <ProField
         {...this.overridedProps}
         defaultValue={false}
-        valueType={ValueTypeEnum.SWITCH}
+        valueType={InternalValueTypeEnum.SWITCH}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => (
-            <Switch
-              {...pureProps}
-              v-slots={this.$slots}
-            />
-          ),
+          input: (pureProps: any) => {
+            return (
+              <Switch
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
+          },
         }}
       </ProField>
     )

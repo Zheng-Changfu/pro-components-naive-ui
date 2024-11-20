@@ -5,23 +5,18 @@
 </markdown>
 
 <script lang="tsx">
-import type { ProFormInst } from 'pro-components-naive-ui'
-import { computed, defineComponent, ref } from 'vue'
+import { createProForm } from 'pro-components-naive-ui'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const aInstRef = ref<ProFormInst>()
-    const bInstRef = ref<ProFormInst>()
-
-    const scope = {
-      $aForm: computed(() => aInstRef.value?.getScope()),
-      $bForm: computed(() => bInstRef.value?.getScope()),
-    }
-
+    const form1 = createProForm<{ color: string }>()
+    const form2 = createProForm<{ color: string }>()
     return {
-      scope,
-      aInstRef,
-      bInstRef,
+      form1,
+      form2,
+      get1: form1.getFieldValue,
+      get2: form2.getFieldValue,
     }
   },
 })
@@ -29,26 +24,26 @@ export default defineComponent({
 
 <template>
   <n-card :bordered="false" title="A表单">
-    <pro-form ref="aInstRef" label-placement="left" label-width="auto" :scope="scope">
+    <pro-form :form="form1" label-placement="left" label-width="auto">
       <pro-input
         title="控制B表单input颜色"
         path="color"
         :field-props="{
           style: {
-            background: '{{ $bForm?.$vals.color }}',
+            background: get2('color'),
           },
         }"
       />
     </pro-form>
   </n-card>
   <n-card :bordered="false" title="B表单">
-    <pro-form ref="bInstRef" label-placement="left" label-width="auto" :scope="scope">
+    <pro-form :form="form2" label-placement="left" label-width="auto">
       <pro-input
         title="控制A表单input颜色"
         path="color"
         :field-props="{
           style: {
-            background: '{{ $aForm?.$vals.color }}',
+            background: get1('color'),
           },
         }"
       />

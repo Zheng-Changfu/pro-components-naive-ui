@@ -4,8 +4,20 @@
 必须要是一个函数哦~，原因和 `Vue2 data 必须是一个函数` 同理！
 </markdown>
 
+<script lang="tsx">
+import { createProForm } from 'pro-components-naive-ui'
+
+export default defineComponent({
+  setup() {
+    return {
+      form: createProForm(),
+    }
+  },
+})
+</script>
+
 <template>
-  <pro-form>
+  <pro-form :form="form">
     <pro-form-list
       title="用户信息"
       path="userInfo"

@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProTreeSelectSlots } from './slots'
 import { useOverrideProps } from '../../../composables'
-import { ProField, ValueTypeEnum } from '../field'
+import { InternalValueTypeEnum, ProField } from '../field'
 import TreeSelect from './fields/tree-select'
 import { provideTreeSelectInstStore } from './inst'
 import { proTreeSelectProps } from './props'
@@ -31,16 +31,18 @@ export default defineComponent({
       <ProField
         {...this.overridedProps}
         defaultValue={null}
-        valueType={ValueTypeEnum.TREE_SELECT}
+        valueType={InternalValueTypeEnum.TREE_SELECT}
       >
         {{
           ...this.$slots,
-          input: (pureProps: any) => (
-            <TreeSelect
-              {...pureProps}
-              v-slots={this.$slots}
-            />
-          ),
+          input: (pureProps: any) => {
+            return (
+              <TreeSelect
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
+          },
         }}
       </ProField>
     )

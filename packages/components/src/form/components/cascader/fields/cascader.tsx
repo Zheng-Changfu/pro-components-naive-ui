@@ -1,8 +1,8 @@
 import type { SlotsType, VNodeChild } from 'vue'
 import type { ProCascaderSlots } from '../slots'
 import { get, isArray } from 'lodash-es'
-import { cascaderProps, NCascader, NEl, NFlex } from 'naive-ui'
-import { eachTree } from 'pro-components-hooks'
+import { cascaderProps, NCascader, NFlex } from 'naive-ui'
+import { eachTree } from 'pro-composables'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectCascaderInstStore } from '../inst'
 
@@ -44,7 +44,7 @@ export default defineComponent({
               label = renderLabel(item as any, true)
             }
             if (label) {
-              labels.push(<NEl>{label}</NEl>)
+              labels.push(<span>{label}</span>)
             }
           }
         },
@@ -60,7 +60,6 @@ export default defineComponent({
       getCheckedData: () => instRef.value?.getCheckedData() as any,
       getIndeterminateData: () => instRef.value?.getIndeterminateData() as any,
     })
-
     return {
       empty,
       value,

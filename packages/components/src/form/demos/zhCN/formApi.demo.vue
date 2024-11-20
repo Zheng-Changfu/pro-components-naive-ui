@@ -5,15 +5,54 @@
 </markdown>
 
 <script lang="tsx">
-import type { ProFormInst } from 'pro-components-naive-ui'
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent } from 'vue'
+
+interface Info {
+  digit: number
+  select: string
+  switch: boolean
+  username: string
+  password: string
+}
 
 export default defineComponent({
   setup() {
-    const instRef = ref<ProFormInst>()
+    const form = createProForm<Info>({
+      onSubmit: console.log,
+    })
+
+    const {
+      submit,
+      validate,
+      matchPath,
+      getFieldValue,
+      setFieldValue,
+      getFieldsValue,
+      setFieldsValue,
+      resetFieldValue,
+      setInitialValue,
+      resetFieldsValue,
+      setInitialValues,
+      restoreValidation,
+      getFieldsTransformedValue,
+    } = form
 
     return {
-      instRef,
+      form,
+      submit,
+      validate,
+      matchPath,
+      getFieldValue,
+      setFieldValue,
+      getFieldsValue,
+      setFieldsValue,
+      resetFieldValue,
+      setInitialValue,
+      resetFieldsValue,
+      setInitialValues,
+      restoreValidation,
+      getFieldsTransformedValue,
     }
   },
 })
@@ -26,8 +65,8 @@ export default defineComponent({
         type="primary"
         @click="() => {
           console.log(
-            instRef?.getFieldValue('username'),
-            instRef?.getFieldValue(['password']),
+            getFieldValue('username'),
+            getFieldValue(['password']),
           )
         }"
       >
@@ -36,7 +75,7 @@ export default defineComponent({
       <n-button
         type="primary"
         @click="() => {
-          console.log(instRef?.getFieldsValue(['username', 'password']))
+          console.log(getFieldsValue(['username', 'password']))
         }"
       >
         获取多个字段的值
@@ -45,7 +84,7 @@ export default defineComponent({
       <n-button
         type="info"
         @click="() => {
-          console.log(instRef?.getFieldsValue())
+          console.log(getFieldsValue())
         }"
       >
         获取表单值
@@ -53,7 +92,7 @@ export default defineComponent({
       <n-button
         type="info"
         @click="() => {
-          console.log(instRef?.getFieldsTransformedValue())
+          console.log(getFieldsTransformedValue())
         }"
       >
         获取表单值(transform过的)
@@ -61,7 +100,7 @@ export default defineComponent({
       <n-button
         type="info"
         @click="() => {
-          console.log(instRef?.getFieldsValue(true))
+          console.log(getFieldsValue(true))
         }"
       >
         获取所有值(被隐藏的和 setFieldsValue 设置的)
@@ -70,8 +109,8 @@ export default defineComponent({
       <n-button
         type="error"
         @click="() => {
-          instRef?.setFieldValue('username', '123')
-          instRef?.setFieldValue(['password'], '123')
+          setFieldValue('username', '123')
+          setFieldValue('password', '123')
         }"
       >
         设置单个字段值
@@ -79,7 +118,7 @@ export default defineComponent({
       <n-button
         type="error"
         @click="() => {
-          instRef?.setFieldsValue({
+          setFieldsValue({
             username: '345',
             password: '1',
             switch: true,
@@ -92,15 +131,15 @@ export default defineComponent({
       <n-button
         type="warning"
         @click="() => {
-          instRef?.resetFieldValue('username')
-          instRef?.resetFieldValue(['password'])
+          resetFieldValue('username')
+          resetFieldValue(['password'])
         }"
       >
         重置单个字段值
       </n-button>
       <n-button
         type="warning"
-        @click="() => instRef?.resetFieldsValue()"
+        @click="() => resetFieldsValue()"
       >
         重置所有字段值
       </n-button>
@@ -108,8 +147,8 @@ export default defineComponent({
       <n-button
         type="primary"
         @click="() => {
-          instRef?.setInitialValue('username', 'zcf')
-          instRef?.setInitialValue(['password'], '123')
+          setInitialValue('username', 'zcf')
+          setInitialValue('password', '123')
         }"
       >
         设置单个字段初始值
@@ -117,7 +156,7 @@ export default defineComponent({
       <n-button
         type="primary"
         @click="() => {
-          instRef?.setInitialValues({
+          setInitialValues({
             switch: true,
             digit: 100,
           })
@@ -129,8 +168,8 @@ export default defineComponent({
       <n-button
         type="info"
         @click="() => {
-          instRef?.validate('username')
-          instRef?.validate(['password'])
+          validate('username')
+          validate(['password'])
         }"
       >
         校验单个字段值
@@ -138,7 +177,7 @@ export default defineComponent({
       <n-button
         type="info"
         @click="() => {
-          instRef?.validate(['username', 'password'])
+          validate(['username', 'password'])
         }"
       >
         校验多个字段值
@@ -146,7 +185,7 @@ export default defineComponent({
       <n-button
         type="info"
         @click="() => {
-          instRef?.validate()
+          validate()
         }"
       >
         校验表单
@@ -155,8 +194,8 @@ export default defineComponent({
       <n-button
         type="error"
         @click="() => {
-          instRef?.restoreValidation('username')
-          instRef?.restoreValidation(['password'])
+          restoreValidation('username')
+          restoreValidation(['password'])
         }"
       >
         清空单个字段校验
@@ -164,7 +203,7 @@ export default defineComponent({
       <n-button
         type="error"
         @click="() => {
-          instRef?.restoreValidation(['username', 'password'])
+          restoreValidation(['username', 'password'])
         }"
       >
         清空多个字段校验
@@ -172,7 +211,7 @@ export default defineComponent({
       <n-button
         type="error"
         @click="() => {
-          instRef?.restoreValidation()
+          restoreValidation()
         }"
       >
         清空表单校验
@@ -182,24 +221,23 @@ export default defineComponent({
         type="warning"
         @click="() => {
           console.log(
-            instRef?.matchPath('username'),
-            instRef?.matchPath(/.*/),
-            instRef?.matchPath((path, _) => path === 'password'),
+            matchPath('username'),
+            matchPath(/.*/),
+            matchPath((path, _) => path === 'password'),
           )
         }"
       >
         匹配字段
       </n-button>
-      <n-button type="warning" @click="instRef?.submit">
+      <n-button type="warning" @click="submit">
         提交表单
       </n-button>
       <n-divider class="mt-4px! mb-4px!" />
     </n-flex>
     <pro-form
-      ref="instRef"
+      :form="form"
       label-width="auto"
       label-placement="left"
-      @submit="console.log"
     >
       <pro-input title="用户名" path="username" required />
       <pro-password title="密码" path="password" required />

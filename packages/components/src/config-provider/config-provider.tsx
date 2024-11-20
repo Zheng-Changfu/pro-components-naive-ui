@@ -1,7 +1,7 @@
 import type { ConfigProviderProps } from 'naive-ui'
-import { merge, omit } from 'lodash-es'
 import { NConfigProvider } from 'naive-ui'
 import { computed, unref } from 'vue'
+import { useOmitProps } from '../composables'
 import { provideGlobalConfig, useInjectGlobalConfig } from './context'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'
 import { shallowMergePropOverrides } from './utils'
@@ -11,16 +11,13 @@ export default defineComponent({
   props: proConfigProviderProps,
   setup(props) {
     const {
-      valueTypeMap: injectedValueTypeMap,
       propOverrides: injectedPropOverrides,
     } = useInjectGlobalConfig()
 
-    const valueTypeMap = computed(() => {
-      return {
-        ...unref(injectedValueTypeMap),
-        ...(unref(props.valueTypeMap) ?? {}),
-      }
-    })
+    const nConfigProviderProps = useOmitProps(
+      props,
+      proConfigProviderExtendProps,
+    )
 
     const propOverrides = computed(() => {
       return shallowMergePropOverrides(
@@ -29,25 +26,7 @@ export default defineComponent({
       )
     })
 
-    const nConfigProviderProps = computed<ConfigProviderProps>(() => {
-      return omit(
-        {
-          ...props,
-          themeOverrides: merge(
-            {
-              Card: {
-                borderRadius: '8px',
-              },
-            },
-            props.themeOverrides ?? {},
-          ),
-        },
-        Object.keys(proConfigProviderExtendProps),
-      )
-    })
-
     provideGlobalConfig({
-      valueTypeMap,
       propOverrides,
     })
     return {
@@ -55,6 +34,11 @@ export default defineComponent({
     }
   },
   render() {
-    return <NConfigProvider {...this.nConfigProviderProps} v-slots={this.$slots} />
+    return (
+      <NConfigProvider
+        {...this.nConfigProviderProps as ConfigProviderProps}
+        v-slots={this.$slots}
+      />
+    )
   },
 })

@@ -11,7 +11,7 @@ export function usePagination(props: ComputedRef<ProDataTableProps>) {
 
   watch(
     () => props.value.pagination ?? {},
-    v => pagination.value = v,
+    v => pagination.value = v as any,
   )
 
   const paginationInfo = computed<PaginationProps | false>(() => {
@@ -36,7 +36,7 @@ export function usePagination(props: ComputedRef<ProDataTableProps>) {
       return
     }
     pagination.value = {
-      ...(paginationInfo.value === false ? {} : paginationInfo.value),
+      ...(paginationInfo.value === false ? {} : paginationInfo.value) as any,
       ...info,
     }
   }

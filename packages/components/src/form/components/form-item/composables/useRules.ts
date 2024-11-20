@@ -1,10 +1,10 @@
 import type { FormItemRule } from 'naive-ui'
 import type { ProFormItemProps } from '../props'
 import { isArray, toString } from 'lodash-es'
-import { useInjectFieldContext } from 'pro-components-hooks'
+import { stringifyPath } from 'pro-composables'
 import { computed, unref } from 'vue'
 import { useLocale } from '../../../../locales'
-import { useInjectProFormContext } from '../../../context'
+import { useInjectProFormConfig } from '../../../context'
 import { isEmptyValue } from '../../field/utils/valueUtil'
 
 export function useRules(props: ProFormItemProps) {
@@ -14,11 +14,7 @@ export function useRules(props: ProFormItemProps) {
 
   const {
     validationTrigger,
-  } = useInjectProFormContext()
-
-  const {
-    stringPath,
-  } = useInjectFieldContext() ?? {}
+  } = useInjectProFormConfig()
 
   function requiredValidator(_: any, value: any) {
     return !isEmptyValue(value)
@@ -43,10 +39,11 @@ export function useRules(props: ProFormItemProps) {
       })
     }
     normalizedRule = normalizedRule.map((rule) => {
-      if (rule.required) {
+      const { required } = rule
+      if (required) {
         return {
-          validator: requiredValidator,
           ...rule,
+          validator: requiredValidator,
         }
       }
       return rule
@@ -67,7 +64,7 @@ export function useRules(props: ProFormItemProps) {
           /**
            * 给每个 rule 增加 key，方便 validate 方法校验
            */
-          key: stringPath?.value,
+          key: stringifyPath(props.path ?? ''),
         }
       })
   })

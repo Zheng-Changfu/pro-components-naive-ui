@@ -252,6 +252,18 @@ export function createComponentMenuOptions({ lang, theme }) {
           path: '/form-list',
         },
         {
+          en: 'ProModalForm',
+          zh: '弹窗表单',
+          enSuffix: true,
+          path: '/modal-form',
+        },
+        {
+          en: 'DrawerForm',
+          zh: '抽屉表单',
+          enSuffix: true,
+          path: '/drawer-form',
+        },
+        {
           en: 'ProSearchForm',
           zh: '查询表单',
           enSuffix: true,

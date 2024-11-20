@@ -2,8 +2,8 @@ import type { TreeSelectInst, TreeSelectProps } from 'naive-ui'
 import type { SlotsType, VNodeChild } from 'vue'
 import type { ProTreeSelectSlots } from '../slots'
 import { get, isArray, isUndefined, noop } from 'lodash-es'
-import { NEl, NFlex, NTreeSelect, treeSelectProps } from 'naive-ui'
-import { eachTree, useInjectFieldContext } from 'pro-components-hooks'
+import { NFlex, NTreeSelect, treeSelectProps } from 'naive-ui'
+import { eachTree, useInjectField } from 'pro-composables'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectTreeSelectInstStore } from '../inst'
 import { useExpandKeys } from './composables/useExpandKeys'
@@ -16,8 +16,8 @@ export default defineComponent({
   slots: Object as SlotsType<ProTreeSelectSlots>,
   inheritAttrs: false,
   setup(props) {
+    const field = useInjectField()!
     const instRef = ref<TreeSelectInst>()
-    const field = useInjectFieldContext()!
 
     const {
       registerInst,
@@ -85,7 +85,7 @@ export default defineComponent({
               label = renderLabel({ option: item, checked: true, selected: true })
             }
             if (label) {
-              labels.push(<NEl>{label}</NEl>)
+              labels.push(<span>{label}</span>)
             }
           }
         },
@@ -162,7 +162,6 @@ export default defineComponent({
       getCheckedData: () => instRef.value!.getCheckedData(),
       getIndeterminateData: () => instRef.value!.getIndeterminateData(),
     })
-
     return {
       empty,
       instRef,

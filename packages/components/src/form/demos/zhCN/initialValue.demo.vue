@@ -6,14 +6,28 @@
 3. 使用 `ProForm` 的 `initialValues` 属性
 </markdown>
 
+<script lang="ts">
+import { createProForm } from 'pro-components-naive-ui'
+
+export default defineComponent({
+  setup() {
+    return {
+      form: createProForm<{ username: string }>({
+        initialValues: {
+          username: 'zcf',
+        },
+        onSubmit: console.log,
+      }),
+    }
+  },
+})
+</script>
+
 <template>
   <pro-form
-    label-placement="left"
+    :form="form"
     label-width="auto"
-    :initial-values="{
-      username: 'zcf',
-    }"
-    @submit="console.log"
+    label-placement="left"
   >
     <pro-input
       title="用户名"

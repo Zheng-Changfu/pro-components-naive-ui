@@ -1,4 +1,4 @@
-import { useInjectListFieldContext } from 'pro-components-hooks'
+import { useInjectListFieldContext } from 'pro-composables'
 import { watchEffect } from 'vue'
 import { useInjectProFormInst, useReadonlyHelpers } from '../../../form'
 import { AUTO_CREATE_ID } from '../../../form-list'

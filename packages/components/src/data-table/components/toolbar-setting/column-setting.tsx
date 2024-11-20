@@ -1,7 +1,7 @@
 import type { MergedToolbarColumnSetting } from './composables/userMergeToolbarSetting'
 import { DragOutlined, SettingOutlined } from '@vicons/antd'
 import { NButton, NCheckbox, NCheckboxGroup, NFlex, NIcon, NPopover } from 'naive-ui'
-import { uid } from 'pro-components-hooks'
+import { uid } from 'pro-composables'
 import { defineComponent, ref, watchPostEffect } from 'vue'
 import { useDraggable } from 'vue-draggable-plus'
 import { ProButton } from '../../../button'

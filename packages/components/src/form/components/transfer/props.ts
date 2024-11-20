@@ -1,7 +1,6 @@
 import type { TransferOption, TransferProps } from 'naive-ui'
-import type { MaybeExpression } from 'pro-components-hooks'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { ExtendAttrsStyleProps } from '../../../types'
+import type { BaseFieldProps } from '../../../types'
 import { proFieldProps } from '../field'
 
 interface ProTransferFieldProps extends TransferProps {
@@ -23,10 +22,7 @@ interface ProTransferFieldProps extends TransferProps {
 
 export const proTransferProps = {
   ...proFieldProps,
-  fieldProps: {
-    type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<ProTransferFieldProps>>>,
-    default: () => ({}),
-  },
+  fieldProps: Object as PropType<BaseFieldProps<ProTransferFieldProps>>,
 } as const
 
 export type ProTransferProps = ExtractPublicPropTypes<typeof proTransferProps>

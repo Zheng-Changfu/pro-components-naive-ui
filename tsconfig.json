@@ -39,6 +39,7 @@
     "src/**/*.js",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "./global.d.ts",
     "packages/components/**/*.ts",
     "packages/components/**/*.tsx",
     "packages/components/**/*.vue"

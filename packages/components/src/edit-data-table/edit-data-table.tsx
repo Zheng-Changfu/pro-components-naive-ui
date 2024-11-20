@@ -1,10 +1,10 @@
 import type { SlotsType } from 'vue'
 import type { ProEditDataTableSlots } from './slots'
 import { isArray, omit, pick } from 'lodash-es'
-import { uid } from 'pro-components-hooks'
+import { uid } from 'pro-composables'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../composables'
-import { proFieldProps as _proFieldProps, ProField, ValueTypeEnum } from '../form'
+import { proFieldProps as _proFieldProps, InternalValueTypeEnum, ProField } from '../form'
 import { AUTO_CREATE_ID } from '../form-list'
 import EditDataTable from './fields/edit-data-table'
 import { provideEditDataTableInstStore } from './inst'
@@ -70,7 +70,7 @@ export default defineComponent({
         isList={true}
         postValue={this.addRowIdToRow}
         fieldProps={this.fieldDataTableProps}
-        valueType={ValueTypeEnum.EDIT_DATA_TABLE}
+        valueType={InternalValueTypeEnum.EDIT_DATA_TABLE}
       >
         {{
           input: (pureProps: any) => {

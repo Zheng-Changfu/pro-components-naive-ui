@@ -1,6 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProSwitchSlots } from '../slots'
 import { NSwitch, switchProps } from 'naive-ui'
+import { useLocale } from '../../../../locales'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
@@ -14,9 +15,14 @@ export default defineComponent({
       readonly,
     } = useReadonlyHelpers()
 
+    const {
+      getMessage,
+    } = useLocale('ProSwitch')
+
     return {
       value,
       readonly,
+      getMessage,
     }
   },
   render() {
@@ -26,9 +32,9 @@ export default defineComponent({
         return this.$slots.readonly(this.$props)
       }
       if (value) {
-        return this.$slots.checked?.() ?? '打开'
+        return this.$slots.checked?.() ?? this.getMessage('checked')
       }
-      return this.$slots.unchecked?.() ?? '关闭'
+      return this.$slots.unchecked?.() ?? this.getMessage('unchecked')
     }
     return (
       <NSwitch

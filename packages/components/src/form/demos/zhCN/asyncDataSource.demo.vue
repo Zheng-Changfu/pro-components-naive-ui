@@ -5,7 +5,7 @@
 </markdown>
 
 <script lang="tsx">
-import type { ProFormInst } from 'pro-components-naive-ui'
+import { createProForm } from 'pro-components-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 function delay(time: number) {
@@ -16,9 +16,11 @@ export default defineComponent({
   setup() {
     const loading = ref(false)
     const options = ref<any[]>([])
-    const instRef = ref<ProFormInst>()
+    const form = createProForm<{ select: number }>({
+      onSubmit: console.log,
+    })
 
-    async function reqAsyncOptions(val: number) {
+    async function fetchOptions(val: number) {
       console.log(val)
       loading.value = true
       await delay(1000)
@@ -26,16 +28,14 @@ export default defineComponent({
         { label: '北京', value: 0 },
         { label: '上海', value: 1 },
       ]
-      // 防止没有匹配上对应的 value
-      instRef.value!.restoreFieldValue('select')
       loading.value = false
     }
 
     return {
+      form,
       loading,
-      instRef,
       options,
-      reqAsyncOptions,
+      fetchOptions,
     }
   },
 })
@@ -43,10 +43,9 @@ export default defineComponent({
 
 <template>
   <pro-form
-    ref="instRef"
-    label-placement="left"
+    :form="form"
     label-width="auto"
-    @submit="console.log"
+    label-placement="left"
   >
     <pro-select
       title="联动选择框"
@@ -57,7 +56,7 @@ export default defineComponent({
           { label: '隐藏', value: 0 },
         ],
       }"
-      @change="reqAsyncOptions"
+      @change="fetchOptions"
     />
     <pro-select
       title="异步选择框"

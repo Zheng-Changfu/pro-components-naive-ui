@@ -1,4 +1,4 @@
-export enum ValueTypeEnum {
+export enum InternalValueTypeEnum {
   RATE = 'rate',
   INPUT = 'input',
   DIGIT = 'digit',
@@ -31,12 +31,6 @@ export enum ValueTypeEnum {
   DATE_YEAR_RANGE = 'date-year-range',
   DATE_MONTH_RANGE = 'date-month-range',
   DATE_QUARTER_RANGE = 'date-quarter-range',
-
-  FORM_LIST = 'form-list',
-  EDIT_DATA_TABLE = 'edit-data-table',
 }
 
-/**
- * 留给外面方便扩展自定义类型
- */
-export type FieldValueType = `${ValueTypeEnum}`
+export type InternalFieldValueType = `${InternalValueTypeEnum}`

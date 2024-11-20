@@ -103,7 +103,6 @@ export default defineComponent({
       submit: (fileId?: string) => instRef.value?.submit(fileId),
       openOpenFileDialog: () => instRef.value?.openOpenFileDialog(),
     })
-
     return {
       empty,
       instRef,
