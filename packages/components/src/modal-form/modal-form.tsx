@@ -106,7 +106,7 @@ export default defineComponent({
           `${this.mergedClsPrefix}-pro-modal-form`,
         ]}
         style={{
-          width: this.width ?? '600px',
+          width: this.width ?? '520px',
           maxHeight: this.maxHeight ?? '80%',
         }}
         {...this.proModalProps}
