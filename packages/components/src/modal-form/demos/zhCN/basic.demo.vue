@@ -3,7 +3,9 @@
 </markdown>
 
 <script lang="tsx">
+import { random } from 'lodash-es'
 import { createProModalForm } from 'pro-components-naive-ui'
+import { ref } from 'vue'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))
@@ -19,8 +21,16 @@ export default defineComponent({
       },
     })
 
+    const len = ref(2)
+
+    function updateList() {
+      len.value = random(2, 20)
+    }
+
     return {
-      modalForm,
+      len,
+      updateList,
+      form: modalForm,
       open: modalForm.open,
     }
   },
@@ -34,27 +44,16 @@ export default defineComponent({
     </n-button>
   </n-flex>
   <pro-modal-form
+    :form="form"
     title="新建表单"
     preset="card"
+    class="w-300px"
     label-width="auto"
     label-placement="left"
-    :modal-form="modalForm"
   >
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-input title="用户名" path="name" />
-    <pro-password title="密码" path="password" />
+    <pro-input v-for="item in len" :key="item" title="用户名" path="name" />
+    <n-button @click="updateList">
+      更新动态高度
+    </n-button>
   </pro-modal-form>
 </template>
