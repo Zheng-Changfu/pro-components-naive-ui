@@ -6,7 +6,7 @@ import { useLocale } from '../locales'
 export default defineComponent({
   name: 'Footer',
   props: {
-    modalForm: {
+    form: {
       type: Object as PropType<CreateProModalFormReturn>,
       required: true,
     },
@@ -25,7 +25,7 @@ export default defineComponent({
     } = useLocale('ProModalForm')
 
     const submiting = computed(() => {
-      return props.modalForm.submiting.value
+      return props.form.submiting.value
     })
 
     const showResetButton = computed(() => {
@@ -44,7 +44,7 @@ export default defineComponent({
               '取 消',
             ),
             onClick: () => {
-              props.modalForm.close()
+              props.form.close()
             },
             disabled: submiting.value,
             ...(props.resetButtonProps ?? {}),
@@ -61,7 +61,7 @@ export default defineComponent({
               '确 认',
             ),
             onClick: () => {
-              props.modalForm.submit()
+              props.form.submit()
             },
             loading: submiting.value,
             ...(props.submitButtonProps ?? {}),

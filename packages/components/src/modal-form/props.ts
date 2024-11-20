@@ -13,13 +13,6 @@ export type FooterRender = (opt: {
 
 export const proModalFormExtendProps = {
   /**
-   * 弹窗表单控制器
-   */
-  modalForm: {
-    type: Object as PropType<CreateProModalFormReturn>,
-    required: true,
-  },
-  /**
    * 关闭弹窗后是否重置表单
    */
   restoreValuesOnClosed: {
@@ -60,7 +53,7 @@ export const proModalFormProps = {
     'onUpdate:show',
   ]),
   ...proModalFormExtendProps,
-  ...omit(proFormProps, 'form'),
+  ...proFormProps,
   /**
    * 调整默认值为 false
    */
@@ -77,6 +70,13 @@ export const proModalFormProps = {
    * 不支持 dialog 和 confirm 预设
    */
   preset: String as PropType<'card'>,
+  /**
+   * 弹窗表单控制器
+   */
+  form: {
+    type: Object as PropType<CreateProModalFormReturn>,
+    required: true,
+  },
   /**
    * 重写类型，为 false 不显示 action
    */

@@ -33,7 +33,7 @@ export default defineComponent({
     const proFormProps = computed<ProFormProps>(() => {
       return {
         ...pick(overridedProps.value, Object.keys(_proFormProps)),
-        form: props.modalForm,
+        form: props.form,
       }
     })
 
@@ -55,7 +55,7 @@ export default defineComponent({
         'onUpdate:show': undefined,
         'preset': preset ? 'card' : undefined,
         'onAfterLeave': restoreValuesOnClosed,
-        'show': props.modalForm?.[proFormInternalKey].show.value,
+        'show': props.form?.[proFormInternalKey].show.value,
       }
     })
 
@@ -64,11 +64,8 @@ export default defineComponent({
         restoreValuesOnClosed,
       } = overridedProps.value
 
-      if (
-        props.modalForm
-        && restoreValuesOnClosed
-      ) {
-        props.modalForm.restoreFieldsValue()
+      if (restoreValuesOnClosed) {
+        props.form.restoreFieldsValue()
       }
     }
 
@@ -79,7 +76,7 @@ export default defineComponent({
 
       onClose
         ? onClose()
-        : !props.modalForm.submiting.value && props.modalForm.close()
+        : !props.form.submiting.value && props.form.close()
     }
 
     useMountStyle(
@@ -114,15 +111,15 @@ export default defineComponent({
             }
 
             const {
+              form,
               footer,
-              modalForm,
               resetButtonProps,
               submitButtonProps,
             } = this.$props
 
             const footerDom = (
               <Footer
-                modalForm={modalForm}
+                form={form}
                 resetButtonProps={resetButtonProps}
                 submitButtonProps={submitButtonProps}
               />
