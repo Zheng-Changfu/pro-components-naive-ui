@@ -15,29 +15,44 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
   })
 
   function startDrag(modal: HTMLElement) {
-    dispose()
     const header = modal.querySelector(`.${DRAGGABLE_CLASS}`) as HTMLElement
     if (!header || !canDraggable.value) {
       return
     }
 
-    let prevMoveX = 0
-    let prevMoveY = 0
     let maxMoveX = 0
+    let minMoveX = 0
     let maxMoveY = 0
+    let minMoveY = 0
+    let prevMoveY = 0
+    let prevMoveX = 0
     let mousedownEvent: MouseEvent | undefined
 
     cleanups.push(
       useEventListener(header, 'mousedown', (event) => {
         mousedownEvent = event
-        prevMoveY = +modal.style.top.slice(0, -2)
-        prevMoveX = +modal.style.left.slice(0, -2)
         const {
+          x,
+          y,
           right,
           bottom,
         } = modal.getBoundingClientRect()
+        /**
+         * TODO: 是否需要参考 to 属性
+         */
+        minMoveX = x
+        minMoveY = y
         maxMoveX = window.innerWidth - right
         maxMoveY = window.innerHeight - bottom
+
+        const transform = modal.style.transform
+        const [
+          ,
+          translateX = '',
+          translateY = '',
+        ] = transform.match(/\((.*?)px,(.*)px/) ?? []
+        prevMoveY = +translateY.trim()
+        prevMoveX = +translateX.trim()
       }),
     )
 
@@ -51,26 +66,26 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
           clientY: downY,
         } = mousedownEvent
 
-        const moveY = event.clientY - downY
-        const moveX = event.clientX - downX
-        let x = moveX + prevMoveX
-        let y = moveY + prevMoveY
+        let moveX = event.clientX - downX
+        let moveY = event.clientY - downY
         if (sticky.value) {
-          
-          if (Math.abs(moveX) >= maxMoveX) {
-            x = x < 0
-              ? -(maxMoveX + prevMoveX)
-              : maxMoveX + prevMoveX
+          if (moveX > maxMoveX) {
+            moveX = maxMoveX
           }
-          if (Math.abs(moveY) >= maxMoveY) {
-            y = y < 0
-              ? -(maxMoveY + prevMoveY)
-              : maxMoveY + prevMoveY
+          else if (-moveX > minMoveX) {
+            moveX = -minMoveX
+          }
+
+          if (moveY > maxMoveY) {
+            moveY = maxMoveY
+          }
+          else if (-moveY > minMoveY) {
+            moveY = -minMoveY
           }
         }
-
-        modal.style.top = `${y}px`
-        modal.style.left = `${x}px`
+        const x = moveX + prevMoveX
+        const y = moveY + prevMoveY
+        modal.style.transform = `translate(${x}px, ${y}px)`
       }),
     )
 
@@ -81,14 +96,15 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
     )
   }
 
-  function dispose() {
+  function stopDrag() {
     cleanups.forEach(cleanup => cleanup())
     cleanups.length = 0
   }
 
-  onScopeDispose(dispose)
+  onScopeDispose(stopDrag)
 
   return {
+    stopDrag,
     startDrag,
     canDraggable,
   }
