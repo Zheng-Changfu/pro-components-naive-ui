@@ -4,6 +4,7 @@
 
 <script lang="tsx">
 import { random } from 'lodash-es'
+import { useMessage } from 'naive-ui'
 import { createProModalForm } from 'pro-components-naive-ui'
 import { ref } from 'vue'
 
@@ -13,9 +14,12 @@ function delay(time: number) {
 
 export default defineComponent({
   setup() {
+    const message = useMessage()
+
     const modalForm = createProModalForm<Partial<{ name: string, password: string }>>({
       onSubmit: async (values) => {
         await delay(2000)
+        message.success('更新成功')
         console.log(values)
         modalForm.close()
       },
@@ -39,7 +43,7 @@ export default defineComponent({
 
 <template>
   <n-flex>
-    <n-button @click="open">
+    <n-button type="primary" @click="open">
       新建表单
     </n-button>
   </n-flex>
