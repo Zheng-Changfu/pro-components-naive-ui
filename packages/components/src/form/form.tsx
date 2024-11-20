@@ -1,6 +1,5 @@
 import type { FormInst, FormProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
-import type { CreateProFormReturn } from './composables/createProForm'
 import type { ProFormSlots } from './slots'
 import { NForm } from 'naive-ui'
 import { provideInternalForm } from 'pro-composables'
@@ -16,11 +15,12 @@ export default defineComponent({
   props: proFormProps,
   slots: Object as SlotsType<ProFormSlots>,
   setup(props) {
-    const nFormInst = ref<FormInst>()
+    let form = props.form
+    if (!form && __DEV__) {
+      form = createProForm()
+    }
 
-    const form = props.form
-      ? props.form
-      : (__DEV__ && createProForm()) as any as CreateProFormReturn
+    const nFormInst = ref<FormInst>()
 
     const overridedProps = useOverrideProps(
       name,
