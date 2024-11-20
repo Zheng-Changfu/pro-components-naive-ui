@@ -14,7 +14,7 @@ import { proFormInternalKey } from '../form/composables/createProForm'
 import { ProModal } from '../modal'
 import { proModalProps as _proModalProps } from '../modal/props'
 import { createProModalForm } from './composables/createProModalForm'
-import Footer from './modal-form-footer'
+import Footer from './footer'
 import { proModalFormProps } from './props'
 import style from './styles/index.cssr'
 
