@@ -86,6 +86,7 @@ export default defineComponent({
       if (restoreValuesOnClosed) {
         form.restoreFieldsValue()
       }
+
       onAfterLeave && onAfterLeave()
     }
 
