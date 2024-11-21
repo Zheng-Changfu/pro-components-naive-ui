@@ -1,4 +1,3 @@
-import type { CardSegmented } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { cardProps, collapseTransitionProps } from 'naive-ui'
 
@@ -29,16 +28,6 @@ export const proCardProps = {
   ...cardProps,
   ...proCardExtendProps,
   ...collapseTransitionProps,
-  /**
-   * ---重写默认值---
-   */
-  segmented: {
-    type: [Object, Boolean] as PropType<boolean | CardSegmented>,
-    default: () => ({
-      footer: true,
-      content: true,
-    }),
-  },
 } as const
 
 export type ProCardProps = ExtractPublicPropTypes<typeof proCardProps>
