@@ -73,7 +73,11 @@ export default defineComponent({
         'onUpdateShow': undefined,
         'onAfterLeave': onAfterLeave,
         'preset': preset ? 'card' : undefined,
-        'onUpdate:show': val => show.value = val,
+        'onUpdate:show': (val) => {
+          val
+            ? form.open()
+            : form.close()
+        },
       }
     })
 
