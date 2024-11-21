@@ -187,7 +187,10 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
         }
       })
       ?.catch((errors) => {
-        onSubmitFailed && onSubmitFailed(errors)
+        if (!onSubmitFailed) {
+          throw errors
+        }
+        onSubmitFailed(errors)
       })
   }
 
