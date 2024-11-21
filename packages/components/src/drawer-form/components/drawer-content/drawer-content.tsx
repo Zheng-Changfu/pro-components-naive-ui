@@ -1,6 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProDrawerContentSlots } from './slots'
 import { NDrawerContent, NFlex } from 'naive-ui'
+import { computed, defineComponent } from 'vue'
 import { resolveSlotWithProps } from '../../../_utils/resolve-slot'
 import { useOmitProps, useOverrideProps } from '../../../composables'
 import Footer from './footer'

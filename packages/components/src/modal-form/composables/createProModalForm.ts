@@ -1,5 +1,6 @@
+import type { ComputedRef } from 'vue'
 import type { CreateProFormOptions, ExtendProForm } from '../../form/composables/createProForm'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { extendProForm, useInjectProForm } from '../../form/composables/createProForm'
 
 export type CreateProModalFormReturn<Values = any> = ExtendProForm<

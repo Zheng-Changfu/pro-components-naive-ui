@@ -1,5 +1,6 @@
 import type { BaseField } from 'pro-composables'
 import type { ProFieldProps } from '../props'
+import { computed } from 'vue'
 
 interface UseFieldVModelPropOptions {
   field: BaseField

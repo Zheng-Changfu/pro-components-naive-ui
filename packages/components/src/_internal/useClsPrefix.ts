@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import { shallowRef } from 'vue'
+import { inject, shallowRef } from 'vue'
 
 const defaultNaiveClsPrefix = 'n'
 export function useNaiveClsPrefix(): Ref<string> {

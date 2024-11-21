@@ -3,6 +3,7 @@ import type { PropType, SlotsType } from 'vue'
 import type { ProCheckboxGroupSlots } from '../slots'
 import { get, omit } from 'lodash-es'
 import { checkboxGroupProps, NCheckbox, NCheckboxGroup, NFlex } from 'naive-ui'
+import { computed, defineComponent } from 'vue'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({

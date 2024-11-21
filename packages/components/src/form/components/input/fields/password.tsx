@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProPasswordSlots } from '../slots'
 import { EyeInvisibleOutlined, EyeOutlined } from '@vicons/antd'
 import { inputProps, NButton, NFlex, NIcon, NInput } from 'naive-ui'
-import { ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectTextInstStore } from '../inst'
 

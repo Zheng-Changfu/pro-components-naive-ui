@@ -1,6 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProSwitchSlots } from '../slots'
 import { NSwitch, switchProps } from 'naive-ui'
+import { defineComponent } from 'vue'
 import { useLocale } from '../../../../locales'
 import { useReadonlyHelpers } from '../../field'
 

@@ -1,4 +1,5 @@
 import { get } from 'lodash-es'
+import { computed, inject } from 'vue'
 import { enUS } from '../enUS'
 
 export function useLocale(ns?: string) {

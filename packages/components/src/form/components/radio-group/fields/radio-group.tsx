@@ -3,6 +3,7 @@ import type { PropType, SlotsType } from 'vue'
 import type { ProRadioGroupSlots } from '../slots'
 import { get, omit } from 'lodash-es'
 import { NFlex, NRadio, NRadioGroup, radioGroupProps } from 'naive-ui'
+import { computed, defineComponent } from 'vue'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({

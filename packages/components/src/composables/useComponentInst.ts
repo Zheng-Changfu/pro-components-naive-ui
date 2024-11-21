@@ -1,4 +1,4 @@
-import type { ShallowRef } from 'vue'
+import { shallowRef, type ShallowRef } from 'vue'
 
 type Inst = any
 type SetComponentInst<Inst> = (methods: Inst) => void

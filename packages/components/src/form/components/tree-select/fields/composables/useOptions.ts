@@ -1,6 +1,7 @@
 import type { TreeSelectOption, TreeSelectProps } from 'naive-ui'
 import { get, has, isNumber, isString, set } from 'lodash-es'
 import { eachTree, mapTree } from 'pro-composables'
+import { computed, nextTick, ref, watch } from 'vue'
 
 export const levelKey = '__level__'
 export function useOptions(props: TreeSelectProps) {
@@ -26,7 +27,7 @@ export function useOptions(props: TreeSelectProps) {
   })
 
   watch(
-    toRef(props, 'options'),
+    () => props.options,
     value => optionsRef.value = normalizeOptions(value ?? []),
     { immediate: true, deep: true },
   )

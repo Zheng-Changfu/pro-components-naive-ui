@@ -1,6 +1,8 @@
 import type { CollapseTransitionProps } from 'naive-ui'
+import type { ComputedRef } from 'vue'
 import type { ProCardProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
+import { computed, ref } from 'vue'
 
 export function useCollapseTransition(props: ComputedRef<ProCardProps>) {
   const show = ref(true)

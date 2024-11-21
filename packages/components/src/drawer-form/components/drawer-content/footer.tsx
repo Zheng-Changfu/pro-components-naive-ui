@@ -1,4 +1,6 @@
+import type { PropType } from 'vue'
 import type { ProButtonProps } from '../../../button'
+import { computed, defineComponent } from 'vue'
 import { warnOnce } from '../../../_utils/warn'
 import { ProButton } from '../../../button'
 import { useLocale } from '../../../locales'
