@@ -111,6 +111,9 @@ export default defineComponent({
       proFormProps,
       proModalProps,
       mergedClsPrefix,
+      footer: computed(() => overridedProps.value.footer),
+      resetButtonProps: computed(() => overridedProps.value.resetButtonProps),
+      submitButtonProps: computed(() => overridedProps.value.submitButtonProps),
     }
   },
   render() {
@@ -137,27 +140,23 @@ export default defineComponent({
             })
           },
           footer: () => {
-            if (this.$props.footer === false) {
+            if (this.footer === false) {
               return null
             }
-
-            const {
-              footer,
-              resetButtonProps,
-              submitButtonProps,
-            } = this.$props
 
             const footerDom = (
               <Footer
                 form={this.form}
-                resetButtonProps={resetButtonProps}
-                submitButtonProps={submitButtonProps}
+                resetButtonProps={this.resetButtonProps}
+                submitButtonProps={this.submitButtonProps}
               />
             )
 
-            return resolveSlotWithProps(this.$slots.footer, { footerDom }, () => {
-              return footer
-                ? footer({ footerDom })
+            return resolveSlotWithProps(this.$slots.footer, {
+              footerDom,
+            }, () => {
+              return this.footer
+                ? this.footer({ footerDom })
                 : <NFlex justify="flex-end" size={[8, 8]}>{footerDom}</NFlex>
             })
           },
