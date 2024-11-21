@@ -52,16 +52,18 @@ export default defineComponent({
         ...restProps
       } = overridedProps.value
 
+      const show = form[proFormInternalKey].show
+
       return {
         ...(proModalProps ?? {}),
         ...pick(restProps, Object.keys(_proModalProps)),
+        'show': show.value,
         'footer': undefined,
         'onClose': closeModal,
         'onUpdateShow': undefined,
-        'onUpdate:show': undefined,
         'preset': preset ? 'card' : undefined,
         'onAfterLeave': restoreValuesOnClosed,
-        'show': form[proFormInternalKey].show.value,
+        'onUpdate:show': val => show.value = val,
       }
     })
 
