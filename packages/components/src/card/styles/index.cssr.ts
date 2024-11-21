@@ -1,7 +1,5 @@
 import { c, cB, cE, cM } from 'naive-ui'
 
-// --n-prefix-height
-// --n-prefix-bg-color
 export default cB('pro-card', [
   cB('card__content', `
     transition: 
@@ -19,23 +17,6 @@ export default cB('pro-card', [
         cM('trigger', `
           cursor: pointer;
         `),
-        cM('prefix', `
-          position: relative;
-          padding-left: 12px;
-        `, [
-          c('&::before', `
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            margin: auto 0;
-            content: ''; 
-            width: 4px;
-            border-radius: 2px;
-            height: var(--n-prefix-height);
-            background: var(--n-prefix-bg-color);
-          `),
-        ]),
       ]),
       cB('icon', [
         cM('tooltip', `
