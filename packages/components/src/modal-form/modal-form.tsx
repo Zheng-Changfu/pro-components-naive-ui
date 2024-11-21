@@ -94,9 +94,9 @@ export default defineComponent({
         onClose,
       } = overridedProps.value
 
-      onClose
+      return onClose
         ? onClose()
-        : !form.submiting.value && form.close()
+        : !form.submiting.value
     }
 
     useMountStyle(
