@@ -44,7 +44,7 @@ export const proModalFormExtendProps = {
     default: undefined,
   },
   /**
-   * 透传给 modal 的属性，某些属性有冲突时可能有用
+   * 透传给 pro-modal 的属性，某些属性有冲突时可能有用
    */
   proModalProps: {
     type: Object as PropType<Simplify<Omit<
@@ -73,10 +73,6 @@ export const proModalFormProps = {
    */
   maskClosable: Boolean,
   /**
-   * 调整默认值为 false
-   */
-  autoFocus: Boolean,
-  /**
    * 不支持 dialog 和 confirm 预设
    */
   preset: String as PropType<'card'>,
@@ -88,7 +84,7 @@ export const proModalFormProps = {
     required: true,
   },
   /**
-   * 重写类型，为 false 不显示 action
+   * 重写类型，为 false 不显示
    */
   footer: {
     type: [Function, Boolean] as PropType<false | FooterRender>,
