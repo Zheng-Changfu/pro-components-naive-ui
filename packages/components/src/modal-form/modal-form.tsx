@@ -10,7 +10,6 @@ import { useMountStyle } from '../_internal/useMountStyle'
 import { resolveSlotWithProps, resolveWrappedSlotWithProps } from '../_utils/resolve-slot'
 import { useOverrideProps } from '../composables'
 import { proFormProps as _proFormProps, ProForm } from '../form'
-import { proFormInternalKey } from '../form/composables/createProForm'
 import { ProModal } from '../modal'
 import { proModalProps as _proModalProps } from '../modal/props'
 import Footer from './components/footer'
@@ -59,24 +58,20 @@ export default defineComponent({
         ...restProps
       } = overridedProps.value
 
-      const show = form[proFormInternalKey].show
-
       return {
         ...(proModalProps ?? {}),
         ...pick(
           restProps,
           Object.keys(_proModalProps),
         ),
-        'show': show.value,
         'footer': undefined,
         'onClose': closeModal,
+        'show': form.show.value,
         'onUpdateShow': undefined,
         'onAfterLeave': onAfterLeave,
         'preset': preset ? 'card' : undefined,
         'onUpdate:show': (val) => {
-          val
-            ? form.open()
-            : form.close()
+          val ? form.open() : form.close()
         },
       }
     })
