@@ -1,3 +1,10 @@
-export { default as ProPopoverFormItem } from './popover-form-item'
-export * from './props'
+export {
+  default as ProPopoverFormItem,
+} from './popover-form-item'
+
+export {
+  proPopoverFormItemProps,
+  type ProPopoverFormItemProps,
+} from './props'
+
 export * from './slots'

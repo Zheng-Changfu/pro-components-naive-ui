@@ -1,6 +1,6 @@
 import type { ConfigProviderProps } from 'naive-ui'
 import { NConfigProvider } from 'naive-ui'
-import { computed, unref } from 'vue'
+import { computed, defineComponent, unref } from 'vue'
 import { useOmitProps } from '../composables'
 import { provideGlobalConfig, useInjectGlobalConfig } from './context'
 import { proConfigProviderExtendProps, proConfigProviderProps } from './props'

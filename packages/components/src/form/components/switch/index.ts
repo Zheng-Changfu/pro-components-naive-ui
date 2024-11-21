@@ -1,3 +1,10 @@
-export * from './props'
+export {
+  proSwitchProps,
+  type ProSwitchProps,
+} from './props'
+
 export * from './slots'
-export { default as ProSwitch } from './switch'
+
+export {
+  default as ProSwitch,
+} from './switch'
