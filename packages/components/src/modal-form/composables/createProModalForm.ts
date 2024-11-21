@@ -31,7 +31,7 @@ export function createProModalForm<Values = any>(options: CreateProFormOptions<V
     show: computed(() => {
       return show.value
     }),
-  }, { show })
+  }, { })
 }
 
 export function useInjectProModalForm<Values = any>() {
