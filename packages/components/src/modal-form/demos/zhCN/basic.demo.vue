@@ -51,7 +51,6 @@ export default defineComponent({
     :form="form"
     title="新建表单"
     preset="card"
-    class="w-300px"
     label-width="auto"
     label-placement="left"
   >
