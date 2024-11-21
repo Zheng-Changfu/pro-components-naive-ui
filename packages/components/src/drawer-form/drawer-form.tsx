@@ -1,21 +1,15 @@
 import type { DrawerProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProFormProps } from '../form'
-import type { ProModalProps } from '../modal/props'
-import type { DrawerFormSlots, ProModalFormSlots } from './slots'
+import type { DrawerFormSlots } from './slots'
 import { pick } from 'lodash-es'
-import { NFlex } from 'naive-ui'
+import { drawerProps as _nDrawerProps, NDrawer } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
-import { resolveSlotWithProps, resolveWrappedSlotWithProps } from '../_utils/resolve-slot'
 import { useOverrideProps } from '../composables'
 import { proFormProps as _proFormProps, ProForm } from '../form'
-import { proFormInternalKey } from '../form/composables/createProForm'
-import { ProModal } from '../modal'
-import { proModalProps as _proModalProps } from '../modal/props'
 import { createDrawerForm } from './composables/createDrawerForm'
-import Footer from './footer'
 import { drawerFormProps } from './props'
 import style from './styles/index.cssr'
 
@@ -39,116 +33,94 @@ export default defineComponent({
 
     const proFormProps = computed<ProFormProps>(() => {
       return {
-        ...pick(overridedProps.value, Object.keys(_proFormProps)),
+        ...pick(
+          overridedProps.value,
+          Object.keys(_proFormProps),
+        ),
         form,
       }
     })
 
-    const drawerProps = computed<DrawerProps>(() => {
+    const nDrawerProps = computed<DrawerProps>(() => {
       const {
-        size,
+        // #region 冲突的属性
         theme,
+        themeOverrides,
+        builtinThemeOverrides,
+        // #endregion
         drawerProps,
+        closeOnSubmiting,
         ...restProps
       } = overridedProps.value
 
       return {
         ...(drawerProps ?? {}),
-        ...pick(restProps, Object.keys(_proModalProps)),
-        'footer': undefined,
-        'onClose': closeModal,
+        ...pick(
+          restProps,
+          Object.keys(_nDrawerProps),
+        ),
+        'show': form.show.value,
         'onUpdateShow': undefined,
-        'onUpdate:show': undefined,
-        'onAfterLeave': restoreValuesOnClosed,
-        'show': form[proFormInternalKey].show.value,
+        'onAfterLeave': onAfterLeave,
+        'onUpdate:show': doUpdateShow,
       }
     })
 
-    function restoreValuesOnClosed() {
+    function doUpdateShow(val: boolean) {
+      if (val) {
+        form.open()
+        return
+      }
+      if (
+        form.submiting.value
+        && !overridedProps.value.closeOnSubmiting
+      ) {
+        return
+      }
+      form.close()
+    }
+
+    function onAfterLeave() {
       const {
+        onAfterLeave,
         restoreValuesOnClosed,
       } = overridedProps.value
 
       if (restoreValuesOnClosed) {
         form.restoreFieldsValue()
       }
-    }
 
-    function closeModal() {
-      const {
-        onClose,
-      } = overridedProps.value
-
-      onClose
-        ? onClose()
-        : !form.submiting.value && form.close()
+      onAfterLeave && onAfterLeave()
     }
 
     useMountStyle(
       name,
-      'pro-modal-form',
+      'drawer-form',
       style,
       mergedClsPrefix,
     )
 
     return {
-      form,
       proFormProps,
-      proModalProps,
+      nDrawerProps,
       mergedClsPrefix,
     }
   },
   render() {
     return (
-      <ProModal
+      <NDrawer
         class={[
-          `${this.mergedClsPrefix}-pro-modal-form`,
+          `${this.mergedClsPrefix}-drawer-form`,
         ]}
-        style={{
-          width: this.width ?? '520px',
-          maxHeight: this.maxHeight ?? '80%',
-        }}
-        {...this.proModalProps}
+        {...this.nDrawerProps}
       >
         {{
           ...this.$slots,
-          default: (options: { draggableClass: string }) => {
-            return resolveWrappedSlotWithProps(this.$slots.default, { options }, (children) => {
-              return (
-                <ProForm {...this.proFormProps}>
-                  {children}
-                </ProForm>
-              )
-            })
-          },
-          footer: () => {
-            if (this.$props.footer === false) {
-              return null
-            }
-
-            const {
-              footer,
-              resetButtonProps,
-              submitButtonProps,
-            } = this.$props
-
-            const footerDom = (
-              <Footer
-                form={this.form}
-                resetButtonProps={resetButtonProps}
-                submitButtonProps={submitButtonProps}
-              />
-            )
-
-            return resolveSlotWithProps(this.$slots.footer, { footerDom }, () => {
-              return footer
-                ? footer({ footerDom })
-                : <NFlex justify="flex-end" size={[8, 8]}>{footerDom}</NFlex>
-            })
+          default: () => {
+            return <ProForm {...this.proFormProps}>{this.$slots.default?.()}</ProForm>
           },
         }}
-
-      </ProModal>
+      </NDrawer>
     )
   },
 })

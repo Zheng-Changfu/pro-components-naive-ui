@@ -1,5 +1,5 @@
-import type { Ref } from 'vue'
 import type { CreateProFormOptions, ExtendProForm } from '../../form/composables/createProForm'
+import { computed } from 'vue'
 import { extendProForm, useInjectProForm } from '../../form/composables/createProForm'
 
 export type CreateProModalFormReturn<Values = any> = ExtendProForm<
@@ -13,9 +13,10 @@ export type CreateProModalFormReturn<Values = any> = ExtendProForm<
      * 关闭弹窗
      */
     close: () => void
-  },
-  {
-    show: Ref<boolean>
+    /**
+     * 显示状态
+     */
+    show: ComputedRef<boolean>
   }
 >
 export function createProModalForm<Values = any>(options: CreateProFormOptions<Values> = {}): CreateProModalFormReturn<Values> {
@@ -27,7 +28,10 @@ export function createProModalForm<Values = any>(options: CreateProFormOptions<V
     close: () => {
       show.value = false
     },
-  }, { show })
+    show: computed(() => {
+      return show.value
+    }),
+  }, { })
 }
 
 export function useInjectProModalForm<Values = any>() {

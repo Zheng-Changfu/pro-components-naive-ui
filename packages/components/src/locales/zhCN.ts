@@ -62,6 +62,10 @@ export const zhCN = createLocale({
     reset: '取 消',
     submit: '确 认',
   },
+  ProDrawerContent: {
+    reset: '取 消',
+    submit: '确 认',
+  },
   ProSearchForm: {
     reset: '重置',
     search: '查询',

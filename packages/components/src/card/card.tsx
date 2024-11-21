@@ -2,14 +2,13 @@ import type { SlotsType } from 'vue'
 import type { ProCardSlots } from './slots'
 import { DownOutlined, InfoCircleOutlined, UpOutlined } from '@vicons/antd'
 import { isFunction } from 'lodash-es'
-import { collapseTransitionProps, NCard, NFlex, NIcon, useThemeVars } from 'naive-ui'
+import { collapseTransitionProps, NCard, NFlex, NIcon } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import ProCollapseTransition from '../_internal/components/collapse-transition/index.vue'
 import ProTooltip from '../_internal/components/pro-tooltip'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
-import { useThemeClass } from '../_internal/useCssVarsClass'
-import { useInlineThemeDisabled } from '../_internal/useInlineThemeDisabled'
 import { useMountStyle } from '../_internal/useMountStyle'
+import { mergeClass } from '../_utils/mergeClass'
 import { resolveSlot, resolveWrappedSlotWithProps } from '../_utils/resolve-slot'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { useLocale } from '../locales'
@@ -23,16 +22,6 @@ export default defineComponent({
   props: proCardProps,
   slots: Object as SlotsType<ProCardSlots>,
   setup(props, { slots }) {
-    const themeVars = useThemeVars()
-    const mergedClsPrefix = useNaiveClsPrefix()
-    const inlineThemeDisabled = useInlineThemeDisabled()
-
-    const theme = useMountStyle(
-      name,
-      'pro-card',
-      style,
-    )
-
     const {
       getMessage,
     } = useLocale('ProCard')
@@ -41,6 +30,8 @@ export default defineComponent({
       name,
       props,
     )
+
+    const mergedClsPrefix = useNaiveClsPrefix()
 
     const nCardProps = useOmitProps(overridedProps, {
       ...proCardExtendProps,
@@ -58,39 +49,9 @@ export default defineComponent({
       return !!title || !!slots.header || !!tooltip
     })
 
-    const cssVars = computed(() => {
-      const { size } = overridedProps.value
-      const {
-        prefixHeightSmall = '16px',
-        prefixHeightDefault = '18px',
-        prefixBgColor = themeVars.value.errorColor,
-      } = theme.value
-
-      return {
-        '--n-prefix-bg-color': prefixBgColor,
-        '--n-prefix-height': size === 'small' ? prefixHeightSmall : prefixHeightDefault,
-      }
-    })
-
-    const showCollapseArea = computed(() => {
-      const { showCollapse, closable } = overridedProps.value
-      if (showCollapse !== undefined) {
-        return !!showCollapse
-      }
-      return !closable
-    })
-
     const collapseText = computed(() => {
       return getMessage('collapse')(!show.value)
     })
-
-    function triggerExpand(area: 'main' | 'arrow') {
-      const { triggerAreas = [] } = overridedProps.value
-      if (!triggerAreas.includes(area)) {
-        return
-      }
-      show.value = !show.value
-    }
 
     const resolvedTitle = computed(() => {
       const { title } = overridedProps.value
@@ -98,54 +59,47 @@ export default defineComponent({
     })
 
     const mergedContentClass = computed(() => {
-      return [
-        overridedProps.value.contentClass ?? '',
+      return mergeClass(
+        overridedProps.value.contentClass,
         !show.value && `${mergedClsPrefix.value}-card__content--hidden`,
-      ].filter(Boolean).join(' ')
-    })
-
-    const tooltip = computed(() => {
-      return overridedProps.value.tooltip
-    })
-
-    const themeClassHandle = inlineThemeDisabled
-      ? useThemeClass(
-        'pro-card',
-        computed(() => {
-          return props.size[0]
-        }),
-        cssVars,
-        props,
       )
-      : undefined
+    })
+
+    function triggerExpand(area: 'main' | 'arrow') {
+      const { triggerAreas = [] } = overridedProps.value
+      if (triggerAreas.includes(area)) {
+        show.value = !show.value
+      }
+    }
+
+    useMountStyle(
+      name,
+      'pro-card',
+      style,
+    )
 
     return {
       show,
-      tooltip,
       nCardProps,
       showHeader,
       collapseText,
       resolvedTitle,
       triggerExpand,
-      overridedProps,
       mergedClsPrefix,
-      showCollapseArea,
       mergedContentClass,
       nCollapseTransitionProps,
-      onRender: themeClassHandle?.onRender,
-      themeClass: themeClassHandle?.themeClass,
-      cssVars: inlineThemeDisabled ? undefined : cssVars,
+      tooltip: computed(() => overridedProps.value.tooltip),
+      showCollapse: computed(() => overridedProps.value.showCollapse),
+      triggerAreas: computed(() => overridedProps.value.triggerAreas ?? []),
     }
   },
   render() {
     const { mergedClsPrefix } = this
-    this.onRender?.()
 
     return (
       <NCard
         {...this.nCardProps}
         class={[
-          this.themeClass,
           `${mergedClsPrefix}-pro-card`,
         ]}
         contentClass={this.mergedContentClass}
@@ -165,16 +119,14 @@ export default defineComponent({
             }
             return (
               <div
-                class={[
-                  {
-                    [`${mergedClsPrefix}-card-header__main--prefix`]: this.overridedProps.prefix,
-                    [`${mergedClsPrefix}-card-header__main--trigger`]: (this.overridedProps.triggerAreas ?? []).includes('main'),
-                  },
-                ]}
-                style={this.cssVars}
+                class={[{
+                  [`${mergedClsPrefix}-card-header__main--trigger`]: this.triggerAreas.includes('main'),
+                }]}
                 onClick={() => this.triggerExpand('main')}
               >
-                {resolveSlot(this.$slots.header, () => [this.resolvedTitle])}
+                {
+                  resolveSlot(this.$slots.header, () => [this.resolvedTitle])
+                }
                 <ProTooltip
                   trigger="hover"
                   tooltip={this.tooltip}
@@ -196,7 +148,9 @@ export default defineComponent({
           'header-extra': () => {
             return [
               this.$slots['header-extra']?.(),
-              this.showCollapseArea && resolveWrappedSlotWithProps(this.$slots.collapse, { expanded: this.show }, (children) => {
+              this.showCollapse && resolveWrappedSlotWithProps(this.$slots.collapse, {
+                expanded: this.show,
+              }, (children) => {
                 children = children ?? [
                   <div>{this.collapseText}</div>,
                   <NIcon>{this.show ? <UpOutlined /> : <DownOutlined />}</NIcon>,
@@ -206,11 +160,9 @@ export default defineComponent({
                   <NFlex
                     size={[4, 0]}
                     align="center"
-                    class={[
-                      {
-                        [`${mergedClsPrefix}-card-header__extra--trigger`]: (this.overridedProps.triggerAreas ?? []).includes('arrow'),
-                      },
-                    ]}
+                    class={[{
+                      [`${mergedClsPrefix}-card-header__extra--trigger`]: this.triggerAreas.includes('arrow'),
+                    }]}
                     // @ts-expect-error
                     onClick={() => this.triggerExpand('arrow')}
                   >

@@ -10,11 +10,10 @@ import { useMountStyle } from '../_internal/useMountStyle'
 import { resolveSlotWithProps, resolveWrappedSlotWithProps } from '../_utils/resolve-slot'
 import { useOverrideProps } from '../composables'
 import { proFormProps as _proFormProps, ProForm } from '../form'
-import { proFormInternalKey } from '../form/composables/createProForm'
 import { ProModal } from '../modal'
 import { proModalProps as _proModalProps } from '../modal/props'
+import Footer from './components/footer'
 import { createProModalForm } from './composables/createProModalForm'
-import Footer from './footer'
 import { proModalFormProps } from './props'
 import style from './styles/index.cssr'
 
@@ -38,15 +37,22 @@ export default defineComponent({
 
     const proFormProps = computed<ProFormProps>(() => {
       return {
-        ...pick(overridedProps.value, Object.keys(_proFormProps)),
+        ...pick(
+          overridedProps.value,
+          Object.keys(_proFormProps),
+        ),
         form,
       }
     })
 
     const proModalProps = computed<ProModalProps>(() => {
       const {
+        // #region 冲突的属性
         size,
         theme,
+        themeOverrides,
+        builtinThemeOverrides,
+        // #endregion
         preset,
         proModalProps,
         ...restProps
@@ -54,35 +60,44 @@ export default defineComponent({
 
       return {
         ...(proModalProps ?? {}),
-        ...pick(restProps, Object.keys(_proModalProps)),
+        ...pick(
+          restProps,
+          Object.keys(_proModalProps),
+        ),
         'footer': undefined,
-        'onClose': closeModal,
+        'show': form.show.value,
         'onUpdateShow': undefined,
-        'onUpdate:show': undefined,
+        'onAfterLeave': onAfterLeave,
+        'onUpdate:show': doUpdateShow,
         'preset': preset ? 'card' : undefined,
-        'onAfterLeave': restoreValuesOnClosed,
-        'show': form[proFormInternalKey].show.value,
       }
     })
 
-    function restoreValuesOnClosed() {
+    function onAfterLeave() {
       const {
+        onAfterLeave,
         restoreValuesOnClosed,
       } = overridedProps.value
 
       if (restoreValuesOnClosed) {
         form.restoreFieldsValue()
       }
+
+      onAfterLeave && onAfterLeave()
     }
 
-    function closeModal() {
-      const {
-        onClose,
-      } = overridedProps.value
-
-      onClose
-        ? onClose()
-        : !form.submiting.value && form.close()
+    function doUpdateShow(val: boolean) {
+      if (val) {
+        form.open()
+        return
+      }
+      if (
+        form.submiting.value
+        && !overridedProps.value.closeOnSubmiting
+      ) {
+        return
+      }
+      form.close()
     }
 
     useMountStyle(
@@ -97,6 +112,9 @@ export default defineComponent({
       proFormProps,
       proModalProps,
       mergedClsPrefix,
+      footer: computed(() => overridedProps.value.footer),
+      resetButtonProps: computed(() => overridedProps.value.resetButtonProps),
+      submitButtonProps: computed(() => overridedProps.value.submitButtonProps),
     }
   },
   render() {
@@ -123,27 +141,23 @@ export default defineComponent({
             })
           },
           footer: () => {
-            if (this.$props.footer === false) {
+            if (this.footer === false) {
               return null
             }
-
-            const {
-              footer,
-              resetButtonProps,
-              submitButtonProps,
-            } = this.$props
 
             const footerDom = (
               <Footer
                 form={this.form}
-                resetButtonProps={resetButtonProps}
-                submitButtonProps={submitButtonProps}
+                resetButtonProps={this.resetButtonProps}
+                submitButtonProps={this.submitButtonProps}
               />
             )
 
-            return resolveSlotWithProps(this.$slots.footer, { footerDom }, () => {
-              return footer
-                ? footer({ footerDom })
+            return resolveSlotWithProps(this.$slots.footer, {
+              footerDom,
+            }, () => {
+              return this.footer
+                ? this.footer({ footerDom })
                 : <NFlex justify="flex-end" size={[8, 8]}>{footerDom}</NFlex>
             })
           },

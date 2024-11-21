@@ -1,14 +1,9 @@
 import type { Simplify } from 'type-fest'
-import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
-import type { ProButtonProps } from '../button'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { CreateDrawerFormReturn } from './composables/createDrawerForm'
 import { omit } from 'lodash-es'
 import { drawerProps, type DrawerProps } from 'naive-ui'
 import { proFormProps } from '../form'
-
-export type FooterRender = (opt: {
-  footerDom: VNodeChild
-}) => VNodeChild
 
 export const drawerFormExtendProps = {
   /**
@@ -19,19 +14,9 @@ export const drawerFormExtendProps = {
     default: true,
   },
   /**
-   * 传递给取消按钮的属性，false 不显示按钮
+   * 提交时是否可以关闭
    */
-  resetButtonProps: {
-    type: [Boolean, Object] as PropType<false | ProButtonProps>,
-    default: undefined,
-  },
-  /**
-   * 传递给确认按钮的属性，false 不显示按钮
-   */
-  submitButtonProps: {
-    type: [Boolean, Object] as PropType<false | ProButtonProps>,
-    default: undefined,
-  },
+  closeOnSubmiting: Boolean,
   /**
    * 透传给 drawer 的属性，某些属性有冲突时可能有用
    */
@@ -66,18 +51,18 @@ export const drawerFormProps = {
    */
   autoFocus: Boolean,
   /**
+   * 调整默认宽度
+   */
+  width: {
+    type: [String, Number] as PropType<string | number>,
+    default: 520,
+  },
+  /**
    * 抽屉表单控制器
    */
   form: {
     type: Object as PropType<CreateDrawerFormReturn>,
     required: true,
-  },
-  /**
-   * 重写类型，为 false 不显示 action
-   */
-  footer: {
-    type: [Function, Boolean] as PropType<false | FooterRender>,
-    default: undefined,
   },
 } as const
 

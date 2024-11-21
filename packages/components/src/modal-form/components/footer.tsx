@@ -1,7 +1,7 @@
-import type { ProButtonProps } from '../button'
-import type { CreateProModalFormReturn } from './composables/createDrawerForm'
-import { ProButton } from '../button'
-import { useLocale } from '../locales'
+import type { ProButtonProps } from '../../button'
+import type { CreateProModalFormReturn } from '../composables/createProModalForm'
+import { ProButton } from '../../button'
+import { useLocale } from '../../locales'
 
 export default defineComponent({
   name: 'Footer',

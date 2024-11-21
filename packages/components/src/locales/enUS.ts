@@ -61,6 +61,10 @@ export const enUS = createLocale({
     reset: 'reset',
     submit: 'submit',
   },
+  ProDrawerContent: {
+    reset: 'reset',
+    submit: 'submit',
+  },
   ProSearchForm: {
     reset: 'reset',
     search: 'search',

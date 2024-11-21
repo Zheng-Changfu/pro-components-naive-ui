@@ -1,15 +1,12 @@
-import type { ProButtonProps } from '../button'
-import type { CreateProModalFormReturn } from './composables/createProModalForm'
-import { ProButton } from '../button'
-import { useLocale } from '../locales'
+import type { ProButtonProps } from '../../../button'
+import { warnOnce } from '../../../_utils/warn'
+import { ProButton } from '../../../button'
+import { useLocale } from '../../../locales'
+import { useInjectDrawerForm } from '../../composables/createDrawerForm'
 
 export default defineComponent({
   name: 'Footer',
   props: {
-    form: {
-      type: Object as PropType<CreateProModalFormReturn>,
-      required: true,
-    },
     resetButtonProps: {
       type: [Boolean, Object] as PropType<false | ProButtonProps>,
       default: undefined,
@@ -22,10 +19,18 @@ export default defineComponent({
   setup(props) {
     const {
       getMessage,
-    } = useLocale('ProModalForm')
+    } = useLocale('ProDrawerContent')
+
+    const form = useInjectDrawerForm()
+    if (!form) {
+      warnOnce(
+        'drawer-content',
+        '`pro-drawer-content` must be placed inside `drawer-form`.',
+      )
+    }
 
     const submiting = computed(() => {
-      return props.form.submiting.value
+      return form?.submiting.value
     })
 
     const showResetButton = computed(() => {
@@ -44,7 +49,7 @@ export default defineComponent({
               '取 消',
             ),
             onClick: () => {
-              props.form.close()
+              form?.close()
             },
             disabled: submiting.value,
             ...(props.resetButtonProps ?? {}),
@@ -61,7 +66,7 @@ export default defineComponent({
               '确 认',
             ),
             onClick: () => {
-              props.form.submit()
+              form?.submit()
             },
             loading: submiting.value,
             ...(props.submitButtonProps ?? {}),
