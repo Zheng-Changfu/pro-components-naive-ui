@@ -38,15 +38,22 @@ export default defineComponent({
 
     const proFormProps = computed<ProFormProps>(() => {
       return {
-        ...pick(overridedProps.value, Object.keys(_proFormProps)),
+        ...pick(
+          overridedProps.value,
+          Object.keys(_proFormProps),
+        ),
         form,
       }
     })
 
     const proModalProps = computed<ProModalProps>(() => {
       const {
+        // #region 冲突的属性
         size,
         theme,
+        themeOverrides,
+        builtinThemeOverrides,
+        // #endregion
         preset,
         proModalProps,
         ...restProps
@@ -56,25 +63,30 @@ export default defineComponent({
 
       return {
         ...(proModalProps ?? {}),
-        ...pick(restProps, Object.keys(_proModalProps)),
+        ...pick(
+          restProps,
+          Object.keys(_proModalProps),
+        ),
         'show': show.value,
         'footer': undefined,
         'onClose': closeModal,
         'onUpdateShow': undefined,
+        'onAfterLeave': onAfterLeave,
         'preset': preset ? 'card' : undefined,
-        'onAfterLeave': restoreValuesOnClosed,
         'onUpdate:show': val => show.value = val,
       }
     })
 
-    function restoreValuesOnClosed() {
+    function onAfterLeave() {
       const {
+        onAfterLeave,
         restoreValuesOnClosed,
       } = overridedProps.value
 
       if (restoreValuesOnClosed) {
         form.restoreFieldsValue()
       }
+      onAfterLeave && onAfterLeave()
     }
 
     function closeModal() {
