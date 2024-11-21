@@ -19,7 +19,7 @@ export default defineComponent({
   setup(props) {
     const {
       getMessage,
-    } = useLocale('DrawerForm')
+    } = useLocale('ProDrawerContent')
 
     const form = useInjectDrawerForm()
     if (!form) {
