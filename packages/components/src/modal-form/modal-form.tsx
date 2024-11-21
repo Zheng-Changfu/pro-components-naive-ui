@@ -65,14 +65,11 @@ export default defineComponent({
           Object.keys(_proModalProps),
         ),
         'footer': undefined,
-        'onClose': closeModal,
         'show': form.show.value,
         'onUpdateShow': undefined,
         'onAfterLeave': onAfterLeave,
+        'onUpdate:show': doUpdateShow,
         'preset': preset ? 'card' : undefined,
-        'onUpdate:show': (val) => {
-          val ? form.open() : form.close()
-        },
       }
     })
 
@@ -89,14 +86,18 @@ export default defineComponent({
       onAfterLeave && onAfterLeave()
     }
 
-    function closeModal() {
-      const {
-        onClose,
-      } = overridedProps.value
-
-      return onClose
-        ? onClose()
-        : !form.submiting.value
+    function doUpdateShow(val: boolean) {
+      if (val) {
+        form.open()
+        return
+      }
+      if (
+        form.submiting.value
+        && !overridedProps.value.closeOnSubmiting
+      ) {
+        return
+      }
+      form.close()
     }
 
     useMountStyle(
