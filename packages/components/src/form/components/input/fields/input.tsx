@@ -1,6 +1,6 @@
 import type { SlotsType } from 'vue'
 import type { ProInputSlots } from '../slots'
-import { inputProps,  NFlex, NInput } from 'naive-ui'
+import { inputProps, NFlex, NInput } from 'naive-ui'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectTextInstStore } from '../inst'
 
