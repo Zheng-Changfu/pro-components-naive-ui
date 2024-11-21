@@ -1,12 +1,8 @@
-import { c, cB, cE } from 'naive-ui'
+import { cB } from 'naive-ui'
 
-export default c([
-  cB('card', [
-    cE('content', `
-      overflow: auto; 
-    `),
-  ]),
-  cB('modal-scroll-content', `
-     height: 100%;
+export default cB('drawer-form', [
+  cB('form', `
+    height: 100%;
+    overflow: auto;  
   `),
 ])

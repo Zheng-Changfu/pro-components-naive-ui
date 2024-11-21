@@ -3,67 +3,46 @@
 </markdown>
 
 <script lang="tsx">
-import { random } from 'lodash-es'
 import { useMessage } from 'naive-ui'
-import { createProModalForm } from 'pro-components-naive-ui'
+import { createDrawerForm } from 'pro-components-naive-ui'
 import { ref } from 'vue'
+
+function delay(time: number) {
+  return new Promise(resolve => setTimeout(resolve, time))
+}
 
 export default defineComponent({
   setup() {
-    const active = ref(false)
-    const placement = ref<DrawerPlacement>('right')
-    const activate = (place: DrawerPlacement) => {
-      active.value = true
-      placement.value = place
-    }
+    const message = useMessage()
+
+    const drawerForm = createDrawerForm<Partial<{ name: string, password: string }>>({
+      onSubmit: async (values) => {
+        await delay(2000)
+        message.success('更新成功')
+        console.log(values)
+        drawerForm.close()
+      },
+    })
     return {
-      active,
-      placement,
-      activate,
+      form: drawerForm,
+      open: drawerForm.open,
     }
   },
 })
 </script>
 
 <template>
-  <n-button @click="active = true">
-    右
+  <n-button @click="open">
+    新建表单
   </n-button>
-  <n-drawer v-model:show="active" :width="502" :placement="placement">
-    <pro-card
-      title="123" tooltip="tooltips" class="h-full" :segmented="{
-        content: true,
-        footer: true,
-      }" content-class="h-full overflow-auto"
-    >
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <h1>123</h1>
-      <template #footer>
-        123
-      </template>
-    </pro-card>
-  </n-drawer>
+  <drawer-form
+    :form="form"
+    label-width="auto"
+    label-placement="left"
+  >
+    <pro-drawer-content title="新建表单" :native-scrollbar="false" closable>
+      <pro-input title="用户名1" path="name1" />
+      <pro-input title="用户名2" path="name2" />
+    </pro-drawer-content>
+  </drawer-form>
 </template>
