@@ -1,6 +1,7 @@
 import type { CNode } from 'css-render'
+import type { Ref } from 'vue'
 import { useSsrAdapter } from '@css-render/vue3-ssr'
-import { inject, onBeforeMount } from 'vue'
+import { computed, inject, onBeforeMount } from 'vue'
 
 export function useMountStyle(
   resolveId: string,

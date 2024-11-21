@@ -1,3 +1,10 @@
-export * from './props'
+export {
+  proTransferProps,
+  type ProTransferProps,
+} from './props'
+
 export * from './slots'
-export { default as ProTransfer } from './transfer'
+
+export {
+  default as ProTransfer,
+} from './transfer'

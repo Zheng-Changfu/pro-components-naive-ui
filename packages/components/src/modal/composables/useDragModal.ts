@@ -1,6 +1,7 @@
 import type { ComputedRef } from 'vue'
 import type { ProModalProps } from '../props'
 import { useEventListener } from '@vueuse/core'
+import { computed, onScopeDispose } from 'vue'
 
 export const DRAGGABLE_CLASS = 'pro-modal--draggable'
 export function useDragModal(props: ComputedRef<ProModalProps>) {

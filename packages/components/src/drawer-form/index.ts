@@ -9,11 +9,9 @@ export {
   default as DrawerForm,
 } from './drawer-form'
 
-export type {
-  DrawerFormProps,
-} from './props'
-
 export {
   drawerFormProps,
+  type DrawerFormProps,
 } from './props'
+
 export * from './slots'

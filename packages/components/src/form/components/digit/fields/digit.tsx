@@ -1,6 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProDigitSlots } from '../slots'
-import { inputNumberProps,  NFlex, NInputNumber } from 'naive-ui'
+import { inputNumberProps, NFlex, NInputNumber } from 'naive-ui'
+import { defineComponent } from 'vue'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectDigitInstStore } from '../inst'
 

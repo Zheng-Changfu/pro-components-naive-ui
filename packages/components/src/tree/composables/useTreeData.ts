@@ -3,7 +3,7 @@ import type { ComputedRef } from 'vue'
 import type { ProTreeProps } from '../props'
 import { get, has, isNumber, isString, set } from 'lodash-es'
 import { eachTree, mapTree } from 'pro-composables'
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 
 export const levelKey = '__level__'
 export function useTreeData(props: ComputedRef<ProTreeProps>) {
@@ -30,7 +30,7 @@ export function useTreeData(props: ComputedRef<ProTreeProps>) {
 
   let updating = false
   watch(
-    computed(() => props.value.data),
+    () => props.value.data,
     (value) => {
       updating = true
       treeData.value = normalizeData(value ?? [])

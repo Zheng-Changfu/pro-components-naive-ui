@@ -7,12 +7,9 @@ export {
   default as ProModalForm,
 } from './modal-form'
 
-export type {
-  FooterRender as ProModalFormFooterRender,
-  ProModalFormProps,
-} from './props'
-
 export {
+  type FooterRender as ProModalFormFooterRender,
+  type ProModalFormProps,
   proModalFormProps,
 } from './props'
 

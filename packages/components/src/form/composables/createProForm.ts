@@ -1,10 +1,11 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseField, BaseForm, FormOptions, InternalPath } from 'pro-composables'
 import type { Merge, Paths, Simplify, SimplifyDeep } from 'type-fest'
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 import type { FieldExtraInfo } from '../components'
 import { isString, toPath } from 'lodash-es'
 import { createForm, stringifyPath } from 'pro-composables'
+import { computed, inject, nextTick, provide, ref } from 'vue'
 import { fieldExtraKey } from '../components'
 import { useValidationResults } from './useValidationResult'
 

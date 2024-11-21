@@ -1,6 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProCheckboxSlots } from '../slots'
 import { checkboxProps, NCheckbox } from 'naive-ui'
+import { defineComponent } from 'vue'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectCheckboxInstStore } from '../inst'
 

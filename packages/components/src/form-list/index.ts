@@ -1,12 +1,20 @@
 export * from './context'
-export { default as ProFormList } from './form-list'
-export type { ProFormListInst } from './inst'
-export { proFormListProps } from './props'
+
+export {
+  default as ProFormList,
+} from './form-list'
+
 export type {
-  ActionGuard as ProFormListActionGuard,
-  ActionRender as ProFormListActionRender,
-  ContainerRender as ProFormListContainerRender,
-  ItemRender as ProFormListItemRender,
-  ProFormListProps,
+  ProFormListInst,
+} from './inst'
+
+export {
+  type ActionGuard as ProFormListActionGuard,
+  type ActionRender as ProFormListActionRender,
+  type ContainerRender as ProFormListContainerRender,
+  type ItemRender as ProFormListItemRender,
+  type ProFormListProps,
+  proFormListProps,
 } from './props'
+
 export * from './slots'

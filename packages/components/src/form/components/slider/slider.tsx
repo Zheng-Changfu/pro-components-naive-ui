@@ -1,5 +1,6 @@
 import type { SlotsType } from 'vue'
 import type { ProSliderSlots } from './slots'
+import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
 import Slider from './fields/slider'

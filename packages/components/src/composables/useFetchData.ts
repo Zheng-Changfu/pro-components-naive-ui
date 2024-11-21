@@ -1,8 +1,9 @@
 import type { EventHookOn } from '@vueuse/core'
+import type { ComputedRef, Ref } from 'vue'
 import type { AnyFn } from '../types'
 import { createEventHook, useDocumentVisibility } from '@vueuse/core'
 import { isBoolean } from 'lodash-es'
-import { watch } from 'vue'
+import { onMounted, ref, toRaw, watch } from 'vue'
 
 export type RefreshOnWindowFocus = boolean | {
   intervalTime: number
@@ -131,7 +132,7 @@ export function useFetchData<T extends AnyFn, R>(options: ComputedRef<UseFetchDa
   )
 
   watch(
-    computed(() => options.value.manual),
+    () => options.value.manual,
     (manual) => {
       if (!manual) {
         fetchData()

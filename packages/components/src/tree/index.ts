@@ -1,4 +1,12 @@
-export * from './inst'
-export * from './props'
+export type { ProTreeInst } from './inst'
+
+export {
+  proTreeProps,
+  type ProTreeProps,
+} from './props'
+
 export * from './slots'
-export { default as ProTree } from './tree'
+
+export {
+  default as ProTree,
+} from './tree'

@@ -1,7 +1,7 @@
 import type { ExtractPublicPropTypes, PropType, SlotsType, VNodeChild } from 'vue'
 import { isString } from 'lodash-es'
 import { NTooltip, tooltipProps } from 'naive-ui'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { resolveWrappedSlot } from '../../_utils/resolve-slot'
 
 export const proTooltipProps = {

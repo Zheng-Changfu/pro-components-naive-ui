@@ -1,6 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProDigitSlots } from './slots'
 import { isString } from 'lodash-es'
+import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
 import Digit from './fields/digit'

@@ -1,3 +1,4 @@
+import type { ComputedRef } from 'vue'
 import type { ProTooltipProps } from '../../_internal/components/pro-tooltip'
 import type { ProButtonProps } from '../props'
 import { computed } from 'vue'

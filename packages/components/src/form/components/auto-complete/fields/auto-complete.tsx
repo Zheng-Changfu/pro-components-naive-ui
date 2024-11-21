@@ -3,6 +3,7 @@ import type { PropType, SlotsType } from 'vue'
 import type { ProAutoCompleteSlots } from '../slots'
 import { isFunction } from 'lodash-es'
 import { autoCompleteProps, NAutoComplete, NFlex } from 'naive-ui'
+import { computed, defineComponent } from 'vue'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectAutoCompleteInstStore } from '../inst'
 

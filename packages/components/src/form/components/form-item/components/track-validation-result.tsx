@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 import type { FormItemInternalValidateResult } from '../../../composables/useValidationResult'
 import type { FieldExtraInfo } from '../../field'
 import { useInjectField } from 'pro-composables'
-import { inject, onUnmounted, provide } from 'vue'
+import { defineComponent, inject, onUnmounted, provide, watch } from 'vue'
 import { useInjectProFormConfig } from '../../../context'
 import { fieldExtraKey, useReadonlyHelpers } from '../../field'
 

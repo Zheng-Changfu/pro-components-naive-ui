@@ -6,7 +6,7 @@
 import { random } from 'lodash-es'
 import { useMessage } from 'naive-ui'
 import { createProModalForm } from 'pro-components-naive-ui'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))

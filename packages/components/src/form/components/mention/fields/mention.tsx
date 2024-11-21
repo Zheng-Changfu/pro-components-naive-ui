@@ -1,6 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProMentionSlots } from '../slots'
 import { mentionProps, NMention } from 'naive-ui'
+import { defineComponent } from 'vue'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectMentionInstStore } from '../inst'
 

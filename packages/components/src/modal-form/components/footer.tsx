@@ -1,5 +1,7 @@
+import type { PropType } from 'vue'
 import type { ProButtonProps } from '../../button'
 import type { CreateProModalFormReturn } from '../composables/createProModalForm'
+import { computed, defineComponent } from 'vue'
 import { ProButton } from '../../button'
 import { useLocale } from '../../locales'
 

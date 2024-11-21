@@ -2,6 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProColorPickerSlots } from '../slots'
 import { omit } from 'lodash-es'
 import { colorPickerProps, NColorPicker } from 'naive-ui'
+import { defineComponent } from 'vue'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({

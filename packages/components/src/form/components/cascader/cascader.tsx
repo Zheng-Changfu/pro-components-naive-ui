@@ -1,5 +1,6 @@
 import type { SlotsType } from 'vue'
 import type { ProCascaderSlots } from './slots'
+import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
 import Cascader from './fields/cascader'

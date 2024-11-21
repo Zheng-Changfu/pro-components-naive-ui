@@ -5,7 +5,7 @@
 <script lang="tsx">
 import { useMessage } from 'naive-ui'
 import { createDrawerForm } from 'pro-components-naive-ui'
-import { ref } from 'vue'
+import { defineComponent } from 'vue'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))

@@ -1,4 +1,5 @@
 <script setup lang='tsx'>
+import { computed, defineOptions, defineProps } from 'vue'
 /**
  * copy from https://github.com/tusen-ai/naive-ui/blob/main/src/_internal/fade-in-expand-transition/src/FadeInExpandTransition.ts
  */

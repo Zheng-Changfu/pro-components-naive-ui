@@ -3,6 +3,7 @@ import type { ProCascaderSlots } from '../slots'
 import { get, isArray } from 'lodash-es'
 import { cascaderProps, NCascader, NFlex } from 'naive-ui'
 import { eachTree } from 'pro-composables'
+import { computed, defineComponent } from 'vue'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectCascaderInstStore } from '../inst'
 
