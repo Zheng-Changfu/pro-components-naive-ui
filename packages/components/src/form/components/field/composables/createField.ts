@@ -11,14 +11,12 @@ export function createField(props: ProFieldProps) {
     postValue,
     transform,
     onInputValue,
-    defaultValue,
     dependencies,
     initialValue,
   } = props
 
   const options: FieldOptions = {
     preserve,
-    defaultValue,
     initialValue,
     dependencies,
     path: toRef(props, 'path'),

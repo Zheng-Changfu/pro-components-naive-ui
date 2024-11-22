@@ -8,7 +8,6 @@ export const ignoreKeys = [
   'isList',
   'valueType',
   'fieldProps',
-  'defaultValue',
   'valueModelName',
 ] as const
 

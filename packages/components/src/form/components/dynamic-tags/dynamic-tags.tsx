@@ -25,7 +25,6 @@ export default defineComponent({
     return (
       <ProField
         {...this.overridedProps}
-        defaultValue={[]}
         valueType={InternalValueTypeEnum.DYNAMIC_TAGS}
       >
         {{

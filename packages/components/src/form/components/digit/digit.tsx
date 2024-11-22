@@ -47,7 +47,6 @@ export default defineComponent({
     return (
       <ProField
         {...this.overridedProps}
-        defaultValue={null}
         postValue={this.tryConvertStringToNumber}
         valueType={InternalValueTypeEnum.DIGIT}
       >

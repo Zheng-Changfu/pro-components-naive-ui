@@ -31,7 +31,6 @@ export default defineComponent({
     return (
       <ProField
         {...this.overridedProps}
-        defaultValue={null}
         fieldProps={{
           ...(this.overridedProps.fieldProps ?? {}),
           type: 'datetime',

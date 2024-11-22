@@ -46,7 +46,6 @@ upload.vue
 | onChange | `(val: any) => void` | | 字段值发生变化后触发的回调函数 |  |
 | transform | `(val: any, path: string) => any` | | 转换字段的值，如果返回的是一个对象，将和当前字段所在层级的对象进行深度合并 |  |
 | tooltip | `string \| string[]` | | 显示在 label 右边的提示 |  |
-| defaultValue | `any` | | 默认值，优先级最低，用来兜底，自定义组件时可能会用到 |  |
 | isList | `boolean` | | 是否为列表字段，自定义列表组件时可能会用到 |  |
 | valueType | `InternalFieldValueType` | | 用于表示值的类型是属于哪个组件的，自定义组件时可能会用到 |  |
 | valueModelName | `string` | | 用于 `v-model:xxx` 的名称，默认为 `'value'`，用于支持 `v-model:value`，如果你想支持 `v-model:checked`，设置为 `checked`，自定义组件时可能会用到 |  |

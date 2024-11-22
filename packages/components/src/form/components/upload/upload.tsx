@@ -37,7 +37,6 @@ export default defineComponent({
     return (
       <ProField
         {...this.overridedProps}
-        defaultValue={[]}
         valueModelName="fileList"
         valueType={InternalValueTypeEnum.UPLOAD}
         postValue={this.postValue}

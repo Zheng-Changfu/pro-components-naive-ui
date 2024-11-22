@@ -8,10 +8,6 @@ import { proFormItemProps } from '../form-item'
 export const proFieldProps = {
   ...proFormItemProps,
   /**
-   * 默认值，优先级最低，用来兜底
-   */
-  defaultValue: undefined as any as PropType<any>,
-  /**
    * 初始值，优先级大于 Form 组件的 initialValues
    */
   initialValue: undefined as any as PropType<any>,

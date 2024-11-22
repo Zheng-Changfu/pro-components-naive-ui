@@ -32,7 +32,6 @@ export default defineComponent({
       <ProField
         ref="instRef"
         {...this.overridedProps}
-        defaultValue={null}
         fieldProps={{
           ...(this.overridedProps.fieldProps ?? {}),
           type: 'week',
