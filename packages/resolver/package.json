@@ -1,7 +1,7 @@
 {
   "name": "pro-naive-ui-resolver",
   "type": "module",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "packageManager": "pnpm@9.0.6",
   "description": "自动导入组件",
   "author": "zhengchangfu",
@@ -20,7 +20,6 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-
   "files": [
     "dist"
   ],
