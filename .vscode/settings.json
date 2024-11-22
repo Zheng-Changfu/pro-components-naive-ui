@@ -7,7 +7,6 @@
   "eslint.format.enable": true,
   "eslint.quiet": true,
   "eslint.trace.server": "verbose",
-  "prettier.enable": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never",
@@ -35,7 +34,7 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "[markdown]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
   },
   "[typescript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
