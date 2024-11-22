@@ -9,9 +9,10 @@ import { computed, defineComponent, nextTick, ref } from 'vue'
 import { useInjectProForm } from '../../../components'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProButton, type ProButtonProps } from '../../button'
+import { AUTO_CREATE_UNIQUE_ID } from '../../composables'
 import { useReadonlyHelpers } from '../../form/components'
 import { useLocale } from '../../locales'
-import { AUTO_CREATE_ID, provideProFormListInst } from '../context'
+import { provideProFormListInst } from '../context'
 import { useInjectFormListInstStore } from '../inst'
 import FormListItem from './form-list-item'
 
@@ -223,7 +224,7 @@ export default defineComponent({
     const listDom = list.map((item, index) => {
       return (
         <FormListItem
-          key={item[AUTO_CREATE_ID]}
+          key={item[AUTO_CREATE_UNIQUE_ID]}
           min={min}
           max={max}
           index={index}

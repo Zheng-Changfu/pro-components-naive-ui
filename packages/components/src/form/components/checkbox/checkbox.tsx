@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProCheckboxSlots } from './slots'
 import { defineComponent } from 'vue'
-import { useOverrideProps } from '../../../composables'
+import { useOverrideProps, usePostValue } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
 import Checkbox from './components/checkbox'
 import { provideCheckboxInstStore } from './inst'
@@ -22,8 +22,13 @@ export default defineComponent({
       props,
     )
 
+    const postValue = usePostValue(overridedProps, {
+      undefToFalsy: true,
+    })
+
     expose(exposed)
     return {
+      postValue,
       overridedProps,
     }
   },
@@ -32,6 +37,7 @@ export default defineComponent({
       <ProField
         {...this.overridedProps}
         valueModelName="checked"
+        postValue={this.postValue}
         valueType={InternalValueTypeEnum.CHECKBOX}
       >
         {{

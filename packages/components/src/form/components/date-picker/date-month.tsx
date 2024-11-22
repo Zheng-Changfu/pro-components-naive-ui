@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProDatePickerSlots } from './slots'
 import { defineComponent } from 'vue'
-import { useOverrideProps } from '../../../composables'
+import { useOverrideProps, usePostValue } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
 import DatePicker from './components/date-picker'
 import { provideDatePickerInstStore } from './inst'
@@ -22,8 +22,13 @@ export default defineComponent({
       props,
     )
 
+    const postValue = usePostValue(overridedProps, {
+      undefToNull: true,
+    })
+
     expose(exposed)
     return {
+      postValue,
       overridedProps,
     }
   },
@@ -35,6 +40,7 @@ export default defineComponent({
           ...(this.overridedProps.fieldProps ?? {}),
           type: 'month',
         }}
+        postValue={this.postValue}
         valueType={InternalValueTypeEnum.DATE_MONTH}
       >
         {{

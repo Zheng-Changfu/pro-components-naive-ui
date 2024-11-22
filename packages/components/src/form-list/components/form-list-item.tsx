@@ -10,10 +10,11 @@ import { computed, defineComponent, Fragment, inject, provide, ref, toRef } from
 import { useInjectProForm } from '../../../components'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProButton } from '../../button'
+import { AUTO_CREATE_UNIQUE_ID } from '../../composables'
 import { useReadonlyHelpers } from '../../form/components'
 import { useInjectProFormConfig } from '../../form/context'
 import { useLocale } from '../../locales'
-import { AUTO_CREATE_ID, proFormListContextKey, useInjectProFormListInst } from '../context'
+import { proFormListContextKey, useInjectProFormListInst } from '../context'
 import { useProvidePath } from './composables/useProvidePath'
 
 const Action = defineComponent({
@@ -115,7 +116,7 @@ const Action = defineComponent({
         copyLoading.value = true
         const success = await beforeAddRow({ index, insertIndex, total: list.value.length })
         if (success) {
-          insert(insertIndex, omit(row, AUTO_CREATE_ID))
+          insert(insertIndex, omit(row, AUTO_CREATE_UNIQUE_ID))
           if (afterAddRow) {
             afterAddRow({ index, insertIndex, total: list.value.length })
           }
@@ -123,7 +124,7 @@ const Action = defineComponent({
         copyLoading.value = false
       }
       else {
-        insert(insertIndex, omit(row, AUTO_CREATE_ID))
+        insert(insertIndex, omit(row, AUTO_CREATE_UNIQUE_ID))
         if (afterAddRow) {
           afterAddRow({ index, insertIndex, total: list.value.length })
         }

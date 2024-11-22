@@ -1,7 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProRadioGroupSlots } from './slots'
 import { defineComponent } from 'vue'
-import { useOverrideProps } from '../../../composables'
+import { useOverrideProps, usePostValue } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
 import RadioGroup from './components/radio-group'
 import { proRadioGroupProps } from './props'
@@ -17,7 +17,12 @@ export default defineComponent({
       props,
     )
 
+    const postValue = usePostValue(overridedProps, {
+      undefToNull: true,
+    })
+
     return {
+      postValue,
       overridedProps,
     }
   },
@@ -25,6 +30,7 @@ export default defineComponent({
     return (
       <ProField
         {...this.overridedProps}
+        postValue={this.postValue}
         valueType={InternalValueTypeEnum.RADIO_GROUP}
       >
         {{
