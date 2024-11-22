@@ -11,7 +11,6 @@
   },
   "include": [
     "vite.config.ts",
-    "./build/**/*.ts",
-    "packages/resolvers/*.ts"
+    "./build/**/*.ts"
   ]
 }

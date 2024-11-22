@@ -5,8 +5,8 @@
 </markdown>
 
 <script lang="tsx">
-import type { ProSearchFormColumns } from 'pro-components-naive-ui'
-import { ProInput } from 'pro-components-naive-ui'
+import type { ProSearchFormColumns } from 'pro-naive-ui'
+import { ProInput } from 'pro-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 interface Info {

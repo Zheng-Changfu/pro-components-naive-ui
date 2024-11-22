@@ -7,7 +7,7 @@
 
 <script lang="tsx">
 import { NButton, useMessage } from 'naive-ui'
-import { useProDescriptions } from 'pro-components-naive-ui'
+import { useProDescriptions } from 'pro-naive-ui'
 import { defineComponent } from 'vue'
 
 function delay(time: number) {

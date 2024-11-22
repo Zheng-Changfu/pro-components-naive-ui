@@ -1,4 +1,4 @@
-# pro-components-naive-ui
+# pro-naive-ui
 
 ## 0.0.3
 

@@ -4,7 +4,7 @@
 
 <script lang="tsx">
 import { useMessage } from 'naive-ui'
-import { createProForm } from 'pro-components-naive-ui'
+import { createProForm } from 'pro-naive-ui'
 import { defineComponent } from 'vue'
 
 interface Info {

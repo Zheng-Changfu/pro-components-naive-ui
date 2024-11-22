@@ -5,7 +5,7 @@
 </markdown>
 
 <script lang="tsx">
-import { createProForm, ProSelect, useInjectProForm } from 'pro-components-naive-ui'
+import { createProForm, ProSelect, useInjectProForm } from 'pro-naive-ui'
 import { defineComponent, ref, watch } from 'vue'
 
 function delay(time: number) {

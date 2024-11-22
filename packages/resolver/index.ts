@@ -5,7 +5,7 @@ export function ProComponentsNaiveUiResolver(): ComponentResolver {
     type: 'component',
     resolve: (name: string) => {
       if (name.match(/^(Pro[A-Z]|pro-[a-z]|drawer-form|DrawerForm)/)) {
-        return { name, from: 'pro-components-naive-ui' }
+        return { name, from: 'pro-naive-ui' }
       }
     },
   }

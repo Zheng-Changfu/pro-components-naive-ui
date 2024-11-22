@@ -8,7 +8,7 @@
 </markdown>
 
 <script lang="tsx">
-import { createProForm } from 'pro-components-naive-ui'
+import { createProForm } from 'pro-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({

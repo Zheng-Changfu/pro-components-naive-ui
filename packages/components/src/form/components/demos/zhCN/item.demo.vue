@@ -4,7 +4,7 @@
 
 <script lang="tsx">
 import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
-import { createProForm } from 'pro-components-naive-ui'
+import { createProForm } from 'pro-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({

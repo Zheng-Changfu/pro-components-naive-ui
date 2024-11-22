@@ -1,4 +1,5 @@
 import type { FlexProps, RadioGroupProps, RadioProps } from 'naive-ui'
+import type { Merge } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
 import { proFieldProps } from '../field'
@@ -17,11 +18,11 @@ interface ProRadioGroupFieldProps extends RadioGroupProps {
   /**
    * 配置选项内容
    */
-  options?: Array<RadioProps & ([x: string])>
+  options?: Array<Merge<RadioProps, { [x: string]: any }>>
   /**
    * 包裹 n-radio 的 flex 属性
    */
-  flexProps: FlexProps
+  flexProps?: FlexProps
 }
 
 export const proRadioGroupProps = {

@@ -1,5 +1,5 @@
 {
-  "name": "pro-components-naive-ui",
+  "name": "pro-naive-ui",
   "type": "module",
   "version": "0.0.0",
   "private": true,
@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "vite",
     "build:docs": "vite build",
-    "build:components": "pnpm --filter pro-components-naive-ui run build",
-    "test": "pnpm --filter pro-components-naive-ui run test",
+    "build:components": "pnpm --filter pro-naive-ui run build",
+    "test": "pnpm --filter pro-naive-ui run test",
     "preview": "vite preview",
     "lint:fix": "eslint . --fix",
     "tsc": "vue-tsc --noEmit",

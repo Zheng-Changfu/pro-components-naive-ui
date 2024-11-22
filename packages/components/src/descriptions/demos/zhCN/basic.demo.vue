@@ -6,7 +6,7 @@
 </markdown>
 
 <script lang="tsx">
-import type { ProDescriptionColumns } from 'pro-components-naive-ui'
+import type { ProDescriptionColumns } from 'pro-naive-ui'
 import { defineComponent } from 'vue'
 
 interface DataSource {

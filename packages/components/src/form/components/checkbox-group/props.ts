@@ -1,4 +1,5 @@
 import type { CheckboxGroupProps, CheckboxProps, FlexProps } from 'naive-ui'
+import type { Merge } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
 import { proFieldProps } from '../field'
@@ -17,11 +18,11 @@ interface ProCheckboxGroupFieldProps extends CheckboxGroupProps {
   /**
    * 配置选项内容
    */
-  options?: Array<CheckboxProps & ([x: string])>
+  options?: Array<Merge<CheckboxProps, { [x: string]: any }>>
   /**
    * 包裹 n-checkbox 的 flex 属性
    */
-  flexProps: FlexProps
+  flexProps?: FlexProps
 }
 
 export const proCheckboxGroupProps = {

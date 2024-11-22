@@ -5,4 +5,4 @@
 
 ## Documentation
 
-[pro-components-naive-ui](https://zheng-changfu.github.io/pro-components-naive-ui)
+[pro-naive-ui](https://zheng-changfu.github.io/pro-naive-ui)

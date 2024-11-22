@@ -1,7 +1,7 @@
 <script lang="ts">
 import { MenuOutline } from '@vicons/ionicons5'
 import { useMessage } from 'naive-ui'
-import { version } from 'pro-components-naive-ui'
+import { version } from 'pro-naive-ui'
 import { computed, defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {

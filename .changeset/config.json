@@ -3,7 +3,7 @@
   "changelog": [
     "@changesets/changelog-git",
     {
-      "repo":"Zheng-Changfu/pro-components-naive-ui"
+      "repo":"Zheng-Changfu/pro-naive-ui"
     }
   ],
   "commit": false,

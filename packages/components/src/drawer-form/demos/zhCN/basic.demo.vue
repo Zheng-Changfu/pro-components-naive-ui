@@ -4,7 +4,7 @@
 
 <script lang="tsx">
 import { useMessage } from 'naive-ui'
-import { createDrawerForm } from 'pro-components-naive-ui'
+import { createDrawerForm } from 'pro-naive-ui'
 import { defineComponent } from 'vue'
 
 function delay(time: number) {

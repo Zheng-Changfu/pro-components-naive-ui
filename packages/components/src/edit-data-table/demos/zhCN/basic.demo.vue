@@ -3,9 +3,9 @@
 </markdown>
 
 <script lang="tsx">
-import type { ProEditDataTableInst } from 'pro-components-naive-ui'
+import type { ProEditDataTableInst } from 'pro-naive-ui'
 import { NButton, NFlex } from 'naive-ui'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {

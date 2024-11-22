@@ -6,7 +6,7 @@
 
 <script lang="tsx">
 import { NButton } from 'naive-ui'
-import { type ProDescriptionColumns, useProDescriptionsInst } from 'pro-components-naive-ui'
+import { type ProDescriptionColumns, useProDescriptionsInst } from 'pro-naive-ui'
 import { defineComponent } from 'vue'
 
 interface DataSource {

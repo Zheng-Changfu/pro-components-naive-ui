@@ -1,5 +1,5 @@
 import naive from 'naive-ui'
-import proComponents from 'pro-components-naive-ui'
+import proComponents from 'pro-naive-ui'
 import { createApp } from 'vue'
 import createDemoRouter from './routes/router'
 import { routes } from './routes/routes'

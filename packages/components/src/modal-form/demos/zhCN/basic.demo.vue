@@ -5,7 +5,7 @@
 <script lang="tsx">
 import { random } from 'lodash-es'
 import { useMessage } from 'naive-ui'
-import { createProModalForm } from 'pro-components-naive-ui'
+import { createProModalForm } from 'pro-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 function delay(time: number) {
