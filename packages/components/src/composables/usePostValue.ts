@@ -69,10 +69,8 @@ export function usePostValue<T extends MaybeRef<PostValueProps>, UN extends bool
       returnedValue = value ?? []
     }
     else if (mapAddUniqueId) {
-      if (!isArray(value)) {
-        returnedValue = []
-      }
-      returnedValue = returnedValue.map((item: any) => {
+      const list = isArray(value) ? value : []
+      returnedValue = list.map((item: any) => {
         return item[AUTO_CREATE_UNIQUE_ID]
           ? item
           : { ...item, [AUTO_CREATE_UNIQUE_ID]: uid() }
