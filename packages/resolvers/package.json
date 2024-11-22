@@ -1,0 +1,35 @@
+{
+  "name": "pro-components-naive-ui-resolvers",
+  "type": "module",
+  "version": "0.0.0",
+  "packageManager": "pnpm@9.0.6",
+  "description": "自动导入组件",
+  "author": "zhengchangfu",
+  "license": "MIT",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18.12.0"
+  },
+  "scripts": {
+    "test:watch": "vitest",
+    "test": "vitest run",
+    "build": "vite build"
+  }
+}
