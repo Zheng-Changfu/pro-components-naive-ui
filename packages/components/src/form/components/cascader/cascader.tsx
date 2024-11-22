@@ -3,7 +3,7 @@ import type { ProCascaderSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import Cascader from './fields/cascader'
+import Cascader from './components/cascader'
 import { provideCascaderInstStore } from './inst'
 import { proCascaderProps } from './props'
 

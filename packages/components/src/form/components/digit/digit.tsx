@@ -4,7 +4,7 @@ import { isString } from 'lodash-es'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import Digit from './fields/digit'
+import Digit from './components/digit'
 import { provideDigitInstStore } from './inst'
 import { proDigitProps } from './props'
 

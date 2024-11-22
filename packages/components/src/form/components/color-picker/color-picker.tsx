@@ -3,7 +3,7 @@ import type { ProColorPickerSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import ColorPicker from './fields/color-picker'
+import ColorPicker from './components/color-picker'
 import { proColorPickerProps } from './props'
 
 const name = 'ProColorPicker'

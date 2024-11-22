@@ -3,7 +3,7 @@ import type { ProSliderSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import Slider from './fields/slider'
+import Slider from './components/slider'
 import { proSliderProps } from './props'
 
 const name = 'ProSlider'

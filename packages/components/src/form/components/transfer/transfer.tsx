@@ -3,7 +3,7 @@ import type { ProTransferSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import Transfer from './fields/transfer'
+import Transfer from './components/transfer'
 import { proTransferProps } from './props'
 
 const name = 'ProTransfer'

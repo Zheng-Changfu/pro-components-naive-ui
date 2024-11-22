@@ -3,7 +3,7 @@ import type { ProSwitchSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import Switch from './fields/switch'
+import Switch from './components/switch'
 import { proSwitchProps } from './props'
 
 const name = 'ProSwitch'

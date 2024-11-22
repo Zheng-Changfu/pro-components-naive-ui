@@ -44,7 +44,7 @@ export {
 
 export {
   useMergeFormat,
-} from './fields/composables/useMergeFormat'
+} from './components/composables/useMergeFormat'
 
 export type {
   ProDatePickerInst,

@@ -3,7 +3,7 @@ import type { ProTreeSelectSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import TreeSelect from './fields/tree-select'
+import TreeSelect from './components/tree-select'
 import { provideTreeSelectInstStore } from './inst'
 import { proTreeSelectProps } from './props'
 

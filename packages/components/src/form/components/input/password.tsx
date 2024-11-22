@@ -3,7 +3,7 @@ import type { ProInputSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import Password from './fields/password'
+import Password from './components/password'
 import { provideTextInstStore } from './inst'
 import { proInputProps } from './props'
 

@@ -3,7 +3,7 @@ import type { ProAutoCompleteSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import AutoComplete from './fields/auto-complete'
+import AutoComplete from './components/auto-complete'
 import { provideAutoCompleteInstStore } from './inst'
 import { proAutoCompleteProps } from './props'
 

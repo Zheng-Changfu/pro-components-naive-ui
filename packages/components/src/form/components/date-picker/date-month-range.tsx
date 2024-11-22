@@ -3,7 +3,7 @@ import type { ProDatePickerSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import DatePicker from './fields/date-picker'
+import DatePicker from './components/date-picker'
 import { provideDatePickerInstStore } from './inst'
 import { proDatePickerProps } from './props'
 

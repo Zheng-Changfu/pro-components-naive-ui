@@ -3,7 +3,7 @@ import type { ProTimePickerSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import TimePicker from './fields/time-picker'
+import TimePicker from './components/time-picker'
 import { provideTimePickerInstStore } from './inst'
 import { proTimePickerProps } from './props'
 
