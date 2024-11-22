@@ -3,7 +3,7 @@ import type { ProFormListInst } from './inst'
 import type { ActionRender, ContainerRender, ItemRender } from './props'
 
 export interface ProFormListSlots extends Omit<ProFieldSlots, 'default'> {
-  default?: {
+  default: {
     /**
      * 当前行索引
      */
@@ -20,13 +20,13 @@ export interface ProFormListSlots extends Omit<ProFieldSlots, 'default'> {
   /**
    * 自定义渲染每一行的结构，主要就是将 action 放在别的地方
    */
-  item?: Parameters<ItemRender>['0']
+  item: Parameters<ItemRender>['0']
   /**
    * 自定义渲染操作按钮
    */
-  action?: Parameters<ActionRender>['0']
+  action: Parameters<ActionRender>['0']
   /**
    * 自定义渲染容器
    */
-  container?: Parameters<ContainerRender>['0']
+  container: Parameters<ContainerRender>['0']
 }

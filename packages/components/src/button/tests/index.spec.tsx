@@ -18,7 +18,7 @@ describe('pro-button', () => {
       },
       slots: {
         default: () => 'button',
-      },
+      } as any,
     })
     await wrapper.find('.n-button').trigger('mouseenter')
     await delay(100)
@@ -41,7 +41,7 @@ describe('pro-button', () => {
       },
       slots: {
         default: () => 'button',
-      },
+      } as any,
     })
     await wrapper.find('.n-button').trigger('mouseenter')
     await delay(100)

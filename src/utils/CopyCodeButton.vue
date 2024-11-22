@@ -1,4 +1,5 @@
 <script lang="ts">
+import type { PropType } from 'vue'
 import { useMessage } from 'naive-ui'
 import { defineComponent } from 'vue'
 
@@ -14,7 +15,7 @@ export default defineComponent({
       required: true,
     },
     text: Boolean,
-    size: String,
+    size: String as PropType<any>,
     depth: String,
   },
   setup(props) {

@@ -311,7 +311,7 @@ export default defineComponent({
         style={{
           height: actionHeight,
           linHeight: actionHeight,
-          marginBlockEnd: $slots.item || validateBehavior === 'popover'
+          marginBlockEnd: ($slots as any).item || validateBehavior === 'popover'
             ? 0
             : 'var(--n-feedback-height)',
         }}

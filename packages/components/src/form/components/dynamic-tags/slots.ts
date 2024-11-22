@@ -1,11 +1,11 @@
 import type { ProFieldSlots } from '../field'
 
 export interface ProDynamicTagsSlots extends ProFieldSlots {
-  trigger?: {
+  trigger: {
     disabled: boolean
     activate: () => void
   }
-  input?: {
+  input: {
     deactivate: () => void
     submit: (value: any) => void
   }

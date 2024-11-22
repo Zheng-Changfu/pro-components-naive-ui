@@ -57,7 +57,6 @@ export default defineComponent({
         required
         :rule="{
           min: 8,
-          trim: true,
           message: '密码长度最少为8位',
         }"
       />
