@@ -10,6 +10,10 @@
   },
   "include": [
     "vite.config.ts",
-    "./build/**/*.ts"
+    "./build/**/*.ts",
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "packages/**/*.vue",
+    "packages/resolvers/*.ts"
   ]
 }
