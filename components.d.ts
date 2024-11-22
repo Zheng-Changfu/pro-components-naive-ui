@@ -52,6 +52,12 @@ declare module 'vue' {
     NTooltip: typeof import('naive-ui')['NTooltip']
     NUl: typeof import('naive-ui')['NUl']
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
+    ProDigit: typeof import('pro-components-naive-ui')['ProDigit']
+    ProForm: typeof import('pro-components-naive-ui')['ProForm']
+    ProFormList: typeof import('pro-components-naive-ui')['ProFormList']
+    ProInput: typeof import('pro-components-naive-ui')['ProInput']
+    ProModalForm: typeof import('pro-components-naive-ui')['ProModalForm']
+    ProPassword: typeof import('pro-components-naive-ui')['ProPassword']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

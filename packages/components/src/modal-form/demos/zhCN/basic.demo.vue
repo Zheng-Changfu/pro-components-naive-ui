@@ -54,9 +54,21 @@ export default defineComponent({
     label-width="auto"
     label-placement="left"
   >
-    <pro-input v-for="item in len" :key="item" title="用户名" path="name" />
+    <pro-input title="用户名" path="name" />
+    <pro-password
+      title="密码" path="password" :post-value="val => {
+        console.log(val, 'val')
+        return val
+      }"
+    />
     <n-button @click="updateList">
       更新动态高度
+    </n-button>
+    <n-button @click="() => console.log(form.getFieldsTransformedValue())">
+      读取
+    </n-button>
+    <n-button @click="() => form.setFieldsValue({ name: '123' })">
+      设置
     </n-button>
   </pro-modal-form>
 </template>
