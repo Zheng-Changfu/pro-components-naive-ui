@@ -1,4 +1,4 @@
-import type { IfAny, Merge, Paths } from 'type-fest'
+import type { IsAny, Merge, Paths } from 'type-fest'
 import type { VNodeChild } from 'vue'
 import type { ProAutoCompleteProps, ProAutoCompleteSlots } from './auto-complete'
 import type { ProCascaderProps, ProCascaderSlots } from './cascader'
@@ -23,7 +23,7 @@ import type { InternalProFieldProps } from './type-utils'
 import type { ProUploadProps, ProUploadSlots } from './upload'
 
 type UnwrapSlots<T> = {
-  [K in keyof T]: IfAny<T[K]> extends true ? () => VNodeChild : (params: NonNullable<T[K]>) => VNodeChild
+  [K in keyof T]?: IsAny<T[K]> extends true ? () => VNodeChild : (params: NonNullable<T[K]>) => VNodeChild
 }
 
 type MaybeFunction<T, Parameters extends any[]> = T | ((...args: Parameters) => T)
@@ -32,7 +32,7 @@ interface ProBaseFieldColumn<Values = any, ProFieldPropsParameters extends any[]
   /**
    * 字段路径
    */
-  path?: Paths<Values>
+  path?: IsAny<Values> extends true ? string : Paths<Values>
   /**
    * 透传给 ProField 组件的 props
    */

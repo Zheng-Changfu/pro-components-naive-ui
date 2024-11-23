@@ -49,7 +49,6 @@ export default defineComponent({
         builtinThemeOverrides,
         // #endregion
         drawerProps,
-        closeOnSubmiting,
         ...restProps
       } = overridedProps.value
 
