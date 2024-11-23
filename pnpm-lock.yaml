@@ -149,7 +149,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.0(@types/node@20.17.3)(jsdom@24.1.3)
 
-  packages/resolvers: {}
+  packages/resolver: {}
 
 packages:
 
