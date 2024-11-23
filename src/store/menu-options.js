@@ -204,25 +204,6 @@ export function createDocumentationMenuOptions({ lang, theme }) {
 export function createComponentMenuOptions({ lang, theme }) {
   return createItems(lang, theme, '/components', [
     appendCounts({
-      zh: '通用组件',
-      en: 'Common Components',
-      type: 'group',
-      children: [
-        {
-          en: 'ProCard',
-          zh: '卡片',
-          enSuffix: true,
-          path: '/card',
-        },
-        // {
-        //   en: 'ProButton',
-        //   zh: '按钮',
-        //   enSuffix: true,
-        //   path: '/button',
-        // },
-      ],
-    }),
-    appendCounts({
       zh: '表单组件',
       en: 'Data Input Components',
       type: 'group',
@@ -272,27 +253,15 @@ export function createComponentMenuOptions({ lang, theme }) {
       ],
     }),
     appendCounts({
-      zh: '数据展示组件',
-      en: 'Data Display Components',
+      zh: '其他组件',
+      en: 'Other Components',
       type: 'group',
       children: [
         {
-          en: 'ProDataTable',
-          zh: '数据表格',
+          en: 'ProCard',
+          zh: '卡片',
           enSuffix: true,
-          path: '/data-table',
-        },
-        {
-          en: 'ProEditDataTable',
-          zh: '编辑表格',
-          enSuffix: true,
-          path: '/edit-data-table',
-        },
-        {
-          en: 'ProTree',
-          zh: '树',
-          enSuffix: true,
-          path: '/tree',
+          path: '/card',
         },
         {
           en: 'ProModal',
@@ -306,8 +275,39 @@ export function createComponentMenuOptions({ lang, theme }) {
           enSuffix: true,
           path: '/descriptions',
         },
+        {
+          en: 'ProDataTable',
+          zh: '数据表格',
+          enSuffix: true,
+          path: '/data-table',
+        },
+        {
+          en: 'ProEditDataTable',
+          zh: '编辑表格',
+          enSuffix: true,
+          path: '/edit-data-table',
+        },
+        // {
+        //   en: 'ProTree',
+        //   zh: '树',
+        //   enSuffix: true,
+        //   path: '/tree',
+        // },
+        // {
+        //   en: 'ProButton',
+        //   zh: '按钮',
+        //   enSuffix: true,
+        //   path: '/button',
+        // },
       ],
     }),
+    // appendCounts({
+    //   zh: '数据展示组件',
+    //   en: 'Data Display Components',
+    //   type: 'group',
+    //   children: [
+    //   ],
+    // }),
     // appendCounts({
     //   zh: '配置组件',
     //   en: 'Config Components',
