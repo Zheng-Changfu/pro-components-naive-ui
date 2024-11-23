@@ -6,7 +6,7 @@
 
 <script lang="tsx">
 import type { ProSearchFormColumns } from 'pro-naive-ui'
-import { ProInput } from 'pro-naive-ui'
+import { createProSearchForm, ProInput } from 'pro-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 interface Info {
@@ -15,6 +15,7 @@ interface Info {
   status: 0 | 1 | 2
   date: number
   time: number
+  render: string
   info: {
     dateRange: [number, number]
   }
@@ -25,6 +26,11 @@ interface Info {
 export default defineComponent({
   setup() {
     const options = ref<any[]>([])
+    const form = createProSearchForm<Info>({
+      defaultCollapsed: true,
+      onReset: console.log,
+      onSubmit: console.log,
+    })
     const columns: ProSearchFormColumns<Info> = [
       {
         title: '姓名',
@@ -35,7 +41,6 @@ export default defineComponent({
         path: 'age',
         initialValue: 18,
         valueType: 'digit',
-        hidden: '{{$vals.name === \'123\'}}',
       },
       {
         title: '状态',
@@ -79,13 +84,15 @@ export default defineComponent({
       },
       {
         render() {
+          const selfValue = form.getFieldValue('render')
+          const background = selfValue || form.getFieldValue('color')
           return (
             <ProInput
               path="render"
               title="自定义render"
               fieldProps={{
                 style: {
-                  background: '{{ $self ? $self : $vals.color }}',
+                  background,
                 },
               }}
             />
@@ -95,10 +102,14 @@ export default defineComponent({
       {
         title: '颜色-联动',
         path: 'color',
-        fieldProps: {
-          style: {
-            background: '{{ $self ? $self : $vals.render }}',
-          },
+        fieldProps() {
+          const selfValue = form.getFieldValue('color')
+          const background = selfValue || form.getFieldValue('render')
+          return {
+            style: {
+              background,
+            },
+          }
         },
       },
     ]
@@ -111,7 +122,7 @@ export default defineComponent({
     }, 3000)
 
     return {
-      options,
+      form,
       columns,
     }
   },
@@ -119,18 +130,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-card title="搜索表单" :show-collapse="false">
+  <pro-card title="搜索表单">
     <pro-search-form
-      :scope="{
-        options,
-      }"
+      :form="form"
       :columns="columns"
-      :grid-props="{
-        collapsed: false,
-      }"
-      @search="console.log"
-      @collapse="console.log"
-      @reset="console.log('reset')"
     />
   </pro-card>
 </template>

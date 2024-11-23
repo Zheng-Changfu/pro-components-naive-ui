@@ -1,25 +1,14 @@
 import type { GridProps } from 'naive-ui'
+import type { Simplify } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProButtonProps } from '../../../button'
+import type { CreateProSearchFormReturn } from './composables/createProSearchForm'
 import type { ProSearchFormColumns } from './types'
+import { omit } from 'lodash-es'
+import { gridProps } from 'naive-ui'
 import { proFormProps } from '../../../form'
 
-export const proSearchFormProps = {
-  ...proFormProps,
-  /**
-   * 重写默认值
-   */
-  labelWidth: {
-    type: [String, Number] as PropType<string | number>,
-    default: 'auto',
-  },
-  /**
-   * 重写默认值
-   */
-  labelPlacement: {
-    type: String as PropType<'left' | 'top'>,
-    default: 'left',
-  },
+export const proSearchFormExtendProps = {
   /**
    * 表单项集合
    */
@@ -46,9 +35,14 @@ export const proSearchFormProps = {
     default: undefined,
   },
   /**
-   * 栅格组件的属性
+   * 透传给 NGrid 的属性，某些属性有冲突时可能有用
    */
-  gridProps: Object as PropType<GridProps>,
+  gridProps: {
+    type: Object as PropType<Simplify<Omit<
+      GridProps,
+      | 'collapsed'
+    >>>,
+  },
   /**
    * 是否显示后缀(收起、重置、搜索)
    */
@@ -56,14 +50,57 @@ export const proSearchFormProps = {
     type: Boolean,
     default: true,
   },
+} as const
+
+export const proSearchFormProps = {
+  ...omit(gridProps, [
+    'collapsed',
+  ]),
+  ...proFormProps,
+  ...proSearchFormExtendProps,
   /**
-   * 搜索后触发的事件
+   * 重写默认值
    */
-  onSearch: Function as PropType<(values: any) => void>,
+  labelWidth: {
+    type: [String, Number] as PropType<string | number>,
+    default: 80,
+  },
   /**
-   * 展开收起触发的事件(点击才会触发)
+   * 重写默认值
    */
-  onCollapse: Function as PropType<(collapsed: boolean) => void>,
+  labelPlacement: {
+    type: String as PropType<'left' | 'top'>,
+    default: 'left',
+  },
+  /**
+   * 重写默认值
+   */
+  xGap: {
+    type: [String, Number] as PropType<string | number>,
+    default: 24,
+  },
+  /**
+   * 重写默认值
+   */
+  responsive: {
+    type: String as PropType<'self' | 'screen'>,
+    default: 'screen',
+  },
+  /**
+   * 重写默认值
+   */
+  cols: {
+    type: [String, Number] as PropType<string | number>,
+    default: '1 s:2 l:3 xl:4',
+  },
+  /**
+   * 查询表单控制器
+   */
+  form: {
+    type: Object as PropType<CreateProSearchFormReturn>,
+    required: true,
+  },
 } as const
 
 export type ProSearchFormProps = ExtractPublicPropTypes<typeof proSearchFormProps>
+export type ProSearchFormExtendProps = ExtractPublicPropTypes<typeof proSearchFormExtendProps>
