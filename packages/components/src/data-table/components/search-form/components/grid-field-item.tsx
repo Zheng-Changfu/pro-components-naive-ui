@@ -4,7 +4,7 @@ import type { ProSearchFormColumn } from '../types'
 import { isFunction } from 'lodash-es'
 import { NGi } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
-import { resolveValueType } from '../../../../_utils/resolveValueType'
+import { resolveComponentByValueType } from '../../../../_utils/resolveComponentByValueType'
 import { pickInternalProFieldProps } from '../../../../form/components/type-utils'
 
 export default defineComponent({
@@ -82,7 +82,7 @@ export default defineComponent({
           default: () => {
             return column.render
               ? column.render()
-              : resolveValueType(column.valueType ?? 'input', {
+              : resolveComponentByValueType(column.valueType ?? 'input', {
                 fieldProps: this.fieldProps,
                 fieldSlots: column.fieldSlots,
                 proFieldProps: {

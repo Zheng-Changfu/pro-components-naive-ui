@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     DrawerForm: typeof import('pro-naive-ui')['DrawerForm']
+    NA: typeof import('naive-ui')['NA']
     NAutoComplete: typeof import('naive-ui')['NAutoComplete']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
@@ -52,6 +53,7 @@ declare module 'vue' {
     NUl: typeof import('naive-ui')['NUl']
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
     ProAutoComplete: typeof import('pro-naive-ui')['ProAutoComplete']
+    ProButton: typeof import('pro-naive-ui')['ProButton']
     ProCard: typeof import('pro-naive-ui')['ProCard']
     ProCascader: typeof import('pro-naive-ui')['ProCascader']
     ProCheckbox: typeof import('pro-naive-ui')['ProCheckbox']
@@ -69,6 +71,7 @@ declare module 'vue' {
     ProDateWeek: typeof import('pro-naive-ui')['ProDateWeek']
     ProDateYear: typeof import('pro-naive-ui')['ProDateYear']
     ProDateYearRange: typeof import('pro-naive-ui')['ProDateYearRange']
+    ProDescriptions: typeof import('pro-naive-ui')['ProDescriptions']
     ProDigit: typeof import('pro-naive-ui')['ProDigit']
     ProDrawerContent: typeof import('pro-naive-ui')['ProDrawerContent']
     ProDynamicTags: typeof import('pro-naive-ui')['ProDynamicTags']

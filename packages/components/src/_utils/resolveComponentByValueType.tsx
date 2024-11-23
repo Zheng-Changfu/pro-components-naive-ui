@@ -3,7 +3,7 @@ import type { AnyFn } from '../types'
 import { isString } from 'lodash-es'
 import { h, resolveComponent } from 'vue'
 
-interface ResolveValueTypeOptions {
+interface ResolveComponentByValueTypeOptions {
   /**
    * valueType 前缀
    * @default 'pro'
@@ -22,7 +22,7 @@ interface ResolveValueTypeOptions {
    */
   proFieldProps?: Record<string, any>
 }
-export function resolveValueType(valueType: ProFieldColumnValueType, options: ResolveValueTypeOptions = {}) {
+export function resolveComponentByValueType(valueType: ProFieldColumnValueType, options: ResolveComponentByValueTypeOptions = {}) {
   const {
     fieldSlots,
     fieldProps,
