@@ -2,12 +2,8 @@ export {
   default as ProDescriptions,
 } from './descriptions'
 
-export type {
-  ProDescriptionsInst,
-} from './inst'
-
 export {
-  type ProDescriptionsExtendProps,
+  type ProDescriptionsProps,
   proDescriptionsProps,
 } from './props'
 
