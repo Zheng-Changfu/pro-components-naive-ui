@@ -13,7 +13,7 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      "pro-components-naive-ui": [
+      "pro-naive-ui": [
         "./packages/components/index.ts"
       ]
     },
@@ -40,8 +40,9 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "./global.d.ts",
-    "packages/components/**/*.ts",
-    "packages/components/**/*.tsx",
-    "packages/components/**/*.vue"
+    "./components.d.ts",
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "packages/**/*.vue"
   ]
 }

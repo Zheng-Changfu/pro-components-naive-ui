@@ -1,8 +1,8 @@
-import type { Merge } from 'type-fest'
-import type { ProSearchFormInst } from './inst'
-
 export interface ProSearchFormSlots {
-  suffix?: Merge<ProSearchFormInst, {
-    collapsed: boolean
-  }>
+  /**
+   * 自定义查询/重置/展开收起
+   */
+  suffix: {
+    overflow: boolean
+  }
 }

@@ -1,4 +1,8 @@
 export {
+  useMergeFormat,
+} from './components/composables/useMergeFormat'
+
+export {
   default as ProDate,
 } from './date'
 
@@ -41,10 +45,6 @@ export {
 export {
   default as ProDateYearRange,
 } from './date-year-range'
-
-export {
-  useMergeFormat,
-} from './fields/composables/useMergeFormat'
 
 export type {
   ProDatePickerInst,

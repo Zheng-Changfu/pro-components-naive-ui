@@ -6,7 +6,7 @@
 
 <script lang="tsx">
 import type { TreeOption } from 'naive-ui'
-import type { ProTreeInst } from 'pro-components-naive-ui'
+import type { ProTreeInst } from 'pro-naive-ui'
 import { repeat } from 'seemly'
 import { defineComponent, ref } from 'vue'
 

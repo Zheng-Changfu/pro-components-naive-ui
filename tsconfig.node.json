@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "composite": true,
+    "jsx": "preserve",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowJs": true,
@@ -10,6 +11,7 @@
   },
   "include": [
     "vite.config.ts",
-    "./build/**/*.ts"
+    "./build/**/*.ts",
+    "./packages/resolver/index.ts"
   ]
 }

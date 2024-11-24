@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
 import type { ProInputSlots } from './slots'
 import { defineComponent } from 'vue'
-import { useOverrideProps } from '../../../composables'
+import { useOverrideProps, usePostValue } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import Input from './fields/input'
+import Input from './components/input'
 import { provideTextInstStore } from './inst'
 import { proInputProps } from './props'
 
@@ -22,8 +22,13 @@ export default defineComponent({
       props,
     )
 
+    const postValue = usePostValue(overridedProps, {
+      undefToNull: true,
+    })
+
     expose(exposed)
     return {
+      postValue,
       overridedProps,
     }
   },
@@ -31,11 +36,11 @@ export default defineComponent({
     return (
       <ProField
         {...this.overridedProps}
-        defaultValue={null}
         fieldProps={{
           ...this.overridedProps.fieldProps,
           type: 'text',
         }}
+        postValue={this.postValue}
         valueType={InternalValueTypeEnum.INPUT}
       >
         {{

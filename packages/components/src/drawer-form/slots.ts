@@ -1,3 +1,3 @@
 export interface DrawerFormSlots {
-  default?: any
+  default: any
 }

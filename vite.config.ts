@@ -5,6 +5,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
+import { ProNaiveUiResolver } from './packages/resolver/index'
 // import { analyzer } from 'vite-bundle-analyzer'
 import vitePluginDemo from './build/vite-plugin-demo'
 
@@ -37,14 +38,17 @@ export default defineConfig(({ mode }) => {
         ],
       }),
       Components({
-        resolvers: [NaiveUiResolver()],
+        resolvers: [
+          NaiveUiResolver(),
+          ProNaiveUiResolver(),
+        ],
       }),
       // analyzer(),
     ],
     resolve: {
       alias: [
         {
-          find: 'pro-components-naive-ui',
+          find: 'pro-naive-ui',
           replacement: resolve(__dirname, './packages/components/index.ts'),
         },
         {

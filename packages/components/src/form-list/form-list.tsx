@@ -1,14 +1,11 @@
 import type { SlotsType } from 'vue'
 import type { ProFormListSlots } from './slots'
-import { isArray } from 'lodash-es'
-import { uid } from 'pro-composables'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
-import { useOverrideProps } from '../composables'
+import { useOverrideProps, usePostValue } from '../composables'
 import { ProField } from '../form/components'
-import { AUTO_CREATE_ID } from './context'
-import FormList from './fields/form-list'
+import FormList from './components/form-list'
 import { provideFormListInstStore } from './inst'
 import { proFormListProps } from './props'
 import style from './styles/index.cssr'
@@ -29,6 +26,10 @@ export default defineComponent({
       name,
       props,
     )
+
+    const postValue = usePostValue(overridedProps, {
+      mapAddUniqueId: true,
+    })
 
     const splitProps = computed(() => {
       const {
@@ -66,26 +67,11 @@ export default defineComponent({
       style,
     )
 
-    function autoCreateRowId(val: any) {
-      const { postValue } = overridedProps.value
-      if (!isArray(val)) {
-        return postValue ? postValue(val) : []
-      }
-      const normalizedVals = val.map((item) => {
-        return item[AUTO_CREATE_ID]
-          ? item
-          : { ...item, [AUTO_CREATE_ID]: uid() }
-      })
-      return postValue
-        ? postValue(normalizedVals)
-        : normalizedVals
-    }
-
     expose(exposed)
     return {
+      postValue,
       splitProps,
       mergedClsPrefix,
-      autoCreateRowId,
     }
   },
   render() {
@@ -96,7 +82,7 @@ export default defineComponent({
         {...this.splitProps.proFieldProps}
         isList={true}
         valueModelName=""
-        postValue={this.autoCreateRowId}
+        postValue={this.postValue}
         class={[`${mergedClsPrefix}-pro-form-list`]}
         fieldProps={this.splitProps.fieldListProps}
       >

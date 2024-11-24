@@ -1,5 +1,5 @@
 {
-  "name": "pro-components-naive-ui",
+  "name": "pro-naive-ui",
   "type": "module",
   "version": "0.0.0",
   "private": true,
@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "vite",
     "build:docs": "vite build",
-    "build:components": "pnpm --filter pro-components-naive-ui run build",
-    "test": "pnpm --filter pro-components-naive-ui run test",
+    "build:components": "pnpm --filter pro-naive-ui run build",
+    "test": "pnpm --filter pro-naive-ui run test",
     "preview": "vite preview",
     "lint:fix": "eslint . --fix",
     "tsc": "vue-tsc --noEmit",
@@ -29,7 +29,7 @@
     "katex": "^0.16.10",
     "lodash-es": "^4.17.21",
     "marked": "^12.0.2",
-    "pro-composables": "^1.0.2",
+    "pro-composables": "^1.0.4",
     "seemly": "^0.3.8",
     "vfonts": "^0.0.3",
     "vooks": "0.2.12",

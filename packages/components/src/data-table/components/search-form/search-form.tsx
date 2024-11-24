@@ -1,18 +1,19 @@
+import type { GridProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
-import type { ProSearchFormInst } from './inst'
+import type { ProFormProps } from '../../../form'
 import type { ProSearchFormSlots } from './slots'
 import { DownOutlined, UpOutlined } from '@vicons/antd'
-import { NFlex, NGi, NGrid, NIcon } from 'naive-ui'
-import { defineComponent } from 'vue'
+import { pick } from 'lodash-es'
+import { gridProps as _nGridProps, NFlex, NGi, NGrid, NIcon } from 'naive-ui'
+import { computed, defineComponent } from 'vue'
 import { resolveSlotWithProps } from '../../../_utils/resolve-slot'
 import { ProButton, type ProButtonProps } from '../../../button'
 import { useOverrideProps } from '../../../composables'
 import { ProFormClearableProvider } from '../../../config-provider'
-import { ProForm } from '../../../form'
+import { proFormProps as _proFormProps, ProForm } from '../../../form'
 import { useLocale } from '../../../locales'
-import { useGridCollapsed } from './composables/useGridCollapsed'
-import { useGridForm } from './composables/useGridForm'
-import GridFieldItem from './grid-field-item'
+import GridFieldItem from './components/grid-field-item'
+import { createProSearchForm } from './composables/createProSearchForm'
 import { proSearchFormProps } from './props'
 
 const name = 'ProSearchForm'
@@ -20,35 +21,56 @@ export default defineComponent({
   name,
   props: proSearchFormProps,
   slots: Object as SlotsType<ProSearchFormSlots>,
-  setup(props, { expose }) {
+  setup(props) {
+    let form = props.form
+    if (!form && __DEV__) {
+      form = createProSearchForm()
+    }
+
     const overridedProps = useOverrideProps(
       name,
       props,
     )
 
     const {
-      collapsed,
-      nGridProps,
-      toggleCollapsed,
-    } = useGridCollapsed(overridedProps)
-
-    const {
-      formMethods,
-      proFormProps,
-    } = useGridForm(overridedProps)
-
-    const {
       getMessage,
     } = useLocale('ProSearchForm')
+
+    const proFormProps = computed<ProFormProps>(() => {
+      return {
+        ...pick(
+          overridedProps.value,
+          Object.keys(_proFormProps),
+        ),
+        form,
+      }
+    })
+
+    const nGridProps = computed<GridProps>(() => {
+      const {
+        // #region 冲突的属性
+        // #endregion
+        gridProps,
+        ...restProps
+      } = overridedProps.value
+      return {
+        ...(gridProps ?? {}),
+        ...pick(
+          restProps,
+          Object.keys(_nGridProps),
+        ),
+        collapsed: form.collapsed.value,
+      }
+    })
 
     const resetButtonProps = computed<ProButtonProps | false>(() => {
       const { resetButtonProps } = overridedProps.value
       return resetButtonProps === false
         ? false
         : {
+            attrType: 'reset',
             content: getMessage('reset'),
             ...(resetButtonProps ?? {}),
-            attrType: 'reset',
           }
     })
 
@@ -58,9 +80,9 @@ export default defineComponent({
         ? false
         : {
             type: 'primary',
+            attrType: 'submit',
             content: getMessage('search'),
             ...(searchButtonProps ?? {}),
-            attrType: 'submit',
           }
     })
 
@@ -72,31 +94,22 @@ export default defineComponent({
             text: true,
             type: 'primary',
             iconPlacement: 'right',
-            content: getMessage('collapse')(collapsed.value),
+            content: getMessage('collapse')(form.collapsed.value),
             renderIcon: () => {
               return (
                 <NIcon size={14}>
-                  {collapsed.value ? <DownOutlined /> : <UpOutlined />}
+                  {form.collapsed.value ? <DownOutlined /> : <UpOutlined />}
                 </NIcon>
               )
             },
             ...(collapseButtonProps ?? {}),
-            onClick: toggleCollapsed,
+            onClick: () => form.toggleCollapsed(),
           }
     })
 
-    const exposed: ProSearchFormInst = {
-      ...formMethods,
-      toggleCollapsed,
-    }
-
-    expose(exposed)
     return {
-      exposed,
-      collapsed,
       nGridProps,
       proFormProps,
-      toggleCollapsed,
       resetButtonProps,
       searchButtonProps,
       collapseButtonProps,
@@ -117,28 +130,24 @@ export default defineComponent({
       <ProFormClearableProvider>
         <ProForm {...proFormProps}>
           <NGrid {...nGridProps}>
-            {{
-              default: () => [
-                (columns ?? []).map(column => <GridFieldItem column={column} />),
-                showSuffixGridItem && (
-                  <NGi suffix={true}>
-                    {
-                      resolveSlotWithProps(this.$slots.suffix, {
-                        ...this.exposed,
-                        collapsed: this.collapsed,
-                        toggleCollapsed: this.toggleCollapsed,
-                      }, () => [
-                        <NFlex justify="end">
-                          {this.searchButtonProps !== false && <ProButton {...this.searchButtonProps} />}
-                          {this.resetButtonProps !== false && <ProButton {...this.resetButtonProps} />}
-                          {this.collapseButtonProps !== false && <ProButton {...this.collapseButtonProps} />}
-                        </NFlex>,
-                      ])
-                    }
-                  </NGi>
-                ),
-              ],
-            }}
+            {(columns ?? []).map(column => <GridFieldItem column={column} />)}
+            {showSuffixGridItem && (
+              <NGi suffix={true}>
+                {{
+                  default: ({ overflow }: any) => {
+                    return resolveSlotWithProps(this.$slots.suffix, {
+                      overflow,
+                    }, () => [
+                      <NFlex justify="end">
+                        {this.searchButtonProps !== false && <ProButton {...this.searchButtonProps} />}
+                        {this.resetButtonProps !== false && <ProButton {...this.resetButtonProps} />}
+                        {this.collapseButtonProps !== false && <ProButton {...this.collapseButtonProps} />}
+                      </NFlex>,
+                    ])
+                  },
+                }}
+              </NGi>
+            )}
           </NGrid>
         </ProForm>
       </ProFormClearableProvider>

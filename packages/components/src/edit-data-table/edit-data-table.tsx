@@ -6,7 +6,7 @@ import { defineComponent } from 'vue'
 import { useOverrideProps } from '../composables'
 import { proFieldProps as _proFieldProps, InternalValueTypeEnum, ProField } from '../form'
 import { AUTO_CREATE_ID } from '../form-list'
-import EditDataTable from './fields/edit-data-table'
+import EditDataTable from './components/edit-data-table'
 import { provideEditDataTableInstStore } from './inst'
 import { proEditDataTableProps } from './props'
 

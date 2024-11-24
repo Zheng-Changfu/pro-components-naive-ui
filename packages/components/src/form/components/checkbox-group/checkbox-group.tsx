@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
 import type { ProCheckboxGroupSlots } from './slots'
 import { defineComponent } from 'vue'
-import { useOverrideProps } from '../../../composables'
+import { useOverrideProps, usePostValue } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import CheckboxGroup from './fields/checkbox-group'
+import CheckboxGroup from './components/checkbox-group'
 import { proCheckboxGroupProps } from './props'
 
 const name = 'ProCheckboxGroup'
@@ -16,7 +16,13 @@ export default defineComponent({
       name,
       props,
     )
+
+    const postValue = usePostValue(overridedProps, {
+      undefToEmptyArray: true,
+    })
+
     return {
+      postValue,
       overridedProps,
     }
   },
@@ -24,7 +30,7 @@ export default defineComponent({
     return (
       <ProField
         {...this.overridedProps}
-        defaultValue={[]}
+        postValue={this.postValue}
         valueType={InternalValueTypeEnum.CHECKBOX_GROUP}
       >
         {{

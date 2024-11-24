@@ -1,14 +1,14 @@
 import type { ProFieldSlots } from '../field'
 
 export interface ProAutoCompleteSlots extends ProFieldSlots {
-  default?: {
+  default: {
     value: string
     theme: string | null
     handleBlur: () => void
     handleFocus: () => void
     handleInput: (value: string) => void
   }
-  empty?: any
-  prefix?: any
-  suffix?: any
+  empty: any
+  prefix: any
+  suffix: any
 }

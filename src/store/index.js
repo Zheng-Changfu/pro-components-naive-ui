@@ -7,7 +7,7 @@ import {
 import {
   ProConfigProvider,
   zhCN,
-} from 'pro-components-naive-ui'
+} from 'pro-naive-ui'
 import { useMemo } from 'vooks'
 import { computed, ref } from 'vue'
 import { i18n, useIsMobile } from '../utils/composables'

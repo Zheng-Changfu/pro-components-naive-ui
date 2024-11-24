@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
 import type { ProAutoCompleteSlots } from './slots'
 import { defineComponent } from 'vue'
-import { useOverrideProps } from '../../../composables'
+import { useOverrideProps, usePostValue } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import AutoComplete from './fields/auto-complete'
+import AutoComplete from './components/auto-complete'
 import { provideAutoCompleteInstStore } from './inst'
 import { proAutoCompleteProps } from './props'
 
@@ -22,8 +22,13 @@ export default defineComponent({
       props,
     )
 
+    const postValue = usePostValue(overridedProps, {
+      undefToNull: true,
+    })
+
     expose(exposed)
     return {
+      postValue,
       overridedProps,
     }
   },
@@ -31,7 +36,7 @@ export default defineComponent({
     return (
       <ProField
         {...this.overridedProps}
-        defaultValue={null}
+        postValue={this.postValue}
         valueType={InternalValueTypeEnum.AUTO_COMPLETE}
       >
         {{

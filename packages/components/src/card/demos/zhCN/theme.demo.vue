@@ -17,15 +17,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-config-provider
-    :theme-overrides="{
-      ProCard: {
-        prefixBgColor: color,
-        prefixHeightSmall: '20px',
-        prefixHeightDefault: '24px',
-      },
-    }"
-  >
+  <pro-config-provider>
     <n-flex vertical>
       <n-color-picker v-model:value="color" :show-alpha="false" />
       <pro-card title="小卡片" size="small">

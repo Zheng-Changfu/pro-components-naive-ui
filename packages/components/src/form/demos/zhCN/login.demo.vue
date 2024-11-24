@@ -4,7 +4,7 @@
 
 <script lang="tsx">
 import { useMessage } from 'naive-ui'
-import { createProForm } from 'pro-components-naive-ui'
+import { createProForm } from 'pro-naive-ui'
 import { defineComponent } from 'vue'
 
 interface Info {
@@ -57,7 +57,6 @@ export default defineComponent({
         required
         :rule="{
           min: 8,
-          trim: true,
           message: '密码长度最少为8位',
         }"
       />

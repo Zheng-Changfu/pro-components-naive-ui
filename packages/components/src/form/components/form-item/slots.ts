@@ -1,5 +1,5 @@
 export interface ProFormItemSlots {
-  label?: any
-  default?: any
-  feedback?: any
+  label: any
+  default: any
+  feedback: any
 }

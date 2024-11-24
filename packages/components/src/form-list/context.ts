@@ -14,5 +14,3 @@ export function provideProFormListInst(inst: ProFormListInst) {
 export function useInjectProFormListInst() {
   return inject(proFormListInstContextKey)!
 }
-
-export const AUTO_CREATE_ID = 'AUTO_CREATE_ID'

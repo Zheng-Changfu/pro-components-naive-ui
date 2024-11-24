@@ -2,9 +2,9 @@ import type { SlotsType } from 'vue'
 import type { ProDigitSlots } from './slots'
 import { isString } from 'lodash-es'
 import { defineComponent } from 'vue'
-import { useOverrideProps } from '../../../composables'
+import { useOverrideProps, usePostValue } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import Digit from './fields/digit'
+import Digit from './components/digit'
 import { provideDigitInstStore } from './inst'
 import { proDigitProps } from './props'
 
@@ -23,32 +23,30 @@ export default defineComponent({
       props,
     )
 
-    function tryConvertStringToNumber(val: any) {
-      if (overridedProps.value.postValue) {
-        return overridedProps.value.postValue(val)
-      }
-      if (isString(val)) {
-        if (val === '') {
-          return null
+    const postValue = usePostValue(overridedProps, {
+      transform: (value) => {
+        if (isString(value)) {
+          if (value === '') {
+            return null
+          }
+          const v = Number(value)
+          return Number.isNaN(v) ? value : v
         }
-        const v = Number(val)
-        return Number.isNaN(v) ? val : v
-      }
-      return val
-    }
+        return value ?? null
+      },
+    })
 
     expose(exposed)
     return {
+      postValue,
       overridedProps,
-      tryConvertStringToNumber,
     }
   },
   render() {
     return (
       <ProField
         {...this.overridedProps}
-        defaultValue={null}
-        postValue={this.tryConvertStringToNumber}
+        postValue={this.postValue}
         valueType={InternalValueTypeEnum.DIGIT}
       >
         {{

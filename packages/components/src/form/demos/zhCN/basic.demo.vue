@@ -1,11 +1,11 @@
 <markdown>
 # 基本使用
 
-如果按钮被 `pro-form` 组件包裹，使用 `attr-type` 为 `submit` 提交表单，使用 `attr-type` 为 `reset` 重置表单
+如果按钮被 `pro-form` 包裹，使用 `attr-type` 为 `submit` 提交表单， `attr-type` 为 `reset` 重置表单
 </markdown>
 
 <script lang="ts">
-import { createProForm } from 'pro-components-naive-ui'
+import { createProForm } from 'pro-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({

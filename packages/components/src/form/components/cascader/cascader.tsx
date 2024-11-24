@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
 import type { ProCascaderSlots } from './slots'
 import { defineComponent } from 'vue'
-import { useOverrideProps } from '../../../composables'
+import { useOverrideProps, usePostValue } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import Cascader from './fields/cascader'
+import Cascader from './components/cascader'
 import { provideCascaderInstStore } from './inst'
 import { proCascaderProps } from './props'
 
@@ -22,8 +22,13 @@ export default defineComponent({
       props,
     )
 
+    const postValue = usePostValue(overridedProps, {
+      undefToNull: true,
+    })
+
     expose(exposed)
     return {
+      postValue,
       overridedProps,
     }
   },
@@ -31,7 +36,7 @@ export default defineComponent({
     return (
       <ProField
         {...this.overridedProps}
-        defaultValue={null}
+        postValue={this.postValue}
         valueType={InternalValueTypeEnum.CASCADER}
       >
         {{

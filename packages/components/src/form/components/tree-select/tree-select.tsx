@@ -1,9 +1,9 @@
 import type { SlotsType } from 'vue'
 import type { ProTreeSelectSlots } from './slots'
 import { defineComponent } from 'vue'
-import { useOverrideProps } from '../../../composables'
+import { useOverrideProps, usePostValue } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
-import TreeSelect from './fields/tree-select'
+import TreeSelect from './components/tree-select'
 import { provideTreeSelectInstStore } from './inst'
 import { proTreeSelectProps } from './props'
 
@@ -22,8 +22,13 @@ export default defineComponent({
       props,
     )
 
+    const postValue = usePostValue(overridedProps, {
+      undefToNull: true,
+    })
+
     expose(exposed)
     return {
+      postValue,
       overridedProps,
     }
   },
@@ -31,7 +36,7 @@ export default defineComponent({
     return (
       <ProField
         {...this.overridedProps}
-        defaultValue={null}
+        postValue={this.postValue}
         valueType={InternalValueTypeEnum.TREE_SELECT}
       >
         {{

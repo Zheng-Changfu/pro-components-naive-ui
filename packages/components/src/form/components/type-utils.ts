@@ -3,12 +3,11 @@ import type { ProFieldProps } from './field'
 import { pick } from 'lodash-es'
 import { proFieldProps } from './field'
 
-export const ignoreKeys = [
+const ignoreKeys = [
   'path',
   'isList',
   'valueType',
   'fieldProps',
-  'defaultValue',
   'valueModelName',
 ] as const
 
