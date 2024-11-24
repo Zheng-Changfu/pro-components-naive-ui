@@ -269,24 +269,24 @@ export function createComponentMenuOptions({ lang, theme }) {
           enSuffix: true,
           path: '/modal',
         },
-        {
-          en: 'ProDescriptions',
-          zh: '描述',
-          enSuffix: true,
-          path: '/descriptions',
-        },
-        {
-          en: 'ProDataTable',
-          zh: '数据表格',
-          enSuffix: true,
-          path: '/data-table',
-        },
-        {
-          en: 'ProEditDataTable',
-          zh: '编辑表格',
-          enSuffix: true,
-          path: '/edit-data-table',
-        },
+        // {
+        //   en: 'ProDescriptions',
+        //   zh: '描述',
+        //   enSuffix: true,
+        //   path: '/descriptions',
+        // },
+        // {
+        //   en: 'ProDataTable',
+        //   zh: '数据表格',
+        //   enSuffix: true,
+        //   path: '/data-table',
+        // },
+        // {
+        //   en: 'ProEditDataTable',
+        //   zh: '编辑表格',
+        //   enSuffix: true,
+        //   path: '/edit-data-table',
+        // },
         // {
         //   en: 'ProTree',
         //   zh: '树',
