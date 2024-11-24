@@ -14,10 +14,10 @@ export const zhComponentRoutes = [
     path: 'modal',
     component: () => import('../../packages/components/src/modal/demos/zhCN/index.demo-entry.md'),
   },
-  {
-    path: 'descriptions',
-    component: () => import('../../packages/components/src/descriptions/demos/zhCN/index.demo-entry.md'),
-  },
+  // {
+  //   path: 'descriptions',
+  //   component: () => import('../../packages/components/src/descriptions/demos/zhCN/index.demo-entry.md'),
+  // },
   {
     path: 'button',
     component: () => import('../../packages/components/src/button/demos/zhCN/index.demo-entry.md'),
@@ -54,14 +54,14 @@ export const zhComponentRoutes = [
     path: 'search-form',
     component: () => import('../../packages/components/src/data-table/components/search-form/demos/zhCN/index.demo-entry.md'),
   },
-  {
-    path: 'data-table',
-    component: () => import('../../packages/components/src/data-table/demos/zhCN/index.demo-entry.md'),
-  },
-  {
-    path: 'edit-data-table',
-    component: () => import('../../packages/components/src/edit-data-table/demos/zhCN/index.demo-entry.md'),
-  },
+  // {
+  //   path: 'data-table',
+  //   component: () => import('../../packages/components/src/data-table/demos/zhCN/index.demo-entry.md'),
+  // },
+  // {
+  //   path: 'edit-data-table',
+  //   component: () => import('../../packages/components/src/edit-data-table/demos/zhCN/index.demo-entry.md'),
+  // },
 ]
 
 export const routes = [
