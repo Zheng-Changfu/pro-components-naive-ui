@@ -94,11 +94,9 @@ export function useDataSource(props: ComputedRef<ProDataTableProps>, options: Us
       onRequestComplete() {
         const {
           onRequestComplete,
-          clearSelectOnRequested,
         } = props.value
 
         onRequestComplete && onRequestComplete()
-        clearSelectOnRequested && clearCheckedRowKeys()
       },
     }
   })

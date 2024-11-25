@@ -1,10 +1,9 @@
 import type { PaginationProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProCardProps } from '../card'
-import type { RefreshOnWindowFocus } from '../composables/useFetchData'
-import type { AnyFn } from '../types'
 import type { ProSearchFormProps } from './components/search-form'
-import type { ProDataTableColumns, ProDataTableFieldSetting, ProDataTableToolbarSetting } from './types'
+import type { ProDataTableColumns, ProDataTableToolbarSetting } from './types'
+import { omit } from 'lodash-es'
 import { dataTableProps } from 'naive-ui'
 
 export const proDataTableExtendProps = {
@@ -27,7 +26,7 @@ export const proDataTableExtendProps = {
   /**
    * 查询表单配置，false 不显示
    */
-  searchForm: {
+  searchFormProps: {
     type: [Boolean, Object] as PropType<false | ProSearchFormProps>,
     default: false,
   },
@@ -36,21 +35,10 @@ export const proDataTableExtendProps = {
    */
   searchCardProps: Object as PropType<ProCardProps>,
   /**
-   * 数据源分页相关字段配置
-   */
-  fieldSetting: Object as PropType<ProDataTableFieldSetting>,
-  /**
    * 工具栏配置
    */
   toolbarSetting: {
     type: [Boolean, Object] as PropType<boolean | ProDataTableToolbarSetting>,
-    default: true,
-  },
-  /**
-   * 在请求完成后是否清除选中行
-   */
-  clearSelectOnRequested: {
-    type: Boolean,
     default: true,
   },
   /**
@@ -68,52 +56,21 @@ export const proDataTableExtendProps = {
     fromIndex: number,
     toIndex: number,
   ) => Promise<void>>,
-  /**
-   * 是否手动调用 request，设置为 true 后不会调用 request
-   */
-  manual: Boolean,
-  /**
-   * 屏幕聚焦刷新请求
-   */
-  refreshOnWindowFocus: {
-    type: [Boolean, Object] as PropType<RefreshOnWindowFocus>,
-    default: undefined,
-  },
-  /**
-   * 请求成功后可以转化数据，返回值为最终的结果值
-   */
-  transform: Function as AnyFn,
-  /**
-   * 请求函数
-   */
-  request: Function as AnyFn,
-  /**
-   * 请求失败触发的函数
-   */
-  onRequestError: Function as AnyFn,
-  /**
-   * 请求成功触发的函数
-   */
-  onRequestSuccess: Function as AnyFn,
-  /**
-   * 请求结束后触发的函数
-   */
-  onRequestComplete: Function as AnyFn,
 } as const
 
 export const proDataTableProps = {
-  ...dataTableProps,
+  ...omit(dataTableProps, [
+    'data',
+    'rowKey',
+    'onLoad',
+  ]),
   ...proDataTableExtendProps,
   /**
    * 重写类型
    */
   columns: Array as PropType<ProDataTableColumns>,
   /**
-   * 重写类型，支持字符串
-   */
-  rowKey: [String, Function] as PropType<string | ((row: any) => string | number)>,
-  /**
-   * 重写类型
+   * 重写默认值
    */
   pagination: {
     type: [Boolean, Object] as PropType<false | PaginationProps>,

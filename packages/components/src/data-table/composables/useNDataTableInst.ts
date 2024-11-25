@@ -1,18 +1,28 @@
 import type { DataTableInst } from 'naive-ui'
+import type { ProDataTableInst } from '../inst'
 import { ref } from 'vue'
 
 export function useNDataTableInst() {
-  const nDataTableInst = ref<DataTableInst>()
+  const proDataTableInst = ref<ProDataTableInst>()
+
+  function registerProDataTableInst(proDataTable: ProDataTableInst) {
+    proDataTableInst.value = proDataTable
+  }
+
   return {
-    nDataTableInst,
-    clearSorter: () => nDataTableInst.value?.clearSorter(),
-    clearFilter: () => nDataTableInst.value?.clearFilter(),
-    clearFilters: () => nDataTableInst.value?.clearFilters(),
-    page: (page: number) => nDataTableInst.value?.page(page),
-    filter: (filters: any) => nDataTableInst.value?.filter(filters),
-    filters: (filters: any) => nDataTableInst.value?.filters(filters),
-    downloadCsv: (options?: any) => nDataTableInst.value?.downloadCsv(options),
-    scrollTo: (...args: any[]) => (nDataTableInst.value?.scrollTo as any)(...args),
-    sort: (columnKey: any, order: any) => nDataTableInst.value?.sort(columnKey, order),
+    proDataTableInst,
+    registerProDataTableInst,
+    clearSorter: () => proDataTableInst.value?.clearSorter(),
+    clearFilter: () => proDataTableInst.value?.clearFilter(),
+    clearFilters: () => proDataTableInst.value?.clearFilters(),
+    getSortInfo: () => proDataTableInst.value?.getSortInfo(),
+    getFilterInfo: () => proDataTableInst.value?.getFilterInfo(),
+    page: (page: number) => proDataTableInst.value?.page(page),
+    getPaginationInfo: () => proDataTableInst.value?.getPaginationInfo(),
+    filter: (filters: any) => proDataTableInst.value?.filter(filters),
+    filters: (filters: any) => proDataTableInst.value?.filters(filters),
+    downloadCsv: (options?: any) => proDataTableInst.value?.downloadCsv(options),
+    scrollTo: (...args: any[]) => (proDataTableInst.value?.scrollTo as any)(...args),
+    sort: (columnKey: any, order: any) => proDataTableInst.value?.sort(columnKey, order),
   }
 }
