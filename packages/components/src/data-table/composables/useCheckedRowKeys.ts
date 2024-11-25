@@ -2,7 +2,7 @@ import type { DataTableRowKey } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
-import { computed } from 'vue'
+import { ref } from 'vue'
 import { call } from '../../_utils/call'
 
 export function useCheckedRowKeys(props: ComputedRef<ProDataTableProps>) {
@@ -39,7 +39,7 @@ export function useCheckedRowKeys(props: ComputedRef<ProDataTableProps>) {
   )
 
   return {
-    checkedRowKeys: computed(() => checkedRowKeys.value),
+    checkedRowKeys,
     setCheckedRowKeys,
     clearCheckedRowKeys,
     removeCheckedRowKey,

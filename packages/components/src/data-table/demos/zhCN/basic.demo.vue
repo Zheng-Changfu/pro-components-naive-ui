@@ -3,11 +3,12 @@
 </markdown>
 
 <script lang="tsx">
+import type { ProDataTableColumns } from 'pro-naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const columns = [
+    const columns: ProDataTableColumns = [
       {
         type: 'selection',
         disabled(row: any) {
@@ -74,11 +75,11 @@ export default defineComponent({
   <pro-data-table
     title="查询表格"
     tooltip="123"
-    row-key="no"
     drag-sort-key="sort"
     :request="request"
     :columns="columns"
     click-row-to-select
+    :row-key="row => row.no"
   >
     <template #toolbar>
       <n-flex>

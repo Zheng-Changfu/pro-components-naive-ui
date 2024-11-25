@@ -19,7 +19,7 @@ export type CreateProSearchFormReturn<Values = any> = ExtendProForm<
   }
 >
 
-interface CreateProSearchFormOptions<Values> extends CreateProFormOptions<Values> {
+export interface CreateProSearchFormOptions<Values> extends CreateProFormOptions<Values> {
   /**
    * 默认是否收起
    * @default false

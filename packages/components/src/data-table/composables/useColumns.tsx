@@ -1,23 +1,21 @@
-import type { DataTableColumn, PaginationProps } from 'naive-ui'
+import type { DataTableColumn } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
 import type { ProDataTableColumn } from '../types'
 import { watchImmediate } from '@vueuse/core'
 import { mapTree } from 'pro-composables'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { isDragSortColumn, isExpandColumn, isGroupColumn, isIndexColumn, isSelectionColumn } from '../utils/column'
 import { useColumnRenderer } from './useColumnRenderer'
 
 interface UseColumnsOptions {
   dragHandleId: string
-  pagination: ComputedRef<PaginationProps | false>
 }
 export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseColumnsOptions) {
   let cacheColumns: DataTableColumn[] = []
   const columns = ref<DataTableColumn[]>([])
 
   const {
-    pagination,
     dragHandleId,
   } = options
 
@@ -26,7 +24,11 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
     renderTooltipTitle,
     createDragSortColumn,
     createValueTypeColumn,
-  } = useColumnRenderer({ columns, pagination, dragHandleId })
+  } = useColumnRenderer({
+    columns,
+    dragHandleId,
+    pagination: computed(() => props.value.pagination),
+  })
 
   function convertProColumnsToColumns(columns: ProDataTableColumn[]): DataTableColumn[] {
     const dragSortKey = props.value.dragSortKey

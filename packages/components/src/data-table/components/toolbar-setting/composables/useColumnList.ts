@@ -1,9 +1,9 @@
 import type { DataTableBaseColumn, DataTableColumn } from 'naive-ui'
-import type { VNodeChild } from 'vue'
+import type { Ref, VNodeChild } from 'vue'
 import { cloneDeep, isFunction, isString } from 'lodash-es'
 import { onMounted, ref } from 'vue'
 import { indexColumnKey, sortColumnKey } from '../../../composables/useColumnRenderer'
-import { useInjectProDataTableInst } from '../../../context'
+import { useInjectProDataTableConfig } from '../../../context'
 
 export interface ColumnItem {
   title: VNodeChild
@@ -19,7 +19,7 @@ export function useColumnList() {
     setColumns,
     setCacheColumns,
     getCacheColumns,
-  } = useInjectProDataTableInst()!
+  } = useInjectProDataTableConfig()
 
   function restoreList() {
     list.value = cloneDeep(initialList) as any

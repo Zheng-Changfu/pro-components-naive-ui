@@ -1,29 +1,40 @@
-import type { EventHookOn } from '@vueuse/core'
-import type { ComputedRef, Ref } from 'vue'
-import type { AnyFn } from '../types'
-import { createEventHook, useDocumentVisibility } from '@vueuse/core'
-import { isBoolean } from 'lodash-es'
-import { onMounted, ref, toRaw, watch } from 'vue'
+import type { EmptyObject } from 'type-fest'
+import type { Ref } from 'vue'
+import { useDocumentVisibility } from '@vueuse/core'
+import { onMounted, ref, toRaw, toValue, watch } from 'vue'
 
-export type RefreshOnWindowFocus = boolean | {
+/**
+ * TODO: 请求竞态问题
+ */
+
+export type RefreshOnWindowFocus = false | {
   intervalTime: number
 }
 
-export interface UseFetchDataBaseOptions<RequestFn extends AnyFn> {
+export interface UseFetchDataOptions<Data = any, Params extends object = EmptyObject> {
   /**
    * 是否手动调用 request，设置后不会调用 request
    * @default false
    */
   manual?: boolean
   /**
-   * 屏幕聚焦刷新请求
+   * 是否忽略 event 参数，事件回调中的 event 参数
    * @default true
+   */
+  ignoreEventParams?: boolean
+  /**
+   * 屏幕聚焦刷新请求，默认为 15 秒（单位 ms）
    */
   refreshOnWindowFocus?: RefreshOnWindowFocus
   /**
+   * 额外的参数，当 params 的值发生变化后重新执行，不被 manual 控制
+   * 这个参数的优先级最高，会覆盖 reload 的参数
+   */
+  params?: Params | (() => Params)
+  /**
    * 请求函数
    */
-  request?: RequestFn
+  request?: (...args: any[]) => Promise<Data>
   /**
    * 请求失败触发的函数
    */
@@ -31,77 +42,48 @@ export interface UseFetchDataBaseOptions<RequestFn extends AnyFn> {
   /**
    * 请求成功触发的函数
    */
-  onRequestSuccess?: (res: Awaited<ReturnType<RequestFn>>) => void
+  onRequestSuccess?: (res: Data) => void
   /**
    * 请求完成后触发的函数，不论成功或失败
    */
   onRequestComplete?: () => void
-  /**
-   * 请求成功后可以转化数据，返回值为最终的结果值
-   */
-  transform?: never
 }
 
-export interface UseFetchDataOptionsPassedTransform<T extends AnyFn, R> extends Omit<UseFetchDataBaseOptions<T>, 'transform'> {
-  /**
-   * 请求成功触发的函数，执行时机在 transform 之后
-   */
-  onRequestSuccess?: (res: R) => void
-  /**
-   * 请求成功后可以转化数据，返回值为最终的结果值
-   */
-  transform: (response: Awaited<ReturnType<T>>) => R
-}
-
-type PartialValue<T> = {
-  [P in keyof T]: T[P] | undefined
-}
-
-export interface UseFetchDataReturned<RequestFn extends AnyFn = AnyFn> {
+export interface UseFetchDataReturn<Data = any> {
   loading: Ref<boolean>
-  onRequestSuccess: EventHookOn
-  data: Ref<PartialValue<Awaited<ReturnType<RequestFn>>>>
+  data: Ref<Data | undefined>
   reload: (params?: any) => Promise<void>
 }
 
-export function useFetchData<T extends AnyFn>(options: ComputedRef<UseFetchDataBaseOptions<T>>): UseFetchDataReturned<T>
-export function useFetchData<T extends AnyFn, R>(options: ComputedRef<UseFetchDataOptionsPassedTransform<T, R>>): UseFetchDataReturned<T>
-export function useFetchData<T extends AnyFn, R>(options: ComputedRef<UseFetchDataBaseOptions<T> | UseFetchDataOptionsPassedTransform<T, R>>): UseFetchDataReturned<T> {
+export function useFetchData<Data = any>(options: UseFetchDataOptions<Data>): UseFetchDataReturn<Data> {
   const {
-    transform,
+    params,
+    request,
+    manual = false,
     onRequestError,
     onRequestSuccess,
     onRequestComplete,
+    ignoreEventParams = true,
     refreshOnWindowFocus = { intervalTime: 15000 },
-  } = options.value
+  } = options
 
+  const data = ref<Data>()
   const loading = ref(false)
-  const data = ref({} as any)
-  let prevNow = performance.now()
   const visibility = useDocumentVisibility()
 
-  const {
-    on: onSuccess,
-    trigger: triggerSuccess,
-  } = createEventHook()
-
-  async function fetchData(params: any = {}) {
-    if (!options.value.request || loading.value)
+  async function fetchData(payload?: any) {
+    if (!request)
       return
     try {
       loading.value = true
-      const requestParams = {
-        ...(params ?? {}),
-      }
-      let res = (await options.value.request(requestParams)) ?? {}
-      if (transform) {
-        res = transform(res)
-      }
-      data.value = res
-      triggerSuccess(toRaw(res))
+      const res = data.value = await request({
+        ...(payload ?? {}),
+        ...(toValue(params) ?? {}),
+      })
+      onRequestSuccess && onRequestSuccess(toRaw(res))
     }
     catch (error) {
-      data.value = {} as any
+      data.value = undefined
       if (!onRequestError) {
         throw new Error(error as string)
       }
@@ -113,11 +95,12 @@ export function useFetchData<T extends AnyFn, R>(options: ComputedRef<UseFetchDa
     }
   }
 
+  let prevNow = performance.now()
   watch(
     visibility,
     (current, previous) => {
       if (refreshOnWindowFocus && current === 'visible' && previous === 'hidden') {
-        const intervalTime = isBoolean(refreshOnWindowFocus) ? 0 : refreshOnWindowFocus.intervalTime
+        const { intervalTime } = refreshOnWindowFocus
         if (intervalTime <= 0) {
           fetchData()
           return
@@ -132,33 +115,22 @@ export function useFetchData<T extends AnyFn, R>(options: ComputedRef<UseFetchDa
   )
 
   watch(
-    () => options.value.manual,
-    (manual) => {
-      if (!manual) {
-        fetchData()
-      }
-    },
+    () => toValue(params),
+    () => fetchData(),
   )
 
-  function reload(params?: any) {
-    /**
-     * 忽略掉事件 event
-     */
-    return fetchData(params instanceof Event ? {} : params)
-  }
-
   onMounted(() => {
-    if (!options.value.manual) {
-      fetchData()
-    }
+    !manual && fetchData()
   })
 
-  onRequestSuccess && onSuccess(onRequestSuccess)
+  function reload(params?: any) {
+    const isEvent = params instanceof Event
+    return fetchData(isEvent && ignoreEventParams ? {} : params)
+  }
 
   return {
+    data,
     reload,
     loading,
-    data: data as any,
-    onRequestSuccess: onSuccess,
   }
 }

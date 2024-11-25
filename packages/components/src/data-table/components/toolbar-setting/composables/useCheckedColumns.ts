@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import type { ColumnItem } from './useColumnList'
-import { computed, ref } from 'vue'
-import { useInjectProDataTableInst } from '../../../context'
+import { computed, onMounted, ref, watchEffect } from 'vue'
+import { useInjectProDataTableConfig } from '../../../context'
 
 export function useCheckedColumns(columnList: Ref<ColumnItem[]>) {
   const checkedKeys = ref<Array<string | number>>([])
@@ -9,7 +9,7 @@ export function useCheckedColumns(columnList: Ref<ColumnItem[]>) {
   const {
     setColumns,
     getCacheColumns,
-  } = useInjectProDataTableInst()!
+  } = useInjectProDataTableConfig()
 
   const allChecked = computed({
     get() {

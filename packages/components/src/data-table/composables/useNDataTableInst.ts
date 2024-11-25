@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 export function useNDataTableInst() {
   const nDataTableInst = ref<DataTableInst>()
+
   return {
     nDataTableInst,
     clearSorter: () => nDataTableInst.value?.clearSorter(),

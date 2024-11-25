@@ -2,7 +2,7 @@ import type { DataTableProps } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
 import { watchImmediate } from '@vueuse/core'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 export function useDataTableSize(props: ComputedRef<ProDataTableProps>) {
   const size = ref<DataTableProps['size']>()
@@ -21,7 +21,7 @@ export function useDataTableSize(props: ComputedRef<ProDataTableProps>) {
   )
 
   return {
-    size: computed(() => size.value ?? 'medium'),
     setSize,
+    size: computed(() => size.value ?? 'medium'),
   }
 }

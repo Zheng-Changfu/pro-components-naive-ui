@@ -1,23 +1,18 @@
-import type { InjectionKey } from 'vue'
-import type { ProDataTableInst } from './inst'
-import type { ProDataTableProps } from './props'
-import { inject, provide } from 'vue'
+import type { DataTableColumn, DataTableProps } from 'naive-ui'
+import type { ComputedRef, InjectionKey } from 'vue'
+import type { ProDataTableColumn, ProDataTableToolbarSetting } from './types'
+import { inject } from 'vue'
 
-const proDataTableInstInjectionKey = Symbol('proDataTableInst') as InjectionKey<ProDataTableInst>
+export const proDataTableConfigKey = Symbol('proDataTableConfig') as InjectionKey<{
+  getColumns: () => DataTableColumn[]
+  getCacheColumns: () => DataTableColumn[]
+  tableSize: ComputedRef<NonNullable<DataTableProps['size']>>
+  toolbarSetting: ComputedRef<false | ProDataTableToolbarSetting>
+  setTableSize: (size: NonNullable<DataTableProps['size']>) => void
+  setColumns: (columns: ProDataTableColumn[] | DataTableColumn[]) => void
+  setCacheColumns: (columns: ProDataTableColumn[] | DataTableColumn[]) => void
+}>
 
-export function provideProDataTableInst(methods: ProDataTableInst) {
-  return provide(proDataTableInstInjectionKey, methods)
-}
-
-export function useInjectProDataTableInst() {
-  return inject(proDataTableInstInjectionKey)
-}
-
-const proDataTablePropsInjectionKey = Symbol('proDataTableProps') as InjectionKey<ComputedRef<ProDataTableProps>>
-export function provideProDataTableProps(props: ComputedRef<ProDataTableProps>) {
-  return provide(proDataTablePropsInjectionKey, props)
-}
-
-export function useInjectProDataTableProps() {
-  return inject(proDataTablePropsInjectionKey)
+export function useInjectProDataTableConfig() {
+  return inject(proDataTableConfigKey)!
 }

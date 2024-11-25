@@ -1,8 +1,4 @@
 export {
-  useInjectProDataTableInst,
-} from './context'
-
-export {
   default as ProDataTable,
 } from './data-table'
 
