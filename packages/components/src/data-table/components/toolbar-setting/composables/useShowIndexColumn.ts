@@ -1,7 +1,7 @@
 import type { DataTableColumn } from 'naive-ui'
 import { ref, watchEffect } from 'vue'
 import { indexColumnKey } from '../../../composables/useColumnRenderer'
-import { useInjectProDataTableInst } from '../../../context'
+import { useInjectProDataTableConfig } from '../../../context'
 
 export function useShowIndexColumn() {
   const showIndexColumn = ref(true)
@@ -9,7 +9,7 @@ export function useShowIndexColumn() {
   const {
     setColumns,
     getColumns,
-  } = useInjectProDataTableInst()!
+  } = useInjectProDataTableConfig()
 
   function findSelectionOrExpandColumnLastIndex(columns: DataTableColumn[]) {
     let index = -1

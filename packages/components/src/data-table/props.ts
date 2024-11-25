@@ -3,7 +3,6 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProSearchFormProps } from './components/search-form'
 import type { ProDataTableColumns, ProDataTableToolbarSetting } from './types'
-import { omit } from 'lodash-es'
 import { dataTableProps } from 'naive-ui'
 
 export const proDataTableExtendProps = {
@@ -20,26 +19,23 @@ export const proDataTableExtendProps = {
    */
   tableCardProps: Object as PropType<ProCardProps>,
   /**
-   * 如果有单选、多选，是否可以点击行就选中
+   * 如果有单选、多选，是否可以点击行就选中(必须传递 row-key 才生效)
    */
   clickRowToSelect: Boolean,
-  /**
-   * 查询表单配置，false 不显示
-   */
-  searchFormProps: {
-    type: [Boolean, Object] as PropType<false | ProSearchFormProps>,
-    default: false,
-  },
   /**
    * 查询区域卡片的配置
    */
   searchCardProps: Object as PropType<ProCardProps>,
   /**
+   * 透传给 pro-search-form 的配置，false 不显示
+   */
+  searchFormProps: [Boolean, Object] as PropType<false | ProSearchFormProps>,
+  /**
    * 工具栏配置
    */
   toolbarSetting: {
-    type: [Boolean, Object] as PropType<boolean | ProDataTableToolbarSetting>,
-    default: true,
+    type: [Boolean, Object] as PropType<false | ProDataTableToolbarSetting>,
+    default: undefined,
   },
   /**
    * 配置了这个参数，会在该 key 对应的行显示拖拽行的把手，允许拖拽排序
@@ -59,11 +55,7 @@ export const proDataTableExtendProps = {
 } as const
 
 export const proDataTableProps = {
-  ...omit(dataTableProps, [
-    'data',
-    'rowKey',
-    'onLoad',
-  ]),
+  ...dataTableProps,
   ...proDataTableExtendProps,
   /**
    * 重写类型

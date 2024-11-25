@@ -131,21 +131,19 @@ export function createProDataTable<
      * 点击了查询
      */
     onSubmit: (values, warnings) => {
-      if (searchForm.onSubmit) {
-        return searchForm.onSubmit(values, warnings)
-      }
       setPaginationInfo({ page: 1 })
-      reload()
+      return searchForm.onSubmit
+        ? searchForm.onSubmit(values, warnings)
+        : reload()
     },
     /**
      * 点击了重置
      */
     onReset: () => {
-      if (searchForm.onReset) {
-        return searchForm.onReset()
-      }
       setPaginationInfo({ page: 1 })
-      reload()
+      searchForm.onReset
+        ? searchForm.onReset()
+        : reload()
     },
   })
 

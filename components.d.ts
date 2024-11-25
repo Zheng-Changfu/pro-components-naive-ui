@@ -59,6 +59,7 @@ declare module 'vue' {
     ProCheckboxGroup: typeof import('pro-naive-ui')['ProCheckboxGroup']
     ProColorPicker: typeof import('pro-naive-ui')['ProColorPicker']
     ProConfigProvider: typeof import('pro-naive-ui')['ProConfigProvider']
+    ProDataTable: typeof import('pro-naive-ui')['ProDataTable']
     ProDate: typeof import('pro-naive-ui')['ProDate']
     ProDateMonth: typeof import('pro-naive-ui')['ProDateMonth']
     ProDateMonthRange: typeof import('pro-naive-ui')['ProDateMonthRange']

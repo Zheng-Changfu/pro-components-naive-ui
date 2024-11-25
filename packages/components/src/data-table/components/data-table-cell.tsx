@@ -1,9 +1,9 @@
 import type { PropType } from 'vue'
-import type { ProDataTableBaseColumn } from './types'
+import type { ProDataTableBaseColumn } from '../types'
 import { get, isFunction } from 'lodash-es'
 import { computed, defineComponent } from 'vue'
-import { useInjectGlobalConfig } from '../config-provider'
-import { useInjectProDataTableInst } from './context'
+import { resolveComponentByValueType } from '../../_utils/resolveComponentByValueType'
+import { pickInternalProFieldProps } from '../../form/components/type-utils'
 
 export default defineComponent({
   name: 'DataTableCell',
@@ -23,14 +23,14 @@ export default defineComponent({
     columnKey: String,
   } as const,
   setup(props) {
-    const {
-      valueTypeMap,
-    } = useInjectGlobalConfig()
-
     const proFieldProps = computed(() => {
       const { row, column, rowIndex } = props
-      const { proFieldProps } = column
-      return isFunction(proFieldProps) ? proFieldProps(row, rowIndex) : (proFieldProps ?? {})
+      const internalProFieldProps = pickInternalProFieldProps(column)
+      const resolvedInternalProFieldProps = isFunction(column.proFieldProps) ? column.proFieldProps(row, rowIndex) : (column.proFieldProps ?? {})
+      return {
+        ...internalProFieldProps,
+        ...resolvedInternalProFieldProps,
+      }
     })
 
     const fieldProps = computed(() => {
@@ -41,9 +41,7 @@ export default defineComponent({
 
     return {
       fieldProps,
-      valueTypeMap,
       proFieldProps,
-      action: useInjectProDataTableInst()!,
     }
   },
 
@@ -56,19 +54,19 @@ export default defineComponent({
     } = this.$props
 
     if (column.render) {
-      return column.render(row, rowIndex, this.action)
+      return column.render(row, rowIndex)
     }
 
-    const Component = this.valueTypeMap[column.valueType ?? 'input']
-    return Component
-      ? h(Component, {
+    return resolveComponentByValueType(column.valueType ?? 'input', {
+      fieldProps: this.fieldProps,
+      fieldSlots: column.fieldSlots,
+      proFieldProps: {
         simple: true,
         readonly: true,
-        path: `builtinPath.${rowIndex}.${columnKey}`,
         value: columnKey ? get(row, columnKey) : undefined,
-        ...this.proFieldProps,
-        fieldProps: this.fieldProps,
-      }, column.fieldSlots)
-      : null
+        ...this.proFieldProps as any,
+        path: `builtinPath.${rowIndex}.${columnKey}`,
+      },
+    })
   },
 })

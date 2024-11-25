@@ -1,17 +1,17 @@
 import type { DataTableRowKey } from 'naive-ui'
+import type { ComputedRef, Ref } from 'vue'
 import type { ProDataTableProps } from '../props'
+import { computed } from 'vue'
 
 interface UseRowPropsOptions {
   clearCheckedRowKeys: () => void
-  resolveRowKey: (row: any) => any
-  checkedRowKeys: ComputedRef<DataTableRowKey[]>
+  checkedRowKeys: Ref<DataTableRowKey[]>
   setCheckedRowKeys: (keys: DataTableRowKey[], rows?: any, meta?: any) => void
 }
 
 const trKey = '_row-key'
 export function useRowProps(props: ComputedRef<ProDataTableProps>, options: UseRowPropsOptions) {
   const {
-    resolveRowKey,
     checkedRowKeys,
     setCheckedRowKeys,
     clearCheckedRowKeys,
@@ -27,27 +27,27 @@ export function useRowProps(props: ComputedRef<ProDataTableProps>, options: UseR
     return columns.length > 0 && columns.some(column => column.type === 'selection' && column.multiple === false)
   })
 
-  function rowProps(row: any) {
+  function rowProps(row: any, index: number) {
     const {
-      rowProps = {} as any,
+      rowKey,
+      rowProps,
       clickRowToSelect,
     } = props.value
 
-    const rowKey = resolveRowKey(row)
-
+    const resolvedRowKey = rowKey ? rowKey(row) : undefined
+    const resolvedRowProps = rowProps ? rowProps(row, index) : {}
+    if (
+      resolvedRowKey === undefined
+      || clickRowToSelect === false
+      || !hasSelectionColumn.value
+    ) {
+      return resolvedRowProps
+    }
     return {
-      ...rowProps,
-      [trKey]: rowKey,
+      ...resolvedRowProps,
+      [trKey]: resolvedRowKey,
       onClick: (e: MouseEvent) => {
-        rowProps.onClick?.(e)
-
-        if (clickRowToSelect === false) {
-          return
-        }
-        if (!hasSelectionColumn.value) {
-          return
-        }
-
+        resolvedRowProps.onClick?.(e)
         const tr = e.composedPath().find(dom => (dom as HTMLElement).tagName === 'TR') as HTMLElement
         if (!tr) {
           return
@@ -58,17 +58,17 @@ export function useRowProps(props: ComputedRef<ProDataTableProps>, options: UseR
           const radioBox = tr.querySelector('input[type=radio]')
           if (radioBox && !radioBox.hasAttribute('disabled')) {
             clearCheckedRowKeys()
-            setCheckedRowKeys([rowKey])
+            setCheckedRowKeys([resolvedRowKey])
           }
         }
         else {
           const checkBox = tr.querySelector('div[role=checkbox]')
           if (checkBox && [...checkBox.classList].every(className => !className.endsWith('disabled'))) {
-            if (!checkedRowKeys.value.includes(rowKey)) {
-              setCheckedRowKeys([...checkedRowKeys.value, rowKey])
+            if (!checkedRowKeys.value.includes(resolvedRowKey)) {
+              setCheckedRowKeys([...checkedRowKeys.value, resolvedRowKey])
               return
             }
-            setCheckedRowKeys(checkedRowKeys.value.filter(key => key !== rowKey))
+            setCheckedRowKeys(checkedRowKeys.value.filter(key => key !== resolvedRowKey))
           }
         }
       },

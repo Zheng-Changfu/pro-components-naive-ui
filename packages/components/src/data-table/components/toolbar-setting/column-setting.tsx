@@ -1,8 +1,8 @@
-import type { MergedToolbarColumnSetting } from './composables/userMergeToolbarSetting'
+import type { UnwrapRef } from 'vue'
 import { DragOutlined, SettingOutlined } from '@vicons/antd'
 import { NButton, NCheckbox, NCheckboxGroup, NFlex, NIcon, NPopover } from 'naive-ui'
 import { uid } from 'pro-composables'
-import { defineComponent, ref, watchPostEffect } from 'vue'
+import { computed, defineComponent, ref, watchPostEffect } from 'vue'
 import { useDraggable } from 'vue-draggable-plus'
 import { ProButton } from '../../../button'
 import { useLocale } from '../../../locales'
@@ -61,7 +61,7 @@ export default defineComponent({
     }
 
     const mergedColumnSetting = computed(() => {
-      return _mergedColumnSetting.value as Exclude<MergedToolbarColumnSetting, boolean>
+      return _mergedColumnSetting.value as Exclude<UnwrapRef<typeof _mergedColumnSetting>, false>
     })
 
     const canDraggable = computed(() => {

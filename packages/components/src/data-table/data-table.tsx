@@ -1,12 +1,10 @@
 import type { DataTableProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProCardProps } from '../card'
-import type { ProSearchFormInst } from './components/search-form'
 import type { ProDataTableInst } from './inst'
 import type { ProDataTableSlots } from './slots'
 import { NDataTable, NFlex } from 'naive-ui'
-import { uid } from 'pro-composables'
-import { defineComponent } from 'vue'
+import { computed, defineComponent, provide } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { resolveSlotWithProps, resolveWrappedSlot } from '../_utils/resolve-slot'
@@ -16,16 +14,11 @@ import { ProSearchForm } from './components/search-form'
 import DataTableSetting from './components/toolbar-setting/toolbar-setting'
 import { useCheckedRowKeys } from './composables/useCheckedRowKeys'
 import { useColumns } from './composables/useColumns'
-import { useDataSource } from './composables/useDataSource'
 import { useDataTableSize } from './composables/useDataTableSize'
 import { useDraggableSort } from './composables/useDraggableSort'
-import { useLoading } from './composables/useLoading'
 import { useNDataTableInst } from './composables/useNDataTableInst'
-import { usePagination } from './composables/usePagination'
 import { useRowProps } from './composables/useRowProps'
-import { useSearchForm } from './composables/useSearchForm'
-import { useValueTypeForm } from './composables/useValueTypeForm'
-import { provideProDataTableInst, provideProDataTableProps } from './context'
+import { proDataTableConfigKey } from './context'
 import { proDataTableExtendProps, proDataTableProps } from './props'
 import style from './styles/index.cssr'
 
@@ -36,13 +29,6 @@ export default defineComponent({
   slots: Object as SlotsType<ProDataTableSlots>,
   setup(props, { slots, expose }) {
     const mergedClsPrefix = useNaiveClsPrefix()
-    const searchFormInst = ref<ProSearchFormInst>()
-
-    useMountStyle(
-      name,
-      'pro-data-table',
-      style,
-    )
 
     const overridedProps = useOverrideProps(
       name,
@@ -53,8 +39,6 @@ export default defineComponent({
       overridedProps,
       proDataTableExtendProps,
     )
-
-    const dragHandleId = `drag-handle-${uid()}`
 
     const {
       sort,
@@ -70,16 +54,8 @@ export default defineComponent({
     } = useNDataTableInst()
 
     const {
-      loading,
-      setLoading,
-    } = useLoading(overridedProps)
-
-    const {
-      pagination,
-      onUpdatePage,
-      setPagination,
-      onUpdatePageSize,
-    } = usePagination(overridedProps)
+      dragHandleId,
+    } = useDraggableSort(overridedProps)
 
     const {
       columns,
@@ -87,7 +63,7 @@ export default defineComponent({
       setColumns,
       getCacheColumns,
       setCacheColumns,
-    } = useColumns(overridedProps, { pagination, dragHandleId })
+    } = useColumns(overridedProps, { dragHandleId })
 
     const {
       checkedRowKeys,
@@ -95,73 +71,27 @@ export default defineComponent({
       clearCheckedRowKeys,
     } = useCheckedRowKeys(overridedProps)
 
-    const {
-      data,
-      fetchLoading,
-      getTableData,
-      setTableData,
-      resolveRowKey,
-      rowKeyToRowMap,
-      reload,
-    } = useDataSource(overridedProps, {
-      pagination,
-      setPagination,
-      clearCheckedRowKeys,
-      getFieldsTransformedValue: getSearchFormTransformedValues,
-    })
-
     const { rowProps } = useRowProps(overridedProps, {
-      resolveRowKey,
       checkedRowKeys,
       setCheckedRowKeys,
       clearCheckedRowKeys,
     })
 
     const {
-      show: showSearchForm,
-      proSearchFormProps,
-    } = useSearchForm(overridedProps, { reload })
-
-    const {
       size,
       setSize: setTableSize,
     } = useDataTableSize(overridedProps)
-
-    useDraggableSort(
-      overridedProps,
-      {
-        data,
-        dragHandleId,
-      },
-    )
-
-    useValueTypeForm()
 
     const nDataTableProps = computed<DataTableProps>(() => {
       return {
         ...dataTableProps.value,
         rowProps,
         'remote': true,
-        'data': data.value,
         'size': size.value,
-        'rowKey': resolveRowKey,
-        'loading': loading.value,
         'columns': columns.value,
-        'pagination': pagination.value,
         'checkedRowKeys': checkedRowKeys.value,
-        'onUpdatePage': updatePageAndReloadTable,
         'onUpdateCheckedRowKeys': setCheckedRowKeys,
-        'onUpdatePageSize': updatePageSizeAndReloadTable,
-
-        'onUpdate:page': undefined,
-        'onUpdate:pageSize': undefined,
         'onUpdate:checkedRowKeys': undefined,
-      }
-    })
-
-    const searchCardProps = computed<ProCardProps>(() => {
-      return {
-        ...(overridedProps.value.searchCardProps ?? {}),
       }
     })
 
@@ -206,64 +136,41 @@ export default defineComponent({
       }
     })
 
-    function updatePageAndReloadTable(page: number) {
-      onUpdatePage(page)
-      reload()
-    }
-
-    function updatePageSizeAndReloadTable(pageSize: number) {
-      onUpdatePageSize(pageSize)
-      reload()
-    }
-
-    function getSearchFormTransformedValues() {
-      return searchFormInst.value?.getFieldsTransformedValue() ?? {}
-    }
-
-    watch(
-      fetchLoading,
-      setLoading,
+    useMountStyle(
+      name,
+      'pro-data-table',
+      style,
     )
 
     const exposed: ProDataTableInst = {
       sort,
       page,
-      reload,
       filter,
       filters,
       scrollTo,
-      setLoading,
-      getColumns,
-      setColumns,
       clearFilter,
       clearSorter,
       downloadCsv,
       clearFilters,
-      getTableData,
-      setTableSize,
-      setTableData,
-      setPagination,
-      getCacheColumns,
-      setCacheColumns,
-      getTableSize: () => size.value,
-      getPagination: () => pagination.value,
-      getRowKeyToRowMap: () => rowKeyToRowMap.value,
-      getSearchFormInst: () => searchFormInst.value!,
     }
 
     expose(exposed)
-    provideProDataTableInst(exposed)
-    provideProDataTableProps(overridedProps)
+    provide(proDataTableConfigKey, {
+      getColumns,
+      setColumns,
+      setTableSize,
+      getCacheColumns,
+      setCacheColumns,
+      tableSize: size,
+      toolbarSetting: computed(() => overridedProps.value.toolbarSetting ?? {}),
+    })
     return {
-      pagination,
       nDataTableInst,
-      searchFormInst,
-      showSearchForm,
       nDataTableProps,
-      searchCardProps,
       nTableCardProps,
       mergedClsPrefix,
-      proSearchFormProps,
+      searchFormProps: computed(() => overridedProps.value.searchFormProps ?? {}),
+      searchCardProps: computed(() => overridedProps.value.searchCardProps ?? {}),
     }
   },
   render() {
@@ -278,11 +185,12 @@ export default defineComponent({
       >
         {
           [
-            this.showSearchForm && (
+            this.searchFormProps !== false && (
               <ProCard {...this.searchCardProps}>
+                {/* @ts-ignore */}
                 <ProSearchForm
                   ref="searchFormInst"
-                  {...this.proSearchFormProps}
+                  {...this.searchFormProps}
                   v-slots={this.$slots}
                 />
               </ProCard>

@@ -1,12 +1,12 @@
 import type { DropdownOption } from 'naive-ui'
-import type { MergedToolbarDensity } from './composables/userMergeToolbarSetting'
+import type { UnwrapRef } from 'vue'
 import { ColumnHeightOutlined } from '@vicons/antd'
 import { watchImmediate } from '@vueuse/core'
 import { NDropdown, NFlex, NIcon, useThemeVars } from 'naive-ui'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { ProButton } from '../../../button'
 import { useLocale } from '../../../locales'
-import { useInjectProDataTableInst } from '../../context'
+import { useInjectProDataTableConfig } from '../../context'
 import { useMergeToolbarSetting } from './composables/userMergeToolbarSetting'
 
 export default defineComponent({
@@ -15,9 +15,9 @@ export default defineComponent({
     const themeVars = useThemeVars()
 
     const {
-      getTableSize,
+      tableSize,
       setTableSize,
-    } = useInjectProDataTableInst()!
+    } = useInjectProDataTableConfig()
 
     const {
       getMessage,
@@ -28,22 +28,22 @@ export default defineComponent({
     } = useMergeToolbarSetting()
 
     const mergedDensity = computed(() => {
-      return _mergedDensity.value as Exclude<MergedToolbarDensity, boolean>
+      return _mergedDensity.value as Exclude<UnwrapRef<typeof _mergedDensity>, false>
     })
 
     watchImmediate(
       () => mergedDensity.value.default,
       (value) => {
         if (value) {
-          setTableSize(value)
+          setTableSize(value as any)
         }
       },
     )
 
     return {
       themeVars,
+      tableSize,
       getMessage,
-      getTableSize,
       setTableSize,
       mergedDensity,
       selectedColor: computed(() => themeVars.value.primaryColor),
@@ -53,7 +53,7 @@ export default defineComponent({
     const { renderIcon } = this.mergedDensity
 
     const renderLabel = (option: DropdownOption) => {
-      if (option.key === this.getTableSize()) {
+      if (option.key === this.tableSize) {
         return <div style={{ color: this.selectedColor }}>{option.label}</div>
       }
       return option.label

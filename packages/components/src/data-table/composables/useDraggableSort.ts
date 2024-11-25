@@ -1,16 +1,16 @@
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
-import { getCurrentInstance, watchPostEffect } from 'vue'
+import { watchImmediate } from '@vueuse/core'
+import { cloneDeep } from 'lodash-es'
+import { uid } from 'pro-composables'
+import { computed, getCurrentInstance, shallowRef, watchPostEffect } from 'vue'
 import { useDraggable } from 'vue-draggable-plus'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 
-interface UseDraggableSortOptions {
-  data: Ref<any[]>
-  dragHandleId: string
-}
-export function useDraggableSort(props: ComputedRef<ProDataTableProps>, options: UseDraggableSortOptions) {
+export function useDraggableSort(props: ComputedRef<ProDataTableProps>) {
   const clsPrefix = useNaiveClsPrefix()
   const sortedData = shallowRef<any[]>([])
+  const dragHandleId = `drag-handle-${uid()}`
   const currentInstance = getCurrentInstance()
 
   const nDataTableTBody = computed(() => {
@@ -29,7 +29,7 @@ export function useDraggableSort(props: ComputedRef<ProDataTableProps>, options:
     {
       immediate: false,
       animation: 200,
-      handle: `.${options.dragHandleId}`,
+      handle: `.${dragHandleId}`,
       onEnd: (event) => {
         const { oldIndex, newIndex } = event
         const { onDragSortEnd } = props.value
@@ -42,9 +42,12 @@ export function useDraggableSort(props: ComputedRef<ProDataTableProps>, options:
     },
   )
 
-  watchEffect(() => {
-    sortedData.value = options.data.value
-  })
+  watchImmediate(
+    () => props.value.data,
+    (value) => {
+      sortedData.value = cloneDeep(value ?? [])
+    },
+  )
 
   watchPostEffect(() => {
     if (sortedData.value.length > 0) {
@@ -62,4 +65,8 @@ export function useDraggableSort(props: ComputedRef<ProDataTableProps>, options:
       }
     }
   })
+
+  return {
+    dragHandleId,
+  }
 }

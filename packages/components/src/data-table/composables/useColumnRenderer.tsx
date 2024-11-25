@@ -1,12 +1,14 @@
 import type { DataTableColumn, PaginationProps } from 'naive-ui'
 import type { TableColumnGroupTitle, TableColumnTitle, TableExpandColumnTitle } from 'naive-ui/es/data-table/src/interface'
+import type { ComputedRef, Ref } from 'vue'
 import type { ProDataTableBaseColumn, ProDataTableIndexColumn } from '../types'
 import { DragOutlined, InfoCircleOutlined } from '@vicons/antd'
-import { isFunction } from 'lodash-es'
+import { isFunction, toString } from 'lodash-es'
 import { NButton, NIcon } from 'naive-ui'
+import { computed } from 'vue'
 import ProTooltip from '../../_internal/components/pro-tooltip'
 import { useLocale } from '../../locales'
-import DataTableCell from '../data-table-cell'
+import DataTableCell from '../components/data-table-cell'
 
 export const sortColumnKey = '__SORT_COLUMN__'
 export const indexColumnKey = '__INDEX_COLUMN__'
@@ -14,7 +16,7 @@ export const indexColumnKey = '__INDEX_COLUMN__'
 interface CreateColumnRendererOptions {
   dragHandleId: string
   columns: Ref<DataTableColumn[]>
-  pagination: ComputedRef<PaginationProps | false>
+  pagination: ComputedRef<PaginationProps | false | undefined>
 }
 export function useColumnRenderer(options: CreateColumnRendererOptions) {
   const {
@@ -91,8 +93,8 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
             ? render(index, row, rowIndex)
             : index
         }
-        const page = Math.max(1, pagination.value.page ?? 1)
-        const pageSize = Math.max(1, pagination.value.pageSize ?? 10)
+        const page = Math.max(1, pagination.value?.page ?? 1)
+        const pageSize = Math.max(1, pagination.value?.pageSize ?? 10)
         const index = (page - 1) * pageSize + rowIndex + 1
         return render
           ? render(index, row, rowIndex)
@@ -106,7 +108,13 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     const {
       key,
       path,
+      title,
       render,
+      tooltip,
+      valueType,
+      fieldProps,
+      fieldSlots,
+      proFieldProps,
       ...rest
     } = column
 
@@ -114,7 +122,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       width: 60,
       align: 'center',
       key: sortColumnKey,
-      title: getMessage('sortColumn'),
+      title: renderTooltipTitle(title ?? getMessage('sortColumn'), tooltip),
       fixed: hasFixedLeftColumn.value ? 'left' : undefined,
       render(row, rowIndex) {
         return render
@@ -154,10 +162,11 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       valueType,
       fieldProps,
       fieldSlots,
+      proFieldProps,
       ...rest
     } = column ?? {}
 
-    const columnKey = path ?? key ?? ''
+    const columnKey = path ?? toString(key) ?? ''
     return {
       key: columnKey,
       title: renderTooltipTitle(title, tooltip),
