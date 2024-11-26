@@ -3,22 +3,19 @@ import type { SlotsType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProDataTableInst } from './inst'
 import type { ProDataTableSlots } from './slots'
-import { NDataTable, NFlex } from 'naive-ui'
-import { computed, defineComponent, provide } from 'vue'
+import { NDataTable } from 'naive-ui'
+import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { resolveSlotWithProps, resolveWrappedSlot } from '../_utils/resolve-slot'
 import { ProCard } from '../card'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { ProSearchForm } from './components/search-form'
-import DataTableSetting from './components/toolbar-setting/toolbar-setting'
 import { useCheckedRowKeys } from './composables/useCheckedRowKeys'
 import { useColumns } from './composables/useColumns'
-import { useDataTableSize } from './composables/useDataTableSize'
 import { useDraggableSort } from './composables/useDraggableSort'
 import { useNDataTableInst } from './composables/useNDataTableInst'
 import { useRowProps } from './composables/useRowProps'
-import { proDataTableConfigKey } from './context'
 import { proDataTableExtendProps, proDataTableProps } from './props'
 import style from './styles/index.cssr'
 
@@ -59,10 +56,6 @@ export default defineComponent({
 
     const {
       columns,
-      getColumns,
-      setColumns,
-      getCacheColumns,
-      setCacheColumns,
     } = useColumns(overridedProps, { dragHandleId })
 
     const {
@@ -77,17 +70,11 @@ export default defineComponent({
       clearCheckedRowKeys,
     })
 
-    const {
-      size,
-      setSize: setTableSize,
-    } = useDataTableSize(overridedProps)
-
     const nDataTableProps = computed<DataTableProps>(() => {
       return {
         ...dataTableProps.value,
         rowProps,
         'remote': true,
-        'size': size.value,
         'columns': columns.value,
         'checkedRowKeys': checkedRowKeys.value,
         'onUpdateCheckedRowKeys': setCheckedRowKeys,
@@ -155,15 +142,6 @@ export default defineComponent({
     }
 
     expose(exposed)
-    provide(proDataTableConfigKey, {
-      getColumns,
-      setColumns,
-      setTableSize,
-      getCacheColumns,
-      setCacheColumns,
-      tableSize: size,
-      toolbarSetting: computed(() => overridedProps.value.toolbarSetting ?? {}),
-    })
     return {
       nDataTableInst,
       nDataTableProps,
@@ -198,14 +176,7 @@ export default defineComponent({
             <ProCard {...this.nTableCardProps}>
               {{
                 'header': this.$slots.title,
-                'header-extra': () => {
-                  return (
-                    <NFlex align="center">
-                      {this.$slots.toolbar?.()}
-                      <DataTableSetting />
-                    </NFlex>
-                  )
-                },
+                'header-extra': this.$slots.toolbar,
                 'default': () => {
                   const tableDom = (
                     <NDataTable

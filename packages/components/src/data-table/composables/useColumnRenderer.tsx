@@ -1,6 +1,7 @@
-import type { DataTableColumn, PaginationProps } from 'naive-ui'
+import type { DataTableColumn } from 'naive-ui'
 import type { TableColumnGroupTitle, TableColumnTitle, TableExpandColumnTitle } from 'naive-ui/es/data-table/src/interface'
-import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef } from 'vue'
+import type { ProDataTableProps } from '../props'
 import type { ProDataTableBaseColumn, ProDataTableIndexColumn } from '../types'
 import { DragOutlined, InfoCircleOutlined } from '@vicons/antd'
 import { isFunction, toString } from 'lodash-es'
@@ -15,13 +16,11 @@ export const indexColumnKey = '__INDEX_COLUMN__'
 
 interface CreateColumnRendererOptions {
   dragHandleId: string
-  columns: Ref<DataTableColumn[]>
-  pagination: ComputedRef<PaginationProps | false | undefined>
+  props: ComputedRef<ProDataTableProps>
 }
 export function useColumnRenderer(options: CreateColumnRendererOptions) {
   const {
-    columns,
-    pagination,
+    props,
     dragHandleId,
   } = options
 
@@ -30,7 +29,8 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
   } = useLocale('ProDataTable')
 
   const hasFixedLeftColumn = computed(() => {
-    return columns.value.some(column => column.fixed === 'left')
+    const columns = props.value.columns ?? []
+    return columns.some(column => column.fixed === 'left')
   })
 
   function renderTooltipTitle(
@@ -87,14 +87,14 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       title: getMessage('indexColumn'),
       fixed: hasFixedLeftColumn.value ? 'left' : undefined,
       render(row, rowIndex) {
-        if (pagination.value === false) {
+        if (props.value.pagination === false) {
           const index = rowIndex + 1
           return render
             ? render(index, row, rowIndex)
             : index
         }
-        const page = Math.max(1, pagination.value?.page ?? 1)
-        const pageSize = Math.max(1, pagination.value?.pageSize ?? 10)
+        const page = Math.max(1, props.value.pagination?.page ?? 1)
+        const pageSize = Math.max(1, props.value.pagination?.pageSize ?? 10)
         const index = (page - 1) * pageSize + rowIndex + 1
         return render
           ? render(index, row, rowIndex)
