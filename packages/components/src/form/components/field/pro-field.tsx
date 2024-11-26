@@ -83,7 +83,6 @@ export default defineComponent({
 
     field[fieldExtraKey] = {
       readonly: mergedReadonly,
-      valueType: props.valueType,
     }
 
     return {
