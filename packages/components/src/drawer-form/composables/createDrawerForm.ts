@@ -36,5 +36,5 @@ export function createDrawerForm<Values = any>(options: CreateProFormOptions<Val
 }
 
 export function useInjectDrawerForm<Values = any>() {
-  return useInjectProForm() as any as CreateDrawerFormReturn<Values> | undefined
+  return useInjectProForm() as any as CreateDrawerFormReturn<Values> | null
 }

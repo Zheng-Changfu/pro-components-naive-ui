@@ -283,8 +283,8 @@ export function provideProForm(form: CreateProFormReturn) {
   provide(proFormContextKey, form)
 }
 
-export function useInjectProForm<Values = any>(): Simplify<CreateProFormReturn<Values>> | undefined {
-  return inject(proFormContextKey)
+export function useInjectProForm<Values = any>(): Simplify<CreateProFormReturn<Values>> | null {
+  return inject(proFormContextKey, null)
 }
 
 export type ExtendProForm<V = any, PM extends object = object, PO extends object = object> = Merge<
