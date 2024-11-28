@@ -32,8 +32,6 @@ interface UsePostValueOptions<
   transform?: Transform
 }
 
-export const AUTO_CREATE_UNIQUE_ID = 'AUTO_CREATE_UNIQUE_ID'
-
 export function usePostValue<T extends MaybeRef<PostValueProps>, UN extends true, UF extends false, UTEA extends false, TF extends undefined>(props: T, options: UsePostValueOptions<UN, UF, UTEA, TF>): any
 export function usePostValue<T extends MaybeRef<PostValueProps>, UN extends false, UF extends true, UTEA extends false, TF extends undefined>(props: T, options: UsePostValueOptions<UN, UF, UTEA, TF>): any
 export function usePostValue<T extends MaybeRef<PostValueProps>, UN extends false, UF extends false, UTEA extends true, TF extends undefined>(props: T, options: UsePostValueOptions<UN, UF, UTEA, TF>): any
