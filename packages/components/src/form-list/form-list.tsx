@@ -12,7 +12,7 @@ import style from './styles/index.cssr'
 
 const name = 'ProFormList'
 export default defineComponent({
-  name: 'ProFormList',
+  name,
   props: proFormListProps,
   slots: Object as SlotsType<ProFormListSlots>,
   setup(props, { expose }) {
