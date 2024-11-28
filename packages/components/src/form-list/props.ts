@@ -55,9 +55,14 @@ export type ContainerRender = (opt: {
 
 export const proFormListProps = {
   /**
-   * 额外的字段属性，不支持 fieldProps
+   * FormList 本身也是一个字段，可以被校验
    */
-  ...omit(proFieldProps, ['fieldProps']),
+  ...omit(proFieldProps, [
+    'onChange',
+    'postValue',
+    'fieldProps',
+    'onInputValue',
+  ]),
   /**
    * 添加一行按钮显示在顶部还是底部
    *  顶部：每次添加数据都添加在首行
