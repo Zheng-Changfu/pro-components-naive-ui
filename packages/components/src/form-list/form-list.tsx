@@ -27,7 +27,7 @@ export default defineComponent({
       props,
     )
 
-    const splitProps = computed(() => {
+    const decompositionProps = computed(() => {
       const {
         min,
         max,
@@ -43,7 +43,7 @@ export default defineComponent({
 
       return {
         proFieldProps,
-        fieldListProps: {
+        formListProps: {
           min,
           max,
           position,
@@ -65,8 +65,8 @@ export default defineComponent({
 
     expose(exposed)
     return {
-      splitProps,
       mergedClsPrefix,
+      decompositionProps,
     }
   },
   render() {
@@ -74,11 +74,11 @@ export default defineComponent({
 
     return (
       <ProField
-        {...this.splitProps.proFieldProps}
+        {...this.decompositionProps.proFieldProps}
         isList={true}
         valueModelName=""
         class={[`${mergedClsPrefix}-pro-form-list`]}
-        fieldProps={this.splitProps.fieldListProps}
+        fieldProps={this.decompositionProps.formListProps}
       >
         {{
           ...this.$slots,
