@@ -83,22 +83,24 @@ export default defineComponent({
     })
 
     /**
-     * 包裹表格的卡片如果没有头部区域，则取消 padding
+     * 包裹表格的卡片是否有头部区域
      */
-    const unTableCardPadding = computed(() => {
+    const tableCardExistHeader = computed(() => {
       const {
         title,
         tooltip,
         tableCardProps = {},
       } = overridedProps.value
 
-      return !title
-        && !slots.title
-        && !slots.toolbar
-        && !(tableCardProps ?? {}).title
-        && (!tooltip || tooltip.length <= 0)
-        && (!tableCardProps.tooltip || tableCardProps.tooltip.length <= 0)
-        && !tableCardProps.headerExtra
+      return !!(
+        title
+        || tooltip
+        || slots.title
+        || slots.toolbar
+        || (tableCardProps ?? {}).title
+        || tableCardProps.tooltip
+        || tableCardProps.headerExtra
+      )
     })
 
     const nTableCardProps = computed<ProCardProps>(() => {
@@ -114,9 +116,10 @@ export default defineComponent({
         triggerAreas: [],
         segmented: false,
         showCollapse: false,
+        bordered: tableCardExistHeader.value,
         ...tableCardProps,
         contentStyle: {
-          ...(unTableCardPadding.value ? { padding: 0 } : {}),
+          ...(tableCardExistHeader.value ? {} : { padding: 0 }),
           // @ts-ignore
           ...(tableCardProps.contentStyle ?? {}),
         },
@@ -140,7 +143,6 @@ export default defineComponent({
       downloadCsv,
       clearFilters,
     }
-
     expose(exposed)
     return {
       nDataTableInst,
@@ -167,7 +169,6 @@ export default defineComponent({
               <ProCard {...this.searchCardProps}>
                 {/* @ts-ignore */}
                 <ProSearchForm
-                  ref="searchFormInst"
                   {...this.searchFormProps}
                   v-slots={this.$slots}
                 />
