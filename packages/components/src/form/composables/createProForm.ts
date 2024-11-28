@@ -3,7 +3,7 @@ import type { BaseForm, FormOptions, InternalPath } from 'pro-composables'
 import type { Merge, Paths, Simplify, SimplifyDeep } from 'type-fest'
 import type { ComputedRef, Ref } from 'vue'
 import type { FieldExtraInfo } from '../components'
-import { isString, toPath } from 'lodash-es'
+import { isString } from 'lodash-es'
 import { createForm, stringifyPath } from 'pro-composables'
 import { computed, inject, nextTick, provide, ref } from 'vue'
 import { fieldExtraKey } from '../components'
@@ -148,7 +148,7 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
         value,
         depPath,
       } = opt
-      validate(stringifyPath(opt.depPath))
+      validate(opt.depPath)
       if (options.onDependenciesValueChange) {
         options.onDependenciesValueChange({
           path,
@@ -159,7 +159,7 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     }
   }
 
-  function validate(paths?: string | string[]) {
+  function validate(paths?: InternalPath) {
     if (!paths) {
       return nFormInst.value?.validate(addValidateResults)
     }
@@ -195,32 +195,29 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
       nFormInst.value?.restoreValidation()
       return
     }
-    const normalizedPaths = (isString(paths) ? [paths] : paths).map(stringifyPath) as Array<string>
-    normalizedPaths.forEach((path) => {
-      const field = fieldStore.fieldsPathMap.value.get(path)
-      if (!field || !field[fieldExtraKey])
-        return
+    const field = fieldStore.getFieldByPath(paths)
+    if (field && field[fieldExtraKey]) {
       const { proFormItemInst } = field[fieldExtraKey] as FieldExtraInfo
       const formItemInst = proFormItemInst.value
       formItemInst && formItemInst.restoreValidation()
-    })
+    }
   }
 
   function restoreFieldValue(path: InternalPath) {
     pauseDependenciesTrigger()
     resetFieldValue(path)
-    onReset && onReset()
+    restoreValidation(path)
     clearValidationResults(path)
-    restoreValidation(toPath(path))
+    onReset && onReset()
     nextTick(resumeDependenciesTrigger)
   }
 
   function restoreFieldsValue() {
     pauseDependenciesTrigger()
     resetFieldsValue()
-    onReset && onReset()
     restoreValidation()
     clearValidationResults()
+    onReset && onReset()
     nextTick(resumeDependenciesTrigger)
   }
 
