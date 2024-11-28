@@ -1,5 +1,5 @@
 import type { FormInst } from 'naive-ui'
-import type { BaseField, BaseForm, FormOptions, InternalPath } from 'pro-composables'
+import type { BaseForm, FormOptions, InternalPath } from 'pro-composables'
 import type { Merge, Paths, Simplify, SimplifyDeep } from 'type-fest'
 import type { ComputedRef, Ref } from 'vue'
 import type { FieldExtraInfo } from '../components'
@@ -96,13 +96,13 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     onSubmit,
     initialValues,
     onSubmitFailed,
-    onFieldValueChange,
+    onValuesChange,
     validateOnDependenciesValueChange = true,
   } = options
 
   const internalForm = createForm({
     initialValues,
-    onFieldValueChange,
+    onValuesChange,
     onDependenciesValueChange,
   })
 
@@ -140,26 +140,21 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
   function onDependenciesValueChange(opt: {
     value: any
     path: string[]
-    field: BaseField
-    dependPath: string[]
+    depPath: string[]
   }) {
     if (validateOnDependenciesValueChange) {
       const {
-        field,
         path,
         value,
-        dependPath,
+        depPath,
       } = opt
-      if (field.show.value) {
-        validate(stringifyPath(opt.dependPath))
-        if (options.onDependenciesValueChange) {
-          options.onDependenciesValueChange({
-            path,
-            value,
-            field,
-            dependPath,
-          })
-        }
+      validate(stringifyPath(opt.depPath))
+      if (options.onDependenciesValueChange) {
+        options.onDependenciesValueChange({
+          path,
+          value,
+          depPath,
+        })
       }
     }
   }
