@@ -5,12 +5,11 @@ import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
 import { omit } from 'lodash-es'
 import { NFlex, NIcon, useThemeVars } from 'naive-ui'
-import { useInjectListField } from 'pro-composables'
+import { ROW_UUID, useInjectListField } from 'pro-composables'
 import { computed, defineComponent, Fragment, inject, provide, ref, toRef } from 'vue'
 import { useInjectProForm } from '../../../components'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
 import { ProButton } from '../../button'
-import { AUTO_CREATE_UNIQUE_ID } from '../../composables'
 import { useReadonlyHelpers } from '../../form/components'
 import { useInjectProFormConfig } from '../../form/context'
 import { useLocale } from '../../locales'
@@ -116,7 +115,7 @@ const Action = defineComponent({
         copyLoading.value = true
         const success = await beforeAddRow({ index, insertIndex, total: list.value.length })
         if (success) {
-          insert(insertIndex, omit(row, AUTO_CREATE_UNIQUE_ID))
+          insert(insertIndex, omit(row, ROW_UUID))
           if (afterAddRow) {
             afterAddRow({ index, insertIndex, total: list.value.length })
           }
@@ -124,7 +123,7 @@ const Action = defineComponent({
         copyLoading.value = false
       }
       else {
-        insert(insertIndex, omit(row, AUTO_CREATE_UNIQUE_ID))
+        insert(insertIndex, omit(row, ROW_UUID))
         if (afterAddRow) {
           afterAddRow({ index, insertIndex, total: list.value.length })
         }
