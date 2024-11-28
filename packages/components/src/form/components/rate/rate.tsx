@@ -18,7 +18,7 @@ export default defineComponent({
     )
 
     const postValue = usePostValue(overridedProps, {
-      undefToNull: true,
+      nilToNull: true,
     })
 
     return {
