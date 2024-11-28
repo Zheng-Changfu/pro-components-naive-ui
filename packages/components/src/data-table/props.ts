@@ -1,4 +1,3 @@
-import type { PaginationProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProSearchFormProps } from './components/search-form'

@@ -5,7 +5,7 @@
 <script lang="tsx">
 import type { ProDataTableColumns } from 'pro-naive-ui'
 import { random } from 'lodash-es'
-import { defineComponent, ref, toRaw } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
