@@ -35,7 +35,7 @@ const AsyncOptionsComp = defineComponent({
     const options = ref<any[]>([])
 
     /**
-     * 当上层使用了 createProForm 时，在子组件中可以使用 useInjectProForm 注入
+     * 当上层使用了 pro-form 组件，在子组件中可以使用 useInjectProForm 注入
      */
     const {
       getFieldValue: get,

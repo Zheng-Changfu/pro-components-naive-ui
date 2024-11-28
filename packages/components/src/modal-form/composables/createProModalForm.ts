@@ -36,5 +36,5 @@ export function createProModalForm<Values = any>(options: CreateProFormOptions<V
 }
 
 export function useInjectProModalForm<Values = any>() {
-  return useInjectProForm() as any as CreateProModalFormReturn<Values> | undefined
+  return useInjectProForm() as any as CreateProModalFormReturn<Values> | null
 }

@@ -2,7 +2,7 @@ import type { PaginationProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProSearchFormProps } from './components/search-form'
-import type { ProDataTableColumns, ProDataTableToolbarSetting } from './types'
+import type { ProDataTableColumns } from './types'
 import { dataTableProps } from 'naive-ui'
 
 export const proDataTableExtendProps = {
@@ -31,13 +31,6 @@ export const proDataTableExtendProps = {
    */
   searchFormProps: [Boolean, Object] as PropType<false | ProSearchFormProps>,
   /**
-   * 工具栏配置
-   */
-  toolbarSetting: {
-    type: [Boolean, Object] as PropType<false | ProDataTableToolbarSetting>,
-    default: undefined,
-  },
-  /**
    * 配置了这个参数，会在该 key 对应的行显示拖拽行的把手，允许拖拽排序
    */
   dragSortKey: String,
@@ -61,13 +54,6 @@ export const proDataTableProps = {
    * 重写类型
    */
   columns: Array as PropType<ProDataTableColumns>,
-  /**
-   * 重写默认值
-   */
-  pagination: {
-    type: [Boolean, Object] as PropType<false | PaginationProps>,
-    default: undefined,
-  },
 } as const
 
 export type ProDataTableProps = ExtractPublicPropTypes<typeof proDataTableProps>
