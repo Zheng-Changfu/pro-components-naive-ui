@@ -3,7 +3,7 @@ import type { ProFormListSlots } from './slots'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
-import { useOverrideProps, usePostValue } from '../composables'
+import { useOverrideProps } from '../composables'
 import { ProField } from '../form/components'
 import FormList from './components/form-list'
 import { provideFormListInstStore } from './inst'
@@ -26,10 +26,6 @@ export default defineComponent({
       name,
       props,
     )
-
-    const postValue = usePostValue(overridedProps, {
-      mapAddUniqueId: true,
-    })
 
     const splitProps = computed(() => {
       const {
@@ -69,7 +65,6 @@ export default defineComponent({
 
     expose(exposed)
     return {
-      postValue,
       splitProps,
       mergedClsPrefix,
     }
@@ -82,7 +77,6 @@ export default defineComponent({
         {...this.splitProps.proFieldProps}
         isList={true}
         valueModelName=""
-        postValue={this.postValue}
         class={[`${mergedClsPrefix}-pro-form-list`]}
         fieldProps={this.splitProps.fieldListProps}
       >
