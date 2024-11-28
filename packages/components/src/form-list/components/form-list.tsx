@@ -5,7 +5,7 @@ import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
-import { useInjectListField } from 'pro-composables'
+import { ROW_UUID, useInjectListField } from 'pro-composables'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useInjectProForm } from '../../../components'
 import { resolveSlotWithProps } from '../../_utils/resolve-slot'
@@ -216,7 +216,7 @@ export default defineComponent({
     const listDom = list.map((item, index) => {
       return (
         <FormListItem
-          key={item[AUTO_CREATE_UNIQUE_ID]}
+          key={item[ROW_UUID]}
           min={min}
           max={max}
           index={index}
