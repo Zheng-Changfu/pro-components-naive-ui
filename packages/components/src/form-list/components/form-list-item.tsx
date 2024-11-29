@@ -8,6 +8,7 @@ import { NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { ROW_UUID, useInjectListField } from 'pro-composables'
 import { computed, defineComponent, Fragment, inject, provide, ref, toRef } from 'vue'
 import { useInjectProForm } from '../../../components'
+import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
 import { ProButton } from '../../button'
 import { useReadonlyHelpers } from '../../form/components'
@@ -216,6 +217,7 @@ export default defineComponent({
   setup(props) {
     const themeVars = useThemeVars()
     const action = useInjectProFormListInst()
+    const mergedClsPrefix = useNaiveClsPrefix()
     const nFormItem = inject<any>('n-form-item')
 
     const {
@@ -265,6 +267,7 @@ export default defineComponent({
       total,
       action,
       actionHeight,
+      mergedClsPrefix,
       validateBehavior,
     }
   },
@@ -278,6 +281,7 @@ export default defineComponent({
       $slots,
       action,
       actionHeight,
+      mergedClsPrefix,
       validateBehavior,
     } = this
 
@@ -336,14 +340,7 @@ export default defineComponent({
       itemDom,
       actionDom: resolvedActionDom,
     }, () => (
-      <div
-        style={{
-          display: 'flex',
-          gap: '0 16px',
-          flexWrap: 'wrap',
-          alignItems: 'flex-end',
-        }}
-      >
+      <div class={[`${mergedClsPrefix}-pro-form-list__item`]}>
         {itemDom}
         {resolvedActionDom}
       </div>
