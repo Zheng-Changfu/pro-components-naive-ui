@@ -41,14 +41,11 @@ export default defineComponent({
     const resolvedResetButtonProps = computed<ProButtonProps>(() => {
       return showResetButton.value
         ? {
-            content: getMessage(
-              'reset',
-              '取 消',
-            ),
             onClick: () => {
               props.form.close()
             },
             disabled: submiting.value,
+            content: getMessage('reset'),
             ...(props.resetButtonProps ?? {}),
           }
         : {}
@@ -58,14 +55,11 @@ export default defineComponent({
       return showSubmitButton.value
         ? {
             type: 'primary',
-            content: getMessage(
-              'submit',
-              '确 认',
-            ),
             onClick: () => {
               props.form.submit()
             },
             loading: submiting.value,
+            content: getMessage('submit'),
             ...(props.submitButtonProps ?? {}),
           }
         : {}
