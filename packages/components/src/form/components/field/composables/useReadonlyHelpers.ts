@@ -21,21 +21,17 @@ export function useReadonlyHelpers() {
     return isEmptyValue(field.value.value)
   })
 
-  const emptyText = computed(() => {
-    return unref(readonlyEmptyText) ?? '-'
-  })
-
   const readonlyText = computed(() => {
     return empty.value
-      ? emptyText.value
+      ? unref(readonlyEmptyText)
       : field.value.value
   })
 
   return {
     empty,
     readonly,
-    emptyText,
     readonlyText,
     value: field.value,
+    emptyText: readonlyEmptyText,
   }
 }
