@@ -1,3 +1,4 @@
+import type { Merge, Simplify } from 'type-fest'
 import type { VNodeChild } from 'vue'
 import type { ValidateError } from '../../props'
 import type { ProFormItemProps } from '../form-item'
@@ -33,3 +34,25 @@ export interface ProFieldSlots<InputProps = Record<string, any>> {
     proFormItemProps: ProFormItemProps
   }
 }
+
+interface ProFieldInputSlotsType<InputProps extends object> {
+  /**
+   * 是否为只读模式
+   */
+  readonly: boolean
+  /**
+   * 表单项节点（会根据 readonly 自动切换）
+   */
+  inputDom: VNodeChild
+  /**
+   * 传递给表单项的所有 props
+   */
+  inputProps: InputProps
+}
+
+export type ProFieldSharedSlots<InputProps extends object> = Merge<
+  ProFieldSlots,
+  {
+    input: Simplify<ProFieldInputSlotsType<InputProps>>
+  }
+>
