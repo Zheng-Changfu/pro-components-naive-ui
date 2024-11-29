@@ -50,9 +50,9 @@ export default defineComponent({
     }) {
       const {
         maxSize,
+        onOverSize,
         onUnAcceptType,
         onlyAcceptImage,
-        onOverFileMaxSize,
         onBeforeUpload: propOnBeforeUpload,
       } = props
 
@@ -74,7 +74,7 @@ export default defineComponent({
         && fileSize
         && fileSize > maxSize
       ) {
-        onOverFileMaxSize && onOverFileMaxSize(maxSize, data)
+        onOverSize && onOverSize(maxSize, data)
         return false
       }
 
