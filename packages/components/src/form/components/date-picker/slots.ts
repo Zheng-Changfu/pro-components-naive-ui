@@ -1,6 +1,7 @@
-import type { ProFieldSlots } from '../field'
+import type { DatePickerProps } from 'naive-ui'
+import type { ProFieldSharedSlots } from '../field'
 
-export interface ProDatePickerSlots extends ProFieldSlots {
+export interface ProDatePickerSlots extends ProFieldSharedSlots<DatePickerProps> {
   'footer': any
   'prev-year': any
   'next-year': any

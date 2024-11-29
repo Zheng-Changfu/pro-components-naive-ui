@@ -1,4 +1,6 @@
 import type { TransferProps } from 'naive-ui'
+import type { SlotsType, VNodeChild } from 'vue'
+import type { ProTransferSlots } from '../slots'
 import { get, omit } from 'lodash-es'
 import { NTransfer, transferProps } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
@@ -13,6 +15,7 @@ export default defineComponent({
     valueField: String,
     placeholder: Array,
   },
+  slots: Object as SlotsType<ProTransferSlots>,
   setup(props) {
     const {
       empty,
@@ -66,19 +69,29 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      const { empty, emptyText, selectedLabels } = this
+    let dom: VNodeChild
 
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      if (empty) {
-        return emptyText
-      }
-      return selectedLabels.join('，')
+    if (this.readonly) {
+      dom = this.empty
+        ? this.emptyText
+        : this.selectedLabels.join('，')
     }
-    return (
-      <NTransfer {...this.$attrs} {...this.nTransferProps} />
-    )
+    else {
+      dom = (
+        <NTransfer
+          {...this.$attrs}
+          {...this.nTransferProps}
+          v-slots={this.$slots}
+        />
+      )
+    }
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.nTransferProps,
+      })
+      : dom
   },
 })

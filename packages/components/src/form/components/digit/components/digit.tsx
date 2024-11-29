@@ -1,4 +1,4 @@
-import type { SlotsType } from 'vue'
+import type { SlotsType, VNodeChild } from 'vue'
 import type { ProDigitSlots } from '../slots'
 import { inputNumberProps, NFlex, NInputNumber } from 'naive-ui'
 import { defineComponent } from 'vue'
@@ -37,30 +37,36 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      const { value, empty, emptyText, $slots } = this
+    let dom: VNodeChild
 
-      if ($slots.readonly) {
-        return $slots.readonly(this.$props)
-      }
-      if (empty) {
-        return emptyText
-      }
-      return (
-        <NFlex size={[8, 0]}>
-          {$slots.prefix && <span>{this.$slots.prefix()}</span>}
-          <span>{value}</span>
-          {$slots.suffix && <span>{this.$slots.suffix()}</span>}
-        </NFlex>
+    if (this.readonly) {
+      dom = this.empty
+        ? this.emptyText
+        : (
+            <NFlex size={[8, 0]}>
+              {this.$slots.prefix && <span>{this.$slots.prefix()}</span>}
+              <span>{this.value}</span>
+              {this.$slots.suffix && <span>{this.$slots.suffix()}</span>}
+            </NFlex>
+          )
+    }
+    else {
+      dom = (
+        <NInputNumber
+          ref="instRef"
+          {...this.$props}
+          {...this.$attrs}
+          v-slots={this.$slots}
+        />
       )
     }
-    return (
-      <NInputNumber
-        ref="instRef"
-        {...this.$props}
-        {...this.$attrs}
-        v-slots={this.$slots}
-      />
-    )
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.$props,
+      })
+      : dom
   },
 })

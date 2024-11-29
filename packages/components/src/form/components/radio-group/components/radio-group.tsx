@@ -1,9 +1,10 @@
 import type { FlexProps, RadioGroupProps, RadioProps } from 'naive-ui'
-import type { PropType, SlotsType } from 'vue'
+import type { PropType, SlotsType, VNodeChild } from 'vue'
 import type { ProRadioGroupSlots } from '../slots'
 import { get, omit } from 'lodash-es'
 import { NFlex, NRadio, NRadioGroup, radioGroupProps } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
+import { resolveSlot } from '../../../../_utils/resolve-slot'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
@@ -70,39 +71,44 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      const { empty, value, emptyText, selectedLabel } = this
+    let dom: VNodeChild
 
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      if (empty) {
-        return emptyText
-      }
-      if (this.$slots.default) {
-        return value
-      }
-      return selectedLabel
+    if (this.readonly) {
+      dom = this.empty
+        ? this.emptyText
+        : this.$slots.default
+          ? this.value
+          : this.selectedLabel
     }
-    return (
-      <NRadioGroup {...this.nRadioGroupProps} {...this.$attrs}>
-        {{
-          default: () => {
-            if (this.$slots.default) {
-              return this.$slots.default()
-            }
-            return (
-              <NFlex {...(this.$props.flexProps ?? {})}>
-                {
-                  this.normalizedOptions.map((item) => {
-                    return <NRadio key={item.value} {...item} />
-                  })
-                }
-              </NFlex>
-            )
-          },
-        }}
-      </NRadioGroup>
-    )
+    else {
+      dom = (
+        <NRadioGroup
+          {...this.$attrs}
+          {...this.nRadioGroupProps}
+        >
+          {{
+            default: () => {
+              return resolveSlot(this.$slots.default, () => [
+                <NFlex {...(this.$props.flexProps ?? {})}>
+                  {
+                    this.normalizedOptions.map((item) => {
+                      return <NRadio key={item.value} {...item} />
+                    })
+                  }
+                </NFlex>,
+              ])
+            },
+          }}
+        </NRadioGroup>
+      )
+    }
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.nRadioGroupProps,
+      })
+      : dom
   },
 })

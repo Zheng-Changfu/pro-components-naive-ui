@@ -1,6 +1,7 @@
-import type { ProFieldSlots } from '../field'
+import type { AutoCompleteProps } from 'naive-ui'
+import type { ProFieldSharedSlots } from '../field'
 
-export interface ProAutoCompleteSlots extends ProFieldSlots {
+export interface ProAutoCompleteSlots extends ProFieldSharedSlots<AutoCompleteProps> {
   default: {
     value: string
     theme: string | null

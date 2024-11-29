@@ -1,6 +1,7 @@
-import type { ProFieldSlots } from '../field'
+import type { InputProps } from 'naive-ui'
+import type { ProFieldSharedSlots } from '../field'
 
-export interface ProInputSlots extends ProFieldSlots {
+export interface ProInputSlots extends ProFieldSharedSlots<InputProps> {
   'count': any
   'prefix': any
   'suffix': any

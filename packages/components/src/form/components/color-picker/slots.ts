@@ -1,7 +1,10 @@
-import type { ProFieldSlots } from '../field'
+import type { ColorPickerProps } from 'naive-ui'
+import type { ProFieldSharedSlots } from '../field'
 
-export interface ProColorPickerSlots extends ProFieldSlots {
-  action: any
-  // 原名 label，但是和 form-item 冲突，这里用 title
-  title: string | null
+export interface ProColorPickerSlots extends ProFieldSharedSlots<ColorPickerProps> {
+  'action': any
+  /**
+   * 原名 label，但是有冲突，这里用 naive-label
+   */
+  'naive-label': string | null
 }

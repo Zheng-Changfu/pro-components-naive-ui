@@ -1,4 +1,4 @@
-import type { SlotsType } from 'vue'
+import type { SlotsType, VNodeChild } from 'vue'
 import type { ProDynamicTagsSlots } from '../slots'
 import { dynamicTagsProps, NDynamicTags } from 'naive-ui'
 import { defineComponent } from 'vue'
@@ -23,31 +23,37 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      const { empty, emptyText } = this
-
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      if (empty) {
-        return emptyText
-      }
-      return (
-        <NDynamicTags
-          {...this.$props}
-          {...this.$attrs}
-          closable={false}
-          disabled={true}
-          v-slots={this.$slots}
-        />
-      )
+    const slots = {
+      ...this.$slots,
+      input: this.$slots['naive-input'],
     }
-    return (
-      <NDynamicTags
-        {...this.$props}
-        {...this.$attrs}
-        v-slots={this.$slots}
-      />
-    )
+
+    const closable = !this.readonly
+      ? false
+      : this.$props.closable
+
+    const disabled = this.readonly
+      ? true
+      : this.$props.disabled
+
+    const dom = this.readonly && this.empty
+      ? this.emptyText
+      : (
+          <NDynamicTags
+            {...this.$props}
+            {...this.$attrs}
+            closable={closable}
+            disabled={disabled}
+            v-slots={slots}
+          />
+        )
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.$props,
+      })
+      : dom
   },
 })

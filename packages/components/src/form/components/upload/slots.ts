@@ -1,5 +1,6 @@
-import type { ProFieldSlots } from '../field'
+import type { UploadProps } from 'naive-ui'
+import type { ProFieldSharedSlots } from '../field'
 
-export interface ProUploadSlots extends ProFieldSlots {
+export interface ProUploadSlots extends ProFieldSharedSlots<UploadProps> {
   default: any
 }

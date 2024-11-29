@@ -173,28 +173,34 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      const { empty, emptyText, selectedLabels } = this
+    let dom: VNodeChild
 
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      if (empty) {
-        return emptyText
-      }
-      return (
-        <NFlex size={[8, 0]}>
-          {selectedLabels}
-        </NFlex>
+    if (this.readonly) {
+      dom = this.empty
+        ? this.emptyText
+        : (
+            <NFlex size={[8, 0]}>
+              {this.selectedLabels}
+            </NFlex>
+          )
+    }
+    else {
+      dom = (
+        <NTreeSelect
+          ref="instRef"
+          {...this.$attrs}
+          {...this.nTreeSelectProps}
+          v-slots={this.$slots}
+        />
       )
     }
-    return (
-      <NTreeSelect
-        ref="instRef"
-        {...this.$attrs}
-        {...this.nTreeSelectProps}
-        v-slots={this.$slots}
-      />
-    )
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.nTreeSelectProps,
+      })
+      : dom
   },
 })

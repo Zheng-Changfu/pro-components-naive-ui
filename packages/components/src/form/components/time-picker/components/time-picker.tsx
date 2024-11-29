@@ -1,5 +1,5 @@
 import type { TimePickerProps } from 'naive-ui'
-import type { PropType, SlotsType } from 'vue'
+import type { PropType, SlotsType, VNodeChild } from 'vue'
 import type { ProTimePickerSlots } from '../slots'
 import { isString } from 'lodash-es'
 import { NTimePicker, timePickerProps } from 'naive-ui'
@@ -89,24 +89,30 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      const { empty, emptyText, displayDateText } = this
+    let dom: VNodeChild
 
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      if (empty) {
-        return emptyText
-      }
-      return displayDateText
+    if (this.readonly) {
+      dom = this.empty
+        ? this.emptyText
+        : this.displayDateText
     }
-    return (
-      <NTimePicker
-        ref="instRef"
-        {...this.$attrs}
-        {...this.nTimePickerProps}
-        v-slots={this.$slots}
-      />
-    )
+    else {
+      dom = (
+        <NTimePicker
+          ref="instRef"
+          {...this.$attrs}
+          {...this.nTimePickerProps}
+          v-slots={this.$slots}
+        />
+      )
+    }
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.nTimePickerProps,
+      })
+      : dom
   },
 })

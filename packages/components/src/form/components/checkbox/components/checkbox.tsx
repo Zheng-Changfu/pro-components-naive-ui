@@ -30,26 +30,26 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      return (
-        <NCheckbox
-          {...this.$props}
-          {...this.$attrs}
-          disabled={true}
-          v-slots={this.$slots}
-        />
-      )
-    }
-    return (
+    const disabled = this.readonly
+      ? true
+      : this.$props.disabled
+
+    const dom = (
       <NCheckbox
         ref="instRef"
         {...this.$props}
         {...this.$attrs}
+        disabled={disabled}
         v-slots={this.$slots}
       />
     )
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.$props,
+      })
+      : dom
   },
 })
