@@ -1,4 +1,4 @@
-import type { SlotsType, VNodeChild } from 'vue'
+import type { SlotsType } from 'vue'
 import type { ProMentionSlots } from '../slots'
 import { mentionProps, NMention } from 'naive-ui'
 import { defineComponent } from 'vue'

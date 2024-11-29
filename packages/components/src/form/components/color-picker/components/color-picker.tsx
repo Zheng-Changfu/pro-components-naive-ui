@@ -1,4 +1,4 @@
-import type { SlotsType, VNodeChild } from 'vue'
+import type { SlotsType } from 'vue'
 import type { ProColorPickerSlots } from '../slots'
 import { colorPickerProps, NColorPicker } from 'naive-ui'
 import { defineComponent } from 'vue'
