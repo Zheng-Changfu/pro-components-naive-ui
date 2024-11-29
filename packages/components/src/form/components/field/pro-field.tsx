@@ -1,8 +1,7 @@
-import type { SlotsType } from 'vue'
+import type { SlotsType, VNodeChild } from 'vue'
 import type { ProFormItemProps } from '../form-item'
 import type { ProFieldSlots } from './slots'
-import { NFlex } from 'naive-ui'
-import { computed, defineComponent, Fragment } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { ProFormItem } from '../form-item'
 import { ProPopoverFormItem } from '../popover-form-item'
 import { createField } from './composables/createField'
@@ -35,7 +34,7 @@ export default defineComponent({
       mergedValidateBehaviorProps,
     } = useMergeOptions(props, { field })
 
-    const fieldBindProps = computed(() => {
+    const inputProps = computed(() => {
       const fieldProps = props.fieldProps ?? {}
       if (mergedPlaceholder.value === undefined) {
         return {
@@ -50,7 +49,7 @@ export default defineComponent({
       }
     })
 
-    const proFormItemBindProps = computed<ProFormItemProps>(() => {
+    const proFormItemProps = computed<ProFormItemProps>(() => {
       return {
         ...attrs,
         size: props.size,
@@ -86,9 +85,9 @@ export default defineComponent({
     }
 
     return {
-      fieldBindProps,
+      inputProps,
       show: field.show,
-      proFormItemBindProps,
+      proFormItemProps,
       mergedValidateBehavior,
       mergedValidateBehaviorProps,
       validationStatus: useValidationStatus(field),
@@ -99,59 +98,14 @@ export default defineComponent({
       return null
     }
 
-    const renderFieldGroup = () => {
-      const {
-        $slots,
-        addonAfter,
-        addonBefore,
-        fieldBindProps,
-      } = this
-
-      const groupRender = $slots.group
-      const FieldComp = $slots.input?.(fieldBindProps)
-      const addonAfterRender = $slots['addon-after'] ?? (() => addonAfter)
-      const addonBeforeRender = $slots['addon-before'] ?? (() => addonBefore)
-
-      if (
-        !addonAfter
-        && !addonBefore
-        && !$slots['addon-after']
-        && !$slots['addon-before']
-      ) {
-        return FieldComp
-      }
-
-      const FieldGroupComp = (
-        <Fragment>
-          {addonBeforeRender()}
-          {FieldComp}
-          {addonAfterRender()}
-        </Fragment>
-      )
-
-      if (groupRender) {
-        return groupRender(FieldGroupComp)
-      }
-
-      return (
-        <NFlex
-          wrap={false}
-          align="center"
-          size={[8, 0]}
-          style={{ width: '100%' }}
-        >
-          {FieldGroupComp}
-        </NFlex>
-      )
-    }
-
     if (this.simple) {
       // 简单模式下不包裹 ProFormItem
-      return renderFieldGroup()
+      return this.$slots.input(this.inputProps)
     }
 
     const {
-      proFormItemBindProps,
+      proFormItemProps,
+      validationStatus,
       mergedValidateBehavior,
       mergedValidateBehaviorProps,
     } = this
@@ -161,55 +115,40 @@ export default defineComponent({
       feedback: this.$slots.feedback,
     }
 
-    if (this.$slots.validation) {
-      const formItemDom = (
-        <ProFormItem
-          {...proFormItemBindProps}
-          showFeedback={false}
-          v-slots={{
-            ...proFormItemSlots,
-            default: renderFieldGroup,
-          }}
-        />
-      )
-
-      const {
-        errors,
-        warnings,
-        feedbacks,
-        feedbackColor,
-      } = this.validationStatus
-
-      return this.$slots.validation({
-        formItemDom,
-        errors: errors.value,
-        warnings: warnings.value,
-        feedbacks: feedbacks.value,
-        feedbackColor: feedbackColor.value,
-      })
-    }
+    let formItemDom: VNodeChild
 
     if (mergedValidateBehavior === 'popover') {
-      return (
+      formItemDom = (
         <ProPopoverFormItem
-          {...proFormItemBindProps}
+          {...proFormItemProps}
           popoverProps={mergedValidateBehaviorProps}
           v-slots={{
             ...proFormItemSlots,
-            default: renderFieldGroup,
+            default: () => this.$slots.input(this.inputProps),
           }}
         />
       )
     }
 
-    return (
+    formItemDom = (
       <ProFormItem
-        {...proFormItemBindProps}
+        {...proFormItemProps}
         v-slots={{
           ...proFormItemSlots,
-          default: renderFieldGroup,
+          default: () => this.$slots.input(this.inputProps),
         }}
       />
     )
+
+    return this.$slots['form-item']
+      ? this.$slots['form-item']({
+        proFormItemProps,
+        proFormItemDom: formItemDom,
+        errors: validationStatus.errors.value,
+        warnings: validationStatus.warnings.value,
+        feedbacks: validationStatus.feedbacks.value,
+        feedbackColor: validationStatus.feedbackColor.value,
+      })
+      : formItemDom
   },
 })
