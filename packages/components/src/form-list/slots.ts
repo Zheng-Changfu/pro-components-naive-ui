@@ -1,8 +1,8 @@
-import type { ProFieldSlots } from '../form/components'
+import type { ProFieldSharedSlots } from '../form/components'
 import type { ProFormListInst } from './inst'
 import type { ActionRender, ContainerRender, ItemRender } from './props'
 
-export interface ProFormListSlots extends Omit<ProFieldSlots, 'default'> {
+export interface ProFormListSlots extends Omit<ProFieldSharedSlots<any>, 'input'> {
   default: {
     /**
      * 当前行索引
