@@ -23,10 +23,6 @@ export const zhComponentRoutes = [
     component: () => import('../../packages/components/src/button/demos/zhCN/index.demo-entry.md'),
   },
   {
-    path: 'tree',
-    component: () => import('../../packages/components/src/tree/demos/zhCN/index.demo-entry.md'),
-  },
-  {
     path: 'form',
     component: () => import('../../packages/components/src/form/demos/zhCN/index.demo-entry.md'),
   },
