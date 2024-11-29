@@ -4,7 +4,7 @@ import type { ProCheckboxGroupSlots } from '../slots'
 import { get, omit } from 'lodash-es'
 import { checkboxGroupProps, NCheckbox, NCheckboxGroup, NFlex } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
-import { resolveSlot } from '../../../../_utils/resolve-slot'
+import { resolveSlot } from '../../../../_utils/resolveSlot'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
