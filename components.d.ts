@@ -88,7 +88,6 @@ declare module 'vue' {
     ProSlider: typeof import('pro-naive-ui')['ProSlider']
     ProSwitch: typeof import('pro-naive-ui')['ProSwitch']
     ProTime: typeof import('pro-naive-ui')['ProTime']
-    ProTree: typeof import('pro-naive-ui')['ProTree']
     ProTreeSelect: typeof import('pro-naive-ui')['ProTreeSelect']
     ProUpload: typeof import('pro-naive-ui')['ProUpload']
     RouterLink: typeof import('vue-router')['RouterLink']
