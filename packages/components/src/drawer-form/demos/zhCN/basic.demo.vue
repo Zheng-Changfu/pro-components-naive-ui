@@ -4,7 +4,7 @@
 
 <script lang="tsx">
 import { useMessage } from 'naive-ui'
-import { createDrawerForm } from 'pro-naive-ui'
+import { createProDrawerForm } from 'pro-naive-ui'
 import { defineComponent } from 'vue'
 
 function delay(time: number) {
@@ -15,7 +15,7 @@ export default defineComponent({
   setup() {
     const message = useMessage()
 
-    const drawerForm = createDrawerForm<Partial<{ name: string, password: string }>>({
+    const drawerForm = createProDrawerForm<Partial<{ name: string, password: string }>>({
       onSubmit: async (values) => {
         await delay(2000)
         message.success('更新成功')
@@ -35,7 +35,7 @@ export default defineComponent({
   <n-button @click="open">
     新建表单
   </n-button>
-  <drawer-form
+  <pro-drawer-form
     :form="form"
     label-width="auto"
     label-placement="left"
@@ -44,5 +44,5 @@ export default defineComponent({
       <pro-input title="用户名1" path="name1" />
       <pro-input title="用户名2" path="name2" />
     </pro-drawer-content>
-  </drawer-form>
+  </pro-drawer-form>
 </template>

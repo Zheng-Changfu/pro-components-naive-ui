@@ -1,7 +1,7 @@
 import type { DrawerProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProFormProps } from '../form'
-import type { DrawerFormSlots } from './slots'
+import type { ProDrawerFormSlots } from './slots'
 import { pick } from 'lodash-es'
 import { drawerProps as _nDrawerProps, NDrawer } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
@@ -9,19 +9,19 @@ import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { useOverrideProps } from '../composables'
 import { proFormProps as _proFormProps, ProForm } from '../form'
-import { createDrawerForm } from './composables/createDrawerForm'
-import { drawerFormProps } from './props'
+import { createProDrawerForm } from './composables/createProDrawerForm'
+import { proDrawerFormProps } from './props'
 import style from './styles/index.cssr'
 
-const name = 'DrawerForm'
+const name = 'ProDrawerForm'
 export default defineComponent({
   name,
-  props: drawerFormProps,
-  slots: Object as SlotsType<DrawerFormSlots>,
+  props: proDrawerFormProps,
+  slots: Object as SlotsType<ProDrawerFormSlots>,
   setup(props) {
     let form = props.form
     if (!form && __DEV__) {
-      form = createDrawerForm()
+      form = createProDrawerForm()
     }
 
     const overridedProps = useOverrideProps(
@@ -94,7 +94,7 @@ export default defineComponent({
 
     useMountStyle(
       name,
-      'drawer-form',
+      'pro-drawer-form',
       style,
       mergedClsPrefix,
     )
@@ -109,7 +109,7 @@ export default defineComponent({
     return (
       <NDrawer
         class={[
-          `${this.mergedClsPrefix}-drawer-form`,
+          `${this.mergedClsPrefix}-pro-drawer-form`,
         ]}
         {...this.nDrawerProps}
       >

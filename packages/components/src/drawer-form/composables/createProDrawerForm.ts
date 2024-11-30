@@ -3,7 +3,7 @@ import type { CreateProFormOptions, ExtendProForm } from '../../form/composables
 import { computed, ref } from 'vue'
 import { extendProForm, useInjectProForm } from '../../form/composables/createProForm'
 
-export type CreateDrawerFormReturn<Values = any> = ExtendProForm<
+export type CreateProDrawerFormReturn<Values = any> = ExtendProForm<
   Values,
   {
     /**
@@ -20,7 +20,7 @@ export type CreateDrawerFormReturn<Values = any> = ExtendProForm<
     show: ComputedRef<boolean>
   }
 >
-export function createDrawerForm<Values = any>(options: CreateProFormOptions<Values> = {}): CreateDrawerFormReturn<Values> {
+export function createProDrawerForm<Values = any>(options: CreateProFormOptions<Values> = {}): CreateProDrawerFormReturn<Values> {
   const show = ref(false)
   return extendProForm(options, {
     open: () => {
@@ -35,6 +35,6 @@ export function createDrawerForm<Values = any>(options: CreateProFormOptions<Val
   }, { })
 }
 
-export function useInjectDrawerForm<Values = any>() {
-  return useInjectProForm() as any as CreateDrawerFormReturn<Values> | null
+export function useInjectProDrawerForm<Values = any>() {
+  return useInjectProForm() as any as CreateProDrawerFormReturn<Values> | null
 }

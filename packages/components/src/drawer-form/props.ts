@@ -1,11 +1,11 @@
 import type { Simplify } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { CreateDrawerFormReturn } from './composables/createDrawerForm'
+import type { CreateProDrawerFormReturn } from './composables/createProDrawerForm'
 import { omit } from 'lodash-es'
 import { drawerProps, type DrawerProps } from 'naive-ui'
 import { proFormProps } from '../form'
 
-export const drawerFormExtendProps = {
+export const proDrawerFormExtendProps = {
   /**
    * 关闭弹窗后是否重置表单
    */
@@ -30,13 +30,13 @@ export const drawerFormExtendProps = {
   },
 } as const
 
-export const drawerFormProps = {
+export const proDrawerFormProps = {
   ...omit(drawerProps, [
     'show',
     'onUpdateShow',
     'onUpdate:show',
   ]),
-  ...drawerFormExtendProps,
+  ...proDrawerFormExtendProps,
   ...proFormProps,
   /**
    * 调整默认值为 false
@@ -61,10 +61,10 @@ export const drawerFormProps = {
    * 抽屉表单控制器
    */
   form: {
-    type: Object as PropType<CreateDrawerFormReturn>,
+    type: Object as PropType<CreateProDrawerFormReturn>,
     required: true,
   },
 } as const
 
-export type DrawerFormProps = ExtractPublicPropTypes<typeof drawerFormProps>
-export type DrawerFormExtendProps = ExtractPublicPropTypes<typeof drawerFormExtendProps>
+export type ProDrawerFormProps = ExtractPublicPropTypes<typeof proDrawerFormProps>
+export type ProDrawerFormExtendProps = ExtractPublicPropTypes<typeof proDrawerFormExtendProps>
