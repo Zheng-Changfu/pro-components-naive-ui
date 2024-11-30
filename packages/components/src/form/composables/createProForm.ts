@@ -144,20 +144,20 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     path: string[]
     depPath: string[]
   }) {
+    const {
+      path,
+      value,
+      depPath,
+    } = opt
     if (validateOnDependenciesValueChange) {
-      const {
+      validate(depPath)
+    }
+    if (options.onDependenciesValueChange) {
+      options.onDependenciesValueChange({
         path,
         value,
         depPath,
-      } = opt
-      validate(opt.depPath)
-      if (options.onDependenciesValueChange) {
-        options.onDependenciesValueChange({
-          path,
-          value,
-          depPath,
-        })
-      }
+      })
     }
   }
 
