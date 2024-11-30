@@ -2,12 +2,12 @@ import type { ModalProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProModalSlots } from './slots'
 import { NModal } from 'naive-ui'
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { mergeClass } from '../_utils/mergeClass'
 import { useOmitProps, useOverrideProps } from '../composables'
-import { DRAGGABLE_CLASS, useDragModal } from './composables/useDragModal'
+import { useDragModal } from './composables/useDragModal'
 import { proModalExtendProps, proModalProps } from './props'
 import style from './styles/index.cssr'
 
@@ -17,7 +17,6 @@ export default defineComponent({
   props: proModalProps,
   slots: Object as SlotsType<ProModalSlots>,
   setup(props) {
-    const modalElement = ref<HTMLElement>()
     const mergedClsPrefix = useNaiveClsPrefix()
 
     const overridedProps = useOverrideProps(
@@ -40,13 +39,8 @@ export default defineComponent({
       stopDrag,
       startDrag,
       canDraggable,
+      draggableClass,
     } = useDragModal(overridedProps)
-
-    const draggableClass = computed(() => {
-      return canDraggable.value
-        ? DRAGGABLE_CLASS
-        : ''
-    })
 
     const draggableClassProps = computed<ModalProps>(() => {
       const {
@@ -85,7 +79,6 @@ export default defineComponent({
     })
 
     function onAfterEnter(modal: HTMLElement) {
-      modalElement.value = modal
       canDraggable.value && startDrag(modal)
       overridedProps.value.onAfterEnter && (overridedProps.value.onAfterEnter as any)(modal)
     }

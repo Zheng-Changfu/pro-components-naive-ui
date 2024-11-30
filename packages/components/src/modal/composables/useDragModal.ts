@@ -11,6 +11,12 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
     return props.value.draggable !== false
   })
 
+  const draggableClass = computed(() => {
+    return canDraggable.value
+      ? DRAGGABLE_CLASS
+      : ''
+  })
+
   const sticky = computed(() => {
     return props.value.draggable !== false && (props.value.draggable?.sticky ?? true)
   })
@@ -108,5 +114,6 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
     stopDrag,
     startDrag,
     canDraggable,
+    draggableClass,
   }
 }
