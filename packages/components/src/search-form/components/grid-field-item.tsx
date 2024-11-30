@@ -4,8 +4,8 @@ import type { ProSearchFormColumn } from '../types'
 import { isFunction } from 'lodash-es'
 import { NGi } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
-import { resolveComponentByValueType } from '../../../../_utils/resolveComponentByValueType'
-import { pickInternalProFieldProps } from '../../../../form/components/type-utils'
+import { resolveComponentByValueType } from '../../_utils/resolveComponentByValueType'
+import { pickInternalProFieldProps } from '../../form/components/type-utils'
 
 export default defineComponent({
   name: 'GridFieldItem',

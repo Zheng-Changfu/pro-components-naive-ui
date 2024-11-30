@@ -48,7 +48,7 @@ export const zhComponentRoutes = [
   },
   {
     path: 'search-form',
-    component: () => import('../../packages/components/src/data-table/components/search-form/demos/zhCN/index.demo-entry.md'),
+    component: () => import('../../packages/components/src/search-form/demos/zhCN/index.demo-entry.md'),
   },
   {
     path: 'data-table',
