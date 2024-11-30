@@ -5,9 +5,9 @@ import AutoImport from 'unplugin-auto-import/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
-import { ProNaiveUiResolver } from './packages/resolver/index'
 // import { analyzer } from 'vite-bundle-analyzer'
 import vitePluginDemo from './build/vite-plugin-demo'
+import { ProNaiveUiResolver } from './packages/resolver/index'
 
 export default defineConfig(({ mode }) => {
   const nodeEnv = loadEnv(mode, './').VITE_USER_NODE_ENV
@@ -18,7 +18,8 @@ export default defineConfig(({ mode }) => {
       ],
     },
     define: {
-      __DEV__: nodeEnv !== 'production',
+      '__DEV__': nodeEnv !== 'production',
+      'process.env.NODE_ENV': nodeEnv !== 'production',
     },
     plugins: [
       UnoCSS(),
@@ -61,7 +62,19 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           manualChunks: {
+            'vue': ['vue'],
             'naive-ui': ['naive-ui'],
+            'vue-router': ['vue-router'],
+            'css-render': [
+              'css-render',
+              '@css-render/vue3-ssr',
+              '@css-render/plugin-bem',
+            ],
+            'vicons': [
+              '@vicons/antd',
+              '@vicons/fluent',
+              '@vicons/ionicons5',
+            ],
           },
         },
       },
