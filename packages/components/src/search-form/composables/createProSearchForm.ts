@@ -15,7 +15,7 @@ export type CreateProSearchFormReturn<Values = any> = ExtendProForm<
      * 切换收起
      * @param collapsed 传递了此参数，根据参数切换
      */
-    toggleCollapsed: (collapsed?: boolean) => void
+    toggleCollapse: (collapsed?: boolean) => void
   }
 >
 
@@ -34,7 +34,7 @@ export function createProSearchForm<Values = any>(options: CreateProSearchFormOp
     collapsed: computed(() => {
       return collapsed.value
     }),
-    toggleCollapsed: (value?: boolean) => {
+    toggleCollapse: (value?: boolean) => {
       collapsed.value = isBoolean(value)
         ? value
         : !collapsed.value

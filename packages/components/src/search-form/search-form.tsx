@@ -1,5 +1,6 @@
 import type { GridProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
+import type { ProButtonProps } from '../button'
 import type { ProFormProps } from '../form'
 import type { ProSearchFormSlots } from './slots'
 import { DownOutlined, UpOutlined } from '@vicons/antd'
@@ -7,7 +8,7 @@ import { pick } from 'lodash-es'
 import { gridProps as _nGridProps, NFlex, NGi, NGrid, NIcon } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import { resolveSlotWithProps } from '../_utils/resolveSlot'
-import { ProButton, type ProButtonProps } from '../button'
+import { ProButton } from '../button'
 import { useOverrideProps } from '../composables'
 import { ProFormClearableProvider } from '../config-provider'
 import { proFormProps as _proFormProps, ProForm } from '../form'
@@ -102,8 +103,8 @@ export default defineComponent({
                 </NIcon>
               )
             },
+            onClick: () => form.toggleCollapse(),
             ...(collapseButtonProps ?? {}),
-            onClick: () => form.toggleCollapsed(),
           }
     })
 
