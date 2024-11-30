@@ -92,6 +92,7 @@ export interface CreateProFormOptions<Values = any> extends FormOptions<Values> 
 
 export function createProForm<Values = any>(options: Simplify<CreateProFormOptions<Values>> = {}): CreateProFormReturn<Values> {
   const {
+    omitNil,
     onReset,
     onSubmit,
     initialValues,
@@ -101,6 +102,7 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
   } = options
 
   const internalForm = createForm({
+    omitNil,
     initialValues,
     onValuesChange,
     onDependenciesValueChange,
