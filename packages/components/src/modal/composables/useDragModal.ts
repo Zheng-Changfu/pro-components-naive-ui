@@ -31,6 +31,7 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
 
     cleanups.push(
       useEventListener(header, 'mousedown', (event) => {
+        event.preventDefault()
         mousedownEvent = event
         const {
           x,
