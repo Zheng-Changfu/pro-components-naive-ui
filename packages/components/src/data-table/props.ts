@@ -1,6 +1,5 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProCardProps } from '../card'
-import type { ProSearchFormProps } from './components/search-form'
 import type { ProDataTableColumns } from './types'
 import { dataTableProps } from 'naive-ui'
 
@@ -21,14 +20,6 @@ export const proDataTableExtendProps = {
    * 如果有单选、多选，是否可以点击行就选中(必须传递 row-key 才生效)
    */
   clickRowToSelect: Boolean,
-  /**
-   * 查询区域卡片的配置
-   */
-  searchCardProps: Object as PropType<ProCardProps>,
-  /**
-   * 透传给 pro-search-form 的配置，false 不显示
-   */
-  searchFormProps: [Boolean, Object] as PropType<false | ProSearchFormProps>,
   /**
    * 配置了这个参数，会在该 key 对应的行显示拖拽行的把手，允许拖拽排序
    */

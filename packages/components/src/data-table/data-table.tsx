@@ -10,7 +10,6 @@ import { useMountStyle } from '../_internal/useMountStyle'
 import { resolveSlotWithProps, resolveWrappedSlot } from '../_utils/resolveSlot'
 import { ProCard } from '../card'
 import { useOmitProps, useOverrideProps } from '../composables'
-import { ProSearchForm } from './components/search-form'
 import { useCheckedRowKeys } from './composables/useCheckedRowKeys'
 import { useColumns } from './composables/useColumns'
 import { useDraggableSort } from './composables/useDraggableSort'
@@ -82,9 +81,6 @@ export default defineComponent({
       }
     })
 
-    /**
-     * 包裹表格的卡片是否有头部区域
-     */
     const tableCardExistHeader = computed(() => {
       const {
         title,
@@ -149,8 +145,6 @@ export default defineComponent({
       nDataTableProps,
       nTableCardProps,
       mergedClsPrefix,
-      searchFormProps: computed(() => overridedProps.value.searchFormProps ?? {}),
-      searchCardProps: computed(() => overridedProps.value.searchCardProps ?? {}),
     }
   },
   render() {
@@ -163,42 +157,29 @@ export default defineComponent({
         },
       ]}
       >
-        {
-          [
-            this.searchFormProps !== false && (
-              <ProCard {...this.searchCardProps}>
-                {/* @ts-ignore */}
-                <ProSearchForm
-                  {...this.searchFormProps}
+        <ProCard {...this.nTableCardProps}>
+          {{
+            'header': this.$slots.title,
+            'header-extra': this.$slots.toolbar,
+            'default': () => {
+              const tableDom = (
+                <NDataTable
+                  ref="nDataTableInst"
+                  {...this.nDataTableProps}
                   v-slots={this.$slots}
                 />
-              </ProCard>
-            ),
-            <ProCard {...this.nTableCardProps}>
-              {{
-                'header': this.$slots.title,
-                'header-extra': this.$slots.toolbar,
-                'default': () => {
-                  const tableDom = (
-                    <NDataTable
-                      ref="nDataTableInst"
-                      {...this.nDataTableProps}
-                      v-slots={this.$slots}
-                    />
-                  )
-                  return [
-                    resolveWrappedSlot(this.$slots.extra, (children) => {
-                      return children
-                        ? <div style={{ marginBlockEnd: '16px' }}>{children}</div>
-                        : null
-                    }),
-                    resolveSlotWithProps(this.$slots.table, { tableDom }, () => tableDom),
-                  ]
-                },
-              }}
-            </ProCard>,
-          ]
-        }
+              )
+              return [
+                resolveWrappedSlot(this.$slots.extra, (children) => {
+                  return children
+                    ? <div style={{ marginBlockEnd: '16px' }}>{children}</div>
+                    : null
+                }),
+                resolveSlotWithProps(this.$slots.table, { tableDom }, () => tableDom),
+              ]
+            },
+          }}
+        </ProCard>
       </div>
     )
   },
