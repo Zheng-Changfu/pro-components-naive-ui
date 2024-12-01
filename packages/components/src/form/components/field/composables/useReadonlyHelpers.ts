@@ -1,9 +1,9 @@
 import type { FieldExtraInfo } from '../keys'
 import { useInjectField } from 'pro-composables'
 import { computed, unref } from 'vue'
+import { isEmptyValue } from '../../../../_utils/isEmptyValue'
 import { useInjectProFormConfig } from '../../../context'
 import { fieldExtraKey } from '../keys'
-import { isEmptyValue } from '../utils/valueUtil'
 
 export function useReadonlyHelpers() {
   const field = useInjectField()!
