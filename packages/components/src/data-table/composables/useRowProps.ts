@@ -4,7 +4,6 @@ import type { ProDataTableProps } from '../props'
 import { computed } from 'vue'
 
 interface UseRowPropsOptions {
-  clearCheckedRowKeys: () => void
   checkedRowKeys: Ref<DataTableRowKey[]>
   setCheckedRowKeys: (keys: DataTableRowKey[], rows?: any, meta?: any) => void
 }
@@ -14,7 +13,6 @@ export function useRowProps(props: ComputedRef<ProDataTableProps>, options: UseR
   const {
     checkedRowKeys,
     setCheckedRowKeys,
-    clearCheckedRowKeys,
   } = options
 
   const hasSelectionColumn = computed(() => {
@@ -43,22 +41,32 @@ export function useRowProps(props: ComputedRef<ProDataTableProps>, options: UseR
     ) {
       return resolvedRowProps
     }
+    const ignoreClassList = ['checkbox-box__border', 'radio-input']
     return {
       ...resolvedRowProps,
       [trKey]: resolvedRowKey,
       onClick: (e: MouseEvent) => {
         resolvedRowProps.onClick?.(e)
-        const tr = e.composedPath().find(dom => (dom as HTMLElement).tagName === 'TR') as HTMLElement
+        const composedPath = e.composedPath()
+        const className = ((composedPath[0]) as HTMLElement).className ?? ''
+        if (ignoreClassList.some(ignoreClass => className.endsWith(ignoreClass))) {
+          // 点击在了 checkbox/radio 上，防止事件触发2次
+          return
+        }
+        const tr = composedPath.find(dom => (dom as HTMLElement).tagName === 'TR') as HTMLElement
         if (!tr) {
           return
         }
         e.stopPropagation()
-
         if (isRadioSelectionColumn.value) {
           const radioBox = tr.querySelector('input[type=radio]')
           if (radioBox && !radioBox.hasAttribute('disabled')) {
-            clearCheckedRowKeys()
-            setCheckedRowKeys([resolvedRowKey])
+            if (!checkedRowKeys.value.includes(resolvedRowKey)) {
+              setCheckedRowKeys([resolvedRowKey])
+            }
+            else {
+              setCheckedRowKeys([])
+            }
           }
         }
         else {
@@ -66,9 +74,10 @@ export function useRowProps(props: ComputedRef<ProDataTableProps>, options: UseR
           if (checkBox && [...checkBox.classList].every(className => !className.endsWith('disabled'))) {
             if (!checkedRowKeys.value.includes(resolvedRowKey)) {
               setCheckedRowKeys([...checkedRowKeys.value, resolvedRowKey])
-              return
             }
-            setCheckedRowKeys(checkedRowKeys.value.filter(key => key !== resolvedRowKey))
+            else {
+              setCheckedRowKeys(checkedRowKeys.value.filter(key => key !== resolvedRowKey))
+            }
           }
         }
       },

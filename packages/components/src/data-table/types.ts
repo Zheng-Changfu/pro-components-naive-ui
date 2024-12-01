@@ -1,30 +1,30 @@
 import type { TableBaseColumn, TableColumnGroup, TableExpandColumn, TableSelectionColumn } from 'naive-ui/es/data-table/src/interface'
 import type { Merge, Paths } from 'type-fest'
 import type { VNodeChild } from 'vue'
-import type { ProFieldColumn } from '../form'
 
-interface ProDataTableBaseColumnProps<RowData = any> extends TableBaseColumn<RowData> {
+type RowPath<RowData> = Paths<RowData> | ({} & string)
+
+export interface ProDataTableBaseColumn<RowData = any> extends Omit<TableBaseColumn<RowData>, 'key'> {
   /**
-   * 显示在列右边的提示
+   * naive-ui key
+   */
+  key?: string | number
+  /**
+   * 显示在标题右边的提示
    */
   tooltip?: string | string[]
+  /**
+   * 同 naive-ui key，工程化统一
+   */
+  path?: RowPath<RowData>
 }
-
-type RowIndex = number
-
-export type ProDataTableBaseColumn<RowData = any> = ProFieldColumn<
-  RowData,
-  ProDataTableBaseColumnProps,
-  [RowData, RowIndex],
-  [RowData, RowIndex]
->
 
 export interface ProDataTableColumnGroup<RowData = any> extends Omit<
   TableColumnGroup<RowData>,
   | 'key' | 'children'
 > {
-  key?: Paths<RowData>
-  path?: Paths<RowData>
+  key?: string | number
+  path?: RowPath<RowData>
   tooltip?: string | string[]
   children: Array<Merge<
     ProDataTableBaseColumn<RowData>,
@@ -35,13 +35,9 @@ export interface ProDataTableColumnGroup<RowData = any> extends Omit<
 export interface ProDataTableIndexColumn<RowData = any> extends Omit<
   ProDataTableBaseColumn<RowData>,
   | 'key'
-  | 'path'
   | 'type'
+  | 'path'
   | 'render'
-  | 'valueType'
-  | 'fieldProps'
-  | 'fieldSlots'
-  | 'proFieldProps'
 > {
   /**
    * 序号列

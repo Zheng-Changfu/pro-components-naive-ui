@@ -16,10 +16,10 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
   } = options
 
   const {
+    createBaseColumn,
     createIndexColumn,
     renderTooltipTitle,
     createDragSortColumn,
-    createValueTypeColumn,
   } = useColumnRenderer({
     props,
     dragHandleId,
@@ -42,7 +42,7 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
           title: renderTooltipTitle(title, tooltip),
         }
       }
-      if (isGroupColumn(column)) {
+      if (isGroupColumn(column, childrenKey)) {
         const { title, tooltip, path, key, ...rest } = column
         return {
           ...rest,
@@ -53,7 +53,7 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
       if (isDragSortColumn(column, dragSortKey)) {
         return createDragSortColumn(column)
       }
-      return createValueTypeColumn(column)
+      return createBaseColumn(column)
     }, childrenKey as any)
   }
 

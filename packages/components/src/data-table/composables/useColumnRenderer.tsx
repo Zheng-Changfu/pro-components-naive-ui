@@ -4,12 +4,11 @@ import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
 import type { ProDataTableBaseColumn, ProDataTableIndexColumn } from '../types'
 import { DragOutlined, InfoCircleOutlined } from '@vicons/antd'
-import { isFunction, toString } from 'lodash-es'
+import { get, isFunction } from 'lodash-es'
 import { NButton, NIcon } from 'naive-ui'
 import { computed } from 'vue'
 import ProTooltip from '../../_internal/components/pro-tooltip'
 import { useLocale } from '../../locales'
-import DataTableCell from '../components/data-table-cell'
 
 export const sortColumnKey = '__SORT_COLUMN__'
 export const indexColumnKey = '__INDEX_COLUMN__'
@@ -52,7 +51,11 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
         >
           {{
             trigger: () => (
-              <div style={{ cursor: 'pointer' }}>
+              <div style={{
+                cursor: 'pointer',
+                display: 'inline-block',
+              }}
+              >
                 {resolvedTitle}
                 <NIcon
                   size={18}
@@ -111,10 +114,6 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       title,
       render,
       tooltip,
-      valueType,
-      fieldProps,
-      fieldSlots,
-      proFieldProps,
       ...rest
     } = column
 
@@ -127,13 +126,11 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       render(row, rowIndex) {
         return render
           ? (
-              <div class={dragHandleId}>
-                <DataTableCell
-                  row={row}
-                  column={column}
-                  rowIndex={rowIndex}
-                  columnKey={sortColumnKey}
-                />
+              <div
+                class={dragHandleId}
+                onClick={e => e.stopPropagation()}
+              >
+                {render(row, rowIndex)}
               </div>
             )
           : (
@@ -141,6 +138,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
                 text={true}
                 class={dragHandleId}
                 style={{ cursor: 'move', verticalAlign: 'middle' }}
+                onClick={e => e.stopPropagation()}
               >
                 <NIcon size={16}>
                   <DragOutlined />
@@ -152,42 +150,35 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     }
   }
 
-  function createValueTypeColumn(column: ProDataTableBaseColumn): DataTableColumn {
+  function createBaseColumn(column: ProDataTableBaseColumn): DataTableColumn {
     const {
       key,
       path,
       title,
       render,
       tooltip,
-      valueType,
-      fieldProps,
-      fieldSlots,
-      proFieldProps,
       ...rest
     } = column ?? {}
 
-    const columnKey = path ?? toString(key) ?? ''
+    const columnKey = path ?? key ?? ''
     return {
       key: columnKey,
       title: renderTooltipTitle(title, tooltip),
       render(row, rowIndex) {
-        return (
-          <DataTableCell
-            row={row}
-            column={column}
-            rowIndex={rowIndex}
-            columnKey={columnKey}
-          />
-        )
+        if (render) {
+          return render(row, rowIndex)
+        }
+        const value = get(row, columnKey)
+        return value as any
       },
       ...rest,
     }
   }
 
   return {
+    createBaseColumn,
     createIndexColumn,
     renderTooltipTitle,
     createDragSortColumn,
-    createValueTypeColumn,
   }
 }

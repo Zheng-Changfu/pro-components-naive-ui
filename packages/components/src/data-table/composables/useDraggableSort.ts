@@ -1,5 +1,6 @@
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
+import { isNumber } from 'lodash-es'
 import { uid } from 'pro-composables'
 import { computed, getCurrentInstance, watchPostEffect } from 'vue'
 import { useDraggable } from 'vue-draggable-plus'
@@ -29,22 +30,17 @@ export function useDraggableSort(props: ComputedRef<ProDataTableProps>) {
       onEnd: (event) => {
         const { oldIndex, newIndex } = event
         const { onDragSortEnd } = props.value
-        onDragSortEnd && onDragSortEnd(
-          [],
-          // move(props.value.data ?? [], oldIndex!, newIndex!),
-          oldIndex!,
-          newIndex!,
-        )
+        if (
+          onDragSortEnd
+          && isNumber(oldIndex)
+          && isNumber(newIndex)
+          && oldIndex !== newIndex
+        ) {
+          onDragSortEnd(oldIndex, newIndex)
+        }
       },
     },
   )
-
-  // watchImmediate(
-  //   () => props.value.data,
-  //   (value) => {
-  //     sortedData.value = cloneDeep(value ?? [])
-  //   },
-  // )
 
   watchPostEffect(() => {
     const node = nDataTableTBody.value

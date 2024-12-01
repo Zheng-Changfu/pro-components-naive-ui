@@ -26,15 +26,13 @@ export const proDataTableExtendProps = {
   dragSortKey: String,
   /**
    * 拖拽排序完成回调
-   * @param data 排序后的数据源
    * @param fromIndex 排序前的索引
    * @param toIndex 排序后的索引
    */
   onDragSortEnd: Function as PropType<(
-    data: any[],
     fromIndex: number,
     toIndex: number,
-  ) => Promise<void>>,
+  ) => void | Promise<void>>,
 } as const
 
 export const proDataTableProps = {

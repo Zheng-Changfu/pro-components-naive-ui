@@ -60,20 +60,17 @@ export default defineComponent({
     const {
       checkedRowKeys,
       setCheckedRowKeys,
-      clearCheckedRowKeys,
     } = useCheckedRowKeys(overridedProps)
 
     const { rowProps } = useRowProps(overridedProps, {
       checkedRowKeys,
       setCheckedRowKeys,
-      clearCheckedRowKeys,
     })
 
     const nDataTableProps = computed<DataTableProps>(() => {
       return {
         ...dataTableProps.value,
         rowProps,
-        'remote': true,
         'columns': columns.value,
         'checkedRowKeys': checkedRowKeys.value,
         'onUpdateCheckedRowKeys': setCheckedRowKeys,
