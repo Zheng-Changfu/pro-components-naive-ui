@@ -1,11 +1,11 @@
 import type { EmptyObject, Merge, Simplify } from 'type-fest'
 import type { emptyObjectSymbol } from 'type-fest/source/empty-object'
 import type { UseFetchDataOptions } from '../../composables/useFetchData'
-import type { CreateProSearchFormOptions } from '../components/search-form/composables/createProSearchForm'
+import type { CreateProSearchFormOptions } from '../../search-form/composables/createProSearchForm'
 import { isArray, isNumber } from 'lodash-es'
 import { computed, ref } from 'vue'
 import { useFetchData } from '../../composables/useFetchData'
-import { createProSearchForm } from '../components/search-form'
+import { createProSearchForm } from '../../search-form'
 import { useNDataTableInst } from './useNDataTableInst'
 
 /**

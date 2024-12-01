@@ -19,25 +19,25 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      return (
-        <NRate
-          {...this.$props}
-          {...this.$attrs}
-          readonly={true}
-          v-slots={this.$slots}
-        />
-      )
-    }
-    return (
+    const rateReadonly = this.readonly
+      ? true
+      : this.$props.readonly
+
+    const dom = (
       <NRate
         {...this.$props}
         {...this.$attrs}
+        readonly={rateReadonly}
         v-slots={this.$slots}
       />
     )
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.$props,
+      })
+      : dom
   },
 })

@@ -389,7 +389,7 @@ upload.vue
       title:'资源上传',
       maxSize:1024 * 10,
       onlyAcceptImage:true,
-      onOverFileMaxSize:(data) =>{
+      onOverSize:(data) =>{
         console.log('超出文件大小',data)
       },
       onUnAcceptType:(data) =>{

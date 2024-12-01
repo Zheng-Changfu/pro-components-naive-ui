@@ -3,6 +3,7 @@ import type { SlotsType } from 'vue'
 import type { ProUploadSlots } from '../slots'
 import { NButton, NUpload, uploadProps } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
+import { resolveSlot } from '../../../../_utils/resolveSlot'
 import { useOmitProps } from '../../../../composables'
 import { useLocale } from '../../../../locales'
 import { useReadonlyHelpers } from '../../field'
@@ -49,9 +50,9 @@ export default defineComponent({
     }) {
       const {
         maxSize,
+        onOverSize,
         onUnAcceptType,
         onlyAcceptImage,
-        onOverFileMaxSize,
         onBeforeUpload: propOnBeforeUpload,
       } = props
 
@@ -73,7 +74,7 @@ export default defineComponent({
         && fileSize
         && fileSize > maxSize
       ) {
-        onOverFileMaxSize && onOverFileMaxSize(maxSize, data)
+        onOverSize && onOverSize(maxSize, data)
         return false
       }
 
@@ -115,57 +116,39 @@ export default defineComponent({
   },
   render() {
     this.fixUploadDragger()
-    if (this.readonly) {
-      const { empty, emptyText } = this
+    const disabled = this.readonly
+      ? true
+      : this.$props.disabled
 
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      if (empty) {
-        return emptyText
-      }
+    const dom = this.readonly && this.empty
+      ? this.emptyText
+      : (
+          <NUpload
+            ref="instRef"
+            {...this.$attrs}
+            {...this.nUploadProps}
+            disabled={disabled}
+          >
+            {{
+              ...this.$slots,
+              default: () => {
+                return resolveSlot(this.$slots.default, () => {
+                  if (this.nUploadProps.listType === 'image-card') {
+                    return this.localeRef.title
+                  }
+                  return <NButton type="primary">{ this.localeRef.title }</NButton>
+                })
+              },
+            }}
+          </NUpload>
+        )
 
-      return (
-        <NUpload
-          ref="instRef"
-          {...this.$attrs}
-          {...this.nUploadProps}
-          disabled={true}
-        >
-          {{
-            ...this.$slots,
-            default: () => {
-              if (this.$slots.default) {
-                return this.$slots.default()
-              }
-              if (this.nUploadProps.listType === 'image-card') {
-                return this.localeRef.title
-              }
-              return <NButton type="primary">{ this.localeRef.title }</NButton>
-            },
-          }}
-        </NUpload>
-      )
-    }
-    return (
-      <NUpload
-        ref="instRef"
-        {...this.$attrs}
-        {...this.nUploadProps}
-      >
-        {{
-          ...this.$slots,
-          default: () => {
-            if (this.$slots.default) {
-              return this.$slots.default()
-            }
-            if (this.nUploadProps.listType === 'image-card') {
-              return this.localeRef.title
-            }
-            return <NButton type="primary">{ this.localeRef.title }</NButton>
-          },
-        }}
-      </NUpload>
-    )
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.nUploadProps,
+      })
+      : dom
   },
 })

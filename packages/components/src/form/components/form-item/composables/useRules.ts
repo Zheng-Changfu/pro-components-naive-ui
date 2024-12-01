@@ -3,9 +3,9 @@ import type { ProFormItemProps } from '../props'
 import { isArray, toString } from 'lodash-es'
 import { stringifyPath } from 'pro-composables'
 import { computed, unref } from 'vue'
+import { isEmptyValue } from '../../../../_utils/isEmptyValue'
 import { useLocale } from '../../../../locales'
 import { useInjectProFormConfig } from '../../../context'
-import { isEmptyValue } from '../../field/utils/valueUtil'
 
 export function useRules(props: ProFormItemProps) {
   const {

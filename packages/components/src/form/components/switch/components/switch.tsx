@@ -1,4 +1,4 @@
-import type { SlotsType } from 'vue'
+import type { SlotsType, VNodeChild } from 'vue'
 import type { ProSwitchSlots } from '../slots'
 import { NSwitch, switchProps } from 'naive-ui'
 import { defineComponent } from 'vue'
@@ -27,22 +27,29 @@ export default defineComponent({
     }
   },
   render() {
+    let dom: VNodeChild
+
     if (this.readonly) {
-      const { value } = this
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      if (value) {
-        return this.$slots.checked?.() ?? this.getMessage('checked')
-      }
-      return this.$slots.unchecked?.() ?? this.getMessage('unchecked')
+      dom = this.value
+        ? this.$slots.checked?.() ?? this.getMessage('checked')
+        : this.$slots.unchecked?.() ?? this.getMessage('unchecked')
     }
-    return (
-      <NSwitch
-        {...this.$props}
-        {...this.$attrs}
-        v-slots={this.$slots}
-      />
-    )
+    else {
+      dom = (
+        <NSwitch
+          {...this.$props}
+          {...this.$attrs}
+          v-slots={this.$slots}
+        />
+      )
+    }
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.$props,
+      })
+      : dom
   },
 })

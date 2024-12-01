@@ -1,3 +1,3 @@
-export interface DrawerFormSlots {
+export interface ProDrawerFormSlots {
   default: any
 }

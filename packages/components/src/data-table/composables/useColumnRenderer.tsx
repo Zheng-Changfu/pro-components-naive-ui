@@ -1,27 +1,25 @@
-import type { DataTableColumn, PaginationProps } from 'naive-ui'
+import type { DataTableColumn } from 'naive-ui'
 import type { TableColumnGroupTitle, TableColumnTitle, TableExpandColumnTitle } from 'naive-ui/es/data-table/src/interface'
-import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef } from 'vue'
+import type { ProDataTableProps } from '../props'
 import type { ProDataTableBaseColumn, ProDataTableIndexColumn } from '../types'
 import { DragOutlined, InfoCircleOutlined } from '@vicons/antd'
-import { isFunction, toString } from 'lodash-es'
+import { get, isFunction } from 'lodash-es'
 import { NButton, NIcon } from 'naive-ui'
 import { computed } from 'vue'
 import ProTooltip from '../../_internal/components/pro-tooltip'
 import { useLocale } from '../../locales'
-import DataTableCell from '../components/data-table-cell'
 
 export const sortColumnKey = '__SORT_COLUMN__'
 export const indexColumnKey = '__INDEX_COLUMN__'
 
 interface CreateColumnRendererOptions {
   dragHandleId: string
-  columns: Ref<DataTableColumn[]>
-  pagination: ComputedRef<PaginationProps | false | undefined>
+  props: ComputedRef<ProDataTableProps>
 }
 export function useColumnRenderer(options: CreateColumnRendererOptions) {
   const {
-    columns,
-    pagination,
+    props,
     dragHandleId,
   } = options
 
@@ -30,7 +28,8 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
   } = useLocale('ProDataTable')
 
   const hasFixedLeftColumn = computed(() => {
-    return columns.value.some(column => column.fixed === 'left')
+    const columns = props.value.columns ?? []
+    return columns.some(column => column.fixed === 'left')
   })
 
   function renderTooltipTitle(
@@ -52,7 +51,11 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
         >
           {{
             trigger: () => (
-              <div style={{ cursor: 'pointer' }}>
+              <div style={{
+                cursor: 'pointer',
+                display: 'inline-block',
+              }}
+              >
                 {resolvedTitle}
                 <NIcon
                   size={18}
@@ -87,14 +90,14 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       title: getMessage('indexColumn'),
       fixed: hasFixedLeftColumn.value ? 'left' : undefined,
       render(row, rowIndex) {
-        if (pagination.value === false) {
+        if (props.value.pagination === false) {
           const index = rowIndex + 1
           return render
             ? render(index, row, rowIndex)
             : index
         }
-        const page = Math.max(1, pagination.value?.page ?? 1)
-        const pageSize = Math.max(1, pagination.value?.pageSize ?? 10)
+        const page = Math.max(1, props.value.pagination?.page ?? 1)
+        const pageSize = Math.max(1, props.value.pagination?.pageSize ?? 10)
         const index = (page - 1) * pageSize + rowIndex + 1
         return render
           ? render(index, row, rowIndex)
@@ -111,10 +114,6 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       title,
       render,
       tooltip,
-      valueType,
-      fieldProps,
-      fieldSlots,
-      proFieldProps,
       ...rest
     } = column
 
@@ -127,13 +126,11 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       render(row, rowIndex) {
         return render
           ? (
-              <div class={dragHandleId}>
-                <DataTableCell
-                  row={row}
-                  column={column}
-                  rowIndex={rowIndex}
-                  columnKey={sortColumnKey}
-                />
+              <div
+                class={dragHandleId}
+                onClick={e => e.stopPropagation()}
+              >
+                {render(row, rowIndex)}
               </div>
             )
           : (
@@ -141,6 +138,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
                 text={true}
                 class={dragHandleId}
                 style={{ cursor: 'move', verticalAlign: 'middle' }}
+                onClick={e => e.stopPropagation()}
               >
                 <NIcon size={16}>
                   <DragOutlined />
@@ -152,42 +150,35 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     }
   }
 
-  function createValueTypeColumn(column: ProDataTableBaseColumn): DataTableColumn {
+  function createBaseColumn(column: ProDataTableBaseColumn): DataTableColumn {
     const {
       key,
       path,
       title,
       render,
       tooltip,
-      valueType,
-      fieldProps,
-      fieldSlots,
-      proFieldProps,
       ...rest
     } = column ?? {}
 
-    const columnKey = path ?? toString(key) ?? ''
+    const columnKey = path ?? key ?? ''
     return {
       key: columnKey,
       title: renderTooltipTitle(title, tooltip),
       render(row, rowIndex) {
-        return (
-          <DataTableCell
-            row={row}
-            column={column}
-            rowIndex={rowIndex}
-            columnKey={columnKey}
-          />
-        )
+        if (render) {
+          return render(row, rowIndex)
+        }
+        const value = get(row, columnKey)
+        return value as any
       },
       ...rest,
     }
   }
 
   return {
+    createBaseColumn,
     createIndexColumn,
     renderTooltipTitle,
     createDragSortColumn,
-    createValueTypeColumn,
   }
 }

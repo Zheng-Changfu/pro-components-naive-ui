@@ -1,5 +1,5 @@
 import type { AutoCompleteProps } from 'naive-ui'
-import type { PropType, SlotsType } from 'vue'
+import type { PropType, SlotsType, VNodeChild } from 'vue'
 import type { ProAutoCompleteSlots } from '../slots'
 import { isFunction } from 'lodash-es'
 import { autoCompleteProps, NAutoComplete, NFlex } from 'naive-ui'
@@ -60,30 +60,36 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      const { value, empty, emptyText, $slots } = this
+    let dom: VNodeChild
 
-      if ($slots.readonly) {
-        return $slots.readonly(this.$props)
-      }
-      if (empty) {
-        return emptyText
-      }
-      return (
-        <NFlex size={[8, 0]}>
-          {$slots.prefix && <span>{this.$slots.prefix()}</span>}
-          <span>{value}</span>
-          {$slots.suffix && <span>{this.$slots.suffix()}</span>}
-        </NFlex>
+    if (this.readonly) {
+      dom = this.empty
+        ? this.emptyText
+        : (
+            <NFlex size={[8, 0]}>
+              {this.$slots.prefix && <span>{this.$slots.prefix()}</span>}
+              <span>{this.value}</span>
+              {this.$slots.suffix && <span>{this.$slots.suffix()}</span>}
+            </NFlex>
+          )
+    }
+    else {
+      dom = (
+        <NAutoComplete
+          ref="instRef"
+          {...this.$attrs}
+          {...this.nAutoCompleteProps}
+          v-slots={this.$slots}
+        />
       )
     }
-    return (
-      <NAutoComplete
-        ref="instRef"
-        {...this.$attrs}
-        {...this.nAutoCompleteProps}
-        v-slots={this.$slots}
-      />
-    )
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.nAutoCompleteProps,
+      })
+      : dom
   },
 })

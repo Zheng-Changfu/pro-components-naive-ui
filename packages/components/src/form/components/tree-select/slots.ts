@@ -1,6 +1,7 @@
-import type { ProFieldSlots } from '../field'
+import type { TreeSelectProps } from 'naive-ui'
+import type { ProFieldSharedSlots } from '../field'
 
-export interface ProTreeSelectSlots extends ProFieldSlots {
+export interface ProTreeSelectSlots extends ProFieldSharedSlots<TreeSelectProps> {
   empty: any
   arrow: any
   action: any

@@ -5,12 +5,12 @@ import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
 import { omit } from 'lodash-es'
 import { NFlex, NIcon, useThemeVars } from 'naive-ui'
-import { useInjectListField } from 'pro-composables'
+import { ROW_UUID, useInjectListField } from 'pro-composables'
 import { computed, defineComponent, Fragment, inject, provide, ref, toRef } from 'vue'
 import { useInjectProForm } from '../../../components'
-import { resolveSlotWithProps } from '../../_utils/resolve-slot'
+import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
+import { resolveSlotWithProps } from '../../_utils/resolveSlot'
 import { ProButton } from '../../button'
-import { AUTO_CREATE_UNIQUE_ID } from '../../composables'
 import { useReadonlyHelpers } from '../../form/components'
 import { useInjectProFormConfig } from '../../form/context'
 import { useLocale } from '../../locales'
@@ -116,7 +116,7 @@ const Action = defineComponent({
         copyLoading.value = true
         const success = await beforeAddRow({ index, insertIndex, total: list.value.length })
         if (success) {
-          insert(insertIndex, omit(row, AUTO_CREATE_UNIQUE_ID))
+          insert(insertIndex, omit(row, ROW_UUID))
           if (afterAddRow) {
             afterAddRow({ index, insertIndex, total: list.value.length })
           }
@@ -124,7 +124,7 @@ const Action = defineComponent({
         copyLoading.value = false
       }
       else {
-        insert(insertIndex, omit(row, AUTO_CREATE_UNIQUE_ID))
+        insert(insertIndex, omit(row, ROW_UUID))
         if (afterAddRow) {
           afterAddRow({ index, insertIndex, total: list.value.length })
         }
@@ -217,6 +217,7 @@ export default defineComponent({
   setup(props) {
     const themeVars = useThemeVars()
     const action = useInjectProFormListInst()
+    const mergedClsPrefix = useNaiveClsPrefix()
     const nFormItem = inject<any>('n-form-item')
 
     const {
@@ -266,6 +267,7 @@ export default defineComponent({
       total,
       action,
       actionHeight,
+      mergedClsPrefix,
       validateBehavior,
     }
   },
@@ -279,6 +281,7 @@ export default defineComponent({
       $slots,
       action,
       actionHeight,
+      mergedClsPrefix,
       validateBehavior,
     } = this
 
@@ -337,14 +340,7 @@ export default defineComponent({
       itemDom,
       actionDom: resolvedActionDom,
     }, () => (
-      <div
-        style={{
-          display: 'flex',
-          gap: '0 16px',
-          flexWrap: 'wrap',
-          alignItems: 'flex-end',
-        }}
-      >
+      <div class={[`${mergedClsPrefix}-pro-form-list__item`]}>
         {itemDom}
         {resolvedActionDom}
       </div>

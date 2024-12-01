@@ -1,9 +1,9 @@
 import type { FormInst } from 'naive-ui'
-import type { BaseField, BaseForm, FormOptions, InternalPath } from 'pro-composables'
+import type { BaseForm, FormOptions, InternalPath } from 'pro-composables'
 import type { Merge, Paths, Simplify, SimplifyDeep } from 'type-fest'
 import type { ComputedRef, Ref } from 'vue'
 import type { FieldExtraInfo } from '../components'
-import { isString, toPath } from 'lodash-es'
+import { isString } from 'lodash-es'
 import { createForm, stringifyPath } from 'pro-composables'
 import { computed, inject, nextTick, provide, ref } from 'vue'
 import { fieldExtraKey } from '../components'
@@ -92,17 +92,19 @@ export interface CreateProFormOptions<Values = any> extends FormOptions<Values> 
 
 export function createProForm<Values = any>(options: Simplify<CreateProFormOptions<Values>> = {}): CreateProFormReturn<Values> {
   const {
+    omitNil,
     onReset,
     onSubmit,
     initialValues,
     onSubmitFailed,
-    onFieldValueChange,
+    onValuesChange,
     validateOnDependenciesValueChange = true,
   } = options
 
   const internalForm = createForm({
+    omitNil,
     initialValues,
-    onFieldValueChange,
+    onValuesChange,
     onDependenciesValueChange,
   })
 
@@ -140,31 +142,26 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
   function onDependenciesValueChange(opt: {
     value: any
     path: string[]
-    field: BaseField
-    dependPath: string[]
+    depPath: string[]
   }) {
+    const {
+      path,
+      value,
+      depPath,
+    } = opt
     if (validateOnDependenciesValueChange) {
-      const {
-        field,
+      validate(depPath)
+    }
+    if (options.onDependenciesValueChange) {
+      options.onDependenciesValueChange({
         path,
         value,
-        dependPath,
-      } = opt
-      if (field.show.value) {
-        validate(stringifyPath(opt.dependPath))
-        if (options.onDependenciesValueChange) {
-          options.onDependenciesValueChange({
-            path,
-            value,
-            field,
-            dependPath,
-          })
-        }
-      }
+        depPath,
+      })
     }
   }
 
-  function validate(paths?: string | string[]) {
+  function validate(paths?: InternalPath) {
     if (!paths) {
       return nFormInst.value?.validate(addValidateResults)
     }
@@ -200,32 +197,29 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
       nFormInst.value?.restoreValidation()
       return
     }
-    const normalizedPaths = (isString(paths) ? [paths] : paths).map(stringifyPath) as Array<string>
-    normalizedPaths.forEach((path) => {
-      const field = fieldStore.fieldsPathMap.value.get(path)
-      if (!field || !field[fieldExtraKey])
-        return
+    const field = fieldStore.getFieldByPath(paths)
+    if (field && field[fieldExtraKey]) {
       const { proFormItemInst } = field[fieldExtraKey] as FieldExtraInfo
       const formItemInst = proFormItemInst.value
       formItemInst && formItemInst.restoreValidation()
-    })
+    }
   }
 
   function restoreFieldValue(path: InternalPath) {
     pauseDependenciesTrigger()
     resetFieldValue(path)
-    onReset && onReset()
+    restoreValidation(path)
     clearValidationResults(path)
-    restoreValidation(toPath(path))
+    onReset && onReset()
     nextTick(resumeDependenciesTrigger)
   }
 
   function restoreFieldsValue() {
     pauseDependenciesTrigger()
     resetFieldsValue()
-    onReset && onReset()
     restoreValidation()
     clearValidationResults()
+    onReset && onReset()
     nextTick(resumeDependenciesTrigger)
   }
 
@@ -283,8 +277,8 @@ export function provideProForm(form: CreateProFormReturn) {
   provide(proFormContextKey, form)
 }
 
-export function useInjectProForm<Values = any>(): Simplify<CreateProFormReturn<Values>> | undefined {
-  return inject(proFormContextKey)
+export function useInjectProForm<Values = any>(): Simplify<CreateProFormReturn<Values>> | null {
+  return inject(proFormContextKey, null)
 }
 
 export type ExtendProForm<V = any, PM extends object = object, PO extends object = object> = Merge<

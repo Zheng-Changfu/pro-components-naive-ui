@@ -23,7 +23,7 @@ export default defineComponent({
     )
 
     const postValue = usePostValue(overridedProps, {
-      undefToFalsy: true,
+      nilToFalsy: true,
     })
 
     expose(exposed)

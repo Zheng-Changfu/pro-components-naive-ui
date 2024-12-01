@@ -1,5 +1,5 @@
 import type { VNodeChild } from 'vue'
-import type { ProSearchFormSlots } from './components/search-form'
+import type { ProSearchFormSlots } from '../search-form'
 
 export interface ProDataTableSlots extends ProSearchFormSlots {
   /**

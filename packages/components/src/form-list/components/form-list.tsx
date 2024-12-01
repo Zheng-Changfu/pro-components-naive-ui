@@ -1,15 +1,15 @@
 import type { PropType, SlotsType } from 'vue'
+import type { ProButtonProps } from '../../button'
 import type { ProFormListInst } from '../inst'
 import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
-import { useInjectListField } from 'pro-composables'
-import { computed, defineComponent, nextTick, ref } from 'vue'
+import { ROW_UUID, useInjectListField } from 'pro-composables'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { useInjectProForm } from '../../../components'
-import { resolveSlotWithProps } from '../../_utils/resolve-slot'
-import { ProButton, type ProButtonProps } from '../../button'
-import { AUTO_CREATE_UNIQUE_ID } from '../../composables'
+import { resolveSlotWithProps } from '../../_utils/resolveSlot'
+import { ProButton } from '../../button'
 import { useReadonlyHelpers } from '../../form/components'
 import { useLocale } from '../../locales'
 import { provideProFormListInst } from '../context'
@@ -159,28 +159,20 @@ export default defineComponent({
       remove,
       unshift,
       moveDown,
-      onActionChange,
-      value: list,
       stringPath,
+      value: list,
     } = useInjectListField()!
 
-    onActionChange((action) => {
-      /**
-       * 发生增删操作，验证列表
-       */
-      if ([
-        'pop',
-        'push',
-        'shift',
-        'insert',
-        'remove',
-        'unshift',
-      ].includes(action)) {
-        nextTick(() => {
-          form?.validate(stringPath.value)
-        })
-      }
-    })
+    /**
+     * 长度发生变化，验证列表，如果没有传递规则，校验不会生效
+     */
+    watch(
+      () => list.value.length,
+      () => {
+        form?.validate(stringPath.value)
+      },
+      { flush: 'post' },
+    )
 
     const exposed: ProFormListInst = {
       get,
@@ -224,7 +216,7 @@ export default defineComponent({
     const listDom = list.map((item, index) => {
       return (
         <FormListItem
-          key={item[AUTO_CREATE_UNIQUE_ID]}
+          key={item[ROW_UUID]}
           min={min}
           max={max}
           index={index}

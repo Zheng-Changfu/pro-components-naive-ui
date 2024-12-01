@@ -32,21 +32,23 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      const { readonlyText } = this
+    const dom = this.readonly
+      ? this.readonlyText
+      : (
+          <NMention
+            ref="instRef"
+            {...this.$props}
+            {...this.$attrs}
+            v-slots={this.$slots}
+          />
+        )
 
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      return readonlyText
-    }
-    return (
-      <NMention
-        ref="instRef"
-        {...this.$props}
-        {...this.$attrs}
-        v-slots={this.$slots}
-      />
-    )
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.$props,
+      })
+      : dom
   },
 })

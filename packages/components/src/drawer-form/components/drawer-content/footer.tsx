@@ -4,7 +4,7 @@ import { computed, defineComponent } from 'vue'
 import { warnOnce } from '../../../_utils/warn'
 import { ProButton } from '../../../button'
 import { useLocale } from '../../../locales'
-import { useInjectDrawerForm } from '../../composables/createDrawerForm'
+import { useInjectProDrawerForm } from '../../composables/createProDrawerForm'
 
 export default defineComponent({
   name: 'Footer',
@@ -23,11 +23,11 @@ export default defineComponent({
       getMessage,
     } = useLocale('ProDrawerContent')
 
-    const form = useInjectDrawerForm()
+    const form = useInjectProDrawerForm()
     if (!form) {
       warnOnce(
         'drawer-content',
-        '`pro-drawer-content` must be placed inside `drawer-form`.',
+        '`pro-drawer-content` must be placed inside `pro-drawer-form`.',
       )
     }
 
@@ -46,14 +46,11 @@ export default defineComponent({
     const resolvedResetButtonProps = computed<ProButtonProps>(() => {
       return showResetButton.value
         ? {
-            content: getMessage(
-              'reset',
-              '取 消',
-            ),
             onClick: () => {
               form?.close()
             },
             disabled: submiting.value,
+            content: getMessage('reset'),
             ...(props.resetButtonProps ?? {}),
           }
         : {}
@@ -63,14 +60,11 @@ export default defineComponent({
       return showSubmitButton.value
         ? {
             type: 'primary',
-            content: getMessage(
-              'submit',
-              '确 认',
-            ),
             onClick: () => {
               form?.submit()
             },
             loading: submiting.value,
+            content: getMessage('submit'),
             ...(props.submitButtonProps ?? {}),
           }
         : {}

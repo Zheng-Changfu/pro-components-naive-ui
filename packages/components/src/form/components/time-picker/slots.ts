@@ -1,5 +1,6 @@
-import type { ProFieldSlots } from '../field'
+import type { TimePickerProps } from 'naive-ui'
+import type { ProFieldSharedSlots } from '../field'
 
-export interface ProTimePickerSlots extends ProFieldSlots {
+export interface ProTimePickerSlots extends ProFieldSharedSlots<TimePickerProps> {
   icon: any
 }

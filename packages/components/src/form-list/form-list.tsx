@@ -3,7 +3,7 @@ import type { ProFormListSlots } from './slots'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
-import { useOverrideProps, usePostValue } from '../composables'
+import { useOverrideProps } from '../composables'
 import { ProField } from '../form/components'
 import FormList from './components/form-list'
 import { provideFormListInstStore } from './inst'
@@ -12,7 +12,7 @@ import style from './styles/index.cssr'
 
 const name = 'ProFormList'
 export default defineComponent({
-  name: 'ProFormList',
+  name,
   props: proFormListProps,
   slots: Object as SlotsType<ProFormListSlots>,
   setup(props, { expose }) {
@@ -27,11 +27,7 @@ export default defineComponent({
       props,
     )
 
-    const postValue = usePostValue(overridedProps, {
-      mapAddUniqueId: true,
-    })
-
-    const splitProps = computed(() => {
+    const decompositionProps = computed(() => {
       const {
         min,
         max,
@@ -47,7 +43,7 @@ export default defineComponent({
 
       return {
         proFieldProps,
-        fieldListProps: {
+        formListProps: {
           min,
           max,
           position,
@@ -69,9 +65,8 @@ export default defineComponent({
 
     expose(exposed)
     return {
-      postValue,
-      splitProps,
       mergedClsPrefix,
+      decompositionProps,
     }
   },
   render() {
@@ -79,12 +74,11 @@ export default defineComponent({
 
     return (
       <ProField
-        {...this.splitProps.proFieldProps}
+        {...this.decompositionProps.proFieldProps}
         isList={true}
         valueModelName=""
-        postValue={this.postValue}
         class={[`${mergedClsPrefix}-pro-form-list`]}
-        fieldProps={this.splitProps.fieldListProps}
+        fieldProps={this.decompositionProps.formListProps}
       >
         {{
           ...this.$slots,

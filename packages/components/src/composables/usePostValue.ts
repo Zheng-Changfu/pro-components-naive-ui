@@ -1,7 +1,5 @@
 import type { MaybeRef } from 'vue'
 import type { ProFieldProps } from '../form'
-import { isArray } from 'lodash-es'
-import { uid } from 'pro-composables'
 import { unref } from 'vue'
 
 type PostValue = NonNullable<ProFieldProps['postValue']>
@@ -11,75 +9,56 @@ interface PostValueProps {
 }
 
 interface UsePostValueOptions<
-  UndefToNull extends boolean,
-  UndefToFalsy extends boolean,
-  MapAddUniqueId extends boolean,
-  UndefToEmptyArray extends boolean,
+  NilToNull extends boolean,
+  NilToFalsy extends boolean,
+  NilToEmptyArray extends boolean,
   Transform extends PostValue | undefined,
 > {
   /**
    * 将 null/undefined 转成 null
    */
-  undefToNull?: UndefToNull
+  nilToNull?: NilToNull
   /**
    * 将 null/undefined 转成 false
    */
-  undefToFalsy?: UndefToFalsy
+  nilToFalsy?: NilToFalsy
   /**
    * 将 null/undefined 转成 []
    */
-  undefToEmptyArray?: UndefToEmptyArray
-  /**
-   * 将数组的每一项添加唯一id
-   */
-  mapAddUniqueId?: MapAddUniqueId
+  nilToEmptyArray?: NilToEmptyArray
   /**
    * 自定义转换
    */
   transform?: Transform
 }
 
-export const AUTO_CREATE_UNIQUE_ID = 'AUTO_CREATE_UNIQUE_ID'
-
-export function usePostValue<T extends MaybeRef<PostValueProps>, UN extends true, UF extends false, MAUI extends false, UTEA extends false, TF extends undefined>(props: T, options: UsePostValueOptions<UN, UF, MAUI, UTEA, TF>): any
-export function usePostValue<T extends MaybeRef<PostValueProps>, UN extends false, UF extends true, MAUI extends false, UTEA extends false, TF extends undefined>(props: T, options: UsePostValueOptions<UN, UF, MAUI, UTEA, TF>): any
-export function usePostValue<T extends MaybeRef<PostValueProps>, UN extends false, UF extends false, MAUI extends true, UTEA extends false, TF extends undefined>(props: T, options: UsePostValueOptions<UN, UF, MAUI, UTEA, TF>): any
-export function usePostValue<T extends MaybeRef<PostValueProps>, UN extends false, UF extends false, MAUI extends false, UTEA extends true, TF extends undefined>(props: T, options: UsePostValueOptions<UN, UF, MAUI, UTEA, TF>): any
-export function usePostValue<T extends MaybeRef<PostValueProps>, UN extends false, UF extends false, MAUI extends false, UTEA extends false, TF extends PostValue>(props: T, options: UsePostValueOptions<UN, UF, MAUI, UTEA, TF>): any
-export function usePostValue<T extends MaybeRef<PostValueProps>, UN extends boolean, UF extends boolean, MAUI extends boolean, UTEA extends boolean, TF extends PostValue | undefined>(props: T, options: UsePostValueOptions<UN, UF, MAUI, UTEA, TF>) {
+export function usePostValue<T extends MaybeRef<PostValueProps>, NN extends true, NF extends false, NEA extends false, TF extends undefined>(props: T, options: UsePostValueOptions<NN, NF, NEA, TF>): any
+export function usePostValue<T extends MaybeRef<PostValueProps>, NN extends false, NF extends true, NEA extends false, TF extends undefined>(props: T, options: UsePostValueOptions<NN, NF, NEA, TF>): any
+export function usePostValue<T extends MaybeRef<PostValueProps>, NN extends false, NF extends false, NEA extends true, TF extends undefined>(props: T, options: UsePostValueOptions<NN, NF, NEA, TF>): any
+export function usePostValue<T extends MaybeRef<PostValueProps>, NN extends false, NF extends false, NEA extends false, TF extends PostValue>(props: T, options: UsePostValueOptions<NN, NF, NEA, TF>): any
+export function usePostValue<T extends MaybeRef<PostValueProps>, NN extends boolean, NF extends boolean, NEA extends boolean, TF extends PostValue | undefined>(props: T, options: UsePostValueOptions<NN, NF, NEA, TF>) {
   const {
     transform,
-    undefToNull,
-    undefToFalsy,
-    mapAddUniqueId,
-    undefToEmptyArray,
+    nilToNull,
+    nilToFalsy,
+    nilToEmptyArray,
   } = options
 
   return (value: any) => {
     const { postValue } = unref(props)
     let returnedValue: any
-
-    if (undefToNull) {
+    if (nilToNull) {
       returnedValue = value ?? null
     }
-    else if (undefToFalsy) {
+    else if (nilToFalsy) {
       returnedValue = value ?? false
     }
-    else if (undefToEmptyArray) {
+    else if (nilToEmptyArray) {
       returnedValue = value ?? []
-    }
-    else if (mapAddUniqueId) {
-      const list = isArray(value) ? value : []
-      returnedValue = list.map((item: any) => {
-        return item[AUTO_CREATE_UNIQUE_ID]
-          ? item
-          : { ...item, [AUTO_CREATE_UNIQUE_ID]: uid() }
-      })
     }
     else if (transform) {
       returnedValue = transform(value)
     }
-
     return postValue ? postValue(returnedValue) : returnedValue
   }
 }

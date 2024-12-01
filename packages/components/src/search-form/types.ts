@@ -1,7 +1,7 @@
 import type { GridItemProps } from 'naive-ui'
 import type { VNodeChild } from 'vue'
-import type { ProFieldColumn } from '../../../form'
-import type { InternalProFieldProps } from '../../../form/components/type-utils'
+import type { ProFieldColumn } from '../form'
+import type { InternalProFieldProps } from '../form/components/type-utils'
 
 interface ProSearchFormColumnProps extends InternalProFieldProps, Pick<
   GridItemProps,

@@ -1,17 +1,17 @@
 export * from './components/drawer-content'
 
 export {
-  createDrawerForm,
-  useInjectDrawerForm,
-} from './composables/createDrawerForm'
+  createProDrawerForm,
+  useInjectProDrawerForm,
+} from './composables/createProDrawerForm'
 
 export {
-  default as DrawerForm,
+  default as ProDrawerForm,
 } from './drawer-form'
 
 export {
-  drawerFormProps,
-  type DrawerFormProps,
+  proDrawerFormProps,
+  type ProDrawerFormProps,
 } from './props'
 
 export * from './slots'

@@ -2,8 +2,6 @@ import { cB, cE, cM } from 'naive-ui'
 
 export default cB('pro-data-table', [
   cM('flex-height', `
-    display: flex;
-    flex-direction: column;
     flex-grow: 1;
   `, [
     cB('pro-card', `

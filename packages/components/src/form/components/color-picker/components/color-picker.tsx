@@ -1,6 +1,5 @@
 import type { SlotsType } from 'vue'
 import type { ProColorPickerSlots } from '../slots'
-import { omit } from 'lodash-es'
 import { colorPickerProps, NColorPicker } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { useReadonlyHelpers } from '../../field'
@@ -25,34 +24,31 @@ export default defineComponent({
   },
   render() {
     const slots = {
-      ...omit(this.$slots, 'title'),
-      label: this.$slots.title,
+      ...this.$slots,
+      label: this.$slots['naive-label'],
     }
 
-    if (this.readonly) {
-      const { empty, emptyText } = this
+    const disabled = this.readonly
+      ? true
+      : this.$props.disabled
 
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      if (empty) {
-        return emptyText
-      }
-      return (
-        <NColorPicker
-          {...this.$props}
-          {...this.$attrs}
-          disabled
-          v-slots={slots}
-        />
-      )
-    }
-    return (
-      <NColorPicker
-        {...this.$props}
-        {...this.$attrs}
-        v-slots={slots}
-      />
-    )
+    const dom = this.readonly && this.empty
+      ? this.emptyText
+      : (
+          <NColorPicker
+            {...this.$props}
+            {...this.$attrs}
+            disabled={disabled}
+            v-slots={slots}
+          />
+        )
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.$props,
+      })
+      : dom
   },
 })

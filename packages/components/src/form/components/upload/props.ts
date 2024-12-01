@@ -20,7 +20,7 @@ export interface ProUploadFieldProps extends UploadProps {
   /**
    * 超出文件最大大小时触发的回调
    */
-  onOverFileMaxSize?: (maxSize: number, data: {
+  onOverSize?: (maxSize: number, data: {
     file: UploadFileInfo
     fileList: UploadFileInfo[]
   }) => void
@@ -52,7 +52,7 @@ export const proUploadFieldProps = {
   /**
    * 超出文件最大大小时触发的回调
    */
-  onOverFileMaxSize: Function as PropType<(maxSize: number, data: {
+  onOverSize: Function as PropType<(maxSize: number, data: {
     file: UploadFileInfo
     fileList: UploadFileInfo[]
   }) => void>,

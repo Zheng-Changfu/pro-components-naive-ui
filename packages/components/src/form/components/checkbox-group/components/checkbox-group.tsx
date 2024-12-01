@@ -1,9 +1,10 @@
 import type { CheckboxGroupProps, CheckboxProps, FlexProps } from 'naive-ui'
-import type { PropType, SlotsType } from 'vue'
+import type { PropType, SlotsType, VNodeChild } from 'vue'
 import type { ProCheckboxGroupSlots } from '../slots'
 import { get, omit } from 'lodash-es'
 import { checkboxGroupProps, NCheckbox, NCheckboxGroup, NFlex } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
+import { resolveSlot } from '../../../../_utils/resolveSlot'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
@@ -71,42 +72,44 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      const { empty, value, emptyText, selectedLabels } = this
+    let dom: VNodeChild
 
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      if (empty) {
-        return emptyText
-      }
-      if (this.$slots.default) {
-        return (value ?? []).join('，')
-      }
-      return selectedLabels.join('，')
+    if (this.readonly) {
+      dom = this.empty
+        ? this.emptyText
+        : this.$slots.default
+          ? (this.value ?? []).join('，')
+          : this.selectedLabels.join('，')
     }
-    return (
-      <NCheckboxGroup
-        {...this.$attrs}
-        {...this.nCheckboxGroupProps}
-      >
-        {{
-          default: () => {
-            if (this.$slots.default) {
-              return this.$slots.default()
-            }
-            return (
-              <NFlex {...(this.$props.flexProps ?? {})}>
-                {
-                  this.normalizedOptions.map((item) => {
-                    return <NCheckbox key={item.value} {...item} />
-                  })
-                }
-              </NFlex>
-            )
-          },
-        }}
-      </NCheckboxGroup>
-    )
+    else {
+      dom = (
+        <NCheckboxGroup
+          {...this.$attrs}
+          {...this.nCheckboxGroupProps}
+        >
+          {{
+            default: () => {
+              return resolveSlot(this.$slots.default, () => [
+                <NFlex {...(this.$props.flexProps ?? {})}>
+                  {
+                    this.normalizedOptions.map((item) => {
+                      return <NCheckbox key={item.value} {...item} />
+                    })
+                  }
+                </NFlex>,
+              ])
+            },
+          }}
+        </NCheckboxGroup>
+      )
+    }
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.nCheckboxGroupProps,
+      })
+      : dom
   },
 })

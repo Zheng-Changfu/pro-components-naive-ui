@@ -1,5 +1,6 @@
-import type { ProFieldSlots } from '../field'
+import type { SliderProps } from 'naive-ui'
+import type { ProFieldSharedSlots } from '../field'
 
-export interface ProSliderSlots extends ProFieldSlots {
+export interface ProSliderSlots extends ProFieldSharedSlots<SliderProps> {
   thumb: any
 }

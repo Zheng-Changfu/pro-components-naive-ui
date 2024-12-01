@@ -2,9 +2,8 @@ import type { DataTableColumn } from 'naive-ui'
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
 import type { ProDataTableColumn } from '../types'
-import { watchImmediate } from '@vueuse/core'
 import { mapTree } from 'pro-composables'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { isDragSortColumn, isExpandColumn, isGroupColumn, isIndexColumn, isSelectionColumn } from '../utils/column'
 import { useColumnRenderer } from './useColumnRenderer'
 
@@ -12,22 +11,18 @@ interface UseColumnsOptions {
   dragHandleId: string
 }
 export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseColumnsOptions) {
-  let cacheColumns: DataTableColumn[] = []
-  const columns = ref<DataTableColumn[]>([])
-
   const {
     dragHandleId,
   } = options
 
   const {
+    createBaseColumn,
     createIndexColumn,
     renderTooltipTitle,
     createDragSortColumn,
-    createValueTypeColumn,
   } = useColumnRenderer({
-    columns,
+    props,
     dragHandleId,
-    pagination: computed(() => props.value.pagination),
   })
 
   function convertProColumnsToColumns(columns: ProDataTableColumn[]): DataTableColumn[] {
@@ -47,7 +42,7 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
           title: renderTooltipTitle(title, tooltip),
         }
       }
-      if (isGroupColumn(column)) {
+      if (isGroupColumn(column, childrenKey)) {
         const { title, tooltip, path, key, ...rest } = column
         return {
           ...rest,
@@ -58,38 +53,15 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
       if (isDragSortColumn(column, dragSortKey)) {
         return createDragSortColumn(column)
       }
-      return createValueTypeColumn(column)
+      return createBaseColumn(column)
     }, childrenKey as any)
   }
 
-  function getColumns() {
-    return columns.value
-  }
-
-  function getCacheColumns() {
-    return cacheColumns
-  }
-
-  function setCacheColumns(values: ProDataTableColumn[] | DataTableColumn[]) {
-    cacheColumns = convertProColumnsToColumns(values as ProDataTableColumn[])
-  }
-
-  function setColumns(values: ProDataTableColumn[] | DataTableColumn[]) {
-    columns.value = convertProColumnsToColumns(values as ProDataTableColumn[])
-  }
-
-  watchImmediate(
-    () => props.value.columns,
-    (values) => {
-      cacheColumns = columns.value = convertProColumnsToColumns(values ?? [])
-    },
-  )
+  const finalColumns = computed(() => {
+    return convertProColumnsToColumns(props.value.columns ?? [])
+  })
 
   return {
-    setColumns,
-    getColumns,
-    getCacheColumns,
-    setCacheColumns,
-    columns: computed(() => columns.value),
+    columns: finalColumns,
   }
 }

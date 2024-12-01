@@ -1,11 +1,13 @@
-import type { ProFieldSlots } from '../field'
+import type { DynamicTagsProps } from 'naive-ui'
+import type { ProFieldSharedSlots } from '../field'
 
-export interface ProDynamicTagsSlots extends ProFieldSlots {
-  trigger: {
+export interface ProDynamicTagsSlots extends ProFieldSharedSlots<DynamicTagsProps> {
+  'trigger': {
     disabled: boolean
     activate: () => void
   }
-  input: {
+  // 原名 input，但是有冲突，这里用 naive-input
+  'naive-input': {
     deactivate: () => void
     submit: (value: any) => void
   }

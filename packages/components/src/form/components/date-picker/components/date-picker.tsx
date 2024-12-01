@@ -1,5 +1,5 @@
 import type { DatePickerProps, TimePickerProps } from 'naive-ui'
-import type { PropType, SlotsType } from 'vue'
+import type { PropType, SlotsType, VNodeChild } from 'vue'
 import type { ProDatePickerSlots } from '../slots'
 import { isArray, isString } from 'lodash-es'
 import { datePickerProps, NDatePicker, NFlex } from 'naive-ui'
@@ -107,34 +107,43 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      const { empty, emptyText, arrayableDateText, displayDateText } = this
+    let dom: VNodeChild
 
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
+    if (this.readonly) {
+      if (this.empty) {
+        dom = this.emptyText
       }
-      if (empty) {
-        return emptyText
-      }
-      if (arrayableDateText) {
+      else if (this.arrayableDateText) {
         const separator = this.$slots.separator?.() ?? this.$props.separator
-        return (
+        dom = (
           <NFlex size={[8, 0]}>
-            <span>{(displayDateText as [string, string])[0]}</span>
+            <span>{(this.displayDateText as [string, string])[0]}</span>
             {separator && <span>{separator}</span>}
-            <span>{(displayDateText as [string, string])[1]}</span>
+            <span>{(this.displayDateText as [string, string])[1]}</span>
           </NFlex>
         )
       }
-      return displayDateText
+      else {
+        dom = this.displayDateText
+      }
     }
-    return (
-      <NDatePicker
-        ref="instRef"
-        {...this.$attrs}
-        {...this.nDatePickerProps}
-        v-slots={this.$slots}
-      />
-    )
+    else {
+      dom = (
+        <NDatePicker
+          ref="instRef"
+          {...this.$attrs}
+          {...this.nDatePickerProps}
+          v-slots={this.$slots}
+        />
+      )
+    }
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.nDatePickerProps,
+      })
+      : dom
   },
 })

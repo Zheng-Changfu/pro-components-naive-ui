@@ -101,14 +101,6 @@ export const proFieldProps = {
     default: undefined,
   },
   /**
-   * 表单项前缀
-   */
-  addonBefore: String,
-  /**
-   * 表单项后缀
-   */
-  addonAfter: String,
-  /**
    * 手动更新值
    * @param fieldValue 表单值
    * @param inputValue 输入值

@@ -1,12 +1,12 @@
 import type { GridProps } from 'naive-ui'
 import type { Simplify } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
-import type { ProButtonProps } from '../../../button'
+import type { ProButtonProps } from '../button'
 import type { CreateProSearchFormReturn } from './composables/createProSearchForm'
 import type { ProSearchFormColumns } from './types'
 import { omit } from 'lodash-es'
 import { gridProps } from 'naive-ui'
-import { proFormProps } from '../../../form'
+import { proFormProps } from '../form'
 
 export const proSearchFormExtendProps = {
   /**

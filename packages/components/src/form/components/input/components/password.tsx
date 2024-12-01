@@ -1,4 +1,4 @@
-import type { SlotsType } from 'vue'
+import type { SlotsType, VNodeChild } from 'vue'
 import type { ProPasswordSlots } from '../slots'
 import { EyeInvisibleOutlined, EyeOutlined } from '@vicons/antd'
 import { inputProps, NButton, NFlex, NIcon, NInput } from 'naive-ui'
@@ -54,33 +54,39 @@ export default defineComponent({
     }
   },
   render() {
-    if (this.readonly) {
-      const { value, empty, emptyText } = this
+    let dom: VNodeChild
 
-      if (this.$slots.readonly) {
-        return this.$slots.readonly(this.$props)
-      }
-      if (empty) {
-        return emptyText
-      }
-      return (
-        <NFlex align="center" wrap={false}>
-          {this.open ? value : '********'}
-          <NButton type="primary" text={true} onClick={() => this.setOpen(!this.open)}>
-            <NIcon size={16}>
-              {this.open ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-            </NIcon>
-          </NButton>
-        </NFlex>
+    if (this.readonly) {
+      dom = this.empty
+        ? this.emptyText
+        : (
+            <NFlex align="center" wrap={false}>
+              {this.open ? this.value : '********'}
+              <NButton type="primary" text={true} onClick={() => this.setOpen(!this.open)}>
+                <NIcon size={16}>
+                  {this.open ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                </NIcon>
+              </NButton>
+            </NFlex>
+          )
+    }
+    else {
+      dom = (
+        <NInput
+          ref="instRef"
+          {...this.$props}
+          {...this.$attrs}
+          v-slots={this.$slots}
+        />
       )
     }
-    return (
-      <NInput
-        ref="instRef"
-        {...this.$props}
-        {...this.$attrs}
-        v-slots={this.$slots}
-      />
-    )
+
+    return this.$slots.input
+      ? this.$slots.input({
+        inputDom: dom,
+        readonly: this.readonly,
+        inputProps: this.$props,
+      })
+      : dom
   },
 })

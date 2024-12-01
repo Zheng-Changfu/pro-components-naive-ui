@@ -24,5 +24,5 @@ export function isBaseColumn(val: any, childrenKey = 'children'): val is ProData
 
 export function isDragSortColumn(val: any, dragSortKey?: string): val is ProDataTableBaseColumn {
   const columnKey = val.path ?? val.key
-  return !!dragSortKey && dragSortKey === columnKey
+  return !!dragSortKey && dragSortKey.length > 0 && dragSortKey === columnKey
 }

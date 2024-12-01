@@ -4,11 +4,21 @@ import { useEventListener } from '@vueuse/core'
 import { computed, onScopeDispose } from 'vue'
 
 export const DRAGGABLE_CLASS = 'pro-modal--draggable'
-export function useDragModal(props: ComputedRef<ProModalProps>) {
+
+interface UseDragModalOptions {
+  onEnd?: (el: HTMLElement, event: MouseEvent) => void
+}
+export function useDragModal(props: ComputedRef<ProModalProps>, options: UseDragModalOptions = {}) {
   const cleanups: Array<() => void> = []
 
   const canDraggable = computed(() => {
     return props.value.draggable !== false
+  })
+
+  const draggableClass = computed(() => {
+    return canDraggable.value
+      ? DRAGGABLE_CLASS
+      : ''
   })
 
   const sticky = computed(() => {
@@ -31,6 +41,7 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
 
     cleanups.push(
       useEventListener(header, 'mousedown', (event) => {
+        event.preventDefault()
         mousedownEvent = event
         const {
           x,
@@ -38,16 +49,12 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
           right,
           bottom,
         } = modal.getBoundingClientRect()
-        /**
-         * TODO: 是否需要参考 to 属性
-         */
         minMoveX = x
         minMoveY = y
         maxMoveX = window.innerWidth - right
         maxMoveY = window.innerHeight - bottom
-
         /**
-         * naive-ui modal 使用 transform 会导致关闭动画异常
+         * naive modal 使用 transform 会导致关闭动画异常
          */
         const { left, top } = modal.style
         prevMoveY = +top.slice(0, -2)
@@ -90,8 +97,9 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
     )
 
     cleanups.push(
-      useEventListener(window, 'mouseup', () => {
+      useEventListener(window, 'mouseup', (event: MouseEvent) => {
         mousedownEvent = undefined
+        options.onEnd && options.onEnd(modal, event)
       }),
     )
   }
@@ -107,5 +115,6 @@ export function useDragModal(props: ComputedRef<ProModalProps>) {
     stopDrag,
     startDrag,
     canDraggable,
+    draggableClass,
   }
 }
