@@ -9,6 +9,7 @@ export * from './src/form'
 export * from './src/form-list'
 export * from './src/modal'
 export * from './src/modal-form'
+export * from './src/plains'
 export * from './src/search-form'
 export { uid } from 'pro-composables'
 

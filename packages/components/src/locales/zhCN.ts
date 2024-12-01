@@ -88,4 +88,8 @@ export const zhCN = createLocale({
   ProEditDataTable: {
     add: '添加一行数据',
   },
+  ProCopyableText: {
+    copy: '复制',
+    copied: '复制成功',
+  },
 } as any, nZhCN)

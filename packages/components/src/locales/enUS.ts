@@ -87,4 +87,8 @@ export const enUS = createLocale({
   ProEditDataTable: {
     add: 'add',
   },
+  ProCopyableText: {
+    copy: 'copy',
+    copied: 'copied',
+  },
 } as any, nEnUS)
