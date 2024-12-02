@@ -46,11 +46,7 @@ export const ProTags = defineComponent({
       return this.emptyText
     }
     return (
-      <NFlex
-        wrap={true}
-        size={[8, 8]}
-        class={[`${this.mergedClsPrefix}-pro-tags`]}
-      >
+      <NFlex class={[`${this.mergedClsPrefix}-pro-tags`]}>
         {this.mergedValue.map((option, index) => {
           const { content, ...nTagProps } = option
           return (
