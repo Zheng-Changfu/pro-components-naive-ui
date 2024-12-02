@@ -1,11 +1,9 @@
 import type { SlotsType } from 'vue'
 import type { ProEditDataTableSlots } from './slots'
-import { isArray, omit, pick } from 'lodash-es'
-import { uid } from 'pro-composables'
-import { defineComponent } from 'vue'
+import { omit, pick } from 'lodash-es'
+import { computed, defineComponent } from 'vue'
 import { useOverrideProps } from '../composables'
-import { proFieldProps as _proFieldProps, InternalValueTypeEnum, ProField } from '../form'
-import { AUTO_CREATE_ID } from '../form-list'
+import { proFieldProps as _proFieldProps, ProField } from '../form'
 import EditDataTable from './components/edit-data-table'
 import { provideEditDataTableInstStore } from './inst'
 import { proEditDataTableProps } from './props'
@@ -41,24 +39,8 @@ export default defineComponent({
       }
     })
 
-    function addRowIdToRow(val: any) {
-      const { postValue } = overridedProps.value
-      if (!isArray(val)) {
-        return postValue ? postValue(val) : []
-      }
-      const normalizedVals = val.map((item) => {
-        return item[AUTO_CREATE_ID]
-          ? item
-          : { ...item, [AUTO_CREATE_ID]: uid() }
-      })
-      return postValue
-        ? postValue(normalizedVals)
-        : normalizedVals
-    }
-
     expose(exposed)
     return {
-      addRowIdToRow,
       proFieldProps,
       fieldDataTableProps,
     }
@@ -68,13 +50,17 @@ export default defineComponent({
       <ProField
         {...this.proFieldProps}
         isList={true}
-        postValue={this.addRowIdToRow}
+        valueModelName=""
         fieldProps={this.fieldDataTableProps}
-        valueType={InternalValueTypeEnum.EDIT_DATA_TABLE}
       >
         {{
           input: (pureProps: any) => {
-            return <EditDataTable {...pureProps} v-slots={this.$slots} />
+            return (
+              <EditDataTable
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
           },
         }}
       </ProField>

@@ -1,15 +1,15 @@
-import type { ExtractPublicPropTypes, SlotsType, VNodeChild } from 'vue'
+import type { ExtractPublicPropTypes, PropType, SlotsType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../../button'
 import type { ProDataTableProps } from '../../data-table'
+import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
 import { omit } from 'lodash-es'
-import { useInjectListFieldContext } from 'pro-composables'
+import { defineComponent } from 'vue'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
 import { ProDataTable, proDataTableProps } from '../../data-table'
-import { proFieldProps, useInjectProFormInst } from '../../form'
-import { AUTO_CREATE_ID, proFormListContextKey } from '../../form-list'
+import { proFieldProps } from '../../form'
 import { provideProEditDataTableInst } from '../context'
-import { type ProEditDataTableInst, useInjectEditDataTableInstStore } from '../inst'
+import { useInjectEditDataTableInstStore } from '../inst'
 import { proEditDataTableProps } from '../props'
 import { useColumns } from './composables/useColumns'
 import { useEditable } from './composables/useEditable'
@@ -87,24 +87,6 @@ export default defineComponent({
       onActionChange,
       stringPath,
     } = useInjectListFieldContext()!
-
-    onActionChange((action) => {
-      /**
-       * 发生增删操作，验证列表
-       */
-      if ([
-        'pop',
-        'push',
-        'shift',
-        'insert',
-        'remove',
-        'unshift',
-      ].includes(action)) {
-        nextTick(() => {
-          form?.validate(stringPath.value)
-        })
-      }
-    })
 
     const proDataTableProps = computed<ProDataTableProps>(() => {
       const {

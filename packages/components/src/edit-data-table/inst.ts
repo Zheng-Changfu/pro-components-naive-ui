@@ -3,7 +3,7 @@ import type { ProDataTableInst } from '../data-table/inst'
 import { createInjectionState } from '@vueuse/core'
 import { useComponentInst } from '../composables'
 
-export interface ProEditDataTableInst<RowData = any> extends ArrayFieldAction<RowData>, Omit<ProDataTableInst<RowData>, 'reload'> {
+export interface ProEditDataTableInst<RowData = any> extends ArrayFieldAction<RowData>, ProDataTableInst {
   /**
    * 开始编辑
    * @param index 行索引

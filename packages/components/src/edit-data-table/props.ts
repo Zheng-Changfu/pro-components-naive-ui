@@ -1,28 +1,21 @@
-import type { PaginationProps } from 'naive-ui'
-import type { MaybeExpression } from 'pro-composables'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProButtonProps } from '../button'
 import type { ProDataTableProps } from '../data-table'
-import type { ExtendAttrsStyleProps } from '../types'
 import type { ActionGuard, ProEditDataTableColumns } from './types'
-import { omit } from 'lodash-es'
+import { omit, pick } from 'lodash-es'
 import { proDataTableProps } from '../data-table'
 import { proFieldProps } from '../form'
 
+console.log(
+  pick(proDataTableProps, Object.keys(proFieldProps)),
+  pick(proFieldProps, Object.keys(proDataTableProps)),
+)
 export const proEditDataTableProps = {
   /**
-   * 编辑表格被 form 接管数据源，所以要删除掉一些属性
+   * 编辑表格被 form 接管数据源
    */
   ...omit(proDataTableProps, [
     'data',
-    'manual',
-    'rowKey',
-    'request',
-    'transform',
-    'onRequestError',
-    'onRequestSuccess',
-    'onRequestComplete',
-    'refreshOnWindowFocus',
   ]),
   /**
    * 表格被包装成一个表单控件，支持表单控件的功能
@@ -31,7 +24,7 @@ export const proEditDataTableProps = {
   /**
    * 最多行数，多于该数则无法继续新增
    */
-  max: [String, Number] as PropType<MaybeExpression<number>>,
+  max: Number,
   /**
    * 新增一行的默认值
    */
@@ -40,20 +33,13 @@ export const proEditDataTableProps = {
    * 新增一行按钮的属性，false 不显示
    */
   creatorButtonProps: {
-    type: [Object, Boolean] as PropType<MaybeExpression<ProButtonProps | false>>,
+    type: [Object, Boolean] as PropType<ProButtonProps | false>,
     default: undefined,
   },
   /**
    * 操作拦截器
    */
   actionGuard: Object as PropType<ActionGuard>,
-  /**
-   * 重写类型
-   */
-  pagination: {
-    type: [Boolean, Object] as PropType<false | PaginationProps>,
-    default: false,
-  },
   /**
    * 重写类型
    */
@@ -71,11 +57,11 @@ export const proEditDataTableProps = {
    * ```
    */
   fieldProps: {
-    type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<Partial<{
+    type: Object as PropType<Partial<{
       size: ProDataTableProps['size'] & {}
       title: ProDataTableProps['title'] & {}
       tooltip: ProDataTableProps['tooltip'] & {}
-    }>>>>,
+    }>>,
     default: () => ({}),
   },
 } as const
