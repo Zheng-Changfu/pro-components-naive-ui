@@ -5,7 +5,6 @@ import { NFlex, NTag } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { useOverrideProps } from '../../composables'
-import { useLocale } from '../../locales'
 import { usePlainComponentConfig } from '../composables'
 
 const name = 'ProTags'
@@ -13,7 +12,7 @@ export const ProTags = defineComponent({
   name,
   props: {
     /**
-     * options
+     * 传递进来的值
      */
     value: undefined as unknown as PropType<any>,
     /**
@@ -30,10 +29,6 @@ export const ProTags = defineComponent({
     )
 
     const {
-      getMessage,
-    } = useLocale(name)
-
-    const {
       empty,
       emptyText,
       mergedValue,
@@ -42,7 +37,6 @@ export const ProTags = defineComponent({
     return {
       empty,
       emptyText,
-      getMessage,
       mergedValue,
       mergedClsPrefix,
     }
