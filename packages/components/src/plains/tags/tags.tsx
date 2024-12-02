@@ -85,14 +85,12 @@ export function transformValueToTagOptions(value: any) {
     if (isString(c) && c.length > 0) {
       p.push({
         content: c,
-        size: 'small',
         type: 'primary',
         bordered: false,
       })
     }
     if (isPlainObject(c) && isString(c.content) && c.content.length > 0) {
       p.push({
-        size: 'small',
         type: 'primary',
         bordered: false,
         ...c,

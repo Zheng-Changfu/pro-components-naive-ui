@@ -4,7 +4,7 @@
 
 <script lang="tsx">
 import type { ProDataTableColumns } from 'pro-naive-ui'
-import { renderCopyableText } from 'pro-naive-ui'
+import { renderCopyableText, renderDateText, renderImages, renderTags } from 'pro-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 function move<T = any>(list: T[], fromIndex: number, toIndex: number) {
@@ -33,7 +33,7 @@ function move<T = any>(list: T[], fromIndex: number, toIndex: number) {
 
 export default defineComponent({
   setup() {
-    const columns = ref<ProDataTableColumns<{ title: string }>>([
+    const columns = ref<ProDataTableColumns<{ src: any, title: string, now: number }>>([
       {
         type: 'selection',
         multiple: false,
@@ -52,23 +52,37 @@ export default defineComponent({
         render: row => renderCopyableText(row.title),
       },
       {
+        title: 'tags',
+        render: row => renderTags(row.title),
+      },
+      {
+        title: '日期格式化',
+        render: row => renderDateText(row.now),
+      },
+      {
+        title: '图片',
+        width: 200,
+        render: row => renderImages(row.src),
+      },
+      {
         title: 'No',
         path: 'no',
+        width: 80,
         tooltip: ['123', '123'],
       },
     ])
 
     const data = ref([
-      { now: Date.now(), no: '3', title: 'Wonderwall', length: '4:18' },
-      { now: Date.now(), no: '', title: 'Don\'t Look Back in Anger', length: '4:48' },
-      { now: Date.now(), no: '12', title: 'Champagne Supernova', length: '7:27' },
-      { now: Date.now(), no: '33', title: 'Wonderwall', length: '4:18' },
-      { now: Date.now(), no: '44', title: 'Don\'t Look Back in Anger', length: '4:48' },
-      { now: Date.now(), no: '122', title: 'Champagne Supernova', length: '7:27' },
-      { now: Date.now(), no: '333', title: 'Wonderwall', length: '4:18' },
-      { now: Date.now(), no: '4444', title: 'Don\'t Look Back in Anger', length: '4:48' },
-      { now: Date.now(), no: '1222', title: 'Champagne Supernova', length: '7:27' },
-      { now: Date.now(), no: '33333', title: 'Wonderwall', length: '4:18' },
+      { now: Date.now(), src: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg', no: '3', title: 'Wonderwall', length: '4:18' },
+      { now: Date.now(), src: '', no: '', title: 'Don\'t Look Back in Anger', length: '4:48' },
+      { now: Date.now(), src: undefined, no: '12', title: 'Champagne Supernova', length: '7:27' },
+      { now: Date.now(), src: null, no: '33', title: 'Wonderwall', length: '4:18' },
+      { now: Date.now(), src: [], no: '44', title: 'Don\'t Look Back in Anger', length: '4:48' },
+      { now: Date.now(), src: ['https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg', 'https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg'], no: '122', title: 'Champagne Supernova', length: '7:27' },
+      { now: Date.now(), src: '', no: '333', title: 'Wonderwall', length: '4:18' },
+      { now: Date.now(), src: '', no: '4444', title: 'Don\'t Look Back in Anger', length: '4:48' },
+      { now: Date.now(), src: '', no: '1222', title: 'Champagne Supernova', length: '7:27' },
+      { now: Date.now(), src: '', no: '33333', title: 'Wonderwall', length: '4:18' },
     ])
 
     function change() {
