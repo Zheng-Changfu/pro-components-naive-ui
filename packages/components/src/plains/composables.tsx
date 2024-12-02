@@ -1,4 +1,4 @@
-import type { ComputedRef, Ref, VNodeChild } from 'vue'
+import type { ComputedRef, VNodeChild } from 'vue'
 import type { CopyableTextConfig } from './copyable-text'
 import { isString, toString } from 'lodash-es'
 import { computed, unref } from 'vue'
