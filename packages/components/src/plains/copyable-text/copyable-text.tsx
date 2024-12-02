@@ -3,9 +3,10 @@ import type { CopyableTextConfig } from './types'
 import { CheckOutlined, CopyOutlined } from '@vicons/antd'
 import { useClipboard } from '@vueuse/core'
 import { NButton, NIcon, NTooltip } from 'naive-ui'
-import { defineComponent, toRef } from 'vue'
+import { defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { useMountStyle } from '../../_internal/useMountStyle'
+import { useOverrideProps } from '../../composables'
 import { useLocale } from '../../locales'
 import { usePlainComponentConfig } from '../composables'
 import style from './styles/index.cssr'
@@ -26,6 +27,11 @@ export const ProCopyableText = defineComponent({
   setup(props) {
     const mergedClsPrefix = useNaiveClsPrefix()
 
+    const overridedProps = useOverrideProps(
+      name,
+      props,
+    )
+
     const {
       getMessage,
     } = useLocale(name)
@@ -34,11 +40,7 @@ export const ProCopyableText = defineComponent({
       empty,
       emptyText,
       mergedValue,
-    } = usePlainComponentConfig(
-      'copyableText',
-      toRef(props, 'value'),
-      toRef(props, 'config'),
-    )
+    } = usePlainComponentConfig('copyableText', overridedProps)
 
     const {
       copy,

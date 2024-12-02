@@ -37,8 +37,7 @@ const builtinTransform: Transform = {
 
 export function usePlainComponentConfig<Name extends keyof Transform>(
   name: Name,
-  value: Ref<any>,
-  config: Ref<any>,
+  props: ComputedRef<{ value?: any, config?: Record<string, any> }>,
 ): {
     empty: ComputedRef<boolean>
     emptyText: ComputedRef<VNodeChild>
@@ -52,9 +51,10 @@ export function usePlainComponentConfig<Name extends keyof Transform>(
   } = useInjectGlobalConfig()
 
   const mergedValue = computed(() => {
+    const { value, config } = props.value
     const transform = mergedPlainComponentValueTransform[name] ?? builtinTransform[name]
     return transform
-      ? transform(unref(value), unref(config))
+      ? transform(value, config ?? {})
       : unref(value)
   })
 
