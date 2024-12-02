@@ -8,6 +8,8 @@ import { get, isFunction } from 'lodash-es'
 import { NButton, NIcon } from 'naive-ui'
 import { computed } from 'vue'
 import ProTooltip from '../../_internal/components/pro-tooltip'
+import { isEmptyValue } from '../../_utils/isEmptyValue'
+import { useInjectGlobalConfig, useInjectWrappedIn } from '../../config-provider'
 import { useLocale } from '../../locales'
 
 export const sortColumnKey = '__SORT_COLUMN__'
@@ -26,6 +28,16 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
   const {
     getMessage,
   } = useLocale('ProDataTable')
+
+  const {
+    mergedEmpty,
+  } = useInjectGlobalConfig()
+
+  const wrappedIn = useInjectWrappedIn()
+
+  const emptyText = computed(() => {
+    return mergedEmpty(wrappedIn)
+  })
 
   const hasFixedLeftColumn = computed(() => {
     const columns = props.value.columns ?? []
@@ -166,10 +178,13 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       title: renderTooltipTitle(title, tooltip),
       render(row, rowIndex) {
         if (render) {
+          /**
+           * 用户自己的 render 不处理
+           */
           return render(row, rowIndex)
         }
         const value = get(row, columnKey)
-        return value as any
+        return isEmptyValue(value) ? emptyText.value : value
       },
       ...rest,
     }

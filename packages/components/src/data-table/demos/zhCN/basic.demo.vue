@@ -49,7 +49,7 @@ export default defineComponent({
       },
       {
         title: '可复制文本',
-        render: row => renderCopyableText(row, 'title'),
+        render: row => renderCopyableText(row.title),
       },
       {
         title: 'No',
@@ -60,7 +60,7 @@ export default defineComponent({
 
     const data = ref([
       { now: Date.now(), no: '3', title: 'Wonderwall', length: '4:18' },
-      { now: Date.now(), no: '4', title: 'Don\'t Look Back in Anger', length: '4:48' },
+      { now: Date.now(), no: '', title: 'Don\'t Look Back in Anger', length: '4:48' },
       { now: Date.now(), no: '12', title: 'Champagne Supernova', length: '7:27' },
       { now: Date.now(), no: '33', title: 'Wonderwall', length: '4:18' },
       { now: Date.now(), no: '44', title: 'Don\'t Look Back in Anger', length: '4:48' },
