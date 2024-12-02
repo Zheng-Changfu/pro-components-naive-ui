@@ -1,17 +1,20 @@
-import type { InjectionKey } from 'vue'
-import type { ProConfigProviderExtendProps } from './props'
-import { inject, provide, ref } from 'vue'
+import type { InjectionKey, MaybeRef } from 'vue'
+import { inject, provide } from 'vue'
 
-const globalConfigContextKey = Symbol('globalConfig') as InjectionKey<ProConfigProviderExtendProps>
+interface GlobalConfig {
+  // mergedEmpty: (wrappedIn: 'xxxxx') => VNodeChild
+  mergedPropOverrides: MaybeRef<Record<string, object>>
+}
 
-export function provideGlobalConfig(config: ProConfigProviderExtendProps) {
+const globalConfigContextKey = Symbol('globalConfig') as InjectionKey<GlobalConfig>
+
+export function provideGlobalConfig(config: GlobalConfig) {
   provide(globalConfigContextKey, config)
 }
 
 export function useInjectGlobalConfig() {
-  return inject(globalConfigContextKey, () => {
-    return {
-      propOverrides: ref({}),
-    }
-  }) as any as Required<ProConfigProviderExtendProps>
+  return inject(globalConfigContextKey, {
+    // mergedEmpty: () => '-',
+    mergedPropOverrides: {},
+  })
 }

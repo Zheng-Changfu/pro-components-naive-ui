@@ -11,7 +11,7 @@ export default defineComponent({
   props: proConfigProviderProps,
   setup(props) {
     const {
-      propOverrides: injectedPropOverrides,
+      mergedPropOverrides: inheritedPropOverrides,
     } = useInjectGlobalConfig()
 
     const nConfigProviderProps = useOmitProps(
@@ -19,15 +19,15 @@ export default defineComponent({
       proConfigProviderExtendProps,
     )
 
-    const propOverrides = computed(() => {
+    const mergedPropOverrides = computed(() => {
       return shallowMergePropOverrides(
-        unref(injectedPropOverrides),
+        unref(inheritedPropOverrides),
         (unref(props.propOverrides) ?? {}),
       )
     })
 
     provideGlobalConfig({
-      propOverrides,
+      mergedPropOverrides,
     })
     return {
       nConfigProviderProps,
