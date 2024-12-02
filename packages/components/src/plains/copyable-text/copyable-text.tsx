@@ -1,7 +1,8 @@
 import type { PropType } from 'vue'
-import type { CopyableTextConfig } from './types'
+import type { ProCopyableTextConfig } from './types'
 import { CheckOutlined, CopyOutlined } from '@vicons/antd'
 import { useClipboard } from '@vueuse/core'
+import { isString, toString } from 'lodash-es'
 import { NButton, NIcon, NTooltip } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
@@ -22,7 +23,7 @@ export const ProCopyableText = defineComponent({
     /**
      * 传递给 useClipboard 的选项
      */
-    config: Object as PropType<CopyableTextConfig>,
+    config: Object as PropType<ProCopyableTextConfig>,
   },
   setup(props) {
     const mergedClsPrefix = useNaiveClsPrefix()
@@ -101,11 +102,15 @@ export const ProCopyableText = defineComponent({
 
 })
 
-export function renderCopyableText(value: any, config?: CopyableTextConfig) {
+export function renderCopyableText(value: any, config?: ProCopyableTextConfig) {
   return (
     <ProCopyableText
       value={value}
       config={config}
     />
   )
+}
+
+export function transformValueToString(value: any) {
+  return isString(value) ? value : toString(value)
 }

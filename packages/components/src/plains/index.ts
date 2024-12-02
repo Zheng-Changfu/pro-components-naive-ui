@@ -3,3 +3,4 @@ export type{
 } from './composables'
 
 export * from './copyable-text'
+export * from './tags'
