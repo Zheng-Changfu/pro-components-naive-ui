@@ -1,4 +1,6 @@
 import type { ConfigProviderProps } from 'naive-ui'
+import type { WrappedIn } from './context'
+import { isFunction, isString } from 'lodash-es'
 import { NConfigProvider } from 'naive-ui'
 import { computed, defineComponent, unref } from 'vue'
 import { useOmitProps } from '../composables'
@@ -11,7 +13,9 @@ export default defineComponent({
   props: proConfigProviderProps,
   setup(props) {
     const {
-      propOverrides: injectedPropOverrides,
+      mergedEmpty: inheritedEmpty,
+      mergedPropOverrides: inheritedPropOverrides,
+      mergedPlainComponentValueTransform: inheritedPlainComponentValueTransform,
     } = useInjectGlobalConfig()
 
     const nConfigProviderProps = useOmitProps(
@@ -19,15 +23,31 @@ export default defineComponent({
       proConfigProviderExtendProps,
     )
 
-    const propOverrides = computed(() => {
+    const mergedPropOverrides = computed(() => {
       return shallowMergePropOverrides(
-        unref(injectedPropOverrides),
+        unref(inheritedPropOverrides),
         (unref(props.propOverrides) ?? {}),
       )
     })
 
+    function mergedEmpty(wrappedIn: WrappedIn) {
+      const { empty } = props
+      if (isString(empty)) {
+        return empty
+      }
+      if (isFunction(empty)) {
+        return empty(wrappedIn)
+      }
+      return inheritedEmpty(wrappedIn)
+    }
+
     provideGlobalConfig({
-      propOverrides,
+      mergedEmpty,
+      mergedPropOverrides,
+      mergedPlainComponentValueTransform: {
+        ...inheritedPlainComponentValueTransform,
+        ...props.plainComponentValueTransform,
+      },
     })
     return {
       nConfigProviderProps,

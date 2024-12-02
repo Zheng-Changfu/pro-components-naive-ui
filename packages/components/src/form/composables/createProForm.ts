@@ -6,6 +6,7 @@ import type { FieldExtraInfo } from '../components'
 import { isString } from 'lodash-es'
 import { createForm, stringifyPath } from 'pro-composables'
 import { computed, inject, nextTick, provide, ref } from 'vue'
+import { createInjectionKey } from '../../composables/createInjectionKey'
 import { fieldExtraKey } from '../components'
 import { useValidationResults } from './useValidationResult'
 
@@ -15,7 +16,6 @@ export interface ValidateError {
   message?: string
 }
 
-const proFormContextKey = Symbol('proForm')
 export const proFormInternalKey = Symbol('proFormInternalKey')
 
 type StringKeyof<Values = any> = Exclude<Paths<Values>, symbol | number>
@@ -272,6 +272,8 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
   }
   return Object.freeze(returned)
 }
+
+const proFormContextKey = createInjectionKey<CreateProFormReturn>('pro-form')
 
 export function provideProForm(form: CreateProFormReturn) {
   provide(proFormContextKey, form)

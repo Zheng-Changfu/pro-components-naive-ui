@@ -5,7 +5,7 @@ import { useInjectGlobalConfig } from '../config-provider'
 
 export function useOverrideProps<T extends object>(name: string, props: T): ComputedRef<T> {
   const inst = getCurrentInstance()
-  const { propOverrides } = useInjectGlobalConfig()
+  const { mergedPropOverrides } = useInjectGlobalConfig()
 
   return computed(() => {
     if (!inst)
@@ -14,7 +14,7 @@ export function useOverrideProps<T extends object>(name: string, props: T): Comp
      * 用户传递的所有属性
      */
     const inhertprops = inst.vnode.props
-    const overridedProps = unref(propOverrides)[name] as Partial<T>
+    const overridedProps = unref(mergedPropOverrides)[name] as Partial<T>
 
     if (!overridedProps) {
       return props

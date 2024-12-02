@@ -1,77 +1,82 @@
-import type { ComputedRef, InjectionKey, Ref } from 'vue'
-import type { CopyableTextConfig } from './copyable-text'
-import { isString, toString } from 'lodash-es'
-import { computed, inject, provide, unref } from 'vue'
+import type { ComputedRef, VNodeChild } from 'vue'
+import type { ProCopyableTextConfig } from './copyable-text/types'
+import type { ProDateTextConfig } from './date-text/types'
+import type { ProImagesConfig } from './images/types'
+import type { ProTagsConfig } from './tags/types'
+import { computed, unref } from 'vue'
 import { isEmptyValue } from '../_utils/isEmptyValue'
+import { useInjectGlobalConfig, useInjectWrappedIn } from '../config-provider'
+import { transformValueToString } from './copyable-text/copyable-text'
+import { transformValueToSrcs } from './images/images'
+import { transformValueToTagOptions } from './tags/tags'
 
-interface Transform {
+export interface Transform {
   /**
-   * 转化 Tags 组件的值
+   * 转化 ProTags 组件的值
    * @param value 外界传递进来的值
+   * @param config 外界传递进来的配置
    */
-  // tags?: (value: any) => string[]
+  tags?: (value: any, config: ProTagsConfig) => Array<ProTagsConfig>
   /**
-   * 转化 Images 组件的值
+   * 转化 ProImages 组件的值
    * @param value 外界传递进来的值
+   * @param config 外界传递进来的配置
    */
-  // images?: (value: any) => string[]
+  images?: (value: any, config: ProImagesConfig) => string[]
   /**
-   * 转化 CopyableText 组件的值
+   * 转化 ProDateText 组件的值
    * @param value 外界传递进来的值
+   * @param config 外界传递进来的配置
    */
-  copyableText?: (value: any, config: CopyableTextConfig) => string
+  dateText?: (value: any, config: ProDateTextConfig) => string
   /**
-   * 转化 DateText 组件的值
+   * 转化 ProCopyableText 组件的值
    * @param value 外界传递进来的值
-   * @param format 外界传递进来的格式化方式
+   * @param config 外界传递进来的配置
    */
-  // dateText?: (value: any, format: string) => string
+  copyableText?: (value: any, config: ProCopyableTextConfig) => string
 }
 
-interface PlainComponentConfig {
-  /**
-   * 转化值,转化后的值进行渲染
-   */
-  transform?: Transform
-}
-
-export const emptyText = '-'
 const builtinTransform: Transform = {
-  copyableText: (value: any) => {
-    if (isEmptyValue(value)) {
-      return emptyText
-    }
-    return isString(value) ? value : toString(value)
-  },
+  images: transformValueToSrcs,
+  tags: transformValueToTagOptions,
+  copyableText: transformValueToString,
 }
 
-const plainComponentConfigContextKey = 'plain-component-config' as any as InjectionKey<PlainComponentConfig>
-
-export function providePlainComponentConfig(config: PlainComponentConfig) {
-  provide(plainComponentConfigContextKey, config)
-}
-
-export function useInjectPlainComponentConfig() {
-  return inject(plainComponentConfigContextKey, {})
-}
-
-export function useMergePlainComponentConfig<Name extends keyof Transform>(
+export function usePlainComponentConfig<Name extends keyof Transform>(
   name: Name,
-  value: Ref<any>,
-  config: Ref<any>,
+  props: ComputedRef<{ value?: any, config?: Record<string, any> }>,
 ): {
+    empty: ComputedRef<boolean>
+    emptyText: ComputedRef<VNodeChild>
     mergedValue: ComputedRef<ReturnType<Exclude<Transform[Name], undefined>>>
   } {
-  const { transform } = useInjectPlainComponentConfig()
-  const transformFn = (transform ?? {})[name] ?? builtinTransform[name]
+  const wrappedIn = useInjectWrappedIn()
+
+  const {
+    mergedEmpty,
+    mergedPlainComponentValueTransform,
+  } = useInjectGlobalConfig()
 
   const mergedValue = computed(() => {
-    return transformFn
-      ? transformFn(unref(value), unref(config))
+    const { value, config } = props.value
+    const transform = mergedPlainComponentValueTransform[name] ?? builtinTransform[name]
+    return transform
+      ? transform(value, config ?? {})
       : unref(value)
   })
 
+  const empty = computed(() => {
+    return isEmptyValue(mergedValue.value)
+  })
+
+  const emptyText = computed(() => {
+    return mergedEmpty(wrappedIn)
+  })
+
   return {
+    empty,
+    emptyText,
     mergedValue,
   }
 }

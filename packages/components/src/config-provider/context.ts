@@ -1,17 +1,35 @@
-import type { InjectionKey } from 'vue'
-import type { ProConfigProviderExtendProps } from './props'
-import { inject, provide, ref } from 'vue'
+import type { MaybeRef, VNodeChild } from 'vue'
+import type { PlainComponentValueTransform } from '../plains'
+import { inject, provide } from 'vue'
+import { createInjectionKey } from '../composables/createInjectionKey'
 
-const globalConfigContextKey = Symbol('globalConfig') as InjectionKey<ProConfigProviderExtendProps>
+export type WrappedIn = 'form' | 'data-table' | 'edit-data-table' | ''
 
-export function provideGlobalConfig(config: ProConfigProviderExtendProps) {
-  provide(globalConfigContextKey, config)
+interface GlobalConfig {
+  mergedEmpty: (wrappedIn: WrappedIn) => VNodeChild
+  mergedPropOverrides: MaybeRef<Record<string, object>>
+  mergedPlainComponentValueTransform: PlainComponentValueTransform
+}
+
+const wrappedInInjectionKey = createInjectionKey<WrappedIn>('wrapped-in')
+const globalConfigInjectionKey = createInjectionKey<GlobalConfig>('global-config')
+
+export function provideGlobalConfig(config: GlobalConfig) {
+  provide(globalConfigInjectionKey, config)
+}
+
+export function provideWrappedIn(wrappedIn: WrappedIn) {
+  return provide(wrappedInInjectionKey, wrappedIn)
+}
+
+export function useInjectWrappedIn() {
+  return inject(wrappedInInjectionKey, '')
 }
 
 export function useInjectGlobalConfig() {
-  return inject(globalConfigContextKey, () => {
-    return {
-      propOverrides: ref({}),
-    }
-  }) as any as Required<ProConfigProviderExtendProps>
+  return inject(globalConfigInjectionKey, {
+    mergedEmpty: () => '-',
+    mergedPropOverrides: {},
+    mergedPlainComponentValueTransform: {},
+  })
 }
