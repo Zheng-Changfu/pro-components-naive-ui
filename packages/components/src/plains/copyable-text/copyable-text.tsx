@@ -19,7 +19,7 @@ export const ProCopyableText = defineComponent({
      */
     value: undefined as unknown as PropType<any>,
     /**
-     * 预留的配置，暂时没什么用
+     * 传递给 useClipboard 的选项
      */
     config: Object as PropType<CopyableTextConfig>,
   },

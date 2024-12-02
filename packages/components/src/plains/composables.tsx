@@ -29,7 +29,6 @@ export interface Transform {
   // dateText?: (value: any, format: string) => string
 }
 
-export const emptyText = '-'
 const builtinTransform: Transform = {
   copyableText: (value: any) => {
     return isString(value) ? value : toString(value)

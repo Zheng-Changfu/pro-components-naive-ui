@@ -1,3 +1,3 @@
-import type { MaybeRefOrGetter, UseClipboardOptions } from '@vueuse/core'
+import type { UseClipboardOptions } from '@vueuse/core'
 
-export type CopyableTextConfig = UseClipboardOptions<MaybeRefOrGetter<string>>
+export type CopyableTextConfig = UseClipboardOptions<undefined>
