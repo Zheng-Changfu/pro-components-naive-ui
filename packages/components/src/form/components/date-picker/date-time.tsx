@@ -1,6 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProDatePickerSlots } from './slots'
 import { defineComponent } from 'vue'
+import { nilOrEmptyStringToNull } from '../../../_utils/nilOrEmptyStringToNull'
 import { useOverrideProps, usePostValue } from '../../../composables'
 import { InternalValueTypeEnum, ProField } from '../field'
 import DatePicker from './components/date-picker'
@@ -23,7 +24,7 @@ export default defineComponent({
     )
 
     const postValue = usePostValue(overridedProps, {
-      nilToNull: true,
+      transform: nilOrEmptyStringToNull,
     })
 
     expose(exposed)
