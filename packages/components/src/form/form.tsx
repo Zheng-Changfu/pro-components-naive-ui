@@ -7,7 +7,7 @@ import { computed, defineComponent, onMounted, provide, ref } from 'vue'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { provideWrappedIn } from '../config-provider'
 import { createProForm, proFormInternalKey, provideProForm } from './composables/createProForm'
-import { proFormConfigKey } from './context'
+import { proFormConfigInjectionKey } from './context'
 import { proFormExtendProps, proFormProps } from './props'
 
 const name = 'ProForm'
@@ -67,7 +67,7 @@ export default defineComponent({
       registerNFormInst(nFormInst.value!)
     })
 
-    provide(proFormConfigKey, {
+    provide(proFormConfigInjectionKey, {
       validationResults,
       readonly: computed(() => overridedProps.value.readonly),
       validateBehavior: computed(() => overridedProps.value.validateBehavior),

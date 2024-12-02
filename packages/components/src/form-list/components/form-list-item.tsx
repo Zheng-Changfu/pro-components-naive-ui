@@ -14,7 +14,7 @@ import { ProButton } from '../../button'
 import { useReadonlyHelpers } from '../../form/components'
 import { useInjectProFormConfig } from '../../form/context'
 import { useLocale } from '../../locales'
-import { proFormListContextKey, useInjectProFormListInst } from '../context'
+import { proFormListConfigInjectionKey, useInjectProFormListInst } from '../context'
 import { useProvidePath } from './composables/useProvidePath'
 
 const Action = defineComponent({
@@ -258,7 +258,7 @@ export default defineComponent({
       return sizeToHeightMap[size]
     })
 
-    provide(proFormListContextKey, {
+    provide(proFormListConfigInjectionKey, {
       showLabel: showItemLabel,
     })
 

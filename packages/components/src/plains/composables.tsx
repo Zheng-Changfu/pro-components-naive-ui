@@ -1,8 +1,9 @@
-import type { ComputedRef, InjectionKey, Ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 import type { CopyableTextConfig } from './copyable-text'
 import { isString, toString } from 'lodash-es'
 import { computed, inject, provide, unref } from 'vue'
 import { isEmptyValue } from '../_utils/isEmptyValue'
+import { createInjectionKey } from '../composables/createInjectionKey'
 
 interface Transform {
   /**
@@ -45,14 +46,14 @@ const builtinTransform: Transform = {
   },
 }
 
-const plainComponentConfigContextKey = 'plain-component-config' as any as InjectionKey<PlainComponentConfig>
+const plainComponentConfigInjectionKey = createInjectionKey<PlainComponentConfig>('plain-component-config')
 
 export function providePlainComponentConfig(config: PlainComponentConfig) {
-  provide(plainComponentConfigContextKey, config)
+  provide(plainComponentConfigInjectionKey, config)
 }
 
 export function useInjectPlainComponentConfig() {
-  return inject(plainComponentConfigContextKey, {})
+  return inject(plainComponentConfigInjectionKey, {})
 }
 
 export function useMergePlainComponentConfig<Name extends keyof Transform>(

@@ -1,5 +1,6 @@
-import type { InjectionKey, MaybeRef, VNodeChild } from 'vue'
+import type { MaybeRef, VNodeChild } from 'vue'
 import { inject, provide } from 'vue'
+import { createInjectionKey } from '../composables/createInjectionKey'
 
 export type WrappedIn = 'form' | 'data-table' | 'edit-data-table' | ''
 
@@ -8,23 +9,23 @@ interface GlobalConfig {
   mergedPropOverrides: MaybeRef<Record<string, object>>
 }
 
-const wrappedInContextKey = Symbol('wrappedIn') as InjectionKey<WrappedIn>
-const globalConfigContextKey = Symbol('globalConfig') as InjectionKey<GlobalConfig>
+const wrappedInInjectionKey = createInjectionKey<WrappedIn>('wrapped-in')
+const globalConfigInjectionKey = createInjectionKey<GlobalConfig>('global-config')
 
 export function provideGlobalConfig(config: GlobalConfig) {
-  provide(globalConfigContextKey, config)
+  provide(globalConfigInjectionKey, config)
 }
 
 export function provideWrappedIn(wrappedIn: WrappedIn) {
-  return provide(wrappedInContextKey, wrappedIn)
+  return provide(wrappedInInjectionKey, wrappedIn)
 }
 
 export function useInjectWrappedIn() {
-  return inject(wrappedInContextKey, '')
+  return inject(wrappedInInjectionKey, '')
 }
 
 export function useInjectGlobalConfig() {
-  return inject(globalConfigContextKey, {
+  return inject(globalConfigInjectionKey, {
     mergedEmpty: () => '-',
     mergedPropOverrides: {},
   })
