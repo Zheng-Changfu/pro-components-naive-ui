@@ -1,15 +1,13 @@
-import type { Paths } from 'type-fest'
 import type { PropType } from 'vue'
 import type { CopyableTextConfig } from './types'
 import { CheckOutlined, CopyOutlined } from '@vicons/antd'
 import { useClipboard } from '@vueuse/core'
-import { get } from 'lodash-es'
 import { NButton, NIcon, NTooltip } from 'naive-ui'
 import { defineComponent, toRef } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { useMountStyle } from '../../_internal/useMountStyle'
 import { useLocale } from '../../locales'
-import { emptyText, useMergePlainComponentConfig } from '../composables'
+import { usePlainComponentConfig } from '../composables'
 import style from './styles/index.cssr'
 
 const name = 'ProCopyableText'
@@ -33,8 +31,10 @@ export const ProCopyableText = defineComponent({
     } = useLocale(name)
 
     const {
+      empty,
+      emptyText,
       mergedValue,
-    } = useMergePlainComponentConfig(
+    } = usePlainComponentConfig(
       'copyableText',
       toRef(props, 'value'),
       toRef(props, 'config'),
@@ -57,16 +57,18 @@ export const ProCopyableText = defineComponent({
     }
 
     return {
+      empty,
       copied,
       copyText,
+      emptyText,
       getMessage,
       mergedValue,
       mergedClsPrefix,
     }
   },
   render() {
-    if (this.mergedValue === emptyText) {
-      return emptyText
+    if (this.empty) {
+      return this.emptyText
     }
     return (
       <div class={[`${this.mergedClsPrefix}-pro-copyable-text`]}>
@@ -97,8 +99,7 @@ export const ProCopyableText = defineComponent({
 
 })
 
-export function renderCopyableText<T extends Record<string, any>>(data: T, path: Paths<T> | ({} & string), config?: CopyableTextConfig) {
-  const value = get(data, path)
+export function renderCopyableText(value: any, config?: CopyableTextConfig) {
   return (
     <ProCopyableText
       value={value}

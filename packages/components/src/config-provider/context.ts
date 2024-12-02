@@ -1,4 +1,5 @@
 import type { MaybeRef, VNodeChild } from 'vue'
+import type { PlainComponentValueTransform } from '../plains'
 import { inject, provide } from 'vue'
 import { createInjectionKey } from '../composables/createInjectionKey'
 
@@ -7,6 +8,7 @@ export type WrappedIn = 'form' | 'data-table' | 'edit-data-table' | ''
 interface GlobalConfig {
   mergedEmpty: (wrappedIn: WrappedIn) => VNodeChild
   mergedPropOverrides: MaybeRef<Record<string, object>>
+  mergedPlainComponentValueTransform: PlainComponentValueTransform
 }
 
 const wrappedInInjectionKey = createInjectionKey<WrappedIn>('wrapped-in')
@@ -28,5 +30,6 @@ export function useInjectGlobalConfig() {
   return inject(globalConfigInjectionKey, {
     mergedEmpty: () => '-',
     mergedPropOverrides: {},
+    mergedPlainComponentValueTransform: {},
   })
 }

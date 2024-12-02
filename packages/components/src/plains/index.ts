@@ -1,5 +1,5 @@
-export {
-  providePlainComponentConfig,
+export type{
+  Transform as PlainComponentValueTransform,
 } from './composables'
 
 export * from './copyable-text'
