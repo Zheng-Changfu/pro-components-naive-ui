@@ -94,10 +94,7 @@ export const ProDateText = defineComponent({
 
 })
 
-export function renderDateText(
-  value: any,
-  config?: ProDateTextConfig,
-) {
+export function renderDateText(value: any, config?: ProDateTextConfig) {
   return (
     <ProDateText
       value={value}
