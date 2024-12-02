@@ -1,8 +1,8 @@
-import type { InjectionKey, MaybeRef } from 'vue'
+import type { InjectionKey, MaybeRef, VNodeChild } from 'vue'
 import { inject, provide } from 'vue'
 
 interface GlobalConfig {
-  // mergedEmpty: (wrappedIn: 'xxxxx') => VNodeChild
+  mergedEmpty: (wrappedIn: 'xxxxx') => VNodeChild
   mergedPropOverrides: MaybeRef<Record<string, object>>
 }
 
@@ -14,7 +14,7 @@ export function provideGlobalConfig(config: GlobalConfig) {
 
 export function useInjectGlobalConfig() {
   return inject(globalConfigContextKey, {
-    // mergedEmpty: () => '-',
+    mergedEmpty: () => '-',
     mergedPropOverrides: {},
   })
 }
