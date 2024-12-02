@@ -1,17 +1,18 @@
 import type { FieldExtraInfo } from '../keys'
 import { useInjectField } from 'pro-composables'
-import { computed, unref } from 'vue'
+import { computed } from 'vue'
 import { isEmptyValue } from '../../../../_utils/isEmptyValue'
-import { useInjectProFormConfig } from '../../../context'
+import { useInjectGlobalConfig, useInjectWrappedIn } from '../../../../config-provider'
 import { fieldExtraKey } from '../keys'
 
 export function useReadonlyHelpers() {
   const field = useInjectField()!
+  const wrappedIn = useInjectWrappedIn()
   const fieldExtraInfo = field[fieldExtraKey] as FieldExtraInfo
 
   const {
-    readonlyEmptyText,
-  } = useInjectProFormConfig()
+    mergedEmpty,
+  } = useInjectGlobalConfig()
 
   const {
     readonly,
@@ -21,17 +22,21 @@ export function useReadonlyHelpers() {
     return isEmptyValue(field.value.value)
   })
 
+  const emptyText = computed(() => {
+    return mergedEmpty(wrappedIn)
+  })
+
   const readonlyText = computed(() => {
     return empty.value
-      ? unref(readonlyEmptyText)
+      ? emptyText
       : field.value.value
   })
 
   return {
     empty,
     readonly,
+    emptyText,
     readonlyText,
     value: field.value,
-    emptyText: readonlyEmptyText,
   }
 }

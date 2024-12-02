@@ -22,13 +22,6 @@ export const proFormExtendProps = {
     required: true,
   },
   /**
-   * 表单项只读模式下的文字
-   */
-  readonlyEmptyText: {
-    type: String,
-    default: '-',
-  },
-  /**
    * 表单验证时机
    */
   validationTrigger: {

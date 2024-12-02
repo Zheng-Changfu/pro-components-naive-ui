@@ -5,7 +5,6 @@ import { inject, shallowRef } from 'vue'
 import { useValidationResults } from './composables/useValidationResult'
 
 export const proFormConfigKey = Symbol('proFormConfig') as InjectionKey<{
-  readonlyEmptyText: MaybeRef<string>
   readonly: MaybeRef<boolean | undefined>
   validateBehavior: ToRef<ValidateBehavior | undefined>
   validateBehaviorProps: ToRef<PopoverProps | undefined>
@@ -17,7 +16,6 @@ export function useInjectProFormConfig() {
   return inject(proFormConfigKey, () => {
     return {
       readonly: undefined,
-      readonlyEmptyText: '-',
       validationTrigger: 'input',
       validateBehavior: shallowRef(undefined),
       validationResults: useValidationResults(),

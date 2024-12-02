@@ -1,4 +1,5 @@
 import type { ExtractPublicPropTypes, MaybeRef, PropType, VNodeChild } from 'vue'
+import type { WrappedIn } from './context'
 import { configProviderProps } from 'naive-ui'
 
 export const proConfigProviderExtendProps = {
@@ -11,7 +12,7 @@ export const proConfigProviderExtendProps = {
    * 当为函数时接收一个参数 wrappedIn，代表了当前组件被包裹在哪个组件中
    * @default '-'
    */
-  empty: [String, Function] as PropType<string | ((wrappedIn: 'XXXXXXXXXX') => VNodeChild)>,
+  empty: [String, Function] as PropType<string | ((wrappedIn: WrappedIn) => VNodeChild)>,
 } as const
 
 export const proConfigProviderProps = {

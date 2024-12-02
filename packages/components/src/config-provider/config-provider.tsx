@@ -1,4 +1,5 @@
 import type { ConfigProviderProps } from 'naive-ui'
+import type { WrappedIn } from './context'
 import { isFunction, isString } from 'lodash-es'
 import { NConfigProvider } from 'naive-ui'
 import { computed, defineComponent, unref } from 'vue'
@@ -28,7 +29,7 @@ export default defineComponent({
       )
     })
 
-    function mergedEmpty(wrappedIn: any) {
+    function mergedEmpty(wrappedIn: WrappedIn) {
       const { empty } = props
       if (isString(empty)) {
         return empty
