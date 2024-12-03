@@ -2,6 +2,7 @@ import type { PopoverProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { CreateProFormReturn } from './composables/createProForm'
 import { formProps } from 'naive-ui'
+import { keysOf } from '../_utils/keysOf'
 import { simplyOmit } from '../_utils/simplyOmit'
 
 export interface ValidateError {
@@ -58,5 +59,6 @@ export const proFormProps = {
   ...proFormExtendProps,
 } as const
 
+export const proFormPropKeys = keysOf(proFormProps)
 export type ProFormProps = ExtractPublicPropTypes<typeof proFormProps>
 export type ProFormExtendProps = ExtractPublicPropTypes<typeof proFormExtendProps>
