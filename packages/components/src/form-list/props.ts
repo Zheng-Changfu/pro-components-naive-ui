@@ -1,6 +1,7 @@
 import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../button'
 import type { ProFormListInst } from './inst'
+import { keysOf } from '../_utils/keysOf'
 import { proListFieldSharedProps } from '../form'
 
 export interface ActionGuard {
@@ -114,4 +115,5 @@ export const proFormListProps = {
   ...internalFormListProps,
 } as const
 
+export const internalFormListPropKeys = keysOf(internalFormListProps)
 export type ProFormListProps = ExtractPublicPropTypes<typeof proFormListProps>

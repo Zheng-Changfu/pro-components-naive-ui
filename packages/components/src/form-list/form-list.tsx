@@ -3,11 +3,12 @@ import type { ProFormListSlots } from './slots'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
+import { keep } from '../_utils/keep'
 import { useOverrideProps } from '../composables'
 import { pickProListFieldSharedProps, ProField } from '../form/components'
 import FormList from './components/form-list'
 import { provideFormListInstStore } from './inst'
-import { proFormListProps } from './props'
+import { internalFormListPropKeys, proFormListProps } from './props'
 import style from './styles/index.cssr'
 
 const name = 'ProFormList'
@@ -32,29 +33,10 @@ export default defineComponent({
     })
 
     const internalFormListProps = computed(() => {
-      const {
-        min,
-        max,
-        position,
-        actionGuard,
-        copyButtonProps,
-        removeButtonProps,
-        creatorButtonProps,
-        creatorInitialValue,
-        onlyShowFirstItemLabel,
-      } = overridedProps.value
-
-      return {
-        min,
-        max,
-        position,
-        actionGuard,
-        copyButtonProps,
-        removeButtonProps,
-        creatorButtonProps,
-        creatorInitialValue,
-        onlyShowFirstItemLabel,
-      }
+      return keep(
+        overridedProps.value,
+        internalFormListPropKeys,
+      )
     })
 
     useMountStyle(
