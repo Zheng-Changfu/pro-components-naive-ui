@@ -43,6 +43,7 @@ export default defineComponent({
       name,
       'pro-form-list',
       style,
+      mergedClsPrefix,
     )
 
     expose(exposed)
