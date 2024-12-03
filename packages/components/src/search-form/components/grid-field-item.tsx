@@ -5,7 +5,7 @@ import { isFunction } from 'lodash-es'
 import { NGi } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import { resolveComponentByValueType } from '../../_utils/resolveComponentByValueType'
-import { pickInternalProFieldProps } from '../../form/components/type-utils'
+import { pickProFieldSharedProps } from '../../form'
 
 export default defineComponent({
   name: 'GridFieldItem',
@@ -22,10 +22,10 @@ export default defineComponent({
   setup(props) {
     const proFieldProps = computed(() => {
       const { column } = props
-      const internalProFieldProps = pickInternalProFieldProps(column)
+      const proFieldSharedProps = pickProFieldSharedProps(column)
       const resolvedInternalProFieldProps = isFunction(column.proFieldProps) ? column.proFieldProps() : (column.proFieldProps ?? {})
       return {
-        ...internalProFieldProps,
+        ...proFieldSharedProps,
         ...resolvedInternalProFieldProps,
       }
     })
