@@ -83,6 +83,7 @@ const Action = defineComponent({
             </NIcon>
           )
         },
+        onClick: copy,
         ...(props.copyButtonProps ?? {}),
       }
     })
@@ -99,6 +100,7 @@ const Action = defineComponent({
             </NIcon>
           )
         },
+        onClick: remove,
         ...(props.removeButtonProps ?? {}),
       }
     })
@@ -164,21 +166,11 @@ const Action = defineComponent({
   },
   render() {
     const copyButtonDom = this.showCopyButton
-      ? (
-          <ProButton
-            {...this.copyButtonProps}
-            onClick={this.copy}
-          />
-        )
+      ? <ProButton {...this.copyButtonProps} />
       : null
 
     const removeButtonDom = this.showRemoveButton
-      ? (
-          <ProButton
-            {...this.removeButtonProps}
-            onClick={this.remove}
-          />
-        )
+      ? <ProButton {...this.removeButtonProps} />
       : null
 
     return (
