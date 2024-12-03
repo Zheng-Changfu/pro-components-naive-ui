@@ -8,7 +8,7 @@ import type { ProColorPickerProps, ProColorPickerSlots } from './color-picker'
 import type { ProDatePickerProps, ProDatePickerSlots } from './date-picker'
 import type { ProDigitProps, ProDigitSlots } from './digit'
 import type { ProDynamicTagsProps, ProDynamicTagsSlots } from './dynamic-tags'
-import type { InternalValueTypeEnum } from './field'
+import type { InternalValueTypeEnum, ProFieldSharedProps } from './field'
 import type { ProInputProps, ProInputSlots } from './input'
 import type { ProMentionProps, ProMentionSlots } from './mention'
 import type { ProRadioGroupProps, ProRadioGroupSlots } from './radio-group'
@@ -19,7 +19,6 @@ import type { ProSwitchProps, ProSwitchSlots } from './switch'
 import type { ProTimePickerProps, ProTimePickerSlots } from './time-picker'
 import type { ProTransferProps, ProTransferSlots } from './transfer'
 import type { ProTreeSelectProps, ProTreeSelectSlots } from './tree-select'
-import type { InternalProFieldProps } from './type-utils'
 import type { ProUploadProps, ProUploadSlots } from './upload'
 
 type UnwrapSlots<T> = {
@@ -36,7 +35,7 @@ interface ProBaseFieldColumn<Values = any, ProFieldPropsParameters extends any[]
   /**
    * 透传给 ProField 组件的 props
    */
-  proFieldProps?: MaybeFunction<InternalProFieldProps, ProFieldPropsParameters>
+  proFieldProps?: MaybeFunction<ProFieldSharedProps, ProFieldPropsParameters>
 }
 
 interface AutoCompleteColumn<
