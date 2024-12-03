@@ -1,13 +1,12 @@
 import type { SlotsType } from 'vue'
 import type { ProEditDataTableSlots } from './slots'
-import { pick } from 'lodash-es'
 import { computed, defineComponent } from 'vue'
-import { simplyOmit } from '../_utils/simplyOmit'
+import { keep } from '../_utils/keep'
 import { useOverrideProps } from '../composables'
-import { proFieldProps as _proFieldProps, ProField } from '../form'
+import { proFieldProps as _proFieldProps, pickProListFieldSharedProps, ProField } from '../form'
 import EditDataTable from './components/edit-data-table'
 import { provideEditDataTableInstStore } from './inst'
-import { proEditDataTableProps } from './props'
+import { internalEditDataTablePropKeys, proEditDataTableProps } from './props'
 
 const name = 'ProEditDataTable'
 export default defineComponent({
@@ -25,31 +24,20 @@ export default defineComponent({
     )
 
     const proFieldProps = computed(() => {
-      return pick(
-        overridedProps.value,
-        Object.keys(_proFieldProps),
-      )
+      return pickProListFieldSharedProps(overridedProps.value)
     })
 
-    const proDataTableProps = computed(() => {
-      const fieldProps = overridedProps.value ?? {}
-      return {
-        ...fieldProps,
-        ...simplyOmit(
-          overridedProps.value,
-          Object.keys(_proFieldProps) as any,
-        ),
-        // style: {
-        //   width: '100%',
-        //   ...((fieldProps.style as any) ?? {}),
-        // },
-      }
+    const internalEditDataTableProps = computed(() => {
+      return keep(
+        overridedProps.value,
+        internalEditDataTablePropKeys,
+      )
     })
 
     expose(exposed)
     return {
       proFieldProps,
-      proDataTableProps,
+      internalEditDataTableProps,
     }
   },
   render() {
@@ -58,7 +46,7 @@ export default defineComponent({
         {...this.proFieldProps}
         isList={true}
         valueModelName=""
-        fieldProps={this.proDataTableProps}
+        fieldProps={this.internalEditDataTableProps}
       >
         {{
           input: (pureProps: any) => {

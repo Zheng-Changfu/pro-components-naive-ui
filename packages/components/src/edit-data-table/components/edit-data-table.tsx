@@ -1,4 +1,4 @@
-import type { ExtractPublicPropTypes, SlotsType, VNodeChild } from 'vue'
+import type { SlotsType, VNodeChild } from 'vue'
 import type { ProDataTableProps } from '../../data-table'
 import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
@@ -6,30 +6,20 @@ import { useInjectListField } from 'pro-composables'
 import { computed, defineComponent, watch } from 'vue'
 import { keep } from '../../_utils/keep'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
-import { simplyOmit } from '../../_utils/simplyOmit'
 import { ProDataTable } from '../../data-table'
 import { proDataTablePropKeys } from '../../data-table/props'
-import { proFieldProps, useInjectProForm } from '../../form'
+import { useInjectProForm } from '../../form'
 import { provideProEditDataTableInst } from '../context'
 import { useInjectEditDataTableInstStore } from '../inst'
-import { proEditDataTableProps } from '../props'
+import { internalEditDataTableProps } from '../props'
 import { useColumns } from './composables/useColumns'
 import { useEditable } from './composables/useEditable'
 import { useProDataTableInst } from './composables/useProDataTableInst'
 import CreatorButton from './creator-button'
 
-const editDataTableProps = {
-  ...simplyOmit(
-    proEditDataTableProps,
-    Object.keys(proFieldProps) as any,
-  ) as Omit<typeof proEditDataTableProps, keyof typeof proFieldProps>,
-} as const
-
-export type EditDataTableProps = ExtractPublicPropTypes<typeof editDataTableProps>
-
 export default defineComponent({
   name: 'EditDataTable',
-  props: editDataTableProps,
+  props: internalEditDataTableProps,
   slots: Object as SlotsType<ProEditDataTableSlots>,
   setup(props) {
     const form = useInjectProForm()

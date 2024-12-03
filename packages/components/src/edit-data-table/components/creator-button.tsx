@@ -1,19 +1,20 @@
-import type { ActionGuard } from '../types'
+import type { ProButtonProps } from '../../button'
 import { PlusOutlined } from '@vicons/antd'
 import { useToggle } from '@vueuse/core'
 import { NIcon } from 'naive-ui'
 import { useInjectListField } from 'pro-composables'
-import { computed, defineComponent, type PropType } from 'vue'
-import { ProButton, type ProButtonProps } from '../../button'
+import { computed, defineComponent } from 'vue'
+import { ProButton } from '../../button'
 import { useLocale } from '../../locales'
+import { internalEditDataTableProps } from '../props'
 
 export default defineComponent({
   name: 'CreatorButton',
   props: {
-    max: Number,
-    actionGuard: Object as PropType<ActionGuard>,
-    creatorInitialValue: Function as PropType<() => Record<string, any>>,
-    creatorButtonProps: [Object, Boolean] as PropType<ProButtonProps | false>,
+    max: internalEditDataTableProps.max,
+    actionGuard: internalEditDataTableProps.actionGuard,
+    creatorButtonProps: internalEditDataTableProps.creatorButtonProps,
+    creatorInitialValue: internalEditDataTableProps.creatorInitialValue,
   },
   setup(props) {
     const {

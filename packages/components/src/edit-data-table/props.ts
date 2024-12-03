@@ -5,6 +5,7 @@ import type { ProButtonProps } from '../button'
 import type { ProDataTableProps } from '../data-table'
 import type { ActionGuard, ProEditDataTableColumns } from './types'
 import { pick } from 'lodash-es'
+import { keysOf } from '../_utils/keysOf'
 import { simplyOmit } from '../_utils/simplyOmit'
 import { proDataTableProps } from '../data-table'
 import { proListFieldSharedProps } from '../form'
@@ -23,17 +24,13 @@ export const vModelEditableKeysProps = {
   'onUpdate:editableKeys': [Function, Array] as PropType<MaybeArray<(keys: Array<RowKey>) => void>>,
 } as const
 
-export const proEditDataTableProps = {
+export const internalEditDataTableProps = {
   /**
    * 编辑表格被 form 接管数据源
    */
   ...simplyOmit(proDataTableProps, [
     'data',
   ]),
-  /**
-   * 表格被包装成一个表单控件，支持表单控件的功能
-   */
-  ...proListFieldSharedProps,
   /**
    * v-model:editable-keys
    */
@@ -67,4 +64,13 @@ export const proEditDataTableProps = {
   fieldProps: Object as PropType<ProDataTableProps>,
 } as const
 
+export const proEditDataTableProps = {
+  /**
+   * 表格被包装成一个表单控件，支持表单控件的功能
+   */
+  ...proListFieldSharedProps,
+  ...internalEditDataTableProps,
+} as const
+
+export const internalEditDataTablePropKeys = keysOf(internalEditDataTableProps)
 export type ProEditDataTableProps = ExtractPublicPropTypes<typeof proEditDataTableProps>
