@@ -77,7 +77,6 @@ export default defineComponent({
         fieldProps: this.fieldProps,
         fieldSlots: column.fieldSlots,
         proFieldProps: {
-          validateBehavior: 'popover',
           ...this.proFieldProps,
           path: columnKey,
           readonly: !this.cellEditable,
