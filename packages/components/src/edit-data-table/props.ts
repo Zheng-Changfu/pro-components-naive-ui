@@ -1,8 +1,11 @@
+import type { RowKey } from 'naive-ui/es/data-table/src/interface'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { MaybeArray } from '../_utils/call'
 import type { ProButtonProps } from '../button'
 import type { ProDataTableProps } from '../data-table'
 import type { ActionGuard, ProEditDataTableColumns } from './types'
-import { omit, pick } from 'lodash-es'
+import { pick } from 'lodash-es'
+import { simplyOmit } from '../_utils/simplyOmit'
 import { proDataTableProps } from '../data-table'
 import { proFieldProps } from '../form'
 
@@ -10,17 +13,36 @@ console.log(
   pick(proDataTableProps, Object.keys(proFieldProps)),
   pick(proFieldProps, Object.keys(proDataTableProps)),
 )
+
+/**
+ * v-model:editable-keys
+ */
+export const vModelEditableKeysProps = {
+  'editableKeys': Array as PropType<Array<RowKey>>,
+  'onUpdateEditableKeys': [Function, Array] as PropType<MaybeArray<(keys: Array<RowKey>) => void>>,
+  'onUpdate:editableKeys': [Function, Array] as PropType<MaybeArray<(keys: Array<RowKey>) => void>>,
+} as const
+
 export const proEditDataTableProps = {
   /**
    * 编辑表格被 form 接管数据源
    */
-  ...omit(proDataTableProps, [
+  ...simplyOmit(proDataTableProps, [
     'data',
   ]),
   /**
    * 表格被包装成一个表单控件，支持表单控件的功能
    */
-  ...proFieldProps,
+  ...simplyOmit(proFieldProps, [
+    'onChange',
+    'postValue',
+    'fieldProps',
+    'onInputValue',
+  ]),
+  /**
+   * v-model:editable-keys
+   */
+  ...vModelEditableKeysProps,
   /**
    * 最多行数，多于该数则无法继续新增
    */
@@ -45,25 +67,9 @@ export const proEditDataTableProps = {
    */
   columns: Array as PropType<ProEditDataTableColumns>,
   /**
-   * 这些属性有冲突
-   * @example
-   * ```vue
-   * <pro-edit-data-table
-   *   :title="formItem 标题"
-   *   :field-props="{
-   *      title:"表格标题"
-   *   }"
-   *  />
-   * ```
+   * 有冲突的属性可以写在 fieldProps 中，会透传给 pro-data-table
    */
-  fieldProps: {
-    type: Object as PropType<Partial<{
-      size: ProDataTableProps['size'] & {}
-      title: ProDataTableProps['title'] & {}
-      tooltip: ProDataTableProps['tooltip'] & {}
-    }>>,
-    default: () => ({}),
-  },
+  fieldProps: Object as PropType<ProDataTableProps>,
 } as const
 
 export type ProEditDataTableProps = ExtractPublicPropTypes<typeof proEditDataTableProps>

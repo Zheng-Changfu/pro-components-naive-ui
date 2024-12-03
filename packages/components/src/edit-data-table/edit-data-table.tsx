@@ -1,7 +1,8 @@
 import type { SlotsType } from 'vue'
 import type { ProEditDataTableSlots } from './slots'
-import { omit, pick } from 'lodash-es'
+import { pick } from 'lodash-es'
 import { computed, defineComponent } from 'vue'
+import { simplyOmit } from '../_utils/simplyOmit'
 import { useOverrideProps } from '../composables'
 import { proFieldProps as _proFieldProps, ProField } from '../form'
 import EditDataTable from './components/edit-data-table'
@@ -24,25 +25,31 @@ export default defineComponent({
     )
 
     const proFieldProps = computed(() => {
-      return pick(overridedProps.value, Object.keys(_proFieldProps))
+      return pick(
+        overridedProps.value,
+        Object.keys(_proFieldProps),
+      )
     })
 
-    const fieldDataTableProps = computed(() => {
-      const fieldProps = overridedProps.value.fieldProps
+    const proDataTableProps = computed(() => {
+      const fieldProps = overridedProps.value ?? {}
       return {
-        ...omit(overridedProps.value, Object.keys(_proFieldProps)),
         ...fieldProps,
-        style: {
-          width: '100%',
-          ...((fieldProps.style as any) ?? {}),
-        },
+        ...simplyOmit(
+          overridedProps.value,
+          Object.keys(_proFieldProps) as any,
+        ),
+        // style: {
+        //   width: '100%',
+        //   ...((fieldProps.style as any) ?? {}),
+        // },
       }
     })
 
     expose(exposed)
     return {
       proFieldProps,
-      fieldDataTableProps,
+      proDataTableProps,
     }
   },
   render() {
@@ -51,7 +58,7 @@ export default defineComponent({
         {...this.proFieldProps}
         isList={true}
         valueModelName=""
-        fieldProps={this.fieldDataTableProps}
+        fieldProps={this.proDataTableProps}
       >
         {{
           input: (pureProps: any) => {

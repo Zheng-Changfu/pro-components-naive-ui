@@ -1,48 +1,28 @@
-import type { ExtractPublicPropTypes, PropType, SlotsType, VNodeChild } from 'vue'
-import type { ProButtonProps } from '../../button'
+import type { ExtractPublicPropTypes, SlotsType, VNodeChild } from 'vue'
 import type { ProDataTableProps } from '../../data-table'
 import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
-import { omit } from 'lodash-es'
-import { defineComponent } from 'vue'
+import { useInjectListField } from 'pro-composables'
+import { computed, defineComponent, watch } from 'vue'
+import { keep } from '../../_utils/keep'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
-import { ProDataTable, proDataTableProps } from '../../data-table'
-import { proFieldProps } from '../../form'
+import { simplyOmit } from '../../_utils/simplyOmit'
+import { ProDataTable } from '../../data-table'
+import { proDataTablePropKeys } from '../../data-table/props'
+import { proFieldProps, useInjectProForm } from '../../form'
 import { provideProEditDataTableInst } from '../context'
 import { useInjectEditDataTableInstStore } from '../inst'
 import { proEditDataTableProps } from '../props'
 import { useColumns } from './composables/useColumns'
 import { useEditable } from './composables/useEditable'
-import { useProDataTableContext } from './composables/useProDataTableContext'
+import { useProDataTableInst } from './composables/useProDataTableInst'
 import CreatorButton from './creator-button'
 
 const editDataTableProps = {
-  ...omit(
+  ...simplyOmit(
     proEditDataTableProps,
-    Object.keys(proFieldProps),
+    Object.keys(proFieldProps) as any,
   ) as Omit<typeof proEditDataTableProps, keyof typeof proFieldProps>,
-  max: Number,
-  value: {
-    type: Array as PropType<Array<Record<string, any>>>,
-    required: true,
-  },
-  creatorButtonProps: {
-    type: [Object, Boolean] as PropType<ProButtonProps | false>,
-    default: undefined,
-  },
-  onUpdateValue: Function,
-  /**
-   * -----有冲突的几个属性-------
-   */
-  size: {
-    type: proDataTableProps.size.type,
-    default: 'small',
-  },
-  title: proDataTableProps.title,
-  tooltip: proDataTableProps.tooltip,
-  /**
-   * ------------
-   */
 } as const
 
 export type EditDataTableProps = ExtractPublicPropTypes<typeof editDataTableProps>
@@ -52,16 +32,24 @@ export default defineComponent({
   props: editDataTableProps,
   slots: Object as SlotsType<ProEditDataTableSlots>,
   setup(props) {
-    const form = useInjectProFormInst()
+    const form = useInjectProForm()
 
     const {
       registerInst,
     } = useInjectEditDataTableInstStore()!
 
     const {
-      methods,
-      instRef: proDataTableInstRef,
-    } = useProDataTableContext()
+      sort,
+      page,
+      filter,
+      filters,
+      scrollTo,
+      clearSorter,
+      downloadCsv,
+      clearFilter,
+      clearFilters,
+      proDataTableInst,
+    } = useProDataTableInst()
 
     const {
       columns,
@@ -72,9 +60,11 @@ export default defineComponent({
       startEditable,
       cancelEditable,
       cancelEditableAndRestore,
-    } = useEditable()
+    } = useEditable(props)
 
     const {
+      get,
+      set,
       pop,
       push,
       move,
@@ -84,37 +74,50 @@ export default defineComponent({
       remove,
       unshift,
       moveDown,
-      onActionChange,
       stringPath,
-    } = useInjectListFieldContext()!
+      value: list,
+    } = useInjectListField()!
 
     const proDataTableProps = computed<ProDataTableProps>(() => {
-      const {
-        max,
-        value,
-        actionGuard,
-        onUpdateValue,
-        tableCardProps,
-        creatorButtonProps,
-        creatorInitialValue,
-        ...rest
-      } = props
-
       return {
-        ...rest,
-        data: props.value,
-        rowKey: AUTO_CREATE_ID,
+        ...keep(props, proDataTablePropKeys),
+        data: list.value,
+        ref: proDataTableInst,
         columns: columns.value,
-        ref: proDataTableInstRef,
         tableCardProps: {
           bordered: false,
-          ...(tableCardProps ?? {}),
+          ...(props.tableCardProps ?? {}),
         },
       }
     })
 
+    /**
+     * 长度发生变化，验证列表，如果没有传递规则，校验不会生效
+     */
+    watch(
+      () => list.value.length,
+      () => {
+        form?.validate(stringPath.value)
+      },
+      { flush: 'post' },
+    )
+
     const exposed: ProEditDataTableInst = {
-      ...methods,
+      // #region
+      /** pro-data-table 方法 start */
+      sort,
+      page,
+      filter,
+      filters,
+      scrollTo,
+      clearSorter,
+      downloadCsv,
+      clearFilter,
+      clearFilters,
+      /** pro-data-table 方法 end */
+      // #endregion
+      get,
+      set,
       pop,
       push,
       move,
@@ -132,19 +135,16 @@ export default defineComponent({
 
     registerInst(exposed)
     provideProEditDataTableInst(exposed)
-    provide(proFormListContextKey, {
-      showLabel: false,
-    })
+    // provide(proFormListContextKey, {
+    //   showLabel: false,
+    // })
     return {
       proDataTableProps,
     }
   },
   render() {
     return (
-      <ProDataTable
-        {...this.$attrs}
-        {...this.proDataTableProps}
-      >
+      <ProDataTable {...this.proDataTableProps}>
         {{
           ...this.$slots,
           table: (params: { tableDom: VNodeChild }) => {
