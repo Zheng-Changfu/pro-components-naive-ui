@@ -1,70 +1,93 @@
-import { useInjectListFieldContext } from 'pro-composables'
-import { watchEffect } from 'vue'
-import { useInjectProFormInst, useReadonlyHelpers } from '../../../form'
-import { AUTO_CREATE_ID } from '../../../form-list'
+import type { RowKey } from 'naive-ui/es/data-table/src/interface'
+import type { InternalEditDataTableProps } from '../../props'
+import { watchImmediate } from '@vueuse/core'
+import { useInjectListField } from 'pro-composables'
+import { ref } from 'vue'
+import { call } from '../../../_utils/call'
+import { useInjectProForm } from '../../../form'
 
 /**
  * 本质上是控制 'readonly' 属性的变化
  */
-export function useEditable() {
-  const form = useInjectProFormInst()
-  const editableKeys = ref<Set<string>>(new Set())
+export function useEditable(props: InternalEditDataTableProps) {
+  const form = useInjectProForm()
+  const editableKeys = ref<Set<RowKey>>(new Set())
 
   const {
     value: list,
     stringPath: tablePath,
-  } = useInjectListFieldContext()!
+  } = useInjectListField()!
 
-  const {
-    readonly,
-  } = useReadonlyHelpers()
+  function resolveRowKey(row: any) {
+    return props.rowKey
+      ? (props.rowKey(row) ?? null)
+      : null
+  }
 
-  function getRowKey(index: number): string {
-    if (form && tablePath.value) {
-      return list.value[index][AUTO_CREATE_ID]
-    }
-    return ''
+  function getRowKey(index: number) {
+    const row = list.value[index]
+    return row
+      ? resolveRowKey(row)
+      : null
   }
 
   function getEditable(index: number) {
-    const rowId = getRowKey(index)
-    return !!rowId && editableKeys.value.has(rowId)
+    const key = getRowKey(index)
+    return key !== null && editableKeys.value.has(key)
   }
 
   function startEditable(index: number) {
-    const rowId = getRowKey(index)
-    if (rowId && !editableKeys.value.has(rowId)) {
-      editableKeys.value.add(rowId)
+    const key = getRowKey(index)
+    if (key !== null && !editableKeys.value.has(key)) {
+      editableKeys.value.add(key)
       const rowPath = `${tablePath.value}.${index}`
-      form!.setInitialValue(rowPath, form!.getFieldValue(rowPath))
+      if (form) {
+        form.setInitialValue(rowPath, form.getFieldValue(rowPath))
+      }
+      doUpdateEditableKeys()
     }
   }
 
   function cancelEditable(index: number) {
-    const rowId = getRowKey(index)
-    if (rowId && editableKeys.value.has(rowId)) {
-      editableKeys.value.delete(rowId)
+    const key = getRowKey(index)
+    if (key !== null && editableKeys.value.has(key)) {
+      editableKeys.value.delete(key)
     }
+    doUpdateEditableKeys()
   }
 
   function cancelEditableAndRestore(index: number) {
-    const rowId = getRowKey(index)
-    if (rowId && editableKeys.value.has(rowId)) {
-      editableKeys.value.delete(rowId)
+    const key = getRowKey(index)
+    if (key !== null && editableKeys.value.has(key)) {
+      editableKeys.value.delete(key)
       const rowPath = `${tablePath.value}.${index}`
-      form!.resetFieldValue(rowPath)
+      if (form) {
+        form.resetFieldValue(rowPath)
+      }
+      doUpdateEditableKeys()
     }
   }
 
-  watchEffect(() => {
-    const keys: string[] = []
-    if (!readonly.value && form && tablePath.value) {
-      list.value.forEach((row) => {
-        keys.push(row[AUTO_CREATE_ID])
-      })
+  function doUpdateEditableKeys() {
+    const {
+      onUpdateEditableKeys,
+      'onUpdate:editableKeys': _onUpdateEditableKeys,
+    } = props
+
+    if (onUpdateEditableKeys) {
+      call(onUpdateEditableKeys, Array.from(editableKeys.value))
     }
-    editableKeys.value = new Set(keys)
-  })
+    if (_onUpdateEditableKeys) {
+      call(_onUpdateEditableKeys, Array.from(editableKeys.value))
+    }
+  }
+
+  watchImmediate(
+    () => props.editableKeys,
+    (keys) => {
+      editableKeys.value = new Set(keys ?? [])
+    },
+  )
 
   return {
     getEditable,

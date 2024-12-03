@@ -1,14 +1,12 @@
 import type { SlotsType } from 'vue'
 import type { ProEditDataTableSlots } from './slots'
-import { isArray, omit, pick } from 'lodash-es'
-import { uid } from 'pro-composables'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { keep } from '../_utils/keep'
 import { useOverrideProps } from '../composables'
-import { proFieldProps as _proFieldProps, InternalValueTypeEnum, ProField } from '../form'
-import { AUTO_CREATE_ID } from '../form-list'
+import { proFieldProps as _proFieldProps, pickProListFieldSharedProps, ProField } from '../form'
 import EditDataTable from './components/edit-data-table'
 import { provideEditDataTableInstStore } from './inst'
-import { proEditDataTableProps } from './props'
+import { internalEditDataTablePropKeys, proEditDataTableProps } from './props'
 
 const name = 'ProEditDataTable'
 export default defineComponent({
@@ -26,41 +24,32 @@ export default defineComponent({
     )
 
     const proFieldProps = computed(() => {
-      return pick(overridedProps.value, Object.keys(_proFieldProps))
+      return pickProListFieldSharedProps(overridedProps.value)
     })
 
-    const fieldDataTableProps = computed(() => {
-      const fieldProps = overridedProps.value.fieldProps
-      return {
-        ...omit(overridedProps.value, Object.keys(_proFieldProps)),
-        ...fieldProps,
-        style: {
-          width: '100%',
-          ...((fieldProps.style as any) ?? {}),
-        },
-      }
-    })
+    const internalEditDataTableProps = computed(() => {
+      const {
+        // #region 冲突的属性
+        size,
+        theme,
+        title,
+        tooltip,
+        themeOverrides,
+        builtinThemeOverrides,
+        // #endregion
+        ...restProps
+      } = overridedProps.value
 
-    function addRowIdToRow(val: any) {
-      const { postValue } = overridedProps.value
-      if (!isArray(val)) {
-        return postValue ? postValue(val) : []
-      }
-      const normalizedVals = val.map((item) => {
-        return item[AUTO_CREATE_ID]
-          ? item
-          : { ...item, [AUTO_CREATE_ID]: uid() }
-      })
-      return postValue
-        ? postValue(normalizedVals)
-        : normalizedVals
-    }
+      return keep(
+        restProps,
+        internalEditDataTablePropKeys,
+      )
+    })
 
     expose(exposed)
     return {
-      addRowIdToRow,
       proFieldProps,
-      fieldDataTableProps,
+      internalEditDataTableProps,
     }
   },
   render() {
@@ -68,13 +57,17 @@ export default defineComponent({
       <ProField
         {...this.proFieldProps}
         isList={true}
-        postValue={this.addRowIdToRow}
-        fieldProps={this.fieldDataTableProps}
-        valueType={InternalValueTypeEnum.EDIT_DATA_TABLE}
+        valueModelName=""
+        fieldProps={this.internalEditDataTableProps}
       >
         {{
           input: (pureProps: any) => {
-            return <EditDataTable {...pureProps} v-slots={this.$slots} />
+            return (
+              <EditDataTable
+                {...pureProps}
+                v-slots={this.$slots}
+              />
+            )
           },
         }}
       </ProField>

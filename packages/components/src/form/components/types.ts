@@ -8,7 +8,8 @@ import type { ProColorPickerProps, ProColorPickerSlots } from './color-picker'
 import type { ProDatePickerProps, ProDatePickerSlots } from './date-picker'
 import type { ProDigitProps, ProDigitSlots } from './digit'
 import type { ProDynamicTagsProps, ProDynamicTagsSlots } from './dynamic-tags'
-import type { InternalValueTypeEnum } from './field'
+import type { ProFieldSharedProps } from './field'
+import type { InternalFieldValueType, InternalValueTypeEnum } from './field/enums'
 import type { ProInputProps, ProInputSlots } from './input'
 import type { ProMentionProps, ProMentionSlots } from './mention'
 import type { ProRadioGroupProps, ProRadioGroupSlots } from './radio-group'
@@ -19,7 +20,6 @@ import type { ProSwitchProps, ProSwitchSlots } from './switch'
 import type { ProTimePickerProps, ProTimePickerSlots } from './time-picker'
 import type { ProTransferProps, ProTransferSlots } from './transfer'
 import type { ProTreeSelectProps, ProTreeSelectSlots } from './tree-select'
-import type { InternalProFieldProps } from './type-utils'
 import type { ProUploadProps, ProUploadSlots } from './upload'
 
 type UnwrapSlots<T> = {
@@ -36,7 +36,7 @@ interface ProBaseFieldColumn<Values = any, ProFieldPropsParameters extends any[]
   /**
    * 透传给 ProField 组件的 props
    */
-  proFieldProps?: MaybeFunction<InternalProFieldProps, ProFieldPropsParameters>
+  proFieldProps?: MaybeFunction<ProFieldSharedProps, ProFieldPropsParameters>
 }
 
 interface AutoCompleteColumn<
@@ -276,8 +276,4 @@ export type ProFieldColumn<
   | Merge<AutoCompleteColumn<Values, FunctionalFieldPropsParameters, FunctionalProFieldPropsParameters>, ExtraProps>
   | Merge<CheckboxGroupColumn<Values, FunctionalFieldPropsParameters, FunctionalProFieldPropsParameters>, ExtraProps>
 
-export type ProFieldColumnValueType = ProFieldColumn extends infer X
-  ? X extends { valueType?: infer ValueType }
-    ? ValueType
-    : never
-  : never
+export type ProFieldColumnValueType = InternalFieldValueType

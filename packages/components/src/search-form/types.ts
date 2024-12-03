@@ -1,9 +1,8 @@
 import type { GridItemProps } from 'naive-ui'
 import type { VNodeChild } from 'vue'
-import type { ProFieldColumn } from '../form'
-import type { InternalProFieldProps } from '../form/components/type-utils'
+import type { ProFieldColumn, ProFieldSharedProps } from '../form'
 
-interface ProSearchFormColumnProps extends InternalProFieldProps, Pick<
+interface ProSearchFormColumnProps extends ProFieldSharedProps, Pick<
   GridItemProps,
   | 'span'
   | 'offset'

@@ -1,7 +1,8 @@
 import type { TransferOption, TransferProps } from 'naive-ui'
+import type { Merge } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
-import { proFieldProps } from '../field'
+import { proFieldSharedProps } from '../field'
 
 interface ProTransferFieldProps extends TransferProps {
   /**
@@ -17,11 +18,11 @@ interface ProTransferFieldProps extends TransferProps {
   /**
    * 配置选项内容
    */
-  options?: Array<TransferOption & { x: string }>
+  options?: Array<Merge<TransferOption, { [x: string]: any }>>
 }
 
 export const proTransferProps = {
-  ...proFieldProps,
+  ...proFieldSharedProps,
   fieldProps: Object as PropType<BaseFieldProps<ProTransferFieldProps>>,
 } as const
 

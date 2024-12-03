@@ -2,13 +2,15 @@ import type { DrawerProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProFormProps } from '../form'
 import type { ProDrawerFormSlots } from './slots'
-import { pick } from 'lodash-es'
 import { drawerProps as _nDrawerProps, NDrawer } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
+import { keep } from '../_utils/keep'
+import { keysOf } from '../_utils/keysOf'
 import { useOverrideProps } from '../composables'
 import { proFormProps as _proFormProps, ProForm } from '../form'
+import { proFormPropKeys } from '../form/props'
 import { createProDrawerForm } from './composables/createProDrawerForm'
 import { proDrawerFormProps } from './props'
 import style from './styles/index.cssr'
@@ -32,13 +34,7 @@ export default defineComponent({
     const mergedClsPrefix = useNaiveClsPrefix()
 
     const proFormProps = computed<ProFormProps>(() => {
-      return {
-        ...pick(
-          overridedProps.value,
-          Object.keys(_proFormProps),
-        ),
-        form,
-      }
+      return keep(overridedProps.value, proFormPropKeys)
     })
 
     const nDrawerProps = computed<DrawerProps>(() => {
@@ -54,10 +50,7 @@ export default defineComponent({
 
       return {
         ...(drawerProps ?? {}),
-        ...pick(
-          restProps,
-          Object.keys(_nDrawerProps),
-        ),
+        ...keep(restProps, keysOf(_nDrawerProps)),
         'show': form.show.value,
         'onUpdateShow': undefined,
         'onAfterLeave': onAfterLeave,

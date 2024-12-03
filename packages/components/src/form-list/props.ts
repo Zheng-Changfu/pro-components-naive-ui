@@ -1,8 +1,8 @@
 import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../button'
 import type { ProFormListInst } from './inst'
-import { omit } from 'lodash-es'
-import { proFieldProps } from '../form'
+import { keysOf } from '../_utils/keysOf'
+import { proListFieldSharedProps } from '../form'
 
 export interface ActionGuard {
   /**
@@ -53,22 +53,13 @@ export type ContainerRender = (opt: {
   creatorButtonDom: VNodeChild
 }) => VNodeChild
 
-export const proFormListProps = {
-  /**
-   * FormList 本身也是一个字段，可以被校验
-   */
-  ...omit(proFieldProps, [
-    'onChange',
-    'postValue',
-    'fieldProps',
-    'onInputValue',
-  ]),
-  /**
-   * 添加一行按钮显示在顶部还是底部
-   *  顶部：每次添加数据都添加在首行
-   *  底部：每次添加数据都添加在尾行
-   * @default 'bottom'
-   */
+export const internalFormListProps = {
+/**
+ * 添加一行按钮显示在顶部还是底部
+ *  顶部：每次添加数据都添加在首行
+ *  底部：每次添加数据都添加在尾行
+ * @default 'bottom'
+ */
   position: String as PropType<'top' | 'bottom'>,
   /**
    * 最少行数，删除时如果少于该数则无法删除
@@ -116,4 +107,13 @@ export const proFormListProps = {
   actionGuard: Object as PropType<Partial<ActionGuard>>,
 } as const
 
+export const proFormListProps = {
+  /**
+   * FormList 本身也是一个字段，可以被校验
+   */
+  ...proListFieldSharedProps,
+  ...internalFormListProps,
+} as const
+
+export const internalFormListPropKeys = keysOf(internalFormListProps)
 export type ProFormListProps = ExtractPublicPropTypes<typeof proFormListProps>

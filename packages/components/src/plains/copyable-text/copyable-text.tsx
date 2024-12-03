@@ -46,7 +46,7 @@ export const ProCopyableText = defineComponent({
     const {
       copy,
       copied,
-    } = useClipboard({ ...props.config, source: mergedValue })
+    } = useClipboard({ source: mergedValue, ...props.config })
 
     useMountStyle(
       name,

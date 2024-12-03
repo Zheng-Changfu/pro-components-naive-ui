@@ -1,37 +1,38 @@
-import type { PaginationProps } from 'naive-ui'
-import type { MaybeExpression } from 'pro-composables'
+import type { RowKey } from 'naive-ui/es/data-table/src/interface'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { MaybeArray } from '../_utils/call'
 import type { ProButtonProps } from '../button'
 import type { ProDataTableProps } from '../data-table'
-import type { ExtendAttrsStyleProps } from '../types'
 import type { ActionGuard, ProEditDataTableColumns } from './types'
-import { omit } from 'lodash-es'
+import { keysOf } from '../_utils/keysOf'
+import { simplyOmit } from '../_utils/simplyOmit'
 import { proDataTableProps } from '../data-table'
-import { proFieldProps } from '../form'
+import { proListFieldSharedProps } from '../form'
 
-export const proEditDataTableProps = {
+/**
+ * v-model:editable-keys
+ */
+export const vModelEditableKeysProps = {
+  'editableKeys': Array as PropType<Array<RowKey>>,
+  'onUpdateEditableKeys': [Function, Array] as PropType<MaybeArray<(keys: Array<RowKey>) => void>>,
+  'onUpdate:editableKeys': [Function, Array] as PropType<MaybeArray<(keys: Array<RowKey>) => void>>,
+} as const
+
+export const internalEditDataTableProps = {
   /**
-   * 编辑表格被 form 接管数据源，所以要删除掉一些属性
+   * 编辑表格被 form 接管数据源
    */
-  ...omit(proDataTableProps, [
+  ...simplyOmit(proDataTableProps, [
     'data',
-    'manual',
-    'rowKey',
-    'request',
-    'transform',
-    'onRequestError',
-    'onRequestSuccess',
-    'onRequestComplete',
-    'refreshOnWindowFocus',
   ]),
   /**
-   * 表格被包装成一个表单控件，支持表单控件的功能
+   * v-model:editable-keys
    */
-  ...proFieldProps,
+  ...vModelEditableKeysProps,
   /**
    * 最多行数，多于该数则无法继续新增
    */
-  max: [String, Number] as PropType<MaybeExpression<number>>,
+  max: Number,
   /**
    * 新增一行的默认值
    */
@@ -40,7 +41,7 @@ export const proEditDataTableProps = {
    * 新增一行按钮的属性，false 不显示
    */
   creatorButtonProps: {
-    type: [Object, Boolean] as PropType<MaybeExpression<ProButtonProps | false>>,
+    type: [Object, Boolean] as PropType<ProButtonProps | false>,
     default: undefined,
   },
   /**
@@ -50,34 +51,21 @@ export const proEditDataTableProps = {
   /**
    * 重写类型
    */
-  pagination: {
-    type: [Boolean, Object] as PropType<false | PaginationProps>,
-    default: false,
-  },
-  /**
-   * 重写类型
-   */
   columns: Array as PropType<ProEditDataTableColumns>,
   /**
-   * 这些属性有冲突
-   * @example
-   * ```vue
-   * <pro-edit-data-table
-   *   :title="formItem 标题"
-   *   :field-props="{
-   *      title:"表格标题"
-   *   }"
-   *  />
-   * ```
+   * 有冲突的属性可以写在 fieldProps 中，会透传给 pro-data-table
    */
-  fieldProps: {
-    type: Object as PropType<MaybeExpression<ExtendAttrsStyleProps<Partial<{
-      size: ProDataTableProps['size'] & {}
-      title: ProDataTableProps['title'] & {}
-      tooltip: ProDataTableProps['tooltip'] & {}
-    }>>>>,
-    default: () => ({}),
-  },
+  fieldProps: Object as PropType<ProDataTableProps>,
 } as const
 
+export const proEditDataTableProps = {
+  ...internalEditDataTableProps,
+  /**
+   * 表格被包装成一个表单控件，支持表单控件的功能
+   */
+  ...proListFieldSharedProps,
+} as const
+
+export const internalEditDataTablePropKeys = keysOf(internalEditDataTableProps)
 export type ProEditDataTableProps = ExtractPublicPropTypes<typeof proEditDataTableProps>
+export type InternalEditDataTableProps = ExtractPublicPropTypes<typeof internalEditDataTableProps>

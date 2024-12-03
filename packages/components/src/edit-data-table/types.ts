@@ -1,7 +1,8 @@
 import type { TableSelectionColumn } from 'naive-ui/es/data-table/src/interface'
+import type { Simplify } from 'type-fest'
 import type { VNodeChild } from 'vue'
 import type { ProDataTableBaseColumn, ProDataTableColumnGroup, ProDataTableExpandColumn, ProDataTableIndexColumn } from '../data-table/types'
-import type { ProFieldProps } from '../form'
+import type { ProFieldColumn } from '../form'
 import type { ProEditDataTableInst } from './inst'
 
 interface BaseColumnRenderAction<RowData = any> extends ProEditDataTableInst<RowData> {
@@ -11,16 +12,21 @@ interface BaseColumnRenderAction<RowData = any> extends ProEditDataTableInst<Row
   editable: boolean
 }
 
-export interface ProEditDataTableBaseColumn<RowData = any> extends Omit<ProDataTableBaseColumn<RowData>, 'render'> {
-  /**
-   * 传递给 ProField 组件的 props，自定义渲染时无效
-   */
-  proFieldProps?: ProFieldProps | ((rowData: RowData, rowIndex: number) => ProFieldProps)
+type RowIndex = number
+
+export interface ProEditDataTableBaseColumnProps<RowData = any> extends Omit<ProDataTableBaseColumn<RowData>, 'render'> {
   /**
    * 重写 render 函数
    */
-  render?: (rowData: RowData, rowIndex: number, action: BaseColumnRenderAction<RowData>) => VNodeChild
+  render?: (rowData: RowData, rowIndex: number, action: Simplify<BaseColumnRenderAction<RowData>>) => VNodeChild
 }
+
+export type ProEditDataTableBaseColumn<RowData = any> = ProFieldColumn<
+  RowData,
+  ProEditDataTableBaseColumnProps<RowData>,
+  [RowData, RowIndex],
+  [RowData, RowIndex]
+>
 
 export type ProEditDataTableColumn<RowData = any> =
   | TableSelectionColumn<RowData>
@@ -38,12 +44,12 @@ export interface ActionGuard {
    * @param insertIndex 要插入的索引
    * @param total 当前列表总行数
    */
-  beforeAddRow: (opt: { index: number, insertIndex: number, total: number }) => boolean | Promise<boolean>
+  beforeAddRow?: (opt: { index: number, insertIndex: number, total: number }) => boolean | Promise<boolean>
   /**
    * 添加行之后触发的回调
    * @param index 当前行索引
    * @param insertIndex 要插入的索引
    * @param total 当前列表总行数
    */
-  afterAddRow: (opt: { index: number, insertIndex: number, total: number }) => void
+  afterAddRow?: (opt: { index: number, insertIndex: number, total: number }) => void
 }

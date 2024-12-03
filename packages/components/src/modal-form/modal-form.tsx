@@ -2,14 +2,16 @@ import type { SlotsType } from 'vue'
 import type { ProFormProps } from '../form'
 import type { ProModalProps } from '../modal/props'
 import type { ProModalFormSlots } from './slots'
-import { pick } from 'lodash-es'
 import { NFlex } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
+import { keep } from '../_utils/keep'
+import { keysOf } from '../_utils/keysOf'
 import { resolveSlotWithProps, resolveWrappedSlotWithProps } from '../_utils/resolveSlot'
 import { useOverrideProps } from '../composables'
 import { proFormProps as _proFormProps, ProForm } from '../form'
+import { proFormPropKeys } from '../form/props'
 import { ProModal } from '../modal'
 import { proModalProps as _proModalProps } from '../modal/props'
 import Footer from './components/footer'
@@ -36,13 +38,7 @@ export default defineComponent({
     const mergedClsPrefix = useNaiveClsPrefix()
 
     const proFormProps = computed<ProFormProps>(() => {
-      return {
-        ...pick(
-          overridedProps.value,
-          Object.keys(_proFormProps),
-        ),
-        form,
-      }
+      return keep(overridedProps.value, proFormPropKeys)
     })
 
     const proModalProps = computed<ProModalProps>(() => {
@@ -60,10 +56,7 @@ export default defineComponent({
 
       return {
         ...(proModalProps ?? {}),
-        ...pick(
-          restProps,
-          Object.keys(_proModalProps),
-        ),
+        ...keep(restProps, keysOf(_proModalProps)),
         'footer': undefined,
         'show': form.show.value,
         'onUpdateShow': undefined,

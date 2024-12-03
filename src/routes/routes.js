@@ -54,10 +54,10 @@ export const zhComponentRoutes = [
     path: 'data-table',
     component: () => import('../../packages/components/src/data-table/demos/zhCN/index.demo-entry.md'),
   },
-  // {
-  //   path: 'edit-data-table',
-  //   component: () => import('../../packages/components/src/edit-data-table/demos/zhCN/index.demo-entry.md'),
-  // },
+  {
+    path: 'edit-data-table',
+    component: () => import('../../packages/components/src/edit-data-table/demos/zhCN/index.demo-entry.md'),
+  },
 ]
 
 export const routes = [

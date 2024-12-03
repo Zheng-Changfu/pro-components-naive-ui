@@ -4,14 +4,16 @@ import type { ProButtonProps } from '../button'
 import type { ProFormProps } from '../form'
 import type { ProSearchFormSlots } from './slots'
 import { DownOutlined, UpOutlined } from '@vicons/antd'
-import { pick } from 'lodash-es'
 import { gridProps as _nGridProps, NFlex, NGi, NGrid, NIcon } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
+import { keep } from '../_utils/keep'
+import { keysOf } from '../_utils/keysOf'
 import { resolveSlotWithProps } from '../_utils/resolveSlot'
 import { ProButton } from '../button'
 import { useOverrideProps } from '../composables'
 import { ProFormClearableProvider } from '../config-provider'
 import { proFormProps as _proFormProps, ProForm } from '../form'
+import { proFormPropKeys } from '../form/props'
 import { useLocale } from '../locales'
 import GridFieldItem from './components/grid-field-item'
 import { createProSearchForm } from './composables/createProSearchForm'
@@ -38,13 +40,7 @@ export default defineComponent({
     } = useLocale('ProSearchForm')
 
     const proFormProps = computed<ProFormProps>(() => {
-      return {
-        ...pick(
-          overridedProps.value,
-          Object.keys(_proFormProps),
-        ),
-        form,
-      }
+      return keep(overridedProps.value, proFormPropKeys)
     })
 
     const nGridProps = computed<GridProps>(() => {
@@ -56,10 +52,7 @@ export default defineComponent({
       } = overridedProps.value
       return {
         ...(gridProps ?? {}),
-        ...pick(
-          restProps,
-          Object.keys(_nGridProps),
-        ),
+        ...keep(restProps, keysOf(_nGridProps)),
         collapsed: form.collapsed.value,
       }
     })

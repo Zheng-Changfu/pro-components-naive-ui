@@ -1,41 +1,36 @@
 import type { PropType, SlotsType } from 'vue'
 import type { ProButtonProps } from '../../button'
-import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
-import { omit } from 'lodash-es'
 import { NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { ROW_UUID, useInjectListField } from 'pro-composables'
 import { computed, defineComponent, Fragment, inject, provide, ref, toRef } from 'vue'
 import { useInjectProForm } from '../../../components'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
+import { simplyOmit } from '../../_utils/simplyOmit'
 import { ProButton } from '../../button'
 import { useReadonlyHelpers } from '../../form/components'
+import { proFieldConfigInjectionKey } from '../../form/components/field/context'
 import { useInjectProFormConfig } from '../../form/context'
 import { useLocale } from '../../locales'
-import { proFormListConfigInjectionKey, useInjectProFormListInst } from '../context'
+import { useInjectProFormListInst } from '../context'
+import { internalFormListProps } from '../props'
 import { useProvidePath } from './composables/useProvidePath'
 
 const Action = defineComponent({
   name: 'Action',
   props: {
-    min: Number,
-    max: Number,
+    min: internalFormListProps.min,
+    max: internalFormListProps.max,
+    actionGuard: internalFormListProps.actionGuard,
+    copyButtonProps: internalFormListProps.copyButtonProps,
+    removeButtonProps: internalFormListProps.removeButtonProps,
+    path: Array as PropType<Array<string>>,
     index: {
       type: Number,
       required: true,
     },
-    copyButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
-    },
-    removeButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
-    },
-    path: Array as PropType<Array<string>>,
-    actionGuard: Object as PropType<Partial<ActionGuard>>,
   },
   setup(props) {
     const form = useInjectProForm()
@@ -83,6 +78,7 @@ const Action = defineComponent({
             </NIcon>
           )
         },
+        onClick: copy,
         ...(props.copyButtonProps ?? {}),
       }
     })
@@ -99,6 +95,7 @@ const Action = defineComponent({
             </NIcon>
           )
         },
+        onClick: remove,
         ...(props.removeButtonProps ?? {}),
       }
     })
@@ -116,7 +113,7 @@ const Action = defineComponent({
         copyLoading.value = true
         const success = await beforeAddRow({ index, insertIndex, total: list.value.length })
         if (success) {
-          insert(insertIndex, omit(row, ROW_UUID))
+          insert(insertIndex, simplyOmit(row, [ROW_UUID]))
           if (afterAddRow) {
             afterAddRow({ index, insertIndex, total: list.value.length })
           }
@@ -124,7 +121,7 @@ const Action = defineComponent({
         copyLoading.value = false
       }
       else {
-        insert(insertIndex, omit(row, ROW_UUID))
+        insert(insertIndex, simplyOmit(row, [ROW_UUID]))
         if (afterAddRow) {
           afterAddRow({ index, insertIndex, total: list.value.length })
         }
@@ -164,21 +161,11 @@ const Action = defineComponent({
   },
   render() {
     const copyButtonDom = this.showCopyButton
-      ? (
-          <ProButton
-            {...this.copyButtonProps}
-            onClick={this.copy}
-          />
-        )
+      ? <ProButton {...this.copyButtonProps} />
       : null
 
     const removeButtonDom = this.showRemoveButton
-      ? (
-          <ProButton
-            {...this.removeButtonProps}
-            onClick={this.remove}
-          />
-        )
+      ? <ProButton {...this.removeButtonProps} />
       : null
 
     return (
@@ -193,24 +180,15 @@ const Action = defineComponent({
 export default defineComponent({
   name: 'FormListItem',
   props: {
-    min: Number,
-    max: Number,
-    actionGuard: Object as PropType<Partial<ActionGuard>>,
+    min: internalFormListProps.min,
+    max: internalFormListProps.max,
+    actionGuard: internalFormListProps.actionGuard,
+    copyButtonProps: internalFormListProps.copyButtonProps,
+    removeButtonProps: internalFormListProps.removeButtonProps,
+    onlyShowFirstItemLabel: internalFormListProps.onlyShowFirstItemLabel,
     index: {
       type: Number,
       required: true,
-    },
-    onlyShowFirstItemLabel: {
-      type: Boolean,
-      default: undefined,
-    },
-    copyButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
-    },
-    removeButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
     },
   },
   slots: Object as SlotsType<ProFormListSlots>,
@@ -258,7 +236,7 @@ export default defineComponent({
       return sizeToHeightMap[size]
     })
 
-    provide(proFormListConfigInjectionKey, {
+    provide(proFieldConfigInjectionKey, {
       showLabel: showItemLabel,
     })
 

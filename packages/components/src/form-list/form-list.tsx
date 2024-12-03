@@ -3,11 +3,12 @@ import type { ProFormListSlots } from './slots'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
+import { keep } from '../_utils/keep'
 import { useOverrideProps } from '../composables'
-import { ProField } from '../form/components'
+import { pickProListFieldSharedProps, ProField } from '../form/components'
 import FormList from './components/form-list'
 import { provideFormListInstStore } from './inst'
-import { proFormListProps } from './props'
+import { internalFormListPropKeys, proFormListProps } from './props'
 import style from './styles/index.cssr'
 
 const name = 'ProFormList'
@@ -27,34 +28,15 @@ export default defineComponent({
       props,
     )
 
-    const decompositionProps = computed(() => {
-      const {
-        min,
-        max,
-        position,
-        actionGuard,
-        copyButtonProps,
-        removeButtonProps,
-        creatorButtonProps,
-        creatorInitialValue,
-        onlyShowFirstItemLabel,
-        ...proFieldProps
-      } = overridedProps.value
+    const proFieldProps = computed(() => {
+      return pickProListFieldSharedProps(overridedProps.value)
+    })
 
-      return {
-        proFieldProps,
-        formListProps: {
-          min,
-          max,
-          position,
-          actionGuard,
-          copyButtonProps,
-          removeButtonProps,
-          creatorButtonProps,
-          creatorInitialValue,
-          onlyShowFirstItemLabel,
-        },
-      }
+    const internalFormListProps = computed(() => {
+      return keep(
+        overridedProps.value,
+        internalFormListPropKeys,
+      )
     })
 
     useMountStyle(
@@ -65,8 +47,9 @@ export default defineComponent({
 
     expose(exposed)
     return {
+      proFieldProps,
       mergedClsPrefix,
-      decompositionProps,
+      internalFormListProps,
     }
   },
   render() {
@@ -74,11 +57,11 @@ export default defineComponent({
 
     return (
       <ProField
-        {...this.decompositionProps.proFieldProps}
+        {...this.proFieldProps}
         isList={true}
         valueModelName=""
-        class={[`${mergedClsPrefix}-pro-form-list`]}
-        fieldProps={this.decompositionProps.formListProps}
+        fieldProps={this.internalFormListProps}
+        class={[`${mergedClsPrefix}-pro-form-list-wrapper`]}
       >
         {{
           ...this.$slots,

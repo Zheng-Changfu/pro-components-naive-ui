@@ -1,19 +1,20 @@
-import type { PropType } from 'vue'
-import type { ActionGuard } from '../types'
+import type { ProButtonProps } from '../../button'
 import { PlusOutlined } from '@vicons/antd'
 import { useToggle } from '@vueuse/core'
 import { NIcon } from 'naive-ui'
-import { useInjectListFieldContext } from 'pro-composables'
-import { ProButton, type ProButtonProps } from '../../button'
+import { useInjectListField } from 'pro-composables'
+import { computed, defineComponent } from 'vue'
+import { ProButton } from '../../button'
 import { useLocale } from '../../locales'
+import { internalEditDataTableProps } from '../props'
 
 export default defineComponent({
   name: 'CreatorButton',
   props: {
-    max: Number,
-    actionGuard: Object as PropType<ActionGuard>,
-    creatorInitialValue: Function as PropType<() => Record<string, any>>,
-    creatorButtonProps: [Object, Boolean] as PropType<ProButtonProps | false>,
+    max: internalEditDataTableProps.max,
+    actionGuard: internalEditDataTableProps.actionGuard,
+    creatorButtonProps: internalEditDataTableProps.creatorButtonProps,
+    creatorInitialValue: internalEditDataTableProps.creatorInitialValue,
   },
   setup(props) {
     const {
@@ -23,17 +24,17 @@ export default defineComponent({
     const {
       insert,
       value: list,
-    } = useInjectListFieldContext()!
+    } = useInjectListField()!
 
     const [
       loading,
       setLoading,
     ] = useToggle()
 
+    /**
+     * 这里按钮不被 readonly 控制
+     */
     const showButton = computed(() => {
-      /**
-       * 这里按钮不被 readonly 控制
-       */
       const { max, creatorButtonProps } = props
       return creatorButtonProps !== false && list.value.length < (max ?? Number.POSITIVE_INFINITY)
     })
@@ -52,6 +53,7 @@ export default defineComponent({
             </NIcon>
           )
         },
+        onClick: add,
         ...(creatorButtonProps ?? {}),
       }
     })
@@ -92,7 +94,6 @@ export default defineComponent({
           <ProButton
             {...this.proButtonProps}
             style={{ marginBlockStart: '16px' }}
-            onClick={this.add}
           />
         )
       : null

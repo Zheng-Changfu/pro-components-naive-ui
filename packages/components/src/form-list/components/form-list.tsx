@@ -1,7 +1,6 @@
-import type { PropType, SlotsType } from 'vue'
+import type { SlotsType } from 'vue'
 import type { ProButtonProps } from '../../button'
 import type { ProFormListInst } from '../inst'
-import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
@@ -14,19 +13,17 @@ import { useReadonlyHelpers } from '../../form/components'
 import { useLocale } from '../../locales'
 import { provideProFormListInst } from '../context'
 import { useInjectFormListInstStore } from '../inst'
+import { internalFormListProps } from '../props'
 import FormListItem from './form-list-item'
 
 const CreatorButton = defineComponent({
   name: 'CreatorButton',
   props: {
-    max: Number,
-    creatorButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
-    },
-    position: String as PropType<'top' | 'bottom'>,
-    actionGuard: Object as PropType<Partial<ActionGuard>>,
-    creatorInitialValue: Function as PropType<() => Record<string, any>>,
+    max: internalFormListProps.max,
+    position: internalFormListProps.position,
+    actionGuard: internalFormListProps.actionGuard,
+    creatorButtonProps: internalFormListProps.creatorButtonProps,
+    creatorInitialValue: internalFormListProps.creatorInitialValue,
   },
   setup(props) {
     const {
@@ -116,29 +113,7 @@ const CreatorButton = defineComponent({
 
 export default defineComponent({
   name: 'FormList',
-  props: {
-    min: Number,
-    max: Number,
-    position: String as PropType<'top' | 'bottom'>,
-    actionGuard: Object as PropType<Partial<ActionGuard>>,
-    creatorInitialValue: Function as PropType<() => Record<string, any>>,
-    onlyShowFirstItemLabel: {
-      type: Boolean,
-      default: undefined,
-    },
-    creatorButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
-    },
-    copyButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
-    },
-    removeButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
-    },
-  },
+  props: internalFormListProps,
   slots: Object as SlotsType<ProFormListSlots>,
   setup() {
     const form = useInjectProForm()

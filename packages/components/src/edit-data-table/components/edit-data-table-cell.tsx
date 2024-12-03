@@ -1,9 +1,8 @@
 import type { PropType } from 'vue'
 import type { ProEditDataTableBaseColumn } from '../types'
 import { isFunction } from 'lodash-es'
-import { compile, useInjectFieldContext } from 'pro-composables'
-import { computed, defineComponent } from 'vue'
-import { useInjectGlobalConfig } from '../../config-provider'
+import { computed, defineComponent, toRef } from 'vue'
+import { resolveComponentByValueType } from '../../_utils/resolveComponentByValueType'
 import { useInjectProEditDataTableInst } from '../context'
 import { useProvidePath } from './composables/useProvidePath'
 
@@ -22,7 +21,7 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    columnKey: String,
+    columnKey: [String, Number],
   } as const,
   setup(props) {
     useProvidePath(toRef(
@@ -30,15 +29,7 @@ export default defineComponent({
       'rowIndex',
     ))
 
-    const {
-      valueTypeMap,
-    } = useInjectGlobalConfig()
-
     const action = useInjectProEditDataTableInst()!
-
-    const {
-      scope,
-    } = useInjectFieldContext()!
 
     const proFieldProps = computed(() => {
       const { row, column, rowIndex } = props
@@ -56,17 +47,15 @@ export default defineComponent({
       return action.getEditable(props.rowIndex)
     })
 
-    const readonly = computed(() => {
-      const editable = rowEditable.value && compile(proFieldProps.value.readonly, scope) !== true
-      return !editable
+    const cellEditable = computed(() => {
+      return rowEditable.value && proFieldProps.value.readonly !== true
     })
 
     return {
       action,
-      readonly,
       fieldProps,
       rowEditable,
-      valueTypeMap,
+      cellEditable,
       proFieldProps,
     }
   },
@@ -79,22 +68,19 @@ export default defineComponent({
       columnKey,
     } = this.$props
 
-    if (column.render) {
-      return column.render(row, rowIndex, {
+    return column.render
+      ? column.render(row, rowIndex, {
         ...this.action,
         editable: this.rowEditable,
       })
-    }
-
-    const Component = this.valueTypeMap[column.valueType ?? 'input']
-    return Component
-      ? h(Component, {
-        validateBehavior: 'popover',
-        ...this.proFieldProps,
-        readonly: this.readonly,
+      : resolveComponentByValueType(column.valueType ?? 'input', {
         fieldProps: this.fieldProps,
-        path: columnKey,
-      }, column.fieldSlots)
-      : null
+        fieldSlots: column.fieldSlots,
+        proFieldProps: {
+          ...this.proFieldProps,
+          path: columnKey,
+          readonly: !this.cellEditable,
+        },
+      })
   },
 })

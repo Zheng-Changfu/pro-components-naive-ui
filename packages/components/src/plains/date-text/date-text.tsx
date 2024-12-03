@@ -43,6 +43,7 @@ export const ProDateText = defineComponent({
       const locale = localeRef.value
       const propPattern = props.config?.pattern ?? 'datetime'
       const builtinPatternMap: Record<Exclude<ProDateTextConfig['pattern'], undefined>, string> = {
+        time: 'HH:mm:ss',
         date: locale.dateFormat,
         week: locale.weekFormat,
         year: locale.yearTypeFormat,

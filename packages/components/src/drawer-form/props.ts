@@ -1,8 +1,9 @@
+import type { DrawerProps } from 'naive-ui'
 import type { Simplify } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { CreateProDrawerFormReturn } from './composables/createProDrawerForm'
-import { omit } from 'lodash-es'
-import { drawerProps, type DrawerProps } from 'naive-ui'
+import { drawerProps } from 'naive-ui'
+import { simplyOmit } from '../_utils/simplyOmit'
 import { proFormProps } from '../form'
 
 export const proDrawerFormExtendProps = {
@@ -31,7 +32,7 @@ export const proDrawerFormExtendProps = {
 } as const
 
 export const proDrawerFormProps = {
-  ...omit(drawerProps, [
+  ...simplyOmit(drawerProps, [
     'show',
     'onUpdateShow',
     'onUpdate:show',

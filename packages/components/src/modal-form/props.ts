@@ -3,7 +3,7 @@ import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../button'
 import type { ProModalProps } from '../modal/props'
 import type { CreateProModalFormReturn } from './composables/createProModalForm'
-import { omit } from 'lodash-es'
+import { simplyOmit } from '../_utils/simplyOmit'
 import { proFormProps } from '../form'
 import { proModalProps } from '../modal/props'
 
@@ -61,7 +61,7 @@ export const proModalFormExtendProps = {
 } as const
 
 export const proModalFormProps = {
-  ...omit(proModalProps, [
+  ...simplyOmit(proModalProps, [
     'show',
     'onUpdateShow',
     'onUpdate:show',

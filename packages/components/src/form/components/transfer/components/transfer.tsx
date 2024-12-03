@@ -1,7 +1,7 @@
 import type { TransferProps } from 'naive-ui'
 import type { SlotsType, VNodeChild } from 'vue'
 import type { ProTransferSlots } from '../slots'
-import { get, omit } from 'lodash-es'
+import { get, toPath } from 'lodash-es'
 import { NTransfer, transferProps } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import { useReadonlyHelpers } from '../../field'
@@ -31,11 +31,21 @@ export default defineComponent({
         valueField = 'value',
       } = props
 
+      const labelFieldPath = toPath(labelField)
+      const valueFieldPath = toPath(labelField)
+
       return options.map((item) => {
+        const copyedItem: any = { ...item }
         const label = get(item, labelField)
         const value = get(item, valueField)
+        if (labelFieldPath.length > 0) {
+          delete copyedItem[labelFieldPath[0]]
+        }
+        if (valueFieldPath.length > 0) {
+          delete copyedItem[valueFieldPath[0]]
+        }
         return {
-          ...omit(item, [labelField, valueField]),
+          ...copyedItem,
           label,
           value,
         }
