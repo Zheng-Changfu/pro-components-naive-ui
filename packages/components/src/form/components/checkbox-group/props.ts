@@ -2,7 +2,7 @@ import type { CheckboxGroupProps, CheckboxProps, FlexProps } from 'naive-ui'
 import type { Merge } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
-import { proFieldProps } from '../field'
+import { proFieldSharedProps } from '../field'
 
 interface ProCheckboxGroupFieldProps extends CheckboxGroupProps {
   /**
@@ -26,7 +26,7 @@ interface ProCheckboxGroupFieldProps extends CheckboxGroupProps {
 }
 
 export const proCheckboxGroupProps = {
-  ...proFieldProps,
+  ...proFieldSharedProps,
   fieldProps: Object as PropType<BaseFieldProps<ProCheckboxGroupFieldProps>>,
 } as const
 

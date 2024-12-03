@@ -10,6 +10,10 @@ export {
 export {
   proFieldProps,
   type ProFieldProps,
+  type ProFieldSharedProps,
+  proFieldSharedProps,
+  type ProListFieldSharedProps,
+  proListFieldSharedProps,
 } from './props'
 
 export * from './slots'

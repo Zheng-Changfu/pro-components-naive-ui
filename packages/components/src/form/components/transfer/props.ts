@@ -1,7 +1,7 @@
 import type { TransferOption, TransferProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
-import { proFieldProps } from '../field'
+import { proFieldSharedProps } from '../field'
 
 interface ProTransferFieldProps extends TransferProps {
   /**
@@ -21,7 +21,7 @@ interface ProTransferFieldProps extends TransferProps {
 }
 
 export const proTransferProps = {
-  ...proFieldProps,
+  ...proFieldSharedProps,
   fieldProps: Object as PropType<BaseFieldProps<ProTransferFieldProps>>,
 } as const
 

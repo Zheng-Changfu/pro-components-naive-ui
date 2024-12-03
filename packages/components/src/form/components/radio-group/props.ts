@@ -2,7 +2,7 @@ import type { FlexProps, RadioGroupProps, RadioProps } from 'naive-ui'
 import type { Merge } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
-import { proFieldProps } from '../field'
+import { proFieldSharedProps } from '../field'
 
 interface ProRadioGroupFieldProps extends RadioGroupProps {
   /**
@@ -26,7 +26,7 @@ interface ProRadioGroupFieldProps extends RadioGroupProps {
 }
 
 export const proRadioGroupProps = {
-  ...proFieldProps,
+  ...proFieldSharedProps,
   fieldProps: Object as PropType<BaseFieldProps<ProRadioGroupFieldProps>>,
 } as const
 

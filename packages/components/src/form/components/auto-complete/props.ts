@@ -1,7 +1,7 @@
 import type { AutoCompleteProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
-import { proFieldProps } from '../field'
+import { proFieldSharedProps } from '../field'
 
 interface ProAutoCompleteFieldProps extends Omit<AutoCompleteProps, 'options'> {
   /**
@@ -11,7 +11,7 @@ interface ProAutoCompleteFieldProps extends Omit<AutoCompleteProps, 'options'> {
 }
 
 export const proAutoCompleteProps = {
-  ...proFieldProps,
+  ...proFieldSharedProps,
   fieldProps: Object as PropType<BaseFieldProps<ProAutoCompleteFieldProps>>,
 } as const
 

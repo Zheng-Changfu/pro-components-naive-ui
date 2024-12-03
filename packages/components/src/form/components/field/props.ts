@@ -3,6 +3,7 @@ import type { Dependencie } from 'pro-composables'
 import type { ExtractPublicPropTypes, PropType, Ref } from 'vue'
 import type { ValidateBehavior } from '../../props'
 import type { InternalFieldValueType } from './enums'
+import { simplyOmit } from '../../../_utils/simplyOmit'
 import { proFormItemProps } from '../form-item'
 
 export const proFieldProps = {
@@ -108,4 +109,33 @@ export const proFieldProps = {
   onInputValue: Function as PropType<(fieldValue: Ref<any>, inputValue: any, ...args: any[]) => void>,
 } as const
 
+/**
+ * 所有的非列表表单项应该共享的，例如 pro-input 等
+ */
+export const proFieldSharedProps = {
+  ...simplyOmit(proFieldProps, [
+    'isList',
+    'valueType',
+    'fieldProps',
+    'valueModelName',
+  ]),
+} as const
+
+/**
+ * 所有的列表表单项应该共享的，例如 pro-form-list 等
+ */
+export const proListFieldSharedProps = {
+  ...simplyOmit(proFieldProps, [
+    'isList',
+    'onChange',
+    'postValue',
+    'valueType',
+    'fieldProps',
+    'onInputValue',
+    'valueModelName',
+  ]),
+} as const
+
 export type ProFieldProps = ExtractPublicPropTypes<typeof proFieldProps>
+export type ProFieldSharedProps = ExtractPublicPropTypes<typeof proFieldSharedProps>
+export type ProListFieldSharedProps = ExtractPublicPropTypes<typeof proListFieldSharedProps>

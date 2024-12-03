@@ -1,7 +1,7 @@
 import type { UploadFileInfo, UploadProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
-import { proFieldProps } from '../field'
+import { proFieldSharedProps } from '../field'
 
 export interface ProUploadFieldProps extends UploadProps {
   /**
@@ -66,7 +66,7 @@ export const proUploadFieldProps = {
 } as const
 
 export const proUploadProps = {
-  ...proFieldProps,
+  ...proFieldSharedProps,
   fieldProps: Object as PropType<BaseFieldProps<ProUploadFieldProps>>,
 } as const
 
