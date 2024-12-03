@@ -3,9 +3,9 @@ import type { FieldExtraInfo } from '../field-extra-info'
 import type { ProFieldProps } from '../props'
 import { toString } from 'lodash-es'
 import { computed, inject, unref } from 'vue'
-import { proFormListConfigInjectionKey } from '../../../../form-list/context'
 import { useLocale } from '../../../../locales'
 import { useInjectProFormConfig } from '../../../context'
+import { proFieldConfigInjectionKey } from '../context'
 import { fieldExtraKey } from '../field-extra-info'
 
 interface UseMergeOptions {
@@ -22,7 +22,7 @@ export function useMergeOptions(props: ProFieldProps, options: UseMergeOptions) 
 
   const {
     showLabel,
-  } = inject(proFormListConfigInjectionKey, null) ?? {}
+  } = inject(proFieldConfigInjectionKey, null) ?? {}
 
   const {
     validateBehavior,

@@ -11,9 +11,10 @@ import { resolveSlotWithProps } from '../../_utils/resolveSlot'
 import { simplyOmit } from '../../_utils/simplyOmit'
 import { ProButton } from '../../button'
 import { useReadonlyHelpers } from '../../form/components'
+import { proFieldConfigInjectionKey } from '../../form/components/field/context'
 import { useInjectProFormConfig } from '../../form/context'
 import { useLocale } from '../../locales'
-import { proFormListConfigInjectionKey, useInjectProFormListInst } from '../context'
+import { useInjectProFormListInst } from '../context'
 import { internalFormListProps } from '../props'
 import { useProvidePath } from './composables/useProvidePath'
 
@@ -235,7 +236,7 @@ export default defineComponent({
       return sizeToHeightMap[size]
     })
 
-    provide(proFormListConfigInjectionKey, {
+    provide(proFieldConfigInjectionKey, {
       showLabel: showItemLabel,
     })
 
