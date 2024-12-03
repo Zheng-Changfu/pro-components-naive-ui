@@ -1,8 +1,8 @@
 import type { PopoverProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { CreateProFormReturn } from './composables/createProForm'
-import { omit } from 'lodash-es'
 import { formProps } from 'naive-ui'
+import { simplyOmit } from '../_utils/simplyOmit'
 
 export interface ValidateError {
   message?: string
@@ -51,7 +51,10 @@ export const proFormProps = {
    * 剔除 model, 表单值内部管理
    * 剔除 rules, 校验规则内部自动生成或在 ProField 上书写
    */
-  ...omit(formProps, ['model', 'rules']),
+  ...simplyOmit(formProps, [
+    'model',
+    'rules',
+  ]),
   ...proFormExtendProps,
 } as const
 

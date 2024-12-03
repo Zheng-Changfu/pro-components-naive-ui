@@ -4,8 +4,8 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProButtonProps } from '../button'
 import type { CreateProSearchFormReturn } from './composables/createProSearchForm'
 import type { ProSearchFormColumns } from './types'
-import { omit } from 'lodash-es'
 import { gridProps } from 'naive-ui'
+import { simplyOmit } from '../_utils/simplyOmit'
 import { proFormProps } from '../form'
 
 export const proSearchFormExtendProps = {
@@ -53,7 +53,7 @@ export const proSearchFormExtendProps = {
 } as const
 
 export const proSearchFormProps = {
-  ...omit(gridProps, [
+  ...simplyOmit(gridProps, [
     'collapsed',
   ]),
   ...proFormProps,

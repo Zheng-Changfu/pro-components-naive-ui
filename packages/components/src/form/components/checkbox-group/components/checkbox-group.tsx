@@ -1,7 +1,7 @@
 import type { CheckboxGroupProps, CheckboxProps, FlexProps } from 'naive-ui'
 import type { PropType, SlotsType, VNodeChild } from 'vue'
 import type { ProCheckboxGroupSlots } from '../slots'
-import { get, omit } from 'lodash-es'
+import { get, toPath } from 'lodash-es'
 import { checkboxGroupProps, NCheckbox, NCheckboxGroup, NFlex } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import { resolveSlot } from '../../../../_utils/resolveSlot'
@@ -33,11 +33,21 @@ export default defineComponent({
         valueField = 'value',
       } = props
 
+      const labelFieldPath = toPath(labelField)
+      const valueFieldPath = toPath(labelField)
+
       return options.map((item) => {
+        const copyedItem = { ...item }
         const label = get(item, labelField)
         const value = get(item, valueField)
+        if (labelFieldPath.length > 0) {
+          delete copyedItem[labelFieldPath[0] as any]
+        }
+        if (valueFieldPath.length > 0) {
+          delete copyedItem[valueFieldPath[0] as any]
+        }
         return {
-          ...omit(item, [labelField, valueField]),
+          ...copyedItem,
           label,
           value,
         }
