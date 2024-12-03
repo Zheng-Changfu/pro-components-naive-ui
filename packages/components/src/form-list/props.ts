@@ -1,8 +1,7 @@
 import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import type { ProButtonProps } from '../button'
 import type { ProFormListInst } from './inst'
-import { omit } from 'lodash-es'
-import { proFieldProps } from '../form'
+import { proListFieldSharedProps } from '../form'
 
 export interface ActionGuard {
   /**
@@ -57,12 +56,7 @@ export const proFormListProps = {
   /**
    * FormList 本身也是一个字段，可以被校验
    */
-  ...omit(proFieldProps, [
-    'onChange',
-    'postValue',
-    'fieldProps',
-    'onInputValue',
-  ]),
+  ...proListFieldSharedProps,
   /**
    * 添加一行按钮显示在顶部还是底部
    *  顶部：每次添加数据都添加在首行

@@ -7,11 +7,11 @@ import type { ActionGuard, ProEditDataTableColumns } from './types'
 import { pick } from 'lodash-es'
 import { simplyOmit } from '../_utils/simplyOmit'
 import { proDataTableProps } from '../data-table'
-import { proFieldProps } from '../form'
+import { proListFieldSharedProps } from '../form'
 
 console.log(
-  pick(proDataTableProps, Object.keys(proFieldProps)),
-  pick(proFieldProps, Object.keys(proDataTableProps)),
+  pick(proDataTableProps, Object.keys(proListFieldSharedProps)),
+  pick(proListFieldSharedProps, Object.keys(proDataTableProps)),
 )
 
 /**
@@ -33,12 +33,7 @@ export const proEditDataTableProps = {
   /**
    * 表格被包装成一个表单控件，支持表单控件的功能
    */
-  ...simplyOmit(proFieldProps, [
-    'onChange',
-    'postValue',
-    'fieldProps',
-    'onInputValue',
-  ]),
+  ...proListFieldSharedProps,
   /**
    * v-model:editable-keys
    */
