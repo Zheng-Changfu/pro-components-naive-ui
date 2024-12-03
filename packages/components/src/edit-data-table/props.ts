@@ -4,16 +4,10 @@ import type { MaybeArray } from '../_utils/call'
 import type { ProButtonProps } from '../button'
 import type { ProDataTableProps } from '../data-table'
 import type { ActionGuard, ProEditDataTableColumns } from './types'
-import { pick } from 'lodash-es'
 import { keysOf } from '../_utils/keysOf'
 import { simplyOmit } from '../_utils/simplyOmit'
 import { proDataTableProps } from '../data-table'
 import { proListFieldSharedProps } from '../form'
-
-console.log(
-  pick(proDataTableProps, Object.keys(proListFieldSharedProps)),
-  pick(proListFieldSharedProps, Object.keys(proDataTableProps)),
-)
 
 /**
  * v-model:editable-keys
@@ -65,11 +59,11 @@ export const internalEditDataTableProps = {
 } as const
 
 export const proEditDataTableProps = {
+  ...internalEditDataTableProps,
   /**
    * 表格被包装成一个表单控件，支持表单控件的功能
    */
   ...proListFieldSharedProps,
-  ...internalEditDataTableProps,
 } as const
 
 export const internalEditDataTablePropKeys = keysOf(internalEditDataTableProps)

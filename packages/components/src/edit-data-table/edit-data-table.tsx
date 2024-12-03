@@ -28,8 +28,20 @@ export default defineComponent({
     })
 
     const internalEditDataTableProps = computed(() => {
+      const {
+        // #region 冲突的属性
+        size,
+        theme,
+        title,
+        tooltip,
+        themeOverrides,
+        builtinThemeOverrides,
+        // #endregion
+        ...restProps
+      } = overridedProps.value
+
       return keep(
-        overridedProps.value,
+        restProps,
         internalEditDataTablePropKeys,
       )
     })
