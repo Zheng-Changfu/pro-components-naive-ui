@@ -8,7 +8,7 @@ import { createField } from './composables/createField'
 import { useMergeOptions } from './composables/useMergeOptions'
 import { useValidationStatus } from './composables/useValidationStatus'
 import { useVModelProps } from './composables/useVModelProps'
-import { fieldExtraKey } from './keys'
+import { fieldExtraKey } from './field-extra-info'
 import { proFieldProps } from './props'
 
 export default defineComponent({

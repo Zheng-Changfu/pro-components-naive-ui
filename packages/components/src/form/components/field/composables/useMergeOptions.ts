@@ -1,12 +1,12 @@
 import type { BaseField } from 'pro-composables'
-import type { FieldExtraInfo } from '../keys'
+import type { FieldExtraInfo } from '../field-extra-info'
 import type { ProFieldProps } from '../props'
 import { toString } from 'lodash-es'
 import { computed, inject, unref } from 'vue'
 import { proFormListConfigInjectionKey } from '../../../../form-list/context'
 import { useLocale } from '../../../../locales'
 import { useInjectProFormConfig } from '../../../context'
-import { fieldExtraKey } from '../keys'
+import { fieldExtraKey } from '../field-extra-info'
 
 interface UseMergeOptions {
   field: BaseField

@@ -1,7 +1,7 @@
 export * from './composables/useReadonlyHelpers'
 export * from './composables/useValidationStatus'
 export * from './enums'
-export * from './keys'
+export * from './field-extra-info'
 
 export {
   default as ProField,
@@ -17,3 +17,7 @@ export {
 } from './props'
 
 export * from './slots'
+
+export {
+  pickProFieldSharedProps,
+} from './utils/pickProFieldSharedProps'
