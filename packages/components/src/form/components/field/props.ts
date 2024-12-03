@@ -1,5 +1,6 @@
 import type { PopoverProps } from 'naive-ui'
 import type { Dependencie } from 'pro-composables'
+import type { TupleToUnion } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType, Ref } from 'vue'
 import type { ValidateBehavior } from '../../props'
 import type { InternalFieldValueType } from './enums'
@@ -112,29 +113,39 @@ export const proFieldProps = {
 /**
  * 所有的非列表表单项应该共享的，例如 pro-input 等
  */
+const proFieldIgnoreKeys = [
+  'isList',
+  'valueType',
+  'fieldProps',
+  'valueModelName',
+] as const
+
 export const proFieldSharedProps = {
-  ...simplyOmit(proFieldProps, [
-    'isList',
-    'valueType',
-    'fieldProps',
-    'valueModelName',
-  ]),
+  ...simplyOmit(
+    proFieldProps,
+    proFieldIgnoreKeys as any,
+  ) as Omit<typeof proFieldProps, TupleToUnion<typeof proFieldIgnoreKeys>>,
 } as const
 
 /**
  * 所有的列表表单项应该共享的，例如 pro-form-list 等
  */
+const proListFieldIgnoreKeys = [
+  'isList',
+  'onChange',
+  'postValue',
+  'valueType',
+  'fieldProps',
+  'onInputValue',
+  'valueModelName',
+] as const
+
 export const proListFieldSharedProps = {
-  ...simplyOmit(proFieldProps, [
-    'isList',
-    'onChange',
-    'postValue',
-    'valueType',
-    'fieldProps',
-    'onInputValue',
-    'valueModelName',
-  ]),
-} as const
+  ...simplyOmit(
+    proFieldProps,
+    proListFieldIgnoreKeys as any,
+  ) as Omit<typeof proFieldProps, TupleToUnion<typeof proListFieldIgnoreKeys>>,
+}
 
 export type ProFieldProps = ExtractPublicPropTypes<typeof proFieldProps>
 export type ProFieldSharedProps = ExtractPublicPropTypes<typeof proFieldSharedProps>
