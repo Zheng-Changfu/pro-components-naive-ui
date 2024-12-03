@@ -3,12 +3,13 @@ import type { ProDataTableProps } from '../../data-table'
 import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
 import { useInjectListField } from 'pro-composables'
-import { computed, defineComponent, watch } from 'vue'
+import { computed, defineComponent, provide, watch } from 'vue'
 import { keep } from '../../_utils/keep'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
 import { ProDataTable } from '../../data-table'
 import { proDataTablePropKeys } from '../../data-table/props'
 import { useInjectProForm } from '../../form'
+import { proFieldConfigInjectionKey } from '../../form/components/field/context'
 import { provideProEditDataTableInst } from '../context'
 import { useInjectEditDataTableInstStore } from '../inst'
 import { internalEditDataTableProps } from '../props'
@@ -125,9 +126,9 @@ export default defineComponent({
 
     registerInst(exposed)
     provideProEditDataTableInst(exposed)
-    // provide(proFormListContextKey, {
-    //   showLabel: false,
-    // })
+    provide(proFieldConfigInjectionKey, {
+      showLabel: false,
+    })
     return {
       proDataTableProps,
     }
