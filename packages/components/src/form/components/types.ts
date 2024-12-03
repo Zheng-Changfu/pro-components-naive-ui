@@ -9,7 +9,7 @@ import type { ProDatePickerProps, ProDatePickerSlots } from './date-picker'
 import type { ProDigitProps, ProDigitSlots } from './digit'
 import type { ProDynamicTagsProps, ProDynamicTagsSlots } from './dynamic-tags'
 import type { ProFieldSharedProps } from './field'
-import type { InternalValueTypeEnum } from './field/enums'
+import type { InternalFieldValueType, InternalValueTypeEnum } from './field/enums'
 import type { ProInputProps, ProInputSlots } from './input'
 import type { ProMentionProps, ProMentionSlots } from './mention'
 import type { ProRadioGroupProps, ProRadioGroupSlots } from './radio-group'
@@ -276,8 +276,4 @@ export type ProFieldColumn<
   | Merge<AutoCompleteColumn<Values, FunctionalFieldPropsParameters, FunctionalProFieldPropsParameters>, ExtraProps>
   | Merge<CheckboxGroupColumn<Values, FunctionalFieldPropsParameters, FunctionalProFieldPropsParameters>, ExtraProps>
 
-export type ProFieldColumnValueType = ProFieldColumn extends infer X
-  ? X extends { valueType?: infer ValueType }
-    ? ValueType
-    : never
-  : never
+export type ProFieldColumnValueType = InternalFieldValueType
