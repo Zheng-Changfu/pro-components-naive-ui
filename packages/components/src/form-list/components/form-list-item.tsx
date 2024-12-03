@@ -199,6 +199,10 @@ export default defineComponent({
     const nFormItem = inject<any>('n-form-item')
 
     const {
+      readonly,
+    } = useReadonlyHelpers()
+
+    const {
       path,
     } = useProvidePath(toRef(props, 'index'))
 
@@ -237,6 +241,7 @@ export default defineComponent({
     })
 
     provide(proFieldConfigInjectionKey, {
+      readonly,
       showLabel: showItemLabel,
     })
 
