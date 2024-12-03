@@ -21,3 +21,7 @@ export * from './slots'
 export {
   pickProFieldSharedProps,
 } from './utils/pickProFieldSharedProps'
+
+export {
+  pickProListFieldSharedProps,
+} from './utils/pickProListFieldSharedProps'

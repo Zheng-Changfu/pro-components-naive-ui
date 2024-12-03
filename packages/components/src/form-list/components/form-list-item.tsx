@@ -1,6 +1,5 @@
 import type { PropType, SlotsType } from 'vue'
 import type { ProButtonProps } from '../../button'
-import type { ActionGuard } from '../props'
 import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
 import { omit } from 'lodash-es'
@@ -15,27 +14,22 @@ import { useReadonlyHelpers } from '../../form/components'
 import { useInjectProFormConfig } from '../../form/context'
 import { useLocale } from '../../locales'
 import { proFormListConfigInjectionKey, useInjectProFormListInst } from '../context'
+import { internalFormListProps } from '../props'
 import { useProvidePath } from './composables/useProvidePath'
 
 const Action = defineComponent({
   name: 'Action',
   props: {
-    min: Number,
-    max: Number,
+    min: internalFormListProps.min,
+    max: internalFormListProps.max,
+    actionGuard: internalFormListProps.actionGuard,
+    copyButtonProps: internalFormListProps.copyButtonProps,
+    removeButtonProps: internalFormListProps.removeButtonProps,
+    path: Array as PropType<Array<string>>,
     index: {
       type: Number,
       required: true,
     },
-    copyButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
-    },
-    removeButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
-    },
-    path: Array as PropType<Array<string>>,
-    actionGuard: Object as PropType<Partial<ActionGuard>>,
   },
   setup(props) {
     const form = useInjectProForm()
@@ -185,24 +179,15 @@ const Action = defineComponent({
 export default defineComponent({
   name: 'FormListItem',
   props: {
-    min: Number,
-    max: Number,
-    actionGuard: Object as PropType<Partial<ActionGuard>>,
+    min: internalFormListProps.min,
+    max: internalFormListProps.max,
+    actionGuard: internalFormListProps.actionGuard,
+    copyButtonProps: internalFormListProps.copyButtonProps,
+    removeButtonProps: internalFormListProps.removeButtonProps,
+    onlyShowFirstItemLabel: internalFormListProps.onlyShowFirstItemLabel,
     index: {
       type: Number,
       required: true,
-    },
-    onlyShowFirstItemLabel: {
-      type: Boolean,
-      default: undefined,
-    },
-    copyButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
-    },
-    removeButtonProps: {
-      type: [Object, Boolean] as PropType<ProButtonProps | false>,
-      default: undefined,
     },
   },
   slots: Object as SlotsType<ProFormListSlots>,
