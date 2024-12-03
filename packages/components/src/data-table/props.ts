@@ -2,6 +2,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProDataTableColumns } from './types'
 import { dataTableProps } from 'naive-ui'
+import { keysOf } from '../_utils/keysOf'
 
 export const proDataTableExtendProps = {
   /**
@@ -44,5 +45,6 @@ export const proDataTableProps = {
   columns: Array as PropType<ProDataTableColumns>,
 } as const
 
+export const proDataTablePropKeys = keysOf(proDataTableProps)
 export type ProDataTableProps = ExtractPublicPropTypes<typeof proDataTableProps>
 export type ProDataTableExtendProps = ExtractPublicPropTypes<typeof proDataTableExtendProps>
