@@ -68,3 +68,4 @@ export const proEditDataTableProps = {
 
 export const internalEditDataTablePropKeys = keysOf(internalEditDataTableProps)
 export type ProEditDataTableProps = ExtractPublicPropTypes<typeof proEditDataTableProps>
+export type InternalEditDataTableProps = ExtractPublicPropTypes<typeof internalEditDataTableProps>

@@ -1,13 +1,13 @@
 import type { ProDataTableColumn } from '../../../data-table'
+import type { InternalEditDataTableProps } from '../../props'
 import type { ProEditDataTableColumns } from '../../types'
-import type { EditDataTableProps } from '../edit-data-table'
 import { mapTree } from 'pro-composables'
 import { computed } from 'vue'
 import { isDragSortColumn } from '../../../data-table/utils/column'
 import EditDataTableCell from '../edit-data-table-cell'
 import { isProEditDataTableBaseColumn } from '../utils/column'
 
-export function useColumns(props: EditDataTableProps) {
+export function useColumns(props: InternalEditDataTableProps) {
   function convertProEditColumnsToProColumns(columns: ProEditDataTableColumns): ProDataTableColumn[] {
     return mapTree(columns, (column) => {
       if (isDragSortColumn(column, props.dragSortKey) || !isProEditDataTableBaseColumn(column)) {

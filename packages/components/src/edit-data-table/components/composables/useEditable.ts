@@ -1,5 +1,5 @@
 import type { RowKey } from 'naive-ui/es/data-table/src/interface'
-import type { EditDataTableProps } from '../edit-data-table'
+import type { InternalEditDataTableProps } from '../../props'
 import { watchImmediate } from '@vueuse/core'
 import { useInjectListField } from 'pro-composables'
 import { ref } from 'vue'
@@ -9,7 +9,7 @@ import { useInjectProForm } from '../../../form'
 /**
  * 本质上是控制 'readonly' 属性的变化
  */
-export function useEditable(props: EditDataTableProps) {
+export function useEditable(props: InternalEditDataTableProps) {
   const form = useInjectProForm()
   const editableKeys = ref<Set<RowKey>>(new Set())
 
