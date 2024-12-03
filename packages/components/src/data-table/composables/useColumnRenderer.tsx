@@ -3,7 +3,7 @@ import type { TableColumnGroupTitle, TableColumnTitle, TableExpandColumnTitle } 
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
 import type { ProDataTableBaseColumn, ProDataTableIndexColumn } from '../types'
-import { DragOutlined, InfoCircleOutlined } from '@vicons/antd'
+import { HolderOutlined, InfoCircleOutlined } from '@vicons/antd'
 import { get, isFunction } from 'lodash-es'
 import { NButton, NIcon } from 'naive-ui'
 import { computed } from 'vue'
@@ -149,11 +149,11 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
               <NButton
                 text={true}
                 class={dragHandleId}
-                style={{ cursor: 'move', verticalAlign: 'middle' }}
+                style={{ cursor: 'grab', verticalAlign: 'middle' }}
                 onClick={e => e.stopPropagation()}
               >
                 <NIcon size={16}>
-                  <DragOutlined />
+                  <HolderOutlined />
                 </NIcon>
               </NButton>
             )
