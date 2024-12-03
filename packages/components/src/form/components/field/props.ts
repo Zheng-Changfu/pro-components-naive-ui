@@ -131,11 +131,13 @@ export const proFieldSharedProps = {
  * 所有的列表表单项应该共享的，例如 pro-form-list 等
  */
 const proListFieldIgnoreKeys = [
+  'simple',
   'isList',
   'onChange',
   'postValue',
   'valueType',
   'fieldProps',
+  'placeholder',
   'onInputValue',
   'valueModelName',
 ] as const
