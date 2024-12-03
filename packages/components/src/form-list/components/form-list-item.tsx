@@ -180,6 +180,7 @@ const Action = defineComponent({
 export default defineComponent({
   name: 'FormListItem',
   props: {
+    extraProFieldConfig: Object,
     min: internalFormListProps.min,
     max: internalFormListProps.max,
     actionGuard: internalFormListProps.actionGuard,
@@ -243,6 +244,8 @@ export default defineComponent({
     provide(proFieldConfigInjectionKey, {
       readonly,
       showLabel: showItemLabel,
+      validateBehavior: computed(() => props.extraProFieldConfig?.validateBehavior),
+      validateBehaviorProps: computed(() => props.extraProFieldConfig?.validateBehaviorProps),
     })
 
     return {
