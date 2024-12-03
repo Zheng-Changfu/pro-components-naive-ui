@@ -20,7 +20,10 @@ import CreatorButton from './creator-button'
 
 export default defineComponent({
   name: 'EditDataTable',
-  props: internalEditDataTableProps,
+  props: {
+    ...internalEditDataTableProps,
+    extraProFieldConfig: Object,
+  },
   slots: Object as SlotsType<ProEditDataTableSlots>,
   setup(props) {
     const form = useInjectProForm()
@@ -127,7 +130,8 @@ export default defineComponent({
     registerInst(exposed)
     provideProEditDataTableInst(exposed)
     provide(proFieldConfigInjectionKey, {
-      showLabel: false,
+      validateBehavior: computed(() => props.extraProFieldConfig?.validateBehavior ?? 'popover'),
+      validateBehaviorProps: computed(() => props.extraProFieldConfig?.validateBehaviorProps),
     })
     return {
       proDataTableProps,
