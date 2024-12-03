@@ -1,11 +1,12 @@
 import type { FormItemRule } from 'naive-ui'
 import type { PropType } from 'vue'
 import type { FormItemInternalValidateResult } from '../../../composables/useValidationResult'
-import type { FieldExtraInfo } from '../../field'
+import type { FieldExtraInfo } from '../../field/field-extra-info'
 import { useInjectField } from 'pro-composables'
 import { defineComponent, inject, onUnmounted, provide, watch } from 'vue'
 import { useInjectProFormConfig } from '../../../context'
-import { fieldExtraKey, useReadonlyHelpers } from '../../field'
+import { useReadonlyHelpers } from '../../field'
+import { fieldExtraKey } from '../../field/field-extra-info'
 
 /**
  * 对表单项调用校验的方法打补丁，为了收集校验结果，实现错误信息自定义位置

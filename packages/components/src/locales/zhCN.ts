@@ -1,7 +1,7 @@
 import type { PaginationInfo } from 'naive-ui'
 import type { ProFieldColumnValueType } from '../form'
 import { createLocale, zhCN as nZhCN } from 'naive-ui'
-import { InternalValueTypeEnum } from '../form'
+import { InternalValueTypeEnum } from '../form/components/field/enums'
 
 export const zhCN = createLocale({
   ProForm: {
