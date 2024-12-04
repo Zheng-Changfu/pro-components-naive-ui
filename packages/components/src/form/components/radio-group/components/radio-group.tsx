@@ -4,7 +4,6 @@ import type { ProRadioGroupSlots } from '../slots'
 import { get, toPath } from 'lodash-es'
 import { NFlex, NRadio, NRadioGroup, radioGroupProps } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
-import { resolveSlot } from '../../../../_utils/resolveSlot'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
@@ -86,9 +85,7 @@ export default defineComponent({
     if (this.readonly) {
       dom = this.empty
         ? this.emptyText
-        : this.$slots.default
-          ? this.value
-          : this.selectedLabel
+        : this.selectedLabel
     }
     else {
       dom = (
@@ -98,15 +95,16 @@ export default defineComponent({
         >
           {{
             default: () => {
-              return resolveSlot(this.$slots.default, () => [
-                <NFlex {...(this.$props.flexProps ?? {})}>
+              const flexProps = this.$props.flexProps ?? {}
+              return (
+                <NFlex {...flexProps}>
                   {
                     this.normalizedOptions.map((item) => {
                       return <NRadio key={item.value} {...item} />
                     })
                   }
-                </NFlex>,
-              ])
+                </NFlex>
+              )
             },
           }}
         </NRadioGroup>
@@ -117,7 +115,10 @@ export default defineComponent({
       ? this.$slots.input({
         inputDom: dom,
         readonly: this.readonly,
-        inputProps: this.nRadioGroupProps,
+        inputProps: {
+          ...this.nRadioGroupProps,
+          options: this.normalizedOptions,
+        },
       })
       : dom
   },
