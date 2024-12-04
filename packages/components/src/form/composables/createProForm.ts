@@ -96,15 +96,15 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     onReset,
     onSubmit,
     initialValues,
+    onValueChange,
     onSubmitFailed,
-    onValuesChange,
     validateOnDependenciesValueChange = true,
   } = options
 
   const internalForm = createForm({
     omitNil,
     initialValues,
-    onValuesChange,
+    onValueChange,
     onDependenciesValueChange,
   })
 
