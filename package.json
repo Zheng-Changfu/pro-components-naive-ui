@@ -16,7 +16,6 @@
     "release": "pnpm tsc && pnpm lint:fix && pnpm build:components && pnpm changeset && pnpm changeset version && pnpm changeset publish"
   },
   "dependencies": {
-    "@ant-design/colors": "^7.1.0",
     "@css-render/plugin-bem": "^0.15.14",
     "@css-render/vue3-ssr": "^0.15.14",
     "@types/katex": "^0.16.7",

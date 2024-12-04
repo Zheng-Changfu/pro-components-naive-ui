@@ -1,4 +1,3 @@
-import { generate } from '@ant-design/colors'
 import {
   darkTheme,
   dateZhCN,
@@ -127,17 +126,9 @@ export function siteSetup() {
   const isMobileRef = useIsMobile()
 
   const themeOverrides = computed(() => {
-    const pirmaryColor = '#1677FF'
-    const colors = generate(pirmaryColor, {
-      theme: themeRef.value ? 'dark' : 'default',
-    })
     return {
       common: {
         borderRadius: '6px',
-        primaryColor: colors[5],
-        primaryColorHover: colors[4],
-        primaryColorPressed: colors[4],
-        primaryColorSuppl: colors[6],
       },
     }
   })
