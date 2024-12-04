@@ -54,8 +54,8 @@ export default defineComponent({
     return (
       <NPopover
         placement="top-start"
-        {...popoverProps}
         show={this.showPopover}
+        {...popoverProps}
       >
         {{
           trigger: () => {
