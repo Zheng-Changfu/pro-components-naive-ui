@@ -14,10 +14,6 @@ export const zhComponentRoutes = [
     path: 'modal',
     component: () => import('../../packages/components/src/modal/demos/zhCN/index.demo-entry.md'),
   },
-  // {
-  //   path: 'descriptions',
-  //   component: () => import('../../packages/components/src/descriptions/demos/zhCN/index.demo-entry.md'),
-  // },
   {
     path: 'button',
     component: () => import('../../packages/components/src/button/demos/zhCN/index.demo-entry.md'),
