@@ -343,10 +343,6 @@ export default defineComponent({
         blur-after-select
         @select="handleSearch"
       />
-      <!-- TODO: add it -->
-      <!-- template #suffix>
-        <span style="color: var(--placeholder-color)">⌘ + K</span>
-      </template -->
     </div>
     <n-popover
       v-if="isMobile || isTablet"
