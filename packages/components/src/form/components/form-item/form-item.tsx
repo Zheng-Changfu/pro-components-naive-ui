@@ -6,10 +6,13 @@ import { NFormItem, NIcon } from 'naive-ui'
 import { useInjectField } from 'pro-composables'
 import { computed, defineComponent, ref, useAttrs } from 'vue'
 import ProTooltip from '../../../_internal/components/pro-tooltip'
+import { useNaiveClsPrefix } from '../../../_internal/useClsPrefix'
+import { useMountStyle } from '../../../_internal/useMountStyle'
 import { fieldExtraKey } from '../field/field-extra-info'
 import TrackValidationResult from './components/track-validation-result'
 import { useRules } from './composables/useRules'
 import { proFormItemProps } from './props'
+import style from './styles/index.cssr'
 
 export default defineComponent({
   name: 'ProFormItem',
@@ -21,6 +24,7 @@ export default defineComponent({
     const rules = useRules(props)
     const field = useInjectField()
     const nFormItemInst = ref<FormItemInst>()
+    const mergedClsPrefix = useNaiveClsPrefix()
 
     const nFormItemProps = computed<FormItemProps> (() => {
       const {
@@ -46,29 +50,34 @@ export default defineComponent({
       }
     }
 
+    useMountStyle(
+      'ProFormItem',
+      'pro-form-item',
+      style,
+    )
+
     return {
       rules,
       nFormItemProps,
+      mergedClsPrefix,
     }
   },
   render() {
     const labelDom = this.$slots.label?.()
       ?? this.title
       ?? this.label
-    /** TODO: style -> class */
+
     return (
-      <NFormItem {...this.nFormItemProps}>
+      <NFormItem
+        {...this.nFormItemProps}
+        class={[`${this.mergedClsPrefix}-pro-form-item`]}
+      >
         {{
           feedback: this.$slots.feedback,
           label: labelDom
             ? () => {
                 return (
-                  <div
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                    }}
-                  >
+                  <div class={[`${this.mergedClsPrefix}-pro-form-item__label`]}>
                     {labelDom}
                     <ProTooltip
                       trigger="hover"
@@ -78,12 +87,9 @@ export default defineComponent({
                         trigger: () => {
                           return (
                             <NIcon
-                              size={16}
                               depth={3}
-                              style={{
-                                cursor: 'help',
-                                marginInlineStart: '4px',
-                              }}
+                              size={16}
+                              class={[`${this.mergedClsPrefix}-pro-form-item__icon`]}
                             >
                               <QuestionCircleOutlined />
                             </NIcon>
