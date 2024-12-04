@@ -3,7 +3,7 @@ import type { PlainComponentValueTransform } from '../plains'
 import { inject, provide } from 'vue'
 import { createInjectionKey } from '../composables/createInjectionKey'
 
-export type WrappedIn = 'form' | 'data-table' | 'edit-data-table' | ''
+export type WrappedIn = 'form' | 'data-table' | ''
 
 interface GlobalConfig {
   mergedEmpty: (wrappedIn: WrappedIn) => VNodeChild
