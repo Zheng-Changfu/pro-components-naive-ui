@@ -1,11 +1,11 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseForm, FormOptions, InternalPath } from 'pro-composables'
 import type { Merge, Paths, Simplify, SimplifyDeep } from 'type-fest'
-import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef, DeepReadonly, Ref, UnwrapNestedRefs } from 'vue'
 import type { FieldExtraInfo } from '../components/field/field-extra-info'
 import { isString } from 'lodash-es'
 import { createForm, stringifyPath } from 'pro-composables'
-import { computed, inject, nextTick, provide, ref } from 'vue'
+import { computed, inject, nextTick, provide, readonly, ref } from 'vue'
 import { createInjectionKey } from '../../composables/createInjectionKey'
 import { fieldExtraKey } from '../components/field/field-extra-info'
 import { useValidationResults } from './useValidationResult'
@@ -55,6 +55,11 @@ export type CreateProFormReturn<Values = any> = Simplify<Pick<
    * 校验
    */
   validate: <T extends InternalPath = StringKeyof<Values>>(paths?: T) => ReturnType<FormInst['validate']> | undefined
+  /**
+   * 所有的值（包含用户设置的和可能被隐藏的字段）
+   * ⚠️注意：它是只读的，表单值修改你应该通过 setFieldValue/setFieldsValue api
+   */
+  values: DeepReadonly<UnwrapNestedRefs<Ref<Values>>>
   /**
    * 是否正在提交，需要提供 onSubmit 函数才会生效
    */
@@ -269,6 +274,7 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
       model: valueStore.values,
     },
     submiting: computed(() => submiting.value),
+    values: __DEV__ ? readonly(valueStore.values) : valueStore.values,
   }
   return Object.freeze(returned)
 }
