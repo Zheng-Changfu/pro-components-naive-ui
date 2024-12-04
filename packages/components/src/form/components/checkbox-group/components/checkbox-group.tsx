@@ -4,7 +4,6 @@ import type { ProCheckboxGroupSlots } from '../slots'
 import { get, toPath } from 'lodash-es'
 import { checkboxGroupProps, NCheckbox, NCheckboxGroup, NFlex } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
-import { resolveSlot } from '../../../../_utils/resolveSlot'
 import { useReadonlyHelpers } from '../../field'
 
 export default defineComponent({
@@ -87,9 +86,7 @@ export default defineComponent({
     if (this.readonly) {
       dom = this.empty
         ? this.emptyText
-        : this.$slots.default
-          ? (this.value ?? []).join('，')
-          : this.selectedLabels.join('，')
+        : this.selectedLabels.join('，')
     }
     else {
       dom = (
@@ -99,15 +96,16 @@ export default defineComponent({
         >
           {{
             default: () => {
-              return resolveSlot(this.$slots.default, () => [
-                <NFlex {...(this.$props.flexProps ?? {})}>
+              const flexProps = this.$props.flexProps ?? {}
+              return (
+                <NFlex {...flexProps}>
                   {
                     this.normalizedOptions.map((item) => {
                       return <NCheckbox key={item.value} {...item} />
                     })
                   }
-                </NFlex>,
-              ])
+                </NFlex>
+              )
             },
           }}
         </NCheckboxGroup>
@@ -118,7 +116,10 @@ export default defineComponent({
       ? this.$slots.input({
         inputDom: dom,
         readonly: this.readonly,
-        inputProps: this.nCheckboxGroupProps,
+        inputProps: {
+          ...this.nCheckboxGroupProps,
+          options: this.normalizedOptions,
+        },
       })
       : dom
   },
