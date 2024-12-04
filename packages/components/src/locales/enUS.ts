@@ -1,4 +1,3 @@
-import type { PaginationInfo } from 'naive-ui'
 import type { ProFieldColumnValueType } from '../form'
 import { createLocale, enUS as nEnUS } from 'naive-ui'
 import { InternalValueTypeEnum } from '../form/components/field/enums'
@@ -11,12 +10,12 @@ export const enUS = createLocale({
       },
     },
     fieldPlaceholder: (title: string, valueType: ProFieldColumnValueType) => {
-      /** TODO: */
       switch (valueType) {
         case InternalValueTypeEnum.INPUT:
         case InternalValueTypeEnum.DIGIT:
         case InternalValueTypeEnum.MENTION:
         case InternalValueTypeEnum.PASSWORD:
+        case InternalValueTypeEnum.TEXTAREA:
         case InternalValueTypeEnum.AUTO_COMPLETE:
           return `Please Input ${title}`
         case InternalValueTypeEnum.DATE:
@@ -58,11 +57,11 @@ export const enUS = createLocale({
     unchecked: 'close',
   },
   ProModalForm: {
-    reset: 'reset',
+    reset: 'cancel',
     submit: 'submit',
   },
   ProDrawerContent: {
-    reset: 'reset',
+    reset: 'cancel',
     submit: 'submit',
   },
   ProSearchForm: {
@@ -72,17 +71,7 @@ export const enUS = createLocale({
   },
   ProDataTable: {
     sortColumn: 'sort',
-    settingDens: 'dens',
     indexColumn: 'Index',
-    settingReset: 'reset',
-    settingReload: 'reload',
-    settingDensLarge: 'large',
-    settingDensSmall: 'small',
-    settingDensMedium: 'medium',
-    settingColumn: 'columnSetting',
-    settingShowColumn: 'showColumn',
-    settingShowIndexColumn: 'showIndexColumn',
-    paginationPrefix: ({ itemCount }: PaginationInfo) => `Total is ${itemCount}.`,
   },
   ProEditDataTable: {
     add: 'add',
