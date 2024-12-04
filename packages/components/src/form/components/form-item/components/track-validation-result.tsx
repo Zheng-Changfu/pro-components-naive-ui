@@ -1,6 +1,6 @@
 import type { FormItemRule } from 'naive-ui'
 import type { PropType } from 'vue'
-import type { FormItemInternalValidateResult } from '../../../composables/useValidationResult'
+import type { FormItemInternalValidationResult } from '../../../composables/useValidationResult'
 import type { FieldExtraInfo } from '../../field/field-extra-info'
 import { useInjectField } from 'pro-composables'
 import { defineComponent, inject, onUnmounted, provide, watch } from 'vue'
@@ -23,7 +23,7 @@ export default defineComponent({
     const formConfig = useInjectProFormConfig()
     const formItemInstRef = (field?.[fieldExtraKey] as FieldExtraInfo)?.proFormItemInst
 
-    function collectValidationResult(trigger: string, res: Partial<FormItemInternalValidateResult>) {
+    function collectValidationResult(trigger: string, res: Partial<FormItemInternalValidationResult>) {
       const { errors, warnings } = res
       if (!field)
         return
