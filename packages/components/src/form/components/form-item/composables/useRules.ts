@@ -1,11 +1,12 @@
 import type { FormItemRule } from 'naive-ui'
 import type { ProFormItemProps } from '../props'
 import { isArray, toString } from 'lodash-es'
-import { stringifyPath } from 'pro-composables'
+import { useInjectField } from 'pro-composables'
 import { computed, unref } from 'vue'
 import { isEmptyValue } from '../../../../_utils/isEmptyValue'
 import { useLocale } from '../../../../locales'
 import { useInjectProFormConfig } from '../../../context'
+import { fieldExtraKey } from '../../field/field-extra-info'
 
 export function useRules(props: ProFormItemProps) {
   const {
@@ -15,6 +16,8 @@ export function useRules(props: ProFormItemProps) {
   const {
     validationTrigger,
   } = useInjectProFormConfig()
+
+  const field = useInjectField()
 
   function requiredValidator(_: any, value: any) {
     return !isEmptyValue(value)
@@ -64,7 +67,11 @@ export function useRules(props: ProFormItemProps) {
           /**
            * 给每个 rule 增加 key，方便 validate 方法校验
            */
-          key: stringifyPath(props.path ?? ''),
+          key: field ? field.stringPath.value : '',
+          /**
+           * 给每个 rule 增加 readonly，方便 validate 方法过滤
+           */
+          readonly: field ? field[fieldExtraKey].readonly.value : false,
         }
       })
   })

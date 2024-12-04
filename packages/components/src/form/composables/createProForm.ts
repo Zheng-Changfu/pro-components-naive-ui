@@ -168,10 +168,14 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
 
   function validate(paths?: InternalPath) {
     if (!paths) {
-      return nFormInst.value?.validate(addValidateResults)
+      return nFormInst.value?.validate(addValidateResults, (rule) => {
+        return !(rule as any).readonly
+      })
     }
     paths = (isString(paths) ? [paths] : paths).map(stringifyPath)
-    return nFormInst.value?.validate(addValidateResults, rule => paths.includes(rule.key!))
+    return nFormInst.value?.validate(addValidateResults, (rule) => {
+      return paths.includes(rule.key!) && !(rule as any).readonly
+    })
   }
 
   function submit() {
