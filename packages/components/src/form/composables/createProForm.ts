@@ -146,8 +146,8 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
 
   function onDependenciesValueChange(opt: {
     value: any
-    path: string[]
-    depPath: string[]
+    path: string
+    depPath: string
   }) {
     const {
       path,
