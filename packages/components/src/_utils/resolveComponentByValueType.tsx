@@ -2,6 +2,7 @@ import type { ProFieldColumnValueType } from '../form'
 import type { AnyFn } from '../types'
 import { isString } from 'lodash-es'
 import { h, resolveComponent } from 'vue'
+import { warnOnce } from './warn'
 
 interface ResolveComponentByValueTypeOptions {
   /**
@@ -37,6 +38,11 @@ export function resolveComponentByValueType(valueType: ProFieldColumnValueType, 
       fieldProps,
     }, fieldSlots)
   }
-
+  if (__DEV__) {
+    warnOnce(
+      'search-form|edit-data-table',
+      `Component ${Component} is not registered !`,
+    )
+  }
   return null
 }

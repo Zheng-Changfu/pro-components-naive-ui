@@ -1,12 +1,10 @@
 import type { BaseField } from 'pro-composables'
-import type { FieldExtraInfo } from '../field-extra-info'
 import type { ProFieldProps } from '../props'
 import { toString } from 'lodash-es'
 import { computed, inject, unref } from 'vue'
 import { useLocale } from '../../../../locales'
 import { useInjectProFormConfig } from '../../../context'
 import { proFieldConfigInjectionKey } from '../context'
-import { fieldExtraKey } from '../field-extra-info'
 
 interface UseMergeOptions {
   field: BaseField
@@ -21,14 +19,17 @@ export function useMergeOptions(props: ProFieldProps, options: UseMergeOptions) 
   } = useLocale('ProForm')
 
   const {
-    showLabel,
-  } = inject(proFieldConfigInjectionKey, null) ?? {}
+    readonly: formReadonlyRef,
+    validateBehavior: formValidateBehaviorRef,
+    validateBehaviorProps: formValidateBehaviorPropsRef,
+  } = useInjectProFormConfig()
 
   const {
-    validateBehavior,
-    validateBehaviorProps,
-    readonly: formReadonlyRef,
-  } = useInjectProFormConfig()
+    readonly: listFieldInjectedReadonlyRef,
+    showLabel: listFieldInjectedShowLabelRef,
+    validateBehavior: listFieldInjectedValidateBehaviorRef,
+    validateBehaviorProps: listFieldInjectedValidateBehaviorPropsRef,
+  } = inject(proFieldConfigInjectionKey, null) ?? {}
 
   const mergedTitle = computed(() => {
     return props.title ?? props.label
@@ -45,14 +46,14 @@ export function useMergeOptions(props: ProFieldProps, options: UseMergeOptions) 
   })
 
   const mergedReadonly = computed(() => {
-    const formReadonly = unref(formReadonlyRef)
     if (props.readonly !== undefined) {
       return !!props.readonly
     }
-    if (field.parent) {
-      const extraInfo = field.parent[fieldExtraKey] as FieldExtraInfo
-      return extraInfo.readonly.value
+    const listFieldInjectedReadonly = unref(listFieldInjectedReadonlyRef)
+    if (listFieldInjectedReadonly !== undefined) {
+      return listFieldInjectedReadonly
     }
+    const formReadonly = unref(formReadonlyRef)
     if (formReadonly !== undefined) {
       return !!formReadonly
     }
@@ -60,12 +61,24 @@ export function useMergeOptions(props: ProFieldProps, options: UseMergeOptions) 
   })
 
   const mergedValidateBehavior = computed(() => {
-    return props.validateBehavior ?? validateBehavior.value ?? 'default'
+    if (props.validateBehavior !== undefined) {
+      return props.validateBehavior
+    }
+    const listFieldInjectedValidateBehavior = unref(listFieldInjectedValidateBehaviorRef)
+    if (listFieldInjectedValidateBehavior !== undefined) {
+      return listFieldInjectedValidateBehavior
+    }
+    const formValidateBehavior = unref(formValidateBehaviorRef)
+    if (formValidateBehavior !== undefined) {
+      return formValidateBehavior
+    }
+    return 'default'
   })
 
   const mergedValidateBehaviorProps = computed(() => {
     return {
-      ...(validateBehaviorProps.value ?? {}),
+      ...(unref(formValidateBehaviorPropsRef) ?? {}),
+      ...(unref(listFieldInjectedValidateBehaviorPropsRef) ?? {}),
       ...(props.validateBehaviorProps ?? {}),
     }
   })
@@ -74,8 +87,9 @@ export function useMergeOptions(props: ProFieldProps, options: UseMergeOptions) 
     if (props.showLabel !== undefined) {
       return props.showLabel
     }
-    if (unref(showLabel) !== undefined) {
-      return unref(showLabel)
+    const listFieldInjectedShowLabel = unref(listFieldInjectedShowLabelRef)
+    if (listFieldInjectedShowLabel !== undefined) {
+      return listFieldInjectedShowLabel
     }
   })
 

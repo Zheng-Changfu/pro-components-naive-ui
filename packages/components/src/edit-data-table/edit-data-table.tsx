@@ -1,12 +1,15 @@
 import type { SlotsType } from 'vue'
 import type { ProEditDataTableSlots } from './slots'
 import { computed, defineComponent } from 'vue'
+import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
+import { useMountStyle } from '../_internal/useMountStyle'
 import { keep } from '../_utils/keep'
 import { useOverrideProps } from '../composables'
 import { proFieldProps as _proFieldProps, pickProListFieldSharedProps, ProField } from '../form'
 import EditDataTable from './components/edit-data-table'
 import { provideEditDataTableInstStore } from './inst'
 import { internalEditDataTablePropKeys, proEditDataTableProps } from './props'
+import style from './styles/index.cssr'
 
 const name = 'ProEditDataTable'
 export default defineComponent({
@@ -22,6 +25,8 @@ export default defineComponent({
       name,
       props,
     )
+
+    const mergedClsPrefix = useNaiveClsPrefix()
 
     const proFieldProps = computed(() => {
       return pickProListFieldSharedProps(overridedProps.value)
@@ -46,15 +51,34 @@ export default defineComponent({
       )
     })
 
+    useMountStyle(
+      name,
+      'pro-edit-data-table',
+      style,
+      mergedClsPrefix,
+    )
+
     expose(exposed)
     return {
       proFieldProps,
+      mergedClsPrefix,
       internalEditDataTableProps,
     }
   },
   render() {
+    const {
+      $props,
+      mergedClsPrefix,
+    } = this
+
     return (
       <ProField
+        class={[
+          `${mergedClsPrefix}-pro-edit-data-table-wrapper`,
+          {
+            [`${mergedClsPrefix}-pro-edit-data-table-wrapper--flex-height`]: $props.flexHeight,
+          },
+        ]}
         {...this.proFieldProps}
         isList={true}
         valueModelName=""
@@ -64,7 +88,12 @@ export default defineComponent({
           input: (pureProps: any) => {
             return (
               <EditDataTable
+                class={[`${mergedClsPrefix}-pro-edit-data-table`]}
                 {...pureProps}
+                extraProFieldConfig={{
+                  validateBehavior: this.proFieldProps.validateBehavior,
+                  validateBehaviorProps: this.proFieldProps.validateBehaviorProps,
+                }}
                 v-slots={this.$slots}
               />
             )

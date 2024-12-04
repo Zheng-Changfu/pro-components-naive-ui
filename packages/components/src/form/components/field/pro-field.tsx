@@ -129,16 +129,17 @@ export default defineComponent({
         />
       )
     }
-
-    formItemDom = (
-      <ProFormItem
-        {...proFormItemProps}
-        v-slots={{
-          ...proFormItemSlots,
-          default: () => this.$slots.input(this.inputProps),
-        }}
-      />
-    )
+    else {
+      formItemDom = (
+        <ProFormItem
+          {...proFormItemProps}
+          v-slots={{
+            ...proFormItemSlots,
+            default: () => this.$slots.input(this.inputProps),
+          }}
+        />
+      )
+    }
 
     return this.$slots['form-item']
       ? this.$slots['form-item']({

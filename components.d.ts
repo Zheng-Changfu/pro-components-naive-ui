@@ -51,6 +51,7 @@ declare module 'vue' {
     NUl: typeof import('naive-ui')['NUl']
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
     ProAutoComplete: typeof import('pro-naive-ui')['ProAutoComplete']
+    ProButton: typeof import('pro-naive-ui')['ProButton']
     ProCard: typeof import('pro-naive-ui')['ProCard']
     ProCascader: typeof import('pro-naive-ui')['ProCascader']
     ProCheckbox: typeof import('pro-naive-ui')['ProCheckbox']

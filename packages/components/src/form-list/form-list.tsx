@@ -43,6 +43,7 @@ export default defineComponent({
       name,
       'pro-form-list',
       style,
+      mergedClsPrefix,
     )
 
     expose(exposed)
@@ -69,6 +70,10 @@ export default defineComponent({
             return (
               <FormList
                 {...pureProps}
+                extraProFieldConfig={{
+                  validateBehavior: this.proFieldProps.validateBehavior,
+                  validateBehaviorProps: this.proFieldProps.validateBehaviorProps,
+                }}
                 v-slots={this.$slots}
               />
             )

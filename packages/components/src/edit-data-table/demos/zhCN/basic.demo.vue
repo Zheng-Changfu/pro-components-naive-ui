@@ -100,25 +100,27 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-form :form="form" validate-behavior="popover">
-    <pro-input
-      title="名称"
-      path="name"
-      :field-props="{
-        style: {
-          background: get('list.0.no'),
-        },
-      }"
-    />
-    <pro-edit-data-table
-      readonly
-      title="爱好"
-      path="list"
-      :scroll-x="200"
-      :columns="columns"
-      :row-key="row => row.id"
-      :hidden="get('name') === '123'"
-    />
+  <pro-form :form="form" label-placement="left">
+    <div class="flex flex-col">
+      <pro-input
+        title="名称"
+        path="name"
+        :field-props="{
+          style: {
+            background: get('list.0.no'),
+          },
+        }"
+      />
+      <pro-edit-data-table
+        readonly
+        title="爱好"
+        path="list"
+        :scroll-x="200"
+        :columns="columns"
+        :row-key="row => row.id"
+        :hidden="get('name') === '123'"
+      />
+    </div>
     <n-button type="primary" attr-type="submit">
       提交
     </n-button>

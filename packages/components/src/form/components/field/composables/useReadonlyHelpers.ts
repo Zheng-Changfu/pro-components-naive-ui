@@ -28,7 +28,7 @@ export function useReadonlyHelpers() {
 
   const readonlyText = computed(() => {
     return empty.value
-      ? emptyText
+      ? emptyText.value
       : field.value.value
   })
 

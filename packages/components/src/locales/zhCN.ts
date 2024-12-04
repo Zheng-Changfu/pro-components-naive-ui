@@ -1,4 +1,3 @@
-import type { PaginationInfo } from 'naive-ui'
 import type { ProFieldColumnValueType } from '../form'
 import { createLocale, zhCN as nZhCN } from 'naive-ui'
 import { InternalValueTypeEnum } from '../form/components/field/enums'
@@ -11,7 +10,6 @@ export const zhCN = createLocale({
       },
     },
     fieldPlaceholder: (title: string, valueType: ProFieldColumnValueType) => {
-      /** TODO: */
       switch (valueType) {
         case InternalValueTypeEnum.INPUT:
         case InternalValueTypeEnum.DIGIT:
@@ -59,12 +57,12 @@ export const zhCN = createLocale({
     unchecked: '关闭',
   },
   ProModalForm: {
-    reset: '取 消',
-    submit: '确 认',
+    reset: '取消',
+    submit: '确认',
   },
   ProDrawerContent: {
-    reset: '取 消',
-    submit: '确 认',
+    reset: '取消',
+    submit: '确认',
   },
   ProSearchForm: {
     reset: '重置',
@@ -74,16 +72,6 @@ export const zhCN = createLocale({
   ProDataTable: {
     sortColumn: '排序',
     indexColumn: '序号',
-    settingDens: '密度',
-    settingReset: '重置',
-    settingReload: '刷新',
-    settingColumn: '列设置',
-    settingDensLarge: '宽松',
-    settingDensSmall: '紧凑',
-    settingDensMedium: '中等',
-    settingShowColumn: '列展示',
-    settingShowIndexColumn: '序号列',
-    paginationPrefix: ({ itemCount }: PaginationInfo) => `共 ${itemCount} 条`,
   },
   ProEditDataTable: {
     add: '添加一行数据',
