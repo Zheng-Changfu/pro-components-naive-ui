@@ -80,14 +80,13 @@
     "typescriptreact",
     "vue",
     "html",
-    "markdown",
     "json",
     "jsonc",
     "yaml"
   ],
   "css.lint.hexColorLength": "ignore",
   "[jsonc]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
@@ -111,7 +110,7 @@
   },
   "update.mode": "start",
   "[vue]": {
-    "editor.defaultFormatter": "Vue.volar"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "editor.cursorBlinking": "expand",
   "editor.quickSuggestions": {

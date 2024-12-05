@@ -9,11 +9,14 @@ ProInput 是 NFormItem + Input 的产物，可以简单理解成以下的代码
 <!-- ProInput -->
 <template>
   <n-form-item v-bind="$props">
-    <n-input :placeholder="props.placeholder" v-bind="$props.fieldProps" />
+    <n-input :placeholder="$props.placeholder" v-bind="$props.fieldProps" />
   </n-form-item>
 </template>
 ```
-所以我们给 ProInput 设置的 props 其实是 NFormItem 的，fieldProps 才是包含的组件的，要切记。
+
+<n-alert type="warning" title="注意" :bordered="false">
+  我们给 ProInput 设置的 props 其实是 NFormItem 的，fieldProps 才是包含的组件的，要切记。
+</n-alert>
 
 ## 演示
 
@@ -21,43 +24,50 @@ ProInput 是 NFormItem + Input 的产物，可以简单理解成以下的代码
 item.vue
 date.vue
 upload.vue
+input-value.vue
+post-value.vue
+transform.vue
+dependencies.vue
+link-visible-hidden.vue
+link-async-loop.vue
+cross-component.vue
 ```
 
 ## API
 ### 通用的属性
-| 名称 | 类型 | 默认值 | 说明 | 版本 |
-| --- | --- | --- | --- | --- |
-| simple | `boolean` | `false` | 精简模式，不包装 FormItem |  |
-| title | `string` | | 同 label，为了工程化统一 |  |
-| readonly | `boolean` | | 是否为只读态 |  |
-| initialValue | `any` | | 初始值，优先级大于表单的 initialValues |  |
-| value | `any` | | 表单值，优先级大于 initialValue |  |
-| preserve | `boolean` | `true` | 字段被隐藏或删除时是否还保留值 |  |
-| visible | `boolean` | | 是否显示 |  |
-| hidden | `boolean` | | 是否隐藏 |  |
-| addonBefore | `string` | | 表单项前缀 |  |
-| addonAfter | `string` | | 表单项后缀 |  |
-| validateBehavior | `string` | | 校验行为，为 `'popover'` 时验证不通过会通过 `popover` 进行提示 |  |
-| validateBehaviorProps | `PopoverProps` | | 验证不通过时传递的属性，只在 validateBehavior 为 popover 时生效 |  |
-| placeholder | `any` | | 会透传给支持 placeholder 的控件 |  |
-| fieldProps | `Record<string,any>` | `{}` | 控件的 props，比如 `ProInput` 控件，这里就支持 `NInput` 的所有 `props`，其他控件同理 |  |
-| dependencies | `Dependencie \| Dependencie[]` | | 字段的依赖项，当依赖项的值发生变化时，会触发当前字段校验 |  |
-| postValue | `(val: any) => any` | | 后置状态钩子，可以二次修改数据，返回的值为表单的最终结果值，字段值变化后会触发该钩子 |  |
-| onChange | `(val: any) => void` | | 字段值发生变化后触发的回调函数 |  |
-| transform | `(val: any, path: string) => any` | | 转换字段的值，如果返回的是一个对象，将和当前字段所在层级的对象进行深度合并 |  |
-| tooltip | `string \| string[]` | | 显示在 label 右边的提示 |  |
-| isList | `boolean` | | 是否为列表字段，自定义列表组件时可能会用到 |  |
-| valueType | `InternalFieldValueType` | | 用于表示值的类型是属于哪个组件的，自定义组件时可能会用到 |  |
-| valueModelName | `string` | | 用于 `v-model:xxx` 的名称，默认为 `'value'`，用于支持 `v-model:value`，如果你想支持 `v-model:checked`，设置为 `checked`，自定义组件时可能会用到 |  |
-| [...NFormItemProps](https://www.naiveui.com/zh-CN/os-theme/components/form#FormItem-Props) | | | 支持 `NFormItem` 的所有 props | |
+| 名称                                                                                       | 类型                              | 默认值  | 说明                                                                                                                                            | 版本 |
+| ------------------------------------------------------------------------------------------ | --------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| simple                                                                                     | `boolean`                         | `false` | 精简模式，不包装 FormItem                                                                                                                       |      |
+| title                                                                                      | `string`                          |         | 同 label，为了工程化统一                                                                                                                        |      |
+| readonly                                                                                   | `boolean`                         |         | 是否为只读态                                                                                                                                    |      |
+| initialValue                                                                               | `any`                             |         | 初始值，优先级大于表单的 initialValues                                                                                                          |      |
+| value                                                                                      | `any`                             |         | 表单值，优先级大于 initialValue                                                                                                                 |      |
+| preserve                                                                                   | `boolean`                         | `true`  | 字段被隐藏或删除时是否还保留值                                                                                                                  |      |
+| visible                                                                                    | `boolean`                         |         | 是否显示                                                                                                                                        |      |
+| hidden                                                                                     | `boolean`                         |         | 是否隐藏                                                                                                                                        |      |
+| addonBefore                                                                                | `string`                          |         | 表单项前缀                                                                                                                                      |      |
+| addonAfter                                                                                 | `string`                          |         | 表单项后缀                                                                                                                                      |      |
+| validateBehavior                                                                           | `string`                          |         | 校验行为，为 `'popover'` 时验证不通过会通过 `popover` 进行提示                                                                                  |      |
+| validateBehaviorProps                                                                      | `PopoverProps`                    |         | 验证不通过时传递的属性，只在 validateBehavior 为 popover 时生效                                                                                 |      |
+| placeholder                                                                                | `any`                             |         | 会透传给支持 placeholder 的控件                                                                                                                 |      |
+| fieldProps                                                                                 | `Record<string,any>`              | `{}`    | 控件的 props，比如 `ProInput` 控件，这里就支持 `NInput` 的所有 `props`，其他控件同理                                                            |      |
+| dependencies                                                                               | `Dependencie \| Dependencie[]`    |         | 字段的依赖项，当依赖项的值发生变化时，会触发当前字段校验                                                                                        |      |
+| postValue                                                                                  | `(val: any) => any`               |         | 后置状态钩子，可以二次修改数据，返回的值为表单的最终结果值，字段值变化后会触发该钩子                                                            |      |
+| onChange                                                                                   | `(val: any) => void`              |         | 字段值发生变化后触发的回调函数                                                                                                                  |      |
+| transform                                                                                  | `(val: any, path: string) => any` |         | 转换字段的值，如果返回的是一个对象，将和当前字段所在层级的对象进行深度合并                                                                      |      |
+| tooltip                                                                                    | `string \| string[]`              |         | 显示在 label 右边的提示                                                                                                                         |      |
+| isList                                                                                     | `boolean`                         |         | 是否为列表字段，自定义列表组件时可能会用到                                                                                                      |      |
+| valueType                                                                                  | `InternalFieldValueType`          |         | 用于表示值的类型是属于哪个组件的，自定义组件时可能会用到                                                                                        |      |
+| valueModelName                                                                             | `string`                          |         | 用于 `v-model:xxx` 的名称，默认为 `'value'`，用于支持 `v-model:value`，如果你想支持 `v-model:checked`，设置为 `checked`，自定义组件时可能会用到 |      |
+| [...NFormItemProps](https://www.naiveui.com/zh-CN/os-theme/components/form#FormItem-Props) |                                   |         | 支持 `NFormItem` 的所有 props                                                                                                                   |      |
 
 ### 通用的插槽
-| 名称 | 参数 | 说明 | 版本 |
-| - | - | - | - |
-| addon-after | `()` | 表单项的后缀插槽 | |
-| addon-before | `()` | 表单项的前缀插槽 | |
-| readonly | `(props:Record<string,any>)` | 表单项只读模式下的内容，参数为当前表单项的所有 `props` | |
-| group | `(vnode:VNodeChild)` | 自定义渲染(表单项+前后缀插槽)容器，参数为虚拟节点，可使用动态组件渲染 | |
+| 名称         | 参数                         | 说明                                                                  | 版本 |
+| ------------ | ---------------------------- | --------------------------------------------------------------------- | ---- |
+| addon-after  | `()`                         | 表单项的后缀插槽                                                      |      |
+| addon-before | `()`                         | 表单项的前缀插槽                                                      |      |
+| readonly     | `(props:Record<string,any>)` | 表单项只读模式下的内容，参数为当前表单项的所有 `props`                |      |
+| group        | `(vnode:VNodeChild)`         | 自定义渲染(表单项+前后缀插槽)容器，参数为虚拟节点，可使用动态组件渲染 |      |
 
 ### ProTreeSelect
 基于 [NTreeSelect](https://www.naiveui.com/zh-CN/os-theme/components/tree-select) 封装，可以使用 `useProTreeSelectInst` 获取实例上的方法，除了原有的方法之外，我们还新增了一些方法

@@ -1,4 +1,4 @@
-import { create, NA, NAnchor, NAnchorLink, NCard, NCode, NH1, NH2, NH3, NLi, NP, NScrollbar, NTable, NText, NUl } from 'naive-ui'
+import { create, NA, NAlert, NAnchor, NAnchorLink, NCard, NCode, NH1, NH2, NH3, NLi, NP, NScrollbar, NTable, NText, NUl } from 'naive-ui'
 import proComponents from 'pro-naive-ui'
 import { createApp } from 'vue'
 import createDemoRouter from './routes/router'
@@ -25,6 +25,7 @@ app.use(create({
     NAnchor,
     NScrollbar,
     NAnchorLink,
+    NAlert,
   ],
 }))
 app.use(proComponents)

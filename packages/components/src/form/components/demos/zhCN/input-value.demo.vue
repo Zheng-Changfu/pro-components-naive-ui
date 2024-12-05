@@ -1,6 +1,10 @@
 <markdown>
 # 手动更新值
-使用`on-input-value`手动更新值，比如以下例子：输入值进行二次确认处理
+使用 `on-input-value` 手动更新值，比如以下例子：输入值进行二次确认处理
+
+<n-alert type="warning" title="注意" :bordered="false">
+  内部为了性能考虑，没有 watch 值的改变，你应该直接赋值 fieldValue.value = xxxx
+</n-alert>
 </markdown>
 
 <script lang="tsx">
@@ -29,17 +33,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-form
-    :form="form"
-    label-width="auto"
-    label-placement="left"
-  >
-    <pro-input
-      title="name"
-      path="name"
-      required
-      @input-value="confirmUpdateValue"
-    />
+  <pro-form :form="form" label-width="auto" label-placement="left">
+    <pro-input title="name" path="name" required @input-value="confirmUpdateValue" />
     <n-button type="primary" attr-type="submit">
       提交
     </n-button>

@@ -25,21 +25,11 @@ export default defineComponent({
     label-width="auto"
     label-placement="left"
   >
-    <pro-upload
-      title="图片"
-      path="image"
-      :field-props="{
-        onlyAcceptImage: true,
-      }"
-      :transform="(val:any, _:any) => {
-        console.log(val, 'val')
-      }"
-    />
     <pro-date-range
       title="日期"
       path="date"
       required
-      :transform="(val:any, _:any) => ({ start: val[0], end: val[1] })"
+      :transform="(val:any, _:any) => ({ startDate: val[0], endDate: val[1] })"
     />
     <n-button type="primary" attr-type="submit">
       提交

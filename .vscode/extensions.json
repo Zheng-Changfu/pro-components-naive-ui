@@ -2,6 +2,6 @@
   "recommendations": [
     "Vue.Official",
     "Microsoft.ESLint",
-    "Yu-Zhang.Markdown-All-in-One"
+    "yzhang.markdown-all-in-one"
   ]
 }

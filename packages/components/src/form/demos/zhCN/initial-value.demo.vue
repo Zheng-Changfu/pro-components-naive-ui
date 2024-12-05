@@ -1,8 +1,7 @@
 <markdown>
 # 表单默认值
 
-所有的表单项都支持 `value`、`initial-value`、如果想要统一配置，请设置 `initial-values`，任何直接使用组件 `v-model:xxx` 和 `default-xxx` 的方式都有可能导致值绑定失效。
-他们的优先级从高到低排列 `value`、`initial-value`、`initial-values`
+所有的表单项都支持 `value`、`initial-value`、如果想要统一配置，请设置 `initial-values`，他们的优先级从高到低排列 `value`、`initial-value`、`initial-values`。任何直接使用组件 `v-model:xxx` 和 `default-xxx` 的方式都有可能导致值绑定失效
 </markdown>
 
 <script lang="ts">
