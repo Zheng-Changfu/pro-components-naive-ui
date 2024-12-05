@@ -64,6 +64,7 @@ export default defineComponent({
         : {
             attrType: 'reset',
             content: getMessage('reset'),
+            disabled: form.submiting.value,
             ...(resetButtonProps ?? {}),
           }
     })
@@ -76,6 +77,7 @@ export default defineComponent({
             type: 'primary',
             attrType: 'submit',
             content: getMessage('search'),
+            loading: form.submiting.value,
             ...(searchButtonProps ?? {}),
           }
     })
@@ -88,6 +90,7 @@ export default defineComponent({
             text: true,
             type: 'primary',
             iconPlacement: 'right',
+            disabled: form.submiting.value,
             content: getMessage('collapse')(form.collapsed.value),
             renderIcon: () => {
               return (
