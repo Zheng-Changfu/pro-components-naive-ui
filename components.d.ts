@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    NAlert: typeof import('naive-ui')['NAlert']
     NAutoComplete: typeof import('naive-ui')['NAutoComplete']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
@@ -19,6 +20,7 @@ declare module 'vue' {
     NFlex: typeof import('naive-ui')['NFlex']
     NGi: typeof import('naive-ui')['NGi']
     NGlobalStyle: typeof import('naive-ui')['NGlobalStyle']
+    NGradientText: typeof import('naive-ui')['NGradientText']
     NGrid: typeof import('naive-ui')['NGrid']
     NH1: typeof import('naive-ui')['NH1']
     NIcon: typeof import('naive-ui')['NIcon']
@@ -76,6 +78,7 @@ declare module 'vue' {
     ProDynamicTags: typeof import('pro-naive-ui')['ProDynamicTags']
     ProEditDataTable: typeof import('pro-naive-ui')['ProEditDataTable']
     ProForm: typeof import('pro-naive-ui')['ProForm']
+    ProFormClearableProvider: typeof import('pro-naive-ui')['ProFormClearableProvider']
     ProFormList: typeof import('pro-naive-ui')['ProFormList']
     ProInput: typeof import('pro-naive-ui')['ProInput']
     ProMention: typeof import('pro-naive-ui')['ProMention']
@@ -88,6 +91,7 @@ declare module 'vue' {
     ProSelect: typeof import('pro-naive-ui')['ProSelect']
     ProSlider: typeof import('pro-naive-ui')['ProSlider']
     ProSwitch: typeof import('pro-naive-ui')['ProSwitch']
+    ProTextarea: typeof import('pro-naive-ui')['ProTextarea']
     ProTime: typeof import('pro-naive-ui')['ProTime']
     ProTreeSelect: typeof import('pro-naive-ui')['ProTreeSelect']
     ProUpload: typeof import('pro-naive-ui')['ProUpload']

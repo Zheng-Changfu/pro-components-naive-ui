@@ -1,99 +1,122 @@
 # 表单 ProForm
 <!--single-column-->
 
-我们封装 `ProForm` 组件除了支持 [NForm](https://www.naiveui.com/zh-CN/os-theme/components/form) 的原有功能外，还解决了一些比较麻烦的点，如
-- 重置表单
-- 表单联动
-- 表单值的管理
-- 必填校验在某些表单项上需要设定 `type` 属性
-- 想在 `label` 旁边增加 `tooltip`
-- [...不止于此]()
+ProForm 是对 [NForm](https://www.naiveui.com/zh-CN/os-theme/components/form) 的二次封装,同时我们内置了表单数据管理,让表单更加好用 <br />
+Modal 表单、Drawer 表单、查询表单、表单列表等多种可以覆盖大部分的使用场景,用更少的代码完成更多的功能。
 
 ## 演示
 
 ```demo
 basic.vue
-initialValue.vue
-transform.vue
-inputValue.vue
-postValue.vue
-addon.vue
-customReadonly.vue
-customFieldGroup.vue
+initial-value.vue
+watch-value.vue
+clearable.vue
+all-form.vue
 formLayout.vue
-formApi.vue
 asyncForm.vue
-login.vue
 ```
-<!--
+
 ## API
 ### ProForm 属性
-| 名称 | 类型 | 默认值 | 说明 | 版本 |
-| --- | --- | --- | --- | --- |
-| readonly | `boolean` | | 表单是否切换为只读状态 | |
-| scope | `Record<string, any>` | | 表达式可以读取到的作用域，浅合并，优先级比全局高 |  |
-| initialValues | `Object` | | 表单初始值 |  |
-| validateBehavior | `'default' \| 'popover'` | 'default' | 校验行为，为 popover 时验证不通过会通过 popover 进行提示 | |
-| validateBehaviorProps | `PopoverProps` | | 验证不通过时传递的属性，只对 popover 生效 | |
-| onSubmit | `(values: Record<string, any>, warnings: ValidateError[][]) => void` | | 数据验证成功后回调事件 |  |
-| onSubmitFailed | `(errors: ValidateError[][]) => void` | | 数据验证失败后回调事件 |  |
-| onInputValue | `(fieldValue: Ref<any>, inputValue: any, ...args: any[]) => void` | | 手动更新值的回调事件 |  |
-| onFieldValueChange | `(opt: { field: BaseField \| ArrayField, value: any }) => void` | | 字段值发生变化时触发的回调函数 |  |
-| onDependenciesValueChange | `(opt: { path: string[], dependPath: string[], value: any }) => void` | | 依赖项的值发生变化时触发的回调函数 |  |
-| [...NFormProps](https://www.naiveui.com/zh-CN/os-theme/components/form) |  | |  |  |
+| 名称                                                                                  | 类型                                          | 默认值  | 说明                                                 | 版本 |
+| ------------------------------------------------------------------------------------- | --------------------------------------------- | ------- | ---------------------------------------------------- | ---- |
+| form                                                                                  | 必填,参考 [createProForm](form#createProForm) | `-`     | 表单控制器                                           |      |
+| readonly                                                                              | `boolean`                                     | `-`     | 表单是否为只读状态                                   |      |
+| validateBehavior                                                                      | `ValidateBehavior`                            | `-`     | 设为 `popover` 时验证不通过会通过 `popover` 进行提示 |      |
+| validationTrigger                                                                     | `ValidationTrigger \| ValidationTrigger[]`    | `input` | 表单验证时机                                         |      |
+| validateBehaviorProps                                                                 | `PopoverProps`                                | `-`     | 验证不通过时传递的属性,只对 `popover` 生效           |      |
+| [参考 NForm Props](https://www.naiveui.com/zh-CN/os-theme/components/form#Form-Props) |                                               |         |                                                      |      |
 
 ### ProForm 不兼容属性
 
-| 名称 | 说明 | 版本 |
-| --- | --- | --- |
-| model | 表单值内部进行管理 |  |
-| rules | 校验规则在表单项上写 |  |
+| 名称  | 说明                 | 版本 |
+| ----- | -------------------- | ---- |
+| model | 表单值内部进行管理   |      |
+| rules | 校验规则在表单项上写 |      |
 
-### ProForm 实例方法
-使用 `useProFormInst` 可以拿到组件方法，如果想在子组件中使用，可以使用 `useInjectProFormInst` 方法直接注入，您无需使用 `useProFormInst` 注册表单
+### createProForm
+创建一个表单控制器,如果已经注册了控制器,想在后代组件中使用,无需透传,可以使用 `useInjectProForm` 方法直接注入
 
-| 名称 | 类型 | 说明 | 版本 |
-| --- | --- | --- | --- |
-| matchPath | `(pathMatch: PathMatch) => string[]` | 匹配字段，返回匹配到的字段数组 |  |
-| getFieldValue | `() => void` | 获取指定路径字段的值 |  |
-| getFieldsValue | `(paths?: Array<string \| string[]> \| true) => Record<string,any>` | 参数如果为 `true`,获取完整的值(包含被删除或者设置进去的非表单值)，如果为空，获取的是表单值，传入路径，则为路径值 |  |
-| setFieldValue | `(path: string \| string[], value: any) => void` | 设置指定路径字段的值 |  |
-| setFieldsValue | `(values: Record<string,any>,strategy:ValueMergeStrategy = 'merge') => void` | 设置多个路径字段的值,`strategy` 有3种合并值的策略，`merge` 代表深度和表单值合并，`shallowMerge` 代表和表单值浅合并，`overwrite` 代表重写表单值，默认为 `merge` |  |
-| resetFieldValue | `(path: string \| string[]) => void` | 重置指定路径字段的值 |  |
-| restoreFieldValue | `(path: string \| string[]) => void` | 重置指定路径字段的值并清空校验 |  |
-| resetFieldsValue | `() => void` | 重置所有字段的值 |  |
-| restoreFieldsValue | `() => void` | 重置所有字段的值并清空校验 |  |
-| setInitialValue | `(path: string \| string[], value: any) => void` | 设置指定路径字段的初始值，重置字段值时会重置会设置的初始值或者本身的初始值  |  |
-| setInitialValues | `(values: Record<string,any>,strategy:ValueMergeStrategy = 'merge') => void` | 设置多个字段初始值，重置字段值时会重置会设置的初始值或者本身的初始值，`strategy` 有3种合并值的策略，`merge` 代表深度和表单值合并，`shallowMerge` 代表和表单值浅合并，`overwrite` 代表重写表单值，默认为 `merge` |  |
-| getFieldsTransformedValue | `() => Record<string,any>` | 获取表单值，不包含被隐藏的和设置过的（但是被 transform 处理过的） |  |
-| validate | `(paths?: string \| string[]) => ReturnType<FormInst['validate']>` | 校验单个字段、多个字段或表单 |  |
-| submit | `() => void` | 提交表单 |  |
-| restoreValidation | `(paths?: string \| string[]) => ReturnType< FormInst['restoreValidation'] >` | 清空单个字段、多个字段或表单的校验 |  |
-| getScope | `() => Record<string,any>` | 获取表单的表达式作用域对象 |  |
-| pauseDependenciesTrigger | `() => void` | 暂停 `onDependenciesValueChange` 的触发 | |
-| resumeDependenciesTrigger | `() => void` | 恢复 `onDependenciesValueChange` 的触发 | |
+```html
+<!-- 父组件 -->
+<script setup lang="ts">
+import { createProForm } from 'pro-naive-ui'
+const proForm = createProForm<{name:string}>()
+</script>
 
-### 表达式内置变量
-可以在 `ProConfigProvider` 组件中注入通用的变量
-| 名称 | 别名 | 说明 | 版本 |
-| --- | --- | --- | --- |
-| $self | | 当前字段值 | |
-| $values | $vals | 整个表单的值，包含了已经被隐藏的字段和用户设置的字段 | |
-| $row | $record | 当前行的值，只会在 `ProFormList` 中生效，其他返回的是空对象 | |
-| $total | | 当前所在列表的长度，只会在 `ProFormList` 中生效，其他返回的是 0 | |
-| $rowIndex | $index | 当前字段在列表中的索引，只会在 `ProFormList` 中生效，其他返回的是 -1 | |
+<template>
+  <pro-form :form="proForm">
+    <pro-input path="name" />
+  </pro-form>
+</template>
 
-### 支持表达式的属性
-1. `ProForm` 组件的 `disabled` 和 `readonly`
-3. 表单项除以下这些属性外，其他都支持表达式，包括 `attrs` 和 `class`
-  ```ts
-  const unSupportExpressionAttributes = [
-    'path',
-    'onChange',
-    'preserve',
-    'postValue',
-    'transform',
-    'dependencies',
-    'initialValue',
-  ] as const
-  ``` -->
+<!-- 后代组件 -->
+<script setup lang="ts">
+import { useInjectProForm } from 'pro-naive-ui'
+const proForm = useInjectProForm<{name:string}>()!
+</script>
+
+<template>
+  <n-button @click="proForm.submit">手动提交表单</n-button>
+</template>
+```
+
+### createProForm Options
+下面列举的参数是传递给 `createProForm` 的,引用到的类型声明介绍如下
+```typescript
+interface ValidateError {
+  field?: string
+  message?: string
+  fieldValue?: any
+}
+```
+
+
+| 名称                              | 类型                                                                  | 默认值 | 说明                                                                         | 版本 |
+| --------------------------------- | --------------------------------------------------------------------- | ------ | ---------------------------------------------------------------------------- | ---- |
+| initialValues                     | `object`                                                              | `{}`   | 表单初始值,表单重置时会参考初始值                                            |      |  |
+| omitNil                           | `boolean`                                                             | `true` | 提交或调用 `getFieldsTransformedValue` 时是否忽略 null 和 undefined 的数据   |      |  |
+| onReset                           | `() => void`                                                          | `-`    | 数据重置后的回调                                                             |      |  |
+| onSubmit                          | `(values: any, warnings: ValidateError[][]) => void \| Promise<void>` | `-`    | 数据验证成功后的回调,如果返回了 Promise, `submiting` 将等待这个 Promise 完成 |      |  |
+| onSubmitFailed                    | `(errors: ValidateError[][]) => void`                                 | `-`    | 数据验证失败后回调                                                           |      |  |
+| onValueChange                     | `(opt:{ value: any; path: string }) => void`                          | `-`    | 任何一项值发生变化后的回调(手动交互才会触发)                                 |      |  |
+| onDependenciesValueChange         | `(opt:{ value: any; path: string; depPath: string;}) => void`         | `-`    | 依赖项的值发生变化后的回调(手动交互才会触发)                                 |      |  |
+| validateOnDependenciesValueChange | `boolean`                                                             | `true` | 依赖项的值发生变化后是否进行校验                                             |      |  |
+
+### createProForm Returned
+下面列举的参数是调用 `createProForm` 函数返回的,引用到的类型声明介绍如下
+```typescript
+import type { FormInst } from 'naive-ui'
+import type { Ref, DeepReadonly } from 'vue'
+import type { InternalPath, PathPattern } from 'pro-naive-ui'
+
+interface FormItemInternalValidationResult {
+  valid: boolean
+  errors: ValidateError[]
+  warnings: ValidateError[]
+}
+```
+
+
+| 名称                      | 类型                                                               | 说明                                                                                                                                                                             | 版本 |
+| ------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| values                    | `Ref<DeepReadonly<object>>`                                        | 所有的值（包含用户设置的和可能被隐藏的字段） 注意：它是只读的,表单值修改你应该调用 `setFieldValue` 或 `setFieldsValue`                                                           |      |  |
+| submit                    | `() => void`                                                       | 手动提交表单，如果按钮包含在 `pro-form` 中，建议使用 `attr-type` 为 `submit` 提交                                                                                                |      |
+| validate                  | `(paths?: InternalPath) => ReturnType<FormInst['validate']>`       | 校验单个字段、多个字段或整个表单                                                                                                                                                 |      |
+| submiting                 | `Ref<boolean>`                                                     | 是否正在提交表单,需要提供 `onSubmit` 函数才会生效                                                                                                                                |      |  |
+| matchPath                 | `(pattern: PathPattern) => string[]`                               | 匹配路径,返回匹配到的路径数组                                                                                                                                                    |      |  |
+| getFieldValue             | `(path: InternalPath) => void`                                     | 获取指定路径字段的值                                                                                                                                                             |      |
+| getFieldsValue            | `(paths?: Array<string \| string[]> \| true) => object`            | 参数如果为 `true`,获取完整的值(包含被删除或者设置进去的非表单值),如果为空,获取的是表单值,传入路径,则为路径值                                                                     |      |
+| setFieldValue             | `(path: InternalPath, value: any) => void`                         | 设置指定路径字段的值                                                                                                                                                             |      |
+| setFieldsValue            | `(values: object,strategy: 'overwrite' \| 'shallowMerge') => void` | 设置多个路径字段的值,`strategy` 有2种合并值的策略,`shallowMerge` 代表和表单值浅合并,`overwrite` 代表重写表单值,默认值为 `overwrite`                                              |      |
+| resetFieldValue           | `(path: InternalPath) => void`                                     | 重置指定路径字段的值                                                                                                                                                             |      |
+| setInitialValue           | `(path: InternalPath, value: any) => void`                         | 设置指定路径字段的初始值,重置字段值时会重置为设置的初始值或者本身的初始值                                                                                                        |      |
+| resetFieldsValue          | `() => void`                                                       | 重置所有字段的值                                                                                                                                                                 |      |
+| setInitialValues          | `(values: object,strategy: 'overwrite' \| 'shallowMerge') => void` | 设置多个字段初始值,重置字段值时会重置为设置的初始值或者本身的初始值,`strategy` 有2种合并值的策略,`shallowMerge` 代表和表单值浅合并,`overwrite` 代表重写表单值,默认为 `overwrite` |      |
+| restoreFieldValue         | `(path: InternalPath) => void`                                     | 重置指定路径字段的值并清空校验                                                                                                                                                   |      |
+| restoreValidation         | `(paths?: InternalPath) => void`                                   | 清空单个字段、多个字段或整个表单的校验                                                                                                                                           |      |
+| restoreFieldsValue        | `() => void`                                                       | 重置所有字段的值并清空校验                                                                                                                                                       |      |
+| getFieldsTransformedValue | `() => object`                                                     | 获取表单值,不包含被隐藏的和用户设置的（但是被 transform 处理过的）                                                                                                               |      |
+| getFieldValidationResult  | `(path: InternalPath) => FormItemInternalValidationResult \| null` | 获取字段值的校验结果                                                                                                                                                             |      |
+| pauseDependenciesTrigger  | `() => void`                                                       | 手动暂停 `onDependenciesValueChange` 的触发                                                                                                                                      |      |
+| resumeDependenciesTrigger | `() => void`                                                       | 手动恢复 `onDependenciesValueChange` 的触发                                                                                                                                      |      |
