@@ -1,15 +1,12 @@
-import type { TreeSelectInst, TreeSelectProps } from 'naive-ui'
+import type { TreeSelectInst } from 'naive-ui'
 import type { SlotsType, VNodeChild } from 'vue'
 import type { ProTreeSelectSlots } from '../slots'
-import { get, isArray, isUndefined, noop } from 'lodash-es'
+import { get, isArray, noop } from 'lodash-es'
 import { NFlex, NTreeSelect, treeSelectProps } from 'naive-ui'
-import { eachTree, useInjectField } from 'pro-composables'
+import { eachTree } from 'pro-composables'
 import { computed, defineComponent, ref } from 'vue'
 import { useReadonlyHelpers } from '../../field'
 import { useInjectTreeSelectInstStore } from '../inst'
-import { useExpandKeys } from './composables/useExpandKeys'
-import { useIndeterminateKeys } from './composables/useIndeterminateKeys'
-import { levelKey, useOptions } from './composables/useOptions'
 
 export default defineComponent({
   name: 'TreeSelect',
@@ -17,7 +14,6 @@ export default defineComponent({
   slots: Object as SlotsType<ProTreeSelectSlots>,
   inheritAttrs: false,
   setup(props) {
-    const field = useInjectField()!
     const instRef = ref<TreeSelectInst>()
 
     const {
@@ -30,36 +26,6 @@ export default defineComponent({
       readonly,
       emptyText,
     } = useReadonlyHelpers()
-
-    const {
-      options,
-      keyToNodeMap,
-    } = useOptions(props)
-
-    const {
-      expandedKeys,
-      getExpandedKeys,
-      setExpandedKeys,
-      doUpdateExpandedKeys,
-    } = useExpandKeys(props, { keyToNodeMap })
-
-    const {
-      indeterminateKeys,
-      getIndeterminateKeys,
-      setIndeterminateKeys,
-      doUpdateIndeterminateKeys,
-    } = useIndeterminateKeys(props, { keyToNodeMap })
-
-    const nTreeSelectProps = computed<TreeSelectProps>(() => {
-      return {
-        ...props,
-        options: options.value,
-        expandedKeys: expandedKeys.value,
-        indeterminateKeys: indeterminateKeys.value,
-        onUpdateExpandedKeys: doUpdateExpandedKeys,
-        onUpdateIndeterminateKeys: doUpdateIndeterminateKeys,
-      }
-    })
 
     const selectedLabels = computed(() => {
       const {
@@ -95,70 +61,10 @@ export default defineComponent({
       return labels
     })
 
-    function getFullKeys() {
-      return [...keyToNodeMap.value.keys()]
-    }
-
-    function getLevelKeys(level: number, getLtLevelKey = true) {
-      if (level <= 0) {
-        return []
-      }
-      const keys: Array<string | number> = []
-      const map = keyToNodeMap.value
-      map.forEach((value, key) => {
-        const nodeLevel = value[levelKey as any]
-        if (nodeLevel === level) {
-          keys.push(key)
-        }
-        if (getLtLevelKey && nodeLevel < level) {
-          keys.push(key)
-        }
-      })
-      return keys
-    }
-
-    function getEnabledKeys() {
-      const keys: Array<string | number> = []
-      const map = keyToNodeMap.value
-      const disabledField = props.disabledField ?? 'disabled'
-      const isEnabledNode = (node: Record<string, any>) => {
-        return !get(node, disabledField)
-      }
-      map.forEach((value, key) => {
-        if (isEnabledNode(value)) {
-          keys.push(key)
-        }
-      })
-      return keys
-    }
-
-    function setCheckedKeys(keys?: Array<string | number>) {
-      const { multiple } = props
-      const map = keyToNodeMap.value
-      const allKeys = [...map.keys()]
-      if (keys) {
-        keys = keys.filter(k => map.get(k))
-      }
-      const checkedKeys = keys ?? allKeys
-      const shouldCheckedKeys = multiple ? checkedKeys : checkedKeys[0]
-      if (!isUndefined(shouldCheckedKeys)) {
-        field.value.value = shouldCheckedKeys
-      }
-    }
-
     registerInst({
-      getFullKeys,
-      getLevelKeys,
-      getEnabledKeys,
-      setCheckedKeys,
-      getExpandedKeys,
-      setExpandedKeys,
-      getIndeterminateKeys,
-      setIndeterminateKeys,
       blur: () => instRef.value?.blur(),
       focus: () => instRef.value?.focus(),
       blurInput: () => instRef.value?.blurInput(),
-      getCheckedKeys: () => field.value.value ?? [],
       focusInput: () => instRef.value?.focusInput(),
       getCheckedData: () => instRef.value!.getCheckedData(),
       getIndeterminateData: () => instRef.value!.getIndeterminateData(),
@@ -169,7 +75,6 @@ export default defineComponent({
       readonly,
       emptyText,
       selectedLabels,
-      nTreeSelectProps,
     }
   },
   render() {
@@ -189,7 +94,7 @@ export default defineComponent({
         <NTreeSelect
           ref="instRef"
           {...this.$attrs}
-          {...this.nTreeSelectProps}
+          {...this.$props}
           v-slots={this.$slots}
         />
       )
@@ -199,7 +104,7 @@ export default defineComponent({
       ? this.$slots.input({
         inputDom: dom,
         readonly: this.readonly,
-        inputProps: this.nTreeSelectProps,
+        inputProps: this.$props,
       })
       : dom
   },
