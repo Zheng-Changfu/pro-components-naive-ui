@@ -30,20 +30,20 @@ export const ProImages = defineComponent({
 
     const {
       empty,
-      emptyText,
+      emptyDom,
       mergedValue,
     } = usePlainComponentConfig('images', overridedProps)
 
     return {
       empty,
-      emptyText,
+      emptyDom,
       mergedValue,
       mergedClsPrefix,
     }
   },
   render() {
     if (this.empty) {
-      return this.emptyText
+      return this.emptyDom
     }
 
     const {

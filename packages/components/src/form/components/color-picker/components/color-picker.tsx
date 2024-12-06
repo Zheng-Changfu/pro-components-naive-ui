@@ -13,13 +13,13 @@ export default defineComponent({
     const {
       empty,
       readonly,
-      emptyText,
+      emptyDom,
     } = useFieldUtils()
 
     return {
       empty,
       readonly,
-      emptyText,
+      emptyDom,
     }
   },
   render() {
@@ -33,7 +33,7 @@ export default defineComponent({
       : this.$props.disabled
 
     const dom = this.readonly && this.empty
-      ? this.emptyText
+      ? this.emptyDom
       : (
           <NColorPicker
             {...this.$props}

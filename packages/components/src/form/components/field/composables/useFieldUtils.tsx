@@ -2,7 +2,7 @@ import type { BaseField } from 'pro-composables'
 import type { FieldExtraInfo } from '../field-extra-info'
 import { useThemeVars } from 'naive-ui'
 import { useInjectField } from 'pro-composables'
-import { computed } from 'vue'
+import { computed, isVNode } from 'vue'
 import { isEmptyValue } from '../../../../_utils/isEmptyValue'
 import { throwError } from '../../../../_utils/warn'
 import { useInjectGlobalConfig, useInjectWrappedIn } from '../../../../config-provider'
@@ -36,13 +36,14 @@ export function useFieldUtils(field?: BaseField) {
     return isEmptyValue(field.value.value)
   })
 
-  const emptyText = computed(() => {
-    return mergedEmpty(wrappedIn)
+  const emptyDom = computed(() => {
+    const dom = mergedEmpty(wrappedIn)
+    return isVNode(dom) ? dom : <span>{dom}</span>
   })
 
   const readonlyText = computed(() => {
     return empty.value
-      ? emptyText.value
+      ? emptyDom.value
       : field.value.value
   })
 
@@ -76,7 +77,7 @@ export function useFieldUtils(field?: BaseField) {
   return {
     empty,
     readonly,
-    emptyText,
+    emptyDom,
     readonlyText,
     value: field.value,
     /** validationStatus */

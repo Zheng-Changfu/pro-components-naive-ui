@@ -23,7 +23,7 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
+      emptyDom,
     } = useFieldUtils()
 
     function setOpen(v: boolean) {
@@ -50,7 +50,7 @@ export default defineComponent({
       instRef,
       setOpen,
       readonly,
-      emptyText,
+      emptyDom,
     }
   },
   render() {
@@ -58,7 +58,7 @@ export default defineComponent({
 
     if (this.readonly) {
       dom = this.empty
-        ? this.emptyText
+        ? this.emptyDom
         : (
             <NFlex align="center" wrap={false}>
               {this.open ? this.value : '********'}

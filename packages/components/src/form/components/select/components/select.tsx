@@ -22,7 +22,7 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
+      emptyDom,
     } = useFieldUtils()
 
     const selectedLabels = computed(() => {
@@ -72,7 +72,7 @@ export default defineComponent({
       empty,
       instRef,
       readonly,
-      emptyText,
+      emptyDom,
       selectedLabels,
     }
   },
@@ -81,7 +81,7 @@ export default defineComponent({
 
     if (this.readonly) {
       dom = this.empty
-        ? this.emptyText
+        ? this.emptyDom
         : (
             <NFlex size={[8, 0]}>
               {this.selectedLabels}

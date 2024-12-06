@@ -22,7 +22,7 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
+      emptyDom,
     } = useFieldUtils()
 
     const normalizedOptions = computed(() => {
@@ -74,7 +74,7 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
+      emptyDom,
       selectedLabels,
       normalizedOptions,
       nCheckboxGroupProps,
@@ -85,8 +85,8 @@ export default defineComponent({
 
     if (this.readonly) {
       dom = this.empty
-        ? this.emptyText
-        : this.selectedLabels.join('，')
+        ? this.emptyDom
+        : <span>{this.selectedLabels.join('，')}</span>
     }
     else {
       dom = (

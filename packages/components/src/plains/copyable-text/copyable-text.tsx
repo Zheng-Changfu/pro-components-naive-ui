@@ -39,7 +39,7 @@ export const ProCopyableText = defineComponent({
 
     const {
       empty,
-      emptyText,
+      emptyDom,
       mergedValue,
     } = usePlainComponentConfig('copyableText', overridedProps)
 
@@ -63,7 +63,7 @@ export const ProCopyableText = defineComponent({
       empty,
       copied,
       copyText,
-      emptyText,
+      emptyDom,
       getMessage,
       mergedValue,
       mergedClsPrefix,
@@ -71,7 +71,7 @@ export const ProCopyableText = defineComponent({
   },
   render() {
     if (this.empty) {
-      return this.emptyText
+      return this.emptyDom
     }
     return (
       <div class={[`${this.mergedClsPrefix}-pro-copyable-text`]}>

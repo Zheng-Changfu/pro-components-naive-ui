@@ -27,7 +27,7 @@ export default defineComponent({
     const {
       empty,
       readonly,
-      emptyText,
+      emptyDom,
     } = useFieldUtils()
 
     const pureProps = useOmitProps(
@@ -108,7 +108,7 @@ export default defineComponent({
       empty,
       instRef,
       readonly,
-      emptyText,
+      emptyDom,
       localeRef,
       nUploadProps,
       fixUploadDragger,
@@ -121,7 +121,7 @@ export default defineComponent({
       : this.$props.disabled
 
     const dom = this.readonly && this.empty
-      ? this.emptyText
+      ? this.emptyDom
       : (
           <NUpload
             ref="instRef"

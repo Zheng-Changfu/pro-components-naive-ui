@@ -22,7 +22,7 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
+      emptyDom,
     } = useFieldUtils()
 
     const normalizedOptions = computed(() => {
@@ -73,7 +73,7 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
+      emptyDom,
       selectedLabel,
       nRadioGroupProps,
       normalizedOptions,
@@ -84,8 +84,8 @@ export default defineComponent({
 
     if (this.readonly) {
       dom = this.empty
-        ? this.emptyText
-        : this.selectedLabel
+        ? this.emptyDom
+        : <span>{this.selectedLabel}</span>
     }
     else {
       dom = (

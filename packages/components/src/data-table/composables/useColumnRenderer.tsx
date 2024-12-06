@@ -35,7 +35,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
 
   const wrappedIn = useInjectWrappedIn()
 
-  const emptyText = computed(() => {
+  const emptyDom = computed(() => {
     return mergedEmpty(wrappedIn)
   })
 
@@ -184,7 +184,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
           return render(row, rowIndex)
         }
         const value = get(row, columnKey)
-        return isEmptyValue(value) ? emptyText.value : value
+        return isEmptyValue(value) ? emptyDom.value : value
       },
       ...rest,
     }

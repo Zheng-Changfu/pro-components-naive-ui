@@ -32,7 +32,7 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
+      emptyDom,
     } = useFieldUtils()
 
     const mergedFormat = useMergeFormat(props as any)
@@ -100,7 +100,7 @@ export default defineComponent({
       empty,
       instRef,
       readonly,
-      emptyText,
+      emptyDom,
       displayDateText,
       nDatePickerProps,
       arrayableDateText,
@@ -111,7 +111,7 @@ export default defineComponent({
 
     if (this.readonly) {
       if (this.empty) {
-        dom = this.emptyText
+        dom = this.emptyDom
       }
       else if (this.arrayableDateText) {
         const separator = this.$slots.separator?.() ?? this.$props.separator
@@ -124,7 +124,7 @@ export default defineComponent({
         )
       }
       else {
-        dom = this.displayDateText
+        dom = <span>{this.displayDateText}</span>
       }
     }
     else {

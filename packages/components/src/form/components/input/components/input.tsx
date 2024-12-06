@@ -20,7 +20,7 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
+      emptyDom,
     } = useFieldUtils()
 
     registerInst({
@@ -41,7 +41,7 @@ export default defineComponent({
       value,
       instRef,
       readonly,
-      emptyText,
+      emptyDom,
     }
   },
   render() {
@@ -49,7 +49,7 @@ export default defineComponent({
 
     if (this.readonly) {
       dom = this.empty
-        ? this.emptyText
+        ? this.emptyDom
         : (
             <NFlex size={[8, 0]}>
               {this.$slots.prefix && <span>{this.$slots.prefix()}</span>}

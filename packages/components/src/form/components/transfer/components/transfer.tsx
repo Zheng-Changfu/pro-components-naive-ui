@@ -21,7 +21,7 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
+      emptyDom,
     } = useFieldUtils()
 
     const normalizedOptions = computed(() => {
@@ -73,7 +73,7 @@ export default defineComponent({
     return {
       empty,
       readonly,
-      emptyText,
+      emptyDom,
       selectedLabels,
       nTransferProps,
     }
@@ -83,8 +83,8 @@ export default defineComponent({
 
     if (this.readonly) {
       dom = this.empty
-        ? this.emptyText
-        : this.selectedLabels.join('，')
+        ? this.emptyDom
+        : <span>{this.selectedLabels.join('，')}</span>
     }
     else {
       dom = (

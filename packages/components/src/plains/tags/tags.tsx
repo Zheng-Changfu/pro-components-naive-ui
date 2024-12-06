@@ -30,20 +30,20 @@ export const ProTags = defineComponent({
 
     const {
       empty,
-      emptyText,
+      emptyDom,
       mergedValue,
     } = usePlainComponentConfig('tags', overridedProps)
 
     return {
       empty,
-      emptyText,
+      emptyDom,
       mergedValue,
       mergedClsPrefix,
     }
   },
   render() {
     if (this.empty) {
-      return this.emptyText
+      return this.emptyDom
     }
     return (
       <NFlex class={[`${this.mergedClsPrefix}-pro-tags`]}>
