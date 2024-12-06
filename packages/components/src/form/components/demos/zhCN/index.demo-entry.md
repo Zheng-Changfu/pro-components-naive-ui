@@ -31,6 +31,9 @@ dependencies.vue
 link-visible-hidden.vue
 link-async-loop.vue
 cross-component.vue
+feedback.vue
+input-slot.vue
+develop-custom-component.vue
 ```
 
 ## API

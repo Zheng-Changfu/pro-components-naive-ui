@@ -12,8 +12,8 @@ initial-value.vue
 watch-value.vue
 clearable.vue
 all-form.vue
-formLayout.vue
-asyncForm.vue
+form-layout.vue
+async-form.vue
 ```
 
 ## API
@@ -101,7 +101,7 @@ interface FormItemInternalValidationResult {
 | 名称                      | 类型                                                               | 说明                                                                                                                                                                             | 版本 |
 | ------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
 | values                    | `Ref<DeepReadonly<object>>`                                        | 所有的值（包含用户设置的和可能被隐藏的字段） 注意：它是只读的,表单值修改你应该调用 `setFieldValue` 或 `setFieldsValue`                                                           |      |  |
-| submit                    | `() => void`                                                       | 手动提交表单，如果按钮包含在 `pro-form` 中，建议使用 `attr-type` 为 `submit` 提交                                                                                                |      |
+| submit                    | `() => void`                                                       | 手动提交表单,如果按钮包含在 `pro-form` 中,建议使用 `attr-type` 为 `submit` 提交                                                                                                  |      |
 | validate                  | `(paths?: InternalPath) => ReturnType<FormInst['validate']>`       | 校验单个字段、多个字段或整个表单                                                                                                                                                 |      |
 | submiting                 | `Ref<boolean>`                                                     | 是否正在提交表单,需要提供 `onSubmit` 函数才会生效                                                                                                                                |      |  |
 | matchPath                 | `(pattern: PathPattern) => string[]`                               | 匹配路径,返回匹配到的路径数组                                                                                                                                                    |      |  |
@@ -115,7 +115,7 @@ interface FormItemInternalValidationResult {
 | setInitialValues          | `(values: object,strategy: 'overwrite' \| 'shallowMerge') => void` | 设置多个字段初始值,重置字段值时会重置为设置的初始值或者本身的初始值,`strategy` 有2种合并值的策略,`shallowMerge` 代表和表单值浅合并,`overwrite` 代表重写表单值,默认为 `overwrite` |      |
 | restoreFieldValue         | `(path: InternalPath) => void`                                     | 重置指定路径字段的值并清空校验                                                                                                                                                   |      |
 | restoreValidation         | `(paths?: InternalPath) => void`                                   | 清空单个字段、多个字段或整个表单的校验                                                                                                                                           |      |
-| restoreFieldsValue        | `() => void`                                                       | 重置所有字段的值并清空校验                                                                                                                                                       |      |
+| restoreFieldsValue        | `() => void`                                                       | 重置所有字段的值并清空校验,如果按钮包含在 `pro-form` 中,建议使用 `attr-type` 为 `reset` 重置                                                                                     |      |
 | getFieldsTransformedValue | `() => object`                                                     | 获取表单值,不包含被隐藏的和用户设置的（但是被 transform 处理过的）                                                                                                               |      |
 | getFieldValidationResult  | `(path: InternalPath) => FormItemInternalValidationResult \| null` | 获取字段值的校验结果                                                                                                                                                             |      |
 | pauseDependenciesTrigger  | `() => void`                                                       | 手动暂停 `onDependenciesValueChange` 的触发                                                                                                                                      |      |
