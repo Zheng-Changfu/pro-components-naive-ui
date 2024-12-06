@@ -4,10 +4,11 @@ import type { ProFormItemSlots } from './slots'
 import { QuestionCircleOutlined } from '@vicons/antd'
 import { NFormItem, NIcon } from 'naive-ui'
 import { useInjectField } from 'pro-composables'
-import { computed, defineComponent, ref, useAttrs } from 'vue'
+import { computed, defineComponent, Fragment, ref, useAttrs } from 'vue'
 import ProTooltip from '../../../_internal/components/pro-tooltip'
 import { useNaiveClsPrefix } from '../../../_internal/useClsPrefix'
 import { useMountStyle } from '../../../_internal/useMountStyle'
+import { useFieldUtils } from '../field'
 import { fieldExtraKey } from '../field/field-extra-info'
 import TrackValidationResult from './components/track-validation-result'
 import { useRules } from './composables/useRules'
@@ -60,9 +61,11 @@ export default defineComponent({
       rules,
       nFormItemProps,
       mergedClsPrefix,
+      fieldUtils: field ? useFieldUtils(field) : null,
     }
   },
   render() {
+    const feedback = this.$slots.feedback
     const labelDom = this.$slots.label?.()
       ?? this.title
       ?? this.label
@@ -73,7 +76,49 @@ export default defineComponent({
         class={[`${this.mergedClsPrefix}-pro-form-item`]}
       >
         {{
-          feedback: this.$slots.feedback,
+          feedback: feedback as any
+            ? () => {
+                /**
+                 * 如果 form-item 不包含在 form 中，拿不到这些信息
+                 */
+                if (!this.fieldUtils) {
+                  return feedback({
+                    errors: [],
+                    warnings: [],
+                    feedbacks: [],
+                    feedbackDom: null,
+                    feedbackColor: '',
+                  })
+                }
+
+                const {
+                  errors,
+                  warnings,
+                  feedbacks,
+                  feedbackColor,
+                } = this.fieldUtils
+
+                const feedbackDom = (
+                  <Fragment>
+                    {feedbacks.value.map((feedback) => {
+                      return (
+                        <div class={[`${this.mergedClsPrefix}-pro-form-item__feedback-message`]}>
+                          {feedback.message}
+                        </div>
+                      )
+                    })}
+                  </Fragment>
+                )
+
+                return feedback({
+                  feedbackDom,
+                  errors: errors.value,
+                  warnings: warnings.value,
+                  feedbacks: feedbacks.value,
+                  feedbackColor: feedbackColor.value,
+                })
+              }
+            : undefined,
           label: labelDom
             ? () => {
                 return (
