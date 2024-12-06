@@ -2,6 +2,7 @@ import type { PropType, SlotsType } from 'vue'
 import type { ProButtonProps } from '../../button'
 import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
+import { get } from 'lodash-es'
 import { NFlex, NIcon, useThemeVars } from 'naive-ui'
 import { ROW_UUID, useInjectListField } from 'pro-composables'
 import { computed, defineComponent, Fragment, inject, provide, ref, toRef } from 'vue'
@@ -12,7 +13,6 @@ import { simplyOmit } from '../../_utils/simplyOmit'
 import { ProButton } from '../../button'
 import { useFieldUtils } from '../../form/components'
 import { proFieldConfigInjectionKey } from '../../form/components/field/context'
-import { useInjectProFormConfig } from '../../form/context'
 import { useLocale } from '../../locales'
 import { useInjectProFormListInst } from '../context'
 import { internalFormListProps } from '../props'
@@ -194,8 +194,9 @@ export default defineComponent({
   },
   slots: Object as SlotsType<ProFormListSlots>,
   setup(props) {
+    const form = useInjectProForm()
     const themeVars = useThemeVars()
-    const action = useInjectProFormListInst()
+    const action = useInjectProFormListInst()!
     const mergedClsPrefix = useNaiveClsPrefix()
     const nFormItem = inject<any>('n-form-item')
 
@@ -205,11 +206,8 @@ export default defineComponent({
 
     const {
       path,
+      rowPath,
     } = useProvidePath(toRef(props, 'index'))
-
-    const {
-      validateBehavior,
-    } = useInjectProFormConfig()
 
     const {
       value: list,
@@ -241,6 +239,13 @@ export default defineComponent({
       return sizeToHeightMap[size]
     })
 
+    const row = computed(() => {
+      if (!form) {
+        return {}
+      }
+      return get(form.values.value, path.value, {})
+    })
+
     provide(proFieldConfigInjectionKey, {
       readonly,
       showLabel: showItemLabel,
@@ -249,26 +254,30 @@ export default defineComponent({
     })
 
     return {
+      row,
       path,
       total,
       action,
+      rowPath,
       actionHeight,
+      showItemLabel,
       mergedClsPrefix,
-      validateBehavior,
     }
   },
   render() {
     const {
       min,
       max,
+      row,
       path,
       total,
       $props,
       $slots,
       action,
+      rowPath,
       actionHeight,
+      showItemLabel,
       mergedClsPrefix,
-      validateBehavior,
     } = this
 
     const {
@@ -291,18 +300,20 @@ export default defineComponent({
     )
 
     const resolvedActionDom = resolveSlotWithProps($slots.action, {
+      row,
       total,
       index,
       action,
+      rowPath,
       actionDom,
     }, () => (
       <NFlex
         style={{
           height: actionHeight,
           linHeight: actionHeight,
-          marginBlockEnd: ($slots as any).item || validateBehavior === 'popover'
-            ? 0
-            : 'var(--n-feedback-height)',
+          marginBlockStart: showItemLabel
+            ? 'var(--n-feedback-height)'
+            : 0,
         }}
       >
         {actionDom}
@@ -312,18 +323,22 @@ export default defineComponent({
     const itemDom = (
       <Fragment>
         {$slots.default?.({
+          row,
           total,
           index,
           action,
+          rowPath,
         })}
       </Fragment>
     )
 
     return resolveSlotWithProps($slots.item, {
+      row,
       total,
       index,
       action,
       itemDom,
+      rowPath,
       actionDom: resolvedActionDom,
     }, () => (
       <div class={[`${mergedClsPrefix}-pro-form-list__item`]}>

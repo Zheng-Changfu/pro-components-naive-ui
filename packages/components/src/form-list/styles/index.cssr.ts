@@ -12,7 +12,7 @@ export default c([
       display: flex;
       gap: 0 16px;
       flex-wrap: wrap;
-      align-items: flex-end;
+      align-items: start;
     `),
   ]),
 ])
