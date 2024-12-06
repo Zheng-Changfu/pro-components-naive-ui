@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProSliderSlots } from '../slots'
 import { NSlider, sliderProps } from 'naive-ui'
 import { defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 
 export default defineComponent({
   name: 'Slider',
@@ -13,11 +13,13 @@ export default defineComponent({
     const {
       readonly,
       readonlyText,
-    } = useReadonlyHelpers()
+      validationStatus,
+    } = useFieldUtils()
 
     return {
       readonly,
       readonlyText,
+      validationStatus,
     }
   },
   render() {
@@ -36,6 +38,7 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.$props,
+        ...this.validationStatus,
       })
       : dom
   },

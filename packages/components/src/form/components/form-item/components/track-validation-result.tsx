@@ -5,7 +5,7 @@ import type { FieldExtraInfo } from '../../field/field-extra-info'
 import { useInjectField } from 'pro-composables'
 import { defineComponent, inject, onUnmounted, provide, watch } from 'vue'
 import { useInjectProFormConfig } from '../../../context'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { fieldExtraKey } from '../../field/field-extra-info'
 
 /**
@@ -18,8 +18,8 @@ export default defineComponent({
   },
   setup(props) {
     const field = useInjectField()
+    const { readonly } = useFieldUtils()
     const nFormItem = inject('n-form-item')!
-    const { readonly } = useReadonlyHelpers()
     const formConfig = useInjectProFormConfig()
     const formItemInstRef = (field?.[fieldExtraKey] as FieldExtraInfo)?.proFormItemInst
 

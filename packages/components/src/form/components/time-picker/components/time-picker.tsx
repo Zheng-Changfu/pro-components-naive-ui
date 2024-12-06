@@ -5,7 +5,7 @@ import { isString } from 'lodash-es'
 import { NTimePicker, timePickerProps } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import { toDisplayDate } from '../../date-picker/components/utils/toDisplayDate'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { useInjectTimePickerInstStore } from '../inst'
 import { useMergeFormat } from './composables/useMergeFormat'
 
@@ -32,7 +32,8 @@ export default defineComponent({
       empty,
       readonly,
       emptyText,
-    } = useReadonlyHelpers()
+      validationStatus,
+    } = useFieldUtils()
 
     const mergedFormat = useMergeFormat(props as any)
 
@@ -86,6 +87,7 @@ export default defineComponent({
       emptyText,
       displayDateText,
       nTimePickerProps,
+      validationStatus,
     }
   },
   render() {
@@ -112,6 +114,7 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.nTimePickerProps,
+        ...this.validationStatus,
       })
       : dom
   },

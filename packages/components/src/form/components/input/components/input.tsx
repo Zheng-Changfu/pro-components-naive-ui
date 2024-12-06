@@ -2,7 +2,7 @@ import type { SlotsType, VNodeChild } from 'vue'
 import type { ProInputSlots } from '../slots'
 import { inputProps, NFlex, NInput } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { useInjectTextInstStore } from '../inst'
 
 export default defineComponent({
@@ -21,7 +21,8 @@ export default defineComponent({
       value,
       readonly,
       emptyText,
-    } = useReadonlyHelpers()
+      validationStatus,
+    } = useFieldUtils()
 
     registerInst({
       blur: () => instRef.value?.blur(),
@@ -42,6 +43,7 @@ export default defineComponent({
       instRef,
       readonly,
       emptyText,
+      validationStatus,
     }
   },
   render() {
@@ -74,6 +76,7 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.$props,
+        ...this.validationStatus,
       })
       : dom
   },

@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProMentionSlots } from '../slots'
 import { mentionProps, NMention } from 'naive-ui'
 import { defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { useInjectMentionInstStore } from '../inst'
 
 export default defineComponent({
@@ -19,7 +19,8 @@ export default defineComponent({
     const {
       readonly,
       readonlyText,
-    } = useReadonlyHelpers()
+      validationStatus,
+    } = useFieldUtils()
 
     registerInst({
       blur: () => instRef.value?.blur(),
@@ -29,6 +30,7 @@ export default defineComponent({
       instRef,
       readonly,
       readonlyText,
+      validationStatus,
     }
   },
   render() {
@@ -48,6 +50,7 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.$props,
+        ...this.validationStatus,
       })
       : dom
   },

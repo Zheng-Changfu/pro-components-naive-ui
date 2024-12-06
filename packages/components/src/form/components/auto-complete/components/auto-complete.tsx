@@ -4,7 +4,7 @@ import type { ProAutoCompleteSlots } from '../slots'
 import { isFunction } from 'lodash-es'
 import { autoCompleteProps, NAutoComplete, NFlex } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { useInjectAutoCompleteInstStore } from '../inst'
 
 export default defineComponent({
@@ -32,7 +32,8 @@ export default defineComponent({
       empty,
       readonly,
       emptyText,
-    } = useReadonlyHelpers()
+      validationStatus,
+    } = useFieldUtils()
 
     const nAutoCompleteOptions = computed(() => {
       const { options = [] } = props
@@ -56,6 +57,7 @@ export default defineComponent({
       instRef,
       readonly,
       emptyText,
+      validationStatus,
       nAutoCompleteProps,
     }
   },
@@ -89,6 +91,7 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.nAutoCompleteProps,
+        ...this.validationStatus,
       })
       : dom
   },

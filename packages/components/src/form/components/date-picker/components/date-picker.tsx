@@ -4,7 +4,7 @@ import type { ProDatePickerSlots } from '../slots'
 import { isArray, isString } from 'lodash-es'
 import { datePickerProps, NDatePicker, NFlex } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { useInjectDatePickerInstStore } from '../inst'
 import { useMergeFormat } from './composables/useMergeFormat'
 import { toDisplayDate } from './utils/toDisplayDate'
@@ -33,7 +33,8 @@ export default defineComponent({
       value,
       readonly,
       emptyText,
-    } = useReadonlyHelpers()
+      validationStatus,
+    } = useFieldUtils()
 
     const mergedFormat = useMergeFormat(props as any)
 
@@ -103,6 +104,7 @@ export default defineComponent({
       emptyText,
       displayDateText,
       nDatePickerProps,
+      validationStatus,
       arrayableDateText,
     }
   },
@@ -143,6 +145,7 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.nDatePickerProps,
+        ...this.validationStatus,
       })
       : dom
   },

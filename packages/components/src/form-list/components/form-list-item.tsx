@@ -10,7 +10,7 @@ import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
 import { simplyOmit } from '../../_utils/simplyOmit'
 import { ProButton } from '../../button'
-import { useReadonlyHelpers } from '../../form/components'
+import { useFieldUtils } from '../../form/components'
 import { proFieldConfigInjectionKey } from '../../form/components/field/context'
 import { useInjectProFormConfig } from '../../form/context'
 import { useLocale } from '../../locales'
@@ -41,7 +41,7 @@ const Action = defineComponent({
 
     const {
       readonly,
-    } = useReadonlyHelpers()
+    } = useFieldUtils()
 
     const copyLoading = ref(false)
     const removeLoading = ref(false)
@@ -201,7 +201,7 @@ export default defineComponent({
 
     const {
       readonly,
-    } = useReadonlyHelpers()
+    } = useFieldUtils()
 
     const {
       path,

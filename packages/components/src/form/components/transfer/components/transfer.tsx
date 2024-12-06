@@ -4,7 +4,7 @@ import type { ProTransferSlots } from '../slots'
 import { get, toPath } from 'lodash-es'
 import { NTransfer, transferProps } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 
 export default defineComponent({
   name: 'Transfer',
@@ -22,7 +22,8 @@ export default defineComponent({
       value,
       readonly,
       emptyText,
-    } = useReadonlyHelpers()
+      validationStatus,
+    } = useFieldUtils()
 
     const normalizedOptions = computed(() => {
       const {
@@ -76,6 +77,7 @@ export default defineComponent({
       emptyText,
       selectedLabels,
       nTransferProps,
+      validationStatus,
     }
   },
   render() {
@@ -101,6 +103,7 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.nTransferProps,
+        ...this.validationStatus,
       })
       : dom
   },

@@ -4,7 +4,7 @@ import { get, isArray, isFunction, noop } from 'lodash-es'
 import { NFlex, NSelect, selectProps } from 'naive-ui'
 import { eachTree } from 'pro-composables'
 import { computed, defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { useInjectSelectInstStore } from '../inst'
 
 export default defineComponent({
@@ -23,7 +23,8 @@ export default defineComponent({
       value,
       readonly,
       emptyText,
-    } = useReadonlyHelpers()
+      validationStatus,
+    } = useFieldUtils()
 
     const selectedLabels = computed(() => {
       const {
@@ -74,6 +75,7 @@ export default defineComponent({
       readonly,
       emptyText,
       selectedLabels,
+      validationStatus,
     }
   },
   render() {
@@ -104,6 +106,7 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.$props,
+        ...this.validationStatus,
       })
       : dom
   },

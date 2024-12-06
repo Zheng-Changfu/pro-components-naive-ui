@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProColorPickerSlots } from '../slots'
 import { colorPickerProps, NColorPicker } from 'naive-ui'
 import { defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 
 export default defineComponent({
   name: 'ColorPicker',
@@ -14,12 +14,14 @@ export default defineComponent({
       empty,
       readonly,
       emptyText,
-    } = useReadonlyHelpers()
+      validationStatus,
+    } = useFieldUtils()
 
     return {
       empty,
       readonly,
       emptyText,
+      validationStatus,
     }
   },
   render() {
@@ -48,6 +50,7 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.$props,
+        ...this.validationStatus,
       })
       : dom
   },

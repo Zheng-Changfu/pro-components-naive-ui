@@ -9,7 +9,7 @@ import { computed, defineComponent, ref, watch } from 'vue'
 import { useInjectProForm } from '../../../components'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
 import { ProButton } from '../../button'
-import { useReadonlyHelpers } from '../../form/components'
+import { useFieldUtils } from '../../form/components'
 import { useLocale } from '../../locales'
 import { provideProFormListInst } from '../context'
 import { useInjectFormListInstStore } from '../inst'
@@ -37,7 +37,7 @@ const CreatorButton = defineComponent({
 
     const {
       readonly,
-    } = useReadonlyHelpers()
+    } = useFieldUtils()
 
     const addRowLoading = ref(false)
 
