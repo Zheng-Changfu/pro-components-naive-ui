@@ -25,7 +25,7 @@ export default defineComponent({
   render() {
     const slots = {
       ...this.$slots,
-      label: this.$slots['naive-label'],
+      label: this.$slots['input-label'],
     }
 
     const disabled = this.readonly
