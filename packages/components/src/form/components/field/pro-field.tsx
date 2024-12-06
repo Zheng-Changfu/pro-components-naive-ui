@@ -5,7 +5,6 @@ import { computed, defineComponent } from 'vue'
 import { ProFormItem } from '../form-item'
 import { ProPopoverFormItem } from '../popover-form-item'
 import { createField } from './composables/createField'
-import { useFieldUtils } from './composables/useFieldUtils'
 import { useMergeOptions } from './composables/useMergeOptions'
 import { useVModelProps } from './composables/useVModelProps'
 import { fieldExtraKey } from './field-extra-info'
@@ -90,7 +89,6 @@ export default defineComponent({
       proFormItemProps,
       mergedValidateBehavior,
       mergedValidateBehaviorProps,
-      validationStatus: useFieldUtils(field).validationStatus,
     }
   },
   render() {
