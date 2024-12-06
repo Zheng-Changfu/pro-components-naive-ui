@@ -25,7 +25,7 @@ export default defineComponent({
   render() {
     const slots = {
       ...this.$slots,
-      input: this.$slots['naive-input'],
+      input: this.$slots['input-input'],
     }
 
     const closable = !this.readonly
