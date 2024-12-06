@@ -105,7 +105,6 @@ export default defineComponent({
 
     const {
       proFormItemProps,
-      validationStatus,
       mergedValidateBehavior,
       mergedValidateBehaviorProps,
     } = this
@@ -141,15 +140,6 @@ export default defineComponent({
       )
     }
 
-    return this.$slots['form-item']
-      ? this.$slots['form-item']({
-        proFormItemProps,
-        proFormItemDom: formItemDom,
-        errors: validationStatus.errors.value,
-        warnings: validationStatus.warnings.value,
-        feedbacks: validationStatus.feedbacks.value,
-        feedbackColor: validationStatus.feedbackColor.value,
-      })
-      : formItemDom
+    return formItemDom
   },
 })
