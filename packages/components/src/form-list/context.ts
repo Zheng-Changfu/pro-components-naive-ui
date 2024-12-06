@@ -9,5 +9,5 @@ export function provideProFormListInst(inst: ProFormListInst) {
 }
 
 export function useInjectProFormListInst() {
-  return inject(proFormListInstInjectionKey)!
+  return inject(proFormListInstInjectionKey)
 }
