@@ -73,26 +73,17 @@ export function useFieldUtils(field?: BaseField) {
         : ''
   })
 
-  const validationStatus = computed(() => {
-    return {
-      errors: errors.value,
-      warnings: warnings.value,
-      feedbacks: feedbacks.value,
-      feedbackColor: feedbackColor.value,
-    }
-  })
-
   return {
     empty,
     readonly,
     emptyText,
     readonlyText,
     value: field.value,
-
+    /** validationStatus */
     errors,
     warnings,
     feedbacks,
     feedbackColor,
-    validationStatus,
+    /** validationStatus */
   }
 }
