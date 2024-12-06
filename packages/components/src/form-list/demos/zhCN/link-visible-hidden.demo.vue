@@ -1,10 +1,7 @@
 <markdown>
-# 联动
+# 联动-显示隐藏
 
-`ProFormList` 包裹的组件有 `3个内置的变量`
-1. $row：当前行数据，别名 $record
-2. $index：当前行索引，别名 $rowIndex
-3. $total：当前列表的总数
+使用实例或者 `row` 获取当前行的值控制联动
 </markdown>
 
 <script lang="tsx">
@@ -30,25 +27,34 @@ export default defineComponent({
       only-show-first-item-label
       :initial-value="[
         { name: 'zcf', age: 26 },
-        { name: 'zzx', age: 0.5 },
         { name: 'cxh', age: 28 },
       ]"
       :creator-initial-value="() => ({ name: 'Name', age: 0 })"
     >
-      <template #default="{ index, total, action }">
+      <template #default="{ row, index, total, action }">
         <pro-input
-          :title="`姓名-${index + 1}`"
+          title="姓名"
           path="name"
-        />
+        >
+          <template #feedback="{ feedbackDom }">
+            <div class="flex flex-col">
+              <component :is="feedbackDom" />
+              <span class="color-#00000073">输入26显示年龄</span>
+              <span class="color-#00000073">输入bj显示城市</span>
+            </div>
+          </template>
+        </pro-input>
         <pro-digit
-          :title="`年龄-${index + 1}`"
+          title="年龄"
           path="age"
+          :visible="row.name === '26'"
+          @change="() => row.aaa = 1"
         />
         <pro-input
           :title="`城市-${total}`"
           path="city"
           required
-          :visible="!!action.get(index, 'name')"
+          :visible="action.get(index, 'name') === 'bj'"
         />
       </template>
     </pro-form-list>
