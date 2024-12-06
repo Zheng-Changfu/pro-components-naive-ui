@@ -1,7 +1,5 @@
 <markdown>
 # 新建一行的默认值
-
-必须要是一个函数哦~，原因和 `Vue2 data 必须是一个函数` 同理！
 </markdown>
 
 <script lang="tsx">
