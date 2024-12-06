@@ -32,7 +32,6 @@ export default defineComponent({
       empty,
       readonly,
       emptyText,
-      validationStatus,
     } = useFieldUtils()
 
     const nAutoCompleteOptions = computed(() => {
@@ -57,7 +56,6 @@ export default defineComponent({
       instRef,
       readonly,
       emptyText,
-      validationStatus,
       nAutoCompleteProps,
     }
   },
@@ -91,7 +89,6 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.nAutoCompleteProps,
-        ...this.validationStatus,
       })
       : dom
   },

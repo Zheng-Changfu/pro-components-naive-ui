@@ -25,7 +25,6 @@ export default defineComponent({
       value,
       readonly,
       emptyText,
-      validationStatus,
     } = useFieldUtils()
 
     const selectedLabels = computed(() => {
@@ -76,7 +75,6 @@ export default defineComponent({
       readonly,
       emptyText,
       selectedLabels,
-      validationStatus,
     }
   },
   render() {
@@ -107,7 +105,6 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.$props,
-        ...this.validationStatus,
       })
       : dom
   },

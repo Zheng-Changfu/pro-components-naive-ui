@@ -21,7 +21,6 @@ export default defineComponent({
       value,
       readonly,
       emptyText,
-      validationStatus,
     } = useFieldUtils()
 
     registerInst({
@@ -35,7 +34,6 @@ export default defineComponent({
       instRef,
       readonly,
       emptyText,
-      validationStatus,
     }
   },
   render() {
@@ -68,7 +66,6 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.$props,
-        ...this.validationStatus,
       })
       : dom
   },

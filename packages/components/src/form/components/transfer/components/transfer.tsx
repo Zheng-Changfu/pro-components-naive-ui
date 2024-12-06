@@ -22,7 +22,6 @@ export default defineComponent({
       value,
       readonly,
       emptyText,
-      validationStatus,
     } = useFieldUtils()
 
     const normalizedOptions = computed(() => {
@@ -77,7 +76,6 @@ export default defineComponent({
       emptyText,
       selectedLabels,
       nTransferProps,
-      validationStatus,
     }
   },
   render() {
@@ -103,7 +101,6 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.nTransferProps,
-        ...this.validationStatus,
       })
       : dom
   },

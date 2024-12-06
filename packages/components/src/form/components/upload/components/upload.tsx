@@ -28,7 +28,6 @@ export default defineComponent({
       empty,
       readonly,
       emptyText,
-      validationStatus,
     } = useFieldUtils()
 
     const pureProps = useOmitProps(
@@ -113,7 +112,6 @@ export default defineComponent({
       localeRef,
       nUploadProps,
       fixUploadDragger,
-      validationStatus,
     }
   },
   render() {
@@ -150,7 +148,6 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.nUploadProps,
-        ...this.validationStatus,
       })
       : dom
   },

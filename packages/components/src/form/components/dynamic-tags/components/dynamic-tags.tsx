@@ -14,14 +14,12 @@ export default defineComponent({
       empty,
       readonly,
       emptyText,
-      validationStatus,
     } = useFieldUtils()
 
     return {
       empty,
       readonly,
       emptyText,
-      validationStatus,
     }
   },
   render() {
@@ -55,7 +53,6 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.$props,
-        ...this.validationStatus,
       })
       : dom
   },

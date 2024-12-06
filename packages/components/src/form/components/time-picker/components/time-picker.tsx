@@ -32,7 +32,6 @@ export default defineComponent({
       empty,
       readonly,
       emptyText,
-      validationStatus,
     } = useFieldUtils()
 
     const mergedFormat = useMergeFormat(props as any)
@@ -87,7 +86,6 @@ export default defineComponent({
       emptyText,
       displayDateText,
       nTimePickerProps,
-      validationStatus,
     }
   },
   render() {
@@ -114,7 +112,6 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.nTimePickerProps,
-        ...this.validationStatus,
       })
       : dom
   },

@@ -12,12 +12,10 @@ export default defineComponent({
   setup() {
     const {
       readonly,
-      validationStatus,
     } = useFieldUtils()
 
     return {
       readonly,
-      validationStatus,
     }
   },
   render() {
@@ -39,7 +37,6 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.$props,
-        ...this.validationStatus,
       })
       : dom
   },

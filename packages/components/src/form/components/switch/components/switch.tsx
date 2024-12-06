@@ -14,7 +14,6 @@ export default defineComponent({
     const {
       value,
       readonly,
-      validationStatus,
     } = useFieldUtils()
 
     const {
@@ -25,7 +24,6 @@ export default defineComponent({
       value,
       readonly,
       getMessage,
-      validationStatus,
     }
   },
   render() {
@@ -51,7 +49,6 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.$props,
-        ...this.validationStatus,
       })
       : dom
   },

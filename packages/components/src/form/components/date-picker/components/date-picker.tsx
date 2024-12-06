@@ -33,7 +33,6 @@ export default defineComponent({
       value,
       readonly,
       emptyText,
-      validationStatus,
     } = useFieldUtils()
 
     const mergedFormat = useMergeFormat(props as any)
@@ -104,7 +103,6 @@ export default defineComponent({
       emptyText,
       displayDateText,
       nDatePickerProps,
-      validationStatus,
       arrayableDateText,
     }
   },
@@ -145,7 +143,6 @@ export default defineComponent({
         inputDom: dom,
         readonly: this.readonly,
         inputProps: this.nDatePickerProps,
-        ...this.validationStatus,
       })
       : dom
   },

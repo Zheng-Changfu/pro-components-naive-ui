@@ -23,7 +23,6 @@ export default defineComponent({
       value,
       readonly,
       emptyText,
-      validationStatus,
     } = useFieldUtils()
 
     const normalizedOptions = computed(() => {
@@ -76,7 +75,6 @@ export default defineComponent({
       readonly,
       emptyText,
       selectedLabel,
-      validationStatus,
       nRadioGroupProps,
       normalizedOptions,
     }
@@ -121,7 +119,6 @@ export default defineComponent({
           ...this.nRadioGroupProps,
           options: this.normalizedOptions,
         },
-        ...this.validationStatus,
       })
       : dom
   },

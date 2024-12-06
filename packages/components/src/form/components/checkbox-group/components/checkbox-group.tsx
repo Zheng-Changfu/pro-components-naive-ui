@@ -23,7 +23,6 @@ export default defineComponent({
       value,
       readonly,
       emptyText,
-      validationStatus,
     } = useFieldUtils()
 
     const normalizedOptions = computed(() => {
@@ -77,7 +76,6 @@ export default defineComponent({
       readonly,
       emptyText,
       selectedLabels,
-      validationStatus,
       normalizedOptions,
       nCheckboxGroupProps,
     }
@@ -122,7 +120,6 @@ export default defineComponent({
           ...this.nCheckboxGroupProps,
           options: this.normalizedOptions,
         },
-        ...this.validationStatus,
       })
       : dom
   },
