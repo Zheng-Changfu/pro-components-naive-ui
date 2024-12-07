@@ -7,9 +7,9 @@ export type FooterRender = (opt: {
 }) => VNodeChild
 
 export const proDrawerContentExtendProps = {
-/**
- * 底部内容，false 不显示
- */
+  /**
+   * 底部内容，false 不显示
+   */
   footer: {
     type: [Function, Boolean] as PropType<false | FooterRender>,
     default: undefined,
@@ -33,6 +33,13 @@ export const proDrawerContentExtendProps = {
 export const proDrawerContentProps = {
   ...drawerContentProps,
   ...proDrawerContentExtendProps,
+  /**
+   * 调整默认值为 true
+   */
+  closable: {
+    type: Boolean,
+    default: true,
+  },
 } as const
 
 export type ProDrawerContentProps = ExtractPublicPropTypes<typeof proDrawerContentProps>
