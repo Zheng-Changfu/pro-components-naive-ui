@@ -14,7 +14,7 @@ import {
 export function ensureValidVNode(
   vnodes: VNodeArrayChildren,
 ): VNodeArrayChildren | null {
-  return vnodes.some((child) => {
+  return (vnodes ?? []).some((child) => {
     if (!isVNode(child)) {
       return true
     }
