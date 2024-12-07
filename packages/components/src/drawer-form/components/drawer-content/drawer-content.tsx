@@ -23,19 +23,7 @@ export default defineComponent({
       proDrawerContentExtendProps,
     )
 
-    const showFooter = computed(() => {
-      const {
-        footer,
-        resetButtonProps,
-        submitButtonProps,
-      } = overridedProps.value
-
-      return footer !== false
-        && (resetButtonProps !== false || submitButtonProps !== false)
-    })
-
     return {
-      showFooter,
       nDrawerContentProps,
       footer: computed(() => overridedProps.value.footer),
       resetButtonProps: computed(() => overridedProps.value.resetButtonProps),
@@ -47,7 +35,7 @@ export default defineComponent({
       <NDrawerContent {...this.nDrawerContentProps}>
         {{
           ...this.$slots,
-          footer: this.showFooter
+          footer: this.footer !== false
             ? () => {
                 const footerDom = (
                   <Footer
@@ -61,7 +49,7 @@ export default defineComponent({
                 }, () => {
                   return this.footer
                     ? this.footer({ footerDom })
-                    : <NFlex justify="flex-end" size={[8, 8]}>{footerDom}</NFlex>
+                    : <NFlex justify="flex-end" size="small">{footerDom}</NFlex>
                 })
               }
             : null,

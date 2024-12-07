@@ -116,7 +116,7 @@ export default defineComponent({
       else if (this.arrayableDateText) {
         const separator = this.$slots.separator?.() ?? this.$props.separator
         dom = (
-          <NFlex size={[8, 0]}>
+          <NFlex size="small">
             <span>{(this.displayDateText as [string, string])[0]}</span>
             {separator && <span>{separator}</span>}
             <span>{(this.displayDateText as [string, string])[1]}</span>

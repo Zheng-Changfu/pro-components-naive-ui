@@ -151,7 +151,7 @@ export default defineComponent({
             }, () => {
               return this.footer
                 ? this.footer({ footerDom })
-                : <NFlex justify="flex-end" size={[8, 8]}>{footerDom}</NFlex>
+                : <NFlex justify="flex-end" size="small">{footerDom}</NFlex>
             })
           },
         }}

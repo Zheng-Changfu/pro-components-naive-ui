@@ -68,7 +68,7 @@ export const ProImages = defineComponent({
     else {
       return (
         <NImageGroup {...imageGroupProps}>
-          <NFlex size={[8, 8]}>
+          <NFlex size="small">
             {this.mergedValue.map(renderSingleImage)}
           </NFlex>
         </NImageGroup>

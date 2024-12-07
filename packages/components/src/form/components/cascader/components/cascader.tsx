@@ -77,7 +77,7 @@ export default defineComponent({
       dom = this.empty
         ? this.emptyDom
         : (
-            <NFlex size={[8, 0]}>
+            <NFlex size="small">
               {this.selectedLabels}
             </NFlex>
           )
