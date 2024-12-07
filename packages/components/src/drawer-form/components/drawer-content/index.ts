@@ -3,7 +3,7 @@ export {
 } from './drawer-content'
 
 export {
-  type FooterRender as DrawerFormFooterRender,
+  type FooterRender as ProDrawerFormFooterRender,
   type ProDrawerContentProps,
   proDrawerContentProps,
 } from './props'
