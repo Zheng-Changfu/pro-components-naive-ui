@@ -91,7 +91,7 @@ export const proSearchFormProps = {
    */
   cols: {
     type: [String, Number] as PropType<string | number>,
-    default: '1 s:2 l:3 xl:4',
+    default: '1 s:2 l:3',
   },
   /**
    * 查询表单控制器
