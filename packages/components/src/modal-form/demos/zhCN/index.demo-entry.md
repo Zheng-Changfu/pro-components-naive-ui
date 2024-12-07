@@ -56,7 +56,7 @@ import type { VNodeChild } from 'vue'
 | close | `() => void`           | `-`    | 关闭弹窗         |      |
 | show  | `ComputedRef<boolean>` | `-`    | 当前弹窗显示状态 |      |
 
-### 属性冲突？
+### 属性冲突
 因为组件同时支持 `ProForm` 和 `ProModal` 的所有属性,他们可能会有一些重名属性,这时候 `ProForm` 的属性优先级更高,如果你需要给 `ProModal`
 也设置对应的属性,请写到 `proModalProps` 属性上
 ```html
@@ -68,15 +68,15 @@ import type { VNodeChild } from 'vue'
 ></pro-modal-form>
 ```
 
-### 默认值调整?
+### 默认值调整
 我们为了更加的好用,调整了一些默认值,如果你不满意,可以参考 [组件 Props 覆盖](XXXXX)
 - `closeOnEsc` 调整为 `false`
 - `maskClosable` 调整为 `false`
 
-### 用不了 dialog 预设?
+### 用不了 dialog 预设
 因为是弹窗表单,`dialog` 形态不足以承载表单,你只能设置预设为 `card` 或者不用预设
 
-### 后代组件想打开弹窗?
+### 后代组件想打开弹窗
 可以使用 `useInjectProModalForm` 方法直接注入
 ```html
 <!-- 父组件 -->

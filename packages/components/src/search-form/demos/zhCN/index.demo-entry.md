@@ -17,3 +17,138 @@ custom-button.vue
 ```
 
 ## API
+## API
+### ProSearchForm 属性
+引用到的类型声明介绍如下
+```typescript
+import type { GridProps } from 'naive-ui'
+import type { ProButtonProps } from 'pro-naive-ui'
+```
+
+| 名称                                                                            | 类型                                                         | 默认值 | 说明                                             | 版本 |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------ | ------------------------------------------------ | ---- |
+| columns                                                                         | <n-a href="#ProSearchFormColumn">ProSearchFormColumn[]</n-a> | `-`    | 表单项集合                                       |      |
+| gridProps                                                                       | `GridProps`                                                  | `-`    | 透传给 `n-grid` 的属性，某些属性有冲突时可能有用 |      |
+| showSuffixGridItem                                                              | `boolean`                                                    | `true` | 是否显示后缀(收起、重置、查询)                   |      |
+| resetButtonProps                                                                | `ProButtonProps \| false`                                    | `-`    | 重置按钮的属性,`false` 不显示                    |      |
+| searchButtonProps                                                               | `ProButtonProps \| false`                                    | `-`    | 查询按钮的属性,`false` 不显示                    |      |
+| collapseButtonProps                                                             | `ProButtonProps \| false`                                    | `-`    | 展开收起按钮的属性,`false` 不显示                |      |
+| [参考 ProForm](form#ProForm-属性)                                               |                                                              |        |                                                  |      |
+| [参考 NGrid](https://www.naiveui.com/zh-CN/os-theme/components/grid#Grid-Props) |                                                              |        | 不支持 `collapsed` 属性                          |      |
+
+### ProSearchForm 插槽
+引用到的类型声明介绍如下
+```typescript
+import type { VNodeChild } from 'vue'
+```
+
+| 名称   | 参数                                                             | 说明                                                                           | 版本 |
+| ------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------------ | ---- |
+| suffix | `(opt: {overflow: boolean;suffixDom: VNodeChild}) => VNodeChild` | 自定义查询/重置/展开收起, `overflow` 代表是否溢出,`suffixDom` 是默认的虚拟 dom |      |
+
+### createProSearchForm
+创建一个查询表单控制器,如果已经注册了控制器,想在后代组件中使用,无需透传,可以使用 `useInjectProSearchForm` 方法直接注入,
+用法同 [createProForm](form#createProForm),调用后的返回值增加了几个参数
+
+| 名称           | 类型                            | 默认值 | 说明                               | 版本 |
+| -------------- | ------------------------------- | ------ | ---------------------------------- | ---- |
+| collapsed      | `ComputedRef<boolean>`          | `-`    | 是否收起                           |      |
+| toggleCollapse | `(collapsed?: boolean) => void` | `-`    | 切换收起,传递了此参数,根据参数切换 |      |
+
+调用时的参数中还增加了
+
+| 名称             | 类型      | 默认值  | 说明         | 版本 |
+| ---------------- | --------- | ------- | ------------ | ---- |
+| defaultCollapsed | `boolean` | `false` | 默认是否收起 |      |
+
+### ProSearchFormColumn
+它是用来定义每一个表单项的
+
+| 名称                                                                                    | 类型                                                               | 默认值    | 说明                                                                                                                        | 版本 |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | --------- | --------------------------------------------------------------------------------------------------------------------------- | ---- |
+| render                                                                                  | `() => VNodeChild`                                                 | `-`       | 当 `valueType` 不满足需求时，可以自定义渲染                                                                                 |      |
+| valueType                                                                               | <n-a href="#ProFieldColumnValueType">ProFieldColumnValueType</n-a> | `'input'` | 要根据哪个组件类型渲染值,默认是 `input`,因为支持按需加载,所以要保证使用的组件已经被 `Vue` 注册,否则会在开发期间抛出一个警告 |      |
+| fieldProps                                                                              | `object \| () => object`                                           | `-`       | 控件的 `props`,比如 `pro-input` 控件,这里就支持 `n-input` 的所有 `props`,其他控件同理,如果是动态属性可以写成一个函数        |      |
+| fieldSlots                                                                              | `object`                                                           | `-`       | 控件的 `slots`,比如 `pro-input` 控件,这里就支持 `n-input` 的所有 `slots` 和[通用插槽](field#通用的插槽) ,其他控件同理       |      |
+| proFieldProps                                                                           | `object \| () => object`                                           | `-`       | 如果是动态的[通用属性](field#通用的属性),可以写在这里,不过你需要写成一个函数                                                |      |
+| [参考通用属性](field#通用的属性)                                                        |                                                                    |           | 如果是动态的属性,可以写到 `proFieldProps` 属性上                                                                            |      |
+| [参考 NGridItem](https://www.naiveui.com/zh-CN/os-theme/components/grid#GridItem-Props) |                                                                    |           | 不支持 `suffix` 属性                                                                                                        |      |
+
+### ProFieldColumnValueType
+以下是 `valueType` 和组件的对照关系表
+| valueType          | 组件                                       |
+| ------------------ | ------------------------------------------ |
+| rate               | [ProRate](field#ProRate)                   |
+| input              | [ProInput](field#ProInput)                 |
+| digit              | [ProDigit](field#ProDigit)                 |
+| slider             | [ProSlider](field#ProSlider)               |
+| switch             | [ProSwitch](field#ProSwitch)               |
+| upload             | [ProUpload](field#ProUpload)               |
+| select             | [ProSelect](field#ProSelect)               |
+| mention            | [ProMention](field#ProMention)             |
+| cascader           | [ProCascader](field#ProCascader)           |
+| password           | [ProPassword](field#ProPassword)           |
+| textarea           | [ProTextarea](field#ProTextarea)           |
+| checkbox           | [ProCheckbox](field#ProCheckbox)           |
+| transfer           | [ProTransfer](field#ProTransfer)           |
+| tree-select        | [ProTreeSelect](field#ProTreeSelect)       |
+| radio-group        | [ProRadioGroup](field#ProRadioGroup)       |
+| color-picker       | [ProColorPicker](field#ProColorPicker)     |
+| dynamic-tags       | [ProDynamicTags](field#ProDynamicTags)     |
+| auto-complete      | [ProAutoComplete](field#ProAutoComplete)   |
+| checkbox-group     | [ProCheckboxGroup](field#ProCheckboxGroup) |
+| time               | [ProTime](field#ProTime)                   |
+| date               | [ProDate](field#ProDate)                   |
+| date-time          | [ProDateTime](field#ProDate)               |
+| date-year          | [ProDateYear](field#ProDate)               |
+| date-week          | [ProDateWeek](field#ProDate)               |
+| date-month         | [ProDateMonth](field#ProDate)              |
+| date-range         | [ProDateRange](field#ProDate)              |
+| date-quarter       | [ProDateQuarter](field#ProDate)            |
+| date-time-range    | [ProDateTimeRange](field#ProDate)          |
+| date-year-range    | [ProDateYearRange](field#ProDate)          |
+| date-month-range   | [ProDateMonthRange](field#ProDate)         |
+| date-quarter-range | [ProDateQuarterRange](field#ProDate)       |
+
+### 默认值调整
+我们为了更加的好用,调整了一些默认值,如果你不满意,可以参考 [组件 Props 覆盖](XXXXX)
+- `xGap` 调整为 `24`
+- `labelWidth` 调整为 `80`
+- `cols` 调整为 `'1 s:2 l:3'`
+- `labelPlacement` 调整为 `left`
+- `responsive` 调整为 `'screen'`
+
+### 扩展 valueType
+如果你也基于 `ProField` 封装了一个组件([查看自定义组件](field#develop-custom-component.vue)),`ProSearchForm`是可以正常渲染出来的,但是 `valueType`、`fieldSlots`、`fieldProps` 会缺少类型提示,
+你需要做如下调整
+- 在你项目全局的 `.d.ts` 文件中书写如下代码
+```typescript
+import type { 
+  Merge,
+  UnwrapSlots,
+  MaybeFunction,
+  ProBaseFieldColumn,
+  ProFieldColumn as _ProFieldColumn,
+} from 'pro-naive-ui'
+
+declare module 'pro-naive-ui' {
+  type ProFieldColumn<
+    Values = any,
+    ExtraProps extends object = object,
+    FunctionalFieldPropsParameters extends any[] = any[],
+    FunctionalProFieldPropsParameters extends any[] = any[],
+  > = _ProFieldColumn | Merge<你的Column<Values, FunctionalFieldPropsParameters, FunctionalProFieldPropsParameters>, ExtraProps>
+}
+
+interface 你的Column<
+  Values = any,
+  FieldPropsParameters extends any[] = any[],
+  ProFieldPropsParameters extends any[] = any[],
+> extends ProBaseFieldColumn<Values, ProFieldPropsParameters> {
+  valueType?: '你的 valueType'
+  fieldSlots?: UnwrapSlots<你封装的组件Slots类型>
+  fieldProps?: MaybeFunction<NonNullable<你封装的组件Props类型的['fieldProps']>, FieldPropsParameters>
+}
+
+```
+- 确保你的 `tsconfig.json` 包含 `.d.ts` 文件

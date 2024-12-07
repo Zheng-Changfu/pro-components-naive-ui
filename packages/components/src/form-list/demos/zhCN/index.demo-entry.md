@@ -129,7 +129,7 @@ function handleClick(){
 </template>
 ```
 
-### 跨组件使用实例
+### 后代组件使用实例
 如果想在后代组件中使用实例,无需透传,可以使用 `useInjectProFormListInst` 方法直接注入,如果是嵌套的表单列表,注入的将会是最近的一个祖先实例
 ```html
 <!-- 父组件 -->

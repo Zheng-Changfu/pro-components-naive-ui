@@ -55,7 +55,7 @@ type FooterRender = (opt: {footerDom: VNodeChild}) => VNodeChild
 | close | `() => void`           | `-`    | 关闭抽屉         |      |
 | show  | `ComputedRef<boolean>` | `-`    | 当前抽屉显示状态 |      |
 
-### 属性冲突？
+### 属性冲突
 因为组件同时支持 `ProForm` 和 `NDrawer` 的所有属性,他们可能会有一些重名属性,这时候 `ProForm` 的属性优先级更高,如果你需要给 `NDrawer`
 也设置对应的属性,请写到 `drawerProps` 属性上
 ```html
@@ -67,14 +67,14 @@ type FooterRender = (opt: {footerDom: VNodeChild}) => VNodeChild
 ></pro-drawer-form>
 ```
 
-### 默认值调整?
+### 默认值调整
 我们为了更加的好用,调整了一些默认值,如果你不满意,可以参考 [组件 Props 覆盖](XXXXX)
 - `closeOnEsc` 调整为 `false`
 - `maskClosable` 调整为 `false`
 - `autoFocus` 调整为 `false`
 - `width` 调整为 `520`
 
-### 后代组件想打开抽屉?
+### 后代组件想打开抽屉
 可以使用 `useInjectProDrawerForm` 方法直接注入
 ```html
 <!-- 父组件 -->

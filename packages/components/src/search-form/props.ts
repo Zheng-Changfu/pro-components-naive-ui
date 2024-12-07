@@ -44,7 +44,7 @@ export const proSearchFormExtendProps = {
     >>>,
   },
   /**
-   * 是否显示后缀(收起、重置、搜索)
+   * 是否显示后缀(收起、重置、查询)
    */
   showSuffixGridItem: {
     type: Boolean,
