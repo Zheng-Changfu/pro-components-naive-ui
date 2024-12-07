@@ -1,12 +1,13 @@
 <markdown>
-# 基本用法
+# 编辑表单回显
+
+你不需要等待表单挂载完成在进行赋值
 </markdown>
 
 <script lang="tsx">
-import { random } from 'lodash-es'
 import { useMessage } from 'naive-ui'
 import { createProDrawerForm } from 'pro-naive-ui'
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))
@@ -16,7 +17,7 @@ export default defineComponent({
   setup() {
     const message = useMessage()
 
-    const drawerForm = createProDrawerForm({
+    const drawerForm = createProDrawerForm<{ name: string, age: number }>({
       onSubmit: async (values) => {
         await delay(1500)
         message.success('更新成功')
@@ -25,17 +26,20 @@ export default defineComponent({
       },
     })
 
-    const len = ref(2)
-
-    function updateList() {
-      len.value = random(2, 20)
+    function edit() {
+      /**
+       * 打开弹窗、赋值不需要考虑顺序问题
+       */
+      drawerForm.setFieldsValue({
+        name: 'zcf',
+        age: 26,
+      })
+      drawerForm.open()
     }
 
     return {
-      len,
-      updateList,
+      edit,
       form: drawerForm,
-      open: drawerForm.open,
     }
   },
 })
@@ -43,8 +47,8 @@ export default defineComponent({
 
 <template>
   <n-flex>
-    <n-button type="primary" @click="open">
-      新建表单
+    <n-button type="primary" @click="edit">
+      编辑表单回显
     </n-button>
   </n-flex>
   <pro-drawer-form
@@ -56,14 +60,15 @@ export default defineComponent({
       title="新建表单"
       :native-scrollbar="false"
     >
-      <n-button class="mb-12px" @click="updateList">
-        更新动态高度
-      </n-button>
       <pro-input
-        v-for="(_, index) in len"
-        :key="index"
-        :title="`用户名-${index + 1}`"
-        :path="`name-${index + 1}`"
+        title="用户名"
+        path="name"
+        required
+      />
+      <pro-digit
+        title="年龄"
+        path="age"
+        required
       />
     </pro-drawer-content>
   </pro-drawer-form>

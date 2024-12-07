@@ -1,6 +1,8 @@
 # 结构化列表 ProFormList
 <!--single-column-->
 
+我们还提供了一个可以录入结构化列表的组件
+
 ## 演示
 
 ```demo
@@ -22,7 +24,7 @@ list-nest.vue
 ### ProFormList 属性
 List 本身也是一个表单项,支持这些 [通用属性](field#通用的属性) 外,还扩展了一些属性,引用到的类型声明介绍如下
 ```typescript
-import type { ProButtonProps,ProFormListActionGuard } from 'pro-naive-ui'
+import type { ProButtonProps, ProFormListActionGuard } from 'pro-naive-ui'
 ```
 
 | 名称                            | 类型                      | 默认值     | 说明                                                                    | 版本 |
@@ -44,19 +46,19 @@ import type { ProButtonProps,ProFormListActionGuard } from 'pro-naive-ui'
 import type { InternalPath, ProFormListInst } from 'pro-naive-ui'
 ```
 
-| 名称     | 类型                                            | 说明                          | 版本 |
-| -------- | ----------------------------------------------- | ----------------------------- | ---- |
-| push     | `(...items: T[]) => void`                       | 尾部追加数据                  |      |
-| pop      | `() => void`                                    | 弹出尾部数据                  |      |
-| insert   | `(index: number, ...items: T[]) => void`        | 指定位置插入数据              |      |
-| remove   | `(index: number) => void`                       | 删除指定位置数据              |      |
-| shift    | `() => void`                                    | 弹出第一条数据                |      |
-| unshift  | `(...items: T[]) => void`                       | 头部追加数据                  |      |
-| move     | `(from: number, to: number) => void`            | 移动数据                      |      |
-| moveUp   | `(index: number) => void`                       | 上移数据                      |      |
-| moveDown | `(index: number) => void`                       | 下移数据                      |      |
-| get      | `(index: number, path: InternalPath) => object` | 获取行数据,未获取到返回空对象 |      |
-| set      | `ProFormListInst['set']`                        | 设置行数据,是一个重载函数     |      |
+| 名称     | 类型                                            | 说明                                                                          | 版本 |
+| -------- | ----------------------------------------------- | ----------------------------------------------------------------------------- | ---- |
+| push     | `(...items: T[]) => void`                       | 尾部追加数据                                                                  |      |
+| pop      | `() => void`                                    | 弹出尾部数据                                                                  |      |
+| insert   | `(index: number, ...items: T[]) => void`        | 指定位置插入数据                                                              |      |
+| remove   | `(index: number) => void`                       | 删除指定位置数据                                                              |      |
+| shift    | `() => void`                                    | 弹出第一条数据                                                                |      |
+| unshift  | `(...items: T[]) => void`                       | 头部追加数据                                                                  |      |
+| move     | `(from: number, to: number) => void`            | 移动数据                                                                      |      |
+| moveUp   | `(index: number) => void`                       | 上移数据                                                                      |      |
+| moveDown | `(index: number) => void`                       | 下移数据                                                                      |      |
+| get      | `(index: number, path: InternalPath) => object` | 获取行数据,未获取到返回空对象                                                 |      |
+| set      | `ProFormListInst['set']`                        | 设置行数据,是一个重载函数,<n-a href="#link-async-loop.vue">查看完整例子</n-a> |      |
 
 ### ProFormList 插槽
 引用到的类型声明介绍如下
@@ -101,7 +103,31 @@ interface ProFormListDefaultRender {
 | container | `ProFormListContainerRender` | 自定义渲染列表容器                                    |      |
 
 ### ProFormList 的校验时机
-TODO(只在手动交互中才会触发)
+如果你给 `ProFormList` 配置了校验规则，它只会在 `添加一行数据`、`复制此项`、`删除此项` 动作发生后校验，调用实例的 `api` 方法不会进行校验处理，你需要手动触发校验
+```html
+<script setup lang="ts">
+import type { ProFormListInst } from 'pro-naive-ui'
+import { ref } from 'vue'
+import { createProForm } from 'pro-naive-ui'
+
+const formListInst = ref<ProFormListInst>()
+const proForm = createProForm<{name:string}>()
+
+function handleClick(){
+  formListInst.value!.push({....})
+  // 手动校验列表
+  proForm.validate('list')
+}
+</script>
+
+<template>
+  <pro-form :form="proForm">
+    <pro-form-list ref="formListInst" path="list" required>
+      ....
+    </pro-form-list>
+  </pro-form>
+</template>
+```
 
 ### 跨组件使用实例
 如果想在后代组件中使用实例,无需透传,可以使用 `useInjectProFormListInst` 方法直接注入,如果是嵌套的表单列表,注入的将会是最近的一个祖先实例

@@ -1,8 +1,9 @@
 # 表单 ProForm
 <!--single-column-->
 
-ProForm 是对 [NForm](https://www.naiveui.com/zh-CN/os-theme/components/form) 的二次封装,同时我们内置了表单数据管理,让表单更加好用 <br />
-Modal 表单、Drawer 表单、查询表单、表单列表等多种可以覆盖大部分的使用场景,用更少的代码完成更多的功能。
+ProForm 是对 [NForm](https://www.naiveui.com/zh-CN/os-theme/components/form) 的二次封装,你不在需要管理复杂的表单数据,我们内置了数据管理,同时 Modal 表单、Drawer 表单、查询表单、表单列表等多种可以覆盖大部分的使用场景,用更少的代码完成更多的功能
+
+
 
 ## 演示
 
@@ -36,11 +37,11 @@ async-form.vue
 
 ### createProForm
 创建一个表单控制器,如果已经注册了控制器,想在后代组件中使用,无需透传,可以使用 `useInjectProForm` 方法直接注入
-
 ```html
 <!-- 父组件 -->
 <script setup lang="ts">
 import { createProForm } from 'pro-naive-ui'
+
 const proForm = createProForm<{name:string}>()
 </script>
 
@@ -53,6 +54,7 @@ const proForm = createProForm<{name:string}>()
 <!-- 后代组件 -->
 <script setup lang="ts">
 import { useInjectProForm } from 'pro-naive-ui'
+
 const proForm = useInjectProForm<{name:string}>()!
 </script>
 
