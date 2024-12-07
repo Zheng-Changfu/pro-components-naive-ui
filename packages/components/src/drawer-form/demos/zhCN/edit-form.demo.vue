@@ -28,7 +28,7 @@ export default defineComponent({
 
     function edit() {
       /**
-       * 打开弹窗、赋值不需要考虑顺序问题
+       * 打开抽屉、赋值不需要考虑顺序问题
        */
       drawerForm.setFieldsValue({
         name: 'zcf',

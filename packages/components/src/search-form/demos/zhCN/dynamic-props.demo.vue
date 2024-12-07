@@ -1,7 +1,8 @@
 <markdown>
-# 基本使用
+# 动态属性
 
-`valueType` 代表要被渲染的组件, 默认为 `input`
+有些时候,你的数据可能是动态获取的,如果是动态的[通用属性](field#通用的属性),需要写在 `proFieldProps` 中,如果是动态的 `fieldProps`,
+你可以写成一个函数
 </markdown>
 
 <script lang="tsx">
@@ -15,17 +16,50 @@ interface Info {
   createTime: number
   responseDate: number
   endTime: number
+  city: number
+  appName2: string
 }
 
 export default defineComponent({
   setup() {
+    const citys = ref<any[]>([])
+    const title = ref('动态通用属性')
+
     const form = createProSearchForm<Info>({
-      defaultCollapsed: true, // 默认收起
       onReset: console.log,
       onSubmit: console.log,
     })
 
     const columns: ProSearchFormColumns<Info> = [
+      {
+        title: '动态数据',
+        path: 'city',
+        valueType: 'select',
+        fieldProps() {
+          return {
+            options: citys.value,
+          }
+        },
+      },
+      {
+        path: 'appName2',
+        proFieldProps() {
+          return {
+            title: title.value,
+          }
+        },
+        onChange: (val) => {
+          if (val.length > 6) {
+            title.value = val.slice(0, 6)
+          }
+          else if (val.length <= 0) {
+            title.value = '动态通用属性'
+          }
+          else {
+            title.value = val
+          }
+        },
+      },
       {
         title: '应用名称',
         path: 'appName',
@@ -51,6 +85,13 @@ export default defineComponent({
       },
     ]
 
+    setTimeout(() => {
+      citys.value = [
+        { label: '北京', value: 0 },
+        { label: '上海', value: 1 },
+      ]
+    }, 2000)
+
     return {
       form,
       columns,
@@ -61,20 +102,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="mb-12px flex">
-    <div class="mr-12px">
-      布局方式:
-    </div>
-    <n-radio-group v-model:value="layout">
-      <n-radio label="水平" value="left" />
-      <n-radio label="垂直" value="top" />
-    </n-radio-group>
-  </div>
-  <pro-card title="搜索表单">
+  <pro-card title="动态属性">
     <pro-search-form
       :form="form"
       :columns="columns"
-      :label-placement="layout"
+      label-width="100"
     />
   </pro-card>
 </template>
