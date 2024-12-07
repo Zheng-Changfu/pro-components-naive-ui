@@ -33,8 +33,6 @@ const Action = defineComponent({
     },
   },
   setup(props) {
-    const form = useInjectProForm()
-
     const {
       getMessage,
     } = useLocale('ProFormList')
@@ -45,10 +43,12 @@ const Action = defineComponent({
 
     const copyLoading = ref(false)
     const removeLoading = ref(false)
+    const form = useInjectProForm()
 
     const {
       insert,
       remove: _remove,
+      stringPath,
       value: list,
     } = useInjectListField()!
 
@@ -126,6 +126,7 @@ const Action = defineComponent({
           afterAddRow({ index, insertIndex, total: list.value.length })
         }
       }
+      form.validate(stringPath.value)
     }
 
     async function remove() {
@@ -149,6 +150,7 @@ const Action = defineComponent({
           afterRemoveRow({ index, total: list.value.length })
         }
       }
+      form && form.validate(stringPath.value)
     }
     return {
       copy,

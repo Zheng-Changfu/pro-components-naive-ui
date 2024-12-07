@@ -5,8 +5,9 @@ import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
 import { ROW_UUID, useInjectListField } from 'pro-composables'
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useInjectProForm } from '../../../components'
+import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
 import { ProButton } from '../../button'
 import { useFieldUtils } from '../../form/components'
@@ -32,6 +33,7 @@ const CreatorButton = defineComponent({
 
     const {
       insert,
+      stringPath,
       value: list,
     } = useInjectListField()!
 
@@ -39,7 +41,9 @@ const CreatorButton = defineComponent({
       readonly,
     } = useFieldUtils()
 
+    const form = useInjectProForm()
     const addRowLoading = ref(false)
+    const mergedClsPrefix = useNaiveClsPrefix()
 
     const showButton = computed(() => {
       const { max, creatorButtonProps } = props
@@ -88,22 +92,30 @@ const CreatorButton = defineComponent({
           afterAddRow({ total: list.value.length, index: -1, insertIndex })
         }
       }
+      form && form.validate(stringPath.value)
     }
 
     return {
       add,
       showButton,
       proButtonProps,
+      mergedClsPrefix,
     }
   },
   render() {
+    const { mergedClsPrefix } = this
+
     return this.showButton
       ? (
           <ProButton
             {...this.proButtonProps}
-            style={{
-              marginBlockEnd: this.$props.position === 'top' ? '24px' : 0,
-            }}
+            class={[
+              `${mergedClsPrefix}-pro-form-list__button-add`,
+              {
+                [`${mergedClsPrefix}-pro-form-list__button-add--top`]: this.$props.position === 'top',
+                [`${mergedClsPrefix}-pro-form-list__button-add--bottom`]: this.$props.position !== 'top',
+              },
+            ]}
             onClick={this.add}
           />
         )
@@ -119,8 +131,6 @@ export default defineComponent({
   },
   slots: Object as SlotsType<ProFormListSlots>,
   setup() {
-    const form = useInjectProForm()
-
     const {
       registerInst,
     } = useInjectFormListInstStore()!
@@ -137,20 +147,8 @@ export default defineComponent({
       remove,
       unshift,
       moveDown,
-      stringPath,
       value: list,
     } = useInjectListField()!
-
-    /**
-     * 长度发生变化，验证列表，如果没有传递规则，校验不会生效
-     */
-    watch(
-      () => list.value.length,
-      () => {
-        form?.validate(stringPath.value)
-      },
-      { flush: 'post' },
-    )
 
     const exposed: ProFormListInst = {
       get,

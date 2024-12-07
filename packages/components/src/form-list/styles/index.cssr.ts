@@ -1,4 +1,4 @@
-import { c, cB } from 'naive-ui'
+import { c, cB, cM } from 'naive-ui'
 import { as } from '../../_utils/bem'
 
 export default c([
@@ -14,5 +14,10 @@ export default c([
       flex-wrap: wrap;
       align-items: start;
     `),
+    cB('pro-form-list__button-add', [
+      cM('top', `
+        margin-block-end: 24px;
+      `),
+    ]),
   ]),
 ])
