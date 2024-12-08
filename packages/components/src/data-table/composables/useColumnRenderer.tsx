@@ -9,7 +9,7 @@ import { NButton, NIcon } from 'naive-ui'
 import { computed } from 'vue'
 import ProTooltip from '../../_internal/components/pro-tooltip'
 import { isEmptyValue } from '../../_utils/isEmptyValue'
-import { useInjectGlobalConfig, useInjectWrappedIn } from '../../config-provider'
+import { useInjectGlobalConfig } from '../../config-provider'
 import { useLocale } from '../../locales'
 
 export const sortColumnKey = '__SORT_COLUMN__'
@@ -33,10 +33,8 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
     mergedEmpty,
   } = useInjectGlobalConfig()
 
-  const wrappedIn = useInjectWrappedIn()
-
   const emptyDom = computed(() => {
-    return mergedEmpty(wrappedIn)
+    return mergedEmpty('data-table')
   })
 
   const hasFixedLeftColumn = computed(() => {
