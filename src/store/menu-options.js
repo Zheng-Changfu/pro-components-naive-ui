@@ -221,12 +221,6 @@ export function createComponentMenuOptions({ lang, theme }) {
           path: '/field',
         },
         {
-          en: 'FieldDependency',
-          zh: '字段联动',
-          enSuffix: true,
-          path: '/field-dependency',
-        },
-        {
           en: 'ProFormList',
           zh: '结构化列表',
           enSuffix: true,
@@ -268,6 +262,18 @@ export function createComponentMenuOptions({ lang, theme }) {
           zh: '模态框',
           enSuffix: true,
           path: '/modal',
+        },
+        {
+          en: 'PlainComponent',
+          zh: '简约组件',
+          enSuffix: true,
+          path: '/plain',
+        },
+        {
+          en: 'ProConfigProvider',
+          zh: '全局配置',
+          enSuffix: true,
+          path: '/config-provider',
         },
         {
           en: 'ProDataTable',

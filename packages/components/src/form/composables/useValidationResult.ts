@@ -6,13 +6,13 @@ import { computed, ref } from 'vue'
 /**
  * 维护校验结果，方便自定义 ui 校验
  */
-export interface FormItemInternalValidateResult {
+export interface FormItemInternalValidationResult {
   valid: boolean
   errors: ValidateError[]
   warnings: ValidateError[]
 }
 export function useValidationResults() {
-  const pathToValidationResultsMap = ref<Map<string, FormItemInternalValidateResult>>(new Map())
+  const pathToValidationResultsMap = ref<Map<string, FormItemInternalValidationResult>>(new Map())
 
   function addValidationErrors(
     path: string | undefined,
@@ -66,7 +66,7 @@ export function useValidationResults() {
     map.forEach((value, key) => {
       res[key] = value
     })
-    return res as Record<string, FormItemInternalValidateResult>
+    return res as Record<string, FormItemInternalValidationResult>
   }
 
   function getFieldValidationResult(path: InternalPath) {

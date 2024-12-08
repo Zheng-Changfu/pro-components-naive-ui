@@ -30,20 +30,20 @@ export const ProImages = defineComponent({
 
     const {
       empty,
-      emptyText,
+      emptyDom,
       mergedValue,
     } = usePlainComponentConfig('images', overridedProps)
 
     return {
       empty,
-      emptyText,
+      emptyDom,
       mergedValue,
       mergedClsPrefix,
     }
   },
   render() {
     if (this.empty) {
-      return this.emptyText
+      return this.emptyDom
     }
 
     const {
@@ -68,7 +68,7 @@ export const ProImages = defineComponent({
     else {
       return (
         <NImageGroup {...imageGroupProps}>
-          <NFlex size={[8, 8]}>
+          <NFlex size="small">
             {this.mergedValue.map(renderSingleImage)}
           </NFlex>
         </NImageGroup>

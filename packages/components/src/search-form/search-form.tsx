@@ -1,28 +1,29 @@
 import type { GridProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
-import type { ProButtonProps } from '../button'
 import type { ProFormProps } from '../form'
 import type { ProSearchFormSlots } from './slots'
-import { DownOutlined, UpOutlined } from '@vicons/antd'
-import { gridProps as _nGridProps, NFlex, NGi, NGrid, NIcon } from 'naive-ui'
+import { gridProps as _nGridProps, NFormItem, NGi, NGrid } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
+import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
+import { useMountStyle } from '../_internal/useMountStyle'
 import { keep } from '../_utils/keep'
 import { keysOf } from '../_utils/keysOf'
 import { resolveSlotWithProps } from '../_utils/resolveSlot'
-import { ProButton } from '../button'
 import { useOverrideProps } from '../composables'
 import { ProFormClearableProvider } from '../config-provider'
 import { proFormProps as _proFormProps, ProForm } from '../form'
 import { proFormPropKeys } from '../form/props'
-import { useLocale } from '../locales'
 import GridFieldItem from './components/grid-field-item'
+import Suffix from './components/suffix'
 import { createProSearchForm } from './composables/createProSearchForm'
 import { proSearchFormProps } from './props'
+import style from './styles/index.cssr'
 
 const name = 'ProSearchForm'
 export default defineComponent({
   name,
   props: proSearchFormProps,
+  inheritAttrs: false,
   slots: Object as SlotsType<ProSearchFormSlots>,
   setup(props) {
     let form = props.form
@@ -35,9 +36,7 @@ export default defineComponent({
       props,
     )
 
-    const {
-      getMessage,
-    } = useLocale('ProSearchForm')
+    const mergedClsPrefix = useNaiveClsPrefix()
 
     const proFormProps = computed<ProFormProps>(() => {
       return keep(overridedProps.value, proFormPropKeys)
@@ -57,58 +56,22 @@ export default defineComponent({
       }
     })
 
-    const resetButtonProps = computed<ProButtonProps | false>(() => {
-      const { resetButtonProps } = overridedProps.value
-      return resetButtonProps === false
-        ? false
-        : {
-            attrType: 'reset',
-            content: getMessage('reset'),
-            ...(resetButtonProps ?? {}),
-          }
-    })
-
-    const searchButtonProps = computed<ProButtonProps | false>(() => {
-      const { searchButtonProps } = overridedProps.value
-      return searchButtonProps === false
-        ? false
-        : {
-            type: 'primary',
-            attrType: 'submit',
-            content: getMessage('search'),
-            ...(searchButtonProps ?? {}),
-          }
-    })
-
-    const collapseButtonProps = computed<ProButtonProps | false>(() => {
-      const { collapseButtonProps } = overridedProps.value
-      return collapseButtonProps === false
-        ? false
-        : {
-            text: true,
-            type: 'primary',
-            iconPlacement: 'right',
-            content: getMessage('collapse')(form.collapsed.value),
-            renderIcon: () => {
-              return (
-                <NIcon size={14}>
-                  {form.collapsed.value ? <DownOutlined /> : <UpOutlined />}
-                </NIcon>
-              )
-            },
-            onClick: () => form.toggleCollapse(),
-            ...(collapseButtonProps ?? {}),
-          }
-    })
+    useMountStyle(
+      name,
+      'pro-search-form',
+      style,
+    )
 
     return {
+      form,
       nGridProps,
       proFormProps,
-      resetButtonProps,
-      searchButtonProps,
-      collapseButtonProps,
+      mergedClsPrefix,
       columns: computed(() => overridedProps.value.columns ?? []),
+      resetButtonProps: computed(() => overridedProps.value.resetButtonProps),
+      searchButtonProps: computed(() => overridedProps.value.searchButtonProps),
       showSuffixGridItem: computed(() => overridedProps.value.showSuffixGridItem),
+      collapseButtonProps: computed(() => overridedProps.value.collapseButtonProps),
     }
   },
 
@@ -117,27 +80,39 @@ export default defineComponent({
       columns,
       nGridProps,
       proFormProps,
+      mergedClsPrefix,
       showSuffixGridItem,
     } = this
 
     return (
       <ProFormClearableProvider>
-        <ProForm {...proFormProps}>
+        <ProForm
+          {...this.$attrs}
+          {...proFormProps}
+          class={[`${mergedClsPrefix}-pro-search-form`]}
+        >
           <NGrid {...nGridProps}>
             {(columns ?? []).map(column => <GridFieldItem column={column} />)}
             {showSuffixGridItem && (
               <NGi suffix={true}>
                 {{
                   default: ({ overflow }: any) => {
-                    return resolveSlotWithProps(this.$slots.suffix, {
-                      overflow,
-                    }, () => [
-                      <NFlex justify="end">
-                        {this.searchButtonProps !== false && <ProButton {...this.searchButtonProps} />}
-                        {this.resetButtonProps !== false && <ProButton {...this.resetButtonProps} />}
-                        {this.collapseButtonProps !== false && <ProButton {...this.collapseButtonProps} />}
-                      </NFlex>,
-                    ])
+                    const suffixDom = (
+                      <Suffix
+                        form={this.form}
+                        resetButtonProps={this.resetButtonProps}
+                        searchButtonProps={this.searchButtonProps}
+                        collapseButtonProps={this.collapseButtonProps}
+                      />
+                    )
+                    return (
+                      <NFormItem class={[`${mergedClsPrefix}-pro-search-form__suffix`]}>
+                        {resolveSlotWithProps(this.$slots.suffix, {
+                          overflow,
+                          suffixDom,
+                        }, () => suffixDom)}
+                      </NFormItem>
+                    )
                   },
                 }}
               </NGi>

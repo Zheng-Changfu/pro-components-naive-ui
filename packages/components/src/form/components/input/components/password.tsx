@@ -3,7 +3,7 @@ import type { ProPasswordSlots } from '../slots'
 import { EyeInvisibleOutlined, EyeOutlined } from '@vicons/antd'
 import { inputProps, NButton, NFlex, NIcon, NInput } from 'naive-ui'
 import { computed, defineComponent, ref } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { useInjectTextInstStore } from '../inst'
 
 export default defineComponent({
@@ -23,8 +23,8 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
-    } = useReadonlyHelpers()
+      emptyDom,
+    } = useFieldUtils()
 
     function setOpen(v: boolean) {
       open.value = v
@@ -50,7 +50,7 @@ export default defineComponent({
       instRef,
       setOpen,
       readonly,
-      emptyText,
+      emptyDom,
     }
   },
   render() {
@@ -58,7 +58,7 @@ export default defineComponent({
 
     if (this.readonly) {
       dom = this.empty
-        ? this.emptyText
+        ? this.emptyDom
         : (
             <NFlex align="center" wrap={false}>
               {this.open ? this.value : '********'}

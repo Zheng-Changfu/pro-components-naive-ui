@@ -158,7 +158,7 @@ export default defineComponent({
 
                 return (
                   <NFlex
-                    size={[4, 0]}
+                    size="small"
                     align="center"
                     class={[{
                       [`${mergedClsPrefix}-card-header__extra--trigger`]: this.triggerAreas.includes('arrow'),

@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProRateSlots } from '../slots'
 import { NRate, rateProps } from 'naive-ui'
 import { defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 
 export default defineComponent({
   name: 'Rate',
@@ -12,7 +12,7 @@ export default defineComponent({
   setup() {
     const {
       readonly,
-    } = useReadonlyHelpers()
+    } = useFieldUtils()
 
     return {
       readonly,

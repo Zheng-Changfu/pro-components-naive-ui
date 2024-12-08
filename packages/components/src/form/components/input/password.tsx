@@ -1,6 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProInputSlots } from './slots'
 import { defineComponent } from 'vue'
+import { nilOrEmptyStringToNull } from '../../../_utils/nilOrEmptyStringToNull'
 import { useOverrideProps, usePostValue } from '../../../composables'
 import { ProField } from '../field'
 import { InternalValueTypeEnum } from '../field/enums'
@@ -24,7 +25,7 @@ export default defineComponent({
     )
 
     const postValue = usePostValue(overridedProps, {
-      nilToNull: true,
+      transform: nilOrEmptyStringToNull,
     })
 
     expose(exposed)

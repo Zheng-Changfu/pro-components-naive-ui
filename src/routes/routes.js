@@ -11,12 +11,16 @@ export const zhComponentRoutes = [
     component: () => import('../../packages/components/src/card/demos/zhCN/index.demo-entry.md'),
   },
   {
-    path: 'modal',
-    component: () => import('../../packages/components/src/modal/demos/zhCN/index.demo-entry.md'),
+    path: 'plain',
+    component: () => import('../../packages/components/src/plains/demos/zhCN/index.demo-entry.md'),
   },
   {
-    path: 'button',
-    component: () => import('../../packages/components/src/button/demos/zhCN/index.demo-entry.md'),
+    path: 'config-provider',
+    component: () => import('../../packages/components/src/config-provider/demos/zhCN/index.demo-entry.md'),
+  },
+  {
+    path: 'modal',
+    component: () => import('../../packages/components/src/modal/demos/zhCN/index.demo-entry.md'),
   },
   {
     path: 'form',
@@ -25,10 +29,6 @@ export const zhComponentRoutes = [
   {
     path: 'field',
     component: () => import('../../packages/components/src/form/components/demos/zhCN/index.demo-entry.md'),
-  },
-  {
-    path: 'field-dependency',
-    component: () => import('../../packages/components/src/form/demos/zhCN/dependency.demo-entry.md'),
   },
   {
     path: 'form-list',

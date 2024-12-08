@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProDynamicTagsSlots } from '../slots'
 import { dynamicTagsProps, NDynamicTags } from 'naive-ui'
 import { defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 
 export default defineComponent({
   name: 'DynamicTags',
@@ -13,19 +13,19 @@ export default defineComponent({
     const {
       empty,
       readonly,
-      emptyText,
-    } = useReadonlyHelpers()
+      emptyDom,
+    } = useFieldUtils()
 
     return {
       empty,
       readonly,
-      emptyText,
+      emptyDom,
     }
   },
   render() {
     const slots = {
       ...this.$slots,
-      input: this.$slots['naive-input'],
+      input: this.$slots['input-input'],
     }
 
     const closable = !this.readonly
@@ -37,7 +37,7 @@ export default defineComponent({
       : this.$props.disabled
 
     const dom = this.readonly && this.empty
-      ? this.emptyText
+      ? this.emptyDom
       : (
           <NDynamicTags
             {...this.$props}

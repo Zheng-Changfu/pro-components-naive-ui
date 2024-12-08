@@ -22,13 +22,13 @@ import type { ProTransferProps, ProTransferSlots } from './transfer'
 import type { ProTreeSelectProps, ProTreeSelectSlots } from './tree-select'
 import type { ProUploadProps, ProUploadSlots } from './upload'
 
-type UnwrapSlots<T> = {
+export type UnwrapSlots<T> = {
   [K in keyof T]?: IsAny<T[K]> extends true ? () => VNodeChild : (params: NonNullable<T[K]>) => VNodeChild
 }
 
-type MaybeFunction<T, Parameters extends any[]> = T | ((...args: Parameters) => T)
+export type MaybeFunction<T, Parameters extends any[]> = T | ((...args: Parameters) => T)
 
-interface ProBaseFieldColumn<Values = any, ProFieldPropsParameters extends any[] = any[]> {
+export interface ProBaseFieldColumn<Values = any, ProFieldPropsParameters extends any[] = any[]> {
   /**
    * 字段路径
    */

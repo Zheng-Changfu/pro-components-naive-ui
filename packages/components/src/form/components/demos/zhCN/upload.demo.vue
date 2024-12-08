@@ -1,12 +1,12 @@
 <markdown>
 # 上传表单
 
-**支持字符串、字符串格式组成的数组、原有格式回显数据，我们还增加了一些额外的功能属性**
-- title：按钮文本，优先级低于默认插槽
-- maxSize：文件的最大大小，单位 kb
-- onlyAcceptImage：是否只允许上传图片类型
-- onOverFileMaxSize：超出文件最大大小时触发的回调
-- onUnAcceptType：上传不支持的类型文件时触发的回调
+支持字符串、字符串格式组成的数组、原有格式回显数据，我们还增加了一些额外的属性
+- title:按钮文本，优先级低于默认插槽
+- maxSize:文件的最大大小，单位 kb
+- onlyAcceptImage:是否只允许上传图片类型
+- onOverSize:超出文件最大大小时触发的回调
+- onUnAcceptType:上传不支持的类型文件时触发的回调
 </markdown>
 
 <script lang="tsx">
@@ -66,28 +66,18 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-form
-    :form="form"
-    label-width="auto"
-  >
+  <pro-form :form="form" label-width="auto">
     <n-card title="上传表单" embedded>
+      <pro-upload title="上传" path="upload" />
       <pro-upload
-        title="上传"
-        path="upload"
-      />
-      <pro-upload
-        title="上传"
-        path="upload-image"
-        :field-props="{
+        title="上传" path="upload-image" :field-props="{
           listType: 'image-card',
           onlyAcceptImage: true,
           onUnAcceptType,
         }"
       />
       <pro-upload
-        title="拖拽上传"
-        path="drag-upload"
-        :field-props="{
+        title="拖拽上传" path="drag-upload" :field-props="{
           multiple: true,
           action: 'https://www.mocky.io/v2/5e4bafc63100007100d8b70f',
           directoryDnd: true,

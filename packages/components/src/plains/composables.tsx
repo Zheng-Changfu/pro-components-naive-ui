@@ -3,7 +3,7 @@ import type { ProCopyableTextConfig } from './copyable-text/types'
 import type { ProDateTextConfig } from './date-text/types'
 import type { ProImagesConfig } from './images/types'
 import type { ProTagsConfig } from './tags/types'
-import { computed, unref } from 'vue'
+import { computed, isVNode, unref } from 'vue'
 import { isEmptyValue } from '../_utils/isEmptyValue'
 import { useInjectGlobalConfig, useInjectWrappedIn } from '../config-provider'
 import { transformValueToString } from './copyable-text/copyable-text'
@@ -48,7 +48,7 @@ export function usePlainComponentConfig<Name extends keyof Transform>(
   props: ComputedRef<{ value?: any, config?: Record<string, any> }>,
 ): {
     empty: ComputedRef<boolean>
-    emptyText: ComputedRef<VNodeChild>
+    emptyDom: ComputedRef<VNodeChild>
     mergedValue: ComputedRef<ReturnType<Exclude<Transform[Name], undefined>>>
   } {
   const wrappedIn = useInjectWrappedIn()
@@ -70,13 +70,14 @@ export function usePlainComponentConfig<Name extends keyof Transform>(
     return isEmptyValue(mergedValue.value)
   })
 
-  const emptyText = computed(() => {
-    return mergedEmpty(wrappedIn)
+  const emptyDom = computed(() => {
+    const dom = mergedEmpty(wrappedIn)
+    return isVNode(dom) ? dom : <span>{dom}</span>
   })
 
   return {
     empty,
-    emptyText,
+    emptyDom,
     mergedValue,
   }
 }

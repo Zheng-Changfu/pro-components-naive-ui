@@ -1,5 +1,7 @@
 export * from './components'
 export * from './create'
 export { default, install } from './preset'
+export { useOverrideProps } from './src/composables/useOverrideProps'
 export * from './src/locales'
 export { default as version } from './version'
+export { uid } from 'pro-composables'

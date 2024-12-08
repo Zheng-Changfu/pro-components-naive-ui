@@ -3,6 +3,7 @@ import type { BaseForm, FormOptions, InternalPath } from 'pro-composables'
 import type { Merge, Paths, Simplify, SimplifyDeep } from 'type-fest'
 import type { ComputedRef, DeepReadonly, Ref, UnwrapNestedRefs } from 'vue'
 import type { FieldExtraInfo } from '../components/field/field-extra-info'
+import type { FormItemInternalValidationResult } from './useValidationResult'
 import { isString } from 'lodash-es'
 import { createForm, stringifyPath } from 'pro-composables'
 import { computed, inject, nextTick, provide, readonly, ref } from 'vue'
@@ -55,6 +56,11 @@ export type CreateProFormReturn<Values = any> = Simplify<Pick<
    * 校验
    */
   validate: <T extends InternalPath = StringKeyof<Values>>(paths?: T) => ReturnType<FormInst['validate']> | undefined
+  /**
+   * 获取字段值的校验结果
+   * @param path 路径
+   */
+  getFieldValidationResult: (path: InternalPath) => FormItemInternalValidationResult | null
   /**
    * 所有的值（包含用户设置的和可能被隐藏的字段）
    * ⚠️注意：它是只读的，表单值修改你应该通过 setFieldValue/setFieldsValue api
@@ -138,6 +144,7 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     addValidationErrors,
     addValidationWarnings,
     clearValidationResults,
+    getFieldValidationResult,
   } = validationResults
 
   function registerNFormInst(nForm: FormInst) {
@@ -168,10 +175,14 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
 
   function validate(paths?: InternalPath) {
     if (!paths) {
-      return nFormInst.value?.validate(addValidateResults)
+      return nFormInst.value?.validate(addValidateResults, (rule) => {
+        return !(rule as any).readonly
+      })
     }
     paths = (isString(paths) ? [paths] : paths).map(stringifyPath)
-    return nFormInst.value?.validate(addValidateResults, rule => paths.includes(rule.key!))
+    return nFormInst.value?.validate(addValidateResults, (rule) => {
+      return paths.includes(rule.key!) && !(rule as any).readonly
+    })
   }
 
   function submit() {
@@ -264,6 +275,7 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     restoreValidation,
     restoreFieldValue,
     restoreFieldsValue,
+    getFieldValidationResult,
     pauseDependenciesTrigger,
     getFieldsTransformedValue,
     resumeDependenciesTrigger,

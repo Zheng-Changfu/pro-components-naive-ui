@@ -1,7 +1,7 @@
 <markdown>
 # 日期相关表单
 
-**支持字符串格式和时间戳格式，字符串格式解析请使用 `value-format`**
+支持字符串格式和时间戳格式，字符串格式解析请使用 `value-format`
 </markdown>
 
 <script lang="tsx">

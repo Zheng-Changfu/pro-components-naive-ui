@@ -2,7 +2,7 @@ import type { SlotsType } from 'vue'
 import type { ProCheckboxSlots } from '../slots'
 import { checkboxProps, NCheckbox } from 'naive-ui'
 import { defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { useInjectCheckboxInstStore } from '../inst'
 
 export default defineComponent({
@@ -18,7 +18,7 @@ export default defineComponent({
 
     const {
       readonly,
-    } = useReadonlyHelpers()
+    } = useFieldUtils()
 
     registerInst({
       blur: () => instRef.value?.blur(),

@@ -35,7 +35,7 @@ export const ProDateText = defineComponent({
 
     const {
       empty,
-      emptyText,
+      emptyDom,
       mergedValue,
     } = usePlainComponentConfig('dateText', overridedProps)
 
@@ -77,14 +77,14 @@ export const ProDateText = defineComponent({
 
     return {
       empty,
-      emptyText,
+      emptyDom,
       finalValue,
       mergedClsPrefix,
     }
   },
   render() {
     if (this.empty) {
-      return this.emptyText
+      return this.emptyDom
     }
     return (
       <span class={[`${this.mergedClsPrefix}-pro-date-text`]}>

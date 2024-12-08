@@ -227,14 +227,6 @@ export default defineComponent({
             ],
           }"
         />
-        <pro-radio-group
-          title="RadioButton"
-          path="radio-button"
-        >
-          <n-radio-button label="item1" :value="0" />
-          <n-radio-button label="item2" :value="1" />
-          <n-radio-button label="item3" :value="2" />
-        </pro-radio-group>
         <pro-checkbox
           title="checkbox"
           path="checkbox"
@@ -270,26 +262,6 @@ export default defineComponent({
             ],
           }"
         />
-        <pro-checkbox-group
-          title="checkbox-group"
-          path="checkbox-group-grid"
-          required
-        >
-          <n-grid :y-gap="9" :cols="2">
-            <n-gi>
-              <n-checkbox label="A" :value="0" />
-            </n-gi>
-            <n-gi>
-              <n-checkbox label="B" :value="1" />
-            </n-gi>
-            <n-gi>
-              <n-checkbox label="C" :value="2" />
-            </n-gi>
-            <n-gi>
-              <n-checkbox label="D" :value="3" />
-            </n-gi>
-          </n-grid>
-        </pro-checkbox-group>
         <pro-color-picker
           title="颜色选择"
           path="color-picker"

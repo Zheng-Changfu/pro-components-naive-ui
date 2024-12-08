@@ -3,7 +3,7 @@ import type { ProSwitchSlots } from '../slots'
 import { NSwitch, switchProps } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { useLocale } from '../../../../locales'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 
 export default defineComponent({
   name: 'Switch',
@@ -14,7 +14,7 @@ export default defineComponent({
     const {
       value,
       readonly,
-    } = useReadonlyHelpers()
+    } = useFieldUtils()
 
     const {
       getMessage,

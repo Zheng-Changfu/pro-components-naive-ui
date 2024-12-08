@@ -16,9 +16,9 @@ export default defineComponent({
   setup() {
     const message = useMessage()
 
-    const modalForm = createProModalForm<Partial<{ name: string, password: string }>>({
+    const modalForm = createProModalForm({
       onSubmit: async (values) => {
-        await delay(2000)
+        await delay(1500)
         message.success('更新成功')
         console.log(values)
         modalForm.close()
@@ -51,24 +51,17 @@ export default defineComponent({
     :form="form"
     title="新建表单"
     preset="card"
-    label-width="auto"
+    label-width="80"
     label-placement="left"
   >
-    <pro-input title="用户名" path="name" />
-    <pro-password
-      title="密码" path="password" :post-value="val => {
-        console.log(val, 'val')
-        return val
-      }"
-    />
-    <n-button @click="updateList">
+    <n-button class="mb-12px" @click="updateList">
       更新动态高度
     </n-button>
-    <n-button @click="() => console.log(form.getFieldsTransformedValue())">
-      读取
-    </n-button>
-    <n-button @click="() => form.setFieldsValue({ name: '123' })">
-      设置
-    </n-button>
+    <pro-input
+      v-for="(_, index) in len"
+      :key="index"
+      :title="`用户名-${index + 1}`"
+      :path="`name-${index + 1}`"
+    />
   </pro-modal-form>
 </template>

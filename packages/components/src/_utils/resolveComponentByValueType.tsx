@@ -40,8 +40,8 @@ export function resolveComponentByValueType(valueType: ProFieldColumnValueType, 
   }
   if (__DEV__) {
     warnOnce(
-      'search-form|edit-data-table',
-      `Component ${Component} is not registered !`,
+      'valueType',
+      `${Component} is not registered !`,
     )
   }
   return null

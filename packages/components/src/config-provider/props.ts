@@ -9,7 +9,7 @@ export const proConfigProviderExtendProps = {
    */
   propOverrides: Object as PropType<MaybeRef<Record<string, object>>>,
   /**
-   * 当内容为空时显示的内容（支持所有的表单项以及 plain-components）
+   * 当内容为空时显示的内容（支持所有的表单项、表格以及 plain-components）
    * 当为函数时接收一个参数 wrappedIn，代表了当前组件被包裹在哪个组件中
    * @default '-'
    */

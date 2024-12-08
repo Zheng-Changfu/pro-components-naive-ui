@@ -4,7 +4,7 @@ import type { ProDatePickerSlots } from '../slots'
 import { isArray, isString } from 'lodash-es'
 import { datePickerProps, NDatePicker, NFlex } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { useInjectDatePickerInstStore } from '../inst'
 import { useMergeFormat } from './composables/useMergeFormat'
 import { toDisplayDate } from './utils/toDisplayDate'
@@ -32,8 +32,8 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
-    } = useReadonlyHelpers()
+      emptyDom,
+    } = useFieldUtils()
 
     const mergedFormat = useMergeFormat(props as any)
 
@@ -100,7 +100,7 @@ export default defineComponent({
       empty,
       instRef,
       readonly,
-      emptyText,
+      emptyDom,
       displayDateText,
       nDatePickerProps,
       arrayableDateText,
@@ -111,12 +111,12 @@ export default defineComponent({
 
     if (this.readonly) {
       if (this.empty) {
-        dom = this.emptyText
+        dom = this.emptyDom
       }
       else if (this.arrayableDateText) {
         const separator = this.$slots.separator?.() ?? this.$props.separator
         dom = (
-          <NFlex size={[8, 0]}>
+          <NFlex size="small">
             <span>{(this.displayDateText as [string, string])[0]}</span>
             {separator && <span>{separator}</span>}
             <span>{(this.displayDateText as [string, string])[1]}</span>
@@ -124,7 +124,7 @@ export default defineComponent({
         )
       }
       else {
-        dom = this.displayDateText
+        dom = <span>{this.displayDateText}</span>
       }
     }
     else {

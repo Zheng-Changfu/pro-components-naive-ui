@@ -4,7 +4,7 @@ import { get, isArray, isFunction, noop } from 'lodash-es'
 import { NFlex, NSelect, selectProps } from 'naive-ui'
 import { eachTree } from 'pro-composables'
 import { computed, defineComponent } from 'vue'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { useInjectSelectInstStore } from '../inst'
 
 export default defineComponent({
@@ -22,8 +22,8 @@ export default defineComponent({
       empty,
       value,
       readonly,
-      emptyText,
-    } = useReadonlyHelpers()
+      emptyDom,
+    } = useFieldUtils()
 
     const selectedLabels = computed(() => {
       const {
@@ -72,7 +72,7 @@ export default defineComponent({
       empty,
       instRef,
       readonly,
-      emptyText,
+      emptyDom,
       selectedLabels,
     }
   },
@@ -81,9 +81,9 @@ export default defineComponent({
 
     if (this.readonly) {
       dom = this.empty
-        ? this.emptyText
+        ? this.emptyDom
         : (
-            <NFlex size={[8, 0]}>
+            <NFlex size="small">
               {this.selectedLabels}
             </NFlex>
           )

@@ -6,7 +6,7 @@ import { computed, defineComponent } from 'vue'
 import { resolveSlot } from '../../../../_utils/resolveSlot'
 import { useOmitProps } from '../../../../composables'
 import { useLocale } from '../../../../locales'
-import { useReadonlyHelpers } from '../../field'
+import { useFieldUtils } from '../../field'
 import { useInjectUploadInstStore } from '../inst'
 import { proUploadFieldProps } from '../props'
 
@@ -27,8 +27,8 @@ export default defineComponent({
     const {
       empty,
       readonly,
-      emptyText,
-    } = useReadonlyHelpers()
+      emptyDom,
+    } = useFieldUtils()
 
     const pureProps = useOmitProps(
       props,
@@ -108,7 +108,7 @@ export default defineComponent({
       empty,
       instRef,
       readonly,
-      emptyText,
+      emptyDom,
       localeRef,
       nUploadProps,
       fixUploadDragger,
@@ -121,7 +121,7 @@ export default defineComponent({
       : this.$props.disabled
 
     const dom = this.readonly && this.empty
-      ? this.emptyText
+      ? this.emptyDom
       : (
           <NUpload
             ref="instRef"

@@ -33,4 +33,4 @@ export enum InternalValueTypeEnum {
   DATE_QUARTER_RANGE = 'date-quarter-range',
 }
 
-export type InternalFieldValueType = `${InternalValueTypeEnum}`
+export type InternalFieldValueType = `${InternalValueTypeEnum}` | ({} & string)

@@ -1,10 +1,6 @@
 export {
-  useReadonlyHelpers,
-} from './composables/useReadonlyHelpers'
-
-export {
-  useValidationStatus,
-} from './composables/useValidationStatus'
+  useFieldUtils,
+} from './composables/useFieldUtils'
 
 export {
   default as ProField,
@@ -28,3 +24,9 @@ export {
 export {
   pickProListFieldSharedProps,
 } from './utils/pickProListFieldSharedProps'
+
+export type {
+  Dependencie,
+  InternalPath,
+  PathPattern,
+} from 'pro-composables'
