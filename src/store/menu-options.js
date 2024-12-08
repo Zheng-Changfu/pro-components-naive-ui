@@ -264,6 +264,12 @@ export function createComponentMenuOptions({ lang, theme }) {
           path: '/modal',
         },
         {
+          en: 'PlainComponent',
+          zh: '简约组件',
+          enSuffix: true,
+          path: '/plain',
+        },
+        {
           en: 'ProDataTable',
           zh: '数据表格',
           enSuffix: true,
