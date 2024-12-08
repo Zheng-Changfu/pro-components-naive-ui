@@ -20,7 +20,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <pro-form :form="form">
+  <pro-form :form="form" label-placement="top">
     <pro-form-list
       title="用户信息"
       path="userInfo"
@@ -48,7 +48,6 @@ export default defineComponent({
           title="年龄"
           path="age"
           :visible="row.name === '26'"
-          @change="() => row.aaa = 1"
         />
         <pro-input
           :title="`城市-${total}`"

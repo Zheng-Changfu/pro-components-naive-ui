@@ -38,23 +38,21 @@ export default defineComponent({
         path="age"
       />
       <template #action="{ index, action, actionDom }">
-        <n-flex class="h-34px leading-34px mb-24px">
-          <n-button text @click="action.moveUp(index)">
-            <template #icon>
-              <n-icon>
-                <ArrowUpOutlined />
-              </n-icon>
-            </template>
-          </n-button>
-          <n-button text @click="action.moveDown(index)">
-            <template #icon>
-              <n-icon>
-                <ArrowDownOutlined />
-              </n-icon>
-            </template>
-          </n-button>
-          <component :is="actionDom" />
-        </n-flex>
+        <n-button text @click="action.moveUp(index)">
+          <template #icon>
+            <n-icon>
+              <ArrowUpOutlined />
+            </n-icon>
+          </template>
+        </n-button>
+        <n-button text @click="action.moveDown(index)">
+          <template #icon>
+            <n-icon>
+              <ArrowDownOutlined />
+            </n-icon>
+          </template>
+        </n-button>
+        <component :is="actionDom" />
       </template>
     </pro-form-list>
   </pro-form>

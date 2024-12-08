@@ -111,7 +111,7 @@ import type { VNodeChild } from 'vue'
 | date-quarter-range | [ProDateQuarterRange](field#ProDate)       |
 
 ### 默认值调整
-我们为了更加的好用,调整了一些默认值,如果你不满意,可以参考 [组件 Props 覆盖](XXXXX)
+我们为了更加的好用,调整了一些默认值,如果你不满意,可以参考 [组件 Props 覆盖](config-provider#prop-overrides.vue)
 - `xGap` 调整为 `24`
 - `labelWidth` 调整为 `80`
 - `cols` 调整为 `'1 s:2 l:3'`

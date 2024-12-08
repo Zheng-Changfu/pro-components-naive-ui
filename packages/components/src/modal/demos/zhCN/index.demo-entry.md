@@ -20,5 +20,5 @@ draggable.vue
 | [参考 NModal](https://www.naiveui.com/zh-CN/os-theme/components/modal) |      |      |      |
 
 ### 默认值调整
-我们为了更加的好用,调整了一些默认值,如果你不满意,可以参考 [组件 Props 覆盖](XXXXX)
+我们为了更加的好用,调整了一些默认值,如果你不满意,可以参考 [组件 Props 覆盖](config-provider#prop-overrides.vue)
 - `autoFocus` 调整为 `false`

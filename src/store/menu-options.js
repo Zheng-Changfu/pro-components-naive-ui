@@ -270,6 +270,12 @@ export function createComponentMenuOptions({ lang, theme }) {
           path: '/plain',
         },
         {
+          en: 'ProConfigProvider',
+          zh: '全局配置',
+          enSuffix: true,
+          path: '/config-provider',
+        },
+        {
           en: 'ProDataTable',
           zh: '数据表格',
           enSuffix: true,

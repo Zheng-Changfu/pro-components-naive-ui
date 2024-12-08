@@ -1,8 +1,8 @@
 <markdown>
 # 基本使用
 
-表单项的 `placeholder` 根据 `title` 生成，请查看 XXXX <br />
-默认的 `empty-text` 为 `-`，想要改变它，请查看 XXXXX<br />
+表单项的 `placeholder` 根据 `title` 生成，请查看[在现有国际化基础上调整](config-provider#edit-i18n.vue) <br />
+默认的 `empty-text` 为 `'-'`，想要改变它，请查看[空内容调整](config-provider#empty.vue)<br />
 如果你想表单必填，填写 `required` 为 `true` 即可，内部会自动处理不同的 `type`<br />
 如果按钮被 `pro-form` 包裹，使用 `attr-type` 为 `submit` 提交表单， `attr-type` 为 `reset` 重置表单<br />
 </markdown>
