@@ -65,7 +65,7 @@ export const ProTags = defineComponent({
 })
 
 export function renderTags(
-  value: string | ProTagsConfig | Array<string | ProTagsConfig[]>,
+  value: string | ProTagsConfig | Array<string | ProTagsConfig>,
   config?: Record<string, any>,
 ) {
   return (
