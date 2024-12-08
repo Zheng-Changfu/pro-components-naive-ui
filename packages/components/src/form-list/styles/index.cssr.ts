@@ -14,6 +14,11 @@ export default c([
       flex-wrap: wrap;
       align-items: start;
     `),
+    cB('pro-form-list__action', [
+      cB('form-item-blank', `
+        gap: 0 8px;  
+      `),
+    ]),
     cB('pro-form-list__button-add', [
       cM('top', `
         margin-block-end: 24px;

@@ -3,9 +3,9 @@ import type { ProButtonProps } from '../../button'
 import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
 import { get } from 'lodash-es'
-import { NFlex, NIcon, useThemeVars } from 'naive-ui'
+import { NFormItem, NIcon } from 'naive-ui'
 import { ROW_UUID, useInjectListField } from 'pro-composables'
-import { computed, defineComponent, Fragment, inject, provide, ref, toRef } from 'vue'
+import { computed, defineComponent, Fragment, provide, ref, toRef } from 'vue'
 import { useInjectProForm } from '../../../components'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
@@ -197,10 +197,8 @@ export default defineComponent({
   slots: Object as SlotsType<ProFormListSlots>,
   setup(props) {
     const form = useInjectProForm()
-    const themeVars = useThemeVars()
     const action = useInjectProFormListInst()!
     const mergedClsPrefix = useNaiveClsPrefix()
-    const nFormItem = inject<any>('n-form-item')
 
     const {
       readonly,
@@ -224,23 +222,6 @@ export default defineComponent({
       return onlyShowFirstItemLabel && index === 0
     })
 
-    const actionHeight = computed<string>(() => {
-      const {
-        heightSmall,
-        heightMedium,
-        heightLarge,
-      } = themeVars.value
-
-      const sizeToHeightMap = {
-        small: heightSmall,
-        medium: heightMedium,
-        large: heightLarge,
-      } as any
-
-      const size = nFormItem?.mergedSize?.value ?? 'medium'
-      return sizeToHeightMap[size]
-    })
-
     const row = computed(() => {
       if (!form) {
         return {}
@@ -261,7 +242,6 @@ export default defineComponent({
       total,
       action,
       rowPath,
-      actionHeight,
       showItemLabel,
       mergedClsPrefix,
     }
@@ -277,7 +257,6 @@ export default defineComponent({
       $slots,
       action,
       rowPath,
-      actionHeight,
       showItemLabel,
       mergedClsPrefix,
     } = this
@@ -301,26 +280,21 @@ export default defineComponent({
       />
     )
 
-    const resolvedActionDom = resolveSlotWithProps($slots.action, {
-      row,
-      total,
-      index,
-      action,
-      rowPath,
-      actionDom,
-    }, () => (
-      <NFlex
-        style={{
-          height: actionHeight,
-          linHeight: actionHeight,
-          marginBlockStart: showItemLabel
-            ? 'var(--n-feedback-height)'
-            : 0,
-        }}
+    const resolvedActionDom = (
+      <NFormItem
+        showLabel={showItemLabel}
+        class={[`${mergedClsPrefix}-pro-form-list__action`]}
       >
-        {actionDom}
-      </NFlex>
-    ))
+        {resolveSlotWithProps($slots.action, {
+          row,
+          total,
+          index,
+          action,
+          rowPath,
+          actionDom,
+        }, () => actionDom)}
+      </NFormItem>
+    )
 
     const itemDom = (
       <Fragment>
