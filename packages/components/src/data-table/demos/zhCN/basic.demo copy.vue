@@ -86,7 +86,7 @@ export default defineComponent({
     ])
 
     function change() {
-      // columns.value[3].tooltip = ['123', '234']
+      columns.value[3].tooltip = ['123', '234']
     }
 
     function onDragSortEnd(oldIndex: number, newIndex: number) {

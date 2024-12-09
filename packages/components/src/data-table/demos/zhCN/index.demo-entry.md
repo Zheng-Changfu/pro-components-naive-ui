@@ -4,7 +4,9 @@
 ## 演示
 
 ```demo
-basic.vue
+index.vue
+draggable-row.vue
+draggable-column.vue
 ```
 
 ## API
