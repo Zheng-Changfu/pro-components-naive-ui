@@ -27,13 +27,7 @@ async-form.vue
 | validateBehavior                                                                      | `ValidateBehavior`                                       | `-`     | 设为 `popover` 时验证不通过会通过 `popover` 进行提示 |      |
 | validationTrigger                                                                     | `ValidationTrigger \| ValidationTrigger[]`               | `input` | 表单验证时机                                         |      |
 | validateBehaviorProps                                                                 | `PopoverProps`                                           | `-`     | 验证不通过时传递的属性,只对 `popover` 生效           |      |
-| [参考 NForm Props](https://www.naiveui.com/zh-CN/os-theme/components/form#Form-Props) |                                                          |         |                                                      |      |
-
-### ProForm 不兼容属性
-
-| 名称  | 说明               | 版本 |
-| ----- | ------------------ | ---- |
-| model | 表单值内部进行管理 |      |
+| [参考 NForm Props](https://www.naiveui.com/zh-CN/os-theme/components/form#Form-Props) |                                                          |         | 不需要写 `model`,内置数据管理                        |      |
 
 ### createProForm
 创建一个表单控制器,如果已经注册了控制器,想在后代组件中使用,无需透传,可以使用 `useInjectProForm` 方法直接注入
