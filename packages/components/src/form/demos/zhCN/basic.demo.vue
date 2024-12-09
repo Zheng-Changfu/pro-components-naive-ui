@@ -23,6 +23,13 @@ export default defineComponent({
         onSubmit: console.log,
         onSubmitFailed: console.log,
       }),
+      rules: {
+        user: {
+          age: {
+            required: true,
+          },
+        },
+      },
     }
   },
 })
@@ -37,9 +44,24 @@ export default defineComponent({
       只读
     </template>
   </n-switch>
-  <pro-form :readonly="readonly" :form="form" label-placement="left" label-width="auto">
-    <pro-input tooltip="用户名" title="用户名" path="username" required />
-    <pro-password :tooltip="['多行tooltip1', '多行tooltip2']" title="密码" path="password" required />
+  <pro-form
+    :form="form"
+    :rules="rules"
+    :readonly="readonly"
+    label-width="auto"
+    label-placement="left"
+  >
+    <pro-input
+      title="用户名"
+      tooltip="用户名"
+      path="username"
+      required
+    />
+    <pro-digit
+      title="年龄"
+      path="user.age"
+      :tooltip="['多行tooltip1', '多行tooltip2']"
+    />
     <n-flex>
       <n-button attr-type="reset">
         重置

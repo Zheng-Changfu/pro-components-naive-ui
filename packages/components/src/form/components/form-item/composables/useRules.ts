@@ -1,6 +1,6 @@
 import type { FormItemRule } from 'naive-ui'
 import type { ProFormItemProps } from '../props'
-import { isArray, toString } from 'lodash-es'
+import { get, isArray, toString } from 'lodash-es'
 import { useInjectField } from 'pro-composables'
 import { computed, unref } from 'vue'
 import { isEmptyValue } from '../../../../_utils/isEmptyValue'
@@ -14,6 +14,7 @@ export function useRules(props: ProFormItemProps) {
   } = useLocale('ProForm')
 
   const {
+    rules,
     validationTrigger,
   } = useInjectProFormConfig()
 
@@ -29,30 +30,42 @@ export function useRules(props: ProFormItemProps) {
     return localeRequiredMessage(toString(title ?? label))
   }
 
-  return computed(() => {
-    const { rule, required } = props
-    let normalizedRule = (isArray(rule) ? [...rule] : [rule].filter(Boolean)) as FormItemRule[]
-    /**
-     * 解决 naive-ui 如果需要为一个值为 number 类型的表项设定 required，需要在 rule 对象中设定 `type: 'number'` 的问题
-     */
+  const mergedRules = computed<FormItemRule[]>(() => {
+    const formRules = rules.value
+    const { rule = [], path, required } = props
+    const normalizedFormItemRules = isArray(rule) ? [...rule] : [rule]
+
+    if (formRules !== undefined && path !== undefined) {
+      const formRule = get(formRules, path)
+      if (formRule !== undefined) {
+        isArray(formRule)
+          ? normalizedFormItemRules.push(...formRule)
+          : normalizedFormItemRules.push(formRule)
+      }
+    }
     if (required) {
-      normalizedRule.push({
+      normalizedFormItemRules.push({
         required: true,
-        validator: requiredValidator,
       })
     }
-    normalizedRule = normalizedRule.map((rule) => {
-      const { required } = rule
-      if (required) {
-        return {
-          ...rule,
-          validator: requiredValidator,
-        }
-      }
-      return rule
-    })
+    return normalizedFormItemRules
+  })
 
-    return normalizedRule
+  const finalRules = computed<FormItemRule[]>(() => {
+    return mergedRules.value
+      .map((rule) => {
+        const { required } = rule
+        if (required) {
+          /**
+           * 解决 naive-ui 需要在 rule 对象中设定 type 的问题
+           */
+          return {
+            ...rule,
+            validator: requiredValidator,
+          }
+        }
+        return rule
+      })
       .map((rule) => {
         return {
         /**
@@ -75,4 +88,6 @@ export function useRules(props: ProFormItemProps) {
         }
       })
   })
+
+  return finalRules
 }

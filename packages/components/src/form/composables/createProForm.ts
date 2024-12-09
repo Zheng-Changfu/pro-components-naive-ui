@@ -191,13 +191,15 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     validate()
       ?.then(({ warnings }) => {
         if (onSubmit) {
-          submiting.value = true
           const values = getFieldsTransformedValue()
-          return Promise
-            .resolve(onSubmit(values, warnings ?? []))
-            .finally(() => {
+          const response = onSubmit(values, warnings ?? [])
+          if (response instanceof Promise) {
+            submiting.value = true
+            response.finally(() => {
               submiting.value = false
             })
+          }
+          return response
         }
       })
       ?.catch((errors) => {

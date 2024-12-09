@@ -23,6 +23,10 @@ export const proFormExtendProps = {
     required: true,
   },
   /**
+   * 是否在按下回车后提交
+   */
+  submitOnEnter: Boolean,
+  /**
    * 表单验证时机
    */
   validationTrigger: {
@@ -50,11 +54,9 @@ export const proFormProps = {
   /**
    * 继承原来的属性
    * 剔除 model, 表单值内部管理
-   * 剔除 rules, 校验规则内部自动生成或在 ProField 上书写
    */
   ...simplyOmit(formProps, [
     'model',
-    'rules',
   ]),
   ...proFormExtendProps,
 } as const

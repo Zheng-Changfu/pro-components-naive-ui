@@ -30,7 +30,7 @@ export default defineComponent({
         'zh-CN': {
           start: '开始使用',
           intro1: '基于 Naive UI 二次封装',
-          intro2: '适用于中后台项目，让君少写些代码',
+          intro2: '适用于中后台项目，希望让你早点下班，多点时间陪伴家人',
           intro3: '',
           intro4: '换个主题',
         },

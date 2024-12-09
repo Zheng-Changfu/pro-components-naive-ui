@@ -45,8 +45,8 @@ importers:
         specifier: ^12.0.2
         version: 12.0.2
       pro-composables:
-        specifier: ^1.3.0
-        version: 1.3.0(type-fest@4.26.1)(vue@3.4.27(typescript@5.6.3))
+        specifier: ^1.3.1
+        version: 1.3.1(type-fest@4.26.1)(vue@3.4.27(typescript@5.6.3))
       seemly:
         specifier: ^0.3.8
         version: 0.3.9
@@ -2752,8 +2752,8 @@ packages:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  pro-composables@1.3.0:
-    resolution: {integrity: sha512-8rMi9TZ0fpVFo+x9PKBqAeR8X97byYBRUHKvPPZ8AXF7KI8LXZAtB4u+7WJl3GfS78F+aIvUM6qVqet7jedGmQ==}
+  pro-composables@1.3.1:
+    resolution: {integrity: sha512-Y1yY98ak1aCkrbiIybOzBDjrgg+NKsmRSiSgX2pFcB9ufp3ARG/XlwEju0pZ74fQyxI9BIg+sQf1PM5U5UCE8w==}
     peerDependencies:
       type-fest: '>=4.0.0'
       vue: '>=3.0.0'
@@ -6534,7 +6534,7 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 18.3.1
 
-  pro-composables@1.3.0(type-fest@4.26.1)(vue@3.4.27(typescript@5.6.3)):
+  pro-composables@1.3.1(type-fest@4.26.1)(vue@3.4.27(typescript@5.6.3)):
     dependencies:
       '@vueuse/core': 10.11.1(vue@3.4.27(typescript@5.6.3))
       type-fest: 4.26.1
