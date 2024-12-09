@@ -23,6 +23,10 @@ export const proFormExtendProps = {
     required: true,
   },
   /**
+   * 是否在按下回车后提交
+   */
+  submitOnEnter: Boolean,
+  /**
    * 表单验证时机
    */
   validationTrigger: {

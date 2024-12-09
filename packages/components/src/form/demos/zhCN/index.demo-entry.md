@@ -23,6 +23,7 @@ async-form.vue
 | ------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------- | ---------------------------------------------------- | ---- |
 | form                                                                                  | 必填,参考 <n-a href="#createProForm">createProForm</n-a> | `-`     | 表单控制器                                           |      |
 | readonly                                                                              | `boolean`                                                | `-`     | 表单是否为只读状态                                   |      |
+| submitOnEnter                                                                         | `boolean`                                                | `false` | 是否在按下回车后提交                                 |      |
 | validateBehavior                                                                      | `ValidateBehavior`                                       | `-`     | 设为 `popover` 时验证不通过会通过 `popover` 进行提示 |      |
 | validationTrigger                                                                     | `ValidationTrigger \| ValidationTrigger[]`               | `input` | 表单验证时机                                         |      |
 | validateBehaviorProps                                                                 | `PopoverProps`                                           | `-`     | 验证不通过时传递的属性,只对 `popover` 生效           |      |
