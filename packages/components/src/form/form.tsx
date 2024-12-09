@@ -69,6 +69,7 @@ export default defineComponent({
 
     provide(proFormConfigInjectionKey, {
       validationResults,
+      rules: computed(() => overridedProps.value.rules),
       readonly: computed(() => overridedProps.value.readonly),
       validateBehavior: computed(() => overridedProps.value.validateBehavior),
       validationTrigger: computed(() => overridedProps.value.validationTrigger),
