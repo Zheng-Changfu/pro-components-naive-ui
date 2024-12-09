@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pro Naive UI: 二次封装 Naive UI ，让君少写些代码</title>
+  <title>Pro Naive UI</title>
 </head>
 
 <body>
@@ -15,17 +15,9 @@
       ? 'zh-CN'
       : undefined
     function deriveTitleFromLocale(locale = navigator.language) {
-      document.title = 'Pro Naive UI: 二次封装 Naive UI ，让君少写些代码'
+      document.title = 'Pro Naive UI'
     }
     deriveTitleFromLocale(pathLocale)
-  </script>
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const p = urlParams.get('path');
-
-    if (p) {
-      history.replaceState(null, '', p + window.location.hash);
-    }
   </script>
   <div id="app"></div>
   <script type="module" src="/src/main.ts"></script>
