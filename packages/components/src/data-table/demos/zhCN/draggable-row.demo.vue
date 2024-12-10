@@ -92,7 +92,7 @@ export default defineComponent({
   >
     <template #extra>
       <div>
-        不依赖手柄: <n-switch v-model:value="dragHandle" />
+        依赖手柄拖拽: <n-switch v-model:value="dragHandle" />
       </div>
     </template>
   </pro-data-table>

@@ -50,6 +50,8 @@ export default defineComponent({
 <template>
   <pro-data-table
     :data="data"
+    title="表格标题"
+    tooltip="表格标题"
     :columns="columns"
   />
 </template>
