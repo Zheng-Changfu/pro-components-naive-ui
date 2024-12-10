@@ -26,8 +26,8 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
   })
 
   function convertProColumnsToColumns(columns: ProDataTableColumn[]): DataTableColumn[] {
-    const dragSortKey = props.value.dragSortKey
     const childrenKey = props.value.childrenKey ?? 'children'
+    const dragSortColumnPath = props.value.dragSortOptions?.columnPath
     return mapTree(columns, (column) => {
       if (isIndexColumn(column)) {
         return createIndexColumn(column)
@@ -50,7 +50,7 @@ export function useColumns(props: ComputedRef<ProDataTableProps>, options: UseCo
           title: renderTooltipTitle(title, tooltip),
         }
       }
-      if (isDragSortColumn(column, dragSortKey)) {
+      if (isDragSortColumn(column, dragSortColumnPath)) {
         return createDragSortColumn(column)
       }
       return createBaseColumn(column)

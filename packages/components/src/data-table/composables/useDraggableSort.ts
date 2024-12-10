@@ -1,10 +1,12 @@
+import type { SortableOptions } from 'sortablejs'
 import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
-import { isNumber } from 'lodash-es'
+import { isNil } from 'lodash-es'
 import { uid } from 'pro-composables'
-import { computed, getCurrentInstance, watchPostEffect } from 'vue'
-import { useDraggable } from 'vue-draggable-plus'
+import Sortable from 'sortablejs'
+import { computed, getCurrentInstance, onUnmounted, watchPostEffect } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
+import { warn } from '../../_utils/warn'
 
 export function useDraggableSort(props: ComputedRef<ProDataTableProps>) {
   const clsPrefix = useNaiveClsPrefix()
@@ -16,45 +18,53 @@ export function useDraggableSort(props: ComputedRef<ProDataTableProps>) {
     return root?.querySelector(`.${clsPrefix.value}-data-table-tbody`) as HTMLElement
   })
 
-  const exitDragSortColumn = computed(() => {
-    const { dragSortKey, columns = [] } = props.value
-    return dragSortKey && columns.some((item: any) => item.path === dragSortKey || item.key === dragSortKey)
+  const mergedSortableOptions = computed<SortableOptions>(() => {
+    const {
+      onEnd,
+      handle,
+      columnPath,
+      ...sortableOptions
+    } = props.value.dragSortOptions ?? {}
+
+    return {
+      animation: 200,
+      handle: handle === false ? undefined : `.${dragHandleId}`,
+      ...sortableOptions,
+    }
   })
 
-  const { start, pause } = useDraggable(
-    nDataTableTBody,
-    {
-      immediate: false,
-      animation: 200,
-      handle: `.${dragHandleId}`,
-      onEnd: (event) => {
-        const { oldIndex, newIndex } = event
-        const { onDragSortEnd } = props.value
-        if (
-          onDragSortEnd
-          && isNumber(oldIndex)
-          && isNumber(newIndex)
-          && oldIndex !== newIndex
-        ) {
-          onDragSortEnd(oldIndex, newIndex)
-        }
-      },
-    },
-  )
-
+  let sortable: Sortable
   watchPostEffect(() => {
-    const node = nDataTableTBody.value
-    if (
-      node
-      && exitDragSortColumn.value
-      && !props.value.virtualScroll
-      && !props.value.virtualScrollX
-    ) {
-      start()
+    const dom = nDataTableTBody.value
+    sortable && sortable.destroy()
+    if (dom) {
+      sortable = Sortable.create(dom, {
+        ...mergedSortableOptions.value,
+        onEnd: (event) => {
+          const { oldIndex, newIndex } = event
+          const { dragSortOptions } = props.value
+          const { onEnd } = dragSortOptions ?? {}
+          if (!onEnd) {
+            if (__DEV__) {
+              warn(
+                'data-table',
+                'You should synchronize your data source in the onEnd callback',
+              )
+            }
+          }
+          else {
+            if (isNil(oldIndex) || isNil(newIndex) || oldIndex === newIndex) {
+              return
+            }
+            onEnd(event as any)
+          }
+        },
+      })
     }
-    else {
-      pause()
-    }
+  })
+
+  onUnmounted(() => {
+    sortable && sortable.destroy()
   })
 
   return {

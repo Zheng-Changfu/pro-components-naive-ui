@@ -16,4 +16,6 @@ export * from './slots'
 export type {
   ProDataTableColumn,
   ProDataTableColumns,
+  ProDataTableDragSortEnd,
+  ProDataTableDragSortOptions,
 } from './types'

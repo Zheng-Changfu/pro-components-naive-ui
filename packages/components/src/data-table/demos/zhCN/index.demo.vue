@@ -49,10 +49,7 @@ export default defineComponent({
 
 <template>
   <pro-data-table
-    title="序号列"
-    tooltip="序号列"
     :data="data"
     :columns="columns"
-    :row-key="(row:any) => row.id"
   />
 </template>

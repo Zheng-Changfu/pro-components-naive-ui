@@ -1,4 +1,5 @@
 import type { TableBaseColumn, TableColumnGroup, TableExpandColumn, TableSelectionColumn } from 'naive-ui/es/data-table/src/interface'
+import type { SortableEvent, SortableOptions } from 'sortablejs'
 import type { Merge, Paths } from 'type-fest'
 import type { VNodeChild } from 'vue'
 
@@ -64,3 +65,20 @@ export type ProDataTableColumn<RowData = any> =
   | ProDataTableExpandColumn<RowData>
 
 export type ProDataTableColumns<RowData = any> = ProDataTableColumn<RowData>[]
+
+export interface ProDataTableDragSortOptions extends Omit<SortableOptions, 'onEnd' | 'handle'> {
+  /**
+   * 使用 false 则整个表格体都可以拖拽排序，不在依赖手柄
+   */
+  handle?: false
+  /**
+   * 配置了这个参数，会在该 path 对应的行显示拖拽行的把手，允许拖拽排序
+   */
+  columnPath?: string
+  /**
+   * 拖拽结束事件，需要同步数据源
+   */
+  onEnd?: ProDataTableDragSortEnd
+}
+
+export type ProDataTableDragSortEnd = (event: Merge<SortableEvent, { newIndex: number, oldIndex: number }>) => void
