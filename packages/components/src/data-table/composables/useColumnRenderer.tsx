@@ -136,12 +136,12 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       render(row, rowIndex) {
         return render
           ? (
-              <div
+              <span
                 class={dragHandleId}
                 onClick={e => e.stopPropagation()}
               >
                 {render(row, rowIndex)}
-              </div>
+              </span>
             )
           : (
               <NButton
