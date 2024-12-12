@@ -1,27 +1,21 @@
 <markdown>
 # 异步
 
-这是一个使用 [VueRequest](https://cn.attojs.org/) 异步请求数据的例子,我们没有将数据源集成在封装的组件中,因为这会让你在处理一些复杂需求时很棘手,另外一方面也为了性能考虑(为了保持数据同步,不得不深度监听),总之一句话就是`数据源应该是自上而下的、用户能接触到的`
-才能面对各种场景
-
-<n-alert type="info" title="Tip" :bordered="false">
-  我们有计划推出一个分页请求的 composable api
-</n-alert>
+我们封装了 [useNDataTable](XXXXX) 帮助你轻松对接 `NDataTable`
 </markdown>
 
 <script lang="tsx">
 import type { ProDataTableColumns } from 'pro-naive-ui'
-import { renderCopyableText, renderDateText, renderImages, renderTags } from 'pro-naive-ui'
-import { defineComponent, ref } from 'vue'
-import { usePagination } from 'vue-request'
+import { renderCopyableText, renderDateText, renderImages, renderTags, useNDataTable } from 'pro-naive-ui'
+import { computed, defineComponent, ref } from 'vue'
 
 function fetchList(params: any) {
   console.log(params, '@@@')
-  return new Promise<{ total: number, data: any[] }>((resolve) => {
+  return new Promise<{ total: number, list: any[] }>((resolve) => {
     setTimeout(() => {
       resolve({
         total: 987,
-        data: [
+        list: [
           { now: Date.now(), src: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg', no: '3', title: 'Wonderwall', length: '4:18' },
           { now: Date.now(), src: '', no: '', title: 'Don\'t Look Back in Anger', length: '4:48' },
           { now: Date.now(), src: undefined, no: '12', title: 'Champagne Supernova', length: '7:27' },
@@ -65,24 +59,24 @@ export default defineComponent({
       },
     ])
 
-    const {
-      data,
-      total,
-      current,
-      loading,
-      pageSize,
-    } = usePagination(fetchList, {
-      refreshOnWindowFocus: true,
-      refocusTimespan: 1000,
+    const { tableProps } = useNDataTable(fetchList)
+
+    const x = computed(() => {
+      const { pagination, ...rest } = tableProps.value
+      return {
+        ...rest,
+        pagination: {
+          ...pagination,
+          showSizePicker: true,
+          pageSizes: [10, 20, 30, 40],
+        },
+      }
     })
 
     return {
-      data,
-      total,
+      x,
       columns,
-      current,
-      loading,
-      pageSize,
+      tableProps,
     }
   },
 })
@@ -91,17 +85,8 @@ export default defineComponent({
 <template>
   <pro-data-table
     title="远程数据"
-    remote
-    :data="data?.data"
     :columns="columns"
-    :loading="loading"
     :row-key="row => row.no"
-    :pagination="{
-      pageSize,
-      page: current,
-      itemCount: total,
-      onUpdatePage: (val) => current = val,
-      onUpdatePageSize: (val) => pageSize = val,
-    }"
+    v-bind="x"
   />
 </template>

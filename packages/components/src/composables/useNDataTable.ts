@@ -25,8 +25,8 @@ export type UseNaiveDataTableParams = [
      * 分页大小
      */
     pageSize: number
-    filters?: DataTableFilterState
-    sorter?: DataTableSortState | DataTableSortState[] | null
+    filters: DataTableFilterState
+    sorter: DataTableSortState | DataTableSortState[] | null
     [key: string]: any
   },
   ...any[],
@@ -69,7 +69,7 @@ export interface UseNaiveDataTableReturn<
   }>
 }
 
-export function useNaiveDataTable<
+export function useNDataTable<
   Data extends UseNaiveDataTableData,
   Params extends UseNaiveDataTableParams,
 >(
@@ -118,8 +118,8 @@ export function useNaiveDataTable<
     onTableChange(
       page,
       pagination.pageSize.value,
-      params.value?.[0].filters ?? {},
-      params.value?.[0].sorter ?? null,
+      params.value?.[0]?.filters ?? {},
+      params.value?.[0]?.sorter ?? null,
     )
   }
 
@@ -132,8 +132,8 @@ export function useNaiveDataTable<
     onTableChange(
       pagination.current.value,
       pageSize,
-      params.value?.[0].filters ?? {},
-      params.value?.[0].sorter ?? null,
+      params.value?.[0]?.filters ?? {},
+      params.value?.[0]?.sorter ?? null,
     )
   }
 
@@ -147,7 +147,7 @@ export function useNaiveDataTable<
       pagination.current.value,
       pagination.pageSize.value,
       filters,
-      params.value?.[0].sorter ?? null,
+      params.value?.[0]?.sorter ?? null,
     )
   }
 
@@ -160,7 +160,7 @@ export function useNaiveDataTable<
     onTableChange(
       pagination.current.value,
       pagination.pageSize.value,
-      params.value?.[0].filters ?? {},
+      params.value?.[0]?.filters ?? {},
       sorters,
     )
   }
@@ -175,8 +175,8 @@ export function useNaiveDataTable<
       onTableChange(
         pagination.current.value,
         pagination.pageSize.value,
-        params.value?.[0].filters ?? {},
-        params.value?.[0].sorter ?? null,
+        params.value?.[0]?.filters ?? {},
+        params.value?.[0]?.sorter ?? null,
       )
     }
   })
@@ -193,7 +193,7 @@ export function useNaiveDataTable<
       return {
         remote: true,
         loading: loading.value,
-        data: data.value.list ?? [],
+        data: data.value?.list ?? [],
         pagination: {
           page: pagination.current.value,
           itemCount: pagination.total.value,
