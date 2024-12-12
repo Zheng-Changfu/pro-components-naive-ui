@@ -1,4 +1,5 @@
 export * from './useComponentInst'
+export * from './useNaiveDataTable'
 export * from './useOmitProps'
 export * from './useOverrideProps'
 export * from './usePostValue'

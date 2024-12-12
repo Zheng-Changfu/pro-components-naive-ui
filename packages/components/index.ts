@@ -1,6 +1,7 @@
 export * from './components'
 export * from './create'
 export { default, install } from './preset'
+export { useNaiveDataTable } from './src/composables/useNaiveDataTable'
 export { useOverrideProps } from './src/composables/useOverrideProps'
 export * from './src/locales'
 export { default as version } from './version'
