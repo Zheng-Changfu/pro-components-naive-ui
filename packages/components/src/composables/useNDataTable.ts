@@ -1,10 +1,11 @@
 import type { DataTableFilterState, DataTableProps, DataTableSortState } from 'naive-ui'
 import type { UsePaginationOptions, UsePaginationReturn } from 'pro-composables'
 import type { ComputedRef } from 'vue'
+import { isNil } from 'lodash-es'
 import { usePagination } from 'pro-composables'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 
-export interface UseNaiveDataTableData {
+export interface UseNDataTableData {
   /**
    * 总条数
    */
@@ -15,7 +16,9 @@ export interface UseNaiveDataTableData {
   list: any[]
 }
 
-export type UseNaiveDataTableParams = [
+type FormValues = Record<string, any>
+
+export type UseNDataTableParams = [
   {
     /**
      * 当前页码
@@ -25,37 +28,38 @@ export type UseNaiveDataTableParams = [
      * 分页大小
      */
     pageSize: number
+    /**
+     * 过滤条件的数据
+     */
     filters: DataTableFilterState
+    /**
+     * 列的排序数据
+     */
     sorter: DataTableSortState | DataTableSortState[] | null
     [key: string]: any
   },
+  FormValues,
   ...any[],
 ]
 
-export type UseNaiveDataTableService<Data extends UseNaiveDataTableData, Params extends UseNaiveDataTableParams> = (
+export interface SearchFormLike {
+  getFieldsTransformedValue: () => FormValues
+}
+
+export type UseNDataTableService<Data extends UseNDataTableData, Params extends UseNDataTableParams> = (
   ...args: Params
 ) => Promise<Data>
 
-/**
- * 联动查询表单需要满足这个类型
- */
-export interface SearchFormLike {
-  validate: () => any
-  onReset: () => void
-  onSubmit: () => void
-  getFieldsValue: () => Record<string, any>
-}
-
-export interface UseNaiveDataTableOptions<
-  Data extends UseNaiveDataTableData,
-  Params extends UseNaiveDataTableParams,
+export interface UseNDataTableOptions<
+  Data extends UseNDataTableData,
+  Params extends UseNDataTableParams,
 > extends UsePaginationOptions<Data, Params> {
   form?: SearchFormLike
 }
 
-export interface UseNaiveDataTableReturn<
-  Data extends UseNaiveDataTableData,
-  Params extends UseNaiveDataTableParams,
+export interface UseNDataTableReturn<
+  Data extends UseNDataTableData,
+  Params extends UseNDataTableParams,
 > extends UsePaginationReturn<Data, Params> {
   tableProps: ComputedRef<{
     remote: true
@@ -67,19 +71,27 @@ export interface UseNaiveDataTableReturn<
     onUpdateFilters: Exclude<DataTableProps['onUpdateFilters'], undefined>
     onUpdatePageSize: Exclude<DataTableProps['onUpdatePageSize'], undefined>
   }>
+  onTableChange: (options?: {
+    page?: number
+    pageSize?: number
+    filters?: DataTableFilterState
+    sorter?: DataTableSortState | DataTableSortState[] | null
+  }
+  ) => Promise<any>
 }
 
 export function useNDataTable<
-  Data extends UseNaiveDataTableData,
-  Params extends UseNaiveDataTableParams,
+  Data extends UseNDataTableData,
+  Params extends UseNDataTableParams,
 >(
-  service: UseNaiveDataTableService<Data, Params>,
-  options: UseNaiveDataTableOptions<Data, Params> = {},
-): UseNaiveDataTableReturn<Data, Params> {
+  service: UseNDataTableService<Data, Params>,
+  options: UseNDataTableOptions<Data, Params> = {},
+): UseNDataTableReturn<Data, Params> {
   const {
     form,
     manual,
-    defaultParams,
+    refreshDeps,
+    refreshDepsAction,
     ...rest
   } = options
 
@@ -88,101 +100,73 @@ export function useNDataTable<
     manual: true,
   })
 
+  if (!isNil(refreshDeps)) {
+    watch(refreshDeps, () => {
+      if (!manual) {
+        refreshDepsAction
+          ? refreshDepsAction()
+          : onTableChange({ page: 1 })
+      }
+    })
+  }
+
   function onTableChange(
-    page: number,
-    pageSize: number,
-    filters: DataTableFilterState,
-    sorter: DataTableSortState | DataTableSortState[] | null,
+    options: {
+      page?: number
+      pageSize?: number
+      filters?: DataTableFilterState
+      sorter?: DataTableSortState | DataTableSortState[] | null
+    } = {},
   ) {
-    const { run, params } = fetchInst
+    const { runAsync, pagination, params } = fetchInst
     const [prevParams, ...restParams] = params.value ?? []
-    run(
+    const formValues = form ? form.getFieldsTransformedValue() : {}
+
+    return runAsync(
       // @ts-ignore
       {
-        ...prevParams,
-        sorter,
-        filters,
-        pageSize,
-        current: page,
+        ...(prevParams ?? {}),
+        current: options.page ?? pagination.current.value,
+        sorter: options.sorter ?? prevParams?.sorter ?? null,
+        filters: options.filters ?? prevParams?.filters ?? {},
+        pageSize: options.pageSize ?? pagination.pageSize.value,
       },
+      formValues,
       ...restParams,
     )
   }
 
   function onUpdatePage(page: number) {
-    const {
-      params,
-      pagination,
-    } = fetchInst
-
-    onTableChange(
-      page,
-      pagination.pageSize.value,
-      params.value?.[0]?.filters ?? {},
-      params.value?.[0]?.sorter ?? null,
-    )
+    onTableChange({ page })
   }
 
   function onUpdatePageSize(pageSize: number) {
-    const {
-      params,
-      pagination,
-    } = fetchInst
-
-    onTableChange(
-      pagination.current.value,
-      pageSize,
-      params.value?.[0]?.filters ?? {},
-      params.value?.[0]?.sorter ?? null,
-    )
+    const { total, current } = fetchInst.pagination
+    const totalPage = Math.ceil(total.value / pageSize)
+    let _current = current.value
+    if (_current > totalPage) {
+      _current = Math.max(1, totalPage)
+    }
+    onTableChange({ page: _current, pageSize })
   }
 
   function onUpdateFilters(filters: DataTableFilterState) {
-    const {
-      params,
-      pagination,
-    } = fetchInst
-
-    onTableChange(
-      pagination.current.value,
-      pagination.pageSize.value,
-      filters,
-      params.value?.[0]?.sorter ?? null,
-    )
+    onTableChange({ filters })
   }
 
-  function onUpdateSorter(sorters: DataTableSortState | DataTableSortState[] | null) {
-    const {
-      params,
-      pagination,
-    } = fetchInst
-
-    onTableChange(
-      pagination.current.value,
-      pagination.pageSize.value,
-      params.value?.[0]?.filters ?? {},
-      sorters,
-    )
+  function onUpdateSorter(sorter: DataTableSortState | DataTableSortState[] | null) {
+    onTableChange({ sorter })
   }
 
   onMounted(() => {
     if (!manual) {
-      const {
-        params,
-        pagination,
-      } = fetchInst
-
-      onTableChange(
-        pagination.current.value,
-        pagination.pageSize.value,
-        params.value?.[0]?.filters ?? {},
-        params.value?.[0]?.sorter ?? null,
-      )
+      onTableChange()
     }
   })
 
   return {
     ...fetchInst,
+    onTableChange,
     tableProps: computed(() => {
       const {
         data,

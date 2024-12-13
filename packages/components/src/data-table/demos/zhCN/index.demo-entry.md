@@ -8,7 +8,7 @@ index.vue
 draggable-row.vue
 and-plain-component.vue
 table-slot.vue
-vue-request.vue
+use-request.vue
 ```
 
 ## API

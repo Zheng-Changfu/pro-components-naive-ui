@@ -6,8 +6,8 @@
 
 <script lang="tsx">
 import type { ProDataTableColumns } from 'pro-naive-ui'
-import { renderCopyableText, renderDateText, renderImages, renderTags, useNDataTable } from 'pro-naive-ui'
-import { computed, defineComponent, ref } from 'vue'
+import { renderCopyableText, renderImages, useNDataTable } from 'pro-naive-ui'
+import { defineComponent, ref } from 'vue'
 
 function fetchList(params: any) {
   console.log(params, '@@@')
@@ -36,45 +36,43 @@ export default defineComponent({
   setup() {
     const columns = ref<ProDataTableColumns<{ src: any, title: string, now: number }>>([
       {
-        title: '可复制文本',
+        title: '远程过滤',
+        filter: true,
+        path: 'filter',
         width: 300,
+        filterOptions: [
+          {
+            label: 'value1',
+            value: 1,
+          },
+          {
+            label: 'value2',
+            value: 2,
+          },
+        ],
         render: row => renderCopyableText(row.title),
       },
       {
-        title: 'tags',
-        width: 100,
-        render: row => renderTags(row.title),
-      },
-      {
-        title: '日期格式化',
-        width: 100,
-        render: row => renderDateText(row.now, {
-          pattern: 'quarter',
-        }),
+        title: '远程排序',
+        width: 300,
+        path: 'title',
+        sorter: true,
+        sortOrder: false,
       },
       {
         title: '图片',
-        width: 200,
         render: row => renderImages(row.src),
       },
     ])
 
-    const { tableProps } = useNDataTable(fetchList)
-
-    const x = computed(() => {
-      const { pagination, ...rest } = tableProps.value
-      return {
-        ...rest,
-        pagination: {
-          ...pagination,
-          showSizePicker: true,
-          pageSizes: [10, 20, 30, 40],
-        },
-      }
-    })
+    const { tableProps } = useNDataTable(({
+      current,
+      pageSize,
+      sorter,
+      filters,
+    }) => fetchList({ current, pageSize, sorter, filters }))
 
     return {
-      x,
       columns,
       tableProps,
     }
@@ -87,6 +85,6 @@ export default defineComponent({
     title="远程数据"
     :columns="columns"
     :row-key="row => row.no"
-    v-bind="x"
+    v-bind="tableProps"
   />
 </template>
