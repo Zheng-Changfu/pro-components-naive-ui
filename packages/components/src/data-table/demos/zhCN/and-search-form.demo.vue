@@ -1,20 +1,21 @@
 <markdown>
 # 搭配查询表单
+
+这也是一个表格高度自适应的案例
 </markdown>
 
 <script lang="tsx">
 import type { ProDataTableColumns, ProSearchFormColumns } from 'pro-naive-ui'
-import { createProSearchForm, renderCopyableText, renderDateText, renderImages, renderTags } from 'pro-naive-ui'
+import { createProSearchForm, renderCopyableText, renderDateText, renderImages, renderTags, useNDataTable } from 'pro-naive-ui'
 import { defineComponent, ref } from 'vue'
-import { usePagination } from 'vue-request'
 
-function fetchList(params: any) {
-  console.log(params, '@@@')
-  return new Promise<{ total: number, data: any[] }>((resolve) => {
+function fetchList(params: any, values: any) {
+  console.log(params, values, '@@@')
+  return new Promise<{ total: number, list: any[] }>((resolve) => {
     setTimeout(() => {
       resolve({
         total: 987,
-        data: [
+        list: [
           { now: Date.now(), src: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg', no: '3', title: 'Wonderwall', length: '4:18' },
           { now: Date.now(), src: '', no: '', title: 'Don\'t Look Back in Anger', length: '4:48' },
           { now: Date.now(), src: undefined, no: '12', title: 'Champagne Supernova', length: '7:27' },
@@ -82,68 +83,56 @@ export default defineComponent({
       },
     ]
 
-    const {
-      run,
-      data,
-      total,
-      current,
-      loading,
-      pageSize,
-    } = usePagination(fetchList)
-
     const searchForm = createProSearchForm({
-      onSubmit(values) {
-        run(values)
+      initialValues: {
+        responseTime: Date.now(),
       },
     })
 
-    return {
-      data,
-      total,
-      columns,
+    const {
+      table: {
+        tableProps,
+      },
+      search: {
+        proSearchFormProps,
+      },
+    } = useNDataTable(({
       current,
-      loading,
       pageSize,
+      filters,
+      sorter,
+    }, values) => fetchList({ current, pageSize, filters, sorter }, values), {
+      form: searchForm,
+    })
+
+    return {
+      columns,
+      tableProps,
       searchColumns,
       form: searchForm,
-      height: ref(500),
+      proSearchFormProps,
     }
   },
 })
 </script>
 
 <template>
-  <div class="mb-24px">
-    <span>表格高度自适应:</span>
-    <n-slider
-      v-model:value="height"
-      :min="500"
-      :max="900"
-      :step="100"
-      class="max-w-180px"
-    />
-  </div>
-  <div class="flex flex-col" :style="{ height: `${height}px` }">
-    <pro-search-form
-      :form="form"
-      label-placement="top"
-      :columns="searchColumns"
-    />
+  <!-- 在后台场景中你需要设置为弹性盒子，然后 flex-1 即可，不需要加这个高度 -->
+  <div class="flex flex-col" :style="{ height: '800px' }">
+    <pro-card title="筛选条件" class="mb-24px">
+      <pro-search-form
+        :form="form"
+        label-placement="top"
+        :columns="searchColumns"
+        v-bind="proSearchFormProps"
+      />
+    </pro-card>
     <pro-data-table
       title="查询表格"
-      remote
       flex-height
-      :data="data?.data"
       :columns="columns"
-      :loading="loading"
       :row-key="row => row.no"
-      :pagination="{
-        pageSize,
-        page: current,
-        itemCount: total,
-        onUpdatePage: (val) => current = val,
-        onUpdatePageSize: (val) => pageSize = val,
-      }"
+      v-bind="tableProps"
     />
   </div>
 </template>

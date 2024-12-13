@@ -1,9 +1,10 @@
 import type { DataTableFilterState, DataTableProps, DataTableSortState } from 'naive-ui'
 import type { UsePaginationOptions, UsePaginationReturn } from 'pro-composables'
 import type { ComputedRef } from 'vue'
+import type { ProButtonProps } from '../button'
 import { isNil } from 'lodash-es'
 import { usePagination } from 'pro-composables'
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 export interface UseNDataTableData {
   /**
@@ -61,23 +62,37 @@ export interface UseNDataTableReturn<
   Data extends UseNDataTableData,
   Params extends UseNDataTableParams,
 > extends UsePaginationReturn<Data, Params> {
-  tableProps: ComputedRef<{
-    remote: true
-    loading: boolean
-    data: Data['list']
-    pagination: Exclude<DataTableProps['pagination'], undefined>
-    onUpdatePage: Exclude<DataTableProps['onUpdatePage'], undefined>
-    onUpdateSorter: Exclude<DataTableProps['onUpdateSorter'], undefined>
-    onUpdateFilters: Exclude<DataTableProps['onUpdateFilters'], undefined>
-    onUpdatePageSize: Exclude<DataTableProps['onUpdatePageSize'], undefined>
-  }>
-  onTableChange: (options?: {
-    page?: number
-    pageSize?: number
-    filters?: DataTableFilterState
-    sorter?: DataTableSortState | DataTableSortState[] | null
+  table: {
+    tableProps: ComputedRef<{
+      remote: true
+      loading: boolean
+      data: Data['list']
+      pagination: Exclude<DataTableProps['pagination'], undefined>
+      onUpdatePage: Exclude<DataTableProps['onUpdatePage'], undefined>
+      onUpdateSorter: Exclude<DataTableProps['onUpdateSorter'], undefined>
+      onUpdateFilters: Exclude<DataTableProps['onUpdateFilters'], undefined>
+      onUpdatePageSize: Exclude<DataTableProps['onUpdatePageSize'], undefined>
+    }>
+    onChange: (options?: {
+      page?: number
+      pageSize?: number
+      filters?: DataTableFilterState
+      sorter?: DataTableSortState | DataTableSortState[] | null
+    }
+    ) => void
   }
-  ) => Promise<any>
+  search: {
+    reset: () => void
+    submit: () => void
+    resetLoading: ComputedRef<boolean>
+    searchLoading: ComputedRef<boolean>
+    proSearchFormProps: ComputedRef<{
+      onReset: () => void
+      onSubmit: () => void
+      resetButtonProps: ProButtonProps
+      searchButtonProps: ProButtonProps
+    }>
+  }
 }
 
 export function useNDataTable<
@@ -90,14 +105,23 @@ export function useNDataTable<
   const {
     form,
     manual,
+    onFinally,
     refreshDeps,
     refreshDepsAction,
     ...rest
   } = options
 
+  const resetLoading = ref(false)
+  const searchLoading = ref(false)
+
   const fetchInst = usePagination(service, {
     ...rest,
     manual: true,
+    onFinally(...args) {
+      resetLoading.value = false
+      searchLoading.value = false
+      onFinally && onFinally(...args)
+    },
   })
 
   if (!isNil(refreshDeps)) {
@@ -118,11 +142,11 @@ export function useNDataTable<
       sorter?: DataTableSortState | DataTableSortState[] | null
     } = {},
   ) {
-    const { runAsync, pagination, params } = fetchInst
+    const { run, pagination, params } = fetchInst
     const [prevParams, ...restParams] = params.value ?? []
     const formValues = form ? form.getFieldsTransformedValue() : {}
 
-    return runAsync(
+    run(
       // @ts-ignore
       {
         ...(prevParams ?? {}),
@@ -134,6 +158,16 @@ export function useNDataTable<
       formValues,
       ...restParams,
     )
+  }
+
+  function submit() {
+    searchLoading.value = true
+    onTableChange({ page: 1 })
+  }
+
+  function reset() {
+    resetLoading.value = true
+    onTableChange({ page: 1 })
   }
 
   function onUpdatePage(page: number) {
@@ -166,28 +200,48 @@ export function useNDataTable<
 
   return {
     ...fetchInst,
-    onTableChange,
-    tableProps: computed(() => {
-      const {
-        data,
-        loading,
-        pagination,
-      } = fetchInst
+    table: {
+      onChange: onTableChange,
+      tableProps: computed(() => {
+        const {
+          data,
+          loading,
+          pagination,
+        } = fetchInst
 
-      return {
-        remote: true,
-        loading: loading.value,
-        data: data.value?.list ?? [],
-        pagination: {
-          page: pagination.current.value,
-          itemCount: pagination.total.value,
-          pageSize: pagination.pageSize.value,
-        },
-        onUpdatePage,
-        onUpdateSorter,
-        onUpdateFilters,
-        onUpdatePageSize,
-      }
-    }),
+        return {
+          remote: true,
+          loading: loading.value,
+          data: data.value?.list ?? [],
+          pagination: {
+            page: pagination.current.value,
+            itemCount: pagination.total.value,
+            pageSize: pagination.pageSize.value,
+          },
+          onUpdatePage,
+          onUpdateSorter,
+          onUpdateFilters,
+          onUpdatePageSize,
+        }
+      }),
+    },
+    search: {
+      reset,
+      submit,
+      resetLoading: computed(() => resetLoading.value),
+      searchLoading: computed(() => searchLoading.value),
+      proSearchFormProps: computed(() => {
+        return {
+          onReset: reset,
+          onSubmit: submit,
+          searchButtonProps: {
+            loading: searchLoading.value,
+          },
+          resetButtonProps: {
+            loading: resetLoading.value,
+          },
+        }
+      }),
+    },
   }
 }

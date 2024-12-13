@@ -65,7 +65,7 @@ export default defineComponent({
       },
     ])
 
-    const { tableProps } = useNDataTable(({
+    const { table: { tableProps } } = useNDataTable(({
       current,
       pageSize,
       sorter,
