@@ -1,7 +1,7 @@
 <markdown>
 # 异步
 
-我们封装了 [useNDataTable](XXXXX) 帮助你轻松对接 `NDataTable`
+我们封装了 [useNDataTable](use-n-data-table) 帮助你轻松对接 `NDataTable`
 </markdown>
 
 <script lang="tsx">
@@ -84,7 +84,7 @@ export default defineComponent({
   <pro-data-table
     title="远程数据"
     :columns="columns"
-    :row-key="row => row.no"
+    row-key="no"
     v-bind="tableProps"
   />
 </template>

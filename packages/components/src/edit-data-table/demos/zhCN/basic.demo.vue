@@ -117,7 +117,7 @@ export default defineComponent({
         path="list"
         :scroll-x="200"
         :columns="columns"
-        :row-key="row => row.id"
+        row-key="id"
         :hidden="get('name') === '123'"
       />
     </div>

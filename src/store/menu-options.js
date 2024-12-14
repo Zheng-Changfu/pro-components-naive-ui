@@ -300,13 +300,21 @@ export function createComponentMenuOptions({ lang, theme }) {
       ],
     }),
     appendCounts({
-      zh: 'composables',
-      en: 'composables',
+      zh: 'Composables',
+      en: 'Composables',
       type: 'group',
       children: [
         {
           zh: 'useRequest',
+          en: 'useRequest',
           path: '/use-request',
+          enSuffix: false,
+        },
+        {
+          zh: 'useNDataTable',
+          en: 'useNDataTable',
+          path: '/use-n-data-table',
+          enSuffix: false,
         },
       ],
     }),

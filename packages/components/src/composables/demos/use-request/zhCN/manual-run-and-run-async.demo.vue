@@ -8,8 +8,8 @@ const { loading, run, runAsync } = useRequest(service, {
   manual: true
 });
 
-<button onClick={run} disabled={loading}>
-  {loading ? 'Loading' : 'Edit'}
+<button :disabled="loading" @click="run">
+  {{ loading ? 'Loading' : 'Edit' }}
 </button>
 ````
 

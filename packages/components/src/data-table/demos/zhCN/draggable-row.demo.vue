@@ -88,7 +88,7 @@ export default defineComponent({
       handle: dragHandle ? undefined : false,
       onEnd: onDragSortEnd,
     }"
-    :row-key="row => row.no"
+    row-key="no"
   >
     <template #extra>
       <div>

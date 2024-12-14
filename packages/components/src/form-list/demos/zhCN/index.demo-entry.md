@@ -103,7 +103,7 @@ interface ProFormListDefaultRender {
 | container | `ProFormListContainerRender` | 自定义渲染列表容器                                    |      |
 
 ### ProFormList 的校验时机
-如果你给 `ProFormList` 配置了校验规则，它只会在 `添加一行数据`、`复制此项`、`删除此项` 动作发生后校验，调用实例的 `api` 方法不会进行校验处理，你需要手动触发校验
+如果你给 `ProFormList` 配置了校验规则,它只会在 `添加一行数据`、`复制此项`、`删除此项` 动作发生后校验,调用实例的 `api` 方法不会进行校验处理,你需要手动触发校验
 ```html
 <script setup lang="ts">
 import type { ProFormListInst } from 'pro-naive-ui'

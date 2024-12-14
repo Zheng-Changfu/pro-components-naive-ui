@@ -58,6 +58,10 @@ export const zhComponentRoutes = [
     path: 'use-request',
     component: () => import('../../packages/components/src/composables/demos/use-request/zhCN/index.demo-entry.md'),
   },
+  {
+    path: 'use-n-data-table',
+    component: () => import('../../packages/components/src/composables/demos/use-n-data-table/zhCN/index.demo-entry.md'),
+  },
 ]
 
 export const routes = [

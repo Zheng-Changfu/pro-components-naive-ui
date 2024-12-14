@@ -131,7 +131,7 @@ export default defineComponent({
       title="查询表格"
       flex-height
       :columns="columns"
-      :row-key="row => row.no"
+      row-key="no"
       v-bind="tableProps"
     />
   </div>

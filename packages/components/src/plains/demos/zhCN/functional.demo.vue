@@ -67,6 +67,6 @@ export default defineComponent({
     tooltip="plain component"
     :data="data"
     :columns="columns"
-    :row-key="row => row.no"
+    row-key="no"
   />
 </template>
