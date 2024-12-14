@@ -16,6 +16,7 @@ import {
 import { renderMenuLabel } from './store/menu-options'
 import { i18n, useIsMobile, useIsTablet } from './utils/composables'
 import { repoUrl } from './utils/github-url'
+import { playgroundUrl } from './utils/playground-url'
 import { findMenuValue } from './utils/route'
 
 // match substr
@@ -266,6 +267,7 @@ export default defineComponent({
       isMobile: isMobileRef,
       isTablet: isTabletRef,
       repoUrl,
+      playgroundUrl,
       // theme
       theme: themeNameRef,
       handleThemeUpdate,
@@ -385,6 +387,15 @@ export default defineComponent({
         target="_blank"
       >
         GitHub
+      </n-button>
+      <n-button
+        size="small"
+        quaternary
+        tag="a"
+        :href="playgroundUrl"
+        target="_blank"
+      >
+        演练场
       </n-button>
       <n-text class="nav-picker padded">
         {{ version }}
