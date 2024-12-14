@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: {
       include: [
         'seemly',
+        'mockjs',
       ],
     },
     define: {
