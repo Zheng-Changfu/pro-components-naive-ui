@@ -1,5 +1,3 @@
-// rubbish code here
-
 import { NSpace, NTag } from 'naive-ui'
 import { h } from 'vue'
 import { RouterLink } from 'vue-router'
@@ -301,25 +299,62 @@ export function createComponentMenuOptions({ lang, theme }) {
         // },
       ],
     }),
-    // appendCounts({
-    //   zh: '数据展示组件',
-    //   en: 'Data Display Components',
-    //   type: 'group',
-    //   children: [
-    //   ],
-    // }),
-    // appendCounts({
-    //   zh: '配置组件',
-    //   en: 'Config Components',
-    //   type: 'group',
-    //   children: [
-    //     {
-    //       en: 'ProConfigProvider',
-    //       zh: '全局化配置',
-    //       enSuffix: true,
-    //       path: '/config-provider',
-    //     },
-    //   ],
-    // }),
+    appendCounts({
+      zh: 'useRequest',
+      en: 'useRequest',
+      type: 'group',
+      children: [
+        {
+          en: 'Quick Start',
+          zh: '快速上手',
+          path: '/use-request/index',
+        },
+        {
+          en: 'Basic usage',
+          zh: '基础用法',
+          path: '/use-request/basic',
+        },
+        {
+          en: 'Loading Delay',
+          zh: 'Loading 延迟',
+          path: '/use-request/loading-delay',
+        },
+        {
+          en: 'Polling',
+          zh: '轮训',
+          path: '/use-request/polling',
+        },
+        {
+          en: 'RefreshDeps',
+          zh: '依赖刷新',
+          path: '/use-request/refresh-deps',
+        },
+        {
+          en: 'RefreshOnWindowFocus',
+          zh: '屏幕聚焦重新请求',
+          path: '/use-request/refresh-on-window-focus',
+        },
+        {
+          en: 'Debounce',
+          zh: '防抖',
+          path: '/use-request/debounce',
+        },
+        {
+          en: 'Throttle',
+          zh: '节流',
+          path: '/use-request/throttle',
+        },
+        {
+          en: 'Error Retry',
+          zh: '错误重试',
+          path: '/use-request/retry',
+        },
+        {
+          en: 'Api',
+          zh: '参数介绍',
+          path: '/use-request/api',
+        },
+      ],
+    }),
   ])
 }
