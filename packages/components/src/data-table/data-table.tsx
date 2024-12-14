@@ -130,8 +130,11 @@ export default defineComponent({
 
     function resolveRowKey(row: any) {
       const { rowKey } = dataTableProps.value
-      if (!rowKey || isFunction(rowKey)) {
+      if (!rowKey) {
         return rowKey
+      }
+      if (isFunction(rowKey)) {
+        return rowKey(row)
       }
       return get(row, rowKey)
     }
