@@ -1,9 +1,42 @@
-# 参数介绍
+# useRequest
 <!--single-column-->
 
+`useRequest` 通过插件式组织代码，核心代码极其简单，并且可以很方便的扩展出更高级的功能。目前已有能力包括：
+
+- 自动请求/手动请求
+- 轮询
+- 防抖
+- 节流
+- 屏幕聚焦重新请求
+- 错误重试
+- loading delay
+- 竞态取消
+
+<n-alert type="info" title="说明" :bordered="false">
+  useRequest 是抄的 <n-a href="https://ahooks.js.org/zh-CN/hooks/use-request/index">React ahooks useRequest@3.8.2(latest)</n-a>,只不过它是 Vue 版本的实现
+</n-alert>
+
+## 演示
+
 ```demo
-index.vue
+default.vue
+manual.vue
+manual-run-and-run-async.vue
+life-cycle.vue
+refresh.vue
+cancel.vue
+params.vue
+loading-delay.vue
+polling.vue
+polling-error.vue
+refresh-deps.vue
+refresh-deps-action.vue
+refresh-on-window-focus.vue
+debounce.vue
+throttle.vue
+retry.vue
 ```
+
 
 ## API
 

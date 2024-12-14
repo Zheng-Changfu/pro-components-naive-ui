@@ -55,44 +55,8 @@ export const zhComponentRoutes = [
     component: () => import('../../packages/components/src/edit-data-table/demos/zhCN/index.demo-entry.md'),
   },
   {
-    path: 'use-request/index',
-    component: () => import('../../packages/components/src/composables/demos/zhCN/index/index.demo-entry.md'),
-  },
-  {
-    path: 'use-request/basic',
-    component: () => import('../../packages/components/src/composables/demos/zhCN/basic/index.demo-entry.md'),
-  },
-  {
-    path: 'use-request/loading-delay',
-    component: () => import('../../packages/components/src/composables/demos/zhCN/loading-delay/index.demo-entry.md'),
-  },
-  {
-    path: 'use-request/polling',
-    component: () => import('../../packages/components/src/composables/demos/zhCN/polling/index.demo-entry.md'),
-  },
-  {
-    path: 'use-request/refresh-deps',
-    component: () => import('../../packages/components/src/composables/demos/zhCN/refresh-deps/index.demo-entry.md'),
-  },
-  {
-    path: 'use-request/refresh-on-window-focus',
-    component: () => import('../../packages/components/src/composables/demos/zhCN/refresh-on-window-focus/index.demo-entry.md'),
-  },
-  {
-    path: 'use-request/debounce',
-    component: () => import('../../packages/components/src/composables/demos/zhCN/debounce/index.demo-entry.md'),
-  },
-  {
-    path: 'use-request/throttle',
-    component: () => import('../../packages/components/src/composables/demos/zhCN/throttle/index.demo-entry.md'),
-  },
-  {
-    path: 'use-request/retry',
-    component: () => import('../../packages/components/src/composables/demos/zhCN/retry/index.demo-entry.md'),
-  },
-  {
-    path: 'use-request/api',
-    component: () => import('../../packages/components/src/composables/demos/zhCN/api/index.demo-entry.md'),
+    path: 'use-request',
+    component: () => import('../../packages/components/src/composables/demos/use-request/zhCN/index.demo-entry.md'),
   },
 ]
 
