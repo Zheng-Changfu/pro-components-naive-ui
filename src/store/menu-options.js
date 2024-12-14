@@ -321,7 +321,7 @@ export function createComponentMenuOptions({ lang, theme }) {
         },
         {
           en: 'Polling',
-          zh: '轮训',
+          zh: '轮询',
           path: '/use-request/polling',
         },
         {
