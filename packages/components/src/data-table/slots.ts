@@ -1,7 +1,6 @@
 import type { VNodeChild } from 'vue'
-import type { ProSearchFormSlots } from '../search-form'
 
-export interface ProDataTableSlots extends ProSearchFormSlots {
+export interface ProDataTableSlots {
   /**
    * 表格为空时的内容
    */
