@@ -1,7 +1,5 @@
 <markdown>
 # 自定义按钮
-
-`valueType` 代表要被渲染的组件, 默认为 `input`
 </markdown>
 
 <script lang="tsx">

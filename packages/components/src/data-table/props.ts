@@ -1,6 +1,6 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProCardProps } from '../card'
-import type { ProDataTableColumns } from './types'
+import type { ProDataTableColumns, ProDataTableDragSortOptions } from './types'
 import { dataTableProps } from 'naive-ui'
 import { keysOf } from '../_utils/keysOf'
 
@@ -22,18 +22,9 @@ export const proDataTableExtendProps = {
    */
   clickRowToSelect: Boolean,
   /**
-   * 配置了这个参数，会在该 key 对应的行显示拖拽行的把手，允许拖拽排序
+   * 拖拽排序选项
    */
-  dragSortKey: String,
-  /**
-   * 拖拽排序完成回调
-   * @param fromIndex 排序前的索引
-   * @param toIndex 排序后的索引
-   */
-  onDragSortEnd: Function as PropType<(
-    fromIndex: number,
-    toIndex: number,
-  ) => void | Promise<void>>,
+  dragSortOptions: Object as PropType<ProDataTableDragSortOptions>,
 } as const
 
 export const proDataTableProps = {

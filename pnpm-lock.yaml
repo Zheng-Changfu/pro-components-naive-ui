@@ -44,12 +44,18 @@ importers:
       marked:
         specifier: ^12.0.2
         version: 12.0.2
+      mockjs:
+        specifier: ^1.1.0
+        version: 1.1.0
       pro-composables:
-        specifier: ^1.3.1
-        version: 1.3.1(type-fest@4.26.1)(vue@3.4.27(typescript@5.6.3))
+        specifier: ^1.3.4
+        version: 1.3.4(type-fest@4.26.1)(vue@3.4.27(typescript@5.6.3))
       seemly:
         specifier: ^0.3.8
         version: 0.3.9
+      sortablejs:
+        specifier: ^1.15.6
+        version: 1.15.6
       vfonts:
         specifier: ^0.0.3
         version: 0.0.3
@@ -59,9 +65,6 @@ importers:
       vue:
         specifier: 3.4.27
         version: 3.4.27(typescript@5.6.3)
-      vue-draggable-plus:
-        specifier: ^0.5.3
-        version: 0.5.4(@types/sortablejs@1.15.8)
       vue-router:
         specifier: ^4.3.3
         version: 4.4.5(vue@3.4.27(typescript@5.6.3))
@@ -78,9 +81,15 @@ importers:
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
+      '@types/mockjs':
+        specifier: ^1.0.10
+        version: 1.0.10
       '@types/node':
         specifier: ^20.14.1
         version: 20.17.3
+      '@types/sortablejs':
+        specifier: ^1.15.8
+        version: 1.15.8
       '@vitejs/plugin-vue':
         specifier: ^5.0.5
         version: 5.1.4(vite@5.4.10(@types/node@20.17.3))(vue@3.4.27(typescript@5.6.3))
@@ -1016,6 +1025,9 @@ packages:
 
   '@types/mdast@4.0.4':
     resolution: {integrity: sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==}
+
+  '@types/mockjs@1.0.10':
+    resolution: {integrity: sha512-SXgrhajHG7boLv6oU93CcmdDm0HYRiceuz6b+7z+/2lCJPTWDv0V5YiwFHT2ejE4bQqgSXQiVPQYPWv7LGsK1g==}
 
   '@types/ms@0.7.34':
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
@@ -2541,6 +2553,10 @@ packages:
   mlly@1.7.2:
     resolution: {integrity: sha512-tN3dvVHYVz4DhSXinXIk7u9syPYaJvio118uomkovAtWBT+RdbP6Lfh/5Lvo519YMmwBafwlh20IPTXIStscpA==}
 
+  mockjs@1.1.0:
+    resolution: {integrity: sha512-eQsKcWzIaZzEZ07NuEyO4Nw65g0hdWAyurVol1IPl1gahRwY+svqzfgfey8U8dahLwG44d6/RwEzuK52rSa/JQ==}
+    hasBin: true
+
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
     engines: {node: '>=4'}
@@ -2752,8 +2768,8 @@ packages:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  pro-composables@1.3.1:
-    resolution: {integrity: sha512-Y1yY98ak1aCkrbiIybOzBDjrgg+NKsmRSiSgX2pFcB9ufp3ARG/XlwEju0pZ74fQyxI9BIg+sQf1PM5U5UCE8w==}
+  pro-composables@1.3.4:
+    resolution: {integrity: sha512-n2ljk3svjTA6AZrxO7Ou91oa5bVRZTw4VMSK7LMI5OVRRo94D3MWx5oLmbqYbpRUsnFlF8QrtKVDt92qUdqtLQ==}
     peerDependencies:
       type-fest: '>=4.0.0'
       vue: '>=3.0.0'
@@ -2930,6 +2946,9 @@ packages:
 
   slashes@3.0.12:
     resolution: {integrity: sha512-Q9VME8WyGkc7pJf6QEkj3wE+2CnvZMI+XJhwdTPR8Z/kWQRXi7boAWLDibRPyHRTUTPx5FaU7MsyrjI3yLB4HA==}
+
+  sortablejs@1.15.6:
+    resolution: {integrity: sha512-aNfiuwMEpfBM/CN6LY0ibyhxPfPbyFeBTYJKCvzkJ2GkUpazIt3H+QIPAMHwqQ7tMKaHz1Qj+rJJCqljnf4p3A==}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -3334,15 +3353,6 @@ packages:
     peerDependencies:
       '@vue/composition-api': ^1.0.0-rc.1
       vue: ^3.0.0-0 || ^2.6.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-
-  vue-draggable-plus@0.5.4:
-    resolution: {integrity: sha512-7YXbRu6HFL5c0ELP07nNZPGyXmvD8o7Ny7Dj53l9u0sBTjVmHkgr3+/aXgUO1w2bIwE8f6GhaVmLxd7nhqQ0wg==}
-    peerDependencies:
-      '@types/sortablejs': ^1.15.0
-      '@vue/composition-api': '*'
     peerDependenciesMeta:
       '@vue/composition-api':
         optional: true
@@ -4380,6 +4390,8 @@ snapshots:
   '@types/mdast@4.0.4':
     dependencies:
       '@types/unist': 3.0.3
+
+  '@types/mockjs@1.0.10': {}
 
   '@types/ms@0.7.34': {}
 
@@ -6333,6 +6345,10 @@ snapshots:
       pkg-types: 1.2.1
       ufo: 1.5.4
 
+  mockjs@1.1.0:
+    dependencies:
+      commander: 10.0.1
+
   mri@1.2.0: {}
 
   mrmime@2.0.0: {}
@@ -6534,7 +6550,7 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 18.3.1
 
-  pro-composables@1.3.1(type-fest@4.26.1)(vue@3.4.27(typescript@5.6.3)):
+  pro-composables@1.3.4(type-fest@4.26.1)(vue@3.4.27(typescript@5.6.3)):
     dependencies:
       '@vueuse/core': 10.11.1(vue@3.4.27(typescript@5.6.3))
       type-fest: 4.26.1
@@ -6702,6 +6718,8 @@ snapshots:
   slash@3.0.0: {}
 
   slashes@3.0.12: {}
+
+  sortablejs@1.15.6: {}
 
   source-map-js@1.2.1: {}
 
@@ -7120,10 +7138,6 @@ snapshots:
   vue-demi@0.14.10(vue@3.4.27(typescript@5.6.3)):
     dependencies:
       vue: 3.4.27(typescript@5.6.3)
-
-  vue-draggable-plus@0.5.4(@types/sortablejs@1.15.8):
-    dependencies:
-      '@types/sortablejs': 1.15.8
 
   vue-eslint-parser@9.4.3(eslint@9.13.0(jiti@1.21.6)):
     dependencies:

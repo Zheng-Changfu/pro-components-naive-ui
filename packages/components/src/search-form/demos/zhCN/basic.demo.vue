@@ -1,7 +1,7 @@
 <markdown>
 # 基本使用
 
-`valueType` 代表要被渲染的组件, 默认为 `input`
+`valueType` 代表要被渲染的组件, 默认为 `'input'`
 </markdown>
 
 <script lang="tsx">

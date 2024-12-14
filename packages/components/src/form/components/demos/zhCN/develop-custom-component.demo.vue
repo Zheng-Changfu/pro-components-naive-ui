@@ -18,7 +18,7 @@ const JsonCode = defineComponent({
   props: inputProps,
   setup() {
     /**
-     * 这个工具 composable 包含了一些你可能会用到的属性
+     * 这个 composable 包含了一些你可能会用到的属性
      */
     const {
       empty,

@@ -4,7 +4,12 @@
 ## 演示
 
 ```demo
-basic.vue
+index.vue
+draggable-row.vue
+and-plain-component.vue
+table-slot.vue
+use-request.vue
+and-search-form.vue
 ```
 
 ## API
