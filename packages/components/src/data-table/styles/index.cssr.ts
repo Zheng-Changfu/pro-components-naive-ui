@@ -26,4 +26,7 @@ export default cB('pro-data-table', [
       ]),
     ]),
   ]),
+  cE('extra', `
+    margin-block-end: 16px;
+  `),
 ])

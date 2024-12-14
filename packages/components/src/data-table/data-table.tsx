@@ -157,7 +157,7 @@ export default defineComponent({
               return [
                 resolveWrappedSlot(this.$slots.extra, (children) => {
                   return children
-                    ? <div style={{ marginBlockEnd: '16px' }}>{children}</div>
+                    ? <div class={[`${mergedClsPrefix}-pro-data-table__extra`]}>{children}</div>
                     : null
                 }),
                 resolveSlotWithProps(this.$slots.table, { tableDom }, () => tableDom),
