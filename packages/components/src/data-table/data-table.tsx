@@ -3,7 +3,6 @@ import type { SlotsType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProDataTableInst } from './inst'
 import type { ProDataTableSlots } from './slots'
-import { get, isFunction } from 'lodash-es'
 import { NDataTable } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
@@ -12,13 +11,12 @@ import { resolveSlotWithProps, resolveWrappedSlot } from '../_utils/resolveSlot'
 import { ProCard } from '../card'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { provideWrappedIn } from '../config-provider'
-import { useCheckedRowKeys } from './composables/useCheckedRowKeys'
 import { useColumns } from './composables/useColumns'
 import { useDraggableSort } from './composables/useDraggableSort'
 import { useNDataTableInst } from './composables/useNDataTableInst'
-import { useRowProps } from './composables/useRowProps'
 import { proDataTableExtendProps, proDataTableProps } from './props'
 import style from './styles/index.cssr'
+import { resolveRowKey } from './utils/resolveRowKey'
 
 const name = 'ProDataTable'
 export default defineComponent({
@@ -59,25 +57,11 @@ export default defineComponent({
       columns,
     } = useColumns(overridedProps, { dragHandleId })
 
-    const {
-      checkedRowKeys,
-      setCheckedRowKeys,
-    } = useCheckedRowKeys(overridedProps)
-
-    const { rowProps } = useRowProps(overridedProps, {
-      checkedRowKeys,
-      setCheckedRowKeys,
-    })
-
     const nDataTableProps = computed<DataTableProps>(() => {
       return {
         ...dataTableProps.value,
-        rowProps,
-        'rowKey': resolveRowKey,
-        'columns': columns.value,
-        'checkedRowKeys': checkedRowKeys.value,
-        'onUpdateCheckedRowKeys': setCheckedRowKeys,
-        'onUpdate:checkedRowKeys': undefined,
+        columns: columns.value,
+        rowKey: row => resolveRowKey(row, dataTableProps.value.rowKey),
       }
     })
 
@@ -127,17 +111,6 @@ export default defineComponent({
       'pro-data-table',
       style,
     )
-
-    function resolveRowKey(row: any) {
-      const { rowKey } = dataTableProps.value
-      if (!rowKey) {
-        return rowKey
-      }
-      if (isFunction(rowKey)) {
-        return rowKey(row)
-      }
-      return get(row, rowKey)
-    }
 
     const exposed: ProDataTableInst = {
       sort,

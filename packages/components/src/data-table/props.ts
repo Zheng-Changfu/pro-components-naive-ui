@@ -19,10 +19,6 @@ export const proDataTableExtendProps = {
    */
   tableCardProps: Object as PropType<ProCardProps>,
   /**
-   * 如果有单选、多选，是否可以点击行就选中(必须传递 row-key 才生效)
-   */
-  clickRowToSelect: Boolean,
-  /**
    * 拖拽排序选项
    */
   dragSortOptions: Object as PropType<ProDataTableDragSortOptions>,
