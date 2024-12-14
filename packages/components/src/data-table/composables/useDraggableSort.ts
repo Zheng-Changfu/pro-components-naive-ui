@@ -28,6 +28,7 @@ export function useDraggableSort(props: ComputedRef<ProDataTableProps>) {
 
     return {
       animation: 200,
+      forceFallback: true,
       handle: handle === false ? undefined : `.${dragHandleId}`,
       ...sortableOptions,
     }
