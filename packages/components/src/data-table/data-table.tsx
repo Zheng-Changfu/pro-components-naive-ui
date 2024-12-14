@@ -3,6 +3,7 @@ import type { SlotsType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProDataTableInst } from './inst'
 import type { ProDataTableSlots } from './slots'
+import { get, isFunction } from 'lodash-es'
 import { NDataTable } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
@@ -72,6 +73,7 @@ export default defineComponent({
       return {
         ...dataTableProps.value,
         rowProps,
+        'rowKey': resolveRowKey,
         'columns': columns.value,
         'checkedRowKeys': checkedRowKeys.value,
         'onUpdateCheckedRowKeys': setCheckedRowKeys,
@@ -125,6 +127,14 @@ export default defineComponent({
       'pro-data-table',
       style,
     )
+
+    function resolveRowKey(row: any) {
+      const { rowKey } = dataTableProps.value
+      if (!rowKey || isFunction(rowKey)) {
+        return rowKey
+      }
+      return get(row, rowKey)
+    }
 
     const exposed: ProDataTableInst = {
       sort,

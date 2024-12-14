@@ -1,3 +1,4 @@
+import type { CreateRowKey } from 'naive-ui/es/data-table/src/interface'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProDataTableColumns, ProDataTableDragSortOptions } from './types'
@@ -34,6 +35,10 @@ export const proDataTableProps = {
    * 重写类型
    */
   columns: Array as PropType<ProDataTableColumns>,
+  /**
+   * 重写类型
+   */
+  rowKey: [String, Function] as PropType<string | CreateRowKey<any>>,
 } as const
 
 export const proDataTablePropKeys = keysOf(proDataTableProps)
