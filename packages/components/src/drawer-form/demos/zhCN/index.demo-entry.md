@@ -1,4 +1,4 @@
-# 抽屉表单 DrawerForm
+# 抽屉表单 ProDrawerForm
 <!--single-column-->
 
 这个组件是 [NDrawer](https://www.naiveui.com/zh-CN/os-theme/components/drawer) 和 [ProForm](form) 的结合体,为了更方便的控制抽屉,我们还扩展了 `createProForm`,

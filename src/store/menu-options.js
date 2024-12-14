@@ -231,7 +231,7 @@ export function createComponentMenuOptions({ lang, theme }) {
           path: '/modal-form',
         },
         {
-          en: 'DrawerForm',
+          en: 'ProDrawerForm',
           zh: '抽屉表单',
           enSuffix: true,
           path: '/drawer-form',

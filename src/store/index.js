@@ -128,7 +128,7 @@ export function siteSetup() {
   const themeOverrides = computed(() => {
     return {
       common: {
-        borderRadius: '6px',
+        // borderRadius: '6px',
       },
     }
   })
