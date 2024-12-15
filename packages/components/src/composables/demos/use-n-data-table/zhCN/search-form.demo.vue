@@ -7,7 +7,7 @@
 - `search.reset` 重置表单成功后重置 `current` 到第一页，并重新发起请求
 - `search.resetLoading` 重置时的 `loading`
 - `search.searchLoading` 查询时的 `loading`
-- `search.proSearchFormProps` 直接交给 `pro-search-form` 的一些属性
+- `search.proSearchFormProps` 直接交给 `pro-search-form` 组件的一些属性
 </markdown>
 
 <script lang="tsx">

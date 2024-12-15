@@ -87,7 +87,7 @@ export interface CreateProFormOptions<Values = any> extends FormOptions<Values> 
    */
   onReset?: () => void
   /**
-   * 数据验证成功后的回调事件,如果返回了 Promise, submiting 将等待这个 Promise 完成
+   * 数据验证成功后的回调事件,如果是一个 Promise, submiting 将等待这个 Promise 完成
    */
   onSubmit?: (values: SimplifyDeep<Values>, warnings: ValidateError[][]) => void | Promise<void>
   /**

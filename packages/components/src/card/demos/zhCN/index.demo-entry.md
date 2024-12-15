@@ -31,4 +31,4 @@ switcher.vue
 | [参考 NCard](https://www.naiveui.com/zh-CN/os-theme/components/card#Card-Slots) |                                |                |      |
 
 ### 默认关闭展开收起
-参考 [组件 Props 覆盖](config-provider#prop-overrides.vue)
+如果你想默认关闭展开收起,参考 [组件 Props 覆盖](config-provider#prop-overrides.vue)

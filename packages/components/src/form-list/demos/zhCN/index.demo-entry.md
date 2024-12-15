@@ -29,7 +29,7 @@ import type { ProButtonProps, ProFormListActionGuard } from 'pro-naive-ui'
 
 | 名称                             | 类型                      | 默认值     | 说明                                                                    | 版本 |
 | -------------------------------- | ------------------------- | ---------- | ----------------------------------------------------------------------- | ---- |
-| position                         | `top \| 'bottom'`         | `'bottom'` | 添加一行按钮显示在顶部还是底部,区别是添加数据的时候是追加到尾部还是头部 |      |
+| position                         | `'top' \| 'bottom'`       | `'bottom'` | 添加一行按钮显示在顶部还是底部,区别是添加数据的时候是追加到尾部还是头部 |      |
 | min                              | `number`                  | `-`        | 最少行数,删除时如果少于该数则无法删除                                   |      |
 | max                              | `number`                  | `-`        | 最多行数,新增或复制时多于该数则无法新增或复制                           |      |
 | onlyShowFirstItemLabel           | `boolean`                 | `false`    | 是否只显示第一行的 label                                                |      |

@@ -29,10 +29,10 @@ validate.vue
 import type { SearchFormLike } from 'pro-naive-ui'
 ```
 
-| 名称                                              | 类型             | 默认值 | 说明                                                                 | 版本 |
-| ------------------------------------------------- | ---------------- | ------ | -------------------------------------------------------------------- | ---- |
+| 名称                                              | 类型             | 默认值 | 说明                                                                | 版本 |
+| ------------------------------------------------- | ---------------- | ------ | ------------------------------------------------------------------- | ---- |
 | form                                              | `SearchFormLike` | `-`    | `createProSearchForm` 返回值,也可以是满足 `SearchFormLike` 类型的值 |      |
-| [参考 useRequest](use-request#useRequest-Options) |                  |        |                                                                      |      |
+| [参考 useRequest](use-request#useRequest-Options) |                  |        |                                                                     |      |
 
 ### useNDataTable Returned
 
@@ -44,11 +44,11 @@ import type { DataTableFilterState, DataTableSortState } from 'naive-ui'
 
 | 名称                                               | 类型                                                                                                                                               | 默认值 | 说明                                                                   | 版本 |
 | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ---------------------------------------------------------------------- | ---- |
-| table.tableProps                                   | `-`                                                                                                                                                | `-`    | `NDataTable` 组件需要的数据,直接透传给 `NDataTable` 组件即可          |      |
+| table.tableProps                                   | `-`                                                                                                                                                | `-`    | `NDataTable` 组件需要的数据,直接透传给 `NDataTable` 组件即可           |      |
 | table.onChange                                     | `(options?: {page?: number;pageSize?: number;filters?: DataTableFilterState;sorter?: DataTableSortState \| DataTableSortState[] \| null}) => void` | `-`    | 手动发起请求,如果没有传递配置,使用默认记录的配置,传递了配置,使用传递的 |      |
-| search.submit                                      | `() => void`                                                                                                                                       | `-`    | 提交表单成功后重置 `current` 到第一页,并重新发起请求                  |      |
-| search.reset                                       | `() => void`                                                                                                                                       | `-`    | 重置表单成功后重置 `current` 到第一页,并重新发起请求                  |      |
+| search.submit                                      | `() => void`                                                                                                                                       | `-`    | 提交表单成功后重置 `current` 到第一页,并重新发起请求                   |      |
+| search.reset                                       | `() => void`                                                                                                                                       | `-`    | 重置表单成功后重置 `current` 到第一页,并重新发起请求                   |      |
 | search.searchLoading                               | `ComputedRef<boolean>`                                                                                                                             | `-`    | 查询时的 `loading`                                                     |      |
 | search.resetLoading                                | `ComputedRef<boolean>`                                                                                                                             | `-`    | 重置时的 `loading`                                                     |      |
-| search.proSearchFormProps                          | `-`                                                                                                                                                | `-`    | `ProSearchForm` 组件需要的数据,直接透传给 `ProSearchForm` 组件即可    |      |
-| [参考 useRequest](use-request#useRequest-Returned) | `-`                                                                                                                                                | `-`    | `ProSearchForm` 组件需要的数据,直接透传给 `ProSearchForm` 组件即可    |      |
+| search.proSearchFormProps                          | `-`                                                                                                                                                | `-`    | `ProSearchForm` 组件需要的数据,直接透传给 `ProSearchForm` 组件即可     |      |
+| [参考 useRequest](use-request#useRequest-Returned) | `-`                                                                                                                                                | `-`    | `ProSearchForm` 组件需要的数据,直接透传给 `ProSearchForm` 组件即可     |      |
