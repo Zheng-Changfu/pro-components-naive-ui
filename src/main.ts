@@ -1,6 +1,7 @@
-import { create, NA, NAlert, NAnchor, NAnchorLink, NCard, NCode, NH1, NH2, NH3, NLi, NP, NScrollbar, NTable, NText, NUl } from 'naive-ui'
-import proComponents from 'pro-naive-ui'
+/* eslint-disable perfectionist/sort-imports */
 import { createApp } from 'vue'
+import { create, NA, NAlert, NAnchor, NAnchorLink, NBlockquote, NCard, NCode, NH1, NH2, NH3, NLi, NP, NScrollbar, NTable, NTabPane, NTabs, NText, NUl } from 'naive-ui'
+import proComponents from 'pro-naive-ui'
 import createDemoRouter from './routes/router'
 import { routes } from './routes/routes'
 import { installDemoComponents } from './setup'
@@ -26,6 +27,9 @@ app.use(create({
     NScrollbar,
     NAnchorLink,
     NAlert,
+    NTabs,
+    NTabPane,
+    NBlockquote,
   ],
 }))
 app.use(proComponents)

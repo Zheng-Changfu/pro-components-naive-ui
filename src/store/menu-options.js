@@ -89,113 +89,58 @@ export function createDocumentationMenuOptions({ lang, theme }) {
       type: 'group',
       children: [
         {
-          en: 'Naive UI',
-          zh: 'Naive UI',
+          en: 'Pro Naive UI',
+          zh: 'Pro Naive UI',
           path: '/introduction',
         },
       ],
     },
-    // {
-    //   en: 'Getting Started',
-    //   zh: '快速上手',
-    //   type: 'group',
-    //   children: [
-    //     {
-    //       en: 'Installation',
-    //       zh: '安装',
-    //       path: '/installation',
-    //     },
-    //     {
-    //       en: 'Usage in SFC',
-    //       zh: '在 SFC 中使用',
-    //       path: '/usage-sfc',
-    //     },
-    //     {
-    //       en: 'Using UMD',
-    //       zh: '使用 UMD',
-    //       path: '/umd',
-    //     },
-    //     {
-    //       en: 'Configuring Fonts',
-    //       zh: '配置字体',
-    //       path: '/fonts',
-    //     },
-    //     {
-    //       en: 'Import on Demand',
-    //       zh: '按需引入',
-    //       path: '/import-on-demand',
-    //     },
-    //     {
-    //       en: 'Supported Platforms',
-    //       zh: '支持的平台',
-    //       path: '/supported-platforms',
-    //     },
-    //     {
-    //       en: 'Common Issues',
-    //       zh: '常见问题',
-    //       path: '/common-issues',
-    //     },
-    //     {
-    //       en: 'Controlled & Uncontrolled',
-    //       zh: '受控与非受控',
-    //       path: '/controlled-uncontrolled',
-    //     },
-    //   ],
-    // },
-    // {
-    //   en: 'Guides',
-    //   zh: '指南',
-    //   type: 'group',
-    //   children: [
-    //     {
-    //       en: 'JSX & TSX',
-    //       zh: 'JSX & TSX',
-    //       path: '/jsx',
-    //     },
-    //     {
-    //       en: 'Server-Sider Rendering',
-    //       zh: '服务端渲染 SSR',
-    //       path: '/ssr',
-    //     },
-    //     {
-    //       en: 'Customizing Theme',
-    //       zh: '调整主题',
-    //       path: '/customize-theme',
-    //     },
-    //     {
-    //       en: 'Internationalization',
-    //       zh: '国际化',
-    //       path: '/i18n',
-    //     },
-    //     {
-    //       en: 'Create Themed Component',
-    //       zh: '创建适配主题的组件',
-    //       path: '/theme',
-    //     },
-    //     {
-    //       en: 'Potential Style Conflict',
-    //       zh: '潜在的样式冲突',
-    //       path: '/style-conflict',
-    //     },
-    //     {
-    //       en: 'Third-Party Libraries',
-    //       zh: '社区精选资源',
-    //       path: '/community',
-    //     },
-    //   ],
-    // },
-    // {
-    //   en: 'Version',
-    //   zh: '版本',
-    //   type: 'group',
-    //   children: [
-    //     {
-    //       en: 'Change Log',
-    //       zh: '变更日志',
-    //       path: '/changelog',
-    //     },
-    //   ],
-    // },
+    {
+      en: 'Getting Started',
+      zh: '快速上手',
+      type: 'group',
+      children: [
+        {
+          en: 'Installation',
+          zh: '安装',
+          path: '/installation',
+        },
+        {
+          en: 'Supported Platforms',
+          zh: '支持的平台',
+          path: '/supported-platforms',
+        },
+      ],
+    },
+    {
+      en: 'Guides',
+      zh: '指南',
+      type: 'group',
+      children: [
+        // {
+        //   en: 'Server-Sider Rendering',
+        //   zh: '服务端渲染 SSR',
+        //   path: '/ssr',
+        // },
+        {
+          en: 'Internationalization',
+          zh: '国际化',
+          path: '/i18n',
+        },
+      ],
+    },
+    {
+      en: 'Version',
+      zh: '版本',
+      type: 'group',
+      children: [
+        {
+          en: 'Change Log',
+          zh: '变更日志',
+          path: '/changelog',
+        },
+      ],
+    },
   ])
 }
 
