@@ -14,7 +14,7 @@
     "moduleResolution": "bundler",
     "paths": {
       "pro-naive-ui": [
-        "./packages/components/index.ts"
+        "./packages/components/src/index.ts"
       ]
     },
     "resolveJsonModule": true,
