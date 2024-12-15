@@ -7,7 +7,7 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
 // import { analyzer } from 'vite-bundle-analyzer'
 import vitePluginDemo from './build/vite-plugin-demo'
-import { ProNaiveUiResolver } from './packages/resolver/index'
+import { ProNaiveUIResolver } from './packages/resolver/index'
 
 export default defineConfig(({ mode }) => {
   const nodeEnv = loadEnv(mode, './').VITE_USER_NODE_ENV
@@ -42,7 +42,7 @@ export default defineConfig(({ mode }) => {
       Components({
         resolvers: [
           NaiveUiResolver(),
-          ProNaiveUiResolver(),
+          ProNaiveUIResolver(),
         ],
       }),
       // analyzer(),
