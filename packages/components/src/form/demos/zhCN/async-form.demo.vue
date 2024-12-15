@@ -6,7 +6,7 @@
 
 <script lang="tsx">
 import { createProForm, useRequest } from 'pro-naive-ui'
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 interface Info {
   name: string
