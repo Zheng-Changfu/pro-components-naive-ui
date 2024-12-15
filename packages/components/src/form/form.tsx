@@ -72,7 +72,7 @@ export default defineComponent({
      * form 元素默认行为是支持按下回车提交的，所以这里只需要做阻止操作即可
      */
     useEventListener(() => {
-      return overridedProps.value.submitOnEnter
+      return overridedProps.value.submitOnPressEnter
         ? null
         : (nFormInst.value as any)?.$el
     }, 'keypress', (e) => {

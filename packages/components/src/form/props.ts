@@ -25,7 +25,7 @@ export const proFormExtendProps = {
   /**
    * 是否在按下回车后提交
    */
-  submitOnEnter: Boolean,
+  submitOnPressEnter: Boolean,
   /**
    * 表单验证时机
    */
