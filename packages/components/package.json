@@ -28,7 +28,7 @@
   "scripts": {
     "test:watch": "vitest",
     "test": "vitest run",
-    "build": "vite build"
+    "build": "rollup -c --bundleConfigAsCjs"
   },
   "peerDependencies": {
     "naive-ui": "^2.38.2",
@@ -38,8 +38,19 @@
     "date-fns": "^3.6.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-replace": "^6.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
     "@vue/test-utils": "^2.4.6",
+    "deepmerge": "^4.3.1",
     "jsdom": "^24.0.0",
+    "rollup": "^4.28.1",
+    "rollup-plugin-esbuild": "^6.1.1",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "rollup-plugin-vue": "^6.0.0",
     "vitest": "^1.6.0"
   }
 }
