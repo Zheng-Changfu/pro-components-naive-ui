@@ -5,7 +5,7 @@ import type { FieldExtraInfo } from '../../field/field-extra-info'
 import { useInjectField } from 'pro-composables'
 import { defineComponent, inject, onUnmounted, provide, watch } from 'vue'
 import { useInjectProFormConfig } from '../../../context'
-import { useFieldUtils } from '../../field'
+import { useFieldUtils } from '../../field/composables/useFieldUtils'
 import { fieldExtraKey } from '../../field/field-extra-info'
 
 /**

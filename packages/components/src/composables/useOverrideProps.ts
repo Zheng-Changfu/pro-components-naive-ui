@@ -1,7 +1,7 @@
 import type { ComputedRef } from 'vue'
 import { hyphenate } from '@vueuse/core'
 import { computed, getCurrentInstance, unref } from 'vue'
-import { useInjectGlobalConfig } from '../config-provider'
+import { useInjectGlobalConfig } from '../config-provider/context'
 
 export function useOverrideProps<T extends object>(name: string, props: T): ComputedRef<T> {
   const inst = getCurrentInstance()
