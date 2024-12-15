@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProDatePickerProps } from './props'
 import type { ProDatePickerSlots } from './slots'
 import { defineComponent } from 'vue'
 import { nilOrEmptyStringToNull } from '../../../_utils/nilOrEmptyStringToNull'
@@ -19,7 +20,7 @@ export default defineComponent({
       exposed,
     } = provideDatePickerInstStore()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProDatePickerProps>(
       name,
       props,
     )

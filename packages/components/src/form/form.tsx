@@ -1,5 +1,6 @@
 import type { FormInst, FormProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
+import type { ProFormProps } from './props'
 import type { ProFormSlots } from './slots'
 import { useEventListener } from '@vueuse/core'
 import { NForm } from 'naive-ui'
@@ -24,7 +25,7 @@ export default defineComponent({
 
     const nFormInst = ref<FormInst>()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProFormProps>(
       name,
       props,
     )
@@ -86,7 +87,7 @@ export default defineComponent({
       rules: computed(() => overridedProps.value.rules),
       readonly: computed(() => overridedProps.value.readonly),
       validateBehavior: computed(() => overridedProps.value.validateBehavior),
-      validationTrigger: computed(() => overridedProps.value.validationTrigger),
+      validationTrigger: computed(() => overridedProps.value.validationTrigger!),
       validateBehaviorProps: computed(() => overridedProps.value.validateBehaviorProps),
     })
     provideProForm(form)

@@ -1,6 +1,7 @@
 import type { GridProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProFormProps } from '../form'
+import type { ProSearchFormProps } from './props'
 import type { ProSearchFormSlots } from './slots'
 import { gridProps as _nGridProps, NFormItem, NGi, NGrid } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
@@ -26,12 +27,13 @@ export default defineComponent({
   inheritAttrs: false,
   slots: Object as SlotsType<ProSearchFormSlots>,
   setup(props) {
-    let form = props.form
+    // 手动标注类型,防止因为类型复杂导致构建类型声明文件失败,先用 any 解决
+    let form = props.form as any
     if (!form && __DEV__) {
       form = createProSearchForm()
     }
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProSearchFormProps>(
       name,
       props,
     )

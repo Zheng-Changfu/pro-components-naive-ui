@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProTimePickerProps } from './props'
 import type { ProTimePickerSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps, usePostValue } from '../../../composables'
@@ -18,7 +19,7 @@ export default defineComponent({
       exposed,
     } = provideTimePickerInstStore()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProTimePickerProps>(
       name,
       props,
     )

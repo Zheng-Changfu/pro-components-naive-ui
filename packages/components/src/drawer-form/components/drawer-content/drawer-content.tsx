@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProDrawerContentProps } from './props'
 import type { ProDrawerContentSlots } from './slots'
 import { NDrawerContent, NFlex } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
@@ -13,7 +14,7 @@ export default defineComponent({
   props: proDrawerContentProps,
   slots: Object as SlotsType<ProDrawerContentSlots>,
   setup(props) {
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProDrawerContentProps>(
       name,
       props,
     )

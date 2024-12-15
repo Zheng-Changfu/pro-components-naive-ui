@@ -1,6 +1,7 @@
 import type { DrawerProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProFormProps } from '../form'
+import type { ProDrawerFormProps } from './props'
 import type { ProDrawerFormSlots } from './slots'
 import { drawerProps as _nDrawerProps, NDrawer } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
@@ -26,7 +27,7 @@ export default defineComponent({
       form = createProDrawerForm()
     }
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProDrawerFormProps>(
       name,
       props,
     )

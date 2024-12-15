@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProColorPickerProps } from './props'
 import type { ProColorPickerSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps, usePostValue } from '../../../composables'
@@ -13,7 +14,7 @@ export default defineComponent({
   props: proColorPickerProps,
   slots: Object as SlotsType<ProColorPickerSlots>,
   setup(props) {
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProColorPickerProps>(
       name,
       props,
     )

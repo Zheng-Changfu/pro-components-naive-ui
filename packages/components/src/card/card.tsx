@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProCardProps } from './props'
 import type { ProCardSlots } from './slots'
 import { DownOutlined, InfoCircleOutlined, UpOutlined } from '@vicons/antd'
 import { isFunction } from 'lodash-es'
@@ -26,7 +27,7 @@ export default defineComponent({
       getMessage,
     } = useLocale('ProCard')
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProCardProps>(
       name,
       props,
     )

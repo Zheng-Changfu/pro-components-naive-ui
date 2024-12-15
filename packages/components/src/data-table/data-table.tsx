@@ -2,6 +2,7 @@ import type { DataTableProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProDataTableInst } from './inst'
+import type { ProDataTableProps } from './props'
 import type { ProDataTableSlots } from './slots'
 import { NDataTable } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
@@ -26,7 +27,7 @@ export default defineComponent({
   setup(props, { slots, expose }) {
     const mergedClsPrefix = useNaiveClsPrefix()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProDataTableProps>(
       name,
       props,
     )

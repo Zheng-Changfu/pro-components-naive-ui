@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProDynamicTagsProps } from './props'
 import type { ProDynamicTagsSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps, usePostValue } from '../../../composables'
@@ -13,7 +14,7 @@ export default defineComponent({
   props: proDynamicTagsProps,
   slots: Object as SlotsType<ProDynamicTagsSlots>,
   setup(props) {
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProDynamicTagsProps>(
       name,
       props,
     )

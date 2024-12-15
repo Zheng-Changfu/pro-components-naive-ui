@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProButtonProps } from './props'
 import type { ProButtonSlots } from './slots'
 import { NButton } from 'naive-ui'
 import { defineComponent } from 'vue'
@@ -14,7 +15,7 @@ export default defineComponent({
   props: proButtonProps,
   slots: Object as SlotsType<ProButtonSlots>,
   setup(props) {
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProButtonProps>(
       name,
       props,
     )

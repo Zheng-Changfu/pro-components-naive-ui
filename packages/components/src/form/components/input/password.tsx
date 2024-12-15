@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProInputProps } from './props'
 import type { ProInputSlots } from './slots'
 import { defineComponent } from 'vue'
 import { nilOrEmptyStringToNull } from '../../../_utils/nilOrEmptyStringToNull'
@@ -19,7 +20,7 @@ export default defineComponent({
       exposed,
     } = provideTextInstStore()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProInputProps>(
       name,
       props,
     )

@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProRateProps } from './props'
 import type { ProRateSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps, usePostValue } from '../../../composables'
@@ -13,7 +14,7 @@ export default defineComponent({
   props: proRateProps,
   slots: Object as SlotsType<ProRateSlots>,
   setup(props) {
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProRateProps>(
       name,
       props,
     )

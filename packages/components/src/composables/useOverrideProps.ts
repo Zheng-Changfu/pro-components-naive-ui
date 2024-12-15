@@ -3,6 +3,9 @@ import { hyphenate } from '@vueuse/core'
 import { computed, getCurrentInstance, unref } from 'vue'
 import { useInjectGlobalConfig } from '../config-provider/context'
 
+/**
+ * 这里虽然有泛型推断，但是用户需要主动传入类型，防止ts构建类型声明文件时太复杂报错
+ */
 export function useOverrideProps<T extends object>(name: string, props: T): ComputedRef<T> {
   const inst = getCurrentInstance()
   const { mergedPropOverrides } = useInjectGlobalConfig()

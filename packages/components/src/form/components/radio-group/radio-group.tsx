@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProRadioGroupProps } from './props'
 import type { ProRadioGroupSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps, usePostValue } from '../../../composables'
@@ -13,7 +14,7 @@ export default defineComponent({
   props: proRadioGroupProps,
   slots: Object as SlotsType<ProRadioGroupSlots>,
   setup(props) {
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProRadioGroupProps>(
       name,
       props,
     )

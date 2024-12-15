@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProSwitchProps } from './props'
 import type { ProSwitchSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps, usePostValue } from '../../../composables'
@@ -13,7 +14,7 @@ export default defineComponent({
   props: proSwitchProps,
   slots: Object as SlotsType<ProSwitchSlots>,
   setup(props) {
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProSwitchProps>(
       name,
       props,
     )

@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProEditDataTableProps } from './props'
 import type { ProEditDataTableSlots } from './slots'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
@@ -21,7 +22,7 @@ export default defineComponent({
       exposed,
     } = provideEditDataTableInstStore()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProEditDataTableProps>(
       name,
       props,
     )
