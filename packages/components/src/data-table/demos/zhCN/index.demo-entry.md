@@ -1,7 +1,7 @@
 # 数据表格 ProDataTable
 <!--single-column-->
 
-我们对表格组件内部做了很少的封装,解决了一些零碎的问题
+我们的表格很轻,只解决了一些零碎的问题,不过你可以结合 [useNDataTable](use-n-data-table) 轻松满足异步场景
 - 增加了序号列
 - 增加了一些插槽
 - 增加了行拖拽排序
@@ -35,7 +35,7 @@ import type { ProDataTableColumns, ProCardProps, ProDataTableDragSortOptions } f
 | columns                                                                                         | `ProDataTableColumns`                               | `[]`   | 需要展示的列                                                        |      |
 | rowKey                                                                                          | `string \| (rowData: object) => (number \| string)` | `-`    | 通过行数据创建行的 key（如果你不想给每一行加上 key）,可以写成字符串 |      |
 | title                                                                                           | `string`                                            | `-`    | 表格标题                                                            |      |
-| tooltip                                                                                         | `string \| string[]`                                | `-`    | 提示文字,显示在标题的右边                                          |      |
+| tooltip                                                                                         | `string \| string[]`                                | `-`    | 提示文字,显示在标题的右边                                           |      |
 | tableCardProps                                                                                  | `ProCardProps`                                      | `-`    | 包裹表格卡片的配置                                                  |      |
 | dragSortOptions                                                                                 | `ProDataTableDragSortOptions`                       | `-`    | 拖拽排序选项配置,<n-a href="#draggable-row.vue">查看完整例子</n-a>  |      |
 | [参考 NDataTable](https://www.naiveui.com/zh-CN/os-theme/components/data-table#DataTable-Props) |                                                     |        |                                                                     |      |

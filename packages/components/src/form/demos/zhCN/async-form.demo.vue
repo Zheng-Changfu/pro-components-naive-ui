@@ -1,9 +1,11 @@
 <markdown>
 # 异步获取数据
+
+你可以使用 [useRequest](use-request) 异步获取数据
 </markdown>
 
 <script lang="tsx">
-import { createProForm } from 'pro-naive-ui'
+import { createProForm, useRequest } from 'pro-naive-ui'
 import { defineComponent, ref } from 'vue'
 
 interface Info {
@@ -20,33 +22,36 @@ function delay(time: number) {
   })
 }
 
+async function reqUserInfo() {
+  await delay(1000)
+  const result: Info = {
+    name: 'zcf',
+    userInfo: [
+      { name: 'zcf', age: 18 },
+    ],
+  }
+  return result
+}
+
 export default defineComponent({
   setup() {
-    const loading = ref(false)
     const form = createProForm<Info>({
       onSubmit: console.log,
     })
 
-    async function reqUserInfo() {
-      loading.value = true
-      await delay(1000)
-      const result: Info = {
-        name: 'zcf',
-        userInfo: [
-          { name: 'zcf', age: 18 },
-        ],
-      }
-      form.restoreValidation() // 根据实际需求判断是否需要添加此代码，这里添加此行代码是有可能先点击提交触发校验，在点击获取数据需要清空校验
-      form.setFieldsValue(result) // 覆盖表单的所有数据，而不是合并
-      form.setInitialValues(result) // 将请求回来的值作为初始值，重置会回到初始值
-      loading.value = false
-      return result
-    }
+    const { loading, run } = useRequest(reqUserInfo, {
+      manual: true,
+      onSuccess(res) {
+        form.restoreValidation() // 根据实际需求判断是否需要添加此代码，这里添加此行代码是有可能先点击提交触发校验，在点击获取数据需要清空校验
+        form.setFieldsValue(res) // 覆盖表单的所有数据，而不是合并
+        form.setInitialValues(res) // 将请求回来的值作为初始值，重置会回到初始值
+      },
+    })
 
     return {
       form,
       loading,
-      reqUserInfo,
+      run,
     }
   },
 })
@@ -54,7 +59,7 @@ export default defineComponent({
 
 <template>
   <n-flex class="mb-8px">
-    <n-button @click="reqUserInfo">
+    <n-button @click="run()">
       请求
     </n-button>
     <n-button @click="form.restoreFieldsValue">
