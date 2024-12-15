@@ -1,3 +1,3 @@
-import pkg from '../package.json'
+import { version } from '../package.json'
 
-export default pkg.version
+export default version

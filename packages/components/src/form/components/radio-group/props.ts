@@ -4,7 +4,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
 import { proFieldSharedProps } from '../field'
 
-interface ProRadioGroupFieldProps extends RadioGroupProps {
+export interface ProRadioGroupFieldProps extends RadioGroupProps {
   /**
    * 选项 label 的字段名
    * @default 'label'

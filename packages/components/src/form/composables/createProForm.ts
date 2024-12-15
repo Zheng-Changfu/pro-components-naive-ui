@@ -17,7 +17,7 @@ export interface ValidateError {
   message?: string
 }
 
-export const proFormInternalKey = Symbol('proFormInternalKey')
+export const proFormInternalKey = '__proFormInternalKey__'
 
 type StringKeyof<Values = any> = Exclude<Paths<Values>, symbol | number>
 
