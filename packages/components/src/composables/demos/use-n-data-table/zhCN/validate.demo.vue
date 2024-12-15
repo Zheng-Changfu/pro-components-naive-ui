@@ -1,13 +1,13 @@
 <markdown>
 # 表单验证
 
-我们内部并不会去验证表单，如果你需要验证，可以手动发起一次表单提交
+表单提交之前，我们会调用 `form.validate` 来校验表单数据，如果验证不通过，则不会发起请求。
 </markdown>
 
 <script lang="tsx">
 import type { ProSearchFormColumns } from 'pro-naive-ui'
 import { createProSearchForm, useNDataTable } from 'pro-naive-ui'
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent } from 'vue'
 
 interface Item {
   name: {
@@ -96,13 +96,7 @@ export default defineComponent({
         proSearchFormProps,
       },
     } = useNDataTable(getTableData, {
-      manual: true,
       form: searchForm,
-    })
-
-    onMounted(() => {
-      // 手动提交表单，会触发验证
-      searchForm.submit()
     })
 
     return {

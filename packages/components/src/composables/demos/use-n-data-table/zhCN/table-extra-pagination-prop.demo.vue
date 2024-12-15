@@ -1,7 +1,7 @@
 <markdown>
 # 额外的分页属性
 
-有的时候可能表格还需要增加额外的分页属性,这时候你可以扩展 `tableProps`,如果你觉得很麻烦,参考[组件 Props 覆盖](config-provider#prop-overrides.vue)
+有的时候可能表格还需要增加额外的分页属性,这时候你可以扩展 `tableProps`,如果你觉得很麻烦,参考 [组件 Props 覆盖](config-provider#prop-overrides.vue)
 </markdown>
 
 <script lang="tsx">

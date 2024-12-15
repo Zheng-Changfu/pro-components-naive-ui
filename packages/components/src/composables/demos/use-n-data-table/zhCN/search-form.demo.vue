@@ -3,8 +3,8 @@
 
 `useNDataTable` 接收 `form` 实例后，会返回 search 对象，用来处理表单相关事件。
 
-- `search.submit` 改变 `searchLoading`,重置页码到第一页
-- `search.reset` 改变 `resetLoading`,重置页码到第一页
+- `search.submit` 提交表单成功后重置 `current` 到第一页，并重新发起请求
+- `search.reset` 重置表单成功后重置 `current` 到第一页，并重新发起请求
 - `search.resetLoading` 重置时的 `loading`
 - `search.searchLoading` 查询时的 `loading`
 - `search.proSearchFormProps` 直接交给 `pro-search-form` 的一些属性
