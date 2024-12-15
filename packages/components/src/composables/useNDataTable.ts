@@ -4,7 +4,7 @@ import type { ComputedRef } from 'vue'
 import type { ProButtonProps } from '../button'
 import { isNil } from 'lodash-es'
 import { usePagination } from 'pro-composables'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, toRaw, watch } from 'vue'
 
 export interface UseNDataTableData {
   /**
@@ -44,6 +44,8 @@ export type UseNDataTableParams = [
 ]
 
 export interface SearchFormLike {
+  restoreFieldsValue: () => void
+  validate: () => Promise<any> | undefined
   getFieldsTransformedValue: () => FormValues
 }
 
@@ -87,8 +89,6 @@ export interface UseNDataTableReturn<
     resetLoading: ComputedRef<boolean>
     searchLoading: ComputedRef<boolean>
     proSearchFormProps: ComputedRef<{
-      onReset: () => void
-      onSubmit: () => void
       resetButtonProps: ProButtonProps
       searchButtonProps: ProButtonProps
     }>
@@ -143,8 +143,7 @@ export function useNDataTable<
     } = {},
   ) {
     const { run, pagination, params } = fetchInst
-    const [prevParams, ...restParams] = params.value ?? []
-    const formValues = form ? form.getFieldsTransformedValue() : {}
+    const [prevParams, prevFormValues, ...restParams] = params.value ?? []
 
     run(
       // @ts-ignore
@@ -155,17 +154,34 @@ export function useNDataTable<
         filters: options.filters ?? prevParams?.filters ?? {},
         pageSize: options.pageSize ?? pagination.pageSize.value,
       },
-      formValues,
+      toRaw(prevFormValues ?? {}),
       ...restParams,
     )
   }
 
   function submit() {
-    searchLoading.value = true
-    onTableChange({ page: 1 })
+    if (form) {
+      form.validate()
+        ?.then(() => {
+          const { params } = fetchInst
+          params.value[1] = form ? form.getFieldsTransformedValue() : {}
+          searchLoading.value = true
+          onTableChange({ page: 1 })
+        })
+        ?.catch(err => err)
+    }
+    else {
+      searchLoading.value = true
+      onTableChange({ page: 1 })
+    }
   }
 
   function reset() {
+    if (form) {
+      form.restoreFieldsValue()
+      const { params } = fetchInst
+      params.value[1] = form ? form.getFieldsTransformedValue() : {}
+    }
     resetLoading.value = true
     onTableChange({ page: 1 })
   }
@@ -194,7 +210,7 @@ export function useNDataTable<
 
   onMounted(() => {
     if (!manual) {
-      onTableChange()
+      submit()
     }
   })
 
@@ -232,13 +248,15 @@ export function useNDataTable<
       searchLoading: computed(() => searchLoading.value),
       proSearchFormProps: computed(() => {
         return {
-          onReset: reset,
-          onSubmit: submit,
           searchButtonProps: {
+            attrType: 'button',
             loading: searchLoading.value,
+            onClick: submit,
           },
           resetButtonProps: {
+            attrType: 'button',
             loading: resetLoading.value,
+            onClick: reset,
           },
         }
       }),
