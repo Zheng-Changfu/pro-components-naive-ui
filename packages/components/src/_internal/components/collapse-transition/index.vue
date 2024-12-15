@@ -1,7 +1,7 @@
 <script setup lang='tsx'>
 import { collapseTransitionProps } from 'naive-ui'
 import { useMountStyle } from '../../useMountStyle'
-import ProFadeInExpandTransition from '../fade-in-expand-transition.vue'
+import ProFadeInExpandTransition from '../fade-in-expand-transition'
 import style from './styles/index.cssr'
 
 /**
