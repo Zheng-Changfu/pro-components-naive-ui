@@ -6,21 +6,39 @@
   "description": "基于 naive-ui 二次封装，让中后台开发更简单",
   "author": "zhengchangfu",
   "license": "MIT",
+  "homepage": "https://naive-ui.pro-components.cn/zh-CN/os-theme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zheng-Changfu/pro-naive-ui"
+  },
+  "keywords": [
+    "naive-ui",
+    "pro-naive-ui",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./es/index.d.ts",
+      "import": "./es/index.js",
+      "require": "./lib/index.js"
     }
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "unpkg": "./dist/index.js",
+  "jsdelivr": "./dist/index.js",
+  "types": "./es/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "es",
+    "lib"
   ],
   "engines": {
     "node": ">=18.12.0"
@@ -28,7 +46,9 @@
   "scripts": {
     "test:watch": "vitest",
     "test": "vitest run",
-    "build": "rollup -c --bundleConfigAsCjs"
+    "clean": "rimraf es lib dist",
+    "build2": "rollup -c --bundleConfigAsCjs",
+    "build": "pnpm clean && rollup -c --bundleConfigAsCjs"
   },
   "peerDependencies": {
     "naive-ui": "^2.38.2",
@@ -41,6 +61,7 @@
     "@babel/preset-env": "^7.26.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-replace": "^6.0.1",
     "@rollup/plugin-terser": "^0.4.4",
@@ -48,9 +69,8 @@
     "deepmerge": "^4.3.1",
     "jsdom": "^24.0.0",
     "rollup": "^4.28.1",
+    "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-esbuild": "^6.1.1",
-    "rollup-plugin-typescript2": "^0.36.0",
-    "rollup-plugin-vue": "^6.0.0",
     "vitest": "^1.6.0"
   }
 }
