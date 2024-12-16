@@ -152,9 +152,8 @@ export default defineComponent({
                 <NDataTable
                   ref="nDataTableInst"
                   {...this.nDataTableProps}
-                >
-                  {this.$slots}
-                </NDataTable>
+                  v-slots={this.$slots}
+                />
               )
               return [
                 resolveWrappedSlot(this.$slots.extra, (children) => {

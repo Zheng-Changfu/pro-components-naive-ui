@@ -91,8 +91,8 @@ export default defineComponent({
         <NTransfer
           {...this.$attrs}
           {...this.nTransferProps}
+          v-slots={this.$slots}
         >
-          {this.$slots}
         </NTransfer>
       )
     }

@@ -44,7 +44,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return <AutoComplete {...pureProps}>{this.$slots}</AutoComplete>
+            return <AutoComplete {...pureProps} v-slots={this.$slots}></AutoComplete>
           },
         }}
       </ProField>

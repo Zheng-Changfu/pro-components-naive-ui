@@ -102,8 +102,8 @@ export default defineComponent({
           ref="instRef"
           {...this.$attrs}
           {...this.nTimePickerProps}
+          v-slots={this.$slots}
         >
-          {this.$slots}
         </NTimePicker>
       )
     }

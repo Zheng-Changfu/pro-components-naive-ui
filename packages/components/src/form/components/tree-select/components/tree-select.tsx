@@ -96,8 +96,8 @@ export default defineComponent({
           ref="instRef"
           {...this.$attrs}
           {...this.$props}
+          v-slots={this.$slots}
         >
-          {this.$slots}
         </NTreeSelect>
       )
     }

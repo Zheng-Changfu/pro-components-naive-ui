@@ -99,9 +99,7 @@ export default defineComponent({
   },
   render() {
     return (
-      <NForm {...this.nFormProps}>
-        {this.$slots}
-      </NForm>
+      <NForm {...this.nFormProps} v-slots={this.$slots}></NForm>
     )
   },
 })

@@ -133,8 +133,8 @@ export default defineComponent({
           ref="instRef"
           {...this.$attrs}
           {...this.nDatePickerProps}
+          v-slots={this.$slots}
         >
-          {this.$slots}
         </NDatePicker>
       )
     }

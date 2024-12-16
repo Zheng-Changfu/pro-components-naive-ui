@@ -95,9 +95,8 @@ export default defineComponent({
                   validateBehavior: this.proFieldProps.validateBehavior,
                   validateBehaviorProps: this.proFieldProps.validateBehaviorProps,
                 }}
-              >
-                {this.$slots}
-              </EditDataTable>
+                v-slots={this.$slots}
+              />
             )
           },
         }}

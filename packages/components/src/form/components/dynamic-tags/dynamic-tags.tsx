@@ -38,7 +38,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return <DynamicTags {...pureProps}>{this.$slots}</DynamicTags>
+            return <DynamicTags {...pureProps} v-slots={this.$slots}></DynamicTags>
           },
         }}
       </ProField>

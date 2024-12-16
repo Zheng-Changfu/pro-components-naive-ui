@@ -97,7 +97,7 @@ const XProJsonCode = defineComponent({
            * @param pureProps 外界在 fieldProps 中写的属性 + (value + onUpdate:value)
            */
           input: (pureProps: InputProps) => {
-            return <JsonCode {...pureProps}>{this.$slots}</JsonCode>
+            return <JsonCode {...pureProps} v-slots={this.$slots}></JsonCode>
           },
         }}
       </ProField>
