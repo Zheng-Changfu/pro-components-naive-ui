@@ -12,7 +12,6 @@
     "build:components": "pnpm --filter pro-naive-ui run build",
     "test": "pnpm --filter pro-naive-ui run test",
     "lint:fix": "eslint . --fix",
-    "gen-version": "pnpm --filter pro-naive-ui run gen-version",
     "build:resolver": "pnpm --filter pro-naive-ui-resolver run build",
     "release:resolver": "pnpm lint:fix && pnpm build:resolver && pnpm changeset && pnpm changeset version && pnpm changeset publish",
     "release:components": "pnpm lint:fix && pnpm build:components && pnpm changeset && pnpm changeset version && pnpm changeset publish"
