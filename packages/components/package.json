@@ -47,13 +47,13 @@
     "test:watch": "vitest",
     "test": "vitest run",
     "clean": "rimraf es lib dist",
-    "build": "pnpm clean && pnpm build:all",
-    "build:all": "pnpm build:es",
-    "build:all2": "pnpm build:umd && pnpm build:esm",
+    "build": "pnpm clean && pnpm gen-version && pnpm build:all && node scripts/post-build && rimraf *.tsbuildinfo",
+    "build:all": "pnpm build:es && pnpm build:lib && pnpm build:umd && pnpm build:esm",
     "build:es": "tsc -b --force tsconfig.esm.json",
     "build:lib": "tsc -b --force tsconfig.cjs.json",
     "build:umd": "rollup --bundleConfigAsCjs --config rollup.umd.config.js",
-    "build:esm": "rollup --bundleConfigAsCjs --config rollup.esm.config.js"
+    "build:esm": "rollup --bundleConfigAsCjs --config rollup.esm.config.js",
+    "gen-version": "node scripts/gen-version"
   },
   "peerDependencies": {
     "naive-ui": "^2.38.2",

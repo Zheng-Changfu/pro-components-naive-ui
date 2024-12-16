@@ -20,7 +20,6 @@ export default defineConfig(({ mode }) => {
     },
     define: {
       '__DEV__': nodeEnv !== 'production',
-      '__VERSION__': JSON.stringify(version),
       'process.env.NODE_ENV': nodeEnv !== 'production',
     },
     plugins: [

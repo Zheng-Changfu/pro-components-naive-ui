@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES6",
     "jsx": "preserve",
+    "jsxFactory": "h",
     "jsxImportSource": "vue",
     "lib": [
-      "ES2020",
       "DOM",
+      "ESNext",
       "DOM.Iterable"
     ],
     "useDefineForClassFields": true,
     "module": "ESNext",
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "paths": {
       "pro-naive-ui": [
         "./packages/components/src/index.ts"
@@ -22,9 +23,12 @@
     /* Linting */
     "strict": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "skipLibCheck": true
   },
