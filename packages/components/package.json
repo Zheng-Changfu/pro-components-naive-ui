@@ -48,7 +48,7 @@
     "test": "vitest run",
     "clean": "rimraf es lib dist",
     "build": "pnpm clean && pnpm build:all",
-    "build:all": "pnpm build:umd && pnpm build:esm",
+    "build:all": "pnpm build:umd",
     "build:all2": "pnpm build:es && pnpm build:lib && pnpm build:umd && pnpm build:esm",
     "build:es": "tsc -b --force tsconfig.esm.json",
     "build:lib": "tsc -b --force tsconfig.cjs.json",

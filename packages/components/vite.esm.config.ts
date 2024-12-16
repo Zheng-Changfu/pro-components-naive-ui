@@ -1,8 +1,12 @@
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import { defineConfig } from 'vite'
 
 export default defineConfig(({ mode }) => {
   const dev = mode === 'dev'
   return {
+    plugins: [
+      vueJsx(),
+    ],
     build: {
       lib: {
         entry: './src/index.ts',

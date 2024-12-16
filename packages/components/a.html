@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <script src="https://unpkg.com/vue"></script>
+  <!-- 会使用最新版本，你最好指定一个版本 -->
+  <script src="https://unpkg.com/naive-ui"></script>
+  <script src="./dist/index.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <pro-card title="123"></pro-card>
+  </div>
+  <script>
+    const App = {
+      setup() {
+        return {
+          message: 'pro-naive'
+        }
+      }
+    }
+    const app = Vue.createApp(App)
+    app.use(proNaive)
+    app.mount('#app')
+  </script>
+</body>
+
+</html>

@@ -1,3 +1,5 @@
+import path from 'node:path'
+import esbuild from 'rollup-plugin-esbuild'
 import { defineConfig } from 'vite'
 
 export default defineConfig(({ mode }) => {
@@ -22,6 +24,13 @@ export default defineConfig(({ mode }) => {
             'naive-ui': 'naive',
           },
         },
+        plugins: [
+          esbuild({
+            target: 'esnext',
+            sourceMap: true,
+            tsconfig: path.resolve(__dirname, './tsconfig.esbuild.json'),
+          }),
+        ],
       },
     },
     define: {
