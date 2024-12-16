@@ -63,8 +63,9 @@ export default defineComponent({
               <ProFormItem
                 ref="formItemInstRef"
                 {...this.proFormItemProps}
-                v-slots={this.$slots}
-              />
+              >
+                {this.$slots}
+              </ProFormItem>
             )
           },
           default: () => {

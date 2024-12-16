@@ -79,8 +79,9 @@ export default defineComponent({
           ref="instRef"
           {...this.$attrs}
           {...this.nAutoCompleteProps}
-          v-slots={this.$slots}
-        />
+        >
+          {this.$slots}
+        </NAutoComplete>
       )
     }
 

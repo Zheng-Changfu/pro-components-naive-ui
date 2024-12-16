@@ -202,8 +202,9 @@ export default defineComponent({
           removeButtonProps={removeButtonProps}
           extraProFieldConfig={extraProFieldConfig}
           onlyShowFirstItemLabel={onlyShowFirstItemLabel}
-          v-slots={$slots}
-        />
+        >
+          {$slots}
+        </FormListItem>
       )
     })
 

@@ -39,8 +39,9 @@ export default defineComponent({
             {...this.$props}
             {...this.$attrs}
             disabled={disabled}
-            v-slots={slots}
-          />
+          >
+            {slots}
+          </NColorPicker>
         )
 
     return this.$slots.input

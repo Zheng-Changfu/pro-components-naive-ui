@@ -44,12 +44,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <TreeSelect
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <TreeSelect {...pureProps}>{this.$slots}</TreeSelect>
           },
         }}
       </ProField>

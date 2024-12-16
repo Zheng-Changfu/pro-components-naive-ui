@@ -75,8 +75,9 @@ export default defineComponent({
                   validateBehavior: this.proFieldProps.validateBehavior,
                   validateBehaviorProps: this.proFieldProps.validateBehaviorProps,
                 }}
-                v-slots={this.$slots}
-              />
+              >
+                {this.$slots}
+              </FormList>
             )
           },
         }}

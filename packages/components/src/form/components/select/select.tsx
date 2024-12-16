@@ -44,12 +44,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <Select
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <Select {...pureProps}>{this.$slots}</Select>
           },
         }}
       </ProField>

@@ -76,8 +76,9 @@ export default defineComponent({
           ref="instRef"
           {...this.$props}
           {...this.$attrs}
-          v-slots={this.$slots}
-        />
+        >
+          {this.$slots}
+        </NInput>
       )
     }
 

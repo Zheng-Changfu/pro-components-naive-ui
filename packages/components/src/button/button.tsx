@@ -50,11 +50,12 @@ export default defineComponent({
             <NButton
               {...$attrs}
               {...nButtonProps}
-              v-slots={{
+            >
+              {{
                 ...$slots,
                 default: () => $props.content ?? $slots.default?.(),
               }}
-            />
+            </NButton>
           ),
         }}
       </ProTooltip>

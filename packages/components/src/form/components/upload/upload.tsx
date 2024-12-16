@@ -69,12 +69,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <Upload
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <Upload {...pureProps}>{this.$slots}</Upload>
           },
         }}
       </ProField>

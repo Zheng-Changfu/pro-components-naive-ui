@@ -28,8 +28,9 @@ export default defineComponent({
         {...this.$props}
         {...this.$attrs}
         readonly={rateReadonly}
-        v-slots={this.$slots}
-      />
+      >
+        {this.$slots}
+      </NRate>
     )
 
     return this.$slots.input

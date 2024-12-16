@@ -38,12 +38,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <Slider
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <Slider {...pureProps}>{this.$slots}</Slider>
           },
         }}
       </ProField>

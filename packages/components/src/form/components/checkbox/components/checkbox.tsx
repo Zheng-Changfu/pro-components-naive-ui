@@ -40,8 +40,9 @@ export default defineComponent({
         {...this.$props}
         {...this.$attrs}
         disabled={disabled}
-        v-slots={this.$slots}
-      />
+      >
+        {this.$slots}
+      </NCheckbox>
     )
 
     return this.$slots.input

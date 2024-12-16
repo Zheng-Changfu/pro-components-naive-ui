@@ -38,12 +38,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <CheckboxGroup
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <CheckboxGroup {...pureProps}>{this.$slots}</CheckboxGroup>
           },
         }}
       </ProField>

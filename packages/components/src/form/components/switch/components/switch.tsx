@@ -39,8 +39,9 @@ export default defineComponent({
         <NSwitch
           {...this.$props}
           {...this.$attrs}
-          v-slots={this.$slots}
-        />
+        >
+          {this.$slots}
+        </NSwitch>
       )
     }
 

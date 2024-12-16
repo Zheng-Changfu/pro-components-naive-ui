@@ -45,12 +45,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <Checkbox
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <Checkbox {...pureProps}>{this.$slots}</Checkbox>
           },
         }}
       </ProField>

@@ -57,10 +57,9 @@ export default defineComponent({
   },
   render() {
     return (
-      <NConfigProvider
-        {...this.nConfigProviderProps as ConfigProviderProps}
-        v-slots={this.$slots}
-      />
+      <NConfigProvider {...this.nConfigProviderProps as ConfigProviderProps}>
+        {this.$slots}
+      </NConfigProvider>
     )
   },
 })

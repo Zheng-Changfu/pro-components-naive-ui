@@ -44,12 +44,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <Cascader
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <Cascader {...pureProps}>{this.$slots}</Cascader>
           },
         }}
       </ProField>

@@ -27,8 +27,9 @@ export default defineComponent({
           <NSlider
             {...this.$props}
             {...this.$attrs}
-            v-slots={this.$slots}
-          />
+          >
+            {this.$slots}
+          </NSlider>
         )
 
     return this.$slots.input
