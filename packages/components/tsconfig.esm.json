@@ -1,13 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "composite": true,
     "target": "ES6",
     "rootDir": "./src",
     "module": "ES6",
-    "declaration": true,
-    "noEmit": false,
-    "outDir": "es"
+    "declaration": true
   },
   "include": [
     "./src/**/*",

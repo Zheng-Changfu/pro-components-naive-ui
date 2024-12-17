@@ -1,3 +1,4 @@
+import babel from '@rollup/plugin-babel'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { defineConfig } from 'vite'
 
@@ -20,6 +21,11 @@ export default defineConfig(({ mode }) => {
           dir: 'dist',
           entryFileNames: dev ? 'index.mjs' : 'index.prod.mjs',
         },
+        plugins: [
+          babel({
+            babelHelpers: 'bundled',
+          }),
+        ],
       },
     },
     define: {

@@ -48,10 +48,9 @@
     "test": "vitest run",
     "clean": "rimraf es lib dist",
     "build": "pnpm clean && pnpm build:all",
-    "build:all": "pnpm build:umd",
-    "build:all2": "pnpm build:es && pnpm build:lib && pnpm build:umd && pnpm build:esm",
-    "build:es": "tsc -b --force tsconfig.esm.json",
-    "build:lib": "tsc -b --force tsconfig.cjs.json",
+    "build:all": "pnpm build:es && pnpm build:lib && pnpm build:esm && pnpm build:umd",
+    "build:es": "vite build --config vite.es.config.ts",
+    "build:lib": "vite build --config vite.lib.config.ts",
     "build:umd": "pnpm build:umd-dev && pnpm build:umd-prod",
     "build:umd-dev": "vite build --config vite.umd.config.ts --mode dev",
     "build:umd-prod": "vite build --config vite.umd.config.ts --mode prod",
@@ -92,6 +91,7 @@
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-esbuild": "^6.1.1",
     "terser": "^5.37.0",
+    "vite-plugin-dts": "^4.0.1",
     "vitest": "^1.6.0"
   }
 }

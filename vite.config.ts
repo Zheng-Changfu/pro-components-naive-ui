@@ -65,13 +65,7 @@ export default defineConfig(({ mode }) => {
             'vue': ['vue'],
             'naive-ui': ['naive-ui'],
             'vue-router': ['vue-router'],
-            'css-render': [
-              'css-render',
-              '@css-render/vue3-ssr',
-              '@css-render/plugin-bem',
-            ],
             'vicons': [
-              '@vicons/antd',
               '@vicons/ionicons5',
             ],
           },

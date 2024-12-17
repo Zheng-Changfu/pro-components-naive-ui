@@ -1,10 +1,13 @@
-import path from 'node:path'
-import esbuild from 'rollup-plugin-esbuild'
+import babel from '@rollup/plugin-babel'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import { defineConfig } from 'vite'
 
 export default defineConfig(({ mode }) => {
   const dev = mode === 'dev'
   return {
+    plugins: [
+      vueJsx(),
+    ],
     build: {
       lib: {
         entry: './src/index.ts',
@@ -25,10 +28,8 @@ export default defineConfig(({ mode }) => {
           },
         },
         plugins: [
-          esbuild({
-            target: 'esnext',
-            sourceMap: true,
-            tsconfig: path.resolve(__dirname, './tsconfig.esbuild.json'),
+          babel({
+            babelHelpers: 'bundled',
           }),
         ],
       },

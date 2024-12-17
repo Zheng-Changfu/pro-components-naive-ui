@@ -10,20 +10,20 @@ export default defineConfig({
     externalNodeModules(),
     vueJsx(),
     dts({
-      outDir: 'lib',
-      tsconfigPath: path.resolve(__dirname, './tsconfig.cjs.json'),
+      outDir: 'es',
+      tsconfigPath: path.resolve(__dirname, './tsconfig.esm.json'),
     }),
   ],
   build: {
     minify: false,
     lib: {
       entry: './src/index.ts',
-      formats: ['cjs'],
+      formats: ['es'],
     },
     emptyOutDir: false,
     rollupOptions: {
       output: {
-        dir: 'lib',
+        dir: 'es',
         preserveModules: true,
         preserveModulesRoot: 'src',
         entryFileNames: '[name].js',
