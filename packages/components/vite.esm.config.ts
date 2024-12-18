@@ -1,5 +1,6 @@
 import babel from '@rollup/plugin-babel'
 import replace from '@rollup/plugin-replace'
+import terser from '@rollup/plugin-terser'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { defineConfig } from 'vite'
 
@@ -14,13 +15,13 @@ export default defineConfig(({ mode }) => {
         entry: './src/index.ts',
         formats: ['es'],
       },
-      minify: dev ? false : 'terser',
+      //  https://vitejs.cn/vite5-cn/config/build-options.html#build-minify
+      minify: false,
       emptyOutDir: false,
       rollupOptions: {
         external: ['vue', 'naive-ui'],
         output: {
           dir: 'dist',
-          format: 'esm',
           entryFileNames: dev ? 'index.mjs' : 'index.prod.mjs',
         },
         plugins: [
@@ -34,6 +35,8 @@ export default defineConfig(({ mode }) => {
           babel({
             babelHelpers: 'bundled',
           }),
+          // https://github.com/vitejs/vite/issues/8848#issuecomment-1179770202
+          !dev && terser(),
         ],
       },
     },
