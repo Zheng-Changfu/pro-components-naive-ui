@@ -15,7 +15,7 @@
     "lint:fix": "eslint . --fix",
     "build:resolver": "pnpm --filter pro-naive-ui-resolver run build",
     "release:resolver": "pnpm lint:fix && pnpm build:resolver && pnpm changeset && pnpm changeset version && pnpm changeset publish",
-    "release:components": "pnpm lint:fix && pnpm build:components && pnpm changeset && pnpm changeset version && pnpm changeset publish"
+    "release:components": "pnpm lint:fix && pnpm changeset && pnpm changeset version && pnpm build:components && pnpm changeset publish"
   },
   "dependencies": {
     "@types/katex": "^0.16.7",
