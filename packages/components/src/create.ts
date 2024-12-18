@@ -1,9 +1,11 @@
 import type { App } from 'vue'
 import { isPlainObject } from 'lodash-es'
+import version from './version'
 
 type ComponentType = any
+
 export interface UiInstance {
-  // version: string
+  version: string
   install: (app: App) => void
 }
 
@@ -47,5 +49,6 @@ export function create({
   }
   return {
     install,
+    version,
   }
 }

@@ -1,1 +1,1 @@
-export default __VERSION__
+export default '1.0.0'
