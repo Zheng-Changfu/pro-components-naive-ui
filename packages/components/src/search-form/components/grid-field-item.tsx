@@ -85,13 +85,13 @@ export default defineComponent({
             return column.render
               ? column.render()
               : resolveComponentByValueType(column.valueType ?? 'input', {
-                fieldProps: this.fieldProps,
-                fieldSlots: column.fieldSlots,
-                proFieldProps: {
-                  ...this.proFieldProps,
-                  path: column.path,
-                },
-              })
+                  fieldProps: this.fieldProps,
+                  fieldSlots: column.fieldSlots,
+                  proFieldProps: {
+                    ...this.proFieldProps,
+                    path: column.path,
+                  },
+                })
           },
         }}
       </NGi>

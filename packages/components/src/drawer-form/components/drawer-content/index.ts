@@ -3,9 +3,9 @@ export {
 } from './drawer-content'
 
 export {
-  type FooterRender as ProDrawerFormFooterRender,
   type ProDrawerContentProps,
   proDrawerContentProps,
+  type FooterRender as ProDrawerFormFooterRender,
 } from './props'
 
 export * from './slots'

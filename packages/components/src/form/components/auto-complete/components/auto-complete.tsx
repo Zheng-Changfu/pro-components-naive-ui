@@ -87,10 +87,10 @@ export default defineComponent({
 
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: this.nAutoCompleteProps,
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: this.nAutoCompleteProps,
+        })
       : dom
   },
 })

@@ -21,11 +21,11 @@ export default defineComponent({
         render: row => Math.random() < 0.5
           ? renderTags(row.title)
           : renderTags([
-            {
-              type: 'info',
-              content: row.title,
-            },
-          ]),
+              {
+                type: 'info',
+                content: row.title,
+              },
+            ]),
       },
       {
         title: '日期格式化',

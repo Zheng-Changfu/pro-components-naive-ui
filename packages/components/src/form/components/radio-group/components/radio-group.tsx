@@ -113,13 +113,13 @@ export default defineComponent({
 
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: {
-          ...this.nRadioGroupProps,
-          options: this.normalizedOptions,
-        },
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: {
+            ...this.nRadioGroupProps,
+            options: this.normalizedOptions,
+          },
+        })
       : dom
   },
 })

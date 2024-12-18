@@ -141,10 +141,10 @@ export default defineComponent({
 
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: this.nDatePickerProps,
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: this.nDatePickerProps,
+        })
       : dom
   },
 })
