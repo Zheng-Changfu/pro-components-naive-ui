@@ -103,16 +103,17 @@ export default defineComponent({
           {...this.$attrs}
           {...this.nTimePickerProps}
           v-slots={this.$slots}
-        />
+        >
+        </NTimePicker>
       )
     }
 
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: this.nTimePickerProps,
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: this.nTimePickerProps,
+        })
       : dom
   },
 })

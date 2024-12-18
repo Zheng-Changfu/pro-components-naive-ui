@@ -11,7 +11,7 @@
 <script lang="tsx">
 import type { ProFormListInst } from 'pro-naive-ui'
 import { createProForm } from 'pro-naive-ui'
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))

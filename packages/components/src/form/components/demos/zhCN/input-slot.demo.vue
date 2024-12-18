@@ -36,8 +36,8 @@ export default defineComponent({
       path="custom-readonly"
       required
     >
-      <template #input="{ inputDom, inputProps, readonly }">
-        <div v-if="readonly" class="color-blue">
+      <template #input="{ inputDom, inputProps, readonly: selfReadonly }">
+        <div v-if="selfReadonly" class="color-blue">
           {{ inputProps.value ? `🤣${inputProps.value}🤣` : '暂无数据' }}
         </div>
         <component :is="inputDom" v-else />
@@ -48,8 +48,8 @@ export default defineComponent({
       path="usage-n-input"
       required
     >
-      <template #input="{ inputDom, inputProps, readonly }">
-        <component :is="inputDom" v-if="readonly" />
+      <template #input="{ inputDom, inputProps, readonly: selfReadonly }">
+        <component :is="inputDom" v-if="selfReadonly" />
         <n-input v-else v-bind="inputProps" />
       </template>
     </pro-input>

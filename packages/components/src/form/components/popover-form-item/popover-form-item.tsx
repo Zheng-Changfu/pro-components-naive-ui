@@ -3,7 +3,7 @@ import type { ProPopoverFormItemSlots } from './slots'
 import { onClickOutside, useEventListener } from '@vueuse/core'
 import { NPopover } from 'naive-ui'
 import { computed, defineComponent, ref, useAttrs } from 'vue'
-import { useFieldUtils } from '../field'
+import { useFieldUtils } from '../field/composables/useFieldUtils'
 import { ProFormItem } from '../form-item'
 import { proPopoverFormItemProps } from './props'
 
@@ -64,7 +64,8 @@ export default defineComponent({
                 ref="formItemInstRef"
                 {...this.proFormItemProps}
                 v-slots={this.$slots}
-              />
+              >
+              </ProFormItem>
             )
           },
           default: () => {

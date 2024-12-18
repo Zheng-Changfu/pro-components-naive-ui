@@ -1,7 +1,7 @@
 <markdown>
 # 动态属性
 
-有些时候,你的数据可能是动态获取的,如果是动态的[通用属性](field#通用的属性),需要写在 `proFieldProps` 中,如果是动态的 `fieldProps`,
+有些时候,你的数据可能是动态获取的,如果是动态的 [通用属性](field#通用的属性),需要写在 `proFieldProps` 中,如果是动态的 `fieldProps`,
 你可以写成一个函数
 </markdown>
 

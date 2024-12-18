@@ -1,9 +1,8 @@
 import type { ProButtonProps } from '../../button'
 import { PlusOutlined } from '@vicons/antd'
-import { useToggle } from '@vueuse/core'
 import { NIcon } from 'naive-ui'
 import { useInjectListField } from 'pro-composables'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { ProButton } from '../../button'
 import { useLocale } from '../../locales'
 import { internalEditDataTableProps } from '../props'
@@ -26,10 +25,7 @@ export default defineComponent({
       value: list,
     } = useInjectListField()!
 
-    const [
-      loading,
-      setLoading,
-    ] = useToggle()
+    const loading = ref(false)
 
     /**
      * 这里按钮不被 readonly 控制
@@ -64,7 +60,7 @@ export default defineComponent({
       const insertIndex = list.value.length
 
       if (beforeAddRow) {
-        setLoading(true)
+        loading.value = true
         const success = await beforeAddRow({ total: list.value.length, index: -1, insertIndex })
         if (success) {
           insert(insertIndex, creatorInitialValue?.() ?? {})
@@ -72,7 +68,7 @@ export default defineComponent({
             afterAddRow({ total: list.value.length, index: -1, insertIndex })
           }
         }
-        setLoading(false)
+        loading.value = false
       }
       else {
         insert(insertIndex, creatorInitialValue?.() ?? {})

@@ -3,7 +3,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
 import { proFieldSharedProps } from '../field'
 
-interface ProAutoCompleteFieldProps extends Omit<AutoCompleteProps, 'options'> {
+export interface ProAutoCompleteFieldProps extends Omit<AutoCompleteProps, 'options'> {
   /**
    * options 类型重写，支持函数，方便传递 value 值创建自动填充的选项
    */

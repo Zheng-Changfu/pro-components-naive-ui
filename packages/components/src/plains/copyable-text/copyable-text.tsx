@@ -2,7 +2,6 @@ import type { PropType } from 'vue'
 import type { ProCopyableTextConfig } from './types'
 import { CheckOutlined, CopyOutlined } from '@vicons/antd'
 import { useClipboard } from '@vueuse/core'
-import { isString, toString } from 'lodash-es'
 import { NButton, NIcon, NTooltip } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
@@ -109,8 +108,4 @@ export function renderCopyableText(value: any, config?: ProCopyableTextConfig) {
       config={config}
     />
   )
-}
-
-export function transformValueToString(value: any) {
-  return isString(value) ? value : toString(value)
 }

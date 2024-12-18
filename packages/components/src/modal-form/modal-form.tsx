@@ -1,6 +1,7 @@
 import type { SlotsType } from 'vue'
 import type { ProFormProps } from '../form'
 import type { ProModalProps } from '../modal/props'
+import type { ProModalFormProps } from './props'
 import type { ProModalFormSlots } from './slots'
 import { NFlex } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
@@ -10,7 +11,7 @@ import { keep } from '../_utils/keep'
 import { keysOf } from '../_utils/keysOf'
 import { resolveSlotWithProps, resolveWrappedSlotWithProps } from '../_utils/resolveSlot'
 import { useOverrideProps } from '../composables'
-import { proFormProps as _proFormProps, ProForm } from '../form'
+import { ProForm } from '../form'
 import { proFormPropKeys } from '../form/props'
 import { ProModal } from '../modal'
 import { proModalProps as _proModalProps } from '../modal/props'
@@ -25,12 +26,13 @@ export default defineComponent({
   props: proModalFormProps,
   slots: Object as SlotsType<ProModalFormSlots>,
   setup(props) {
-    let form = props.form
+    // 手动标注类型,防止因为类型复杂导致构建类型声明文件失败,先用 any 解决
+    let form = props.form as any
     if (!form && __DEV__) {
       form = createProModalForm()
     }
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProModalFormProps>(
       name,
       props,
     )
@@ -155,7 +157,6 @@ export default defineComponent({
             })
           },
         }}
-
       </ProModal>
     )
   },

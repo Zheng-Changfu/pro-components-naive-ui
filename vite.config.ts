@@ -7,14 +7,13 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
 // import { analyzer } from 'vite-bundle-analyzer'
 import vitePluginDemo from './build/vite-plugin-demo'
-import { ProNaiveUiResolver } from './packages/resolver/index'
+import { ProNaiveUIResolver } from './packages/resolver/index'
 
 export default defineConfig(({ mode }) => {
   const nodeEnv = loadEnv(mode, './').VITE_USER_NODE_ENV
   return {
     optimizeDeps: {
       include: [
-        'seemly',
         'mockjs',
       ],
     },
@@ -25,7 +24,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       UnoCSS(),
       ...vitePluginDemo(),
-      vueJsx({}),
+      vueJsx(),
       AutoImport({
         imports: [
           'vue',
@@ -42,7 +41,7 @@ export default defineConfig(({ mode }) => {
       Components({
         resolvers: [
           NaiveUiResolver(),
-          ProNaiveUiResolver(),
+          ProNaiveUIResolver(),
         ],
       }),
       // analyzer(),
@@ -51,7 +50,7 @@ export default defineConfig(({ mode }) => {
       alias: [
         {
           find: 'pro-naive-ui',
-          replacement: resolve(__dirname, './packages/components/index.ts'),
+          replacement: resolve(__dirname, './packages/components/src/index.ts'),
         },
         {
           find: '/demo',
@@ -66,14 +65,7 @@ export default defineConfig(({ mode }) => {
             'vue': ['vue'],
             'naive-ui': ['naive-ui'],
             'vue-router': ['vue-router'],
-            'css-render': [
-              'css-render',
-              '@css-render/vue3-ssr',
-              '@css-render/plugin-bem',
-            ],
             'vicons': [
-              '@vicons/antd',
-              '@vicons/fluent',
               '@vicons/ionicons5',
             ],
           },

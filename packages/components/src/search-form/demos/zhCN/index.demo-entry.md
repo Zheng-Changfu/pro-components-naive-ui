@@ -1,7 +1,7 @@
 # 查询表单 ProSearchForm
 <!--single-column-->
 
-有些是时候表单要与别的组件组合使用，常见的有 DataTable,这时候就需要一些特殊形态的表单。ProSearchForm 解决了配合组件使用的问题,避免了复杂的样式设置。
+有些是时候表单要与别的组件组合使用,常见的有 DataTable,这时候就需要一些特殊形态的表单。ProSearchForm 解决了配合组件使用的问题,避免了复杂的样式设置。
 因为展现形态比较固定,所以我们以 json 的方式来组织代码,支持完整的类型推导
 
 <n-alert type="warning" title="注意" :bordered="false">
@@ -17,7 +17,6 @@ custom-button.vue
 ```
 
 ## API
-## API
 ### ProSearchForm 属性
 引用到的类型声明介绍如下
 ```typescript
@@ -25,16 +24,16 @@ import type { GridProps } from 'naive-ui'
 import type { ProButtonProps } from 'pro-naive-ui'
 ```
 
-| 名称                                                                            | 类型                                                         | 默认值 | 说明                                             | 版本 |
-| ------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------ | ------------------------------------------------ | ---- |
-| columns                                                                         | <n-a href="#ProSearchFormColumn">ProSearchFormColumn[]</n-a> | `-`    | 表单项集合                                       |      |
-| gridProps                                                                       | `GridProps`                                                  | `-`    | 透传给 `n-grid` 的属性，某些属性有冲突时可能有用 |      |
-| showSuffixGridItem                                                              | `boolean`                                                    | `true` | 是否显示后缀(收起、重置、查询)                   |      |
-| resetButtonProps                                                                | `ProButtonProps \| false`                                    | `-`    | 重置按钮的属性,`false` 不显示                    |      |
-| searchButtonProps                                                               | `ProButtonProps \| false`                                    | `-`    | 查询按钮的属性,`false` 不显示                    |      |
-| collapseButtonProps                                                             | `ProButtonProps \| false`                                    | `-`    | 展开收起按钮的属性,`false` 不显示                |      |
-| [参考 ProForm](form#ProForm-属性)                                               |                                                              |        |                                                  |      |
-| [参考 NGrid](https://www.naiveui.com/zh-CN/os-theme/components/grid#Grid-Props) |                                                              |        | 不支持 `collapsed` 属性                          |      |
+| 名称                                                                            | 类型                                                         | 默认值 | 说明                                            | 版本 |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------ | ----------------------------------------------- | ---- |
+| columns                                                                         | <n-a href="#ProSearchFormColumn">ProSearchFormColumn[]</n-a> | `-`    | 表单项集合                                      |      |
+| gridProps                                                                       | `GridProps`                                                  | `-`    | 透传给 `n-grid` 的属性,某些属性有冲突时可能有用 |      |
+| showSuffixGridItem                                                              | `boolean`                                                    | `true` | 是否显示后缀(收起、重置、查询)                  |      |
+| resetButtonProps                                                                | `ProButtonProps \| false`                                    | `-`    | 重置按钮的属性,`false` 不显示                   |      |
+| searchButtonProps                                                               | `ProButtonProps \| false`                                    | `-`    | 查询按钮的属性,`false` 不显示                   |      |
+| collapseButtonProps                                                             | `ProButtonProps \| false`                                    | `-`    | 展开收起按钮的属性,`false` 不显示               |      |
+| [参考 ProForm](form#ProForm-属性)                                               |                                                              |        |                                                 |      |
+| [参考 NGrid](https://www.naiveui.com/zh-CN/os-theme/components/grid#Grid-Props) |                                                              |        | 不支持 `collapsed` 属性                         |      |
 
 ### ProSearchForm 插槽
 引用到的类型声明介绍如下
@@ -50,27 +49,29 @@ import type { VNodeChild } from 'vue'
 创建一个查询表单控制器,如果已经注册了控制器,想在后代组件中使用,无需透传,可以使用 `useInjectProSearchForm` 方法直接注入,
 用法同 [createProForm](form#createProForm),调用后的返回值增加了几个参数
 
-| 名称           | 类型                            | 默认值 | 说明                               | 版本 |
-| -------------- | ------------------------------- | ------ | ---------------------------------- | ---- |
-| collapsed      | `ComputedRef<boolean>`          | `-`    | 是否收起                           |      |
-| toggleCollapse | `(collapsed?: boolean) => void` | `-`    | 切换收起,传递了此参数,根据参数切换 |      |
+| 名称                                              | 类型                            | 默认值 | 说明                               | 版本 |
+| ------------------------------------------------- | ------------------------------- | ------ | ---------------------------------- | ---- |
+| collapsed                                         | `ComputedRef<boolean>`          | `-`    | 是否收起                           |      |
+| toggleCollapse                                    | `(collapsed?: boolean) => void` | `-`    | 切换收起,传递了此参数,根据参数切换 |      |
+| [参考 createProform](form#createProForm-Returned) |                                 |        |                                    |      |
 
 调用时的参数中还增加了
 
-| 名称             | 类型      | 默认值  | 说明         | 版本 |
-| ---------------- | --------- | ------- | ------------ | ---- |
-| defaultCollapsed | `boolean` | `false` | 默认是否收起 |      |
+| 名称                                             | 类型      | 默认值  | 说明         | 版本 |
+| ------------------------------------------------ | --------- | ------- | ------------ | ---- |
+| defaultCollapsed                                 | `boolean` | `false` | 默认是否收起 |      |
+| [参考 createProform](form#createProForm-Options) |           |         |              |      |
 
 ### ProSearchFormColumn
 它是用来定义每一个表单项的
 
 | 名称                                                                                    | 类型                                                               | 默认值    | 说明                                                                                                                        | 版本 |
 | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | --------- | --------------------------------------------------------------------------------------------------------------------------- | ---- |
-| render                                                                                  | `() => VNodeChild`                                                 | `-`       | 当 `valueType` 不满足需求时，可以自定义渲染                                                                                 |      |
+| render                                                                                  | `() => VNodeChild`                                                 | `-`       | 当 `valueType` 不满足需求时,可以自定义渲染                                                                                  |      |
 | valueType                                                                               | <n-a href="#ProFieldColumnValueType">ProFieldColumnValueType</n-a> | `'input'` | 要根据哪个组件类型渲染值,默认是 `input`,因为支持按需加载,所以要保证使用的组件已经被 `Vue` 注册,否则会在开发期间抛出一个警告 |      |
 | fieldProps                                                                              | `object \| () => object`                                           | `-`       | 控件的 `props`,比如 `pro-input` 控件,这里就支持 `n-input` 的所有 `props`,其他控件同理,如果是动态属性可以写成一个函数        |      |
-| fieldSlots                                                                              | `object`                                                           | `-`       | 控件的 `slots`,比如 `pro-input` 控件,这里就支持 `n-input` 的所有 `slots` 和[通用插槽](field#通用的插槽) ,其他控件同理       |      |
-| proFieldProps                                                                           | `object \| () => object`                                           | `-`       | 如果是动态的[通用属性](field#通用的属性),可以写在这里,不过你需要写成一个函数                                                |      |
+| fieldSlots                                                                              | `object`                                                           | `-`       | 控件的 `slots`,比如 `pro-input` 控件,这里就支持 `n-input` 的所有 `slots` 和 [通用插槽](field#通用的插槽) ,其他控件同理      |      |
+| proFieldProps                                                                           | `object \| () => object`                                           | `-`       | 如果是动态的 [通用属性](field#通用的属性),可以写在这里,不过你需要写成一个函数                                               |      |
 | [参考通用属性](field#通用的属性)                                                        |                                                                    |           | 如果是动态的属性,可以写到 `proFieldProps` 属性上                                                                            |      |
 | [参考 NGridItem](https://www.naiveui.com/zh-CN/os-theme/components/grid#GridItem-Props) |                                                                    |           | 不支持 `suffix` 属性                                                                                                        |      |
 

@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProCheckboxGroupProps } from './props'
 import type { ProCheckboxGroupSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps, usePostValue } from '../../../composables'
@@ -13,7 +14,7 @@ export default defineComponent({
   props: proCheckboxGroupProps,
   slots: Object as SlotsType<ProCheckboxGroupSlots>,
   setup(props) {
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProCheckboxGroupProps>(
       name,
       props,
     )
@@ -37,12 +38,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <CheckboxGroup
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <CheckboxGroup {...pureProps} v-slots={this.$slots}></CheckboxGroup>
           },
         }}
       </ProField>

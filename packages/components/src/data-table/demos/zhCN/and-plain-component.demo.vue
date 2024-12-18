@@ -64,6 +64,6 @@ export default defineComponent({
   <pro-data-table
     :data="data"
     :columns="columns"
-    :row-key="row => row.no"
+    row-key="no"
   />
 </template>

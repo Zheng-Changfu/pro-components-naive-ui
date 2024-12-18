@@ -1,6 +1,6 @@
 import type { ComponentResolver } from 'unplugin-vue-components'
 
-export function ProNaiveUiResolver(): ComponentResolver {
+export function ProNaiveUIResolver(): ComponentResolver {
   return {
     type: 'component',
     resolve: (name: string) => {

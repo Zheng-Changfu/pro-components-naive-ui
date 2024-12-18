@@ -1,10 +1,11 @@
 import type { SlotsType } from 'vue'
+import type { ProCardProps } from './props'
 import type { ProCardSlots } from './slots'
 import { DownOutlined, InfoCircleOutlined, UpOutlined } from '@vicons/antd'
 import { isFunction } from 'lodash-es'
 import { collapseTransitionProps, NCard, NFlex, NIcon } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
-import ProCollapseTransition from '../_internal/components/collapse-transition/index.vue'
+import ProCollapseTransition from '../_internal/components/collapse-transition'
 import ProTooltip from '../_internal/components/pro-tooltip'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
@@ -26,7 +27,7 @@ export default defineComponent({
       getMessage,
     } = useLocale('ProCard')
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProCardProps>(
       name,
       props,
     )

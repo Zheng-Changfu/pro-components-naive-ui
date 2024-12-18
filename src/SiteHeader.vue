@@ -71,11 +71,11 @@ export default defineComponent({
           label: t('home'),
           path: themeAndLocaleReg.exec(route.path)![0],
         },
-        // {
-        //   key: 'doc',
-        //   label: t('doc'),
-        //   path: `${themeAndLocaleReg.exec(route.path)![0]}/docs/introduction`,
-        // },
+        {
+          key: 'doc',
+          label: t('doc'),
+          path: `${themeAndLocaleReg.exec(route.path)![0]}/docs/introduction`,
+        },
         {
           key: 'component',
           label: t('component'),

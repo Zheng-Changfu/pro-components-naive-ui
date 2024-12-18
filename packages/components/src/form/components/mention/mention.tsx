@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProMentionProps } from './props'
 import type { ProMentionSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps, usePostValue } from '../../../composables'
@@ -18,7 +19,7 @@ export default defineComponent({
       exposed,
     } = provideMentionInstStore()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProMentionProps>(
       name,
       props,
     )
@@ -43,12 +44,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <Mention
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <Mention {...pureProps} v-slots={this.$slots}></Mention>
           },
         }}
       </ProField>

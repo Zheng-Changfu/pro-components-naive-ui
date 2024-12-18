@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProAutoCompleteProps } from './props'
 import type { ProAutoCompleteSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps, usePostValue } from '../../../composables'
@@ -18,7 +19,7 @@ export default defineComponent({
       exposed,
     } = provideAutoCompleteInstStore()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProAutoCompleteProps>(
       name,
       props,
     )
@@ -43,12 +44,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <AutoComplete
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <AutoComplete {...pureProps} v-slots={this.$slots}></AutoComplete>
           },
         }}
       </ProField>

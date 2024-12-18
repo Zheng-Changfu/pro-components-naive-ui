@@ -92,16 +92,17 @@ export default defineComponent({
           {...this.$attrs}
           {...this.nTransferProps}
           v-slots={this.$slots}
-        />
+        >
+        </NTransfer>
       )
     }
 
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: this.nTransferProps,
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: this.nTransferProps,
+        })
       : dom
   },
 })

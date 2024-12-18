@@ -40,16 +40,17 @@ export default defineComponent({
           {...this.$props}
           {...this.$attrs}
           v-slots={this.$slots}
-        />
+        >
+        </NSwitch>
       )
     }
 
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: this.$props,
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: this.$props,
+        })
       : dom
   },
 })

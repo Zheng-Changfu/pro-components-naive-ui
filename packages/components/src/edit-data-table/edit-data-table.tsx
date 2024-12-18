@@ -1,11 +1,12 @@
 import type { SlotsType } from 'vue'
+import type { ProEditDataTableProps } from './props'
 import type { ProEditDataTableSlots } from './slots'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { keep } from '../_utils/keep'
 import { useOverrideProps } from '../composables'
-import { proFieldProps as _proFieldProps, pickProListFieldSharedProps, ProField } from '../form'
+import { pickProListFieldSharedProps, ProField } from '../form'
 import EditDataTable from './components/edit-data-table'
 import { provideEditDataTableInstStore } from './inst'
 import { internalEditDataTablePropKeys, proEditDataTableProps } from './props'
@@ -21,7 +22,7 @@ export default defineComponent({
       exposed,
     } = provideEditDataTableInstStore()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProEditDataTableProps>(
       name,
       props,
     )

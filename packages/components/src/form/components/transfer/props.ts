@@ -4,7 +4,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
 import { proFieldSharedProps } from '../field'
 
-interface ProTransferFieldProps extends TransferProps {
+export interface ProTransferFieldProps extends TransferProps {
   /**
    * 选项 label 的字段名
    * @default 'label'

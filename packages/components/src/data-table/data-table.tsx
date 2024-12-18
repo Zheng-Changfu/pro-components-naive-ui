@@ -2,6 +2,7 @@ import type { DataTableProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProDataTableInst } from './inst'
+import type { ProDataTableProps } from './props'
 import type { ProDataTableSlots } from './slots'
 import { NDataTable } from 'naive-ui'
 import { computed, defineComponent } from 'vue'
@@ -11,13 +12,12 @@ import { resolveSlotWithProps, resolveWrappedSlot } from '../_utils/resolveSlot'
 import { ProCard } from '../card'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { provideWrappedIn } from '../config-provider'
-import { useCheckedRowKeys } from './composables/useCheckedRowKeys'
 import { useColumns } from './composables/useColumns'
 import { useDraggableSort } from './composables/useDraggableSort'
 import { useNDataTableInst } from './composables/useNDataTableInst'
-import { useRowProps } from './composables/useRowProps'
 import { proDataTableExtendProps, proDataTableProps } from './props'
 import style from './styles/index.cssr'
+import { resolveRowKey } from './utils/resolveRowKey'
 
 const name = 'ProDataTable'
 export default defineComponent({
@@ -27,7 +27,7 @@ export default defineComponent({
   setup(props, { slots, expose }) {
     const mergedClsPrefix = useNaiveClsPrefix()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProDataTableProps>(
       name,
       props,
     )
@@ -58,24 +58,11 @@ export default defineComponent({
       columns,
     } = useColumns(overridedProps, { dragHandleId })
 
-    const {
-      checkedRowKeys,
-      setCheckedRowKeys,
-    } = useCheckedRowKeys(overridedProps)
-
-    const { rowProps } = useRowProps(overridedProps, {
-      checkedRowKeys,
-      setCheckedRowKeys,
-    })
-
     const nDataTableProps = computed<DataTableProps>(() => {
       return {
         ...dataTableProps.value,
-        rowProps,
-        'columns': columns.value,
-        'checkedRowKeys': checkedRowKeys.value,
-        'onUpdateCheckedRowKeys': setCheckedRowKeys,
-        'onUpdate:checkedRowKeys': undefined,
+        columns: columns.value,
+        rowKey: row => resolveRowKey(row, dataTableProps.value.rowKey),
       }
     })
 
@@ -171,7 +158,7 @@ export default defineComponent({
               return [
                 resolveWrappedSlot(this.$slots.extra, (children) => {
                   return children
-                    ? <div style={{ marginBlockEnd: '16px' }}>{children}</div>
+                    ? <div class={[`${mergedClsPrefix}-pro-data-table__extra`]}>{children}</div>
                     : null
                 }),
                 resolveSlotWithProps(this.$slots.table, { tableDom }, () => tableDom),

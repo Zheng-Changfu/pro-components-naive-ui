@@ -44,16 +44,17 @@ export default defineComponent({
             {...this.$attrs}
             closable={closable}
             disabled={disabled}
-            v-slots={slots}
-          />
+          >
+            {slots}
+          </NDynamicTags>
         )
 
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: this.$props,
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: this.$props,
+        })
       : dom
   },
 })

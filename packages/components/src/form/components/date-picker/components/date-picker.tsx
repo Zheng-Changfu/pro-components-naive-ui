@@ -134,16 +134,17 @@ export default defineComponent({
           {...this.$attrs}
           {...this.nDatePickerProps}
           v-slots={this.$slots}
-        />
+        >
+        </NDatePicker>
       )
     }
 
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: this.nDatePickerProps,
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: this.nDatePickerProps,
+        })
       : dom
   },
 })

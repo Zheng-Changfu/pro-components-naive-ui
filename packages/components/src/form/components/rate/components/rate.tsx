@@ -29,15 +29,16 @@ export default defineComponent({
         {...this.$attrs}
         readonly={rateReadonly}
         v-slots={this.$slots}
-      />
+      >
+      </NRate>
     )
 
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: this.$props,
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: this.$props,
+        })
       : dom
   },
 })

@@ -6,9 +6,9 @@ import type { ProTagsConfig } from './tags/types'
 import { computed, isVNode, unref } from 'vue'
 import { isEmptyValue } from '../_utils/isEmptyValue'
 import { useInjectGlobalConfig, useInjectWrappedIn } from '../config-provider'
-import { transformValueToString } from './copyable-text/copyable-text'
-import { transformValueToSrcs } from './images/images'
-import { transformValueToTagOptions } from './tags/tags'
+import { transformValueToString } from './copyable-text/transform'
+import { transformValueToSrcs } from './images/transform'
+import { transformValueToTagOptions } from './tags/transform'
 
 export interface Transform {
   /**

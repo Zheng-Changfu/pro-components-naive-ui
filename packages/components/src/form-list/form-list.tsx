@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProFormListProps } from './props'
 import type { ProFormListSlots } from './slots'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
@@ -23,7 +24,7 @@ export default defineComponent({
 
     const mergedClsPrefix = useNaiveClsPrefix()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProFormListProps>(
       name,
       props,
     )
@@ -75,7 +76,8 @@ export default defineComponent({
                   validateBehaviorProps: this.proFieldProps.validateBehaviorProps,
                 }}
                 v-slots={this.$slots}
-              />
+              >
+              </FormList>
             )
           },
         }}

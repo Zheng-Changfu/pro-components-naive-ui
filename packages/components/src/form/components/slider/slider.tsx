@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProSliderProps } from './props'
 import type { ProSliderSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps, usePostValue } from '../../../composables'
@@ -13,7 +14,7 @@ export default defineComponent({
   props: proSliderProps,
   slots: Object as SlotsType<ProSliderSlots>,
   setup(props) {
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProSliderProps>(
       name,
       props,
     )
@@ -37,12 +38,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <Slider
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <Slider {...pureProps} v-slots={this.$slots}></Slider>
           },
         }}
       </ProField>

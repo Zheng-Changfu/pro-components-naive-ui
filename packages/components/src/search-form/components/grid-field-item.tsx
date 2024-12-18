@@ -1,5 +1,6 @@
 import type { GridItemProps } from 'naive-ui'
 import type { PropType } from 'vue'
+import type { ProFieldSharedProps } from '../../form'
 import type { ProSearchFormColumn } from '../types'
 import { isFunction } from 'lodash-es'
 import { NGi } from 'naive-ui'
@@ -20,17 +21,18 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const proFieldProps = computed(() => {
+    const proFieldProps = computed<ProFieldSharedProps>(() => {
       const { column } = props
       const proFieldSharedProps = pickProFieldSharedProps(column)
-      const resolvedInternalProFieldProps = isFunction(column.proFieldProps) ? column.proFieldProps() : (column.proFieldProps ?? {})
+      const resolvedProFieldSharedProps = isFunction(column.proFieldProps) ? column.proFieldProps() : (column.proFieldProps ?? {})
       return {
         ...proFieldSharedProps,
-        ...resolvedInternalProFieldProps,
+        ...resolvedProFieldSharedProps,
       }
     })
 
-    const fieldProps = computed(() => {
+    // 这里类型复杂会导致构建类型声明文件失败，先用 Record<string, any> 解决
+    const fieldProps = computed<Record<string, any>>(() => {
       const { fieldProps } = props.column
       return isFunction(fieldProps) ? fieldProps() : (fieldProps ?? {})
     })
@@ -83,13 +85,13 @@ export default defineComponent({
             return column.render
               ? column.render()
               : resolveComponentByValueType(column.valueType ?? 'input', {
-                fieldProps: this.fieldProps,
-                fieldSlots: column.fieldSlots,
-                proFieldProps: {
-                  ...this.proFieldProps,
-                  path: column.path,
-                },
-              })
+                  fieldProps: this.fieldProps,
+                  fieldSlots: column.fieldSlots,
+                  proFieldProps: {
+                    ...this.proFieldProps,
+                    path: column.path,
+                  },
+                })
           },
         }}
       </NGi>

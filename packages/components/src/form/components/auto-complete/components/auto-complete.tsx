@@ -80,16 +80,17 @@ export default defineComponent({
           {...this.$attrs}
           {...this.nAutoCompleteProps}
           v-slots={this.$slots}
-        />
+        >
+        </NAutoComplete>
       )
     }
 
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: this.nAutoCompleteProps,
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: this.nAutoCompleteProps,
+        })
       : dom
   },
 })

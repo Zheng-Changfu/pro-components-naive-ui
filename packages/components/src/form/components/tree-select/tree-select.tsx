@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProTreeSelectProps } from './props'
 import type { ProTreeSelectSlots } from './slots'
 import { defineComponent } from 'vue'
 import { useOverrideProps, usePostValue } from '../../../composables'
@@ -18,7 +19,7 @@ export default defineComponent({
       exposed,
     } = provideTreeSelectInstStore()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProTreeSelectProps>(
       name,
       props,
     )
@@ -43,12 +44,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <TreeSelect
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <TreeSelect {...pureProps} v-slots={this.$slots}></TreeSelect>
           },
         }}
       </ProField>

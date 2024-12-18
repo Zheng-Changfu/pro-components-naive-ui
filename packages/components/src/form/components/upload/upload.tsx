@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProUploadProps } from './props'
 import type { ProUploadSlots } from './slots'
 import { isArray, isString } from 'lodash-es'
 import { uid } from 'pro-composables'
@@ -20,7 +21,7 @@ export default defineComponent({
       exposed,
     } = provideUploadInstStore()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProUploadProps>(
       name,
       props,
     )
@@ -68,12 +69,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <Upload
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <Upload {...pureProps} v-slots={this.$slots}></Upload>
           },
         }}
       </ProField>

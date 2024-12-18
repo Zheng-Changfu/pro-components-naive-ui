@@ -70,17 +70,17 @@ export default defineComponent({
 
     return column.render
       ? column.render(row, rowIndex, {
-        ...this.action,
-        editable: this.rowEditable,
-      })
+          ...this.action,
+          editable: this.rowEditable,
+        })
       : resolveComponentByValueType(column.valueType ?? 'input', {
-        fieldProps: this.fieldProps,
-        fieldSlots: column.fieldSlots,
-        proFieldProps: {
-          ...this.proFieldProps,
-          path: columnKey,
-          readonly: !this.cellEditable,
-        },
-      })
+          fieldProps: this.fieldProps,
+          fieldSlots: column.fieldSlots,
+          proFieldProps: {
+            ...this.proFieldProps,
+            path: columnKey,
+            readonly: !this.cellEditable,
+          },
+        })
   },
 })

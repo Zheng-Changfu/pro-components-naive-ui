@@ -1,4 +1,5 @@
 import type { SlotsType } from 'vue'
+import type { ProDigitProps } from './props'
 import type { ProDigitSlots } from './slots'
 import { isString } from 'lodash-es'
 import { defineComponent } from 'vue'
@@ -19,7 +20,7 @@ export default defineComponent({
       exposed,
     } = provideDigitInstStore()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProDigitProps>(
       name,
       props,
     )
@@ -53,12 +54,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <Digit
-                {...pureProps}
-                v-slots={this.$slots}
-              />
-            )
+            return <Digit {...pureProps} v-slots={this.$slots}></Digit>
           },
         }}
       </ProField>

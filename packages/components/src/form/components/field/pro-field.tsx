@@ -119,22 +119,22 @@ export default defineComponent({
         <ProPopoverFormItem
           {...proFormItemProps}
           popoverProps={mergedValidateBehaviorProps}
-          v-slots={{
+        >
+          {{
             ...proFormItemSlots,
             default: () => this.$slots.input(this.inputProps),
           }}
-        />
+        </ProPopoverFormItem>
       )
     }
     else {
       formItemDom = (
-        <ProFormItem
-          {...proFormItemProps}
-          v-slots={{
+        <ProFormItem {...proFormItemProps}>
+          {{
             ...proFormItemSlots,
             default: () => this.$slots.input(this.inputProps),
           }}
-        />
+        </ProFormItem>
       )
     }
 

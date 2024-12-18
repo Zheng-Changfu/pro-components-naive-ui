@@ -1,5 +1,7 @@
 import type { ConfigProviderProps } from 'naive-ui'
+import type { ComputedRef } from 'vue'
 import type { WrappedIn } from './context'
+import type { ProConfigProviderProps } from './props'
 import { isFunction, isString } from 'lodash-es'
 import { NConfigProvider } from 'naive-ui'
 import { computed, defineComponent, unref } from 'vue'
@@ -21,7 +23,7 @@ export default defineComponent({
     const nConfigProviderProps = useOmitProps(
       props,
       proConfigProviderExtendProps,
-    )
+    ) as ComputedRef<ProConfigProviderProps>
 
     const mergedPropOverrides = computed(() => {
       return shallowMergePropOverrides(
@@ -58,7 +60,8 @@ export default defineComponent({
       <NConfigProvider
         {...this.nConfigProviderProps as ConfigProviderProps}
         v-slots={this.$slots}
-      />
+      >
+      </NConfigProvider>
     )
   },
 })

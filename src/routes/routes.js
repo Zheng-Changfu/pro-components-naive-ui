@@ -3,6 +3,38 @@ export const zhDocRoutes = [
     path: 'introduction',
     component: () => import('../pages/docs/introduction/zhCN/index.md'),
   },
+  {
+    path: 'installation',
+    component: () => import('../pages/docs/installation/zhCN/index.md'),
+  },
+  {
+    path: 'supported-platforms',
+    component: () => import('../pages/docs/supported-platforms/zhCN/index.md'),
+  },
+  {
+    path: 'i18n',
+    component: () => import('../pages/docs/i18n/zhCN/index.md'),
+  },
+  {
+    path: 'changelog',
+    component: () => import('../pages/docs/changelog/zhCN/index.vue'),
+  },
+  // {
+  //   path: 'ssr',
+  //   component: () => import('../pages/docs/ssr/zhCN/index.md'),
+  // },
+  // {
+  //   path: 'nuxtjs',
+  //   component: () => import('../pages/docs/nuxtjs/zhCN/index.md'),
+  // },
+  // {
+  //   path: 'vitepress',
+  //   component: () => import('../pages/docs/vitepress/zhCN/index.md'),
+  // },
+  // {
+  //   path: 'vite-ssge',
+  //   component: () => import('../pages/docs/vite-ssge/zhCN/index.md'),
+  // },
 ]
 
 export const zhComponentRoutes = [
@@ -50,13 +82,17 @@ export const zhComponentRoutes = [
     path: 'data-table',
     component: () => import('../../packages/components/src/data-table/demos/zhCN/index.demo-entry.md'),
   },
-  {
-    path: 'edit-data-table',
-    component: () => import('../../packages/components/src/edit-data-table/demos/zhCN/index.demo-entry.md'),
-  },
+  // {
+  //   path: 'edit-data-table',
+  //   component: () => import('../../packages/components/src/edit-data-table/demos/zhCN/index.demo-entry.md'),
+  // },
   {
     path: 'use-request',
     component: () => import('../../packages/components/src/composables/demos/use-request/zhCN/index.demo-entry.md'),
+  },
+  {
+    path: 'use-n-data-table',
+    component: () => import('../../packages/components/src/composables/demos/use-n-data-table/zhCN/index.demo-entry.md'),
   },
 ]
 

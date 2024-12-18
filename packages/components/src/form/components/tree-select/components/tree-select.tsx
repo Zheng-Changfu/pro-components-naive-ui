@@ -10,7 +10,8 @@ import { useInjectTreeSelectInstStore } from '../inst'
 
 export default defineComponent({
   name: 'TreeSelect',
-  props: treeSelectProps,
+  // 这个 props 类型复杂会导致构建类型声明文件失败，先用 any 解决
+  props: treeSelectProps as any,
   slots: Object as SlotsType<ProTreeSelectSlots>,
   inheritAttrs: false,
   setup(props) {
@@ -35,12 +36,12 @@ export default defineComponent({
         keyField = 'key',
         labelField = 'label',
         childrenField = 'children',
-      } = props
+      } = props as any
 
       const labels: VNodeChild[] = []
       const selectedValue = isArray(value.value) ? value.value : [value.value]
       eachTree(
-        options,
+        options as any[],
         (item) => {
           const value = get(item, keyField)
           if (selectedValue.includes(value)) {
@@ -96,16 +97,17 @@ export default defineComponent({
           {...this.$attrs}
           {...this.$props}
           v-slots={this.$slots}
-        />
+        >
+        </NTreeSelect>
       )
     }
 
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: this.$props,
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: this.$props,
+        })
       : dom
   },
 })

@@ -1,5 +1,6 @@
 import type { ModalProps } from 'naive-ui'
 import type { SlotsType } from 'vue'
+import type { ProModalProps } from './props'
 import type { ProModalSlots } from './slots'
 import { NModal } from 'naive-ui'
 import { computed, defineComponent, onUnmounted } from 'vue'
@@ -21,7 +22,7 @@ export default defineComponent({
   setup(props) {
     const mergedClsPrefix = useNaiveClsPrefix()
 
-    const overridedProps = useOverrideProps(
+    const overridedProps = useOverrideProps<ProModalProps>(
       name,
       props,
     )

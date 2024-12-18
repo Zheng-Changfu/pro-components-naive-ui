@@ -4,7 +4,7 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { BaseFieldProps } from '../../../types'
 import { proFieldSharedProps } from '../field'
 
-interface ProCheckboxGroupFieldProps extends CheckboxGroupProps {
+export interface ProCheckboxGroupFieldProps extends CheckboxGroupProps {
   /**
    * 选项 label 的字段名
    * @default 'label'

@@ -54,10 +54,10 @@ const JsonCode = defineComponent({
      */
     return this.$slots.input
       ? this.$slots.input({
-        inputDom: dom,
-        readonly: this.readonly,
-        inputProps: this.$props,
-      })
+          inputDom: dom,
+          readonly: this.readonly,
+          inputProps: this.$props,
+        })
       : dom
   },
 })
@@ -97,7 +97,7 @@ const XProJsonCode = defineComponent({
            * @param pureProps 外界在 fieldProps 中写的属性 + (value + onUpdate:value)
            */
           input: (pureProps: InputProps) => {
-            return <JsonCode {...pureProps} v-slots={this.$slots} />
+            return <JsonCode {...pureProps} v-slots={this.$slots}></JsonCode>
           },
         }}
       </ProField>

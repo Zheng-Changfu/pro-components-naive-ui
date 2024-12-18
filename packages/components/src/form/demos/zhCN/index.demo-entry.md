@@ -19,15 +19,15 @@ async-form.vue
 
 ## API
 ### ProForm 属性
-| 名称                                                                                  | 类型                                                     | 默认值  | 说明                                                 | 版本 |
-| ------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------- | ---------------------------------------------------- | ---- |
-| form                                                                                  | 必填,参考 <n-a href="#createProForm">createProForm</n-a> | `-`     | 表单控制器                                           |      |
-| readonly                                                                              | `boolean`                                                | `-`     | 表单是否为只读状态                                   |      |
-| submitOnEnter                                                                         | `boolean`                                                | `false` | 是否在按下回车后提交                                 |      |
-| validateBehavior                                                                      | `ValidateBehavior`                                       | `-`     | 设为 `popover` 时验证不通过会通过 `popover` 进行提示 |      |
+| 名称                                                                                  | 类型                                                     | 默认值    | 说明                                                 | 版本 |
+| ------------------------------------------------------------------------------------- | -------------------------------------------------------- | --------- | ---------------------------------------------------- | ---- |
+| form                                                                                  | 必填,参考 <n-a href="#createProForm">createProForm</n-a> | `-`       | 表单控制器                                           |      |
+| readonly                                                                              | `boolean`                                                | `-`       | 表单是否为只读状态                                   |      |
+| submitOnPressEnter                                                                    | `boolean`                                                | `false`   | 是否在按下回车后提交表单                             |      |
+| validateBehavior                                                                      | `ValidateBehavior`                                       | `-`       | 设为 `popover` 时验证不通过会通过 `popover` 进行提示 |      |
 | validationTrigger                                                                     | `ValidationTrigger \| ValidationTrigger[]`               | `'input'` | 表单验证时机                                         |      |
-| validateBehaviorProps                                                                 | `PopoverProps`                                           | `-`     | 验证不通过时传递的属性,只对 `popover` 生效           |      |
-| [参考 NForm Props](https://www.naiveui.com/zh-CN/os-theme/components/form#Form-Props) |                                                          |         | 不需要写 `model`,内置数据管理                        |      |
+| validateBehaviorProps                                                                 | `PopoverProps`                                           | `-`       | 验证不通过时传递的属性,只对 `popover` 生效           |      |
+| [参考 NForm Props](https://www.naiveui.com/zh-CN/os-theme/components/form#Form-Props) |                                                          |           | 不支持 `model` 属性,内置数据管理                     |      |
 
 ### createProForm
 创建一个表单控制器,如果已经注册了控制器,想在后代组件中使用,无需透传,可以使用 `useInjectProForm` 方法直接注入
@@ -68,16 +68,16 @@ interface ValidateError {
 ```
 
 
-| 名称                              | 类型                                                                  | 默认值 | 说明                                                                         | 版本 |
-| --------------------------------- | --------------------------------------------------------------------- | ------ | ---------------------------------------------------------------------------- | ---- |
-| initialValues                     | `object`                                                              | `{}`   | 表单初始值,表单重置时会参考初始值                                            |      |  |
-| omitNil                           | `boolean`                                                             | `true` | 提交或调用 `getFieldsTransformedValue` 时是否忽略 `null` 和 `undefined` 的数据   |      |  |
-| onReset                           | `() => void`                                                          | `-`    | 数据重置后的回调                                                             |      |  |
-| onSubmit                          | `(values: any, warnings: ValidateError[][]) => void \| Promise<void>` | `-`    | 数据验证成功后的回调,如果返回了 Promise, `submiting` 将等待这个 Promise 完成 |      |  |
-| onSubmitFailed                    | `(errors: ValidateError[][]) => void`                                 | `-`    | 数据验证失败后回调                                                           |      |  |
-| onValueChange                     | `(opt:{ value: any; path: string }) => void`                          | `-`    | 任何一项值发生变化后的回调(手动交互才会触发)                                 |      |  |
-| onDependenciesValueChange         | `(opt:{ value: any; path: string; depPath: string;}) => void`         | `-`    | 依赖项的值发生变化后的回调(手动交互才会触发)                                 |      |  |
-| validateOnDependenciesValueChange | `boolean`                                                             | `true` | 依赖项的值发生变化后是否进行校验                                             |      |  |
+| 名称                              | 类型                                                                  | 默认值 | 说明                                                                           | 版本 |
+| --------------------------------- | --------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------ | ---- |
+| initialValues                     | `object`                                                              | `{}`   | 表单初始值,表单重置时会参考初始值                                              |      |  |
+| omitNil                           | `boolean`                                                             | `true` | 提交或调用 `getFieldsTransformedValue` 时是否忽略 `null` 和 `undefined` 的数据 |      |  |
+| onReset                           | `() => void`                                                          | `-`    | 数据重置后的回调                                                               |      |  |
+| onSubmit                          | `(values: any, warnings: ValidateError[][]) => void \| Promise<void>` | `-`    | 数据验证成功后的回调,如果是一个 Promise, `submiting` 将等待这个 Promise 完成   |      |  |
+| onSubmitFailed                    | `(errors: ValidateError[][]) => void`                                 | `-`    | 数据验证失败后回调                                                             |      |  |
+| onValueChange                     | `(opt:{ value: any; path: string }) => void`                          | `-`    | 任何一项值发生变化后的回调(手动交互才会触发)                                   |      |  |
+| onDependenciesValueChange         | `(opt:{ value: any; path: string; depPath: string;}) => void`         | `-`    | 依赖项的值发生变化后的回调(手动交互才会触发)                                   |      |  |
+| validateOnDependenciesValueChange | `boolean`                                                             | `true` | 依赖项的值发生变化后是否进行校验                                               |      |  |
 
 ### createProForm Returned
 下面列举的参数是调用 `createProForm` 函数返回的,引用到的类型声明介绍如下
