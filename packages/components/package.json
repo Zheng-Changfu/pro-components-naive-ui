@@ -1,7 +1,7 @@
 {
   "name": "pro-naive-ui",
   "type": "module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "packageManager": "pnpm@9.0.6",
   "description": "基于 naive-ui 二次封装，让中后台开发更简单",
   "author": "zhengchangfu",
@@ -82,6 +82,7 @@
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-replace": "^6.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
     "@vue/test-utils": "^2.4.6",
     "deepmerge": "^4.3.1",
     "jsdom": "^24.0.0",
