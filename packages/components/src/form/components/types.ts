@@ -277,3 +277,5 @@ export type ProFieldColumn<
   | Merge<CheckboxGroupColumn<Values, FunctionalFieldPropsParameters, FunctionalProFieldPropsParameters>, ExtraProps>
 
 export type ProFieldColumnValueType = InternalFieldValueType
+
+export type { Merge } from 'type-fest'
