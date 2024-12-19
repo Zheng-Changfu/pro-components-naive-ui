@@ -1,9 +1,18 @@
+import path from 'node:path'
 import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
+  plugins: [
+    dts({
+      outDir: 'dist',
+      rollupTypes: true,
+      tsconfigPath: path.resolve(__dirname, './tsconfig.json'),
+    }),
+  ],
   build: {
     lib: {
-      entry: './index.ts',
+      entry: './src/index.ts',
     },
     minify: false,
     rollupOptions: {
@@ -11,13 +20,12 @@ export default defineConfig({
         {
           format: 'es',
           dir: './dist',
-          entryFileNames: 'index.mjs',
-          exports: 'named',
+          entryFileNames: '[name].mjs',
         },
         {
           format: 'cjs',
           dir: './dist',
-          entryFileNames: 'index.cjs',
+          entryFileNames: '[name].cjs',
           exports: 'named',
         },
       ],
