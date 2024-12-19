@@ -129,27 +129,47 @@ import type {
   UnwrapSlots,
   MaybeFunction,
   ProBaseFieldColumn,
+  ProFieldSharedSlots,
+  ProSearchFormColumnProps,
   ProFieldColumn as _ProFieldColumn,
 } from 'pro-naive-ui'
 
 declare module 'pro-naive-ui' {
-  type ProFieldColumn<
-    Values = any,
-    ExtraProps extends object = object,
-    FunctionalFieldPropsParameters extends any[] = any[],
-    FunctionalProFieldPropsParameters extends any[] = any[],
-  > = _ProFieldColumn | Merge<你的Column<Values, FunctionalFieldPropsParameters, FunctionalProFieldPropsParameters>, ExtraProps>
+  type ProSearchFormColumn<Values = any> = ProFieldColumn<Values, ProSearchFormColumnProps>;
+  type ProSearchFormColumns<Values = any> = ProSearchFormColumn<Values>[];
 }
 
-interface 你的Column<
-  Values = any,
-  FieldPropsParameters extends any[] = any[],
-  ProFieldPropsParameters extends any[] = any[],
-> extends ProBaseFieldColumn<Values, ProFieldPropsParameters> {
-  valueType?: '你的 valueType'
-  fieldSlots?: UnwrapSlots<你封装的组件Slots类型>
-  fieldProps?: MaybeFunction<NonNullable<你封装的组件Props类型的['fieldProps']>, FieldPropsParameters>
+type ProFieldColumn< V = any,EP extends object = object,FFP extends any[] = any[],FPP extends any[] = any[]> = 
+| _ProFieldColumn 
+| Merge<Test<V, FFP, FPP>, EP>
+
+/**
+ * 自定义插槽
+ */
+interface TestSlots extends ProFieldSharedSlots {
+  test?: {a:string,b:number}
 }
 
+/**
+ * 自定义 fieldProps
+ */
+type TestFieldProps = {
+  readonly a?: string
+}
+
+/**
+ * 自定义列
+ */
+interface Test<
+  V = any,
+  FP extends any[] = any[],
+  PP extends any[] = any[],
+> extends ProBaseFieldColumn<V, PP> {
+  valueType?: 'test' // 你需要扩展的 valueType
+  fieldSlots?: UnwrapSlots<TestSlots> // 你的 valueType 对应组件的插槽
+  fieldProps?: MaybeFunction<NonNullable<TestFieldProps>, FP> // 你的 valueType 对应组件的 fieldProps
+}
+
+export {}
 ```
 - 确保你的 `tsconfig.json` 包含 `.d.ts` 文件

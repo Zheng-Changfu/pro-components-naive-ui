@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES6",
+    "rootDir": "./src",
+    "module": "ES6",
+    "declaration": true
+  },
+  "include": [
+    "./src/**/*"
+  ]
+}

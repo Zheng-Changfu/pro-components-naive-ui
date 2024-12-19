@@ -2,7 +2,7 @@ import type { GridItemProps } from 'naive-ui'
 import type { VNodeChild } from 'vue'
 import type { ProFieldColumn, ProFieldSharedProps } from '../form'
 
-interface ProSearchFormColumnProps extends Omit<ProFieldSharedProps, 'path'>, Pick<
+export interface ProSearchFormColumnProps extends Omit<ProFieldSharedProps, 'path'>, Pick<
   GridItemProps,
   | 'span'
   | 'offset'
