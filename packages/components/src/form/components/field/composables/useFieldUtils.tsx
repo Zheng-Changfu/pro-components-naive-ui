@@ -14,7 +14,7 @@ import { fieldExtraKey } from '../field-extra-info'
  */
 export function useFieldUtils(field?: BaseField) {
   field = field ?? useInjectField()!
-  if (!field && __DEV__) {
+  if (!field) {
     throwError('useFieldUtils', 'field not exist')
   }
   const themeVars = useThemeVars()
