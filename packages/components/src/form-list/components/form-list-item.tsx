@@ -16,7 +16,7 @@ import { proFieldConfigInjectionKey } from '../../form/components/field/context'
 import { useLocale } from '../../locales'
 import { useInjectProFormListInst } from '../context'
 import { internalFormListProps } from '../props'
-import { useProvidePath } from './composables/useProvidePath'
+import { useResolvePath } from './composables/useResolvePath'
 
 const Action = defineComponent({
   name: 'Action',
@@ -207,7 +207,7 @@ export default defineComponent({
     const {
       path,
       rowPath,
-    } = useProvidePath(toRef(props, 'index'))
+    } = useResolvePath(toRef(props, 'index'))
 
     const {
       value: list,
