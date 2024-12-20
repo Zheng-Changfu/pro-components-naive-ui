@@ -1,10 +1,10 @@
 import type { PropType } from 'vue'
 import type { ProEditDataTableBaseColumn } from '../types'
 import { isFunction } from 'lodash-es'
-import { computed, defineComponent, inject, toRef } from 'vue'
+import { computed, defineComponent, inject } from 'vue'
 import { resolveComponentByValueType } from '../../_utils/resolveComponentByValueType'
 import { editDataTableInjectionKey, useInjectProEditDataTableInst } from '../context'
-import { useProvidePath } from './composables/useProvidePath'
+import { useResolvePath } from './composables/useResolvePath'
 
 export default defineComponent({
   name: 'EditDataTableCell',
@@ -26,12 +26,13 @@ export default defineComponent({
       required: true,
     },
     columnKey: [String, Number],
+    childrenKey: {
+      type: String,
+      required: true,
+    },
   } as const,
   setup(props) {
-    useProvidePath(toRef(
-      props,
-      'rowIndex',
-    ))
+    useResolvePath(props)
 
     const action = useInjectProEditDataTableInst()!
     const { editableKeys } = inject(editDataTableInjectionKey)!

@@ -11,7 +11,7 @@ import { defineComponent, ref } from 'vue'
 export default defineComponent({
   setup() {
     const data = [
-      { id: 1, now: Date.now(), no: '', title: 'Wonderwall', length: '4:18' },
+      // { id: 1, now: Date.now(), no: '', title: 'Wonderwall', length: '4:18' },
       {
         id: 2,
         now: Date.now(),
@@ -35,10 +35,10 @@ export default defineComponent({
           },
         ],
       },
-      { id: 3, now: Date.now(), no: '', title: 'Champagne', length: '7:27' },
-      { id: 4, now: Date.now(), no: '', title: 'Wonderwall', length: '4:18' },
-      { id: 5, now: Date.now(), no: '', title: 'Don\'t Look', length: '4:48' },
-      { id: 6, now: Date.now(), no: '', title: 'Champagne', length: '7:27' },
+      // { id: 3, now: Date.now(), no: '', title: 'Champagne', length: '7:27' },
+      // { id: 4, now: Date.now(), no: '', title: 'Wonderwall', length: '4:18' },
+      // { id: 5, now: Date.now(), no: '', title: 'Don\'t Look', length: '4:48' },
+      // { id: 6, now: Date.now(), no: '', title: 'Champagne', length: '7:27' },
     ]
 
     const editableKeys = ref([1, 2, 3, 4, 5, 6, 21, 22])
@@ -80,40 +80,41 @@ export default defineComponent({
         title: '操作',
         width: 120,
         fixed: 'right',
-        render(row, index, {
-          remove,
-          editable,
-        }) {
-          const buttonDoms = editable
-            ? [
-                <NButton
-                  text={true}
-                  type="primary"
-                  onClick={() => {
-                    editableKeys.value = editableKeys.value.filter(key => key !== row.id)
-                  }}
-                >
-                  保存
-                </NButton>,
-              ]
-            : [
-                <NButton
-                  text={true}
-                  type="primary"
-                  onClick={() => editableKeys.value.push(row.id)}
-                >
-                  编辑
-                </NButton>,
-                <NButton
-                  text={true}
-                  type="error"
-                  onClick={() => remove(index)}
-                >
-                  删除
-                </NButton>,
-              ]
-          return <NFlex>{buttonDoms}</NFlex>
-        },
+        // render(row, index, {
+        //   remove,
+        //   editable,
+        // } = {}) {
+        //   console.log(index)
+        //   const buttonDoms = editable
+        //     ? [
+        //         <NButton
+        //           text={true}
+        //           type="primary"
+        //           onClick={() => {
+        //             editableKeys.value = editableKeys.value.filter(key => key !== row.id)
+        //           }}
+        //         >
+        //           保存
+        //         </NButton>,
+        //       ]
+        //     : [
+        //         <NButton
+        //           text={true}
+        //           type="primary"
+        //           onClick={() => editableKeys.value.push(row.id)}
+        //         >
+        //           编辑
+        //         </NButton>,
+        //         <NButton
+        //           text={true}
+        //           type="error"
+        //           onClick={() => remove(index)}
+        //         >
+        //           删除
+        //         </NButton>,
+        //       ]
+        //   return <NFlex>{buttonDoms}</NFlex>
+        // },
       },
     ]
 

@@ -139,8 +139,8 @@ importers:
         specifier: ^2.38.2
         version: 2.40.3(vue@3.5.13(typescript@5.5.4))
       pro-composables:
-        specifier: ^1.3.5
-        version: 1.3.5(type-fest@4.30.2)(vue@3.5.13(typescript@5.5.4))
+        specifier: ^1.3.6
+        version: 1.3.6(type-fest@4.30.2)(vue@3.5.13(typescript@5.5.4))
       sortablejs:
         specifier: ^1.15.6
         version: 1.15.6
@@ -2850,8 +2850,8 @@ packages:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  pro-composables@1.3.5:
-    resolution: {integrity: sha512-Qun5m9L0yEJuwpcSwC2GPSFSMvSBV/82GIUn88GqEWEw69KTmcy1IB8lJRIeTSsMvlgIE9VWwJUu6GLyQ/Xiaw==}
+  pro-composables@1.3.6:
+    resolution: {integrity: sha512-K8yMWJ+QJz/vWqChtfN+ddRnVE64pMoQNF2vcQA96jfX5RS4rOdS8MOJBp2PVPK/7ip8qb0kwQrP3gy7mmzB+w==}
     peerDependencies:
       type-fest: '>=4.0.0'
       vue: '>=3.0.0'
@@ -6668,7 +6668,7 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 18.3.1
 
-  pro-composables@1.3.5(type-fest@4.30.2)(vue@3.5.13(typescript@5.5.4)):
+  pro-composables@1.3.6(type-fest@4.30.2)(vue@3.5.13(typescript@5.5.4)):
     dependencies:
       '@vueuse/core': 10.11.1(vue@3.5.13(typescript@5.5.4))
       type-fest: 4.30.2
