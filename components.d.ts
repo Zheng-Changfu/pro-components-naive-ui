@@ -79,6 +79,7 @@ declare module 'vue' {
     ProDrawerContent: typeof import('pro-naive-ui')['ProDrawerContent']
     ProDrawerForm: typeof import('pro-naive-ui')['ProDrawerForm']
     ProDynamicTags: typeof import('pro-naive-ui')['ProDynamicTags']
+    ProEditDataTable: typeof import('pro-naive-ui')['ProEditDataTable']
     ProForm: typeof import('pro-naive-ui')['ProForm']
     ProFormClearableProvider: typeof import('pro-naive-ui')['ProFormClearableProvider']
     ProFormList: typeof import('pro-naive-ui')['ProFormList']

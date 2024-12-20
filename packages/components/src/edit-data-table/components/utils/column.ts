@@ -1,6 +1,6 @@
 import type { ProEditDataTableBaseColumn } from '../../types'
-import { isBaseColumn } from '../../../data-table/utils/column'
+import { isString } from 'lodash-es'
 
-export function isProEditDataTableBaseColumn(val: any, childrenKey = 'children'): val is ProEditDataTableBaseColumn {
-  return isBaseColumn(val, childrenKey) as any
+export function isProEditDataTableBaseColumn(val: any): val is ProEditDataTableBaseColumn {
+  return isString(val.valueType) || val.render
 }

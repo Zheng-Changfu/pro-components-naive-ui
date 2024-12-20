@@ -1,11 +1,15 @@
-import { c, cB, cM } from 'naive-ui'
+import { c, cB, cE, cM } from 'naive-ui'
 import { as } from '../../_utils/bem'
 
 export default c([
   cB('pro-edit-data-table-wrapper', [
     cB('pro-edit-data-table', `
       width: 100%;
-    `),
+    `, [
+      cE('creator-button', `
+        margin-block-start: 16px;  
+      `),
+    ]),
     cM(`flex-height`, `
       flex-grow: 1;
     `, [

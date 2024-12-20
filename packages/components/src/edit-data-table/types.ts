@@ -1,6 +1,7 @@
-import type { TableSelectionColumn } from 'naive-ui/es/data-table/src/interface'
+import type { RowKey, TableSelectionColumn } from 'naive-ui/es/data-table/src/interface'
 import type { Simplify } from 'type-fest'
 import type { VNodeChild } from 'vue'
+import type { ProButtonProps } from '../button'
 import type { ProDataTableBaseColumn, ProDataTableColumnGroup, ProDataTableExpandColumn, ProDataTableIndexColumn } from '../data-table/types'
 import type { ProFieldColumn } from '../form'
 import type { ProEditDataTableInst } from './inst'
@@ -52,4 +53,15 @@ export interface ActionGuard {
    * @param total 当前列表总行数
    */
   afterAddRow?: (opt: { index: number, insertIndex: number, total: number }) => void
+}
+
+export interface RecordCreatorProps extends ProButtonProps {
+  /**
+   * 新增一行的默认值,要写 key
+   */
+  record?: () => Record<string, any>
+  /**
+   * 要增加到哪个节点下，一般用于多重嵌套表格
+   */
+  parentRowKey?: RowKey | (() => RowKey)
 }

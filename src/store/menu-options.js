@@ -224,12 +224,12 @@ export function createComponentMenuOptions({ lang, theme }) {
           enSuffix: true,
           path: '/data-table',
         },
-        // {
-        //   en: 'ProEditDataTable',
-        //   zh: '编辑表格',
-        //   enSuffix: true,
-        //   path: '/edit-data-table',
-        // },
+        {
+          en: 'ProEditDataTable',
+          zh: '编辑表格',
+          enSuffix: true,
+          path: '/edit-data-table',
+        },
         // {
         //   en: 'ProTree',
         //   zh: '树',

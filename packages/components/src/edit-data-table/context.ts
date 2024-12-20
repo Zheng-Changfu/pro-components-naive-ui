@@ -1,6 +1,12 @@
+import type { RowKey } from 'naive-ui/es/data-table/src/interface'
+import type { WritableComputedRef } from 'vue'
 import type { ProEditDataTableInst } from './inst'
 import { inject, provide } from 'vue'
 import { createInjectionKey } from '../composables/createInjectionKey'
+
+export const editDataTableInjectionKey = createInjectionKey<{
+  editableKeys: WritableComputedRef<Set<RowKey>, Set<RowKey>>
+}>('edit-data-table')
 
 export const proEditDataTableInstInjectionKey = createInjectionKey<ProEditDataTableInst>('pro-edit-data-table')
 

@@ -86,6 +86,7 @@ export default defineComponent({
         fieldProps={this.internalEditDataTableProps}
       >
         {{
+          ...this.$slots,
           input: (pureProps: any) => {
             return (
               <EditDataTable

@@ -1,9 +1,8 @@
 import type { RowKey } from 'naive-ui/es/data-table/src/interface'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { MaybeArray } from '../_utils/call'
-import type { ProButtonProps } from '../button'
 import type { ProDataTableProps } from '../data-table'
-import type { ActionGuard, ProEditDataTableColumns } from './types'
+import type { ActionGuard, ProEditDataTableColumns, RecordCreatorProps } from './types'
 import { keysOf } from '../_utils/keysOf'
 import { simplyOmit } from '../_utils/simplyOmit'
 import { proDataTableProps } from '../data-table'
@@ -30,20 +29,16 @@ export const internalEditDataTableProps = {
    */
   ...vModelEditableKeysProps,
   /**
+   * 新建功能的配置，false 不显示
+   */
+  recordCreatorProps: {
+    type: [Object, Boolean] as PropType<RecordCreatorProps | false>,
+    default: undefined,
+  },
+  /**
    * 最多行数，多于该数则无法继续新增
    */
   max: Number,
-  /**
-   * 新增一行的默认值
-   */
-  creatorInitialValue: Function as PropType<() => Record<string, any>>,
-  /**
-   * 新增一行按钮的属性，false 不显示
-   */
-  creatorButtonProps: {
-    type: [Object, Boolean] as PropType<ProButtonProps | false>,
-    default: undefined,
-  },
   /**
    * 操作拦截器
    */

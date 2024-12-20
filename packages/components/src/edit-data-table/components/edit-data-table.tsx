@@ -3,14 +3,14 @@ import type { ProDataTableProps } from '../../data-table'
 import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
 import { useInjectListField } from 'pro-composables'
-import { computed, defineComponent, provide, watch } from 'vue'
+import { computed, defineComponent, provide } from 'vue'
 import { keep } from '../../_utils/keep'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
 import { ProDataTable } from '../../data-table'
 import { proDataTablePropKeys } from '../../data-table/props'
-import { useInjectProForm } from '../../form'
+import { useFieldUtils } from '../../form'
 import { proFieldConfigInjectionKey } from '../../form/components/field/context'
-import { provideProEditDataTableInst } from '../context'
+import { editDataTableInjectionKey, provideProEditDataTableInst } from '../context'
 import { useInjectEditDataTableInstStore } from '../inst'
 import { internalEditDataTableProps } from '../props'
 import { useColumns } from './composables/useColumns'
@@ -26,8 +26,6 @@ export default defineComponent({
   },
   slots: Object as SlotsType<ProEditDataTableSlots>,
   setup(props) {
-    const form = useInjectProForm()
-
     const {
       registerInst,
     } = useInjectEditDataTableInstStore()!
@@ -50,11 +48,12 @@ export default defineComponent({
     } = useColumns(props)
 
     const {
-      getEditable,
-      startEditable,
-      cancelEditable,
-      cancelEditableAndRestore,
+      editableKeys,
     } = useEditable(props)
+
+    const {
+      readonly,
+    } = useFieldUtils()
 
     const {
       get,
@@ -68,7 +67,6 @@ export default defineComponent({
       remove,
       unshift,
       moveDown,
-      stringPath,
       value: list,
     } = useInjectListField()!
 
@@ -85,20 +83,15 @@ export default defineComponent({
       }
     })
 
-    /**
-     * 长度发生变化，验证列表，如果没有传递规则，校验不会生效
-     */
-    watch(
-      () => list.value.length,
-      () => {
-        form?.validate(stringPath.value)
-      },
-      { flush: 'post' },
-    )
+    const showCreatorButton = computed(() => {
+      const { max, recordCreatorProps } = props
+      return readonly.value !== true
+        && recordCreatorProps !== false
+        && list.value.length < (max ?? Number.POSITIVE_INFINITY)
+    })
 
     const exposed: ProEditDataTableInst = {
-      // #region
-      /** pro-data-table 方法 start */
+      // #region pro-data-table 方法
       sort,
       page,
       filter,
@@ -108,7 +101,6 @@ export default defineComponent({
       downloadCsv,
       clearFilter,
       clearFilters,
-      /** pro-data-table 方法 end */
       // #endregion
       get,
       set,
@@ -121,19 +113,19 @@ export default defineComponent({
       remove,
       unshift,
       moveDown,
-      getEditable,
-      startEditable,
-      cancelEditable,
-      cancelEditableAndRestore,
     }
 
     registerInst(exposed)
     provideProEditDataTableInst(exposed)
+    provide(editDataTableInjectionKey, {
+      editableKeys,
+    })
     provide(proFieldConfigInjectionKey, {
       validateBehavior: computed(() => props.extraProFieldConfig?.validateBehavior ?? 'popover'),
       validateBehaviorProps: computed(() => props.extraProFieldConfig?.validateBehaviorProps),
     })
     return {
+      showCreatorButton,
       proDataTableProps,
     }
   },
@@ -145,12 +137,13 @@ export default defineComponent({
           table: (params: { tableDom: VNodeChild }) => {
             const editTableDom = [
               params.tableDom,
-              <CreatorButton
-                max={this.$props.max}
-                actionGuard={this.$props.actionGuard}
-                creatorButtonProps={this.$props.creatorButtonProps}
-                creatorInitialValue={this.$props.creatorInitialValue}
-              />,
+              this.showCreatorButton && (
+                <CreatorButton
+                  rowKey={this.$props.rowKey}
+                  actionGuard={this.$props.actionGuard}
+                  recordCreatorProps={this.$props.recordCreatorProps}
+                />
+              ),
             ]
             return resolveSlotWithProps(this.$slots.table, { tableDom: editTableDom }, () => editTableDom)
           },
