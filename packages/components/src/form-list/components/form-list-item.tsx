@@ -4,7 +4,7 @@ import type { ProFormListSlots } from '../slots'
 import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
 import { get } from 'lodash-es'
 import { NFormItem, NIcon } from 'naive-ui'
-import { ROW_UUID, useInjectListField } from 'pro-composables'
+import { ROW_UUID, useInjectField } from 'pro-composables'
 import { computed, defineComponent, Fragment, provide, ref, toRef } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
@@ -50,7 +50,7 @@ const Action = defineComponent({
       remove: _remove,
       stringPath,
       value: list,
-    } = useInjectListField()!
+    } = useInjectField(true)!
 
     const showCopyButton = computed(() => {
       const { max, copyButtonProps } = props
@@ -211,7 +211,7 @@ export default defineComponent({
 
     const {
       value: list,
-    } = useInjectListField()!
+    } = useInjectField(true)!
 
     const total = computed(() => {
       return list.value.length

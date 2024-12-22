@@ -2,7 +2,7 @@ import type { ProButtonProps } from '../../button'
 import type { RecordCreatorProps } from '../types'
 import { PlusOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
-import { useInjectListField } from 'pro-composables'
+import { useInjectField } from 'pro-composables'
 import { computed, defineComponent, inject, ref } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { ProButton } from '../../button'
@@ -35,7 +35,7 @@ export default defineComponent({
       insert,
       value: list,
       stringPath: tablePath,
-    } = useInjectListField()!
+    } = useInjectField(true)!
 
     const loading = ref(false)
 

@@ -1,4 +1,4 @@
-import { createArrayField, providePathIndex } from 'pro-composables'
+import { createArrayField, provideFieldIndex } from 'pro-composables'
 import { computed, watch } from 'vue'
 
 interface UseProvidePathOptions {
@@ -20,5 +20,5 @@ export function useResolvePath(options: UseProvidePathOptions) {
     immediate: true,
   })
   console.log(options.rowIndex)
-  providePathIndex(computed(() => options.rowIndex))
+  provideFieldIndex(computed(() => options.rowIndex))
 }

@@ -2,7 +2,7 @@ import type { SlotsType, VNodeChild } from 'vue'
 import type { ProDataTableProps } from '../../data-table'
 import type { ProEditDataTableInst } from '../inst'
 import type { ProEditDataTableSlots } from '../slots'
-import { useInjectListField } from 'pro-composables'
+import { useInjectField } from 'pro-composables'
 import { computed, defineComponent, provide } from 'vue'
 import { keep } from '../../_utils/keep'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
@@ -68,7 +68,7 @@ export default defineComponent({
       unshift,
       moveDown,
       value: list,
-    } = useInjectListField()!
+    } = useInjectField(true)!
 
     const proDataTableProps = computed<ProDataTableProps>(() => {
       return {

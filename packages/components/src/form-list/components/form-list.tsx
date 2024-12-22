@@ -4,7 +4,7 @@ import type { ProFormListInst } from '../inst'
 import type { ProFormListSlots } from '../slots'
 import { PlusOutlined } from '@vicons/antd'
 import { NIcon } from 'naive-ui'
-import { ROW_UUID, useInjectListField } from 'pro-composables'
+import { ROW_UUID, useInjectField } from 'pro-composables'
 import { computed, defineComponent, ref } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
@@ -35,7 +35,7 @@ const CreatorButton = defineComponent({
       insert,
       stringPath,
       value: list,
-    } = useInjectListField()!
+    } = useInjectField(true)!
 
     const {
       readonly,
@@ -148,7 +148,7 @@ export default defineComponent({
       unshift,
       moveDown,
       value: list,
-    } = useInjectListField()!
+    } = useInjectField(true)!
 
     const exposed: ProFormListInst = {
       get,

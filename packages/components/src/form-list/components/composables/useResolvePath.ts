@@ -1,9 +1,9 @@
 import type { ToRef } from 'vue'
-import { providePathIndex, stringifyPath, useInjectListField } from 'pro-composables'
+import { provideFieldIndex, stringifyPath, useInjectField } from 'pro-composables'
 import { computed } from 'vue'
 
 export function useResolvePath(index: ToRef<number>) {
-  const parent = useInjectListField()!
+  const parent = useInjectField(true)!
 
   const path = computed(() => {
     return [
@@ -16,7 +16,7 @@ export function useResolvePath(index: ToRef<number>) {
     return stringifyPath(path.value)
   })
 
-  providePathIndex(index)
+  provideFieldIndex(index)
   return {
     path,
     rowPath,
