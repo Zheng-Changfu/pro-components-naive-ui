@@ -18,8 +18,12 @@ export function isGroupColumn(val: any, childrenKey = 'children'): val is ProDat
   return isArray(get(val, childrenKey))
 }
 
-export function isBaseColumn(val: any, childrenKey = 'children'): val is ProDataTableBaseColumn {
-  return !isIndexColumn(val) && !isExpandColumn(val) && !isSelectionColumn(val) && !isGroupColumn(val, childrenKey)
+export function isBaseColumn(val: any, childrenKey = 'children', dragSortKey?: string) {
+  return !isIndexColumn(val)
+    && !isExpandColumn(val)
+    && !isSelectionColumn(val)
+    && !isGroupColumn(val, childrenKey)
+    && !isDragSortColumn(val, dragSortKey)
 }
 
 export function isDragSortColumn(val: any, dragSortKey?: string): val is ProDataTableBaseColumn {

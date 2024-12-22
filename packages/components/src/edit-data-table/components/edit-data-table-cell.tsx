@@ -32,8 +32,7 @@ export default defineComponent({
     },
   } as const,
   setup(props) {
-    useResolvePath(props)
-
+    const { path } = useResolvePath(props)
     const action = useInjectProEditDataTableInst()!
     const { editableKeys } = inject(editDataTableInjectionKey)!
 
@@ -59,6 +58,7 @@ export default defineComponent({
     })
 
     return {
+      path,
       action,
       fieldProps,
       rowEditable,
@@ -72,7 +72,6 @@ export default defineComponent({
       row,
       column,
       rowIndex,
-      columnKey,
     } = this.$props
 
     return column.render
@@ -85,7 +84,7 @@ export default defineComponent({
           fieldSlots: column.fieldSlots,
           proFieldProps: {
             ...this.proFieldProps,
-            path: columnKey,
+            path: this.path,
             readonly: !this.cellEditable,
           },
         })

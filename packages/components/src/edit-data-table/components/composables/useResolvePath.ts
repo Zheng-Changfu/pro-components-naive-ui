@@ -1,24 +1,35 @@
-import { createArrayField, provideFieldIndex } from 'pro-composables'
-import { computed, watch } from 'vue'
+import { isNil } from 'lodash-es'
+import { provideFieldIndex } from 'pro-composables'
+import { computed } from 'vue'
+import { LEVELINDEX, PARENT } from '../const'
 
 interface UseProvidePathOptions {
   rowIndex: number
   childrenKey: string
   row: Record<string, any>
+  columnKey?: string | number
 }
 export function useResolvePath(options: UseProvidePathOptions) {
-  watch(() => options.row, (row) => {
-    if (row.__parent__) {
-      createArrayField({
-        path: computed(() => {
-          return options.childrenKey
-        }),
-      })
+  const path = computed(() => {
+    const {
+      row,
+      columnKey,
+      childrenKey,
+    } = options
+
+    if (isNil(columnKey)) {
+      return undefined
     }
-  }, {
-    once: true,
-    immediate: true,
+    if (row[PARENT]) {
+      // 树形表格
+      return `${childrenKey}[${row[LEVELINDEX]}].${columnKey}`
+    }
+    return `${columnKey}`
   })
-  console.log(options.rowIndex)
+
   provideFieldIndex(computed(() => options.rowIndex))
+
+  return {
+    path,
+  }
 }
