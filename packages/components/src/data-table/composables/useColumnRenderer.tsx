@@ -148,7 +148,7 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
                 text={true}
                 class={dragHandleId}
                 style={{ cursor: 'grab', verticalAlign: 'middle' }}
-                onClick={e => e.stopPropagation()}
+                onClick={(e: MouseEvent) => e.stopPropagation()}
               >
                 <NIcon size={16}>
                   <HolderOutlined />

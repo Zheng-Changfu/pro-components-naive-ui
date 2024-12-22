@@ -80,6 +80,10 @@ export default defineComponent({
         title: '操作',
         width: 120,
         fixed: 'right',
+        render(row, rowIndex, action) {
+          console.log(action)
+          return '1'
+        },
         // render(row, index, {
         //   remove,
         //   editable,
