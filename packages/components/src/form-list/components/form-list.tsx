@@ -20,7 +20,6 @@ import FormListItem from './form-list-item'
 const CreatorButton = defineComponent({
   name: 'CreatorButton',
   props: {
-    max: internalFormListProps.max,
     position: internalFormListProps.position,
     actionGuard: internalFormListProps.actionGuard,
     creatorButtonProps: internalFormListProps.creatorButtonProps,
@@ -37,20 +36,9 @@ const CreatorButton = defineComponent({
       value: list,
     } = useInjectField(true)!
 
-    const {
-      readonly,
-    } = useFieldUtils()
-
     const form = useInjectProForm()
     const addRowLoading = ref(false)
     const mergedClsPrefix = useNaiveClsPrefix()
-
-    const showButton = computed(() => {
-      const { max, creatorButtonProps } = props
-      return !readonly.value
-        && creatorButtonProps !== false
-        && list.value.length < (max ?? Number.POSITIVE_INFINITY)
-    })
 
     const proButtonProps = computed<ProButtonProps>(() => {
       const { creatorButtonProps } = props
@@ -97,29 +85,25 @@ const CreatorButton = defineComponent({
 
     return {
       add,
-      showButton,
       proButtonProps,
       mergedClsPrefix,
     }
   },
   render() {
     const { mergedClsPrefix } = this
-
-    return this.showButton
-      ? (
-          <ProButton
-            {...this.proButtonProps}
-            class={[
-              `${mergedClsPrefix}-pro-form-list__button-add`,
-              {
-                [`${mergedClsPrefix}-pro-form-list__button-add--top`]: this.$props.position === 'top',
-                [`${mergedClsPrefix}-pro-form-list__button-add--bottom`]: this.$props.position !== 'top',
-              },
-            ]}
-            onClick={this.add}
-          />
-        )
-      : null
+    return (
+      <ProButton
+        {...this.proButtonProps}
+        class={[
+          `${mergedClsPrefix}-pro-form-list__button-add`,
+          {
+            [`${mergedClsPrefix}-pro-form-list__button-add--top`]: this.$props.position === 'top',
+            [`${mergedClsPrefix}-pro-form-list__button-add--bottom`]: this.$props.position !== 'top',
+          },
+        ]}
+        onClick={this.add}
+      />
+    )
   },
 })
 
@@ -130,10 +114,14 @@ export default defineComponent({
     extraProFieldConfig: Object,
   },
   slots: Object as SlotsType<ProFormListSlots>,
-  setup() {
+  setup(props) {
     const {
       registerInst,
     } = useInjectFormListInstStore()!
+
+    const {
+      readonly,
+    } = useFieldUtils()
 
     const {
       get,
@@ -149,6 +137,13 @@ export default defineComponent({
       moveDown,
       value: list,
     } = useInjectField(true)!
+
+    const showCreatorButton = computed(() => {
+      const { max, creatorButtonProps } = props
+      return !readonly.value
+        && creatorButtonProps !== false
+        && list.value.length < (max ?? Number.POSITIVE_INFINITY)
+    })
 
     const exposed: ProFormListInst = {
       get,
@@ -168,6 +163,7 @@ export default defineComponent({
     provideProFormListInst(exposed)
     return {
       list,
+      showCreatorButton,
     }
   },
   render() {
@@ -208,15 +204,16 @@ export default defineComponent({
       )
     })
 
-    const creatorButtonDom = (
-      <CreatorButton
-        max={max}
-        position={position}
-        actionGuard={actionGuard}
-        creatorButtonProps={creatorButtonProps}
-        creatorInitialValue={creatorInitialValue}
-      />
-    )
+    const creatorButtonDom = this.showCreatorButton
+      ? (
+          <CreatorButton
+            position={position}
+            actionGuard={actionGuard}
+            creatorButtonProps={creatorButtonProps}
+            creatorInitialValue={creatorInitialValue}
+          />
+        )
+      : null
 
     return resolveSlotWithProps($slots.container, {
       listDom,
