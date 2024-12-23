@@ -1,5 +1,5 @@
 import type { IsAny, Merge, Paths } from 'type-fest'
-import type { VNodeChild } from 'vue'
+import type { MaybeFunction, UnwrapSlots } from '../../types'
 import type { ProAutoCompleteProps, ProAutoCompleteSlots } from './auto-complete'
 import type { ProCascaderProps, ProCascaderSlots } from './cascader'
 import type { ProCheckboxProps, ProCheckboxSlots } from './checkbox'
@@ -21,12 +21,6 @@ import type { ProTimePickerProps, ProTimePickerSlots } from './time-picker'
 import type { ProTransferProps, ProTransferSlots } from './transfer'
 import type { ProTreeSelectProps, ProTreeSelectSlots } from './tree-select'
 import type { ProUploadProps, ProUploadSlots } from './upload'
-
-export type UnwrapSlots<T> = {
-  [K in keyof T]?: IsAny<T[K]> extends true ? () => VNodeChild : (params: NonNullable<T[K]>) => VNodeChild
-}
-
-export type MaybeFunction<T, Parameters extends any[]> = T | ((...args: Parameters) => T)
 
 export interface ProBaseFieldColumn<Values = any, ProFieldPropsParameters extends any[] = any[]> {
   /**
@@ -277,5 +271,3 @@ export type ProFieldColumn<
   | Merge<CheckboxGroupColumn<Values, FunctionalFieldPropsParameters, FunctionalProFieldPropsParameters>, ExtraProps>
 
 export type ProFieldColumnValueType = InternalFieldValueType
-
-export type { Merge } from 'type-fest'
