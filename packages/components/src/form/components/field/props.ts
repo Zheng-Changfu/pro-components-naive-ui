@@ -1,8 +1,6 @@
-import type { PopoverProps } from 'naive-ui'
 import type { Dependencie } from 'pro-composables'
 import type { TupleToUnion } from 'type-fest'
 import type { ExtractPublicPropTypes, PropType, Ref } from 'vue'
-import type { ValidateBehavior } from '../../props'
 import type { InternalFieldValueType } from './enums'
 import { simplyOmit } from '../../../_utils/simplyOmit'
 import { proFormItemProps } from '../form-item'
@@ -83,14 +81,6 @@ export const proFieldProps = {
     type: String,
     default: 'value',
   },
-  /**
-   * 校验行为，为 popover 时验证不通过会通过 popover 进行提示
-   */
-  validateBehavior: String as PropType<ValidateBehavior>,
-  /**
-   * 验证不通过时传递的属性，只对 popover 生效
-   */
-  validateBehaviorProps: Object as PropType<PopoverProps>,
   /**
    * 精简模式，不包装 formItem
    */

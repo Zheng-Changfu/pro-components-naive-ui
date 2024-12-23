@@ -20,15 +20,12 @@ export function useMergeOptions(props: ProFieldProps, options: UseMergeOptions) 
 
   const {
     readonly: formReadonlyRef,
-    validateBehavior: formValidateBehaviorRef,
-    validateBehaviorProps: formValidateBehaviorPropsRef,
   } = useInjectProFormConfig()
 
   const {
-    readonly: listFieldInjectedReadonlyRef,
-    showLabel: listFieldInjectedShowLabelRef,
-    validateBehavior: listFieldInjectedValidateBehaviorRef,
-    validateBehaviorProps: listFieldInjectedValidateBehaviorPropsRef,
+    renderFormItem,
+    readonly: injectedReadonlyRef,
+    showLabel: injectedShowLabelRef,
   } = inject(proFieldConfigInjectionKey, null) ?? {}
 
   const mergedTitle = computed(() => {
@@ -49,9 +46,9 @@ export function useMergeOptions(props: ProFieldProps, options: UseMergeOptions) 
     if (props.readonly !== undefined) {
       return !!props.readonly
     }
-    const listFieldInjectedReadonly = unref(listFieldInjectedReadonlyRef)
-    if (listFieldInjectedReadonly !== undefined) {
-      return listFieldInjectedReadonly
+    const injectedReadonly = unref(injectedReadonlyRef)
+    if (injectedReadonly !== undefined) {
+      return injectedReadonly
     }
     const formReadonly = unref(formReadonlyRef)
     if (formReadonly !== undefined) {
@@ -60,41 +57,18 @@ export function useMergeOptions(props: ProFieldProps, options: UseMergeOptions) 
     return false
   })
 
-  const mergedValidateBehavior = computed(() => {
-    if (props.validateBehavior !== undefined) {
-      return props.validateBehavior
-    }
-    const listFieldInjectedValidateBehavior = unref(listFieldInjectedValidateBehaviorRef)
-    if (listFieldInjectedValidateBehavior !== undefined) {
-      return listFieldInjectedValidateBehavior
-    }
-    const formValidateBehavior = unref(formValidateBehaviorRef)
-    if (formValidateBehavior !== undefined) {
-      return formValidateBehavior
-    }
-    return 'default'
-  })
-
-  const mergedValidateBehaviorProps = computed(() => {
-    return {
-      ...(unref(formValidateBehaviorPropsRef) ?? {}),
-      ...(unref(listFieldInjectedValidateBehaviorPropsRef) ?? {}),
-      ...(props.validateBehaviorProps ?? {}),
-    }
-  })
-
   const mergedShowLabel = computed(() => {
     if (props.showLabel !== undefined) {
       return props.showLabel
     }
-    const listFieldInjectedShowLabel = unref(listFieldInjectedShowLabelRef)
-    if (listFieldInjectedShowLabel !== undefined) {
-      return listFieldInjectedShowLabel
+    const injectedShowLabel = unref(injectedShowLabelRef)
+    if (injectedShowLabel !== undefined) {
+      return injectedShowLabel
     }
   })
 
-  const mergedShowFeedback = computed(() => {
-    return props.showFeedback ?? mergedValidateBehavior.value !== 'popover'
+  const mergedRenderFormItem = computed(() => {
+    return field.isList ? undefined : renderFormItem
   })
 
   return {
@@ -102,8 +76,6 @@ export function useMergeOptions(props: ProFieldProps, options: UseMergeOptions) 
     mergedReadonly,
     mergedShowLabel,
     mergedPlaceholder,
-    mergedShowFeedback,
-    mergedValidateBehavior,
-    mergedValidateBehaviorProps,
+    mergedRenderFormItem,
   }
 }

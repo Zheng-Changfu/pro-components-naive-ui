@@ -1,9 +1,8 @@
-import type { SlotsType, VNodeChild } from 'vue'
+import type { SlotsType } from 'vue'
 import type { ProFormItemProps } from '../form-item'
 import type { ProFieldSlots } from './slots'
 import { computed, defineComponent } from 'vue'
 import { ProFormItem } from '../form-item'
-import { ProPopoverFormItem } from '../popover-form-item'
 import { createField } from './composables/createField'
 import { useMergeOptions } from './composables/useMergeOptions'
 import { useVModelProps } from './composables/useVModelProps'
@@ -28,9 +27,7 @@ export default defineComponent({
       mergedReadonly,
       mergedShowLabel,
       mergedPlaceholder,
-      mergedShowFeedback,
-      mergedValidateBehavior,
-      mergedValidateBehaviorProps,
+      mergedRenderFormItem,
     } = useMergeOptions(props, { field })
 
     const inputProps = computed(() => {
@@ -66,11 +63,11 @@ export default defineComponent({
         labelStyle: props.labelStyle,
         path: field.stringPath.value,
         showLabel: mergedShowLabel.value,
+        showFeedback: props.showFeedback,
         feedbackClass: props.feedbackClass,
         feedbackStyle: props.feedbackStyle,
         labelPlacement: props.labelPlacement,
         themeOverrides: props.themeOverrides,
-        showFeedback: mergedShowFeedback.value,
         showRequireMark: props.showRequireMark,
         ignorePathChange: props.ignorePathChange,
         validationStatus: props.validationStatus,
@@ -87,8 +84,7 @@ export default defineComponent({
       inputProps,
       show: field.show,
       proFormItemProps,
-      mergedValidateBehavior,
-      mergedValidateBehaviorProps,
+      mergedRenderFormItem,
     }
   },
   render() {
@@ -101,43 +97,14 @@ export default defineComponent({
       return this.$slots.input(this.inputProps)
     }
 
-    const {
-      proFormItemProps,
-      mergedValidateBehavior,
-      mergedValidateBehaviorProps,
-    } = this
-
     const proFormItemSlots = {
       label: this.$slots.label,
       feedback: this.$slots.feedback,
+      default: () => this.$slots.input(this.inputProps),
     }
 
-    let formItemDom: VNodeChild
-
-    if (mergedValidateBehavior === 'popover') {
-      formItemDom = (
-        <ProPopoverFormItem
-          {...proFormItemProps}
-          popoverProps={mergedValidateBehaviorProps}
-        >
-          {{
-            ...proFormItemSlots,
-            default: () => this.$slots.input(this.inputProps),
-          }}
-        </ProPopoverFormItem>
-      )
-    }
-    else {
-      formItemDom = (
-        <ProFormItem {...proFormItemProps}>
-          {{
-            ...proFormItemSlots,
-            default: () => this.$slots.input(this.inputProps),
-          }}
-        </ProFormItem>
-      )
-    }
-
-    return formItemDom
+    return this.mergedRenderFormItem
+      ? this.mergedRenderFormItem(this.proFormItemProps, proFormItemSlots)
+      : <ProFormItem {...this.proFormItemProps} v-slots={proFormItemSlots}></ProFormItem>
   },
 })

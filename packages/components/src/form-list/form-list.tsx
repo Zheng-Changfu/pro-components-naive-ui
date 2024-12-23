@@ -68,17 +68,7 @@ export default defineComponent({
         {{
           ...this.$slots,
           input: (pureProps: any) => {
-            return (
-              <FormList
-                {...pureProps}
-                extraProFieldConfig={{
-                  validateBehavior: this.proFieldProps.validateBehavior,
-                  validateBehaviorProps: this.proFieldProps.validateBehaviorProps,
-                }}
-                v-slots={this.$slots}
-              >
-              </FormList>
-            )
+            return <FormList {...pureProps} v-slots={this.$slots}></FormList>
           },
         }}
       </ProField>

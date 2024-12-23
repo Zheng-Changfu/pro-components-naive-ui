@@ -1,4 +1,3 @@
-import type { PopoverProps } from 'naive-ui'
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type { CreateProFormReturn } from './composables/createProForm'
 import { formProps } from 'naive-ui'
@@ -11,7 +10,6 @@ export interface ValidateError {
   field?: string
 }
 
-export type ValidateBehavior = 'default' | 'popover'
 export type ValidationTrigger = 'input' | 'change' | 'blur' | 'focus' | ({} & string)
 
 export const proFormExtendProps = {
@@ -40,14 +38,6 @@ export const proFormExtendProps = {
     type: Boolean,
     default: undefined,
   },
-  /**
-   * 校验行为，为 popover 时验证不通过会通过 popover 进行提示
-   */
-  validateBehavior: String as PropType<ValidateBehavior>,
-  /**
-   * 验证不通过时传递的属性，只对 popover 生效
-   */
-  validateBehaviorProps: Object as PropType<PopoverProps>,
 } as const
 
 export const proFormProps = {

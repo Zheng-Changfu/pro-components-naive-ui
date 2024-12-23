@@ -86,9 +86,7 @@ export default defineComponent({
       validationResults,
       rules: computed(() => overridedProps.value.rules),
       readonly: computed(() => overridedProps.value.readonly),
-      validateBehavior: computed(() => overridedProps.value.validateBehavior),
       validationTrigger: computed(() => overridedProps.value.validationTrigger!),
-      validateBehaviorProps: computed(() => overridedProps.value.validateBehaviorProps),
     })
     provideProForm(form)
     provideWrappedIn('form')

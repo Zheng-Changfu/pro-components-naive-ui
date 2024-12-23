@@ -9,7 +9,6 @@ import { resolveSlotWithProps } from '../../_utils/resolveSlot'
 import { ProDataTable } from '../../data-table'
 import { proDataTablePropKeys } from '../../data-table/props'
 import { useFieldUtils } from '../../form'
-import { proFieldConfigInjectionKey } from '../../form/components/field/context'
 import { editDataTableInjectionKey, provideProEditDataTableInst } from '../context'
 import { useInjectEditDataTableInstStore } from '../inst'
 import { internalEditDataTableProps } from '../props'
@@ -20,10 +19,7 @@ import CreatorButton from './creator-button'
 
 export default defineComponent({
   name: 'EditDataTable',
-  props: {
-    ...internalEditDataTableProps,
-    extraProFieldConfig: Object,
-  },
+  props: internalEditDataTableProps,
   slots: Object as SlotsType<ProEditDataTableSlots>,
   setup(props) {
     const {
@@ -119,10 +115,6 @@ export default defineComponent({
     provideProEditDataTableInst(exposed)
     provide(editDataTableInjectionKey, {
       editableKeys,
-    })
-    provide(proFieldConfigInjectionKey, {
-      validateBehavior: computed(() => props.extraProFieldConfig?.validateBehavior ?? 'popover'),
-      validateBehaviorProps: computed(() => props.extraProFieldConfig?.validateBehaviorProps),
     })
     return {
       showCreatorButton,
