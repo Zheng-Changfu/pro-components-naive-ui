@@ -50,7 +50,6 @@ export default defineComponent({
     :form="form"
     :readonly="readonly"
     label-width="auto"
-    validate-behavior="popover"
   >
     <n-flex :style="{ width: '100%' }">
       <pro-date
