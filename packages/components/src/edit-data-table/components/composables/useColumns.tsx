@@ -23,7 +23,6 @@ export function useColumns(props: InternalEditDataTableProps) {
         ...column,
         render: (row: any, rowIndex: number) => {
           const rowKey = resolveRowKey(row, props.rowKey)
-
           /**
            *  展开行不计入 render 的 rowIndex 内
            */
@@ -37,7 +36,6 @@ export function useColumns(props: InternalEditDataTableProps) {
               def(item, LEVELINDEX, levelIndex)
             })
           }
-
           return (
             <EditDataTableCell
               row={row}
