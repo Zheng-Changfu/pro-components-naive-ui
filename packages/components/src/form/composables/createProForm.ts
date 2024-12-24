@@ -180,9 +180,12 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
       })
     }
     paths = (isString(paths) ? [paths] : paths).map(stringifyPath)
-    return nFormInst.value?.validate(addValidateResults, (rule) => {
-      return paths.includes(rule.key!) && !(rule as any).readonly
-    })
+    return nFormInst.value?.validate(
+      (errors, extra) => addValidateResults(errors, extra, false),
+      (rule) => {
+        return paths.includes(rule.key!) && !(rule as any).readonly
+      },
+    )
   }
 
   function submit() {
@@ -246,10 +249,11 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     extra: {
       warnings: ValidateError[][] | undefined
     },
+    clear = true,
   ) {
     const es = errors ?? []
     const ws = extra.warnings ?? []
-    clearValidationResults()
+    clear && clearValidationResults()
 
     es.forEach((e) => {
       const path = e[0].field
