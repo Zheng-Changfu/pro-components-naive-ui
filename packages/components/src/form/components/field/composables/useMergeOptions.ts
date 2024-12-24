@@ -26,7 +26,7 @@ export function useMergeOptions(props: ProFieldProps, options: UseMergeOptions) 
     renderFormItem,
     readonly: injectedReadonlyRef,
     showLabel: injectedShowLabelRef,
-  } = inject(proFieldConfigInjectionKey, null) ?? {}
+  } = inject(proFieldConfigInjectionKey, {})
 
   const mergedTitle = computed(() => {
     return props.title ?? props.label

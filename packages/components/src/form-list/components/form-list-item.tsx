@@ -5,7 +5,7 @@ import { CopyOutlined, DeleteOutlined } from '@vicons/antd'
 import { get } from 'lodash-es'
 import { NFormItem, NIcon } from 'naive-ui'
 import { ROW_UUID, useInjectField } from 'pro-composables'
-import { computed, defineComponent, Fragment, provide, ref, toRef } from 'vue'
+import { computed, defineComponent, Fragment, inject, provide, ref, toRef } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { resolveSlotWithProps } from '../../_utils/resolveSlot'
 import { simplyOmit } from '../../_utils/simplyOmit'
@@ -229,6 +229,7 @@ export default defineComponent({
     })
 
     provide(proFieldConfigInjectionKey, {
+      ...inject(proFieldConfigInjectionKey, {}),
       readonly,
       showLabel: showItemLabel,
     })

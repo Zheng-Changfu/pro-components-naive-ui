@@ -78,6 +78,7 @@ declare module 'vue' {
     ProMention: typeof import('pro-naive-ui')['ProMention']
     ProModalForm: typeof import('pro-naive-ui')['ProModalForm']
     ProPassword: typeof import('pro-naive-ui')['ProPassword']
+    ProPopoverFormItemProvider: typeof import('pro-naive-ui')['ProPopoverFormItemProvider']
     ProRadioGroup: typeof import('pro-naive-ui')['ProRadioGroup']
     ProRate: typeof import('pro-naive-ui')['ProRate']
     ProSearchForm: typeof import('pro-naive-ui')['ProSearchForm']

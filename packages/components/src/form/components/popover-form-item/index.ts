@@ -3,7 +3,7 @@ export {
 } from './popover-form-item'
 
 export {
-  default as ProPopoverFormItemProivder,
+  default as ProPopoverFormItemProvider,
 } from './popover-form-item-provider'
 
 export {

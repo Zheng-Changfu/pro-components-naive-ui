@@ -16,6 +16,7 @@ export default defineComponent({
           <ProPopoverFormItem
             {...proFormItemProps}
             popoverProps={props.popoverProps}
+            showFeedback={false}
             v-slots={proFormItemSlots}
           >
           </ProPopoverFormItem>
