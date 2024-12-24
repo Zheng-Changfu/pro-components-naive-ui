@@ -109,10 +109,7 @@ const CreatorButton = defineComponent({
 
 export default defineComponent({
   name: 'FormList',
-  props: {
-    ...internalFormListProps,
-    extraProFieldConfig: Object,
-  },
+  props: internalFormListProps,
   slots: Object as SlotsType<ProFormListSlots>,
   setup(props) {
     const {
@@ -182,7 +179,6 @@ export default defineComponent({
       position = 'bottom',
       creatorButtonProps,
       creatorInitialValue,
-      extraProFieldConfig,
       onlyShowFirstItemLabel,
     } = $props
 
@@ -196,7 +192,6 @@ export default defineComponent({
           actionGuard={actionGuard}
           copyButtonProps={copyButtonProps}
           removeButtonProps={removeButtonProps}
-          extraProFieldConfig={extraProFieldConfig}
           onlyShowFirstItemLabel={onlyShowFirstItemLabel}
         >
           {$slots}
