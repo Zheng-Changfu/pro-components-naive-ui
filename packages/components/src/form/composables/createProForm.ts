@@ -1,12 +1,12 @@
 import type { FormInst } from 'naive-ui'
 import type { BaseForm, FormOptions, InternalPath } from 'pro-composables'
 import type { Merge, Paths, Simplify, SimplifyDeep } from 'type-fest'
-import type { ComputedRef, DeepReadonly, Ref, UnwrapNestedRefs } from 'vue'
+import type { DeepReadonly, Ref, UnwrapNestedRefs } from 'vue'
 import type { FieldExtraInfo } from '../components/field/field-extra-info'
 import type { FormItemInternalValidationResult } from './useValidationResult'
 import { isString } from 'lodash-es'
 import { createForm, stringifyPath } from 'pro-composables'
-import { computed, inject, nextTick, provide, readonly, ref } from 'vue'
+import { inject, nextTick, provide, readonly, ref } from 'vue'
 import { createInjectionKey } from '../../composables/createInjectionKey'
 import { fieldExtraKey } from '../components/field/field-extra-info'
 import { useValidationResults } from './useValidationResult'
@@ -69,7 +69,7 @@ export type CreateProFormReturn<Values = any> = Simplify<Pick<
   /**
    * 是否正在提交，需要提供 onSubmit 函数才会生效
    */
-  submiting: ComputedRef<boolean>
+  submiting: Ref<boolean>
   /**
    * 内部使用
    */
@@ -270,6 +270,7 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     submit,
     validate,
     matchPath,
+    submiting,
     getFieldValue,
     setFieldValue,
     getFieldsValue,
@@ -291,7 +292,6 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
       validationResults,
       model: valueStore.values,
     },
-    submiting: computed(() => submiting.value),
     values: __DEV__ ? readonly(valueStore.values) : valueStore.values,
   }
   return Object.freeze(returned)
