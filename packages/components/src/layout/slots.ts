@@ -1,5 +1,6 @@
-export interface ProLayoutSlots {
-  'logo': any
+import type { ProLogoSlots } from './components/logo'
+
+export interface ProLayoutSlots extends ProLogoSlots {
   'menu': any
   'extra': any
   'header': any

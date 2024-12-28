@@ -51,6 +51,10 @@ export const zhComponentRoutes = [
     component: () => import('../../packages/components/src/config-provider/demos/zhCN/index.demo-entry.md'),
   },
   {
+    path: 'layout',
+    component: () => import('../../packages/components/src/layout/demos/zhCN/index.demo-entry.md'),
+  },
+  {
     path: 'modal',
     component: () => import('../../packages/components/src/modal/demos/zhCN/index.demo-entry.md'),
   },

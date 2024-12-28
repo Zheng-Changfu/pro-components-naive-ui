@@ -75,6 +75,7 @@ declare module 'vue' {
     ProFormClearableProvider: typeof import('pro-naive-ui')['ProFormClearableProvider']
     ProFormList: typeof import('pro-naive-ui')['ProFormList']
     ProInput: typeof import('pro-naive-ui')['ProInput']
+    ProLayout: typeof import('pro-naive-ui')['ProLayout']
     ProMention: typeof import('pro-naive-ui')['ProMention']
     ProModalForm: typeof import('pro-naive-ui')['ProModalForm']
     ProPassword: typeof import('pro-naive-ui')['ProPassword']

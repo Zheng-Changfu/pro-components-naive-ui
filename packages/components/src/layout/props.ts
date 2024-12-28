@@ -1,11 +1,12 @@
 import type { PropType } from 'vue'
 import type { ProLayoutType } from './types'
+import { proLogoProps } from './components/logo'
 
 export const proLayoutProps = {
   /**
-   * logo 配置，需要是一个图片地址，如果需要自定义，可以使用 logo 插槽
+   * logo 相关配置
    */
-  logo: String,
+  ...proLogoProps,
   /**
    * 是否支持移动端布局
    */
