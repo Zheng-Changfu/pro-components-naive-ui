@@ -67,10 +67,6 @@ export type CreateProFormReturn<Values = any> = Simplify<Pick<
    */
   values: DeepReadonly<UnwrapNestedRefs<Ref<Values>>>
   /**
-   * 是否正在提交，需要提供 onSubmit 函数才会生效
-   */
-  submiting: Ref<boolean>
-  /**
    * 内部使用
    */
   [proFormInternalKey]: {
@@ -87,7 +83,7 @@ export interface CreateProFormOptions<Values = any> extends FormOptions<Values> 
    */
   onReset?: () => void
   /**
-   * 数据验证成功后的回调事件,如果是一个 Promise, submiting 将等待这个 Promise 完成
+   * 数据验证成功后的回调事件
    */
   onSubmit?: (values: SimplifyDeep<Values>, warnings: ValidateError[][]) => void | Promise<void>
   /**
@@ -136,7 +132,6 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     getFieldsTransformedValue,
   } = internalForm
 
-  const submiting = ref(false)
   const nFormInst = ref<FormInst>()
   const validationResults = useValidationResults()
 
@@ -189,19 +184,11 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
   }
 
   function submit() {
-    if (submiting.value)
-      return
     validate()
       ?.then(({ warnings }) => {
         if (onSubmit) {
           const values = getFieldsTransformedValue()
           const response = onSubmit(values, warnings ?? [])
-          if (response instanceof Promise) {
-            submiting.value = true
-            response.finally(() => {
-              submiting.value = false
-            })
-          }
           return response
         }
       })
@@ -270,7 +257,6 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     submit,
     validate,
     matchPath,
-    submiting,
     getFieldValue,
     setFieldValue,
     getFieldsValue,
