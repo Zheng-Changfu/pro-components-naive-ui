@@ -14,10 +14,12 @@ export const proDrawerFormExtendProps = {
     type: Boolean,
     default: true,
   },
+  // 表单 loading
+  loading: Boolean,
   /**
-   * 提交时是否可以关闭
+   * loading 时是否可以关闭
    */
-  closeOnSubmiting: Boolean,
+  closeOnLoading: Boolean,
   /**
    * 透传给 drawer 的属性，某些属性有冲突时可能有用
    */

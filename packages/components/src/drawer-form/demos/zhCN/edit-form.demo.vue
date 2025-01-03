@@ -7,7 +7,7 @@
 <script lang="tsx">
 import { useMessage } from 'naive-ui'
 import { createProDrawerForm } from 'pro-naive-ui'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))
@@ -15,14 +15,17 @@ function delay(time: number) {
 
 export default defineComponent({
   setup() {
+    const loading = ref(false)
     const message = useMessage()
 
     const drawerForm = createProDrawerForm<{ name: string, age: number }>({
       onSubmit: async (values) => {
+        loading.value = true
         await delay(1500)
         message.success('更新成功')
         console.log(values)
         drawerForm.close()
+        loading.value = false
       },
     })
 
@@ -39,6 +42,7 @@ export default defineComponent({
 
     return {
       edit,
+      loading,
       form: drawerForm,
     }
   },
@@ -53,6 +57,7 @@ export default defineComponent({
   </n-flex>
   <pro-drawer-form
     :form="form"
+    :loading="loading"
     label-width="80"
     label-placement="left"
   >

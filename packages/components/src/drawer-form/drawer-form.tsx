@@ -4,7 +4,7 @@ import type { ProFormProps } from '../form'
 import type { ProDrawerFormProps } from './props'
 import type { ProDrawerFormSlots } from './slots'
 import { drawerProps as _nDrawerProps, NDrawer } from 'naive-ui'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, provide } from 'vue'
 import { useNaiveClsPrefix } from '../_internal/useClsPrefix'
 import { useMountStyle } from '../_internal/useMountStyle'
 import { keep } from '../_utils/keep'
@@ -13,6 +13,7 @@ import { useOverrideProps } from '../composables'
 import { ProForm } from '../form'
 import { proFormPropKeys } from '../form/props'
 import { createProDrawerForm } from './composables/createProDrawerForm'
+import { proDrawerFormInjectionKey } from './context'
 import { proDrawerFormProps } from './props'
 import style from './styles/index.cssr'
 
@@ -65,8 +66,8 @@ export default defineComponent({
         return
       }
       if (
-        form.submiting.value
-        && !overridedProps.value.closeOnSubmiting
+        overridedProps.value.loading
+        && !overridedProps.value.closeOnLoading
       ) {
         return
       }
@@ -93,6 +94,9 @@ export default defineComponent({
       mergedClsPrefix,
     )
 
+    provide(proDrawerFormInjectionKey, {
+      loading: computed(() => overridedProps.value.loading ?? false),
+    })
     return {
       proFormProps,
       nDrawerProps,

@@ -14,14 +14,17 @@ function delay(time: number) {
 
 export default defineComponent({
   setup() {
+    const loading = ref(false)
     const message = useMessage()
 
     const drawerForm = createProDrawerForm({
       onSubmit: async (values) => {
+        loading.value = true
         await delay(1500)
         message.success('更新成功')
         console.log(values)
         drawerForm.close()
+        loading.value = false
       },
     })
 
@@ -33,6 +36,7 @@ export default defineComponent({
 
     return {
       len,
+      loading,
       updateList,
       form: drawerForm,
       open: drawerForm.open,
@@ -49,6 +53,7 @@ export default defineComponent({
   </n-flex>
   <pro-drawer-form
     :form="form"
+    :loading="loading"
     label-width="80"
     label-placement="left"
   >
