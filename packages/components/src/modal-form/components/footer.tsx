@@ -12,6 +12,7 @@ export default defineComponent({
       type: Object as PropType<CreateProModalFormReturn>,
       required: true,
     },
+    loading: Boolean,
     resetButtonProps: {
       type: [Boolean, Object] as PropType<false | ProButtonProps>,
       default: undefined,
@@ -25,10 +26,6 @@ export default defineComponent({
     const {
       getMessage,
     } = useLocale('ProModalForm')
-
-    const submiting = computed(() => {
-      return props.form.submiting.value
-    })
 
     const showResetButton = computed(() => {
       return props.resetButtonProps !== false
@@ -44,7 +41,7 @@ export default defineComponent({
             onClick: () => {
               props.form.close()
             },
-            disabled: submiting.value,
+            disabled: props.loading,
             content: getMessage('reset'),
             ...(props.resetButtonProps ?? {}),
           }
@@ -58,7 +55,7 @@ export default defineComponent({
             onClick: () => {
               props.form.submit()
             },
-            loading: submiting.value,
+            loading: props.loading,
             content: getMessage('submit'),
             ...(props.submitButtonProps ?? {}),
           }

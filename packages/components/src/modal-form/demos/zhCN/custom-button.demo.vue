@@ -5,7 +5,7 @@
 <script lang="tsx">
 import { useMessage } from 'naive-ui'
 import { createProModalForm } from 'pro-naive-ui'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time))
@@ -13,23 +13,28 @@ function delay(time: number) {
 
 export default defineComponent({
   setup() {
+    const loading = ref(false)
     const message = useMessage()
 
     const modalForm1 = createProModalForm({
       onSubmit: async (values) => {
+        loading.value = true
         await delay(1500)
         message.success('更新成功')
         console.log(values)
         modalForm1.close()
+        loading.value = false
       },
     })
 
     const modalForm2 = createProModalForm({
       onSubmit: async (values) => {
+        loading.value = true
         await delay(1500)
         message.success('更新成功')
         console.log(values)
         modalForm2.close()
+        loading.value = false
       },
     })
 
@@ -37,6 +42,7 @@ export default defineComponent({
     const modalForm4 = createProModalForm()
 
     return {
+      loading,
       form1: modalForm1,
       form2: modalForm2,
       form3: modalForm3,
@@ -67,6 +73,7 @@ export default defineComponent({
   </n-flex>
   <pro-modal-form
     :form="form1"
+    :loading="loading"
     title="新建表单"
     preset="card"
     label-width="80"
@@ -91,6 +98,7 @@ export default defineComponent({
   </pro-modal-form>
   <pro-modal-form
     :form="form2"
+    :loading="loading"
     title="新建表单"
     preset="card"
     label-width="80"
@@ -115,6 +123,7 @@ export default defineComponent({
   </pro-modal-form>
   <pro-modal-form
     :form="form3"
+    :loading="loading"
     title="新建表单"
     preset="card"
     label-width="80"

@@ -87,8 +87,8 @@ export default defineComponent({
         return
       }
       if (
-        form.submiting.value
-        && !overridedProps.value.closeOnSubmiting
+        overridedProps.value.loading
+        && !overridedProps.value.closeOnLoading
       ) {
         return
       }
@@ -108,6 +108,7 @@ export default defineComponent({
       proModalProps,
       mergedClsPrefix,
       footer: computed(() => overridedProps.value.footer),
+      loading: computed(() => overridedProps.value.loading),
       resetButtonProps: computed(() => overridedProps.value.resetButtonProps),
       submitButtonProps: computed(() => overridedProps.value.submitButtonProps),
     }
@@ -143,6 +144,7 @@ export default defineComponent({
             const footerDom = (
               <Footer
                 form={this.form}
+                loading={this.loading}
                 resetButtonProps={this.resetButtonProps}
                 submitButtonProps={this.submitButtonProps}
               />

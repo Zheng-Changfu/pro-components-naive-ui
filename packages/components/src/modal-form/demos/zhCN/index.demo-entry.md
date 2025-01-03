@@ -26,7 +26,8 @@ type FooterRender = (opt: {footerDom: VNodeChild}) => VNodeChild
 | ------------------------------------ | ------------------------- | --------- | ------------------------------------------------------- | ---- |
 | width                                | `string`                  | `'600px'` | 弹窗宽度(css 值)                                        |      |
 | maxHeight                            | `string`                  | `'80%'`   | 弹窗最大高度,超过后内容区域出现滚动条（css 值）         |      |
-| closeOnSubmiting                     | `boolean`                 | `false`   | 提交时是否可以关闭弹窗                                  |      |
+| loading                              | `boolean`                 | `false`   | 弹窗表单的 `loading`                                    |      |
+| closeOnLoading                       | `boolean`                 | `false`   | `loading` 时是否可以关闭弹窗                            |      |
 | restoreValuesOnClosed                | `boolean`                 | `true`    | 关闭弹窗后是否重置表单                                  |      |
 | resetButtonProps                     | `false \| ProButtonProps` | `-`       | 传递给取消按钮的属性,`false` 不显示按钮                 |      |
 | submitButtonProps                    | `false \| ProButtonProps` | `-`       | 传递给确认按钮的属性,`false` 不显示按钮                 |      |
