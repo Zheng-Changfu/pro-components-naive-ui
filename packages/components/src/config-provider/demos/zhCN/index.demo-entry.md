@@ -18,8 +18,7 @@ edit-i18n.vue
 ## API
 ### ProConfigProvider 属性
 
-| 名称                                                                                                           | 类型                                               | 默认值 | 说明                                                            | 版本 |
-| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------ | --------------------------------------------------------------- | ---- |
-| empty                                                                                                          | `string \| ((wrappedIn: WrappedIn) => VNodeChild)` | `'-'`  | 当内容为空时显示的内容,<n-a href="#empty.vue">查看例子</n-a>    |      |
-| propOverrides                                                                                                  | `Record<string, object>`                           | `-`    | 覆盖组件 `props`,<n-a href="#prop-overrides.vue">查看例子</n-a> |      |
-| [参考 NConfigProvider](https://www.naiveui.com/zh-CN/os-theme/components/config-provider#ConfigProvider-Props) |                                                    |        |                                                                 |      |
+| 名称                                                                                                           | 类型                     | 默认值 | 说明                                                            | 版本 |
+| -------------------------------------------------------------------------------------------------------------- | ------------------------ | ------ | --------------------------------------------------------------- | ---- |
+| propOverrides                                                                                                  | `Record<string, object>` | `-`    | 覆盖组件 `props`,<n-a href="#prop-overrides.vue">查看例子</n-a> |      |
+| [参考 NConfigProvider](https://www.naiveui.com/zh-CN/os-theme/components/config-provider#ConfigProvider-Props) |                          |        |                                                                 |      |

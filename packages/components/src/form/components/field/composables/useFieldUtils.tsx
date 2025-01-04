@@ -5,7 +5,6 @@ import { useInjectField } from 'pro-composables'
 import { computed, isVNode } from 'vue'
 import { isEmptyValue } from '../../../../_utils/isEmptyValue'
 import { throwError } from '../../../../_utils/warn'
-import { useInjectGlobalConfig, useInjectWrappedIn } from '../../../../config-provider'
 import { useInjectProFormConfig } from '../../../context'
 import { fieldExtraKey } from '../field-extra-info'
 
@@ -18,15 +17,10 @@ export function useFieldUtils(field?: BaseField) {
     throwError('useFieldUtils', 'field not exist')
   }
   const themeVars = useThemeVars()
-  const wrappedIn = useInjectWrappedIn()
 
   const {
     readonly,
   } = field[fieldExtraKey] as FieldExtraInfo
-
-  const {
-    mergedEmpty,
-  } = useInjectGlobalConfig()
 
   const {
     validationResults,
@@ -37,8 +31,8 @@ export function useFieldUtils(field?: BaseField) {
   })
 
   const emptyDom = computed(() => {
-    const dom = mergedEmpty(wrappedIn)
-    return isVNode(dom) ? dom : <span>{dom}</span>
+    // const dom = mergedEmpty(wrappedIn)
+    // return isVNode(dom) ? dom : <span>{dom}</span>
   })
 
   const readonlyText = computed(() => {

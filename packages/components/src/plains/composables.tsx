@@ -5,7 +5,6 @@ import type { ProImagesConfig } from './images/types'
 import type { ProTagsConfig } from './tags/types'
 import { computed, isVNode, unref } from 'vue'
 import { isEmptyValue } from '../_utils/isEmptyValue'
-import { useInjectGlobalConfig, useInjectWrappedIn } from '../config-provider'
 import { transformValueToString } from './copyable-text/transform'
 import { transformValueToSrcs } from './images/transform'
 import { transformValueToTagOptions } from './tags/transform'
@@ -51,12 +50,6 @@ export function usePlainComponentConfig<Name extends keyof Transform>(
     emptyDom: ComputedRef<VNodeChild>
     mergedValue: ComputedRef<ReturnType<Exclude<Transform[Name], undefined>>>
   } {
-  const wrappedIn = useInjectWrappedIn()
-
-  const {
-    mergedEmpty,
-  } = useInjectGlobalConfig()
-
   const mergedValue = computed(() => {
     const { value, config } = props.value
     const transform = builtinTransform[name]
@@ -70,8 +63,8 @@ export function usePlainComponentConfig<Name extends keyof Transform>(
   })
 
   const emptyDom = computed(() => {
-    const dom = mergedEmpty(wrappedIn)
-    return isVNode(dom) ? dom : <span>{dom}</span>
+    // const dom = mergedEmpty(wrappedIn)
+    // return isVNode(dom) ? dom : <span>{dom}</span>
   })
 
   return {

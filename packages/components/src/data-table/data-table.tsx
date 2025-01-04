@@ -11,7 +11,6 @@ import { useMountStyle } from '../_internal/useMountStyle'
 import { resolveSlotWithProps, resolveWrappedSlot } from '../_utils/resolveSlot'
 import { ProCard } from '../card'
 import { useOmitProps, useOverrideProps } from '../composables'
-import { provideWrappedIn } from '../config-provider'
 import { useColumns } from './composables/useColumns'
 import { useDraggableSort } from './composables/useDraggableSort'
 import { useNDataTableInst } from './composables/useNDataTableInst'
@@ -124,7 +123,6 @@ export default defineComponent({
       downloadCsv,
       clearFilters,
     }
-    provideWrappedIn('data-table')
     expose(exposed)
     return {
       nDataTableInst,

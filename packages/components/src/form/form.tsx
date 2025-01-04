@@ -7,7 +7,6 @@ import { NForm } from 'naive-ui'
 import { provideInternalForm } from 'pro-composables'
 import { computed, defineComponent, onMounted, provide, ref, watch } from 'vue'
 import { useOmitProps, useOverrideProps } from '../composables'
-import { provideWrappedIn } from '../config-provider'
 import { createProForm, proFormInternalKey, provideProForm } from './composables/createProForm'
 import { proFormConfigInjectionKey } from './context'
 import { proFormExtendProps, proFormProps } from './props'
@@ -96,7 +95,6 @@ export default defineComponent({
       validationTrigger: computed(() => overridedProps.value.validationTrigger!),
     })
     provideProForm(form)
-    provideWrappedIn('form')
     provideInternalForm(internalForm)
     return {
       nFormProps,
