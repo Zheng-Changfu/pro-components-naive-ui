@@ -124,7 +124,7 @@ export default defineComponent({
       class="flex-1"
       flex-height
       :columns="columns"
-      :row-key="row => row.email"
+      :row-key="(row:any) => row.email"
       v-bind="tableProps"
     />
   </div>
