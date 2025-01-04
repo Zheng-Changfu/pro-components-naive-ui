@@ -10,7 +10,6 @@
 
 ```demo
 prop-overrides.vue
-empty.vue
 locale.vue
 edit-i18n.vue
 ```

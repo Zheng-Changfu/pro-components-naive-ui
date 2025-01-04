@@ -6,6 +6,7 @@ import { NButton, NIcon, NTooltip } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
 import { useMountStyle } from '../../_internal/useMountStyle'
+import { isEmptyValue } from '../../_utils/isEmptyValue'
 import { useOverrideProps } from '../../composables'
 import { useLocale } from '../../locales'
 import { usePlainComponentConfig } from '../composables'
@@ -38,7 +39,6 @@ export const ProCopyableText = defineComponent({
 
     const {
       empty,
-      emptyDom,
       mergedValue,
     } = usePlainComponentConfig('copyableText', overridedProps)
 
@@ -62,7 +62,6 @@ export const ProCopyableText = defineComponent({
       empty,
       copied,
       copyText,
-      emptyDom,
       getMessage,
       mergedValue,
       mergedClsPrefix,
@@ -70,7 +69,7 @@ export const ProCopyableText = defineComponent({
   },
   render() {
     if (this.empty) {
-      return this.emptyDom
+      return null
     }
     return (
       <div class={[`${this.mergedClsPrefix}-pro-copyable-text`]}>
@@ -102,10 +101,12 @@ export const ProCopyableText = defineComponent({
 })
 
 export function renderCopyableText(value: any, config?: ProCopyableTextConfig) {
-  return (
-    <ProCopyableText
-      value={value}
-      config={config}
-    />
-  )
+  return isEmptyValue(value)
+    ? null
+    : (
+        <ProCopyableText
+          value={value}
+          config={config}
+        />
+      )
 }

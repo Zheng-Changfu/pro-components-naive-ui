@@ -3,6 +3,7 @@ import type { ProTagsConfig } from './types'
 import { NFlex, NTag } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
+import { isEmptyValue } from '../../_utils/isEmptyValue'
 import { useOverrideProps } from '../../composables'
 import { usePlainComponentConfig } from '../composables'
 
@@ -29,20 +30,18 @@ export const ProTags = defineComponent({
 
     const {
       empty,
-      emptyDom,
       mergedValue,
     } = usePlainComponentConfig('tags', overridedProps)
 
     return {
       empty,
-      emptyDom,
       mergedValue,
       mergedClsPrefix,
     }
   },
   render() {
     if (this.empty) {
-      return this.emptyDom
+      return null
     }
     return (
       <NFlex class={[`${this.mergedClsPrefix}-pro-tags`]}>
@@ -67,10 +66,12 @@ export function renderTags(
   value: string | ProTagsConfig | Array<string | ProTagsConfig>,
   config?: Record<string, any>,
 ) {
-  return (
-    <ProTags
-      value={value}
-      config={config}
-    />
-  )
+  return isEmptyValue(value)
+    ? null
+    : (
+        <ProTags
+          value={value}
+          config={config}
+        />
+      )
 }

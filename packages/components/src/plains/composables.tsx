@@ -1,9 +1,9 @@
-import type { ComputedRef, VNodeChild } from 'vue'
+import type { ComputedRef } from 'vue'
 import type { ProCopyableTextConfig } from './copyable-text/types'
 import type { ProDateTextConfig } from './date-text/types'
 import type { ProImagesConfig } from './images/types'
 import type { ProTagsConfig } from './tags/types'
-import { computed, isVNode, unref } from 'vue'
+import { computed, unref } from 'vue'
 import { isEmptyValue } from '../_utils/isEmptyValue'
 import { transformValueToString } from './copyable-text/transform'
 import { transformValueToSrcs } from './images/transform'
@@ -47,7 +47,6 @@ export function usePlainComponentConfig<Name extends keyof Transform>(
   props: ComputedRef<{ value?: any, config?: Record<string, any> }>,
 ): {
     empty: ComputedRef<boolean>
-    emptyDom: ComputedRef<VNodeChild>
     mergedValue: ComputedRef<ReturnType<Exclude<Transform[Name], undefined>>>
   } {
   const mergedValue = computed(() => {
@@ -62,14 +61,8 @@ export function usePlainComponentConfig<Name extends keyof Transform>(
     return isEmptyValue(mergedValue.value)
   })
 
-  const emptyDom = computed(() => {
-    // const dom = mergedEmpty(wrappedIn)
-    // return isVNode(dom) ? dom : <span>{dom}</span>
-  })
-
   return {
     empty,
-    emptyDom,
     mergedValue,
   }
 }

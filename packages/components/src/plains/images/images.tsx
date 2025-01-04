@@ -3,6 +3,7 @@ import type { ProImagesConfig } from './types'
 import { NFlex, NImage, NImageGroup } from 'naive-ui'
 import { defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
+import { isEmptyValue } from '../../_utils/isEmptyValue'
 import { useOverrideProps } from '../../composables'
 import { usePlainComponentConfig } from '../composables'
 
@@ -29,20 +30,18 @@ export const ProImages = defineComponent({
 
     const {
       empty,
-      emptyDom,
       mergedValue,
     } = usePlainComponentConfig('images', overridedProps)
 
     return {
       empty,
-      emptyDom,
       mergedValue,
       mergedClsPrefix,
     }
   },
   render() {
     if (this.empty) {
-      return this.emptyDom
+      return null
     }
 
     const {
@@ -78,10 +77,12 @@ export const ProImages = defineComponent({
 })
 
 export function renderImages(value: any, config?: ProImagesConfig) {
-  return (
-    <ProImages
-      value={value}
-      config={config}
-    />
-  )
+  return isEmptyValue(value)
+    ? null
+    : (
+        <ProImages
+          value={value}
+          config={config}
+        />
+      )
 }

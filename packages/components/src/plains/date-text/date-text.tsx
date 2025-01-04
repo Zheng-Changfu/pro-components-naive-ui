@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import { isDate, isNumber, isString } from 'lodash-es'
 import { computed, defineComponent } from 'vue'
 import { useNaiveClsPrefix } from '../../_internal/useClsPrefix'
+import { isEmptyValue } from '../../_utils/isEmptyValue'
 import { useOverrideProps } from '../../composables'
 import { useLocale } from '../../locales'
 import { usePlainComponentConfig } from '../composables'
@@ -35,7 +36,6 @@ export const ProDateText = defineComponent({
 
     const {
       empty,
-      emptyDom,
       mergedValue,
     } = usePlainComponentConfig('dateText', overridedProps)
 
@@ -77,14 +77,13 @@ export const ProDateText = defineComponent({
 
     return {
       empty,
-      emptyDom,
       finalValue,
       mergedClsPrefix,
     }
   },
   render() {
     if (this.empty) {
-      return this.emptyDom
+      return null
     }
     return (
       <span class={[`${this.mergedClsPrefix}-pro-date-text`]}>
@@ -96,10 +95,12 @@ export const ProDateText = defineComponent({
 })
 
 export function renderDateText(value: any, config?: ProDateTextConfig) {
-  return (
-    <ProDateText
-      value={value}
-      config={config}
-    />
-  )
+  return isEmptyValue(value)
+    ? null
+    : (
+        <ProDateText
+          value={value}
+          config={config}
+        />
+      )
 }
