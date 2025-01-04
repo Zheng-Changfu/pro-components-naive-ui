@@ -4,12 +4,13 @@ import type { ComputedRef } from 'vue'
 import type { ProDataTableProps } from '../props'
 import type { ProDataTableBaseColumn, ProDataTableIndexColumn } from '../types'
 import { HolderOutlined, InfoCircleOutlined } from '@vicons/antd'
+import { toValue } from '@vueuse/core'
 import { get, isFunction } from 'lodash-es'
 import { NButton, NIcon } from 'naive-ui'
-import { computed } from 'vue'
+import { computed, isVNode } from 'vue'
 import ProTooltip from '../../_internal/components/pro-tooltip'
 import { isEmptyValue } from '../../_utils/isEmptyValue'
-import { useInjectGlobalConfig } from '../../config-provider'
+import { ensureValidVNode } from '../../_utils/resolveSlot'
 import { useLocale } from '../../locales'
 
 export const sortColumnKey = '__SORT_COLUMN__'
@@ -28,14 +29,6 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
   const {
     getMessage,
   } = useLocale('ProDataTable')
-
-  const {
-    mergedEmpty,
-  } = useInjectGlobalConfig()
-
-  const emptyDom = computed(() => {
-    return mergedEmpty('data-table')
-  })
 
   const hasFixedLeftColumn = computed(() => {
     const columns = props.value.columns ?? []
@@ -176,13 +169,17 @@ export function useColumnRenderer(options: CreateColumnRendererOptions) {
       title: renderTooltipTitle(title, tooltip),
       render(row, rowIndex) {
         if (render) {
-          /**
-           * 用户自己的 render 不处理
-           */
-          return render(row, rowIndex)
+          const children = render(row, rowIndex)
+          if (isEmptyValue(children) || (isVNode(children) && !ensureValidVNode([children]))) {
+            return toValue(props.value.columnEmptyText)
+          }
+          return children
         }
         const value = get(row, columnKey)
-        return isEmptyValue(value) ? emptyDom.value : value
+        if (isEmptyValue(value)) {
+          return toValue(props.value.columnEmptyText)
+        }
+        return value
       },
       ...rest,
     }

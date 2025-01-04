@@ -1,5 +1,5 @@
 import type { CreateRowKey } from 'naive-ui/es/data-table/src/interface'
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import type { ProCardProps } from '../card'
 import type { ProDataTableColumns, ProDataTableDragSortOptions } from './types'
 import { dataTableProps } from 'naive-ui'
@@ -22,6 +22,13 @@ export const proDataTableExtendProps = {
    * 拖拽排序选项
    */
   dragSortOptions: Object as PropType<ProDataTableDragSortOptions>,
+  /**
+   * 为空时的提示文字
+   */
+  columnEmptyText: {
+    type: [String, Function] as PropType<string | (() => VNodeChild)>,
+    default: '-',
+  },
 } as const
 
 export const proDataTableProps = {

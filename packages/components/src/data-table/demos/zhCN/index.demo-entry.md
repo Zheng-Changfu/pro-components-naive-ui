@@ -27,12 +27,14 @@ and-search-form.vue
 ### ProDataTable 属性
 引用到的类型声明介绍如下
 ```typescript
+import type { VNodeChild } from 'vue'
 import type { ProDataTableColumns, ProCardProps, ProDataTableDragSortOptions } from 'pro-naive-ui'
 ```
 
 | 名称                                                                                            | 类型                                                | 默认值 | 说明                                                                | 版本 |
 | ----------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------ | ------------------------------------------------------------------- | ---- |
 | columns                                                                                         | `ProDataTableColumns`                               | `[]`   | 需要展示的列                                                        |      |
+| columnEmptyText                                                                                 | `string \| (() => VNodeChild)`                      | `'-'`  | 内容为空时展示的文本                                                |      |
 | rowKey                                                                                          | `string \| (rowData: object) => (number \| string)` | `-`    | 通过行数据创建行的 key（如果你不想给每一行加上 key）,可以写成字符串 |      |
 | title                                                                                           | `string`                                            | `-`    | 表格标题                                                            |      |
 | tooltip                                                                                         | `string \| string[]`                                | `-`    | 提示文字,显示在标题的右边                                           |      |
