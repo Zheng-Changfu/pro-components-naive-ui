@@ -69,6 +69,7 @@ export default defineComponent({
       nGridProps,
       proFormProps,
       mergedClsPrefix,
+      loading: computed(() => overridedProps.value.loading),
       columns: computed(() => overridedProps.value.columns ?? []),
       resetButtonProps: computed(() => overridedProps.value.resetButtonProps),
       searchButtonProps: computed(() => overridedProps.value.searchButtonProps),
@@ -102,6 +103,7 @@ export default defineComponent({
                     const suffixDom = (
                       <Suffix
                         form={this.form}
+                        loading={this.loading}
                         resetButtonProps={this.resetButtonProps}
                         searchButtonProps={this.searchButtonProps}
                         collapseButtonProps={this.collapseButtonProps}

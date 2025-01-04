@@ -5,7 +5,7 @@ import type { ProFormSlots } from './slots'
 import { useEventListener } from '@vueuse/core'
 import { NForm } from 'naive-ui'
 import { provideInternalForm } from 'pro-composables'
-import { computed, defineComponent, onMounted, provide, ref } from 'vue'
+import { computed, defineComponent, onMounted, provide, ref, watch } from 'vue'
 import { useOmitProps, useOverrideProps } from '../composables'
 import { provideWrappedIn } from '../config-provider'
 import { createProForm, proFormInternalKey, provideProForm } from './composables/createProForm'
@@ -46,6 +46,9 @@ export default defineComponent({
          */
         onSubmit: (e) => {
           e.preventDefault()
+          if (overridedProps.value.loading) {
+            return
+          }
           form.submit()
           props.onSubmit && props.onSubmit(e)
         },
@@ -65,9 +68,9 @@ export default defineComponent({
       registerNFormInst,
     } = form[proFormInternalKey]
 
-    onMounted(() => {
-      registerNFormInst(nFormInst.value!)
-    })
+    watch(() => overridedProps.value.loading, (loading) => {
+      form.syncSubmiting(loading ?? false)
+    }, { immediate: true })
 
     /**
      * form 元素默认行为是支持按下回车提交的，所以这里只需要做阻止操作即可
@@ -80,6 +83,10 @@ export default defineComponent({
       if (e.key === 'Enter') {
         e.preventDefault()
       }
+    })
+
+    onMounted(() => {
+      registerNFormInst(nFormInst.value!)
     })
 
     provide(proFormConfigInjectionKey, {

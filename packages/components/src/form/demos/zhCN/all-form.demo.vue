@@ -2,7 +2,6 @@
 # 所有类型的表单
 
 它们都是扩展了 `create-pro-form` ，增加了一些更好用的方法 <br />
-如果你的 `onSubmit` 是 `Promise`，那么 `submiting` 会等待完成，等待过程期间会进行防抖，防止表单重复提交，如果是弹层类表单，还会在提交过程中不允许关闭，你可以通过配置覆盖它
 </markdown>
 
 <script lang="tsx">
@@ -29,6 +28,8 @@ function delay(time: number) {
 
 export default defineComponent({
   setup() {
+    const loading = ref(false)
+
     const columns: ProSearchFormColumns<Info> = [
       {
         title: '姓名',
@@ -81,8 +82,10 @@ export default defineComponent({
     const form = createProForm<Info>({
       onReset: console.log,
       onSubmit: async (values) => {
+        loading.value = true
         console.log(values)
         await delay(1500)
+        loading.value = false
       },
       onSubmitFailed: console.log,
     })
@@ -90,8 +93,10 @@ export default defineComponent({
     const searchForm = createProSearchForm<Info>({
       onReset: console.log,
       onSubmit: async (values) => {
+        loading.value = true
         console.log(values)
         await delay(1500)
+        loading.value = false
       },
       defaultCollapsed: true,
       onSubmitFailed: console.log,
@@ -100,9 +105,11 @@ export default defineComponent({
     const modalForm = createProModalForm<Info>({
       onReset: console.log,
       onSubmit: async (values) => {
+        loading.value = true
         console.log(values)
         await delay(1500)
         modalForm.close()
+        loading.value = false
       },
       onSubmitFailed: console.log,
     })
@@ -110,9 +117,11 @@ export default defineComponent({
     const drawerForm = createProDrawerForm<Info>({
       onReset: console.log,
       onSubmit: async (values) => {
+        loading.value = true
         console.log(values)
         await delay(1500)
         drawerForm.close()
+        loading.value = false
       },
       onSubmitFailed: console.log,
     })
@@ -120,6 +129,7 @@ export default defineComponent({
     return {
       form,
       columns,
+      loading,
       modalForm,
       searchForm,
       drawerForm,
@@ -139,6 +149,7 @@ export default defineComponent({
   <pro-form
     v-if="type === 'pro-form'"
     :form="form"
+    :loading="loading"
     label-width="auto"
   >
     <n-grid :cols="2" x-gap="16">
@@ -192,21 +203,23 @@ export default defineComponent({
       <n-button
         type="primary"
         attr-type="submit"
-        :loading="form.submiting.value"
+        :loading="loading"
       >
-        {{ form.submiting.value ? '提交中...' : '提交' }}
+        {{ loading ? '提交中...' : '提交' }}
       </n-button>
     </n-flex>
   </pro-form>
   <pro-search-form
     v-if="type === 'pro-search-form'"
     :form="searchForm"
+    :loading="loading"
     :columns="columns"
   />
   <pro-modal-form
     v-if="type === 'pro-modal-form'"
     title="弹窗表单"
     preset="card"
+    :loading="loading"
     :form="modalForm"
   >
     <n-grid :cols="2" x-gap="16">
@@ -257,6 +270,7 @@ export default defineComponent({
   <pro-drawer-form
     v-if="type === 'pro-drawer-form'"
     :form="drawerForm"
+    :loading="loading"
   >
     <pro-drawer-content
       title="抽屉表单"

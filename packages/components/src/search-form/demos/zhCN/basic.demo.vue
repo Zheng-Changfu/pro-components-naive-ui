@@ -17,12 +17,23 @@ interface Info {
   endTime: number
 }
 
+function delay(time: number) {
+  return new Promise(resolve => setTimeout(resolve, time))
+}
+
 export default defineComponent({
   setup() {
+    const loading = ref(false)
+
     const form = createProSearchForm<Info>({
       defaultCollapsed: true, // 默认收起
       onReset: console.log,
-      onSubmit: console.log,
+      onSubmit: async (values) => {
+        console.log(values)
+        loading.value = true
+        await delay(1500)
+        loading.value = false
+      },
     })
 
     const columns: ProSearchFormColumns<Info> = [
@@ -53,6 +64,7 @@ export default defineComponent({
 
     return {
       form,
+      loading,
       columns,
       layout: ref<'left' | 'top'>('left'),
     }
@@ -73,6 +85,7 @@ export default defineComponent({
   <pro-card title="搜索表单">
     <pro-search-form
       :form="form"
+      :loading="loading"
       :columns="columns"
       :label-placement="layout"
     />

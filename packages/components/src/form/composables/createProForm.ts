@@ -62,6 +62,10 @@ export type CreateProFormReturn<Values = any> = Simplify<Pick<
    */
   getFieldValidationResult: (path: InternalPath) => FormItemInternalValidationResult | null
   /**
+   * 同步 submiting 状态, 如果使用 `attr-type` 控制表单提交, 即使按钮是 loading 状态，多次点击也会触发多次 submit
+   */
+  syncSubmiting: (loading: boolean) => void
+  /**
    * 所有的值（包含用户设置的和可能被隐藏的字段）
    * ⚠️注意：它是只读的，表单值修改你应该通过 setFieldValue/setFieldsValue api
    */
@@ -108,6 +112,8 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     validateOnDependenciesValueChange = true,
   } = options
 
+  const submiting = ref(false)
+
   const internalForm = createForm({
     omitNil,
     initialValues,
@@ -144,6 +150,10 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
 
   function registerNFormInst(nForm: FormInst) {
     nFormInst.value = nForm
+  }
+
+  function syncSubmiting(loading: boolean) {
+    submiting.value = loading
   }
 
   function onDependenciesValueChange(opt: {
@@ -184,6 +194,9 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
   }
 
   function submit() {
+    if (submiting.value) {
+      return
+    }
     validate()
       ?.then(({ warnings }) => {
         if (onSubmit) {
@@ -257,6 +270,7 @@ export function createProForm<Values = any>(options: Simplify<CreateProFormOptio
     submit,
     validate,
     matchPath,
+    syncSubmiting,
     getFieldValue,
     setFieldValue,
     getFieldsValue,

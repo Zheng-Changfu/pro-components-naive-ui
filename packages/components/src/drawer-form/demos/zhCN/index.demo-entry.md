@@ -21,7 +21,7 @@ import type { DrawerProps } from 'naive-ui'
 
 | 名称                                                                                  | 类型          | 默认值  | 说明                                                    | 版本 |
 | ------------------------------------------------------------------------------------- | ------------- | ------- | ------------------------------------------------------- | ---- |
-| closeOnSubmiting                                                                      | `boolean`     | `false` | 提交时是否可以关闭抽屉                                  |      |
+| closeOnLoading                                                                        | `boolean`     | `false` | `loading` 时是否可以关闭抽屉                            |      |
 | restoreValuesOnClosed                                                                 | `boolean`     | `true`  | 关闭抽屉后是否重置表单                                  |      |
 | drawerProps                                                                           | `DrawerProps` | `-`     | 透传给 `n-drawer` 的属性,某些属性有冲突时可能有用       |      |
 | [参考 ProForm](form#ProForm-属性)                                                     |               |         |                                                         |      |

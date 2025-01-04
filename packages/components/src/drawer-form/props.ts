@@ -14,8 +14,6 @@ export const proDrawerFormExtendProps = {
     type: Boolean,
     default: true,
   },
-  // 表单 loading
-  loading: Boolean,
   /**
    * loading 时是否可以关闭
    */

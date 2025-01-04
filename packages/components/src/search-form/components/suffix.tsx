@@ -14,6 +14,7 @@ export default defineComponent({
       type: Object as PropType<CreateProSearchFormReturn>,
       required: true,
     },
+    loading: Boolean,
     resetButtonProps: {
       type: [Boolean, Object] as PropType<false | ProButtonProps>,
       default: undefined,
@@ -34,10 +35,6 @@ export default defineComponent({
       getMessage,
     } = useLocale('ProSearchForm')
 
-    const submiting = computed(() => {
-      return form.submiting.value
-    })
-
     const showResetButton = computed(() => {
       return props.resetButtonProps !== false
     })
@@ -54,7 +51,7 @@ export default defineComponent({
       return showResetButton.value
         ? {
             attrType: 'reset',
-            disabled: submiting.value,
+            disabled: props.loading,
             content: getMessage('reset'),
             ...(props.resetButtonProps ?? {}),
           }
@@ -66,7 +63,7 @@ export default defineComponent({
         ? {
             type: 'primary',
             attrType: 'submit',
-            loading: submiting.value,
+            loading: props.loading,
             content: getMessage('search'),
             ...(props.searchButtonProps ?? {}),
           }
@@ -79,7 +76,7 @@ export default defineComponent({
             text: true,
             type: 'primary',
             iconPlacement: 'right',
-            disabled: submiting.value,
+            disabled: props.loading,
             content: getMessage('collapse')(form.collapsed.value),
             renderIcon: () => {
               return (
