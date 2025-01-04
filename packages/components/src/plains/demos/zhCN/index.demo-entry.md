@@ -2,7 +2,6 @@
 <!--single-column-->
 
 足够简单、但也比较实用,可以被你用在任意的位置,它们有一些公共的特征
-- 全局值转化
 - 全局 `empty` 渲染
 - 使用方式支持函数和组件`2`种
 - 都不支持插槽
@@ -12,18 +11,10 @@
 ```demo
 functional.vue
 component.vue
-transform.vue
 ```
 
 ## API
 ### ProCopyableText 属性
-默认的转化是将传进来的值转为 `string`,函数调用时接收参数
-```typescript
-import { renderCopyableText } from 'pro-naive-ui'
-
-renderCopyableText(value,config)
-```
-
 引用到的类型声明介绍如下
 ```typescript
 import { ProCopyableTextConfig } from 'pro-naive-ui'
@@ -35,13 +26,6 @@ import { ProCopyableTextConfig } from 'pro-naive-ui'
 | config | `ProCopyableTextConfig` | `-`    | 配置选项     |      |
 
 ### ProDateText 属性
-函数调用时接收参数
-```typescript
-import { renderDateText } from 'pro-naive-ui'
-
-renderDateText(value,config)
-```
-
 引用到的类型声明介绍如下
 ```typescript
 interface ProDateTextConfig {
@@ -67,14 +51,7 @@ interface ProDateTextConfig {
 | config | `ProDateTextConfig` | `-`    | 配置选项     |      |
 
 ### ProImages 属性
-默认的转化支持字符串、字符串组成的数组,函数调用时接收参数
-```typescript
-import { renderImages } from 'pro-naive-ui'
-
-renderImages(value,config)
-```
-
-引用到的类型声明介绍如下
+支持字符串、字符串组成的数组,引用到的类型声明介绍如下
 ```typescript
 import type { ProImagesConfig } from 'pro-naive-ui'
 ```
@@ -85,14 +62,7 @@ import type { ProImagesConfig } from 'pro-naive-ui'
 | config | `ProImagesConfig` | `-`    | 配置选项     |      |
 
 ### ProTags 属性
-默认的转化支持字符串、字符串数组、对象、对象数组、对象和字符串混合的数组,函数调用时接收参数
-```typescript
-import { renderTags } from 'pro-naive-ui'
-
-renderTags(value,config)
-```
-
-引用到的类型声明介绍如下
+支持字符串、字符串数组、对象、对象数组、对象和字符串混合的数组,引用到的类型声明介绍如下
 ```typescript
 import type { ProTagsConfig } from 'pro-naive-ui'
 ```

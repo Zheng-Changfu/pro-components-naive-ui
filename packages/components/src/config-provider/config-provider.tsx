@@ -17,7 +17,6 @@ export default defineComponent({
     const {
       mergedEmpty: inheritedEmpty,
       mergedPropOverrides: inheritedPropOverrides,
-      mergedPlainComponentValueTransform: inheritedPlainComponentValueTransform,
     } = useInjectGlobalConfig()
 
     const nConfigProviderProps = useOmitProps(
@@ -46,10 +45,6 @@ export default defineComponent({
     provideGlobalConfig({
       mergedEmpty,
       mergedPropOverrides,
-      mergedPlainComponentValueTransform: {
-        ...inheritedPlainComponentValueTransform,
-        ...props.plainComponentValueTransform,
-      },
     })
     return {
       nConfigProviderProps,

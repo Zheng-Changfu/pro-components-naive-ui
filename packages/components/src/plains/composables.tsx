@@ -55,12 +55,11 @@ export function usePlainComponentConfig<Name extends keyof Transform>(
 
   const {
     mergedEmpty,
-    mergedPlainComponentValueTransform,
   } = useInjectGlobalConfig()
 
   const mergedValue = computed(() => {
     const { value, config } = props.value
-    const transform = mergedPlainComponentValueTransform[name] ?? builtinTransform[name]
+    const transform = builtinTransform[name]
     return transform
       ? transform(value, config ?? {})
       : unref(value)

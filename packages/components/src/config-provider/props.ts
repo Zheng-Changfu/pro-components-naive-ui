@@ -1,5 +1,4 @@
 import type { ExtractPublicPropTypes, MaybeRef, PropType, VNodeChild } from 'vue'
-import type { PlainComponentValueTransform } from '../plains'
 import type { WrappedIn } from './context'
 import { configProviderProps } from 'naive-ui'
 
@@ -14,10 +13,6 @@ export const proConfigProviderExtendProps = {
    * @default '-'
    */
   empty: [String, Function] as PropType<string | ((wrappedIn: WrappedIn) => VNodeChild)>,
-  /**
-   * 简约组件的值转换
-   */
-  plainComponentValueTransform: Object as PropType<PlainComponentValueTransform>,
 } as const
 
 export const proConfigProviderProps = {
